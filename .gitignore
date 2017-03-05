@@ -1,0 +1,13 @@
+.idea
+files/*
+www/sites/default/files/*
+/www/sites/default/files/*
+www/sites/default/settings.php
+/www/sites/default/settings.php
+.project
+.project
+docs/*
+www/.idea/*
+/nbproject
+planer/.git
+.idea/*
