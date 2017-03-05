@@ -1,0 +1,25 @@
+uuid: ccde6eee-1cde-42f5-8a9f-9e1778c58d8a
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_moderation
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  content_moderation:
+    enabled: true
+    allowed_moderation_states:
+      - published
+      - archived
+      - draft
+    default_moderation_state: draft
+name: 'Case study'
+type: case_study
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

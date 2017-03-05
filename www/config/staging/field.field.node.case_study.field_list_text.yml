@@ -1,0 +1,19 @@
+uuid: 84d3bc4c-d9ce-4ff1-826b-b9df2a866aa2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_list_text
+    - node.type.case_study
+id: node.case_study.field_list_text
+field_name: field_list_text
+entity_type: node
+bundle: case_study
+label: 'List text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

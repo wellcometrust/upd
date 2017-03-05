@@ -1,0 +1,28 @@
+uuid: f177b7c9-fa14-4958-af01-2fb6bd873555
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sources_of_data
+    - node.type.case_study
+    - taxonomy.vocabulary.source_of_data
+id: node.case_study.field_sources_of_data
+field_name: field_sources_of_data
+entity_type: node
+bundle: case_study
+label: 'Sources of data'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      source_of_data: source_of_data
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

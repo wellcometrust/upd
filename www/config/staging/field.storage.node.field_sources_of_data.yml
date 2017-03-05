@@ -1,0 +1,20 @@
+uuid: 8b9d0962-7e01-482b-8ca8-284080164c3f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_sources_of_data
+field_name: field_sources_of_data
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

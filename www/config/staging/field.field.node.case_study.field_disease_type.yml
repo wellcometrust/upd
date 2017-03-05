@@ -1,0 +1,28 @@
+uuid: 8c21ad9c-6c5a-473b-acf5-443473e30944
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_disease_type
+    - node.type.case_study
+    - taxonomy.vocabulary.disease
+id: node.case_study.field_disease_type
+field_name: field_disease_type
+entity_type: node
+bundle: case_study
+label: 'Disease type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      disease: disease
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

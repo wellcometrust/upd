@@ -1,0 +1,21 @@
+uuid: f8a8c9b5-ba1a-47f5-a51f-b7a5df33e3c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_standfirst
+    - node.type.case_study
+  module:
+    - text
+id: node.case_study.field_standfirst
+field_name: field_standfirst
+entity_type: node
+bundle: case_study
+label: Standfirst
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

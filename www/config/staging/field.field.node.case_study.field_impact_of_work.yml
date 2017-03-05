@@ -1,0 +1,28 @@
+uuid: 5ffef5ab-1f3b-4497-b5c0-0e66e6fa6b84
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_impact_of_work
+    - node.type.case_study
+    - taxonomy.vocabulary.impact_of_work
+id: node.case_study.field_impact_of_work
+field_name: field_impact_of_work
+entity_type: node
+bundle: case_study
+label: 'Impact of work'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      impact_of_work: impact_of_work
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

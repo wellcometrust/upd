@@ -1,0 +1,20 @@
+uuid: 7ad003db-fccc-4a1c-8127-d041cbd0f703
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_impact_of_work
+field_name: field_impact_of_work
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
