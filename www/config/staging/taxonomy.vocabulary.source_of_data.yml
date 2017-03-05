@@ -1,0 +1,9 @@
+uuid: 1225fe4f-05ca-4a28-b8a2-b7f178baa01d
+langcode: en
+status: true
+dependencies: {  }
+name: 'Source of data'
+vid: source_of_data
+description: ''
+hierarchy: 0
+weight: 0

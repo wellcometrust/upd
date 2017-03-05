@@ -1,0 +1,9 @@
+uuid: 228d07f7-95d9-4190-ac9b-e78b16d20d0f
+langcode: en
+status: true
+dependencies: {  }
+name: 'Impact of work'
+vid: impact_of_work
+description: ''
+hierarchy: 0
+weight: 0
