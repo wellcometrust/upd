@@ -1,28 +1,39 @@
 module:
   block: 0
   breakpoint: 0
+  ckeditor: 0
   config: 0
+  contact: 0
   content_moderation: 0
+  contextual: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
+  editor: 0
   entity_reference_revisions: 0
   field: 0
+  field_ui: 0
   file: 0
   filter: 0
   image: 0
+  inline_form_errors: 0
   link: 0
+  menu_ui: 0
   node: 0
   options: 0
   page_cache: 0
   paragraphs: 0
+  path: 0
+  quickedit: 0
   system: 0
+  taxonomy: 0
   text: 0
   toolbar: 0
   update: 0
   user: 0
   views: 0
   workbench: 0
+  menu_link_content: 1
   minimal: 1000
 theme:
   stark: 0

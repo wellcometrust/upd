@@ -1,6 +1,6 @@
 uuid: c50b6b8b-c6e7-4061-8772-520c47cc06bf
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - system
@@ -10,8 +10,8 @@ _core:
   default_config_hash: fRKXNB91UxDvEMkzCR8ZBsawfC6Fqbme2gtobei3gu4
 id: seven_branding
 theme: seven
-region: header
-weight: 0
+region: '-1'
+weight: -3
 provider: null
 plugin: system_branding_block
 settings:
