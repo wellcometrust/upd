@@ -11,3 +11,4 @@ www/.idea/*
 /nbproject
 planer/.git
 .idea/*
+node_modules/
