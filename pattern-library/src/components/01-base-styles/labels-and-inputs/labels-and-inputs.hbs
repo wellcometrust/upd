@@ -1,0 +1,21 @@
+{{#if radiobox}}
+
+    {{> @input}}
+
+    {{> @label}}
+
+{{else}}
+
+    {{> @label}}
+
+    {{#if options}}
+
+        {{> @select}}
+
+    {{else}}
+
+        {{> @input}}
+
+    {{/if}}
+
+{{/if}}
