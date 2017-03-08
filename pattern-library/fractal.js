@@ -4,6 +4,9 @@ const paths = require('./config/paths')
 
 fractal.set('project.title', 'Understanding Patient Data')
 
+// Assets
+fractal.web.set('static.path', paths.dest.assets)
+
 // Components
 fractal.components.set('path', paths.source.components)
 
