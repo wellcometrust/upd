@@ -1,13 +1,13 @@
-uuid: 55edf8c7-d32c-4434-9cfb-c1db575fed79
+uuid: 1badffc7-d266-480e-8ee6-d54b152f2029
 langcode: en
 status: false
 dependencies:
   theme:
-    - stark
+    - upd
 _core:
   default_config_hash: PffmQ-ABSz5tFjWmVsR7NesunDnEivvopnJnBjl8KNE
-id: stark_local_actions
-theme: stark
+id: upd_local_actions
+theme: upd
 region: '-1'
 weight: -2
 provider: null

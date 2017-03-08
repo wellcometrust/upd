@@ -36,9 +36,9 @@ module:
   menu_link_content: 1
   minimal: 1000
 theme:
-  stark: 0
   stable: 0
   classy: 0
   seven: 0
+  upd: 0
 _core:
   default_config_hash: m2GVq11UAOVuNgj8x0t5fMOPujpvQQ_zxLoaly1BMEU

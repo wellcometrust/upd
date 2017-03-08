@@ -1,4 +1,4 @@
-uuid: e43857c0-8345-4c36-986a-3f602e9b9bd9
+uuid: bdebb4ca-365b-400f-8c13-a013eb1e61d7
 langcode: en
 status: true
 dependencies:
@@ -7,11 +7,11 @@ dependencies:
   module:
     - system
   theme:
-    - stark
+    - upd
 _core:
   default_config_hash: xCOijLdB1-UgXxQ9a0D1_pd8vxNEhfMnxXZc8jYhHjs
-id: stark_tools
-theme: stark
+id: upd_tools
+theme: upd
 region: sidebar_first
 weight: 0
 provider: null

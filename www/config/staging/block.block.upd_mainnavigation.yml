@@ -1,4 +1,4 @@
-uuid: 33646cf8-a436-4295-b723-1adbf7d90133
+uuid: a183cfbe-72e4-4754-ad19-040e61bb54c2
 langcode: en
 status: true
 dependencies:
@@ -7,9 +7,9 @@ dependencies:
   module:
     - system
   theme:
-    - stark
-id: mainnavigation
-theme: stark
+    - upd
+id: upd_mainnavigation
+theme: upd
 region: header
 weight: 0
 provider: null

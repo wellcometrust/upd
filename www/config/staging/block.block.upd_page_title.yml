@@ -1,13 +1,13 @@
-uuid: a82d1899-ff4d-48a4-816d-5245f04acd43
+uuid: 6bc6cbe5-2779-448e-866e-8cb38bcc16ef
 langcode: en
 status: true
 dependencies:
   theme:
-    - stark
+    - upd
 _core:
   default_config_hash: 8yptDf6WrXxeyevUz4nP5vfr7BtxQqCBMninhV2IJ1g
-id: stark_page_title
-theme: stark
+id: upd_page_title
+theme: upd
 region: content
 weight: -4
 provider: null

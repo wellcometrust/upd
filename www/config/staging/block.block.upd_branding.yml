@@ -1,15 +1,15 @@
-uuid: 3e4899ff-8839-41e7-b40c-daaf647d7497
+uuid: 43e58020-66d4-4d05-a263-f653e05d4c2a
 langcode: en
 status: false
 dependencies:
   module:
     - system
   theme:
-    - stark
+    - upd
 _core:
   default_config_hash: fRKXNB91UxDvEMkzCR8ZBsawfC6Fqbme2gtobei3gu4
-id: stark_branding
-theme: stark
+id: upd_branding
+theme: upd
 region: '-1'
 weight: -3
 provider: null

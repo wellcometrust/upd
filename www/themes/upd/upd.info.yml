@@ -1,0 +1,8 @@
+name: Universal patient data
+type: theme
+description: 'Out universal patient data theme extending classy.'
+package: UPD
+# version: VERSION
+# core: 8.x
+base theme: false
+core: '8.x'

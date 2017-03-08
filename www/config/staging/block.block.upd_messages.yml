@@ -1,15 +1,15 @@
-uuid: 143e2a92-e8d0-486a-a128-3701e49dd61a
+uuid: ebfb14ce-db56-4b6f-b673-729b6c41bdd3
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - stark
+    - upd
 _core:
   default_config_hash: 5MNdk3fpMKx_xxBTcz2T11DL4XEU1H5SgHl8BsYdFsA
-id: stark_messages
-theme: stark
+id: upd_messages
+theme: upd
 region: highlighted
 weight: 0
 provider: null
