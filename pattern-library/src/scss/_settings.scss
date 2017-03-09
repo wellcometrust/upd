@@ -1,0 +1,64 @@
+/* Settings */
+
+/**
+ * This is the single source of truth for all global variables.
+ */
+
+/* Colors
+   ========================================================================== */
+
+/**
+ * Define common colours by description first, then map the descriptions to
+ * their uses.
+ */
+$upd-color-brand-aqua: #70D6D4;
+$upd-color-brand-blue: #014061;
+$upd-color-brand-grey-blue: #658C9F;
+$upd-color-brand-navy: #004160;
+$upd-color-brand-red: #F8533D;
+
+$upd-color-background-primary: #FFFFFF;
+$upd-color-background-secondary: #F8FAFA;
+
+$upd-color-text-primary: #354045;
+$upd-color-text-reverse: #FFFFFF;
+
+$upd-color-border: #D8E2E7;
+
+
+
+
+
+/* Fonts
+   ========================================================================== */
+$upd-font-family-primary: "GT Walsheim Pro";
+$upd-font-family-primary-fallback: "Gill Sans", "Century Gothic", "Franklin Gothic";
+
+$upd-font-weight-light: 300;
+$upd-font-weight-regular: 400;
+$upd-font-weight-medium: 500;
+$upd-font-weight-bold: 700;
+
+/**
+ * Because font-size and line-height are useful for calculating sizes,
+ * we'll define them here, then apply them in the font definitions.
+ */
+$upd-font-size-base: 16px;
+$upd-font-line-height-base: 1.5;
+
+$upd-font-size-body-copy: 22px;
+
+$upd-font-size-heading-1: 48px;
+$upd-font-size-heading-2: 36px;
+$upd-font-size-heading-2: 20px;
+
+
+
+
+
+/* Layout
+   ========================================================================== */
+$upd-spacing-gutter-base: 22px;
+$upd-spacing-gutter-large: 32px;
+
+$upd-max-width: 1130px;

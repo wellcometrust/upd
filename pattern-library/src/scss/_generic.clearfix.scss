@@ -1,0 +1,13 @@
+/* Clearfix */
+
+/**
+ * From http://cssmojo.com/the-very-latest-clearfix-reloaded/
+ */
+.clearfix,
+%clearfix {
+  &:after {
+    content:"";
+    display:block;
+    clear:both;
+  }
+}
