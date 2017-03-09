@@ -22,8 +22,10 @@ $upd-color-background-secondary: #F8FAFA;
 
 $upd-color-text-primary: #354045;
 $upd-color-text-reverse: #FFFFFF;
+$upd-color-text-placeholder: #BEC2C4;
 
-$upd-color-border: #D8E2E7;
+$upd-color-border-light: #D8E2E7;
+$upd-color-border-mid: #9DB6C2;
 
 
 
@@ -65,3 +67,11 @@ $upd-spacing-gutter-base: rems(22px);
 $upd-spacing-gutter-large: rems(32px);
 
 $upd-max-width: rems(1130px);
+
+
+
+
+
+/* Animation
+   ========================================================================== */
+$upd-transition-time: 300ms;

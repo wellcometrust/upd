@@ -1,0 +1,99 @@
+/* Labels and inputs */
+
+@mixin input {
+  appearance: none;
+  background: none;
+  border: 1px solid $upd-color-border-light;
+  border-radius: 4px;
+  height: rems(48px);
+  max-width: rems(480px);
+  padding: 0 0.5em;
+  transition: background $upd-transition-time, border $upd-transition-time;
+  width: 100%;
+
+  &::placeholder {
+    color: $upd-color-text-placeholder;
+  }
+}
+
+@mixin input--select {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%225%22%20viewBox%3D%220%200%2012%205%22%3E%3Cpath%20fill%3D%22%23%7B%24dc-color-text-base%7D%22%20d%3D%22M12%200L6%205%200%200%22%2F%3E%3C%2Fsvg%3E');
+  background-position: right 0.75em center;
+  background-repeat: no-repeat;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+@mixin radiobox {
+  $size: 1em;
+
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  content: '';
+  color: $upd-color-border-mid;
+  display: inline-block;
+  height: $size;
+  line-height: 1;
+  margin-top: 0.05em;
+  position: absolute;
+  width: $size;
+}
+
+@mixin radiobox--radio {
+  border-radius: 50%;
+}
+
+@mixin radiobox--checked {
+  background-color: currentColor;
+  box-shadow: inset 0 0 0 2px $upd-color-background-secondary;
+  color: $upd-color-brand-navy;
+}
+
+
+input,
+select {
+  @include input;
+}
+
+input[type=checkbox],
+input[type=radio] {
+  @extend %u-visually-hidden;
+}
+
+
+select {
+  @include input--select;
+}
+
+
+label {
+  display: block;
+
+  [type=checkbox] + &,
+  [type=radio] + & {
+    $gutter: $upd-line-height-base * 1em;
+
+    margin-left: $gutter;
+
+    &:before {
+      @include radiobox;
+
+      margin-left: -$gutter;
+      position: absolute;
+    }
+  }
+
+  [type=radio] + & {
+    &:before {
+      @include radiobox--radio;
+    }
+  }
+
+  :checked + & {
+    &:before {
+      @include radiobox--checked;
+    }
+  }
+}
