@@ -12,3 +12,4 @@ www/.idea/*
 planer/.git
 .idea/*
 node_modules/
+.DS_STORE
