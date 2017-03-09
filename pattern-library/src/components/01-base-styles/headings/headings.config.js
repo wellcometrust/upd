@@ -1,12 +1,10 @@
 const config = {
+  collated: true,
   context: {
     levels: [
       1,
       2,
-      3,
-      4,
-      5,
-      6
+      3
     ]
   }
 }
