@@ -1,0 +1,28 @@
+/* Forms */
+
+/**
+ * Remove all button styling, as it's easier to add when required than to
+ * remove when not.
+ */
+button,
+[type=button],
+[type=submit] {
+  appearance: none;
+  background: none;
+  border: none;
+  color: inherit;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+
+/**
+ * Make sure a text area can only be resized vertically.
+ */
+textarea {
+  resize: vertical;
+}
