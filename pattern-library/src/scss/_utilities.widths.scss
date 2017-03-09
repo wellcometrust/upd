@@ -14,8 +14,8 @@
  */
 @for $denominator from 1 through 4 {
   @for $numerator from 1 to $denominator {
-    .u-width-#{$numerator}-on-#{$numerator},
-    %u-width-#{$numerator}-on-#{$numerator} {
+    .u-width-#{$numerator}-of-#{$denominator},
+    %u-width-#{$numerator}-of-#{$denominator} {
       width: percentage($numerator / $denominator);
     }
   }
