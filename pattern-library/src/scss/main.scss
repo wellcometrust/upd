@@ -2,6 +2,7 @@
 
 /* Functions
    ========================================================================== */
+@import "functions.rems";
 
 
 
@@ -41,6 +42,12 @@
 
 /* Base styles
    ========================================================================== */
+@import "base.fonts";
+@import "base.emphasis";
+@import "base.headings";
+@import "base.lists";
+@import "base.page";
+@import "base.paragraph";
 
 
 

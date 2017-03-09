@@ -1,0 +1,35 @@
+/* Headings */
+
+/**
+ * 1. Remove all margins, as it's easier to add as required than to
+ *    continually override.
+ * 2. Explicitly set display to `block` so faux-headings are consistent with
+ *    real ones.
+ * 3. Stop font weights from being overridden in the CMS
+ */
+
+h1, h2, h3, h4, h5, h6,
+%h1, %h2, %h3, %h4, %h5, %h6 {
+  display: block; /* 1 */
+  font-weight: inherit;
+  margin: 0;      /* 2 */
+  page-break-after: avoid;
+
+  & strong, & b {
+    font-weight: inherit; /* 3 */
+  }
+
+}
+
+@for $i from 1 to 6 {
+  @if ($i < 4) {
+    h#{$i},
+    %h#{$i} {
+      @extend %font-heading-#{$i};
+    }
+  }
+
+  .h#{$i} {
+    @extend %h#{$i};
+  }
+}

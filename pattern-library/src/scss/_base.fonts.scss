@@ -1,0 +1,72 @@
+/* Fonts */
+
+/**
+ * All font styles should be defined here using both a mixin and placeholder
+ * selector. Where possible, the placeholder should be used, but in some cases
+ * this won't be possible (eg media queries), in which case the mixin can be
+ * used.
+ *
+ * Note that all styles build on the base font: it is not necessary to repeat
+ * those properties that are unchanged.
+ */
+
+/* Base
+   ========================================================================== */
+@mixin font-base {
+  color: $upd-color-text-primary;
+  font-family: $upd-font-family-primary, $upd-font-family-primary-fallback;
+  font-weight: $upd-font-weight-light;
+  font-size: 1rem;
+  line-height: $upd-line-height-base;
+}
+
+%font-base {
+  @include font-base;
+}
+
+
+
+
+
+/* Body-copy
+   ========================================================================== */
+@mixin font-body-copy {
+  font-size: $upd-font-size-body-copy;
+}
+
+%font-body-copy {
+  @include font-body-copy;
+}
+
+
+
+
+
+/* Headings
+   ========================================================================== */
+@mixin font-heading-1 {
+  color: $upd-color-brand-grey-blue;
+  font-size: $upd-font-size-heading-1;
+}
+
+%font-heading-1 {
+  @include font-heading-1;
+}
+
+
+@mixin font-heading-2 {
+  font-size: $upd-font-size-heading-2;
+}
+
+%font-heading-2 {
+  @include font-heading-2;
+}
+
+
+@mixin font-heading-3 {
+  font-size: $upd-font-size-heading-3;
+}
+
+%font-heading-3 {
+  @include font-heading-3;
+}

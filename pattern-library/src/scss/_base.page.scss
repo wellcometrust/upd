@@ -1,0 +1,9 @@
+/* Page */
+
+html {
+  font-size: ($upd-font-size-base / 16px) * 1em;
+}
+
+body {
+  @extend %font-base;
+}
