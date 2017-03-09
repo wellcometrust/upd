@@ -42,15 +42,18 @@ $upd-font-weight-bold: 700;
 /**
  * Because font-size and line-height are useful for calculating sizes,
  * we'll define them here, then apply them in the font definitions.
+ *
+ * Define the base font size in px, and everything else in rem.
  */
 $upd-font-size-base: 16px;
-$upd-font-line-height-base: 1.5;
+$upd-line-height-base: 1.5;
 
-$upd-font-size-body-copy: 22px;
+$upd-font-size-body-copy: rems(18px);
+$upd-line-height-body-copy: rems(32px / px($upd-font-size-body-copy));
 
-$upd-font-size-heading-1: 48px;
-$upd-font-size-heading-2: 36px;
-$upd-font-size-heading-3: 20px;
+$upd-font-size-heading-1: rems(48px);
+$upd-font-size-heading-2: rems(36px);
+$upd-font-size-heading-3: rems(20px);
 
 
 
@@ -58,7 +61,7 @@ $upd-font-size-heading-3: 20px;
 
 /* Layout
    ========================================================================== */
-$upd-spacing-gutter-base: 22px;
-$upd-spacing-gutter-large: 32px;
+$upd-spacing-gutter-base: rems(22px);
+$upd-spacing-gutter-large: rems(32px);
 
-$upd-max-width: 1130px;
+$upd-max-width: rems(1130px);
