@@ -1,0 +1,43 @@
+/* Layout */
+
+/**
+ * Simple grid system
+ */
+
+.grid {
+  display: inline-block;
+  margin-left: -$upd-spacing-gutter-base;
+  padding-left: $upd-spacing-gutter-base;
+}
+
+.grid--large {
+  margin-left: -$upd-spacing-gutter-large;
+  padding-left: $upd-spacing-gutter-large;
+}
+
+.grid--flush {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.grid--flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.grid__item {
+  padding-left: $upd-spacing-gutter-base;
+
+  .grid--large & {
+    padding-left: $upd-spacing-gutter-large
+  }
+
+  .grid--flush & {
+    padding-left: 0;
+  }
+
+  .grid-flex {
+    display: flex;
+  }
+}

@@ -1,0 +1,22 @@
+/* Widths */
+
+/**
+ * Manually define our full-width class
+ */
+.u-width-1-of-1,
+%u-width-1-of-1 {
+  width: 100%;
+}
+
+/**
+ * Iterate through denominators and numerators to generate all our common
+ * widths.
+ */
+@for $denominator from 1 through 4 {
+  @for $numerator from 1 to $denominator {
+    .u-width-#{$numerator}-on-#{$numerator},
+    %u-width-#{$numerator}-on-#{$numerator} {
+      width: percentage($numerator / $denominator);
+    }
+  }
+}
