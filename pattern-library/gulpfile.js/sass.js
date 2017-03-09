@@ -23,7 +23,7 @@ module.exports = (gulp, paths, isBuild) => {
       .pipe(sass().on('error', sass.logError))
       .pipe(postcss(postcssPlugins))
       .pipe(rename((path) => {
-        path.dirname = path.dirname.replace(/^scss\\\//, 'css')
+        path.dirname = path.dirname.replace(/^scss(\\|\/|$)/, 'css')
       }))
       .pipe(isBuild ? noop : sourcemaps.write())
       .pipe(gulp.dest(paths.dest.assets))
