@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+{{> @head}}
+
+<body{{#body.class}} class="{{.}}"{{/body.class}}>
+
+{{#main}}<main{{#class}} class="{{.}}"{{/class}}>{{/main}}
+
+<!-- Begin preview -->
+
+{{{ yield }}}
+
+<!-- End preview -->
+
+{{#main}}</main>{{/main}}
+
+</body>
+
+</html>
