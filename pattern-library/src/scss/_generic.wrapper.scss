@@ -4,25 +4,24 @@
  * Container with max-width for ensuring content width is restricted uniformly
  * on large screens.
  **/
-
 .wrapper,
 %wrapper {
-    margin: {
-        left: auto;
-        right: auto;
-    }
-    max-width: $upd-max-width;
+  margin: {
+    left: auto;
+    right: auto;
+  }
+  max-width: $upd-max-width;
 }
 
 .wrapper--gutter,
 %wrapper--gutter {
-    @mixin wrapper--gutter($gutter) {
-        max-width: $upd-max-width + 2 * $gutter;
-        padding: {
-            left: $gutter;
-            right: $gutter;
-        }
+  @mixin wrapper--gutter($gutter) {
+    max-width: $upd-max-width + 2 * $gutter;
+    padding: {
+      left: $gutter;
+      right: $gutter;
     }
+  }
 
-    @include wrapper--gutter($upd-spacing-gutter-base);
+  @include wrapper--gutter($upd-spacing-gutter-base);
 }
