@@ -1,0 +1,26 @@
+/* ToC */
+
+.toc {
+  @extend %list-bare;
+
+  color: $upd-color-brand-grey-blue;
+}
+
+
+.toc__item {
+  * + & {
+    margin-top: $upd-spacing-gutter-large;
+  }
+}
+
+
+.toc__element {
+  color: inherit;
+  text-decoration: none;
+  transition: color $upd-transition-time;
+
+  &.is-active {
+    color: $upd-color-brand-navy;
+    font-weight: $upd-font-weight-medium;
+  }
+}
