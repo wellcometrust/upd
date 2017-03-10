@@ -25,6 +25,17 @@
 }
 
 
+@mixin font-highlight {
+  font-family: "Montserrat", "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
+  font-weight: $upd-font-weight-bold;
+  text-transform: uppercase;
+}
+
+%font-highlight {
+  @include font-highlight;
+}
+
+
 
 
 
@@ -86,18 +97,29 @@
 }
 
 
+@mixin font-heading-4 {
+  @extend %font-highlight;
+
+  color: $upd-color-brand-grey-blue;
+  font-size: rems(14px);
+  letter-spacing: 0.1em;
+  line-height: rems(16px);
+}
+
+%font-heading-4 {
+  @include font-heading-4;
+}
 
 
 
 /* Tags
    ========================================================================== */
 @mixin font-tag {
-  font-family: "Montserrat", "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
+  @extend %font-highlight;
+
   font-size: rems(10px);
-  font-weight: $upd-font-weight-bold;
   letter-spacing: 0.02em;
   line-height: rems(16px);
-  text-transform: uppercase;
 }
 
 %font-tag {
