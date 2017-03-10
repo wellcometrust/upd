@@ -65,6 +65,7 @@
 @import "generic.clearfix";
 @import "generic.grid";
 @import "generic.list-bare";
+@import "generic.ratio";
 @import "generic.wrapper";
 
 
@@ -73,6 +74,7 @@
 
 /* Site Patterns
    ========================================================================== */
+@import "site.logo";
 @import "site.toc";
 
 

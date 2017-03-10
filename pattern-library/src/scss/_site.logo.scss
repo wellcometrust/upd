@@ -1,0 +1,17 @@
+/* Logo */
+
+.logo {
+  $height: 70px;
+  $width: 200px;
+
+  @extend %ratio;
+
+  @include set-ratio($width, $height);
+
+  color: inherit;
+  width: $width;
+}
+
+.logo__image {
+  @extend %ratio__content;
+}
