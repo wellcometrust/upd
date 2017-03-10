@@ -14,5 +14,5 @@
  */
 
 @function px($rem) {
-  @return $rem * $upd-font-size-base / 1px;
+  @return $rem * $upd-font-size-base / 1rem;
 }
