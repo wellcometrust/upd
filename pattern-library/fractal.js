@@ -8,6 +8,7 @@ fractal.set('project.title', 'Understanding Patient Data')
 fractal.web.set('static.path', paths.dest.assets)
 
 // Components
+fractal.components.set('default.status', 'prototype')
 fractal.components.set('path', paths.source.components)
 
 // Docs

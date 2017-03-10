@@ -6,7 +6,8 @@ const config = {
       2,
       3
     ]
-  }
+  },
+  status: 'wip'
 }
 
 module.exports = config

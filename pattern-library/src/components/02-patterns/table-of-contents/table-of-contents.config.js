@@ -22,7 +22,8 @@ const config = {
 
       return item
     })
-  }
+  },
+  status: 'wip'
 }
 
 module.exports = config
