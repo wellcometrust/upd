@@ -19,13 +19,13 @@ module.exports = (gulp, paths, isBuild) => {
 
   gulp.task('sass', () => {
     return gulp.src(sassSourceGlob, {base: paths.source.root})
-      .pipe(isBuild ? noop : sourcemaps.init())
+      .pipe(isBuild ? noop() : sourcemaps.init())
       .pipe(sass().on('error', sass.logError))
       .pipe(postcss(postcssPlugins))
       .pipe(rename((path) => {
         path.dirname = path.dirname.replace(/^scss(\\|\/|$)/, 'css')
       }))
-      .pipe(isBuild ? noop : sourcemaps.write())
+      .pipe(isBuild ? noop() : sourcemaps.write())
       .pipe(gulp.dest(paths.dest.assets))
   })
 
