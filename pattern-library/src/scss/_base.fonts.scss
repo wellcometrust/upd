@@ -58,6 +58,7 @@
 @mixin font-heading-1 {
   color: $upd-color-brand-grey-blue;
   font-size: $upd-font-size-heading-1;
+  font-weight: $upd-font-weight-light;
 }
 
 %font-heading-1 {
@@ -67,6 +68,7 @@
 
 @mixin font-heading-2 {
   font-size: $upd-font-size-heading-2;
+  font-weight: $upd-font-weight-medium;
 }
 
 %font-heading-2 {
@@ -76,6 +78,7 @@
 
 @mixin font-heading-3 {
   font-size: $upd-font-size-heading-3;
+  font-weight: $upd-font-weight-light;
 }
 
 %font-heading-3 {
