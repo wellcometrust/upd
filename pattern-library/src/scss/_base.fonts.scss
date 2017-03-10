@@ -32,10 +32,21 @@
    ========================================================================== */
 @mixin font-body-copy {
   font-size: $upd-font-size-body-copy;
+  line-height: $upd-line-height-body-copy;
 }
 
 %font-body-copy {
   @include font-body-copy;
+}
+
+
+@mixin font-body-copy-small {
+  font-size: $upd-font-size-body-copy-small;
+  line-height: $upd-line-height-body-copy-small;
+}
+
+%font-body-copy-small {
+  @include font-body-copy-small;
 }
 
 
