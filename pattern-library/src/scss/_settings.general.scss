@@ -14,6 +14,7 @@
  */
 $upd-color-brand-aqua: #70D6D4;
 $upd-color-brand-blue: #014061;
+$upd-color-brand-grey: #9DB6C2;
 $upd-color-brand-grey-blue: #658C9F;
 $upd-color-brand-navy: #004160;
 $upd-color-brand-red: #F8533D;
@@ -26,7 +27,7 @@ $upd-color-text-reverse: #FFFFFF;
 $upd-color-text-placeholder: #BEC2C4;
 
 $upd-color-border-light: #D8E2E7;
-$upd-color-border-mid: #9DB6C2;
+$upd-color-border-mid: $upd-color-brand-grey;
 
 
 

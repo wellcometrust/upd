@@ -1,0 +1,10 @@
+/* Tag */
+
+.tag {
+  @extend %font-tag;
+
+  background-color: $upd-color-brand-grey;
+  color: $upd-color-text-reverse;
+  display: inline-block;
+  padding: rems(4px) $upd-spacing-gutter-base rems(2px);  /* Use larger top padding to adjust the baseline */
+}
