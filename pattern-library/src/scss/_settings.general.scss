@@ -34,32 +34,17 @@ $upd-color-border-mid: #9DB6C2;
 
 /* Fonts
    ========================================================================== */
-$upd-font-family-primary: "GT Walsheim Pro";
-$upd-font-family-primary-fallback: "Gill Sans", "Century Gothic", "Franklin Gothic";
-
 $upd-font-weight-light: 300;
 $upd-font-weight-regular: 400;
 $upd-font-weight-medium: 500;
 $upd-font-weight-bold: 700;
 
 /**
- * Because font-size and line-height are useful for calculating sizes,
- * we'll define them here, then apply them in the font definitions.
- *
- * Define the base font size in px, and everything else in rem.
+ * Define the base font-size in px and line-height as a unitless integer.
+ * All other font sizes should be defined in rems in the base font styles.
  */
 $upd-font-size-base: 16px;
 $upd-line-height-base: 1.5;
-
-$upd-font-size-body-copy: rems(18px);
-$upd-line-height-body-copy: 32px / px($upd-font-size-body-copy);
-
-$upd-font-size-body-copy-small: rems(14px);
-$upd-line-height-body-copy-small: 24px / px($upd-font-size-body-copy-small);
-
-$upd-font-size-heading-1: rems(48px);
-$upd-font-size-heading-2: rems(30px);
-$upd-font-size-heading-3: rems(20px);
 
 
 
