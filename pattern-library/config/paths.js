@@ -16,6 +16,7 @@ const paths = {
     components: resolve(sourceRoot, 'components'),
     docs: resolve(sourceRoot, 'docs'),
     fonts: resolve(sourceRoot, 'fonts'),
+    images: resolve(sourceRoot, 'images'),
     root: sourceRoot,
     scss: resolve(sourceRoot, 'scss')
   }

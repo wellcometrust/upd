@@ -1,24 +1,21 @@
 const gulp = require('gulp')
 
-const createSassTask = require('./sass')
-const createStaticTask = require('./static')
 const paths = require('../config/paths')
 
 const isBuild = (process.env.CI === 'true' || process.env.NODE_ENV === 'build')
 
-createSassTask(gulp, paths, isBuild)
-createStaticTask(gulp, paths, isBuild)
-
 let tasks = [
+  'icons',
   'sass',
   'static'
 ]
 
-if (!isBuild) {
-  tasks = tasks.concat([
-    'sass:watch',
-    'static:watch'
-  ])
-}
+tasks.forEach((task) => {
+  // Create the task
+  require('./' + task)(gulp, paths, isBuild)
+
+  // Add the `watch` version of the task to the task list
+  if (!isBuild) tasks.push(task + ':watch')
+})
 
 gulp.task('default', tasks)
