@@ -1,0 +1,31 @@
+/* Case study tile */
+
+.case-study-tile {
+  background-color: $upd-color-background-primary;
+  display: block;
+  margin: 0 auto;
+  max-width: rems(258px);
+  position: relative;
+  text-decoration: none;
+}
+
+
+.case-study-tile__info {
+  border: 1px solid $upd-color-border-light;
+  border-top: none;
+  padding: rems(17px) $upd-spacing-gutter-base;
+}
+
+
+.case-study-tile__title {
+  @extend %h3;
+
+  height: rems(140px);
+}
+
+
+.case-study-tile__tag {
+  left:0;
+  position: absolute;
+  top: 0;
+}
