@@ -1,0 +1,10 @@
+/* General purpose mixins */
+
+/**
+ * private
+ * Create a new scope for variables and mixins
+ */
+
+@mixin private {
+  @content;
+}
