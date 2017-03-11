@@ -1,0 +1,42 @@
+/* Button */
+
+/**
+ * 1. Explicitly define the height, as this gives more consistent results
+ *    between browsers than relying on line height and padding
+ * 2. Use padding and line height to vertically centre the text
+ */
+
+.button,
+%button {
+  $height: rems(40px);
+  $padding-horizontal: ($height - $upd-font-size-button) / 2;
+  $padding-vertical: $height * 0.8;
+
+  @extend %font-button;
+
+  background-color: $upd-color-brand-red;
+  border-radius: $height / 2;
+  color: $upd-color-text-reverse;
+  display: inline-block;
+  height: $height;  /* 1 */
+  line-height: 1;   /* 2 */
+  padding: $padding-horizontal $padding-vertical; /* 2 */
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.button--blue {
+  background-color: $upd-color-brand-grey-blue;
+}
+
+.button--small {
+  $height: rems(30px);
+  $padding-horizontal: ($height - $upd-font-size-button-small) / 2;
+  $padding-vertical: $height * 0.8;
+
+  @extend %font-button-small;
+
+  height: $height;  /* 1 */
+  padding: $padding-horizontal $padding-vertical; /* 2 */
+}
