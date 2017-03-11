@@ -19,3 +19,5 @@ tasks.forEach((task) => {
 })
 
 gulp.task('default', tasks)
+
+module.exports = gulp
