@@ -6,6 +6,9 @@
  * this won't be possible (eg media queries), in which case the mixin can be
  * used.
  *
+ * Define the font size and line height as global variables so they can be used
+ * elsewhere.
+ *
  * Note that all styles build on the base font: it is not necessary to repeat
  * those properties that are unchanged.
  */
@@ -41,9 +44,12 @@
 
 /* Body-copy
    ========================================================================== */
+$upd-font-size-body-copy: rems(18px);
+$upd-line-height-body-copy: rems(32px);
+
 @mixin font-body-copy {
-  font-size: rems(18px);
-  line-height: rems(32px);
+  font-size: $upd-font-size-body-copy;
+  line-height: $upd-line-height-body-copy;
 }
 
 %font-body-copy {
@@ -51,9 +57,12 @@
 }
 
 
+$upd-font-size-body-copy-small: rems(14px);
+$upd-line-height-body-copy-small: rems(24px);
+
 @mixin font-body-copy-small {
-  font-size: rems(14px);
-  line-height: rems(24px);
+  font-size: $upd-font-size-body-copy-small;
+  line-height: $upd-line-height-body-copy-small;
 }
 
 %font-body-copy-small {
@@ -66,10 +75,14 @@
 
 /* Headings
    ========================================================================== */
+$upd-font-size-h1: rems(48px);
+$upd-line-height-h1: rems(58px);
+
 @mixin font-heading-1 {
   color: $upd-color-brand-grey-blue;
-  font-size: rems(48px);
+  font-size: $upd-font-size-h1;
   font-weight: $upd-font-weight-light;
+  line-height: $upd-line-height-h1;
 }
 
 %font-heading-1 {
@@ -77,9 +90,13 @@
 }
 
 
+$upd-font-size-h2: rems(30px);
+$upd-line-height-h2: rems(44px);
+
 @mixin font-heading-2 {
-  font-size: rems(30px);
+  font-size: $upd-font-size-h2;
   font-weight: $upd-font-weight-medium;
+  line-height: $upd-line-height-h2;
 }
 
 %font-heading-2 {
@@ -87,10 +104,13 @@
 }
 
 
+$upd-font-size-h3: rems(20px);
+$upd-line-height-h3: rems(28px);
+
 @mixin font-heading-3 {
-  font-size: rems(20px);
+  font-size: $upd-font-size-h3;
   font-weight: $upd-font-weight-regular;
-  line-height: rems(28px);
+  line-height: $upd-line-height-h3;
 }
 
 %font-heading-3 {
@@ -98,13 +118,16 @@
 }
 
 
+$upd-font-size-h4: rems(14px);
+$upd-line-height-h4: rems(16px);
+
 @mixin font-heading-4 {
   @extend %font-highlight;
 
   color: $upd-color-brand-grey-blue;
-  font-size: rems(14px);
+  font-size: $upd-font-size-h4;
   letter-spacing: 0.1em;
-  line-height: rems(16px);
+  line-height: $upd-line-height-h4;
 }
 
 %font-heading-4 {
@@ -115,11 +138,6 @@
 
 /* Tags
    ========================================================================== */
-
-/**
- * Define the size and line-height as global variables, as we'll need to use
- * them to calculate the multiline padding for the tag
- */
 $upd-font-size-tag: rems(10px);
 $upd-line-height-tag: rems(16px);
 

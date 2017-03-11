@@ -12,6 +12,7 @@
 /* Settings
    ========================================================================== */
 @import "settings.general"; /* Import general settings first */
+@import "settings.fonts";
 @import "settings.patterns";
 
 
@@ -48,7 +49,6 @@
 
 /* Base styles
    ========================================================================== */
-@import "base.fonts";
 @import "base.emphasis";
 @import "base.headings";
 @import "base.inputs.scss";
