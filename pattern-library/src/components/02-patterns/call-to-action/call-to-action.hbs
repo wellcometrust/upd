@@ -1,4 +1,4 @@
-<a class="cta{{#if small}}  cta--small{{/if}}" href="#link-to-destination">
+<{{#if href}}a href="#link-to-destination"{{else}}div{{/if}} class="cta{{#if small}}  cta--small{{/if}}">
 
     {{label}}
 
@@ -8,4 +8,4 @@
 
     </svg>
 
-</a>
+</{{#if href}}a{{else}}div{{/if}}>
