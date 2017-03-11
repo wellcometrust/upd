@@ -89,7 +89,8 @@
 
 @mixin font-heading-3 {
   font-size: rems(20px);
-  font-weight: $upd-font-weight-light;
+  font-weight: $upd-font-weight-regular;
+  line-height: rems(28px);
 }
 
 %font-heading-3 {
@@ -114,12 +115,20 @@
 
 /* Tags
    ========================================================================== */
+
+/**
+ * Define the size and line-height as global variables, as we'll need to use
+ * them to calculate the multiline padding for the tag
+ */
+$upd-font-size-tag: rems(10px);
+$upd-line-height-tag: rems(16px);
+
 @mixin font-tag {
   @extend %font-highlight;
 
-  font-size: rems(10px);
+  font-size: $upd-font-size-tag;
   letter-spacing: 0.02em;
-  line-height: rems(16px);
+  line-height: $upd-line-height-tag;
 }
 
 %font-tag {
