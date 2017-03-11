@@ -1,10 +1,40 @@
 /* Tag */
 
-.tag {
-  @extend %font-tag;
+/**
+ * 1. Add multi-line background padding to the inline part of the tag
+ * 2. Add vertical borders so there's no gaps between lines and the top/bottom
+ *    of the parent
+ * 3. Crop any overflowing background`
+ */
 
-  background-color: $upd-color-brand-grey;
-  color: $upd-color-text-reverse;
-  display: inline-block;
-  padding: rems(4px) $upd-spacing-gutter-base rems(2px);  /* Use larger top padding to adjust the baseline */
+@include private {
+  $border-width: rems(4px); /* DANGER: magic number based on the rendered font height */
+  $padding-horizontal: ($upd-spacing-gutter-base - $upd-line-height-tag) / 2;
+  $padding-vertical: $upd-spacing-gutter-base;
+
+  @mixin tag-background($color) {
+    background-color: $color;
+    box-shadow: $padding-vertical 0 $color,
+                -$padding-vertical 0 $color;  /* 1 */
+  }
+
+
+  .tag {
+    @extend %font-tag;
+
+    color: $upd-color-text-reverse;
+    display: block;
+    padding: $padding-horizontal $padding-vertical;
+    overflow: hidden; /* 3 */
+  }
+
+
+  .tag__inner {
+    @include tag-background($upd-color-brand-grey);
+
+    border-color: transparent;      /* 2 */
+    border-style: solid;            /* 2 */
+    border-width: $border-width 0;  /* 2 */
+    display: inline;
+  }
 }
