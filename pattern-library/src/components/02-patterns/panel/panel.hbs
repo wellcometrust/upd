@@ -1,0 +1,25 @@
+<div class="panel{{#modifiers}} panel--{{.}}{{/modifiers}}">
+
+    <div class="wrapper  wrapper--gutter">
+
+        {{#items}}
+
+            <{{type}} class="panel__item">
+
+                {{#if content}}
+
+                    {{{content}}}
+
+                {{else}}
+
+            <!-- Content goes here -->
+
+                {{/if}}
+
+            </{{type}}>
+
+        {{/items}}
+
+    </div>
+
+</div>
