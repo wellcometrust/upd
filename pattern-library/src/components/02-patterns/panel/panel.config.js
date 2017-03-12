@@ -11,19 +11,6 @@ const config = {
       context: {
         items: [
           {
-            type: 'header'
-          }
-        ],
-        modifiers: [
-          'header'
-        ]
-      },
-      name: 'Page header'
-    },
-    {
-      context: {
-        items: [
-          {
             type: 'section'
           },
           {
