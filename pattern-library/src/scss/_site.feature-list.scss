@@ -1,0 +1,27 @@
+/* Feature list */
+
+.feature-list {}
+
+
+.feature-list__header {
+  margin-bottom: rems(50px);
+  position: relative;
+}
+
+
+.feature-list__title {
+  @extend %h2
+}
+
+.feature-list__title--action {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  & > * {
+    vertical-align: baseline;
+  }
+}
+
+
+
