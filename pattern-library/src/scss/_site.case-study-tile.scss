@@ -1,12 +1,10 @@
 /* Case study tile */
 
 .case-study-tile {
+  @extend %tile;
+
   background-color: $upd-color-background-primary;
-  display: block;
-  margin: 0 auto;
   max-width: rems(258px);
-  position: relative;
-  text-decoration: none;
 }
 
 

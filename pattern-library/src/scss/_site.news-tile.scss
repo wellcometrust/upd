@@ -1,10 +1,9 @@
 /* News tile */
 
 .news-tile {
-  display: block;
-  margin: 0 auto;
+  @extend %tile;
+
   max-width: rems(354px);
-  text-decoration: none;
 }
 
 
