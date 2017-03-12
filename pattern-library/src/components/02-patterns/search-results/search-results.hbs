@@ -1,0 +1,80 @@
+<div class="search-results{{#modifiers}}  search-results--{{.}}{{/modifiers}}">
+
+    <header class="search-results__header">
+
+        {{#if count}}
+
+            <span class="search-results__count">{{count}} results</span>
+
+        {{/if}}
+
+        {{#if featured}}
+
+            <ul class="grid">
+
+                {{#*inline "grid-item"}}
+
+                <li class="grid__item u-width-1-of-3">
+
+                    {{render '@case-study-tile'}}
+
+                    <!-- /li -->
+
+                {{/inline}}
+
+                {{> grid-item}}
+
+                {{> grid-item}}
+
+                {{> grid-item}}
+
+            </ul>
+
+        {{/if}}
+
+    </header>
+
+    <ul class="list-bare">
+
+        {{#items}}
+
+            <li>
+
+                <a class="search-result" href="#link-to-page">
+
+                    {{#if category}}
+
+                        <span class="search-result__category">{{category}}</span>
+
+                    {{/if}}
+
+                    {{#if tag}}
+
+                        <div class="search-result__tag">
+
+                            {{render '@tag'}}
+
+                        </div>
+
+                    {{/if}}
+
+                    <h2 class="search-result__title">{{title}}</h2>
+
+                    <p class="search-result__description">{{{description}}}</p>
+
+                    <svg class="search-result__decoration     svg-icon  svg-icon--inline" role="presentation">
+
+                        <use xlink:href="#svg-icon-arrow"/>
+
+                    </svg>
+
+                </a>
+
+            </li>
+
+
+        {{/items}}
+
+    </ul>
+
+</div>
