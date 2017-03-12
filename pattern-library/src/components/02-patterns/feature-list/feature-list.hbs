@@ -1,0 +1,59 @@
+<div class="feature-list">
+
+    <header class="feature-list__header">
+
+        <h2 class="feature-list__title">{{title}}</h2>
+
+        <div class="feature-list__title  feature-list__title--action">
+
+            <a class="button  button--small" href="#link-to-full-listing">View all</a>
+
+        </div>
+
+    </header>
+
+    <ul class="grid">
+
+        {{#if news}}
+
+            {{#*inline "grid-item"}}
+
+                <li class="grid__item u-width-1-of-3">
+
+                    {{render '@news-tile'}}
+
+                <!-- /li -->
+
+            {{/inline}}
+
+            {{> 'grid-item'}}
+
+            {{> 'grid-item'}}
+
+            {{> 'grid-item'}}
+
+        {{else}}
+
+            {{#*inline "grid-item"}}
+
+                <li class="grid__item u-width-1-of-4">
+
+                    {{render '@case-study-tile'}}
+
+                <!-- /li -->
+
+            {{/inline}}
+
+            {{> 'grid-item'}}
+
+            {{> 'grid-item'}}
+
+            {{> 'grid-item'}}
+
+            {{> 'grid-item'}}
+
+        {{/if}}
+
+    </ul>
+
+</div>
