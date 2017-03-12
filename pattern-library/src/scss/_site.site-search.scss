@@ -32,6 +32,7 @@
   $apparent-width: rems(180px);
   $actual-width: $apparent-width + $upd-site-header-height; /* 4 */
 
+  background: none;
   border: none;
   height: 100%;
   margin-right: -$apparent-width;  /* 1 */
