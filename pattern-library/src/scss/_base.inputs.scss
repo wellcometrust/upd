@@ -2,10 +2,10 @@
 
 @mixin input {
   appearance: none;
-  background: none;
+  background: $upd-color-background-primary;
   border: 1px solid $upd-color-border-light;
   border-radius: 4px;
-  height: rems(48px);
+  height: $upd-input-height;
   max-width: rems(480px);
   padding: 0 0.5em;
   transition: background $upd-transition-time, border $upd-transition-time;
@@ -47,7 +47,7 @@
 
 @mixin radiobox--checked {
   background-color: currentColor;
-  box-shadow: inset 0 0 0 2px $upd-color-background-secondary;
+  box-shadow: inset 0 0 0 2px $upd-color-background-primary;
   color: $upd-color-brand-navy;
 }
 

@@ -1,0 +1,55 @@
+/* Page header */
+
+@include private {
+  .page-header {
+    background-color: $upd-color-background-secondary;
+    padding: 3 * $upd-spacing-gutter-base 0;
+  }
+
+  .page-header--case-study {
+    $padding: 2.5 * $upd-spacing-gutter-base 0;
+  }
+
+
+  .page-header__subheading {
+    @extend %font-body-copy-intro;
+
+    margin: ($upd-spacing-gutter-large / 2) 0 0;
+  }
+
+
+  .page-header__search {
+    margin-top: ($upd-spacing-gutter-base / 2);
+    position: relative;
+  }
+
+
+  .page-header__input {
+    @extend %font-body-copy;
+
+    padding-left: $upd-input-height;
+  }
+
+
+  .page-header__submit {
+    $icon-size: rems(16px);
+
+    color: $upd-color-text-placeholder;
+    left: 0;
+    padding: ($upd-input-height - $icon-size)  / 2;
+    position: absolute;
+    top: 0;
+  }
+
+
+  .page-header__category {
+    @extend %h4;
+
+    margin-bottom: $upd-line-height-h4;
+  }
+
+
+  .page-header__tag {
+    margin-top: $upd-spacing-gutter-large;
+  }
+}

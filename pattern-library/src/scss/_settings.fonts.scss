@@ -54,6 +54,20 @@ $upd-line-height-body-copy: rems(32px);
 }
 
 
+$upd-font-size-body-copy-intro: rems(22px);
+$upd-line-height-body-copy-intro: rems(38px);
+
+@mixin font-body-copy-intro {
+  color: $upd-color-text-highlight-light;
+  font-size: $upd-font-size-body-copy-intro;
+  line-height: $upd-line-height-body-copy-intro;
+}
+
+%font-body-copy-intro {
+  @include font-body-copy-intro;
+}
+
+
 $upd-font-size-body-copy-small: rems(14px);
 $upd-line-height-body-copy-small: rems(24px);
 
@@ -76,7 +90,7 @@ $upd-font-size-h1: rems(48px);
 $upd-line-height-h1: rems(58px);
 
 @mixin font-heading-1 {
-  color: $upd-color-brand-grey-blue;
+  color: $upd-color-text-highlight-mid;
   font-size: $upd-font-size-h1;
   font-weight: $upd-font-weight-light;
   line-height: $upd-line-height-h1;
@@ -91,6 +105,7 @@ $upd-font-size-h2: rems(30px);
 $upd-line-height-h2: rems(44px);
 
 @mixin font-heading-2 {
+  color: $upd-color-text-highlight-dark;
   font-size: $upd-font-size-h2;
   font-weight: $upd-font-weight-medium;
   line-height: $upd-line-height-h2;
@@ -105,6 +120,7 @@ $upd-font-size-h3: rems(20px);
 $upd-line-height-h3: rems(28px);
 
 @mixin font-heading-3 {
+  color: $upd-color-text-highlight-dark;
   font-size: $upd-font-size-h3;
   font-weight: $upd-font-weight-regular;
   line-height: $upd-line-height-h3;
@@ -121,7 +137,7 @@ $upd-line-height-h4: rems(16px);
 @mixin font-heading-4 {
   @extend %font-highlight;
 
-  color: $upd-color-brand-grey-blue;
+  color: $upd-color-text-highlight-light;
   font-size: $upd-font-size-h4;
   letter-spacing: 0.1em;
   line-height: $upd-line-height-h4;
