@@ -9,16 +9,16 @@
 
 
 .news-tile__date {
-  @extend %h4;
+  @extend %h5;
 
-  margin: $upd-line-height-h4 0;
+  margin: $upd-line-height-heading-5 0;
 }
 
 
 .news-tile__title {
-  @extend %h3;
+  @extend %h4;
 
-  margin-bottom: $upd-line-height-h3;
+  margin-bottom: $upd-line-height-heading-4;
 }
 
 

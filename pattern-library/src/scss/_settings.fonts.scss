@@ -86,14 +86,30 @@ $upd-line-height-body-copy-small: rems(24px);
 
 /* Headings
    ========================================================================== */
-$upd-font-size-h1: rems(48px);
-$upd-line-height-h1: rems(58px);
+$upd-font-size-hero: rems(48px);
+$upd-line-height-hero: rems(58px);
+
+@mixin font-hero {
+  color: $upd-color-text-reverse;
+  font-size: $upd-font-size-hero;
+  font-weight: $upd-font-weight-medium;
+  line-height: $upd-line-height-hero;
+}
+
+%font-hero {
+  @include font-hero;
+}
+
+
+/* Headline */
+$upd-font-size-heading-1: rems(48px);
+$upd-line-height-heading-1: rems(58px);
 
 @mixin font-heading-1 {
   color: $upd-color-text-highlight-mid;
-  font-size: $upd-font-size-h1;
-  font-weight: $upd-font-weight-light;
-  line-height: $upd-line-height-h1;
+  font-size: $upd-font-size-heading-1;
+  font-weight: $upd-font-weight-regular;
+  line-height: $upd-line-height-heading-1;
 }
 
 %font-heading-1 {
@@ -101,29 +117,46 @@ $upd-line-height-h1: rems(58px);
 }
 
 
-$upd-font-size-h2: rems(30px);
-$upd-line-height-h2: rems(44px);
+/* Section title */
+$upd-font-size-heading-2: rems(30px);
+$upd-line-height-heading-2: rems(44px);
 
 @mixin font-heading-2 {
   color: $upd-color-text-highlight-dark;
-  font-size: $upd-font-size-h2;
+  font-size: $upd-font-size-heading-2;
   font-weight: $upd-font-weight-medium;
-  line-height: $upd-line-height-h2;
+  line-height: $upd-line-height-heading-2;
+}
+
+@mixin font-heading-2--homepage-intro {
+  font-weight: $upd-font-weight-regular;
+}
+
+@mixin font-heading-2--resource-title {
+  color: $upd-color-text-highlight-mid;
 }
 
 %font-heading-2 {
   @include font-heading-2;
 }
 
+%font-heading-2--homepage-intro {
+  @include font-heading-2--homepage-intro;
+}
 
-$upd-font-size-h3: rems(20px);
-$upd-line-height-h3: rems(28px);
+%font-heading-2--resource-title {
+  @include font-heading-2--resource-title;
+}
+
+
+$upd-font-size-heading-3: rems(24px);
+$upd-line-height-heading-3: rems(38px);
 
 @mixin font-heading-3 {
-  color: $upd-color-text-highlight-dark;
-  font-size: $upd-font-size-h3;
+  color: $upd-color-text-highlight-light;
+  font-size: $upd-font-size-heading-3;
   font-weight: $upd-font-weight-regular;
-  line-height: $upd-line-height-h3;
+  line-height: $upd-line-height-heading-3;
 }
 
 %font-heading-3 {
@@ -131,16 +164,14 @@ $upd-line-height-h3: rems(28px);
 }
 
 
-$upd-font-size-h4: rems(14px);
-$upd-line-height-h4: rems(16px);
+$upd-font-size-heading-4: rems(20px);
+$upd-line-height-heading-4: rems(28px);
 
 @mixin font-heading-4 {
-  @extend %font-highlight;
-
-  color: $upd-color-text-highlight-light;
-  font-size: $upd-font-size-h4;
-  letter-spacing: 0.1em;
-  line-height: $upd-line-height-h4;
+  color: $upd-color-text-highlight-dark;
+  font-size: $upd-font-size-heading-4;
+  font-weight: $upd-font-weight-regular;
+  line-height: $upd-line-height-heading-4;
 }
 
 %font-heading-4 {
@@ -148,10 +179,27 @@ $upd-line-height-h4: rems(16px);
 }
 
 
+$upd-font-size-heading-5: rems(14px);
+$upd-line-height-heading-5: rems(16px);
+
+@mixin font-heading-5 {
+  @extend %font-highlight;
+
+  color: $upd-color-text-highlight-light;
+  font-size: $upd-font-size-heading-5;
+  letter-spacing: 0.1em;
+  line-height: $upd-line-height-heading-5;
+}
+
+%font-heading-5 {
+  @include font-heading-5;
+}
 
 
 
-/* Headings
+
+
+/* Buttons
    ========================================================================== */
 $upd-font-size-button: rems(14px);
 

@@ -20,15 +20,27 @@ h1, h2, h3, h4, h5, h6,
 
 }
 
+
+/* Map font styles to headings and create utility classes */
 @for $i from 1 through 6 {
-  @if ($i < 5) {
-    h#{$i},
-    %h#{$i} {
-      @extend %font-heading-#{$i};
-    }
+  h#{$i},
+  %h#{$i} {
+    @extend %font-heading-#{$i} !optional;
   }
 
   .h#{$i} {
     @extend %h#{$i};
   }
+}
+
+
+/* Create modifier classes and placeholders */
+.h2--homepage-intro,
+%h2--homepage-intro {
+  @extend %font-heading-2--homepage-intro;
+}
+
+.h2--resource-title,
+%h2--resource-title {
+  @extend %font-heading-2--resource-title;
 }

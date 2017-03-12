@@ -43,9 +43,9 @@
 
 
   .page-header__category {
-    @extend %h4;
+    @extend %h5;
 
-    margin-bottom: $upd-line-height-h4;
+    margin-bottom: $upd-line-height-heading-5;
   }
 
 
