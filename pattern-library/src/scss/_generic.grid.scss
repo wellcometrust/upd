@@ -5,19 +5,18 @@
  */
 
 .grid {
-  display: inline-block;
+  display: block;
+  margin: 0;
   margin-left: -$upd-spacing-gutter-base;
-  padding-left: $upd-spacing-gutter-base;
+  padding: 0;
 }
 
 .grid--large {
   margin-left: -$upd-spacing-gutter-large;
-  padding-left: $upd-spacing-gutter-large;
 }
 
 .grid--flush {
   margin-left: 0;
-  padding-left: 0;
 }
 
 .grid--flex {
@@ -27,6 +26,7 @@
 
 
 .grid__item {
+  display: inline-block;
   padding-left: $upd-spacing-gutter-base;
 
   .grid--large & {
