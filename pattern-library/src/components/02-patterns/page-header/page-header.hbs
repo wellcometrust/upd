@@ -1,0 +1,51 @@
+<header class="page-header">
+
+    <div class="wrapper  wrapper--gutter">
+
+        {{#if category}}
+
+            <span class="page-header__category">{{category}}</span>
+
+        {{/if}}
+
+        <h1 class="page-header__title">{{title}}</h1>
+
+        {{#search}}
+
+            <form class="page-header__search">
+
+                <label class="u-visually-hidden" for="search-term">Search the entire Understanding Patient Data site</label>
+
+                <input class="page-header__input" id="search-term" required type="search" value="{{.}}">
+
+                <button class="page-header__submit" type="submit">
+
+                    <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
+
+                        <title>Search</title>
+
+                        <use xlink:href="#svg-icon-search"/>
+
+                    </svg>
+
+                </button>
+
+            </form>
+
+        {{/search}}
+
+        {{#if subheading}}
+
+            <p class="page-header__subheading">{{subheading}}</p>
+
+        {{/if}}
+
+        {{#if tag}}
+
+            <div class="page-header__tag">{{render '@tag'}}</div>
+
+        {{/if}}
+
+    </div>
+
+</header>
