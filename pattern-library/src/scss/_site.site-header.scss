@@ -18,4 +18,14 @@
 
 .site-header__navigation {
   float: right;
+  padding-right: $upd-site-header-height; // Allow space for search icon
+  position: relative;
+}
+
+
+.site-header__search {
+  background-color: $upd-color-brand-navy;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
