@@ -26,6 +26,12 @@
   white-space: nowrap;
 }
 
+
+.button--shadow {
+  box-shadow: 0 rems(2px) 0 0 darken($upd-color-brand-red, 20%);
+}
+
+
 .button--blue {
   background-color: $upd-color-brand-grey-blue;
 }
