@@ -11,6 +11,9 @@
   background-color: $upd-color-background-primary;
   border-radius: rems(10px);
   box-shadow: 0 rems(2px) rems(40px) rgba(black, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   max-width: $max-width;
   padding: 2 * $upd-spacing-gutter-large;
   text-align: center;

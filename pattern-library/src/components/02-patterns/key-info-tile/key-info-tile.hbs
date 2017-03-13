@@ -1,13 +1,21 @@
 <a class="key-info-tile" href="#link-to-page">
 
-    <svg class="key-info-tile__icon     svg-icon  svg-icon--inline" role="presentation">
+    <div class="key-info-tile__icon">
 
-        <use xlink:href="#svg-icon-{{icon}}"/>
+        <svg class="svg-icon  svg-icon--inline" role="presentation">
 
-    </svg>
+            <use xlink:href="#svg-icon-{{icon}}"/>
+
+        </svg>
+
+    </div>
 
     <p class="key-info-tile__text">{{text}}</p>
 
-    <span class="button  button--shadow">{{button}}</span>
+    <div class="key-info-tile__action">
+
+        <span class="button  button--shadow">{{button}}</span>
+
+    </div>
 
 </a>
