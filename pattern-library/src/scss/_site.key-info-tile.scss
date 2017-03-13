@@ -1,0 +1,32 @@
+/* Key information tile */
+
+.key-info-tile {
+  /**
+   * Calculate the max width based on a three column grid with large gutters
+   */
+  $max-width: ($upd-max-width - 2 * $upd-spacing-gutter-large) / 3;
+
+  @extend %tile;
+
+  background-color: $upd-color-background-primary;
+  border-radius: rems(10px);
+  box-shadow: 0 rems(2px) rems(40px) rgba(black, 0.05);
+  max-width: $max-width;
+  padding: 2 * $upd-spacing-gutter-large;
+  text-align: center;
+}
+
+
+.key-info-tile__icon {
+  $size: rems(60px);
+
+  font-size: rems(60px);
+  margin-bottom: 40px;
+}
+
+
+.key-info-tile__text {
+  @extend %h4;
+
+  margin-bottom: rems(40px);
+}
