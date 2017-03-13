@@ -12,13 +12,13 @@
 
     </header>
 
-    <ul class="grid">
+    <ul class="grid  grid--center">
 
         {{#if news}}
 
             {{#*inline "grid-item"}}
 
-                <li class="grid__item u-width-1-of-3">
+                <li class="grid__item u-width-1-of-1  u-width-1-of-2-from-small  u-width-1-of-3-from-large">
 
                     {{render '@news-tile'}}
 
@@ -36,7 +36,7 @@
 
             {{#*inline "grid-item"}}
 
-                <li class="grid__item u-width-1-of-4">
+                <li class="grid__item u-width-1-of-1  u-width-1-of-2-from-small  u-width-1-of-4-from-x-large">
 
                     {{render '@case-study-tile'}}
 

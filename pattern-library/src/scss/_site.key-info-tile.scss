@@ -4,7 +4,7 @@
   /**
    * Calculate the max width based on a three column grid with large gutters
    */
-  $max-width: ($upd-max-width - 2 * $upd-spacing-gutter-large) / 3;
+  $max-width: rems(600px);
 
   @extend %tile;
 
@@ -14,9 +14,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 2 * $upd-spacing-gutter-large;
   max-width: $max-width;
-  padding: 2 * $upd-spacing-gutter-large;
+  padding: $upd-spacing-gutter-large;
   text-align: center;
+
+  @include mq(small) {
+    padding: 2 * $upd-spacing-gutter-large;
+  }
 }
 
 

@@ -13,6 +13,11 @@
   padding: 0;
 }
 
+.grid--center {
+  justify-content: center;
+  text-align: center;
+}
+
 .grid--large {
   margin-left: -$upd-spacing-gutter-large;
 }
@@ -26,6 +31,10 @@
   display: inline-block; // Fallback for browsers without flex support
   display: flex;
   padding-left: $upd-spacing-gutter-base;
+
+  .grid--center & {
+    text-align: left;
+  }
 
   .grid--large & {
     padding-left: $upd-spacing-gutter-large
