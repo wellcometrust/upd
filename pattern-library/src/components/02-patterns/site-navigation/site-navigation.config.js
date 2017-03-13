@@ -2,7 +2,7 @@ const config = {
   context: {
     items: [
       'About us',
-      'Resources',
+      'What you need to know',
       'Supporting conversations',
       'Case studies',
       'News',
