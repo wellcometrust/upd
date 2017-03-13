@@ -9,40 +9,46 @@
  */
 
 .site-search {
-  background: rgba($upd-color-background-primary, 0.1);
   display: block;
-  height: $upd-site-header-height;
+  height: $upd-site-header-height-small;
   overflow: hidden; /* 2 */
   position: relative;
+
+  @include mq($upd-site-header-breakpoint-height) {
+    height: $upd-site-header-height;
+  }
+
+  @include mq($upd-site-header-breakpoint-navigation) {
+    background: rgba($upd-color-background-primary, 0.1);
+  }
 }
 
 
 .site-search__button {
-  $icon-size: rems(16px);
-
-  font-size: $icon-size;
-  height: 100%;
-  line-height: 1;
-  padding: ($upd-site-header-height - $icon-size) / 2;
   position: absolute; /* 4 */
 }
 
 
 .site-search__input {
-  $apparent-width: rems(180px);
+  $apparent-width: rems(240px);
   $actual-width: $apparent-width + $upd-site-header-height; /* 4 */
 
   background: none;
   border: none;
   height: 100%;
-  margin-right: -$apparent-width;  /* 1 */
+  max-width: unset;
   padding: 0 $upd-spacing-gutter-base 0 $upd-site-header-height; /* 4 */
-  transition: margin $upd-transition-time;
-  vertical-align: top;
-  width: $actual-width; /* 4 */
+  width: 100%;
 
-  &:focus,
-  :focus + & {
-    margin-right: 0;  /* 3 */
+  @include mq($upd-site-header-breakpoint-search) {
+    margin-right: -$apparent-width;  /* 1 */
+    transition: margin $upd-transition-time;
+    vertical-align: top;
+    width: $actual-width; /* 4 */
+
+    &:focus,
+    :focus + & {
+      margin-right: 0;  /* 3 */
+    }
   }
 }

@@ -31,5 +31,8 @@ $upd-ratios: (
 
 /* Site header
    ========================================================================== */
-$upd-site-header-height: rems(70px)
-
+$upd-site-header-height: rems(70px);
+$upd-site-header-height-small: rems(50px);
+$upd-site-header-breakpoint-height: small;
+$upd-site-header-breakpoint-navigation: x-large;
+$upd-site-header-breakpoint-search: medium;

@@ -61,6 +61,11 @@ $upd-spacing-gutter-large: rems(32px);
 
 $upd-max-width: rems(1130px);
 
+$upd-breakpoints: (
+  small: rems(480px),
+  medium: rems(640px),
+  x-large: $upd-max-width
+);
 
 
 

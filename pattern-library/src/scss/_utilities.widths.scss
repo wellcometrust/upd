@@ -14,9 +14,21 @@
  */
 @for $denominator from 1 through 4 {
   @for $numerator from 1 to $denominator {
-    .u-width-#{$numerator}-of-#{$denominator},
-    %u-width-#{$numerator}-of-#{$denominator} {
-      width: percentage($numerator / $denominator);
+    $name: u-width-#{$numerator}-of-#{$denominator};
+    $width: percentage($numerator / $denominator);
+
+    .#{$name},
+    %#{$name} {
+      width: $width;
+    }
+
+    @each $size, $width in $upd-breakpoints {
+      @include mq($size) {
+        .#{$name}-from-#{$size},
+        %#{$name}-from-#{$size} {
+          width: $width
+        }
+      }
     }
   }
 }

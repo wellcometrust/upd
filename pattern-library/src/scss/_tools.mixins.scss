@@ -4,7 +4,26 @@
  * private
  * Create a new scope for variables and mixins
  */
-
 @mixin private {
   @content;
+}
+
+
+
+
+
+/**
+ * mq
+ * Generate mobile first media-queries using breakpoint keys or lengths
+ */
+@mixin mq($size) {
+  $min-width: map-get($upd-breakpoints, $size);
+
+  @if (type_of($min-width) == 'null') {
+    $min-width: $size;
+  }
+
+  @media screen and (min-width: $min-width) {
+    @content;
+  }
 }

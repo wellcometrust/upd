@@ -9,6 +9,7 @@
   @include set-ratio($width, $height);
 
   color: inherit;
+  max-width: 100%;
   width: $width;
 }
 
