@@ -5,7 +5,9 @@
  */
 
 .grid {
-  display: block;
+  display: block; // Fallback for browsers without flex support
+  display: flex;
+  flex-wrap: wrap;
   margin: 0;
   margin-left: -$upd-spacing-gutter-base;
   padding: 0;
@@ -19,14 +21,10 @@
   margin-left: 0;
 }
 
-.grid--flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 
 .grid__item {
-  display: inline-block;
+  display: inline-block; // Fallback for browsers without flex support
+  display: flex;
   padding-left: $upd-spacing-gutter-base;
 
   .grid--large & {
@@ -35,9 +33,5 @@
 
   .grid--flush & {
     padding-left: 0;
-  }
-
-  .grid--flex & {
-    display: flex;
   }
 }
