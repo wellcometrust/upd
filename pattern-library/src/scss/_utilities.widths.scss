@@ -22,10 +22,10 @@
       width: $width;
     }
 
-    @each $size, $width in $upd-breakpoints {
-      @include mq($size) {
-        .#{$name}-from-#{$size},
-        %#{$name}-from-#{$size} {
+    @each $breakpoint, $size in $upd-breakpoints {
+      @include mq($breakpoint) {
+        .#{$name}-from-#{$breakpoint},
+        %#{$name}-from-#{$breakpoint} {
           width: $width
         }
       }
