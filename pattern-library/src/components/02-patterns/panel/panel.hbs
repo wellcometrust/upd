@@ -6,15 +6,27 @@
 
             <{{type}} class="panel__item">
 
-                {{#if content}}
+                {{#content}}
 
-                    {{{content}}}
+                    {{#if news}}
 
-                {{else}}
+                        {{render '@feature-list--latest-news'}}
+
+                    {{/if}}
+
+                    {{#if case-studies}}
+
+                        {{render '@feature-list--case-studies'}}
+
+                    {{/if}}
+
+                {{/content}}
+
+                {{^content}}
 
             <!-- Content goes here -->
 
-                {{/if}}
+                {{/content}}
 
             </{{type}}>
 
