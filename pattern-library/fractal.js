@@ -7,6 +7,9 @@ fractal.set('project.title', 'Understanding Patient Data')
 // Assets
 fractal.web.set('static.path', paths.dest.assets)
 
+// Builder
+if (paths.dest.library) fractal.web.set('builder.dest', paths.dest.library)
+
 // Components
 fractal.components.set('default.status', 'prototype')
 fractal.components.set('path', paths.source.components)

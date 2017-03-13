@@ -27,6 +27,7 @@
   "name": "understanding-patient-data-pattern-library",
   "private": true,
   "scripts": {
+    "build": "node ./scripts/build",
     "start": "node ./scripts/start"
   }
 }
