@@ -20,25 +20,6 @@
 
   .page-header__search {
     margin-top: ($upd-spacing-gutter-base / 2);
-    position: relative;
-  }
-
-
-  .page-header__input {
-    @extend %font-body-copy;
-
-    padding-left: $upd-input-height;
-  }
-
-
-  .page-header__submit {
-    $icon-size: rems(16px);
-
-    color: $upd-color-text-placeholder;
-    left: 0;
-    padding: ($upd-input-height - $icon-size)  / 2;
-    position: absolute;
-    top: 0;
   }
 
 

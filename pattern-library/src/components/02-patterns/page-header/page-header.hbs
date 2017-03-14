@@ -12,25 +12,11 @@
 
         {{#search}}
 
-            <form class="page-header__search">
+            <div class="page-header__search">
 
-                <label class="u-visually-hidden" for="search-term">Search the entire Understanding Patient Data site</label>
+                {{> @search}}
 
-                <input class="page-header__input" id="search-term" required type="search" value="{{.}}">
-
-                <button class="page-header__submit" type="submit">
-
-                    <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
-
-                        <title>Search</title>
-
-                        <use xlink:href="#svg-icon-search"/>
-
-                    </svg>
-
-                </button>
-
-            </form>
+            </div>
 
         {{/search}}
 

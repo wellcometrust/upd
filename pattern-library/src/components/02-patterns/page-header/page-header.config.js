@@ -18,7 +18,9 @@ const config = {
     },
     {
       context: {
-        search: 'Lorem ipsum',
+        search: {
+          value: 'Lorem ipsum'
+        },
         subheading: null,
         title: 'Search results'
       },
