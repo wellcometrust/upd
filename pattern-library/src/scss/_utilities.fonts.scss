@@ -10,8 +10,8 @@
       margin-bottom: $line-height;
     }
 
-    ol,
-    ul {
+    ol[class=""],
+    ul[class=""] {
       padding-left: $line-height;
     }
   }
