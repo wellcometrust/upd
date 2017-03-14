@@ -31,9 +31,17 @@
   box-shadow: 0 rems(2px) 0 0 darken($upd-color-brand-red, 20%);
 }
 
-
-.button--blue {
+.button--secondary {
   background-color: $upd-color-brand-grey-blue;
+}
+
+/**
+ * 1. Use box-shadow to create the outline, as it doesn't affect sizing
+ */
+.button--tertiary {
+  background: none;
+  box-shadow: inset 0 0 0 1px currentColor; /* 1 */
+  color: $upd-color-brand-grey-blue;
 }
 
 .button--small {

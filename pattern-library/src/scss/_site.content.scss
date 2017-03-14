@@ -11,3 +11,33 @@
     margin: (2 * $upd-spacing-gutter-large) 0 $upd-spacing-gutter-large;
   }
 }
+
+
+.content__actions {
+  @extend %list-bare;
+
+  border-color: $upd-color-border-light;
+  border-style: solid;
+  border-width: 1px 0;
+  padding: $upd-spacing-gutter-base 0;
+  text-align: center;
+
+  @include mq(small) {
+    text-align: right;
+  }
+}
+
+.content__action {
+  @include mq(small) {
+    display: inline-block;
+  }
+
+  * + & {
+    margin-top: 1em;
+
+    @include mq(small) {
+      margin-left: 1em;
+      margin-top: 0;
+    }
+  }
+}

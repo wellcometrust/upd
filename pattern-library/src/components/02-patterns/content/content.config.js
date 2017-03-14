@@ -2,6 +2,16 @@ const marked = require('marked');
 
 const config = {
   context: {
+    actions: [
+      {
+        href: '#link-to-printable-version',
+        label: 'Print page'
+      },
+      {
+        href: '#link-to-pdf',
+        label: 'Download PDF'
+      }
+    ],
     sections: [
       {
         content: 'Psychosis is a mental health problem affecting about one in a hundred people in the UK. It causes people to perceive or interpret things differently from those around them, and it can look and feel very different from person to person. With a high relapse rate, early intervention is crucial to avoid symptoms getting worse. In addition to the human cost, unplanned admissions into hospital for psychosis are costly for the NHS.',

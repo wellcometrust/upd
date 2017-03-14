@@ -13,10 +13,18 @@ const config = {
     {
       context: {
         modifiers: [
-          'blue'
+          'secondary'
         ]
       },
-      name: 'Blue'
+      name: 'Secondary'
+    },
+    {
+      context: {
+        modifiers: [
+          'tertiary'
+        ]
+      },
+      name: 'Tertiary'
     },
     {
       context: {
