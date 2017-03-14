@@ -1,0 +1,36 @@
+<ul class="layout">
+
+    <li class="layout__item  layout__item--secondary{{#search-results}}  layout__item--important{{/search-results}}">
+
+        {{#if search-results}}
+
+            <!-- Filters go here -->
+
+        {{else}}
+
+            {{render '@table-of-contents'}}
+
+        {{/if}}
+
+    <!-- /li -->
+
+
+    <li class="layout__item  layout__item--primary">
+
+        {{#search-results}}
+
+            {{> @search-results}}
+
+        {{/search-results}}
+
+        {{^search-results}}
+
+            {{render '@intro'}}
+
+            {{render '@content'}}
+
+        {{/search-results}}
+
+    <!-- /li -->
+
+</ul>
