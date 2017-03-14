@@ -6,6 +6,12 @@
   .layout {
     @extend %clearfix;
     @extend %list-bare;
+
+    margin: (2 * $upd-spacing-gutter-large) 0;
+
+    @include mq(large) {
+      margin: rems(80px) 0;
+    }
   }
 
   .layout__item {
