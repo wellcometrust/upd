@@ -1,16 +1,24 @@
 /* Fonts */
 
-.u-font-body-copy-small {
-  @extend %font-body-copy-small;
+@mixin utility-font($name, $line-height) {
+  .u-font-#{$name} {
+    @extend %font-#{$name};
 
-  p,
-  ol,
-  ul {
-    margin-bottom: $upd-line-height-body-copy-small;
-  }
+    p,
+    ol,
+    ul {
+      margin-bottom: $line-height;
+    }
 
-  ol,
-  ul {
-    padding-left: $upd-line-height-body-copy-small;
+    ol,
+    ul {
+      padding-left: $line-height;
+    }
   }
 }
+
+@include utility-font(body-copy, $upd-line-height-body-copy);
+
+@include utility-font(body-copy-small, $upd-line-height-body-copy-small);
+
+@include utility-font(heading-3, $upd-line-height-heading-3);
