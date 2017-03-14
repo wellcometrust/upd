@@ -1,0 +1,36 @@
+/* Layout */
+
+@include private {
+  $sidebar-width: ($upd-max-width - 3 * $upd-spacing-gutter-large) / 4;
+
+  .layout {
+    @extend %clearfix;
+    @extend %list-bare;
+  }
+
+  .layout__item {
+    @include mq(large) {
+      float: left;
+    }
+  }
+
+  .layout__item--primary {
+    @include mq(large) {
+      padding-left: $sidebar-width + $upd-spacing-gutter-large;
+    }
+  }
+
+  .layout__item--secondary {
+    display: none;
+
+    @include mq(large) {
+      display: block;
+      margin-right: -$sidebar-width;
+      width: $sidebar-width;
+    }
+  }
+
+  .layout__item--important {
+    display: block;
+  }
+}
