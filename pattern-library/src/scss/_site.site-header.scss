@@ -145,6 +145,9 @@
 }
 
 .site-header__button--close {
+  text-align: right;
+  width: 100%;
+
   @include mq($upd-site-header-breakpoint-navigation) {
     display: none;
   }
