@@ -1,0 +1,49 @@
+/* Masonry */
+
+/**
+ * Most of the masonry styling is applied by the grid class and/or the script;
+ * this styling is simply hides the masonry items for a specified period or
+ * until the masonry has loaded - whichever comes first.
+ */
+
+@include private {
+  $delay: 5s;
+
+  .masonry {
+    position: relative;
+  }
+
+  .masonry--loading {
+    &:before {
+      animation-delay: 0s, $delay;
+      animation-duration: $delay, $upd-transition-time;
+      animation-name: visible, fade-out;
+      max-height: rems(400px);
+      content: 'Loading...';
+      display: block;
+      opacity: 0;
+      padding: $upd-spacing-gutter-large;
+      position: absolute;
+      text-align: center;
+      visibility: hidden;
+      width: 100%;
+
+      .no-js & {
+        display: none;
+      }
+    }
+  }
+
+
+  .masonry__item {
+    .masonry--loading & {
+      animation-delay: 0s, $delay;
+      animation-duration: $delay, $upd-transition-time;
+      animation-name: hidden, fade-in;
+
+      .no-js & {
+        animation: none;
+      }
+    }
+  }
+}

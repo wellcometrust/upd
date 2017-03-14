@@ -13,6 +13,7 @@
    ========================================================================== */
 @import "settings.general"; /* Import general settings first */
 @import "settings.fonts";
+@import "settings.animation";
 @import "settings.patterns";
 
 
@@ -85,6 +86,7 @@
 @import "site.hero";
 @import "site.key-info-tile";
 @import "site.logo";
+@import "site.masonry";
 @import "site.news-tile";
 @import "site.page-header";
 @import "site.panel";
