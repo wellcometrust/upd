@@ -1,0 +1,13 @@
+/* Content */
+
+/**
+ * General content pages, in which much of the content is added via WYSIWYG
+ * editor. As such, we'll apply styling by scoped element selectors instead
+ * of BEM class names.
+ */
+
+.content {
+  h2 {
+    margin: (2 * $upd-spacing-gutter-large) 0 $upd-spacing-gutter-large;
+  }
+}
