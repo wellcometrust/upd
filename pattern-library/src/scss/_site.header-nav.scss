@@ -1,9 +1,9 @@
-/* Site nav */
+/* Header nav */
 
-.site-nav {}
+.header-nav {}
 
 
-.site-nav__list {
+.header-nav__list {
   @extend %list-bare;
 
   @include mq($upd-site-header-breakpoint-navigation) {
@@ -12,7 +12,7 @@
 }
 
 
-.site-nav__item {
+.header-nav__item {
   @include mq($upd-site-header-breakpoint-navigation) {
     display: inline-block;
     vertical-align: top;
@@ -20,7 +20,7 @@
 }
 
 
-.site-nav__link {
+.header-nav__link {
   display: block;
   padding: $upd-spacing-gutter-base $upd-spacing-gutter-large;
   text-decoration: none;

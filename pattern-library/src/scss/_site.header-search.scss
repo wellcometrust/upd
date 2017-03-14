@@ -1,4 +1,4 @@
-/* Site search */
+/* Header search */
 
 /**
  * 1. Use negative margins so the input field sits outside its parent
@@ -8,7 +8,7 @@
  *    visually appealing outline when the input is focused
  */
 
-.site-search {
+.header-search {
   display: block;
   height: $upd-site-header-height-small;
   overflow: hidden; /* 2 */
@@ -24,12 +24,12 @@
 }
 
 
-.site-search__button {
+.header-search__button {
   position: absolute; /* 4 */
 }
 
 
-.site-search__input {
+.header-search__input {
   $apparent-width: rems(240px);
   $actual-width: $apparent-width + $upd-site-header-height; /* 4 */
 
