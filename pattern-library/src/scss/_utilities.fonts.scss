@@ -1,0 +1,16 @@
+/* Fonts */
+
+.u-font-body-copy-small {
+  @extend %font-body-copy-small;
+
+  p,
+  ol,
+  ul {
+    margin-bottom: $upd-line-height-body-copy-small;
+  }
+
+  ol,
+  ul {
+    padding-left: $upd-line-height-body-copy-small;
+  }
+}

@@ -1,0 +1,19 @@
+/* Resource tile */
+
+.resource-tile {
+  @extend %tile;
+
+  background-color: $upd-color-background-secondary;
+  border-bottom: 2px solid $upd-color-border-light;
+  padding: $upd-spacing-gutter-large rems(40px) rems(60px);
+}
+
+
+.resource-tile__title {
+  @extend %h2--resource-title;
+}
+
+
+.resource-tile__description {
+  padding: $upd-line-height-body-copy-small 0;
+}
