@@ -1,0 +1,29 @@
+<ul class="content-pagination    grid  grid--flush">
+
+    {{#items}}
+
+        <li class="content-pagination__item  content-pagination__item--{{#if next}}next{{else}}previous{{/if}}    grid__item">
+
+            <a class="content-pagination__control" href="#link-to-{{#if next}}next{{else}}previous{{/if}}">
+
+                <span class="content-pagination__description">
+
+                    {{#if next}}Next{{else}}Previous{{/if}} case study
+
+                </span>
+
+                <span class="content-pagination__title">{{title}}</span>
+
+                <div class="content-pagination__decoration">
+
+                    {{> @svg-icon}}
+
+                </div>
+
+            </a>
+
+        <!-- /li -->
+
+    {{/items}}
+
+</ul>
