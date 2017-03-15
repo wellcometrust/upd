@@ -1,6 +1,6 @@
-/* Pagination */
+/* Search pagination */
 
-.pagination {
+.search-pagination {
   @extend %font-body-copy;
   @extend %list-bare;
 
@@ -13,7 +13,7 @@
 }
 
 
-.pagination__item {
+.search-pagination__item {
   $radius: rems(4px);
 
   border: 1px solid $upd-color-border-light;
@@ -31,7 +31,7 @@
   }
 }
 
-.pagination__item--link {
+.search-pagination__item--link {
   display: none;
 
   @include mq(medium) {
@@ -39,12 +39,12 @@
   }
 }
 
-.pagination__item--step {
+.search-pagination__item--step {
   color: $upd-color-brand-red;
 }
 
 
-.pagination__control {
+.search-pagination__control {
   $size: rems(60px);
 
   display: table-cell;
@@ -56,7 +56,7 @@
   width: $size;
 }
 
-.pagination__control--active {
+.search-pagination__control--active {
   background: $upd-color-background-secondary;
   color: $upd-color-brand-navy;
 }
