@@ -15,11 +15,31 @@
   }
 
   .layout__item {
+    display: block;
+
     @include mq($upd-layout-breakpoint) {
       float: left;
+      position: relative;
+    }
+
+    * + & {
+      margin-top: $upd-spacing-gutter-base;
+
+      @include mq($upd-layout-breakpoint) {
+        margin-top: 0;
+      }
     }
   }
 
+  /**
+   * Create a two column layout in which the secondary column is fixed width
+   * and the primary column occupies the remaining space.
+   *
+   * 1. Give secondary column zero net width so it can be positioned next to
+   *    the primary one
+   * 2. Apply a higher z-index to the secondary column so it's stacked above
+   *    the primary column (which is overlapping it)
+   */
   .layout__item--primary {
     @include mq($upd-layout-breakpoint) {
       padding-left: $sidebar-width + $upd-spacing-gutter-large;
@@ -27,16 +47,11 @@
   }
 
   .layout__item--secondary {
-    display: none;
+    z-index: 2; /* 2 */
 
     @include mq($upd-layout-breakpoint) {
-      display: block;
-      margin-right: -$sidebar-width;
-      width: $sidebar-width;
+      margin-right: -$sidebar-width;  /* 1 */
+      width: $sidebar-width;  /* 1 */
     }
-  }
-
-  .layout__item--important {
-    display: block;
   }
 }
