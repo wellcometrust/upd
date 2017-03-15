@@ -62,11 +62,7 @@
 
                     <p class="search-result__description">{{{description}}}</p>
 
-                    <svg class="search-result__decoration     svg-icon  svg-icon--inline" role="presentation">
-
-                        <use xlink:href="#svg-icon-arrow"/>
-
-                    </svg>
+                    {{> @svg-icon classes="search-result__decoration" icon="arrow"}}
 
                 </a>
 
@@ -76,5 +72,7 @@
         {{/items}}
 
     </ul>
+
+    {{render '@pagination'}}
 
 </div>
