@@ -1,0 +1,62 @@
+/* Pagination */
+
+.pagination {
+  @extend %font-body-copy;
+  @extend %list-bare;
+
+  margin-top: rems(50px);
+  text-align: center;
+
+  @include mq($upd-layout-breakpoint) {
+    text-align: left;
+  }
+}
+
+
+.pagination__item {
+  $radius: rems(4px);
+
+  border: 1px solid $upd-color-border-light;
+  border-left-width: 0;
+  display: inline-block;
+  vertical-align: middle;
+
+  &:first-child {
+    border-radius: $radius 0 0 $radius;
+    border-width: 1px;
+  }
+
+  &:last-child {
+    border-radius: 0 $radius $radius 0;
+  }
+}
+
+.pagination__item--link {
+  display: none;
+
+  @include mq(medium) {
+    display: inline-block;
+  }
+}
+
+.pagination__item--step {
+  color: $upd-color-brand-red;
+}
+
+
+.pagination__control {
+  $size: rems(60px);
+
+  display: table-cell;
+  height: $size;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  width: $size;
+}
+
+.pagination__control--active {
+  background: $upd-color-background-secondary;
+  color: $upd-color-brand-navy;
+}
