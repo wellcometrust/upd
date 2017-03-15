@@ -34,6 +34,7 @@ const config = {
   variants: [
     {
       context: {
+        count: false,
         featured: true,
         items: makeItems(7, true)
       },

@@ -19,8 +19,8 @@
   border-color: $upd-color-border-light;
   border-style: solid;
   border-width: 1px 0;
-  margin: $upd-line-height-body-copy 0;
-  padding: $upd-spacing-gutter-base 0;
+  margin: (3 * $upd-line-height-body-copy) 0 $upd-line-height-body-copy;
+  padding: $upd-spacing-gutter-base 0 $upd-spacing-gutter-base;
   text-align: center;
 
   @include mq(small) {

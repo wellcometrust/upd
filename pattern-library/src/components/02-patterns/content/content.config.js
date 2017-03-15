@@ -26,6 +26,14 @@ const config = {
 
 Compared to standard care, ClinTouch leads to significantly faster improvement in psychotic symptoms in early psychosis. Earlier intervention in psychosis could also save money for the NHS.`,
         title: 'What were the benefits?'
+      },
+      {
+        action: {
+          href: '#link-to-destination',
+          icon: 'arrow',
+          label: 'Clintouch website'
+        },
+        title: 'Where can I go for more information?'
       }
     ]
   },
@@ -34,7 +42,9 @@ Compared to standard care, ClinTouch leads to significantly faster improvement i
 
 // Convert markdown to HTML
 config.context.sections.forEach((section) => {
-  section.content = marked(section.content)
+  if (section.content) {
+    section.content = marked(section.content)
+  }
 })
 
 module.exports = config

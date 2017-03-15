@@ -9,19 +9,19 @@
 
     margin: (2 * $upd-spacing-gutter-large) 0;
 
-    @include mq(large) {
+    @include mq($upd-layout-breakpoint) {
       margin: rems(80px) 0;
     }
   }
 
   .layout__item {
-    @include mq(large) {
+    @include mq($upd-layout-breakpoint) {
       float: left;
     }
   }
 
   .layout__item--primary {
-    @include mq(large) {
+    @include mq($upd-layout-breakpoint) {
       padding-left: $sidebar-width + $upd-spacing-gutter-large;
     }
   }
@@ -29,7 +29,7 @@
   .layout__item--secondary {
     display: none;
 
-    @include mq(large) {
+    @include mq($upd-layout-breakpoint) {
       display: block;
       margin-right: -$sidebar-width;
       width: $sidebar-width;
