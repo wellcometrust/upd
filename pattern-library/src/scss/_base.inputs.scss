@@ -26,19 +26,24 @@
   }
 }
 
+/**
+ * 1. Give the radiobox zero net width so it can be positioned relative
+ *    to the text without affecting the layout
+ */
 @mixin radiobox {
-  $size: 1em;
+  $size: 2ex;
 
+  background: $upd-color-background-primary;
   border: 1px solid currentColor;
   border-radius: 1px;
   content: '';
   color: $upd-color-border-mid;
   display: inline-block;
   height: $size;
-  line-height: 1;
-  margin-top: 0.05em;
-  position: absolute;
-  width: $size;
+  margin-bottom: -0.25ex;
+  margin-right: -$size; /* 1 */
+  vertical-align: baseline;
+  width: $size; /* 1 */
 }
 
 @mixin radiobox--radio {
@@ -51,6 +56,14 @@
   color: $upd-color-brand-navy;
 }
 
+
+fieldset,
+legend {
+  border: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
 
 input,
 select {
@@ -84,8 +97,8 @@ label {
     &:before {
       @include radiobox;
 
-      margin-left: -$gutter;
-      position: absolute;
+      left: -$gutter;
+      position: relative;
     }
   }
 
