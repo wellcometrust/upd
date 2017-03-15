@@ -256,3 +256,21 @@ $upd-line-height-tag: rems(16px);
 %font-tag {
   @include font-tag;
 }
+
+
+
+/* Content Pagination
+   ========================================================================== */
+$upd-font-size-content-pagination: rems(42px);
+$upd-line-height-content-pagination: rems(48px);
+
+@mixin font-heading-content-pagination {
+  color: $upd-color-brand-red;
+  font-size: $upd-font-size-content-pagination;
+  font-weight: $upd-font-weight-light;
+  line-height: $upd-line-height-content-pagination;
+}
+
+%font-heading-content-pagination {
+  @include font-heading-content-pagination;
+}
