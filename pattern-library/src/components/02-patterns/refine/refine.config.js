@@ -9,7 +9,7 @@ const populateOptions = (category) => {
   return category
 }
 
-let categories = [
+let caseStudyCategories = [
   {
     name: 'impact',
     options: [
@@ -37,25 +37,39 @@ let categories = [
   }
 ]
 
-categories = categories.map(populateOptions)
+let searchResultCategories = [
+  {
+    name: 'content-type',
+    options: [
+      'News',
+      'Case study',
+      'Report',
+      'Resource',
+      'Presentation'
+    ],
+    title: 'Content type'
+  }
+]
+
+caseStudyCategories = caseStudyCategories.map(populateOptions)
+searchResultCategories = searchResultCategories.map(populateOptions)
 
 const config = {
-  collated: true,
   context: {
+    categories: caseStudyCategories,
     search: '@search--small',
-    type: 'div'
+    submit: 'Apply filters'
   },
-  default: 'Keyword search',
+  default: 'Case study filters',
   preview: '@preview-boxed',
   variants: [
     {
       context: {
-        categories,
+        categories: searchResultCategories,
         search: false,
-        submit: 'Apply filters',
-        type: 'form'
+        submit: 'Apply filters'
       },
-      name: 'Filters'
+      name: 'Search result filters'
     }
   ]
 }

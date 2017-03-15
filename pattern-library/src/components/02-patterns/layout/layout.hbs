@@ -2,7 +2,7 @@
 
     <aside class="layout__item  layout__item--secondary{{^search-results}}  u-hidden-layout-simple{{/search-results}}">
 
-        {{#if search-results}}
+        {{#refine}}
 
             <a class="button  button--block  button--secondary    u-hidden-layout-complex" href="#filter">Filter results</a>
 
@@ -14,17 +14,17 @@
 
                 </div>
 
-                {{render '@refine'}}
-
-                {{render '@refine--filters'}}
+                {{> @refine}}
 
             </div>
 
-        {{else}}
+        {{/refine}}
+
+        {{^refine}}
 
             {{render '@table-of-contents'}}
 
-        {{/if}}
+        {{/refine}}
 
     </aside>
 

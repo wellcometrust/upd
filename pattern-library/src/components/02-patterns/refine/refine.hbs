@@ -1,35 +1,43 @@
-<{{type}} class="refine">
+{{#search}}
 
-    {{#search}}
+    <div class="refine">
 
         {{> @search}}
 
-    {{/search}}
+    </div>
 
-    {{#categories}}
+{{/search}}
 
-        <fieldset class="refine__category">
+{{#if categories}}
 
-            <legend class="refine__title">{{title}}</legend>
+    <form class="refine">
 
-            {{#options}}
+        {{#categories}}
 
-                <input id="{{id}}" name="{{../name}}" type="checkbox">
+            <fieldset class="refine__category">
 
-                <label class="refine__option" for="{{id}}">{{label}}</label>
+                <legend class="refine__title">{{title}}</legend>
 
-            {{/options}}
+                {{#options}}
 
-            <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
+                    <input id="{{id}}" name="{{../name}}" type="checkbox">
 
-        </fieldset>
+                    <label class="refine__option" for="{{id}}">{{label}}</label>
 
-    {{/categories}}
+                {{/options}}
 
-    {{#submit}}
+                <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
 
-        <button class="button  button--block  button--secondary" type="submit">{{.}}</button>
+            </fieldset>
 
-    {{/submit}}
+        {{/categories}}
 
-</{{type}}>
+        {{#submit}}
+
+            <button class="button  button--block  button--secondary" type="submit">{{.}}</button>
+
+        {{/submit}}
+
+    </form>
+
+{{/if}}
