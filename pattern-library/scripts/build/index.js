@@ -1,5 +1,10 @@
 process.env.CI = 'true'
 
-const builder = require('./builder')
+const paths = require('../../config/paths')
+const assets = require('./assets')
 
-require('./assets').then(() => builder.build())
+if ('library' in paths.dest) {
+  const builder = require('./builder')
+
+  assets.then(() => builder.build())
+}
