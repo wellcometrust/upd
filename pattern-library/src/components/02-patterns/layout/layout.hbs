@@ -1,12 +1,24 @@
 <main class="layout">
 
-    <aside class="layout__item  layout__item--secondary{{#search-results}}  layout__item--important{{/search-results}}">
+    <aside class="layout__item  layout__item--secondary{{^search-results}}  u-hidden-layout-simple{{/search-results}}">
 
         {{#if search-results}}
 
-            {{render '@refine'}}
+            <a class="button  button--block  button--secondary    u-hidden-layout-complex" href="#filter">Filter results</a>
 
-            {{render '@refine--filters'}}
+            <div class="pop-up  pop-up--layout" id="filter">
+
+                <div class="pop-up__close">
+
+                    <a class="button  button--block  button--secondary" href="#">Close</a>
+
+                </div>
+
+                {{render '@refine'}}
+
+                {{render '@refine--filters'}}
+
+            </div>
 
         {{else}}
 
