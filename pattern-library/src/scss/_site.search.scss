@@ -16,6 +16,8 @@
     padding-left: $height;
 
     .search--small & {
+      @extend %font-body-copy-small;
+
       height: $height-small;
       padding-left: $height-small;
     }
