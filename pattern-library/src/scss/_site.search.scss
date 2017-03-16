@@ -1,0 +1,40 @@
+/* Search */
+
+@include private {
+  $height: $upd-input-height;
+  $height-small: rems(40px);
+
+  .search {
+    position: relative;
+  }
+
+
+  .search__input {
+    @extend %font-body-copy;
+
+    height: $height;
+    padding-left: $height;
+
+    .search--small & {
+      @extend %font-body-copy-small;
+
+      height: $height-small;
+      padding-left: $height-small;
+    }
+  }
+
+
+  .search__submit {
+    $icon-size: rems(16px);
+
+    color: $upd-color-text-placeholder;
+    left: 0;
+    padding: ($height - $icon-size)  / 2;
+    position: absolute;
+    top: 0;
+
+    .search--small & {
+      padding: ($height-small - $icon-size)  / 2;
+    }
+  }
+}

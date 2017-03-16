@@ -1,0 +1,35 @@
+/* Feature list */
+
+.feature-list {}
+
+
+.feature-list__header {
+  margin-bottom: rems(50px);
+  position: relative;
+}
+
+
+.feature-list__title {
+  @extend %h2;
+
+  text-align: center;
+
+  @include mq(small) {
+    text-align: left;
+  }
+}
+
+.feature-list__title--action {
+  @include mq(small) {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    & > * {
+      vertical-align: baseline;
+    }
+  }
+}
+
+
+

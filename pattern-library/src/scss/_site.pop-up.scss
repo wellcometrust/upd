@@ -1,0 +1,33 @@
+.pop-up {
+  background-color: $upd-color-background-primary;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transform: translateX(-100%);
+  transition: transform $upd-transition-time, visibility 0s $upd-transition-time;
+  width: 100%;
+  z-index: 9999;
+
+  &:target,
+  &.is-active {
+    transform: none;
+  }
+}
+
+.pop-up--layout {
+  @include mq($upd-layout-breakpoint) {
+    position: relative;
+    transform: none;
+    z-index: auto;
+  }
+}
+
+
+.pop-up__close {
+  padding: $upd-spacing-gutter-base;
+
+  .pop-up--layout & {
+    @extend %u-hidden-layout-complex;
+  }
+}

@@ -1,0 +1,69 @@
+/* General settings */
+
+/**
+ * All global variables that don't relate to a specific component should be
+ * defined here.
+ */
+
+/* Colors
+   ========================================================================== */
+
+/**
+ * Define common colours by description first, then map the descriptions to
+ * their uses.
+ */
+$upd-color-brand-aqua: #70D6D4;
+$upd-color-brand-blue: #014061;
+$upd-color-brand-grey: #9DB6C2;
+$upd-color-brand-grey-blue: #658C9F;
+$upd-color-brand-navy: #004160;
+$upd-color-brand-red: #F8533D;
+
+$upd-color-background-primary: #FFFFFF;
+$upd-color-background-secondary: #F5F7F8;
+
+$upd-color-text-primary: #6A7C85;
+$upd-color-text-highlight-dark: #384B54;
+$upd-color-text-highlight-mid: #2E627C;
+$upd-color-text-highlight-light: $upd-color-brand-grey-blue;
+$upd-color-text-reverse: #FFFFFF;
+$upd-color-text-placeholder: #BEC2C4;
+
+$upd-color-border-light: #D8E2E7;
+$upd-color-border-mid: $upd-color-brand-grey;
+
+
+
+
+
+/* Fonts
+   ========================================================================== */
+$upd-font-weight-light: 300;
+$upd-font-weight-regular: 400;
+$upd-font-weight-medium: 500;
+$upd-font-weight-bold: 700;
+
+/**
+ * Define the base font-size in px and line-height as a unitless integer.
+ * All other font sizes should be defined in rems in the base font styles.
+ */
+$upd-font-size-base: 16px;
+$upd-line-height-base: 1.5;
+
+
+
+
+
+/* Layout
+   ========================================================================== */
+$upd-spacing-gutter-base: rems(22px);
+$upd-spacing-gutter-large: rems(32px);
+
+$upd-max-width: rems(1130px);
+
+$upd-breakpoints: (
+  small: rems(480px),
+  medium: rems(640px),
+  large: rems(880px),
+  x-large: $upd-max-width
+);

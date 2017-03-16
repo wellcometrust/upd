@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+{{> @head}}
+
+<body{{#body.class}} class="{{.}}"{{/body.class}}>
+
+<div class="u-visually-hidden">
+
+    {{{svgIcons}}}
+
+</div>
+
+{{#main}}<main{{#class}} class="{{.}}"{{/class}}>{{/main}}
+
+<!-- Begin preview -->
+
+{{{ yield }}}
+
+<!-- End preview -->
+
+{{#main}}</main>{{/main}}
+
+</body>
+
+</html>

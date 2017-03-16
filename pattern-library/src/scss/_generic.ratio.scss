@@ -1,0 +1,44 @@
+/* Ratio */
+
+/**
+ * Use bottom padding to set an element's height as a proportion of its width.
+ */
+.ratio,
+%ratio {
+  display: block;
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    height: 0;
+    padding-bottom: 100%; /* Default to square */
+    width: 100%;
+  }
+}
+
+@mixin set-ratio($horizontal, $vertical) {
+  &:before {
+    padding-bottom: percentage($vertical / $horizontal);
+  }
+}
+
+@each $horizontal, $vertical in $upd-ratios {
+  .ratio--#{$horizontal}-to-#{$vertical},
+  %ratio--#{$horizontal}-to-#{$vertical} {
+    @include set-ratio($horizontal, $vertical);
+  }
+}
+
+
+.ratio__content,
+%ratio__content {
+  bottom: 0;
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+}

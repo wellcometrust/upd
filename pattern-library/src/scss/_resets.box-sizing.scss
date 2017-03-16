@@ -1,0 +1,14 @@
+/* Box-sizing */
+
+/**
+ * Better box-sizing - https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ */
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+html {
+  box-sizing: border-box;
+}

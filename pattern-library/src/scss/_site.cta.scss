@@ -1,0 +1,14 @@
+/* Call to Action */
+
+.cta {
+  @extend %font-body-copy;
+
+  color: $upd-color-brand-red;
+  display: block;
+  font-weight: $upd-font-weight-medium;
+  text-decoration: none;
+}
+
+.cta--small {
+  @extend %font-body-copy-small;
+}

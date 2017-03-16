@@ -1,0 +1,15 @@
+/* Search results */
+
+.search-results {
+  @extend %list-bare;
+}
+
+
+.search-results__header {
+  margin-bottom: $upd-spacing-gutter-large;
+}
+
+
+.search-results__count {
+  @extend %h3;
+}

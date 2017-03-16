@@ -1,0 +1,11 @@
+<select {{#if disabled}}disabled{{/if}}
+        id="{{id}}"
+        name="{{name}}">
+
+    {{#options}}
+
+        <option {{#if selected}}selected {{/if}}value="{{value}}">{{label}}</option>
+
+    {{/options}}
+
+</select>

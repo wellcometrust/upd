@@ -1,0 +1,18 @@
+/* Panel */
+
+.panel {
+  background-color: $upd-color-background-secondary;
+}
+
+.panel--alt {
+  background-color: transparent;
+}
+
+
+.panel__item {
+  padding: 3 * $upd-spacing-gutter-large 0;
+
+  * + & {
+    border-top: 1px solid $upd-color-border-light;
+  }
+}

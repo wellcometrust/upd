@@ -1,0 +1,276 @@
+/* Fonts */
+
+/**
+ * All font styles should be defined here using both a mixin and placeholder
+ * selector. Where possible, the placeholder should be used, but in some cases
+ * this won't be possible (eg media queries), in which case the mixin can be
+ * used.
+ *
+ * Define the font size and line height as global variables so they can be used
+ * elsewhere.
+ */
+
+/* Base
+   ========================================================================== */
+@mixin font-base {
+  color: $upd-color-text-primary;
+  font-family: "GT Walsheim Pro", "Gill Sans", "Century Gothic", "Franklin Gothic", sans-serif;
+  font-weight: $upd-font-weight-regular;
+  font-size: 1rem;
+  line-height: $upd-line-height-base;
+}
+
+%font-base {
+  @include font-base;
+}
+
+
+@mixin font-highlight {
+  font-family: "Montserrat", "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
+  font-weight: $upd-font-weight-bold;
+  text-transform: uppercase;
+}
+
+%font-highlight {
+  @include font-highlight;
+}
+
+
+
+
+
+/* Body-copy
+   ========================================================================== */
+$upd-font-size-body-copy: rems(18px);
+$upd-line-height-body-copy: rems(32px);
+
+@mixin font-body-copy {
+  font-size: $upd-font-size-body-copy;
+  line-height: $upd-line-height-body-copy;
+}
+
+%font-body-copy {
+  @include font-body-copy;
+}
+
+
+$upd-font-size-body-copy-intro: rems(22px);
+$upd-line-height-body-copy-intro: rems(38px);
+
+@mixin font-body-copy-intro {
+  color: $upd-color-text-highlight-light;
+  font-size: $upd-font-size-body-copy-intro;
+  line-height: $upd-line-height-body-copy-intro;
+}
+
+%font-body-copy-intro {
+  @include font-body-copy-intro;
+}
+
+
+$upd-font-size-body-copy-small: rems(14px);
+$upd-line-height-body-copy-small: rems(24px);
+
+@mixin font-body-copy-small {
+  font-size: $upd-font-size-body-copy-small;
+  line-height: $upd-line-height-body-copy-small;
+}
+
+%font-body-copy-small {
+  @include font-body-copy-small;
+}
+
+
+
+
+
+/* Headings
+   ========================================================================== */
+$upd-font-size-hero: rems(68px);
+$upd-line-height-hero: rems(74px);
+
+@mixin font-hero {
+  color: $upd-color-text-reverse;
+  font-size: $upd-font-size-hero;
+  font-weight: $upd-font-weight-medium;
+  line-height: $upd-line-height-hero;
+}
+
+%font-hero {
+  @include font-hero;
+}
+
+
+/* Headline */
+$upd-font-size-heading-1: rems(48px);
+$upd-line-height-heading-1: rems(58px);
+
+@mixin font-heading-1 {
+  color: $upd-color-text-highlight-mid;
+  font-size: $upd-font-size-heading-1;
+  font-weight: $upd-font-weight-regular;
+  line-height: $upd-line-height-heading-1;
+}
+
+%font-heading-1 {
+  @include font-heading-1;
+}
+
+
+/* Section title */
+$upd-font-size-heading-2: rems(30px);
+$upd-line-height-heading-2: rems(44px);
+
+@mixin font-heading-2 {
+  color: $upd-color-text-highlight-dark;
+  font-size: $upd-font-size-heading-2;
+  font-weight: $upd-font-weight-medium;
+  line-height: $upd-line-height-heading-2;
+}
+
+@mixin font-heading-2--homepage-intro {
+  font-weight: $upd-font-weight-regular;
+}
+
+@mixin font-heading-2--resource-title {
+  color: $upd-color-text-highlight-mid;
+}
+
+%font-heading-2 {
+  @include font-heading-2;
+}
+
+%font-heading-2--homepage-intro {
+  @include font-heading-2--homepage-intro;
+}
+
+%font-heading-2--resource-title {
+  @include font-heading-2--resource-title;
+}
+
+
+$upd-font-size-heading-3: rems(24px);
+$upd-line-height-heading-3: rems(38px);
+
+@mixin font-heading-3 {
+  color: $upd-color-text-highlight-light;
+  font-size: $upd-font-size-heading-3;
+  font-weight: $upd-font-weight-regular;
+  line-height: $upd-line-height-heading-3;
+}
+
+%font-heading-3 {
+  @include font-heading-3;
+}
+
+
+$upd-font-size-heading-4: rems(20px);
+$upd-line-height-heading-4: rems(32px);
+
+@mixin font-heading-4 {
+  color: $upd-color-text-highlight-dark;
+  font-size: $upd-font-size-heading-4;
+  font-weight: $upd-font-weight-regular;
+  line-height: $upd-line-height-heading-4;
+}
+
+%font-heading-4 {
+  @include font-heading-4;
+}
+
+
+$upd-font-size-heading-5: rems(14px);
+$upd-line-height-heading-5: rems(16px);
+
+@mixin font-heading-5 {
+  @extend %font-highlight;
+
+  color: $upd-color-text-highlight-light;
+  font-size: $upd-font-size-heading-5;
+  letter-spacing: 0.1em;
+  line-height: $upd-line-height-heading-5;
+}
+
+%font-heading-5 {
+  @include font-heading-5;
+}
+
+
+
+
+
+/* Buttons
+   ========================================================================== */
+$upd-font-size-button: rems(14px);
+
+@mixin font-button {
+  font-size: $upd-font-size-button;
+  font-weight: $upd-font-weight-medium;
+}
+
+%font-button {
+  @include font-button;
+}
+
+
+$upd-font-size-button-small: rems(13px);
+
+@mixin font-button-small {
+  font-size: $upd-font-size-button-small;
+  font-weight: $upd-font-weight-regular;
+}
+
+%font-button-small {
+  @include font-button-small;
+}
+
+
+$upd-font-size-button-tiny: rems(11px);
+
+@mixin font-button-tiny {
+  font-size: $upd-font-size-button-tiny;
+  font-weight: $upd-font-weight-regular;
+}
+
+%font-button-tiny {
+  @include font-button-tiny;
+}
+
+
+
+
+
+/* Tags
+   ========================================================================== */
+$upd-font-size-tag: rems(10px);
+$upd-line-height-tag: rems(16px);
+
+@mixin font-tag {
+  @extend %font-highlight;
+
+  font-size: $upd-font-size-tag;
+  letter-spacing: 0.02em;
+  line-height: $upd-line-height-tag;
+}
+
+%font-tag {
+  @include font-tag;
+}
+
+
+
+/* Content Pagination
+   ========================================================================== */
+$upd-font-size-content-pagination: rems(42px);
+$upd-line-height-content-pagination: rems(48px);
+
+@mixin font-heading-content-pagination {
+  color: $upd-color-brand-red;
+  font-size: $upd-font-size-content-pagination;
+  font-weight: $upd-font-weight-light;
+  line-height: $upd-line-height-content-pagination;
+}
+
+%font-heading-content-pagination {
+  @include font-heading-content-pagination;
+}

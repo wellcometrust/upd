@@ -1,0 +1,16 @@
+/* Images */
+
+/**
+ * 1. Constrain image widths so they fit within their container
+ * 2. Add vertical alignment to prevent unwanted space below images
+ */
+img {
+  max-width: 100%;  /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+img[width],
+img[height] {
+  max-width: none;  /* IE-compatible reset */
+  max-width: unset; /* Spec-compliant reset */
+}

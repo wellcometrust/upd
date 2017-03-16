@@ -1,0 +1,15 @@
+/* Intro */
+
+.intro {
+  display: block;
+  position: relative;
+
+  &:after {
+    background-color: $upd-color-border-light;
+    content: '';
+    display: block;
+    height: rems(6px);
+    margin: rems(80px) 0;
+    width: 2 * $upd-spacing-gutter-large
+  }
+}

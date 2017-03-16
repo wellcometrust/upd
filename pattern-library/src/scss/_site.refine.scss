@@ -1,0 +1,37 @@
+/* Refine */
+
+.refine {
+  @extend %font-body-copy-small;
+
+  background: $upd-color-background-secondary;
+  padding: $upd-spacing-gutter-base;
+
+  & + & {
+    margin-top: 1px;
+  }
+}
+
+
+.refine__category {
+  margin-bottom: $upd-spacing-gutter-base;
+  position: relative;
+}
+
+
+.refine__clear {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+
+.refine__title {
+  @extend %h5;
+
+  margin-bottom: $upd-spacing-gutter-base;
+}
+
+
+.refine__option {
+  margin-bottom: rems(7px);
+}

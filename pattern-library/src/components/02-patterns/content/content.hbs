@@ -1,0 +1,31 @@
+<div class="content    u-font-body-copy">
+
+    {{#sections}}
+
+        <h2>{{title}}</h2>
+
+        {{{content}}}
+
+        {{#action}}
+
+            {{> @call-to-action}}
+
+        {{/action}}
+
+    {{/sections}}
+
+    <ul class="content__actions">
+
+        {{#actions}}
+
+            <li class="content__action">
+
+                <a class="button  button--tertiary" href="{{href}}">{{label}}</a>
+
+            <!-- /li -->
+
+        {{/actions}}
+
+    </ul>
+
+</div>

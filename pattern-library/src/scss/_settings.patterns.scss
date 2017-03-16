@@ -1,0 +1,43 @@
+/* Pattern settings */
+
+/**
+ * Settings that affect specific patterns should be defined here.
+ */
+
+/* Base styles
+   ========================================================================== */
+$upd-input-height: rems(48px);
+
+
+
+
+
+/* Generic patterns
+   ========================================================================== */
+
+/* Ratios
+   ========================================================================== */
+$upd-ratios: (
+        4:3,
+        16:9
+);
+
+
+
+
+
+/* Site patterns
+   ========================================================================== */
+
+/* Site header
+   ========================================================================== */
+$upd-layout-breakpoint: large;
+
+
+/* Site header
+   ========================================================================== */
+$upd-site-header-height: rems(70px);
+$upd-site-header-height-small: rems(50px);
+$upd-site-header-breakpoint-height: small;
+$upd-site-header-breakpoint-navigation: x-large;
+$upd-site-header-breakpoint-search: medium;

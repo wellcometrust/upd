@@ -1,0 +1,15 @@
+<a class="news-tile" href="#link-to-destination">
+
+    <img alt="" class="news-tile__image" src={{path image}}>
+
+    <time class="news-tile__date" datetime="{{date.datetime}}">{{date.human}}</time>
+
+    <h{{level}} class="news-tile__title">{{title}}</h{{level}}>
+
+    {{#cta}}
+
+        {{> @call-to-action}}
+
+    {{/cta}}
+
+</a>

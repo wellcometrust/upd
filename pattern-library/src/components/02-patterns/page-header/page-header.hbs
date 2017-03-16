@@ -1,0 +1,37 @@
+<header class="page-header">
+
+    <div class="wrapper  wrapper--gutter">
+
+        {{#if category}}
+
+            <span class="page-header__category">{{category}}</span>
+
+        {{/if}}
+
+        <h1 class="page-header__title">{{title}}</h1>
+
+        {{#search}}
+
+            <div class="page-header__search">
+
+                {{> @search}}
+
+            </div>
+
+        {{/search}}
+
+        {{#if subheading}}
+
+            <p class="page-header__subheading">{{subheading}}</p>
+
+        {{/if}}
+
+        {{#if tag}}
+
+            <div class="page-header__tag">{{render '@tag'}}</div>
+
+        {{/if}}
+
+    </div>
+
+</header>
