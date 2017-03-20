@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     db.vm.hostname = "#{vdb}"
     # Networking
     db.vm.network :private_network, ip: "192.168.56.3"
-    db.vm.network :forwarded_port, guest: 22, host: 22223, id: 'ssh'
+    db.ssh.host: "192.168.56.3"
     # Shared folders
     shared_volumes.each do |synced_folder|
       db.vm.synced_folder synced_folder['source'], synced_folder['dest'], folder_sync_options
@@ -63,7 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     app.vm.hostname = "#{vapp}"
     # Networking
     app.vm.network :private_network, ip: "192.168.56.2"
-    app.vm.network :forwarded_port, guest: 22, host: 22222, id: 'ssh'
+    app.ssh.host: "192.168.56.2"
     # Shared folders
     shared_volumes.each do |synced_folder|
       app.vm.synced_folder synced_folder['source'], synced_folder['dest'], folder_sync_options
