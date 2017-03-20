@@ -5,7 +5,7 @@
   border-style: solid;
   border-width: 0 0 1px 0;
   display: block;
-  padding: $upd-spacing-gutter-large;
+  padding: $upd-spacing-gutter-base;
   padding-left: 0;
   position: relative;
   text-decoration: none;
@@ -20,25 +20,15 @@
   @extend %h5;
 }
 
-
-.search-result__tag {
-  bottom: 0;
-  position: absolute;
-  top: 0;
-}
-
-
 .search-result__title {
   @extend %h4;
-
-  margin-top: $upd-line-height-heading-4 / 2;
 }
 
 
 .search-result__description {
   @extend %font-body-copy-small;
 
-  margin: 0;
+  margin-bottom: 1rem;
 }
 
 

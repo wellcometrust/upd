@@ -48,19 +48,15 @@
 
                     {{/if}}
 
-                    {{#if tag}}
-
-                        <div class="search-result__tag">
-
-                            {{render '@tag'}}
-
-                        </div>
-
-                    {{/if}}
-
                     <h2 class="search-result__title">{{title}}</h2>
 
                     <p class="search-result__description">{{{description}}}</p>
+
+                    {{#if tags}}
+
+                        {{render '@tag-list'}}
+
+                    {{/if}}
 
                     {{> @svg-icon classes="search-result__decoration" icon="arrow"}}
 
