@@ -37,7 +37,35 @@ Compared to standard care, ClinTouch leads to significantly faster improvement i
       }
     ]
   },
-  preview: '@preview-boxed'
+  default: 'Case study',
+  preview: '@preview-boxed',
+  variants: [
+    {
+      context: {
+        accordions: [
+          {
+            content: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper porta eleifend. Curabitur condimentum neque vitae porta fermentum. Suspendisse consequat turpis leo, sed elementum velit fermentum at. Quisque libero lorem, consectetur id blandit tempor, cursus elementum lectus. Nullam maximus fringilla metus eget eleifend. Donec augue sapien, lacinia eget dui sed, imperdiet rhoncus nulla. Aenean vel convallis urna, id porta purus. Vestibulum semper ante eget neque gravida, et facilisis metus semper. Nunc in metus ut nibh lacinia varius in quis est. Suspendisse quis tincidunt erat. Phasellus est arcu, cursus sit amet elementum in, lacinia vel leo.</p>',
+            id: 'patient-data',
+            level: 3,
+            title: 'Patient data'
+          },
+          {
+            content: '<p>Etiam mattis, leo et ultricies tincidunt, nisi elit lobortis risus, nec tristique augue justo ac massa. Donec venenatis, nibh ac elementum auctor, sapien nisi pretium nulla, non hendrerit libero justo eget lorem. Donec sagittis blandit libero quis convallis. Vestibulum sagittis interdum augue, bibendum mattis magna elementum vitae. Donec sapien libero, maximus id volutpat fermentum, faucibus eu ante. Fusce interdum maximus eleifend. Curabitur id nisi id sem efficitur interdum. Sed in sollicitudin enim. Vivamus commodo massa a diam faucibus porta. Vestibulum condimentum, magna vitae venenatis porttitor, urna arcu condimentum sem, at luctus orci mauris tristique nibh.</p>',
+            id: 'individual-care',
+            level: 3,
+            title: 'Individual care'
+          },
+          {
+            content: '<p>Cras ac vestibulum lorem. Quisque lobortis magna ac posuere suscipit. Sed blandit vel lorem nec facilisis. Nulla eget varius tellus, quis consectetur velit. Ut dui urna, iaculis quis massa in, dapibus vulputate tellus. Sed dictum neque et convallis imperdiet. Quisque id sem ultricies, ultrices elit sit amet, rhoncus eros. Fusce mollis rhoncus sem sit amet pulvinar.</p>',
+            id: 'improving-health',
+            level: 3,
+            title: 'Improving health, care and services through research and planning'
+          }
+        ]
+      },
+      name: 'Key information'
+    }
+  ]
 }
 
 // Convert markdown to HTML and add IDs
