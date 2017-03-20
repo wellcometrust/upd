@@ -2,15 +2,19 @@
 
     {{#sections}}
 
-        <h2>{{title}}</h2>
+        <section>
 
-        {{{content}}}
+            <h2 id="{{id}}">{{title}}</h2>
 
-        {{#action}}
+            {{{content}}}
 
-            {{> @call-to-action}}
+            {{#action}}
 
-        {{/action}}
+                {{> @call-to-action}}
+
+            {{/action}}
+
+        </section>
 
     {{/sections}}
 

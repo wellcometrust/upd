@@ -40,11 +40,13 @@ Compared to standard care, ClinTouch leads to significantly faster improvement i
   preview: '@preview-boxed'
 }
 
-// Convert markdown to HTML
+// Convert markdown to HTML and add IDs
 config.context.sections.forEach((section) => {
   if (section.content) {
     section.content = marked(section.content)
   }
+
+  section.id = 'content-' + section.title.toLowerCase().replace(/\W+/g, '-').replace(/^-|-$/g, '')
 })
 
 module.exports = config
