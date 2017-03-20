@@ -34,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Networking
     db.vm.network :private_network, ip: "192.168.56.3"
     db.ssh.host = "192.168.56.3"
+    db.ssh.guest_port = '22'
     # Shared folders
     shared_volumes.each do |synced_folder|
       db.vm.synced_folder synced_folder['source'], synced_folder['dest'], folder_sync_options
@@ -64,6 +65,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Networking
     app.vm.network :private_network, ip: "192.168.56.2"
     app.ssh.host = "192.168.56.2"
+    app.ssh.guest_port = '22'
     # Shared folders
     shared_volumes.each do |synced_folder|
       app.vm.synced_folder synced_folder['source'], synced_folder['dest'], folder_sync_options
