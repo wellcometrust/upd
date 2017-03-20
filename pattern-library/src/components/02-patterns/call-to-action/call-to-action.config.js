@@ -30,6 +30,33 @@ const config = {
         small: true
       },
       name: 'Small click-through (link)'
+    },
+    {
+      context: {
+        href: '#link-to.docx',
+        icon: false,
+        label: 'Public support for research in the NHS',
+        asset: true
+      },
+      name: 'Asset link (DOCX)'
+    },
+    {
+      context: {
+        href: '#link-to.pptx',
+        icon: false,
+        label: 'Public support for research in the NHS',
+        asset: true
+      },
+      name: 'Asset link (PPTX)'
+    },
+    {
+      context: {
+        href: '#link-to.pdf',
+        icon: false,
+        label: 'Public support for research in the NHS',
+        asset: true
+      },
+      name: 'Asset link (PDF)'
     }
   ]
 }
