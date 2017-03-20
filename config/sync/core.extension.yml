@@ -34,7 +34,6 @@ module:
   views: 0
   workbench: 0
   menu_link_content: 1
-  minimal: 1000
 theme:
   stable: 0
   classy: 0
