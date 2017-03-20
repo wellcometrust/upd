@@ -7,17 +7,25 @@
  */
 
 .content {
-  h2 {
+  h2:not([class]) {
     padding: (2 * $upd-spacing-gutter-large) 0 $upd-spacing-gutter-large;
   }
 
-  a[class=""] {
+  a:not([class]) {
     color: $upd-color-brand-red;
   }
 
-  * + section {
+  & > * + section {
     border-top: 1px solid $upd-color-border-light;
     margin-top: (2 * $upd-spacing-gutter-large)
+  }
+
+  /**
+   * Allow section decoration to be turned off via the CMS
+   */
+  & > .is-plain + section {
+    border-top: none;
+    margin-top: 0;
   }
 }
 
