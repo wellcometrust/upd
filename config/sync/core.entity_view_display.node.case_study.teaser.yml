@@ -1,0 +1,27 @@
+uuid: 7488be4c-eeba-404f-9304-4492c1ced666
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_impact_of_work
+    - field.field.node.case_study.field_sources_of_data
+    - node.type.case_study
+  module:
+    - user
+id: node.case_study.teaser
+targetEntityType: node
+bundle: case_study
+mode: teaser
+content:
+  content_moderation_control:
+    weight: -20
+  links:
+    weight: 100
+hidden:
+  field_disease_type: true
+  field_impact_of_work: true
+  field_list_text: true
+  field_sources_of_data: true
+  field_standfirst: true
