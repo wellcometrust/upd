@@ -11,6 +11,10 @@
     padding: (2 * $upd-spacing-gutter-large) 0 $upd-spacing-gutter-large;
   }
 
+  a[class=""] {
+    color: $upd-color-brand-red;
+  }
+
   * + section {
     border-top: 1px solid $upd-color-border-light;
     margin-top: (2 * $upd-spacing-gutter-large)
