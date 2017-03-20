@@ -11,7 +11,7 @@ const config = {
           'case-study'
         ],
         subheading: null,
-        tag: true,
+        tags: true,
         title: 'ClinTouch – Helping people with psychosis'
       },
       name: 'Case study'
