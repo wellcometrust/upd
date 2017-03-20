@@ -17,10 +17,16 @@ const postcssPlugins = [
 module.exports = (gulp, paths, isBuild) => {
   const sassSourceGlob = path.resolve(paths.source.scss, '**', '*.scss')
 
+  const sassOptions = {
+    includePaths: [
+      paths.resolve('node_modules')
+    ]
+  }
+
   gulp.task('sass', () => {
     return gulp.src(sassSourceGlob, {base: paths.source.root})
       .pipe(isBuild ? noop() : sourcemaps.init())
-      .pipe(sass().on('error', sass.logError))
+      .pipe(sass(sassOptions).on('error', sass.logError))
       .pipe(postcss(postcssPlugins))
       .pipe(rename((path) => {
         path.dirname = path.dirname.replace(/^scss(\\|\/|$)/, 'css')

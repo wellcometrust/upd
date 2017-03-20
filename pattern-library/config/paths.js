@@ -12,6 +12,7 @@ const paths = {
   dest: {
     assets: assetsFolder
   },
+  resolve,
   source: {
     components: resolve(sourceRoot, 'components'),
     docs: resolve(sourceRoot, 'docs'),

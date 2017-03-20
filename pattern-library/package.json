@@ -18,6 +18,7 @@
     "gulp-util": "^3.0.8",
     "normalizecss": "^3.0.0",
     "postcss-import": "^9.1.0",
+    "sassdash": "^0.8.2",
     "standard": "^9.0.1",
     "yargs": "^7.0.1"
   },
