@@ -31,7 +31,8 @@
   "require": {
     "composer/installers": "1.*",
     "drupal-composer/drupal-scaffold": "2.*",
-    "drupal/core": "8.*"
+    "drupal/core": "~8.*",
+    "drupal/elasticsearch_helper": "1.*"
   },
   "replace": {
     "drupal/drupal": "*"
