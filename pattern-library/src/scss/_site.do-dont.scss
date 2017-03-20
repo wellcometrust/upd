@@ -1,0 +1,64 @@
+/* DOs and DON'Ts */
+
+/**
+ * An alternating list of dos and don'ts. We won't use BEM for this so it can
+ * be configured simply in a WYSIWYG editor
+ */
+
+.do-dont {
+  $gutter: $upd-spacing-gutter-large;
+
+  @extend %clearfix;
+  @extend %list-bare;
+
+  margin-bottom: $gutter;
+  margin-left: -$gutter;
+  margin-top: -$gutter;
+
+  & > li {
+    padding-left: $gutter;
+    padding-top: $gutter;
+    width: 100%;
+
+    @include mq($upd-layout-breakpoint) {
+      width: 50%;
+    }
+
+    &:nth-child(odd) {
+      clear: left;
+      float: left;
+
+      &:before {
+        $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill="#49B886"><path d="M6.35,10.71a.39.39,0,0,1-.28-.12L4.41,8.94A.4.4,0,0,1,5,8.38L6.36,9.76,11,5.4a.4.4,0,1,1,.54.58l-5,4.63A.4.4,0,0,1,6.35,10.71Z"/><path d="M8,16a8,8,0,1,1,8-8A8,8,0,0,1,8,16ZM8,.79A7.21,7.21,0,1,0,15.21,8,7.21,7.21,0,0,0,8,.79Z"/></g></svg>';
+
+        content: svg-url($svg);
+      }
+    }
+
+    &:nth-child(even) {
+      clear: right;
+      margin-bottom: $gutter; // Group pairs on mobile
+      float: right;
+
+      @include mq($upd-layout-breakpoint) {
+        margin-bottom: 0;
+      }
+
+      &:before {
+        $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#EF5050" d="M8,16a8,8,0,1,1,8-8A8,8,0,0,1,8,16ZM8,.79A7.21,7.21,0,1,0,15.21,8,7.21,7.21,0,0,0,8,.79Zm3.21,10.42a.4.4,0,0,0,0-.56L8.56,8l2.65-2.65a.4.4,0,1,0-.56-.56L8,7.44,5.35,4.79a.4.4,0,0,0-.56.56L7.44,8,4.79,10.65a.4.4,0,0,0,.56.56L8,8.56l2.65,2.65a.4.4,0,0,0,.56,0Z"/></svg>';
+
+        content: svg-url($svg);
+      }
+    }
+
+    &:before {
+      $size: rems(40px);
+
+      display: block;
+      height: $size;
+      margin-bottom: $upd-spacing-gutter-large;
+      width: $size;
+    }
+  }
+
+}
