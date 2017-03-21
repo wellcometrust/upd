@@ -148,12 +148,11 @@ $upd-line-height-heading-2: rems(44px);
   @include font-heading-2--resource-title;
 }
 
-
-$upd-font-size-heading-3: rems(24px);
-$upd-line-height-heading-3: rems(38px);
+$upd-font-size-heading-3: rems(20px);
+$upd-line-height-heading-3: rems(32px);
 
 @mixin font-heading-3 {
-  color: $upd-color-text-highlight-light;
+  color: $upd-color-text-highlight-dark;
   font-size: $upd-font-size-heading-3;
   font-weight: $upd-font-weight-regular;
   line-height: $upd-line-height-heading-3;
@@ -164,13 +163,13 @@ $upd-line-height-heading-3: rems(38px);
 }
 
 
-$upd-font-size-heading-4: rems(20px);
-$upd-line-height-heading-4: rems(32px);
+$upd-font-size-heading-4: $upd-font-size-body-copy;
+$upd-line-height-heading-4: $upd-line-height-body-copy;
 
 @mixin font-heading-4 {
   color: $upd-color-text-highlight-dark;
   font-size: $upd-font-size-heading-4;
-  font-weight: $upd-font-weight-regular;
+  font-weight: $upd-font-weight-medium;
   line-height: $upd-line-height-heading-4;
 }
 
@@ -195,6 +194,24 @@ $upd-line-height-heading-5: rems(16px);
   @include font-heading-5;
 }
 
+
+
+/* Intro
+
+ */
+$upd-font-size-intro: rems(24px);
+$upd-line-height-intro: rems(38px);
+
+@mixin font-intro {
+  color: $upd-color-text-highlight-light;
+  font-size: $upd-font-size-intro;
+  font-weight: $upd-font-weight-regular;
+  line-height: $upd-line-height-intro;
+}
+
+%font-intro {
+  @include font-intro;
+}
 
 
 

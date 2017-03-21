@@ -11,6 +11,11 @@
     padding: (2 * $upd-spacing-gutter-large) 0 $upd-spacing-gutter-large;
   }
 
+  h4:not([class]),
+  .h4 {
+    margin-bottom: 1em;
+  }
+
   a:not([class]) {
     color: $upd-color-brand-red;
   }

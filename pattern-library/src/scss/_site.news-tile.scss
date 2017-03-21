@@ -16,10 +16,10 @@
 
 
 .news-tile__title {
-  @extend %h4;
+  @extend %h3;
 
-  margin-bottom: $upd-line-height-heading-4;
-  min-height: 2 * $upd-line-height-heading-4;
+  margin-bottom: $upd-line-height-heading-3;
+  min-height: 2 * $upd-line-height-heading-3;
 }
 
 

@@ -10,7 +10,7 @@
 
 
 .testimonial__quote {
-  @extend %h3;
+  @extend %font-intro;
 
   margin-bottom: rems(50px);
 

@@ -19,7 +19,8 @@
 
 
 .accordion__title {
-  color: $upd-color-text-highlight-dark;
+  @extend %h4;
+
   font-size: inherit;
   line-height: inherit;
   padding: $upd-spacing-gutter-large 1.5em $upd-spacing-gutter-large 0;
