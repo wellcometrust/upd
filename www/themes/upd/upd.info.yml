@@ -6,3 +6,6 @@ package: UPD
 # core: 8.x
 base theme: false
 core: '8.x'
+
+libraries:
+ - upd/global-styling

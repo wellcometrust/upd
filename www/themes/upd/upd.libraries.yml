@@ -2,4 +2,4 @@ global-styling:
   version: VERSION
   css:
     base:
-      css/layout.css: {}
+      assets/css/main.css: {}
