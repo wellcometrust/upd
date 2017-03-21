@@ -1,9 +1,1 @@
-{% render '@site-header' %}
-
-{% render '@page-header--search-results' %}
-
-<div class="wrapper  wrapper--gutter">
-
-    {% render '@layout--search-results' %}
-
-</div>
+{% include '@page' %}
