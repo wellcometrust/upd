@@ -4,17 +4,17 @@ const config = {
     keyInfo: [
       {
         button: 'How data is used',
-        icon: 'key-info-placeholder',
+        icon: 'home-heart',
         text: 'Using patient data is essential to improve health and deliver better care'
       },
       {
         button: 'How it is kept safe',
-        icon: 'key-info-placeholder',
+        icon: 'home-shield',
         text: 'There must be robust safeguards to protect patient confidentiality when data is used'
       },
       {
         button: 'Resources',
-        icon: 'key-info-placeholder',
+        icon: 'home-book',
         text: 'Everyone should know how patient data is used and why, and what choices you can make'
       }
     ],
