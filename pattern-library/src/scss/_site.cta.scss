@@ -41,6 +41,7 @@
       @extend %tag;
 
       content: "#{$extension}";
+      margin-right: 0.5em;
     }
   }
 }
