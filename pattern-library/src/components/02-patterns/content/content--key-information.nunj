@@ -42,6 +42,8 @@
 
     </section>
 
+    {% render '@resource-box' %}
+
     <ul class="content__actions">
 
         {% for action in actions %}
