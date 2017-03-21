@@ -259,6 +259,8 @@ $upd-line-height-tag: rems(22px);
 
 
 
+
+
 /* Content Pagination
    ========================================================================== */
 $upd-font-size-content-pagination: rems(42px);
@@ -273,4 +275,24 @@ $upd-line-height-content-pagination: rems(48px);
 
 %font-heading-content-pagination {
   @include font-heading-content-pagination;
+}
+
+
+
+
+
+/* Resource box
+   ========================================================================== */
+$upd-font-size-resource-box: rems(16px);
+$upd-line-height-resource-box: rems(24px);
+
+@mixin font-resource-box {
+  color: $upd-color-text-highlight-mid;
+  font-size: $upd-font-size-resource-box;
+  font-weight: $upd-font-weight-medium;
+  line-height: $upd-line-height-resource-box;
+}
+
+%font-resource-box {
+  @include font-resource-box;
 }

@@ -4,9 +4,9 @@
   .u-font-#{$name} {
     @extend %font-#{$name};
 
-    p,
-    ol,
-    ul {
+    p:not([class]),
+    ol:not([class]),
+    ul:not([class]) {
       margin-bottom: $line-height;
     }
 
