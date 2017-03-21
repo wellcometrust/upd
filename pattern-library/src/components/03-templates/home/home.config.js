@@ -5,6 +5,14 @@ const config = {
         {
           content: [
             {
+              name: 'testimonial'
+            }
+          ],
+          type: 'aside'
+        },
+        {
+          content: [
+            {
               name: 'feature-list'
             }
           ],
