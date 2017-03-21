@@ -2,7 +2,10 @@
 
 .tile,
 %tile {
+  background-color: $upd-color-background-secondary;
+  box-shadow: 0 rems(2px) $upd-color-border-light;
   display: block;
+  padding: $upd-spacing-gutter-large;
   position: relative;
   margin: 0 auto;
 }

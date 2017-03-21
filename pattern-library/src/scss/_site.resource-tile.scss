@@ -3,8 +3,6 @@
 .resource-tile {
   @extend %tile;
 
-  background-color: $upd-color-background-secondary;
-  border-bottom: 2px solid $upd-color-border-light;
   margin-bottom: $upd-spacing-gutter-large;
   padding: $upd-spacing-gutter-large rems(40px) rems(60px);
 }

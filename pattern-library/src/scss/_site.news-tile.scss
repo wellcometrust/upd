@@ -5,13 +5,14 @@
 
   margin-bottom: $upd-spacing-gutter-large;
   max-width: rems(354px);
+  width: 100%;
 }
 
 
 .news-tile__date {
   @extend %h5;
 
-  margin: $upd-line-height-heading-5 0;
+  margin-bottom: $upd-line-height-heading-5;
 }
 
 
@@ -19,6 +20,7 @@
   @extend %h4;
 
   margin-bottom: $upd-line-height-heading-4;
+  min-height: 2 * $upd-line-height-heading-4;
 }
 
 

@@ -9,8 +9,10 @@
 .case-study-tile {
   @extend %tile;
 
+  background: $upd-color-background-primary;
   margin-bottom: $upd-spacing-gutter-large;
   max-width: rems(258px);
+  padding: 0;
 }
 
 
@@ -23,14 +25,11 @@
 
 
 .case-study-tile__info {
-  background-color: $upd-color-background-primary;
-  border: 1px solid $upd-color-border-light;
-  border-top: none;
   display: flex;  /* 3 */
   flex-direction: column; /* 3 */
   height: 100%;
   justify-content: space-between; /* 3 */
-  padding: rems(17px) $upd-spacing-gutter-base;
+  padding: $upd-spacing-gutter-base;
   padding-top: percentage(320px / 516px) /* 2 */
 }
 
@@ -40,11 +39,4 @@
 
   min-height: rems(140px);
   padding: rems(17px) 0;
-}
-
-
-.case-study-tile__tag {
-  left:0;
-  position: absolute;
-  top: 0;
 }
