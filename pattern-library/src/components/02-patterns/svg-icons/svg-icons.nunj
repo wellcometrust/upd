@@ -1,0 +1,5 @@
+{% for icon in icons %}
+
+    {% render '@svg-icon', icon %}
+
+{% endfor %}

@@ -1,0 +1,58 @@
+<header class="site-header">
+
+    <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/placeholder/logo.svg' | path }}">
+
+
+    <div class="site-header__navigation" id="site-header-navigation">
+
+        <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--close" href="#">
+
+            <svg class="svg-icon  svg-icon--inline" role="presentation">
+
+                <title>Close navigation</title>
+
+                <use xlink:href="#svg-icon-arrow"/>
+
+            </svg>
+
+        </a>
+
+        {% render '@header-navigation' %}
+
+    </div>
+
+    <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--navigation" href="#site-header-navigation">
+
+        <svg class="svg-icon  svg-icon--inline" role="presentation">
+
+            <title>Navigation menu</title>
+
+            <use xlink:href="#svg-icon-hamburger"/>
+
+        </svg>
+
+    </a>
+
+    <div class="site-header__search" id="site-header-search">
+
+        <div class="site-header__search-inner">
+
+            {% render '@header-search' %}
+
+        </div>
+
+    </div>
+
+    <a aria-controls="site-header-search" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--search" href="#site-header-search">
+
+        <svg class="svg-icon  svg-icon--inline" role="presentation">
+
+            <title>Search</title>
+
+            <use xlink:href="#svg-icon-search"/>
+
+        </svg>
+
+    </a>
+
+</header>

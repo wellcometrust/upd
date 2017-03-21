@@ -1,4 +1,5 @@
 const fractal = module.exports = require('@frctl/fractal').create()
+const nunjucks = require('@frctl/nunjucks')
 
 const paths = require('./config/paths')
 
@@ -11,7 +12,9 @@ fractal.web.set('static.path', paths.dest.assets)
 if (paths.dest.library) fractal.web.set('builder.dest', paths.dest.library)
 
 // Components
+fractal.components.engine(nunjucks)
 fractal.components.set('default.status', 'prototype')
+fractal.components.set('ext', '.nunj')
 fractal.components.set('path', paths.source.components)
 
 // Docs

@@ -1,0 +1,59 @@
+<div class="content    u-font-body-copy">
+
+    <section class="is-plain">
+
+        <h2 id="content-how-to-guide">&lsquo;How to&rsquo; guide</h2>
+
+        <p>Here is a quick guide to the words that research suggests most informative and clear for people.</p>
+
+        {% for accordion in accordions %}
+
+            {% render '@accordion', accordion %}
+
+        {%  endfor %}
+
+    </section>
+
+    <section>
+
+        <h2 id="content-identifiability">Identifiability</h2>
+
+        <p>Many people express concerns that they might be identified when data is used. The technical language of identifiability (called ‘disclosure risk’) is complex, but if you need to talk about whether someone could be identified from the data, using pictures to help explain the concepts is helpful:</p>
+
+    </section>
+
+    <section>
+
+        <h2 id="content-dos-and-donts">DOs and DON&rsquo;Ts</h2>
+
+        {% render '@dos-and-donts' %}
+
+    </section>
+
+    <section>
+
+        <h2 id="content-the-research">The research</h2>
+
+        <p>Background section on the basis for the vocabulary described above, with further details for interested users.</p>
+
+        <p>Understanding Patient Data commissioned Good Business to answer the question: &ldquo;what is the best vocabulary to use to talk about the use of data for care, treatment and research?&rdquo;</p>
+
+        <p>We held a creative workshop with a range of language experts, and then tested the words and imagery with the public, patients and healthcare professionals, using quickfire focus groups.  The findings presented here underpin the rationale for the guidance listed above.</p>
+
+    </section>
+
+    <ul class="content__actions">
+
+        {% for action in actions %}
+
+            <li class="content__action">
+
+                <a class="button  button--tertiary" href="{{ action.href }}">{{ action.label }}</a>
+
+            <!-- /li -->
+
+        {% endfor %}}
+
+    </ul>
+
+</div>

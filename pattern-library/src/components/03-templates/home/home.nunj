@@ -1,0 +1,19 @@
+{% render '@site-header' %}
+
+<main>
+
+    {% render '@hero' %}
+
+    {% if primaryPanel %}
+
+        {% render '@panel', primaryPanel %}
+
+    {% endif %}
+
+    {% if secondaryPanel %}
+
+        {% render '@panel', secondaryPanel %}
+
+    {% endif %}
+
+</main>

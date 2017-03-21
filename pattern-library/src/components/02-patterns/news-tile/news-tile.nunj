@@ -1,0 +1,15 @@
+<a class="news-tile" href="#link-to-destination">
+
+    <img alt="" class="news-tile__image" src={{ image | path }}>
+
+    <time class="news-tile__date" datetime="{{ date.datetime }}">{{ date.human }}</time>
+
+    <h{{ level }} class="news-tile__title">{{ title }}</h{{ level }}>
+
+    {% if cta %}
+
+        {% render '@call-to-action', cta %}
+
+    {% endif %}
+
+</a>

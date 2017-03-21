@@ -1,0 +1,11 @@
+<select {% if disabled %}disabled{% endif %}
+        id="{{ id }}"
+        name="{{ name }}">
+
+    {% for option in options %}
+
+        <option {% if option.selected %}option.selected {% endif %}value="{{ option.value }}">{{ option.label }}</option>
+
+    {% endfor %}
+
+</select>

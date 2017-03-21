@@ -1,11 +1,13 @@
 const config = {
   context: {
-    'primary-panel': {
+    primaryPanel: {
       items: [
         {
-          content: {
-            news: true
-          },
+          content: [
+            {
+              name: 'feature-list'
+            }
+          ],
           type: 'section'
         }
       ],
@@ -13,12 +15,14 @@ const config = {
         'alt'
       ]
     },
-    'secondary-panel': {
+    secondaryPanel: {
       items: [
         {
-          content: {
-            'case-studies': true
-          },
+          content: [
+            {
+              name: 'feature-list--case-studies'
+            }
+          ],
           type: 'section'
         }
       ]

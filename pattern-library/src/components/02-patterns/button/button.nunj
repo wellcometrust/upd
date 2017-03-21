@@ -1,0 +1,21 @@
+<button class="button{% for modifier in modifiers %} button--{{ modifier }}{% endfor %}" type="button">Button</button>
+
+<!-- or -->
+
+<button class="button{% for modifier in modifiers %} button--{{ modifier }}{% endfor %}" type="submit">Submit button</button>
+
+<!-- or -->
+
+<input class="button{% for modifier in modifiers %} button--{{ modifier }}{% endfor %}" type="button" value="Button input">
+
+<!-- or -->
+
+<input class="button{% for modifier in modifiers %} button--{{ modifier }}{% endfor %}" type="submit" value="Submit input">
+
+<!-- or -->
+
+<a class="button{% for modifier in modifiers %} button--{{ modifier }}{% endfor %}" href="#">Link</a>
+
+<!-- or -->
+
+<span class="button{% for modifier in modifiers %} button--{{ modifier }}{% endfor %}">Faux button</span>

@@ -1,0 +1,29 @@
+<div class="panel{% for modifier in modifiers %} panel--{{ modifier }}{% endfor %}">
+
+    <div class="wrapper  wrapper--gutter">
+
+        {% for item in items %}
+
+            <{{ item.type }} class="panel__item">
+
+                {% if item.content %}
+
+                    {% for content in item.content %}
+
+                        {% render '@' + content.name, content.context %}
+
+                    {% endfor %}
+
+                {% else %}
+
+            <!-- Content goes here -->
+
+                {% endif %}
+
+            </{{ item.type }}>
+
+        {% endfor %}
+
+    </div>
+
+</div>
