@@ -1,0 +1,17 @@
+/* Column */
+
+.column {
+  column-count: 1;
+  column-gap: $upd-spacing-gutter-large;
+}
+
+.column--max-three {
+  @include mq(x-large) {
+    column-count: 3;
+  }
+}
+
+
+.column__group {
+  break-inside: avoid;
+}
