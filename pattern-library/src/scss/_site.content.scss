@@ -15,6 +15,10 @@
     color: $upd-color-brand-red;
   }
 
+  ul:not([class]) ul {
+    margin-bottom: 0;
+  }
+
   & > * + section {
     border-top: 1px solid $upd-color-border-light;
     margin-top: (2 * $upd-spacing-gutter-large)
