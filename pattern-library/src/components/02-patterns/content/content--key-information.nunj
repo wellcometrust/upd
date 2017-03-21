@@ -52,7 +52,7 @@
 
             <!-- /li -->
 
-        {% endfor %}}
+        {% endfor %}
 
     </ul>
 
