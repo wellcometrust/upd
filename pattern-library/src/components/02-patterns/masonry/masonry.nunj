@@ -1,0 +1,25 @@
+<ul class="grid   masonry  masonry--loading">
+
+    {% for item in items %}
+
+        <li class="grid__item    masonry__item    u-width-1-of-1  u-width-1-of-2-from-medium">
+
+            {% if item.components %}
+
+                {% for component in item.components %}
+
+                    {% render '@' + component.name, component.context %}
+
+                {% endfor %}
+
+            {% else %}
+
+                {{ item }}
+
+            {%  endif %}
+
+        <!-- /li -->
+
+    {% endfor %}
+
+</ul>

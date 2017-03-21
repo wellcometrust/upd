@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+{% include '@head' %}
+
+<body{% if body.class %} class="{{ body.class }}"{% endif %}>
+
+<div class="u-visually-hidden">
+
+    {{ svgIcons }}
+
+</div>
+
+{% if main %}<main{% if main.class %} class="{{ main.class }}"{% endif %}>{% endif %}
+
+<!-- Begin preview -->
+
+{{ yield }}
+
+<!-- End preview -->
+
+{% if main %}</main>{% endif %}
+
+</body>
+
+</html>

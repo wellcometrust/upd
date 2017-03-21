@@ -1,0 +1,21 @@
+{% if radiobox %}
+
+    {% include '@input' %}
+
+    {% include '@label' %}
+
+{% else %}
+
+    {% include '@label' %}
+
+    {% if options %}
+
+        {% include '@select' %}
+
+    {% else %}
+
+        {% include '@input' %}
+
+    {% endif %}
+
+{% endif %}

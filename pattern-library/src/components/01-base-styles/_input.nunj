@@ -1,0 +1,7 @@
+<input {% if checked %}checked{% endif %}
+       {% if disabled %}disabled{% endif %}
+       id="{{ id }}"
+       name="{{ name }}"
+       {% if pattern %}pattern="{{ pattern }}"{% endif %}
+       {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+       type="{{ type }}">

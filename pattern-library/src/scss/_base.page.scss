@@ -2,6 +2,7 @@
 
 html {
   font-size: 0.9 * ($upd-font-size-base / 16px) * 1em;
+  text-size-adjust: 100%;
 
   @include mq(400px) {
     font-size: ($upd-font-size-base / 16px) * 1em;

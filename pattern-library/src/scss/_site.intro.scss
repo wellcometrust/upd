@@ -9,7 +9,7 @@
     content: '';
     display: block;
     height: rems(6px);
-    margin: rems(80px) 0;
+    margin: (2 * $upd-spacing-gutter-large) 0 0;
     width: 2 * $upd-spacing-gutter-large
   }
 }

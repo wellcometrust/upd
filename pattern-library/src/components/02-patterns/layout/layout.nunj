@@ -1,0 +1,73 @@
+<main class="layout{% if reverse === true %}  layout--reverse{% endif %}">
+
+    {% if reverse !== true %}
+
+        {% if sidebar %}
+
+            <aside class="layout__item  layout__item--secondary    {% if important !== true %}u-hidden-layout-simple{% endif %}">
+
+                {% for item in sidebar %}
+
+                    {% if item.name %}
+
+                        {% render '@' + item.name, item.context %}
+
+                    {% else %}
+
+                        {{ item }}
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </aside>
+
+        {% endif %}
+
+    {% endif %}
+
+    <article class="layout__item  layout__item--primary">
+
+        {% for item in content %}
+
+            {% if item.name %}
+
+                {% render '@' + item.name, item.context %}
+
+            {% else %}
+
+                {{ item }}
+
+            {% endif %}
+
+        {% endfor %}
+
+    </article>
+
+    {% if reverse === true %}
+
+        {% if sidebar %}
+
+            <aside class="layout__item  layout__item--secondary    {% if important !== true %}u-hidden-layout-simple{% endif %}">
+
+                {% for item in sidebar %}
+
+                    {% if item.name %}
+
+                        {% render '@' + item.name, item.context %}
+
+                    {% else %}
+
+                        {{ item }}
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </aside>
+
+        {% endif %}
+
+    {% endif %}
+
+</main>

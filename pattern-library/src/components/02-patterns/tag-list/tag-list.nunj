@@ -1,0 +1,13 @@
+<ul class="tag-list">
+
+    {% for tag in tags %}
+
+        <li class="tag-list__item">
+
+            {% render '@tag', tag %}
+
+        </li>
+
+    {% endfor %}
+
+</ul>

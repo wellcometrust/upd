@@ -1,0 +1,13 @@
+<ul class="toc">
+
+    {% for item in items %}
+
+        <li class="toc__item">
+
+            <a class="toc__element{% if item.active %} is-active{% endif %}" href="{{ item.href }}">{{ item.title }}</a>
+
+        </li>
+
+    {% endfor %}
+
+</ul>

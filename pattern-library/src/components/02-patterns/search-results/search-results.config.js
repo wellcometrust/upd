@@ -14,7 +14,7 @@ const makeItems = (count, isCaseStudy) => {
     let item = makeItem(isCaseStudy)
 
     if (isCaseStudy) {
-      item.tag = true
+      item.tags = true
     } else {
       item.category = 'Content type'
     }

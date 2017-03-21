@@ -1,0 +1,9 @@
+<ul class="do-dont">
+
+    {%  for item in items %}
+
+        <li>{{ item }}</li>
+
+    {% endfor %}
+
+</ul>

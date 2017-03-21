@@ -1,0 +1,17 @@
+<a class="key-info-tile" href="#link-to-page">
+
+    <div class="key-info-tile__icon">
+
+        {%  render '@svg-icon', { icon: icon, inline: true } %}
+
+    </div>
+
+    <p class="key-info-tile__text">{{ text }}</p>
+
+    <div class="key-info-tile__action">
+
+        <span class="button  button--shadow">{{ button }}</span>
+
+    </div>
+
+</a>

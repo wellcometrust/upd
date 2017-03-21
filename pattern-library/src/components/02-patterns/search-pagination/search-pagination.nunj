@@ -1,0 +1,49 @@
+<ul class="search-pagination">
+
+    <li class="search-pagination__item  search-pagination__item--step">
+
+        <a class="search-pagination__control" href="#link-to-previous-results">
+
+            {% render '@svg-icon', { icon: 'chevron-left', inline: true, title: 'Previous results' } %}
+
+        </a>
+
+    <!-- /li -->
+
+    {% for i in range(1, count + 1) %}
+
+        <li class="search-pagination__item{% if i !== activePage %} search-pagination__item--link{% endif %}">
+
+            {% if i === activePage %}
+
+                <span class="search-pagination__control  search-pagination__control--active">
+
+                    {{ i }}
+
+                </span>
+
+            {% else %}
+
+                <a class="search-pagination__control" href="#link-to-page-{{ i }}">
+
+                    {{ i }}
+
+                </a>
+
+            {% endif %}
+
+        <!-- /li -->
+
+    {% endfor %}
+
+    <li class="search-pagination__item  search-pagination__item--step">
+
+        <a class="search-pagination__control" href="#link-to-next-results">
+
+            {% render '@svg-icon', { icon: 'chevron-right', inline: true, title: 'Next results' } %}
+
+        </a>
+
+    <!-- /li -->
+
+</ul>

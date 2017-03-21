@@ -1,18 +1,49 @@
 const config = {
+  context: {
+    content: [
+      {
+        name: 'intro'
+      },
+      {
+        name: 'content'
+      }
+    ],
+    sidebar: [
+      {
+        name: 'table-of-contents'
+      }
+    ]
+  },
   default: 'Case study',
   preview: '@preview-boxed',
   variants: [
     {
       context: {
-        refine: '@refine--search-result-filters',
-        'search-results': '@search-results'
+        content: [
+          {
+            name: 'search-results'
+          }
+        ],
+        sidebar: [
+          {
+            name: 'refine--search-result-filters'
+          }
+        ]
       },
       name: 'Search results'
     },
     {
       context: {
-        refine: '@refine',
-        'search-results': '@search-results--case-studies'
+        content: [
+          {
+            name: 'search-results--case-studies'
+          }
+        ],
+        sidebar: [
+          {
+            name: 'refine'
+          }
+        ]
       },
       name: 'Case studies'
     }

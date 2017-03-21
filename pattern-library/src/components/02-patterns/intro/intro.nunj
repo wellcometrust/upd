@@ -1,0 +1,5 @@
+<div class="intro    u-font-heading-3">
+
+    {{ content }}
+
+</div>

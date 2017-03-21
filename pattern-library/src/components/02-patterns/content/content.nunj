@@ -1,0 +1,35 @@
+<div class="content    u-font-body-copy">
+
+    {%  for section in sections %}
+
+        <section>
+
+            <h2 id="{{ section.id }}">{{ section.title }}</h2>
+
+            {{ section.content }}
+
+            {%  if section.action %}
+
+                {% render '@call-to-action', action %}
+
+            {%  endif %}
+
+        </section>
+
+    {% endfor %}
+
+    <ul class="content__actions">
+
+        {% for action in actions %}
+
+            <li class="content__action">
+
+                <a class="button  button--tertiary" href="{{ action.href }}">{{ action.label }}</a>
+
+            <!-- /li -->
+
+        {% endfor %}
+
+    </ul>
+
+</div>

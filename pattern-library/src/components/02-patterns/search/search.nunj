@@ -1,0 +1,18 @@
+<form class="search{% for modifier in modifiers %}  search--{{ modifier }}{% endfor %}">
+
+    <label class="u-visually-hidden" for="search">Search the entire Understanding Patient Data site</label>
+
+    <input class="search__input"
+           id="search"
+           {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+           required
+           type="search"
+           {% if value %}value="{{ value }}"{% endif %}>
+
+    <button class="search__submit" type="submit">
+
+        {% render '@svg-icon', { icon: 'search', title: 'Search'} %}
+
+    </button>
+
+</form>

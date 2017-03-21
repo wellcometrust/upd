@@ -23,7 +23,6 @@
 .header-nav__link {
   display: block;
   padding: $upd-spacing-gutter-base $upd-spacing-gutter-large;
-  text-decoration: none;
   vertical-align: middle;
 
   @include mq($upd-site-header-breakpoint-navigation) {

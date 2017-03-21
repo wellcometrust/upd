@@ -1,0 +1,43 @@
+{% if search %}
+
+    <div class="refine">
+
+        {% render '@search' %}
+
+    </div>
+
+{% endif %}
+
+{% if categories %}
+
+    <form class="refine">
+
+        {% for category in categories %}
+
+            <fieldset class="refine__category">
+
+                <legend class="refine__title">{{ category.title }}</legend>
+
+                {% for option in category.options %}
+
+                    <input id="{{ option.id }}" name="{{ option.name }}" type="checkbox">
+
+                    <label class="refine__option" for="{{ option.id }}">{{ option.label }}</label>
+
+                {% endfor %}
+
+                <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
+
+            </fieldset>
+
+        {% endfor %}
+
+        {% if submit %}
+
+            <button class="button  button--block  button--secondary" type="submit">{{ submit }}</button>
+
+        {% endif %}
+
+    </form>
+
+{% endif %}

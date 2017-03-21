@@ -1,0 +1,9 @@
+{% for level in levels %}
+<!-- Heading level {{ level }} -->
+    <h{{ level }}>Heading level {{ level }}</h{{ level }}>
+
+<!-- Or -->
+
+    <span class="h{{ level }}">Faux heading level {{ level }}</span>
+
+{% endfor %}

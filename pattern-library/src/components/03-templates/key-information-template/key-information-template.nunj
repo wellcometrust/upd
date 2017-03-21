@@ -1,0 +1,9 @@
+{% render '@site-header' %}
+
+{% render '@page-header', header %}
+
+<div class="wrapper  wrapper--gutter">
+
+    {% include '@layout' %}
+
+</div>
