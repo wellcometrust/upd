@@ -1,0 +1,37 @@
+/* Team tile */
+
+.team-tile {
+  @extend %font-body-copy;
+
+  display: block;
+  margin: 0 auto;
+  margin-bottom: $upd-spacing-gutter-large;
+  max-width: rems(258px);
+  padding: 0;
+}
+
+
+.team-tile__image {
+  margin-bottom: rems(10px);
+}
+
+
+.team-tile__name {
+  color: $upd-color-text-highlight-dark;
+  display: block;
+  font-weight: $upd-font-weight-medium;
+}
+
+
+.team-tile__title {
+  display: block;
+  line-height: rems(24px);
+  margin-bottom: $upd-spacing-gutter-base;
+}
+
+
+.team-tile__contact {
+  color: $upd-color-brand-grey;
+  display: inline-block;
+  font-size: rems(30px);
+}
