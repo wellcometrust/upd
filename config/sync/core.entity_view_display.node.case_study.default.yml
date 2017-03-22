@@ -4,12 +4,17 @@ status: true
 dependencies:
   config:
     - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_featured
     - field.field.node.case_study.field_impact_of_work
     - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_pdf
     - field.field.node.case_study.field_sources_of_data
     - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_vertical_tab
     - node.type.case_study
   module:
+    - entity_reference_revisions
+    - file
     - text
     - user
 id: node.case_study.default
@@ -26,6 +31,15 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+  field_featured:
+    weight: 109
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
   field_impact_of_work:
     weight: 102
     label: above
@@ -39,6 +53,12 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+  field_pdf:
+    weight: 108
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: file_default
   field_sources_of_data:
     weight: 104
     label: above
@@ -52,6 +72,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+  field_vertical_tab:
+    type: entity_reference_revisions_entity_view
+    weight: 107
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
   links:
     weight: 100
 hidden: {  }

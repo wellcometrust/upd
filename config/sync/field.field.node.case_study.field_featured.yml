@@ -1,20 +1,21 @@
-uuid: cdb13acf-c62d-453c-ad99-98530252666a
+uuid: a13e0b7b-142e-4aac-921d-87bf04c2c6a6
 langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_featured
     - node.type.case_study
-id: node.case_study.status
-field_name: status
+id: node.case_study.field_featured
+field_name: field_featured
 entity_type: node
 bundle: case_study
-label: 'Publishing status'
-description: 'A boolean indicating whether the node is published.'
+label: Featured
+description: ''
 required: false
-translatable: true
+translatable: false
 default_value:
   -
-    value: 1
+    value: 0
 default_value_callback: ''
 settings:
   on_label: 'On'

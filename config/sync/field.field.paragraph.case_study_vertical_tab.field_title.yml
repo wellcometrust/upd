@@ -1,0 +1,19 @@
+uuid: 4405ae30-73f7-4ced-8024-c8ff03188442
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.case_study_vertical_tab
+id: paragraph.case_study_vertical_tab.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: case_study_vertical_tab
+label: Title
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

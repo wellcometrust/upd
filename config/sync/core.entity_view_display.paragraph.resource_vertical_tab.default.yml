@@ -1,0 +1,29 @@
+uuid: 783df847-aabe-4569-ae5a-ae4d3880b07e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.resource_vertical_tab.field_body
+    - field.field.paragraph.resource_vertical_tab.field_title
+    - paragraphs.paragraphs_type.resource_vertical_tab
+  module:
+    - text
+id: paragraph.resource_vertical_tab.default
+targetEntityType: paragraph
+bundle: resource_vertical_tab
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden: {  }
