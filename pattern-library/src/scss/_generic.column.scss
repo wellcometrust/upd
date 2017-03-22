@@ -11,6 +11,12 @@
   }
 }
 
+.column--max-two {
+  @include mq(large) {
+    column-count: 2;
+  }
+}
+
 
 .column__group {
   break-inside: avoid;

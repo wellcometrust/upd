@@ -6,8 +6,14 @@
 
     p:not([class]),
     ol:not([class]),
-    ul:not([class]) {
+    ul:not([class]),
+    .u-mb {
       margin-bottom: $line-height;
+    }
+
+    li > ol:not([class]),
+    li > ul:not([class]) {
+      margin-bottom: 0;
     }
 
     ol:not([class]),

@@ -3,6 +3,9 @@
 .profile {
   @extend %clearfix;
   @extend %font-body-copy-small;
+
+  break-inside: avoid;
+  width: 100%;
 }
 
 

@@ -17,6 +17,12 @@
 }
 
 
+.box--highlight,
+%box--highlight {
+  background: $upd-color-background-secondary;
+}
+
+
 .box--large,
 %box--large {
   padding: $upd-spacing-gutter-large;

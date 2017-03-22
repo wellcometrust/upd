@@ -6,4 +6,8 @@ ul {
   margin-bottom: $upd-line-height-base * 1em;
   padding: 0;
   padding-left: $upd-line-height-base * 1em;
+
+  li > & {
+    margin-bottom: 0;
+  }
 }
