@@ -1,36 +1,40 @@
 /* Page header */
 
-@include private {
-  .page-header {
-    background-color: $upd-color-background-secondary;
-    padding: 3 * $upd-spacing-gutter-base 0;
-  }
+.page-header {
+  background-color: $upd-color-background-secondary;
+  padding: 3 * $upd-spacing-gutter-base 0;
+}
 
-  .page-header--case-study {
-    $padding: 2.5 * $upd-spacing-gutter-base 0;
-  }
-
-
-  .page-header__subheading {
-    @extend %font-body-copy-intro;
-
-    margin: ($upd-spacing-gutter-large / 2) 0 0;
-  }
+.page-header--case-study {
+  $padding: 2.5 * $upd-spacing-gutter-base 0;
+}
 
 
-  .page-header__search {
-    margin-top: ($upd-spacing-gutter-base / 2);
-  }
+.page-header__title {
+  max-width: rems(640px);
+}
 
 
-  .page-header__category {
-    @extend %h5;
+.page-header__subheading {
+  @extend %font-body-copy-intro;
 
-    margin-bottom: $upd-line-height-heading-5;
-  }
+  margin: ($upd-spacing-gutter-large / 2) 0 0;
+  max-width: rems(900px);
+}
 
 
-  .page-header__tags {
-    margin-top: $upd-spacing-gutter-large;
-  }
+.page-header__search {
+  margin-top: ($upd-spacing-gutter-base / 2);
+}
+
+
+.page-header__category {
+  @extend %h5;
+
+  margin-bottom: $upd-line-height-heading-5;
+}
+
+
+.page-header__tags {
+  margin-top: $upd-spacing-gutter-large;
 }

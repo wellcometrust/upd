@@ -24,7 +24,7 @@
     margin-bottom: 0;
   }
 
-  & > * + section {
+  & > * + section:not([class]) {
     border-top: 1px solid $upd-color-border-light;
     margin-top: (2 * $upd-spacing-gutter-large)
   }

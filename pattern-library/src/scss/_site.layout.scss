@@ -43,6 +43,10 @@
   .layout__item--primary {
     @include mq($upd-layout-breakpoint) {
       padding-left: $sidebar-width + $upd-spacing-gutter-large;
+
+      .layout--monolith & {
+        padding-left: 3 * $upd-spacing-gutter-large;
+      }
     }
   }
 
