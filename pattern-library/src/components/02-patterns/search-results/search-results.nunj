@@ -52,8 +52,6 @@
 
                     {% endif %}
 
-                    {% render '@svg-icon', { classes: 'search-result__decoration', icon: 'arrow' } %}
-
                 </a>
 
             </li>
