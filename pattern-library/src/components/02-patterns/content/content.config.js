@@ -45,6 +45,104 @@ Compared to standard care, ClinTouch leads to significantly faster improvement i
       name: 'Key information'
     },
     {
+      context: {
+        advisors: [
+          {
+            name: 'Paul Baverstock',
+            title: 'Director, Paperless 2020 Communications, NHS Digital'
+          },
+          {
+            name: 'Aisling Burnand',
+            title: 'Chief Executive, AMRC'
+          },
+          {
+            name: 'Chris Carrigan',
+            title: 'UseMYdata and Chair, IGARD'
+          },
+          {
+            name: 'Simon Denegri',
+            title: 'Chair of INVOLVE and National Director for Public Participation and Engagement in Research, NIHR'
+          },
+          {
+            name: 'Professor Carol Dezateux',
+            title: 'Professor of Paediatric Epidemiology, UCL Institute of Child Health (on behalf of Academy of Medical Sciences)'
+          },
+          {
+            name: 'Fiona Fox',
+            title: 'Director, Science Media Centre'
+          },
+          {
+            name: 'Mark Golledge',
+            title: 'Programme Manager – Health and Care Informatics, Local Government Association'
+          },
+          {
+            name: 'John Cavell',
+            title: 'Director, National Data Guardian Panel'
+          },
+          {
+            name: 'Cynthia Joyce',
+            title: 'Director, MQ'
+          },
+          {
+            name: 'Peter Knight',
+            title: 'Chief Information and Digital Officer, Oxford University Hospitals'
+          },
+          {
+            name: 'Prof Nigel Mathers',
+            title: 'Honorary Secretary, Royal College of GPs'
+          },
+          {
+            name: 'Rachel Merrett',
+            title: 'Deputy Head of Data Policy, NHS England'
+          },
+          {
+            name: 'Andrew Morris',
+            title: 'Farr Institute'
+          },
+          {
+            name: 'Viv Parry',
+            title: 'Genomics England'
+          },
+          {
+            name: 'Martin Severs',
+            title: 'Medical Director and Caldicott Guardian, NHS Digital'
+          },
+          {
+            name: 'Jeremy Taylor',
+            title: 'Chief Executive, National Voices'
+          },
+          {
+            name: 'Mark Taylor',
+            title: 'Chair, Confidentiality Advisory Group'
+          },
+          {
+            name: 'Lynda Thomas',
+            title: 'Chief Executive, Macmillan [or another Richmond Group member]'
+          },
+          {
+            name: 'Karin Woodley',
+            title: 'Chief Executive, Cambridge House (on behalf of ESRC)'
+          },
+          {
+            name: 'Shahid Hanif, ABPI, or Jane Juniper',
+            title: 'Pharmonyze'
+          },
+          {
+            name: 'MRC and ESRC representatives',
+            title: '(TBC)'
+          }
+        ],
+        logos: [
+          '/images/placeholder/about-us-wellcome-logo.png',
+          '/images/placeholder/about-us-mrc-logo.png',
+          '/images/placeholder/about-us-dept-health-logo.png',
+          '/images/placeholder/about-us-esrc-logo.png',
+          '/images/placeholder/about-us-public-health-logo.png'
+        ]
+      },
+      name: 'About us'
+    },
+    {
       context: {},
       name: 'Accordion only'
     }
