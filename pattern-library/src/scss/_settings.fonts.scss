@@ -260,7 +260,7 @@ $upd-font-size-button-tiny: rems(11px);
 /* Tags
    ========================================================================== */
 $upd-font-size-tag: rems(10px);
-$upd-line-height-tag: rems(22px);
+$upd-line-height-tag: rems(20px);
 
 @mixin font-tag {
   @extend %font-highlight;
