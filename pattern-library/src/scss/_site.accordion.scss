@@ -28,16 +28,14 @@
   position: relative;
 
   &:after {
-    $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><path fill="#{$upd-color-brand-red}" d="M1.47,4.22a1,1,0,0,0-.71.3,1,1,0,0,0,0,1.43L8.29,13.5a1,1,0,0,0,1.42,0l7.53-7.55a1,1,0,0,0-1.42-1.43L9.27,11.17H8.85L8.64,11,2.18,4.51A1,1,0,0,0,1.47,4.22Z"/></svg>';
+    @extend %icon;
+    @extend %icon--chevron-down;
 
-    content: svg-url($svg);
-    height: 1em;
     margin-top: -0.5em;
     position: absolute;
     right: 0;
     transition: transform $upd-transition-time;
     top: 50%;
-    width: 1em;
 
     .is-open > &,
     :target > & {
