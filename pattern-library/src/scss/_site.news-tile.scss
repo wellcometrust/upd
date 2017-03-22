@@ -3,7 +3,6 @@
 .news-tile {
   @extend %tile;
 
-  margin-bottom: $upd-spacing-gutter-large;
   max-width: rems(354px);
 }
 

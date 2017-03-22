@@ -3,7 +3,6 @@
 .resource-tile {
   @extend %tile;
 
-  margin-bottom: $upd-spacing-gutter-large;
   padding: $upd-spacing-gutter-large rems(40px) rems(60px);
 }
 
