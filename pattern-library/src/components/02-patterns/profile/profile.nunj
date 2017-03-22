@@ -1,0 +1,13 @@
+<div class="profile">
+
+    <img alt="" class="profile__image" src="{{ image | path }}">
+
+    <div class="profile__info">
+
+        <span class="profile__name">{{ name }}</span>
+
+        <span class="profile__title">{{ title }}</span>
+
+    </div>
+
+</div>
