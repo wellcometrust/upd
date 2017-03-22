@@ -10,7 +10,15 @@ const config = {
     tag: 'Disease risks, causes & mechanisms',
     title: 'Whooping cough vaccination during pregnancy'
   },
-  preview: '@preview-boxed'
+  preview: '@preview-boxed',
+  variants: [
+    {
+      context: {
+        modifiers: ['alt']
+      },
+      name: 'Alternative background colour'
+    }
+  ]
 }
 
 module.exports = config

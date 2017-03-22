@@ -9,9 +9,12 @@
 .case-study-tile {
   @extend %tile;
 
-  background: $upd-color-background-primary;
   max-width: rems(258px);
   padding: 0;
+}
+
+.case-study-tile--alt {
+  background: $upd-color-background-primary;
 }
 
 

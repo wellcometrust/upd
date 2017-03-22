@@ -1,4 +1,4 @@
-<a class="case-study-tile" href="#link-to-destination">
+<a class="case-study-tile{% for modifier in modifiers %}  case-study-tile--{{ modifier }}{% endfor %}" href="#link-to-destination">
 
     <img alt="" class="case-study-tile__image" src={{ image | path }}>
 
