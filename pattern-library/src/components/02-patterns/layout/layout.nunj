@@ -1,4 +1,4 @@
-<main class="layout{% if reverse === true %}  layout--reverse{% endif %}">
+<main class="layout{% if reverse === true %}  layout--reverse{% elif sidebar %}{% elif monolith %}  layout--monolith{% endif %}">
 
     {% if reverse !== true %}
 
