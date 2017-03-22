@@ -28,5 +28,8 @@
 
 .profile__title {
   display: block;
-  line-height: rems(20px);
+
+  .profile__info & {
+    line-height: rems(20px);
+  }
 }

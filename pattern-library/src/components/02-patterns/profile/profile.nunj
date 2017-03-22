@@ -1,13 +1,7 @@
 <div class="profile">
 
-    <img alt="" class="profile__image" src="{{ image | path }}">
+    <span class="profile__name">{{ name }}</span>
 
-    <div class="profile__info">
-
-        <span class="profile__name">{{ name }}</span>
-
-        <span class="profile__title">{{ title }}</span>
-
-    </div>
+    <span class="profile__title">{{ title }}</span>
 
 </div>
