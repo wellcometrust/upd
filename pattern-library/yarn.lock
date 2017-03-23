@@ -1690,6 +1690,10 @@ des.js@^1.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
 
+desandro-classie@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/desandro-classie/-/desandro-classie-1.0.1.tgz#aad4d0ba98c81cd8e8bf51acff70f8d5f9e51893"
+
 destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"

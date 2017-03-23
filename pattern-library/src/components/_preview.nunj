@@ -21,6 +21,8 @@
 
 {% if main %}</main>{% endif %}
 
+<script src="{{ '/js/index.js' | path }}"></script>
+
 </body>
 
 </html>
