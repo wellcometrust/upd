@@ -1,18 +1,18 @@
-uuid: e4053e3d-2e98-4210-9ac2-e59b76dba392
+uuid: e9e05ecc-6963-4152-ac7b-7885a5779684
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_vertical__tab
-    - node.type.vertical_tab
-    - paragraphs.paragraphs_type.vertical_tab
+    - field.storage.node.field_faq_dropdown
+    - node.type.faq
+    - paragraphs.paragraphs_type.faq_dropdowns
   module:
     - entity_reference_revisions
-id: node.vertical_tab.field_vertical__tab
-field_name: field_vertical__tab
+id: node.faq.field_faq_dropdown
+field_name: field_faq_dropdown
 entity_type: node
-bundle: vertical_tab
-label: 'Vertical tab'
+bundle: faq
+label: 'FAQ dropdown'
 description: ''
 required: false
 translatable: false
@@ -22,15 +22,18 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      vertical_tab: vertical_tab
+      faq_dropdowns: faq_dropdowns
     target_bundles_drag_drop:
+      faq_dropdowns:
+        enabled: true
+        weight: 5
       case_study_vertical_tab:
-        weight: 4
+        weight: 6
         enabled: false
       resource_vertical_tab:
-        weight: 5
+        weight: 7
         enabled: false
       vertical_tab:
-        enabled: true
-        weight: 6
+        weight: 8
+        enabled: false
 field_type: entity_reference_revisions

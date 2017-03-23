@@ -1,16 +1,16 @@
-uuid: b21cb36f-a411-45ec-8157-baa284e7c2bf
+uuid: d9012680-4607-4209-8a60-d65aa43f70df
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.vertical_tab.field_standfirst
-    - node.type.vertical_tab
+    - field.field.node.faq.field_standfirst
+    - node.type.faq
   module:
     - user
-id: node.vertical_tab.teaser
+id: node.faq.teaser
 targetEntityType: node
-bundle: vertical_tab
+bundle: faq
 mode: teaser
 content:
   links:

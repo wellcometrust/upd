@@ -1,4 +1,4 @@
-uuid: 1d03a6ea-6bb1-4694-b324-f3b4ea3e5f97
+uuid: b06f6e57-97c0-445b-a13b-3e659be70570
 langcode: en
 status: true
 dependencies:
@@ -6,8 +6,8 @@ dependencies:
     - entity_reference_revisions
     - node
     - paragraphs
-id: node.field_vertical__tab
-field_name: field_vertical__tab
+id: node.field_faq_dropdown
+field_name: field_faq_dropdown
 entity_type: node
 type: entity_reference_revisions
 settings:

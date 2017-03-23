@@ -1,16 +1,16 @@
-uuid: 7a5df3aa-e067-454b-9fdb-ca2ea8a8f707
+uuid: a4b07749-af02-4fef-a0bc-8ce598ecf3f4
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_standfirst
-    - node.type.vertical_tab
+    - node.type.faq
   module:
     - text
-id: node.vertical_tab.field_standfirst
+id: node.faq.field_standfirst
 field_name: field_standfirst
 entity_type: node
-bundle: vertical_tab
+bundle: faq
 label: Standfirst
 description: ''
 required: false

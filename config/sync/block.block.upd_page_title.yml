@@ -25,8 +25,8 @@ visibility:
     bundles:
       art: art
       case_study: case_study
+      faq: faq
       resource: resource
-      vertical_tab: vertical_tab
     negate: true
     context_mapping:
       node: '@node.node_route_context:node'
