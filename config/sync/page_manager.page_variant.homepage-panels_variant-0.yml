@@ -4,13 +4,38 @@ status: true
 dependencies:
   config:
     - page_manager.page.homepage
+    - views.view.case_studies
+    - views.view.news
   module:
     - panels
+    - views
 id: homepage-panels_variant-0
 label: Homepage
 variant: panels_variant
 variant_settings:
-  blocks: {  }
+  blocks:
+    24196ebb-c6d1-4370-976a-2d454f64dee4:
+      id: 'views_block:news-block_1'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: middle
+      weight: 0
+      uuid: 24196ebb-c6d1-4370-976a-2d454f64dee4
+      context_mapping: {  }
+    9b4d8f42-3322-4af2-aef4-776ec4f44a6c:
+      id: 'views_block:case_studies-block_1'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: middle
+      weight: 0
+      uuid: 9b4d8f42-3322-4af2-aef4-776ec4f44a6c
+      context_mapping: {  }
   id: panels_variant
   uuid: e263fcdc-a3ab-402b-b49c-e75c0418d633
   label: null

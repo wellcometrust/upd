@@ -23,63 +23,59 @@ bundle: case_study
 mode: default
 content:
   content_moderation_control:
-    weight: -20
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
   field_disease_type:
-    weight: 103
-    label: above
+    weight: 4
+    label: hidden
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
-  field_featured:
-    weight: 109
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    type: boolean
   field_impact_of_work:
-    weight: 102
-    label: above
+    weight: 3
+    label: hidden
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
   field_list_text:
-    weight: 106
-    label: above
+    weight: 6
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
   field_pdf:
-    weight: 108
-    label: above
+    weight: 8
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: file_default
   field_sources_of_data:
-    weight: 104
-    label: above
+    weight: 5
+    label: hidden
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
   field_standfirst:
-    weight: 105
-    label: above
+    weight: 2
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: text_default
   field_vertical_tab:
     type: entity_reference_revisions_entity_view
-    weight: 107
-    label: above
+    weight: 7
+    label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
   links:
-    weight: 100
-hidden: {  }
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_featured: true

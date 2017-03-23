@@ -1,0 +1,36 @@
+uuid: e4053e3d-2e98-4210-9ac2-e59b76dba392
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vertical__tab
+    - node.type.vertical_tab
+    - paragraphs.paragraphs_type.vertical_tab
+  module:
+    - entity_reference_revisions
+id: node.vertical_tab.field_vertical__tab
+field_name: field_vertical__tab
+entity_type: node
+bundle: vertical_tab
+label: 'Vertical tab'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      vertical_tab: vertical_tab
+    target_bundles_drag_drop:
+      case_study_vertical_tab:
+        weight: 4
+        enabled: false
+      resource_vertical_tab:
+        weight: 5
+        enabled: false
+      vertical_tab:
+        enabled: true
+        weight: 6
+field_type: entity_reference_revisions
