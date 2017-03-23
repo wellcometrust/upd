@@ -23,3 +23,5 @@
     {% endif %}
 
 </div>
+
+{% render '@site-footer' %}

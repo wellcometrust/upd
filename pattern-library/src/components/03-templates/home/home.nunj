@@ -17,3 +17,5 @@
     {% endif %}
 
 </main>
+
+{% render '@site-footer' %}

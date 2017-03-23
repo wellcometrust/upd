@@ -17,3 +17,5 @@
     </nav>
 
 </aside>
+
+{% render '@site-footer' %}
