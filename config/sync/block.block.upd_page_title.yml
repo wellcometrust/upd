@@ -2,6 +2,8 @@ uuid: 6bc6cbe5-2779-448e-866e-8cb38bcc16ef
 langcode: en
 status: true
 dependencies:
+  module:
+    - ctools
   theme:
     - upd
 _core:
@@ -17,4 +19,14 @@ settings:
   label: 'Page title'
   provider: core
   label_display: '0'
-visibility: {  }
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      art: art
+      case_study: case_study
+      faq: faq
+      resource: resource
+    negate: true
+    context_mapping:
+      node: '@node.node_route_context:node'

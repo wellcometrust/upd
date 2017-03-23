@@ -1,27 +1,27 @@
-uuid: 66b3b3fe-fc03-424a-bec3-5e5755fa2e08
+uuid: 5a3f85eb-e0d9-4971-bb86-c6009193f412
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.vertical_tab.field_body
-    - field.field.paragraph.vertical_tab.field_title
-    - paragraphs.paragraphs_type.vertical_tab
+    - field.field.paragraph.faq_dropdowns.field_body
+    - field.field.paragraph.faq_dropdowns.field_title
+    - paragraphs.paragraphs_type.faq_dropdowns
   module:
     - text
-id: paragraph.vertical_tab.default
+id: paragraph.faq_dropdowns.default
 targetEntityType: paragraph
-bundle: vertical_tab
+bundle: faq_dropdowns
 mode: default
 content:
   field_body:
     weight: 1
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: text_default
   field_title:
     weight: 0
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
