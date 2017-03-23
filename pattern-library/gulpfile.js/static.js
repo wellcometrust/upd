@@ -4,6 +4,7 @@ const path = require('path')
 module.exports = (gulp, paths, isBuild) => {
   const staticSourceGlobs = [
     path.resolve(paths.source.fonts, '**', '*'),
+    path.resolve(paths.source.images, '*'),
     path.resolve(paths.source.images, 'placeholder', '*')
   ]
 

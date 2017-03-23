@@ -19,6 +19,11 @@
 
 .site-header__logo {
   height: 100%;
+  padding: 0.7em;
+
+  @include mq($upd-site-header-breakpoint-height) {
+    padding: 1em;
+  }
 }
 
 

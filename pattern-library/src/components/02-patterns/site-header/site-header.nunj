@@ -1,6 +1,6 @@
 <header class="site-header">
 
-    <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/placeholder/logo.svg' | path }}">
+    <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/logo.svg' | path }}">
 
 
     <div class="site-header__navigation" id="site-header-navigation">
