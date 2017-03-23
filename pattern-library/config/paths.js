@@ -10,7 +10,8 @@ const sourceRoot = resolve('src')
 
 const paths = {
   dest: {
-    assets: assetsFolder
+    assets: assetsFolder,
+    js: resolve(assetsFolder, 'js')
   },
   resolve,
   source: {
@@ -18,6 +19,7 @@ const paths = {
     docs: resolve(sourceRoot, 'docs'),
     fonts: resolve(sourceRoot, 'fonts'),
     images: resolve(sourceRoot, 'images'),
+    js: resolve(sourceRoot, 'js'),
     root: sourceRoot,
     scss: resolve(sourceRoot, 'scss')
   }
