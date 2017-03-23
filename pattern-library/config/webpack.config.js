@@ -1,4 +1,3 @@
-const nodeExternals = require('webpack-node-externals')
 const paths = require('./paths')
 
 module.exports = {
@@ -8,8 +7,7 @@ module.exports = {
     libraryTarget: 'umd',
     path: paths.dest.js
   },
-  target: 'node',
-  externals: [nodeExternals()],
+  target: 'web',
   node: {
     __filename: true,
     __dirname: true
