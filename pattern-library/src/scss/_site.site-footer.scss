@@ -1,0 +1,137 @@
+/* Site footer */
+
+.site-footer {
+  @extend %font-body-copy-small;
+
+  background: $upd-color-brand-grey-blue;
+  color: $upd-color-text-reverse;
+  padding: rems(76px) 0 0;
+  text-align: center;
+
+  @include mq(medium) {
+    text-align: left;
+  }
+}
+
+
+.site-footer__sections {
+  @extend %clearfix;
+  @extend %list-bare;
+
+  margin-right: -$upd-spacing-gutter-large;
+}
+
+.site-footer__section {
+  float: left;
+  margin-bottom: $upd-spacing-gutter-large;
+  padding-right: $upd-spacing-gutter-large;
+  position: relative;
+  width: 100%;
+}
+
+.site-footer__section--primary {
+  float: left;
+
+  @include mq(medium) {
+    min-height: rems(145px);
+  }
+
+}
+
+
+.site-footer__text {
+  display: block;
+}
+
+.site-footer__text--phone {
+  color: rgba($upd-color-text-reverse, 0.6);
+  font-size: rems(20px);
+}
+
+.site-footer__text--title {
+  margin-bottom: $upd-spacing-gutter-base;
+}
+
+
+.site-footer__socials {
+  justify-content: center;
+  margin-top: 0;
+
+  @include mq(medium) {
+    bottom: 0;
+    position: absolute;
+  }
+}
+
+.site-footer__social-icon {
+  background: rgba($upd-color-text-reverse, 0.5);
+  color: rgba($upd-color-brand-grey-blue, 0.75);
+  font-size: rems(30px);
+}
+
+
+.site-footer__input {
+  border: none;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  color: $upd-color-text-primary;
+  width: 70%;
+}
+
+
+.site-footer__submit {
+  background: $upd-color-brand-red;
+  border-radius: 0 $upd-input-radius $upd-input-radius 0;
+  height: $upd-input-height;
+  line-height: $upd-input-height;
+  padding: 0 1em;
+  white-space: nowrap;
+  width: 30%;
+}
+
+
+.site-footer__details {
+  border-top: 1px solid $upd-color-border-mid;
+  color: rgba($upd-color-text-reverse, 0.5);
+  padding: $upd-spacing-gutter-large 0;
+  position: relative;
+
+  @include mq(small) {
+    padding-right: rems(80px) + $upd-spacing-gutter-large; // Allow for Hactar logo
+    text-align: left;
+  }
+}
+
+
+.site-footer__detail {
+  display: inline-block;
+  margin-right: 1em;
+  vertical-align: middle;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+
+.site-footer__hactar {
+  $height: $upd-spacing-gutter-large;
+
+  display: block;
+  height: $height;
+  margin: $upd-spacing-gutter-large auto 0;
+  opacity: 0.5;
+  transition: opacity 2 * $upd-transition-time;
+
+  @include mq(small) {
+    margin-top: -$height / 2;
+    position: absolute;
+    right: 0;
+    top: 50%;
+  }
+
+  &:focus,
+  &:hover {
+    opacity: 0.8;
+  }
+}
