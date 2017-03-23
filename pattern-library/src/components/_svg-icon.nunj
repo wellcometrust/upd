@@ -1,4 +1,4 @@
-<svg class="svg-icon{% if inline %} svg-icon--inline{% endif %}{% if classes %} {{ classes }}{% endif %}" xmlns="http://www.w3.org/2000/svg" {% if title %}title="{{ title }}"{% else %}role="presentation"{% endif %}>
+<svg class="svg-icon{% if circular %} svg-icon--circular{% endif %}{% if inline %} svg-icon--inline{% endif %}{% if classes %} {{ classes }}{% endif %}" xmlns="http://www.w3.org/2000/svg" {% if title %}title="{{ title }}"{% else %}role="presentation"{% endif %}>
 
     {% if title %}
 
