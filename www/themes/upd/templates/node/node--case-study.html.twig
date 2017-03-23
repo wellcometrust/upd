@@ -72,15 +72,29 @@
  * @ingroup themeable
  */
 #}
-<article{{ attributes }}>
-
   {{ title_prefix }}
-  {% if not page %}
-    <h2{{ title_attributes }}>
-      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-    </h2>
+  {% if label %}
+  {% if page %}
+  <header class="page-header">
+    <div class="wrapper  wrapper--gutter">
+      <span class="page-header__category">Case study</span>
+      {{ title_prefix }}
+      <h1 class="page-header__title">{{ label }}</h1>
+         <div class="page-header__tag">
+            <div class="tag">
+
+                <span class="tag__inner">{{ content.field_disease_type[0]['#title'] }}</span>
+            </div>
+        </div>
+    </div>
+  </header>
+  {% else %}
+    <h2 class="node-title"><a href="{{ url }}" class="node__title-link" rel="bookmark">{{ label }}</a></h2>
+  {% endif %}
   {% endif %}
   {{ title_suffix }}
+<article{{ attributes.addClass('layout__item layout__item--primary') }}>
+
 
   {% if display_submitted %}
     <footer>
@@ -91,9 +105,17 @@
       </div>
     </footer>
   {% endif %}
-
-  <div{{ content_attributes }}>
-    {{ content }}
+  <div class="wrapper  wrapper--gutter">
+    <main class="layout">
+  {% if content.field_standfirst is not empty %}
+    {{ content.field_standfirst }}
+  {% endif %}
+  {% if content.field_vertical_tab is not empty %}
+  <div class="content u-font-body-copy">
+    {{ content.field_vertical_tab }}
   </div>
+  {% endif %}
 
+</main>
+    </div>
 </article>

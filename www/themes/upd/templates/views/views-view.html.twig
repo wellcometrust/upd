@@ -38,15 +38,19 @@
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
-  {{ title_prefix }}
-  {{ title }}
-  {{ title_suffix }}
 
-  {% if header %}
-    <header>
-      {{ header }}
-    </header>
-  {% endif %}
+
+  <header class="page-header">
+    <div class="wrapper  wrapper--gutter">
+      <h1 class="page-header__title">
+        {{ view.element['view_build']['#title']['#markup'] }}        
+      </h1>
+      {% if header %}
+      <p class="page-header__subheading">{{ header }}</p>
+      {% endif %}
+    </div>
+  </header>
+
 
   {{ exposed }}
   {{ attachment_before }}

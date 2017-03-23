@@ -75,11 +75,13 @@
 <article{{ attributes }}>
 
   {{ title_prefix }}
-  {% if not page %}
-    <h2{{ title_attributes }}>
-      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-    </h2>
-  {% endif %}
+    {% if label %}
+        {% if page %}
+          <h1 class="page-title">{{ label }}</h1>
+        {% else %}
+          <h2 class="node-title"><a href="{{ url }}" class="node__title-link" rel="bookmark">{{ label }}</a></h2>
+        {% endif %}
+    {% endif %}
   {{ title_suffix }}
 
   {% if display_submitted %}
