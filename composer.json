@@ -32,11 +32,17 @@
     "composer/installers": "1.*",
     "drupal-composer/drupal-scaffold": "2.*",
     "drupal/core": "~8. ",
-    "drupal/elasticsearch_helper": "1.*",
     "drupal/page_manager": "1.*",
     "drupal/ctools": "3.*",
     "drupal/layout_plugin": "1.*",
-    "drupal/panels": "3.*"
+    "drupal/panels": "3.*",
+    "drupal/facets": "1.*",
+    "drupal/workbench": "1.*",
+    "drupal/search_api": "1.*",
+    "drupal/paragraphs": "1.*"
+  },
+  "require-dev": {
+    "drupal/devel": "1.*"
   },
   "replace": {
     "drupal/drupal": "*"
