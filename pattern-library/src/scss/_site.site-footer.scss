@@ -18,24 +18,21 @@
   @extend %clearfix;
   @extend %list-bare;
 
-  margin-right: -$upd-spacing-gutter-large;
+  margin-left: -$upd-spacing-gutter-large;
 }
 
 .site-footer__section {
   float: left;
   margin-bottom: $upd-spacing-gutter-large;
-  padding-right: $upd-spacing-gutter-large;
+  padding-left: $upd-spacing-gutter-large;
   position: relative;
   width: 100%;
 }
 
 .site-footer__section--primary {
-  float: left;
-
   @include mq(medium) {
     min-height: rems(145px);
   }
-
 }
 
 
