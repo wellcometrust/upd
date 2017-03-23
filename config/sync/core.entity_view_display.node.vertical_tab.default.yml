@@ -8,27 +8,23 @@ dependencies:
     - node.type.vertical_tab
   module:
     - entity_reference_revisions
-    - text
     - user
 id: node.vertical_tab.default
 targetEntityType: node
 bundle: vertical_tab
 mode: default
 content:
-  field_standfirst:
-    weight: 102
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: text_default
   field_vertical__tab:
     type: entity_reference_revisions_entity_view
     weight: 103
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
   links:
     weight: 100
-hidden: {  }
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_standfirst: true
