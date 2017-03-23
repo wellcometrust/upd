@@ -4,13 +4,18 @@ status: true
 dependencies:
   config:
     - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_featured
     - field.field.node.case_study.field_impact_of_work
     - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_pdf
     - field.field.node.case_study.field_sources_of_data
     - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_vertical_tab
     - node.type.case_study
   module:
     - content_moderation
+    - file
+    - paragraphs
     - path
     - text
 id: node.case_study.default
@@ -31,6 +36,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+  field_featured:
+    weight: 29
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
   field_impact_of_work:
     weight: 2
     settings:
@@ -46,6 +57,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+  field_pdf:
+    weight: 28
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
   field_sources_of_data:
     weight: 5
     settings:
@@ -61,6 +78,17 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+  field_vertical_tab:
+    type: entity_reference_paragraphs
+    weight: 27
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
   path:
     type: path
     weight: 4

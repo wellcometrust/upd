@@ -1,0 +1,24 @@
+uuid: 8785afc1-7be4-42e8-afe0-b642284b9d4f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.art.body
+    - node.type.art
+  module:
+    - text
+    - user
+id: node.art.default
+targetEntityType: node
+bundle: art
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+  links:
+    weight: 100
+hidden: {  }

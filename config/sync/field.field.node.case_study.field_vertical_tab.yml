@@ -1,0 +1,30 @@
+uuid: 82cc2bb9-db59-45a2-8fc7-a3c530ca471b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vertical_tab
+    - node.type.case_study
+    - paragraphs.paragraphs_type.case_study_vertical_tab
+  module:
+    - entity_reference_revisions
+id: node.case_study.field_vertical_tab
+field_name: field_vertical_tab
+entity_type: node
+bundle: case_study
+label: Tab
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      case_study_vertical_tab: case_study_vertical_tab
+    target_bundles_drag_drop:
+      case_study_vertical_tab:
+        enabled: true
+        weight: 2
+field_type: entity_reference_revisions

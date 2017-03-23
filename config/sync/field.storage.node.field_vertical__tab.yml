@@ -1,0 +1,21 @@
+uuid: 1d03a6ea-6bb1-4694-b324-f3b4ea3e5f97
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - node
+    - paragraphs
+id: node.field_vertical__tab
+field_name: field_vertical__tab
+entity_type: node
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,29 @@
+uuid: 275ac60c-43e2-4be1-a230-8f59d5c982e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.case_study_vertical_tab.field_body
+    - field.field.paragraph.case_study_vertical_tab.field_title
+    - paragraphs.paragraphs_type.case_study_vertical_tab
+  module:
+    - text
+id: paragraph.case_study_vertical_tab.default
+targetEntityType: paragraph
+bundle: case_study_vertical_tab
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_title:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden: {  }

@@ -1,0 +1,22 @@
+uuid: aecae6a4-1734-4f44-8a18-71566fb911fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vertical_tab
+id: node.vertical_tab.promote
+field_name: promote
+entity_type: node
+bundle: vertical_tab
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

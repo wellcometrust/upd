@@ -1,0 +1,7 @@
+uuid: f03df426-2ca6-483a-91e6-79694f4730a0
+langcode: en
+status: true
+dependencies: {  }
+id: case_study_vertical_tab
+label: 'Case study vertical tab'
+behavior_plugins: {  }

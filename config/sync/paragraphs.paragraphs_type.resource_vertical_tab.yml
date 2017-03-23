@@ -1,0 +1,7 @@
+uuid: b253cff3-e5c9-45ff-a2f3-09aab06c0000
+langcode: en
+status: true
+dependencies: {  }
+id: resource_vertical_tab
+label: 'Resource vertical tab'
+behavior_plugins: {  }
