@@ -6,7 +6,11 @@
 
 /* Base styles
    ========================================================================== */
+$upd-font-size-base-breakpoint: 400px;  // Define in pixels, not rems
+
 $upd-input-height: rems(48px);
+$upd-input-max-width: rems(480px);
+$upd-input-radius: rems(4px);
 
 
 

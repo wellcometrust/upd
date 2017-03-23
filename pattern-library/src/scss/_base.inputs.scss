@@ -4,10 +4,10 @@
   appearance: none;
   background: $upd-color-background-primary;
   border: 1px solid $upd-color-border-light;
-  border-radius: 4px;
+  border-radius: $upd-input-radius;
   height: $upd-input-height;
-  max-width: rems(480px);
-  padding: 0 0.5em;
+  max-width: $upd-input-max-width;
+  padding: 0 1em;
   transition: background $upd-transition-time, border $upd-transition-time;
   width: 100%;
 

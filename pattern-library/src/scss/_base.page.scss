@@ -8,7 +8,7 @@ html {
   -webkit-font-smoothing: antialiased;  /* 1 */
   text-size-adjust: 100%;
 
-  @include mq(400px) {
+  @include mq($upd-font-size-base-breakpoint) {
     font-size: ($upd-font-size-base / 16px) * 1em;
   }
 }
