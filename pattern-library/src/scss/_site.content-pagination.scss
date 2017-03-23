@@ -28,6 +28,7 @@
 .content-pagination__control {
   @extend %tile;
 
+  box-shadow: none;
   min-height: rems(160px);
   padding: $upd-spacing-gutter-large (2 * $upd-spacing-gutter-large);
   position: relative;
