@@ -99,7 +99,7 @@
 
                     {% for advisor in advisors %}
 
-                        <li class="column__group  u-mb">
+                        <li class="column__group  u-pb">
 
                             {% render '@profile', advisor %}
 
