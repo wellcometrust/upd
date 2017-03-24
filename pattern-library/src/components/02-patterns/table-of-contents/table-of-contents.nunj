@@ -1,4 +1,4 @@
-<ul class="toc">
+<ul class="toc" data-scroll-spy="#primary">
 
     {% for item in items %}
 

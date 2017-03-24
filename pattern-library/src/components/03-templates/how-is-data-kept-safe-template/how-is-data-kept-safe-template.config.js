@@ -39,7 +39,8 @@ const config = {
           ]
         }
       }
-    ]
+    ],
+    sticky: true
   }
 }
 

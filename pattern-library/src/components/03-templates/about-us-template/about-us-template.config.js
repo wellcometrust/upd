@@ -43,7 +43,8 @@ const config = {
           ]
         }
       }
-    ]
+    ],
+    sticky: true
   }
 }
 

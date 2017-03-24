@@ -21,25 +21,26 @@ const config = {
           items: [
             {
               active: true,
-              id: 'content-how-to-guide',
+              href: '#content-how-to-guide',
               title: '‘How to’ guide'
             },
             {
-              id: 'content-identifiability',
+              href: '#content-identifiability',
               title: 'Identifiability'
             },
             {
-              id: 'content-dos-and-donts',
+              href: '#content-dos-and-donts',
               title: 'DOs and DON’Ts'
             },
             {
-              id: 'content-the-research',
+              href: '#content-the-research',
               title: 'The research'
             }
           ]
         }
       }
-    ]
+    ],
+    sticky: true
   }
 }
 
