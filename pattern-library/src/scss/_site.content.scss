@@ -7,16 +7,19 @@
  */
 
 .content {
-  h2:not([class]) {
+  h2:not([class]),
+  h2.is-styled {
     padding: (2 * $upd-spacing-gutter-large) 0 $upd-spacing-gutter-large;
   }
 
   h4:not([class]),
+  h4.is-styled,
   .h4 {
     margin: $upd-line-height-heading-4 0 $upd-font-size-heading-4;
   }
 
-  a:not([class]) {
+  a:not([class]),
+  a.is-styled {
     color: $upd-color-brand-red;
   }
 

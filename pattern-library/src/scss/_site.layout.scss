@@ -22,6 +22,12 @@
 
     @include mq($upd-layout-breakpoint) {
       float: left;
+      padding-right: $upd-spacing-gutter-large;
+      width: 50%;
+    }
+
+    @include mq(x-large) {
+      padding-right: 3 * $upd-spacing-gutter-large;
     }
   }
 
@@ -37,6 +43,7 @@
   .layout__item--primary {
     @include mq($upd-layout-breakpoint) {
       padding-left: $sidebar-width + $upd-spacing-gutter-large;
+      padding-right: 0;
 
       .layout--monolith & {
         padding-left: 3 * $upd-spacing-gutter-large;
@@ -49,6 +56,7 @@
 
     @include mq($upd-layout-breakpoint) {
       margin-right: -$sidebar-width;  /* 1 */
+      padding-right: 0;
       width: $sidebar-width;  /* 1 */
     }
   }

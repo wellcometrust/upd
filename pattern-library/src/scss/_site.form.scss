@@ -1,0 +1,35 @@
+/* Form */
+
+.form {
+  margin: 0 auto;
+  max-width: $upd-input-max-width;
+}
+
+
+.form__group {
+  border: none;
+  margin-bottom: $upd-spacing-gutter-base;
+}
+
+
+.form__field {
+  margin-bottom: $upd-spacing-gutter-base;
+}
+
+.form__field--checkbox,
+.form__field--radio {
+  margin-bottom: 0;
+}
+
+
+.form__error {
+  color: $upd-color-danger;
+  display: none;
+  margin-bottom: 0;
+  margin-top: 0.5em;
+  
+  .form__group--error &,
+  .form__field--error & {
+    display: block;
+  }
+}
