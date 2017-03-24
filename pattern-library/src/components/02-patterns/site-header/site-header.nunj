@@ -21,7 +21,7 @@
 
     </div>
 
-    <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--navigation" href="#site-header-navigation">
+    <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--navigation" data-toggle="is-open" href="#site-header-navigation">
 
         <svg class="svg-icon  svg-icon--inline" role="presentation">
 
@@ -43,7 +43,7 @@
 
     </div>
 
-    <a aria-controls="site-header-search" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--search" href="#site-header-search">
+    <a aria-controls="site-header-search" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--search" data-toggle="is-open" href="#site-header-search">
 
         <svg class="svg-icon  svg-icon--inline" role="presentation">
 

@@ -2,7 +2,7 @@
 
     <label class="u-visually-hidden" for="header-search">Search the entire Understanding Patient Data site</label>
 
-    <button class="site-header__button    header-search__button" type="submit">
+    <button class="site-header__button    header-search__button  js-header-search" type="submit">
 
         {% render '@svg-icon', { icon: 'search', title: 'Search' } %}
 
