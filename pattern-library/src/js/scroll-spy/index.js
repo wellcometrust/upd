@@ -1,4 +1,4 @@
-import { ResizeSensor } from 'css-element-queries'
+import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 import classie from 'desandro-classie'
 import debounce from 'lodash-es/debounce'
 

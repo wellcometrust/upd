@@ -1,4 +1,18 @@
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const paths = require('./paths')
+const webpack = require('webpack')
+
+const isBuild = (process.env.CI === 'true' || process.env.NODE_ENV === 'build')
+
+const plugins = []
+
+if (isBuild) {
+  plugins.push(new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false
+  }))
+  plugins.push(new UglifyJSPlugin())
+}
 
 module.exports = {
   entry: paths.source.js,
@@ -22,11 +36,18 @@ module.exports = {
       },
       {
         exclude: /(node_modules|bower_components)/,
-        test: /\.js$/,
-        use: {
-          loader: 'babel-loader'
-        }
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            [
+              'es2015',
+              { modules: false }
+            ]
+          ]
+        },
+        test: /\.js$/
       }
     ]
-  }
+  },
+  plugins
 }
