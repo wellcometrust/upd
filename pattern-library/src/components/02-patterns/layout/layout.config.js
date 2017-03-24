@@ -12,7 +12,8 @@ const config = {
       {
         name: 'table-of-contents'
       }
-    ]
+    ],
+    sticky: true
   },
   default: 'Case study',
   preview: '@preview-boxed',
@@ -28,7 +29,8 @@ const config = {
           {
             name: 'refine--search-result-filters'
           }
-        ]
+        ],
+        sticky: false
       },
       name: 'Search results'
     },
@@ -43,7 +45,8 @@ const config = {
           {
             name: 'refine'
           }
-        ]
+        ],
+        sticky: false
       },
       name: 'Case studies'
     }
