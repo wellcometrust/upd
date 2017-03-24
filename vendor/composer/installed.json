@@ -3686,5 +3686,58 @@
             "issues": "https://www.drupal.org/project/issues/search_api",
             "irc": "irc://irc.freenode.org/drupal-search-api"
         }
+    },
+    {
+        "name": "drupal/config_ignore",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/config_ignore",
+            "reference": "8.x-1.3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/config_ignore-8.x-1.3.zip",
+            "reference": null,
+            "shasum": "60e4014e4d4b119b924d1e1ee5c914b4a6bd59a7"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.3",
+                "datestamp": "1487336284"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Tommy Lynge Jørgensen",
+                "homepage": "https://github.com/tlyngej",
+                "email": "tlyngej@gmail.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "tlyngej",
+                "homepage": "https://www.drupal.org/user/413139"
+            }
+        ],
+        "description": "Ignore certain configuration during import.",
+        "homepage": "http://drupal.org/project/config_ignore",
+        "support": {
+            "source": "http://cgit.drupalcode.org/config_ignore",
+            "issues": "http://drupal.org/project/config_ignore",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
     }
 ]

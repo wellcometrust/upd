@@ -1,0 +1,7 @@
+ignored_config_entities:
+  0: 'devel.*'
+  2: 'kint.*'
+  4: 'webprofiler.*'
+  6: 'devel_generate.*'
+_core:
+  default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk

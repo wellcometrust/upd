@@ -4,6 +4,7 @@ module:
   breakpoint: 0
   ckeditor: 0
   config: 0
+  config_ignore: 0
   contact: 0
   content_moderation: 0
   contextual: 0
@@ -11,8 +12,6 @@ module:
   ctools_views: 0
   datetime: 0
   dblog: 0
-  devel: 0
-  devel_generate: 0
   dynamic_page_cache: 0
   editor: 0
   entity_reference_revisions: 0
@@ -23,7 +22,6 @@ module:
   filter: 0
   image: 0
   inline_form_errors: 0
-  kint: 0
   layout_plugin: 0
   link: 0
   menu_ui: 0
@@ -46,7 +44,6 @@ module:
   user: 0
   views: 0
   views_ui: 0
-  webprofiler: 0
   menu_link_content: 1
   minimal: 1000
 theme:

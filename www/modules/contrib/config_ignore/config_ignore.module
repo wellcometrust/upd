@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Hooks implemented by the config_ignore module.
+ */
+
+use Drupal\Core\Config\ConfigImporter;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Config\StorageComparer;
+use Drupal\config_ignore\ConfigImporterIgnore;
+
+/**
+ * Implements hook_config_import_steps_alter().
+ */
+function config_ignore_config_import_steps_alter(&$sync_steps, ConfigImporter $config_importer) {
+  // Add a "step" to the config import workflow, before any other step is
+  // getting executed.
+  array_unshift($sync_steps, ['Drupal\config_ignore\ConfigImporterIgnore', 'preImport']);
+
+  // Add a step that should be the last to run during the config import
+  // workflow.
+  array_push($sync_steps, ['Drupal\config_ignore\ConfigImporterIgnore', 'postImport']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function config_ignore_form_config_admin_import_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Load the needed services.
+  $storage_sync = \Drupal::service('config.storage.sync');
+  $storage = \Drupal::service('config.storage');
+  $config_manager = \Drupal::service('config.manager');
+
+  $storage_compare = new StorageComparer($storage_sync, $storage, $config_manager);
+  foreach ($storage_compare->getAllCollectionNames() as $collection) {
+    // Add a new header.
+    $form[$collection]['update']['list']['#header'][] = t('Ignored');
+
+    // Now check if the rows match any of the ignored entities.
+    if (isset($form[$collection]['update']['list']['#rows']) && !empty($form[$collection]['update']['list']['#rows'])) {
+      foreach ($form[$collection]['update']['list']['#rows'] as $key => $row) {
+        if (ConfigImporterIgnore::matchConfigName($row['name'])) {
+          $form[$collection]['update']['list']['#rows'][$key]['ignored'] = t('✔');
+        }
+        else {
+          $form[$collection]['update']['list']['#rows'][$key]['ignored'] = t('✖');
+        }
+      }
+    }
+  }
+}
