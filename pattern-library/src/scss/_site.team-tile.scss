@@ -29,8 +29,9 @@
 }
 
 
-.team-tile__contact {
-  color: $upd-color-brand-grey;
+.team-tile__icon {
+  background-color: $upd-color-brand-grey;
+  color: $upd-color-text-reverse;
   display: inline-block;
   font-size: rems(30px);
 }

@@ -6,9 +6,9 @@
 
     <span class="team-tile__title">{{ title }}</span>
 
-    <a class="team-tile__contact" href="#link-to-twitter-account">
+    <a href="#link-to-twitter-account">
 
-        {% render '@svg-icon', { circular: true, icon: 'twitter', title: 'Twitter'} %}
+        {% render '@svg-icon', { circular: true, classes: 'team-tile__icon', icon: 'twitter', title: 'Twitter'} %}
 
     </a>
 
