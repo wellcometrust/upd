@@ -1,7 +1,0 @@
-uuid: b3e826f8-93d8-4cea-89fa-609cfbfdad36
-langcode: en
-status: true
-dependencies: {  }
-id: vertical_tab
-label: 'Vertical tab'
-behavior_plugins: {  }

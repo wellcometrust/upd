@@ -1,0 +1,7 @@
+uuid: e73afadf-9b9e-4c30-8764-7a4bf36f18d0
+langcode: en
+status: true
+dependencies: {  }
+id: faq_dropdowns
+label: 'FAQ dropdowns'
+behavior_plugins: {  }

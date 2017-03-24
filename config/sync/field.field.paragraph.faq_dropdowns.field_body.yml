@@ -1,16 +1,16 @@
-uuid: d926215a-f757-48fa-bfc4-83827234f625
+uuid: 270a4b4e-a9d2-4050-970a-e1c6581b981a
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_body
-    - paragraphs.paragraphs_type.vertical_tab
+    - paragraphs.paragraphs_type.faq_dropdowns
   module:
     - text
-id: paragraph.vertical_tab.field_body
+id: paragraph.faq_dropdowns.field_body
 field_name: field_body
 entity_type: paragraph
-bundle: vertical_tab
+bundle: faq_dropdowns
 label: Body
 description: ''
 required: false

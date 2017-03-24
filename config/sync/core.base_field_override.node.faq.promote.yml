@@ -1,13 +1,13 @@
-uuid: aecae6a4-1734-4f44-8a18-71566fb911fa
+uuid: eb81ef9d-edc0-46fe-9d34-2f5b7a07375b
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.vertical_tab
-id: node.vertical_tab.promote
+    - node.type.faq
+id: node.faq.promote
 field_name: promote
 entity_type: node
-bundle: vertical_tab
+bundle: faq
 label: 'Promoted to front page'
 description: ''
 required: false

@@ -1,14 +1,14 @@
-uuid: 2c64158c-5267-40e1-8f19-d9cadffb87dc
+uuid: 633d9b22-bd15-42fb-9329-4d3ece3a5af4
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_title
-    - paragraphs.paragraphs_type.vertical_tab
-id: paragraph.vertical_tab.field_title
+    - paragraphs.paragraphs_type.faq_dropdowns
+id: paragraph.faq_dropdowns.field_title
 field_name: field_title
 entity_type: paragraph
-bundle: vertical_tab
+bundle: faq_dropdowns
 label: Title
 description: ''
 required: false
