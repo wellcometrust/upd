@@ -7,7 +7,8 @@
     @extend %clearfix;
     @extend %list-bare;
 
-    margin: (2 * $upd-spacing-gutter-large) 0;
+    margin: $upd-spacing-gutter-large 0 (2 * $upd-spacing-gutter-large);
+    position: relative;
 
     @include mq($upd-layout-breakpoint) {
       margin: rems(80px) 0;
@@ -16,18 +17,11 @@
 
   .layout__item {
     display: block;
+    padding-top: $upd-spacing-gutter-large;
+    position: relative;
 
     @include mq($upd-layout-breakpoint) {
       float: left;
-      position: relative;
-    }
-
-    * + & {
-      margin-top: $upd-spacing-gutter-base;
-
-      @include mq($upd-layout-breakpoint) {
-        margin-top: 0;
-      }
     }
   }
 
@@ -57,5 +51,11 @@
       margin-right: -$sidebar-width;  /* 1 */
       width: $sidebar-width;  /* 1 */
     }
+  }
+
+  .layout__item--sticky {
+    padding-bottom: $upd-spacing-gutter-large;
+    position: sticky;
+    top: 0;
   }
 }
