@@ -1,0 +1,15 @@
+<main class="layout  content  u-font-body-copy">
+
+    <div class="layout__item">
+
+        {% include '@tile' %}
+
+    </div>
+
+    <div class="layout__item">
+
+        {% render '@form--contact-us' %}
+
+    </div>
+
+</main>
