@@ -67,6 +67,14 @@
     js-beautify "^1.6.2"
     lodash "^4.12.0"
 
+"@frctl/mandelbrot@hactar-is/mandelbrot#feature/beautify-options":
+  version "1.1.0"
+  resolved "https://codeload.github.com/hactar-is/mandelbrot/tar.gz/2846e7da3d1f2f52034027089efbe22c00dc6b21"
+  dependencies:
+    "@frctl/fractal" "^1.1.0-alpha.0"
+    js-beautify "^1.6.2"
+    lodash "^4.12.0"
+
 "@frctl/nunjucks@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@frctl/nunjucks/-/nunjucks-1.0.3.tgz#baf5e74944417b22085c616e92d07594d6523d2d"
@@ -5891,15 +5899,7 @@ ua-parser-js@0.7.12:
   version "0.7.12"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
-uglify-js@^2.6, uglify-js@^2.8.5:
-  version "2.8.9"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.9.tgz#01194b91cc0795214093c05594ef5ac1e0b2e900"
-  dependencies:
-    source-map "~0.5.1"
-    uglify-to-browserify "~1.0.0"
-    yargs "~3.10.0"
-
-uglify-js@^2.8.15:
+uglify-js@^2.6, uglify-js@^2.8.15, uglify-js@^2.8.5:
   version "2.8.15"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.15.tgz#835dd4cd5872554756e6874508d0d0561704d94d"
   dependencies:

@@ -1,7 +1,8 @@
 const fractal = module.exports = require('@frctl/fractal').create()
 const nunjucks = require('@frctl/nunjucks')
 
-const paths = require('./config/paths')
+const paths = require('../config/paths')
+const beautify = require('./beautify')
 
 fractal.set('project.title', 'Understanding Patient Data')
 
@@ -24,6 +25,7 @@ fractal.docs.set('path', paths.source.docs)
 const mandelbrot = require('@frctl/mandelbrot')
 
 const theme = mandelbrot({
+  beautify,
   panels: [
     'html',
     'info',
