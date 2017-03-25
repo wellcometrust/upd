@@ -4,7 +4,7 @@
 
     <button class="site-header__button    header-search__button  js-header-search" type="submit">
 
-        {% render '@svg-icon', { icon: 'search', title: 'Search' } %}
+        {% include '@svg-icon' %}
 
     </button>
 

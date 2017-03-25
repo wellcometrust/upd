@@ -6,6 +6,16 @@
 
     {% endif %}
 
-    <use xlink:href="#svg-icon-{{ icon }}"/>
+    {% if icon %}
+
+        <use xlink:href="#svg-icon-{{ icon }}"/>
+
+    {% endif %}
+
+    {% for icon in icons %}
+
+        <use {% if icon.classes %}class="{{ icon.classes }}" {% endif %}xlink:href="#svg-icon-{{ icon.name }}"/>
+
+    {% endfor %}
 
 </svg>

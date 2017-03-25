@@ -3,25 +3,22 @@
     <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/logo.svg' | path }}">
 
 
-    <div class="site-header__navigation" id="site-header-navigation">
+    <div class="site-header__navigation    drop-down" id="site-header-navigation">
 
-        <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--close" href="#">
+        <div class="site-header__drop-down  drop-down__container">
 
-            <svg class="svg-icon  svg-icon--inline" role="presentation">
+            {% render '@header-navigation' %}
 
-                <title>Close navigation</title>
-
-                <use xlink:href="#svg-icon-arrow"/>
-
-            </svg>
-
-        </a>
-
-        {% render '@header-navigation' %}
+        </div>
 
     </div>
 
-    <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--navigation" data-toggle="is-open" href="#site-header-navigation">
+    <a aria-controls="site-header-navigation"
+       aria-expanded="false"
+       class="site-header__button  site-header__button--toggle"
+       data-toggle="is-open"
+       data-toggle-group="site-header"
+       href="#site-header-navigation">
 
         <svg class="svg-icon  svg-icon--inline" role="presentation">
 
@@ -33,9 +30,9 @@
 
     </a>
 
-    <div class="site-header__search" id="site-header-search">
+    <div class="site-header__search    drop-down" id="site-header-search">
 
-        <div class="site-header__search-inner">
+        <div class="site-header__drop-down    drop-down__container">
 
             {% render '@header-search' %}
 
@@ -43,7 +40,13 @@
 
     </div>
 
-    <a aria-controls="site-header-search" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--search" data-toggle="is-open" href="#site-header-search">
+    <a aria-controls="site-header-search"
+       aria-expanded="false"
+       class="site-header__button  site-header__button--toggle"
+       data-focus="#header-search"
+       data-toggle="is-open"
+       data-toggle-group="site-header"
+       href="#site-header-search">
 
         <svg class="svg-icon  svg-icon--inline" role="presentation">
 
@@ -56,3 +59,5 @@
     </a>
 
 </header>
+
+<div class="site-header  site-header--placeholder"></div>
