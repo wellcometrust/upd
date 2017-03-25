@@ -2,6 +2,7 @@
 
 /* Functions
    ========================================================================== */
+@import "functions/color";
 @import "functions/rems";
 @import "functions/svg-url";
 
@@ -68,6 +69,7 @@
 @import "generic/box";
 @import "generic/clearfix";
 @import "generic/column";
+@import "generic/drop-down";
 @import "generic/grid";
 @import "generic/list-bare";
 @import "generic/list-delimited";

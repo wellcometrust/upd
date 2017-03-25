@@ -6,8 +6,11 @@
 .header-nav__list {
   @extend %list-bare;
 
+  padding: ($upd-spacing-gutter-large / 2) 0;
+
   @include mq($upd-site-header-breakpoint-navigation) {
     display: inline-block;
+    padding: 0;
   }
 }
 
@@ -22,7 +25,7 @@
 
 .header-nav__link {
   display: block;
-  padding: $upd-spacing-gutter-base $upd-spacing-gutter-large;
+  padding: ($upd-spacing-gutter-large / 2) $upd-spacing-gutter-large;
   vertical-align: middle;
 
   @include mq($upd-site-header-breakpoint-navigation) {

@@ -45,6 +45,8 @@ $upd-layout-breakpoint: large;
 
 /* Site header
    ========================================================================== */
+$upd-site-header-color-base: $upd-color-brand-navy;
+$upd-site-header-color-active: tint($upd-color-brand-navy, 10%);
 $upd-site-header-height: rems(70px);
 $upd-site-header-height-small: rems(50px);
 $upd-site-header-breakpoint-height: small;
