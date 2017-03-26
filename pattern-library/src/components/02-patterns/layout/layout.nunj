@@ -1,4 +1,4 @@
-<main class="layout{% if reverse === true %}  layout--reverse{% elif sidebar %}{% elif monolith %}  layout--monolith{% endif %}">
+<main class="layout{% if reverse === true %}  layout--reverse{% elif sidebar %}{% elif equal %}  layout--equal{% endif %}">
 
     {% if reverse !== true %}
 
@@ -6,19 +6,23 @@
 
             <aside class="layout__item  layout__item--secondary{% if sticky %}  layout__item--sticky{% endif %}{% if important !== true %}  u-hidden-layout-simple{% endif %}">
 
-                {% for item in sidebar %}
+                <div class="layout__wrapper">
 
-                    {% if item.name %}
+                    {% for item in sidebar %}
 
-                        {% render '@' + item.name, item.context %}
+                        {% if item.name %}
 
-                    {% else %}
+                            {% render '@' + item.name, item.context %}
 
-                        {{ item }}
+                        {% else %}
 
-                    {% endif %}
+                            {{ item }}
 
-                {% endfor %}
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
 
             </aside>
 
@@ -26,21 +30,25 @@
 
     {% endif %}
 
-    <article class="layout__item  layout__item--primary" id="primary">
+    <article class="layout__item{% if monolith !== true %}  layout__item--primary{% endif %}" id="primary">
 
-        {% for item in content %}
+        <div class="layout__wrapper">
 
-            {% if item.name %}
+            {% for item in content %}
 
-                {% render '@' + item.name, item.context %}
+                {% if item.name %}
 
-            {% else %}
+                    {% render '@' + item.name, item.context %}
 
-                {{ item }}
+                {% else %}
 
-            {% endif %}
+                    {{ item }}
 
-        {% endfor %}
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
 
     </article>
 
@@ -50,19 +58,23 @@
 
             <aside class="layout__item  layout__item--secondary    {% if important !== true %}u-hidden-layout-simple{% endif %}{% if sticky %}  js-sticky{% endif %}">
 
-                {% for item in sidebar %}
+                <div class="layout__wrapper">
 
-                    {% if item.name %}
+                    {% for item in sidebar %}
 
-                        {% render '@' + item.name, item.context %}
+                        {% if item.name %}
 
-                    {% else %}
+                            {% render '@' + item.name, item.context %}
 
-                        {{ item }}
+                        {% else %}
 
-                    {% endif %}
+                            {{ item }}
 
-                {% endfor %}
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
 
             </aside>
 

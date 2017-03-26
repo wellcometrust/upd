@@ -8,26 +8,29 @@
     @extend %list-bare;
 
     margin: $upd-spacing-gutter-large 0 (2 * $upd-spacing-gutter-large);
+    margin-left: -$upd-spacing-gutter-large;
     position: relative;
 
     @include mq($upd-layout-breakpoint) {
-      margin: rems(80px) 0;
+      $vertical-margin: rems(80px);
+
+      margin-bottom: $vertical-margin;
     }
   }
 
   .layout__item {
     display: block;
+    padding-left: $upd-spacing-gutter-large;
     padding-top: $upd-spacing-gutter-large;
     position: relative;
+    width: 100%;
 
     @include mq($upd-layout-breakpoint) {
       float: left;
-      padding-right: $upd-spacing-gutter-large;
-      width: 50%;
-    }
 
-    @include mq(x-large) {
-      padding-right: 3 * $upd-spacing-gutter-large;
+      .layout--equal & {
+        width: 50%;
+      }
     }
   }
 
@@ -43,12 +46,7 @@
   .layout__item--primary {
     @include mq($upd-layout-breakpoint) {
       padding-left: $sidebar-width + $upd-spacing-gutter-large;
-      padding-right: 0;
       width: 100%;
-
-      .layout--monolith & {
-        padding-left: 3 * $upd-spacing-gutter-large;
-      }
     }
   }
 
@@ -57,7 +55,6 @@
 
     @include mq($upd-layout-breakpoint) {
       margin-right: -$sidebar-width;  /* 1 */
-      padding-right: 0;
       width: $sidebar-width;  /* 1 */
     }
   }
@@ -66,5 +63,24 @@
     padding-bottom: $upd-spacing-gutter-large;
     position: sticky;
     top: 0;
+  }
+
+
+  .layout__wrapper {
+    margin: auto;
+    max-width: $upd-max-width - (2 * $upd-spacing-gutter-large);
+
+    @include mq($upd-layout-breakpoint) {
+      margin-right: 0;
+    }
+
+    .layout--equal & {
+      max-width: (($upd-max-width - $upd-spacing-gutter-large) / 2) - (3 * $upd-spacing-gutter-large);
+
+      @include mq($upd-layout-breakpoint) {
+        margin-left: 0;
+        margin-right: auto;
+      }
+    }
   }
 }
