@@ -22,10 +22,12 @@ const masonry = (target) => {
   return masonry
 }
 
-masonry.init = (els) => {
+const initMasonries = (els) => {
   els = els || select('.masonry')
 
   return els.map(masonry)
 }
+
+export { initMasonries }
 
 export default masonry
