@@ -30,7 +30,7 @@
 
     </a>
 
-    <div class="site-header__search    drop-down" id="site-header-search">
+    <div class="site-header__search    drop-down" data-focus="#header-search" id="site-header-search">
 
         <div class="site-header__drop-down    drop-down__container">
 
@@ -43,7 +43,6 @@
     <a aria-controls="site-header-search"
        aria-expanded="false"
        class="site-header__button  site-header__button--toggle"
-       data-focus="#header-search"
        data-toggle="is-open"
        data-toggle-group="site-header"
        href="#site-header-search">
