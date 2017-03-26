@@ -1,54 +1,80 @@
+import CustomEvent from 'custom-event'
 import classie from 'desandro-classie'
 
 import select from '../select'
 
-const toggle = (el) => {
-  const className = el.getAttribute('data-toggle')
-  const groupId = el.getAttribute('data-toggle-group')
-  const isExpanded = el.getAttribute('aria-expanded') === 'true'
-  const targetId = el.getAttribute('aria-controls')
-
-  const targetEl = select('#' + targetId)
-  const triggerEls = select(`[aria-controls="${targetId}"][data-toggle]`)
-
-  targetEl.forEach((el) => classie.toggle(el, className))
-
-  triggerEls.forEach((el) => {
-    // If the toggle has a group, toggle all other active elements in the group
-    if (groupId) {
-      const activeEls = select(`[data-toggle-group="${groupId}"].${className}`)
-
-      activeEls.forEach((targetEl) => {
-        if (targetEl !== el) {
-          toggle(targetEl)
-        }
-      })
-    }
-
-    // Toggle the current element
-    classie.toggle(el, className)
-    el.setAttribute('aria-expanded', !isExpanded)
-
-    if ('#' + el.id === window.location.hash && isExpanded) {
-      window.location.hash = ''
+const emitToggle = (isExpanded) => {
+  return new CustomEvent('toggle', {
+    detail: {
+      isExpanded
     }
   })
 }
 
-toggle.init = () => {
+class Toggle {
+  constructor (el) {
+    this.el = el
+
+    const targetId = this.el.getAttribute('aria-controls')
+
+    this.className = this.el.getAttribute('data-toggle')
+    this.groupId = this.el.getAttribute('data-toggle-group')
+    this.targetEl = select.first('#' + targetId)
+
+    if (!this.targetEl) return
+
+    this.el.addEventListener('click', this.toggle.bind(this))
+    this.targetEl.addEventListener('toggle', this._toggleSelf.bind(this))
+
+    if (this._isTarget()) {
+      this.toggle()
+    }
+  }
+
+  _isTarget () {
+    return '#' + this.el.id === window.location.hash || '#' + this.targetEl.id === window.location.hash
+  }
+
+  _toggleSelf (e) {
+    const isExpanded = e.detail.isExpanded
+
+    classie.toggle(this.el, this.className)
+    this.el.setAttribute('aria-expanded', isExpanded)
+
+    if (this._isTarget() && !isExpanded) {
+      window.location.hash = '!'
+
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState('', document.title, window.location.pathname + window.location.search)
+      }
+    }
+  }
+
+  toggle (e) {
+    if (e) e.preventDefault()
+
+    const isExpanded = (this.el.getAttribute('aria-expanded') !== 'true')
+
+    if (isExpanded && this.groupId) {
+      const activeEls = select(`[aria-expanded="true"][data-toggle-group="${this.groupId}"]`)
+
+      activeEls.forEach((activeEl) => activeEl.click())
+    }
+
+    classie.toggle(this.targetEl, this.className)
+
+    this.targetEl.dispatchEvent(emitToggle(isExpanded))
+  }
+}
+
+const initToggles = () => {
   const triggerEls = select('[data-toggle]')
 
-  triggerEls.forEach((el) => {
-    if ('#' + el.id === window.location.hash) {
-      toggle(el)
-    }
-
-    el.addEventListener('click', (e) => {
-      e.preventDefault()
-
-      toggle(el)
-    })
+  return triggerEls.map((el) => {
+    return new Toggle(el)
   })
 }
 
-export default toggle
+export { initToggles }
+
+export default Toggle
