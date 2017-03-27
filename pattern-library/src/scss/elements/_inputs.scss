@@ -85,8 +85,10 @@ input[type=radio] {
   @extend %u-visually-hidden;
 }
 
+/* Override normalize.css */
 input[type=search] {
-  box-sizing: inherit;  /* Override normalize.css */
+  appearance: none;
+  box-sizing: inherit;
 }
 
 
