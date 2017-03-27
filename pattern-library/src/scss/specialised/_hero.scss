@@ -1,25 +1,54 @@
 /* Hero */
 
 .hero {
+  $min-background-width: map_get($upd-breakpoints, 'medium');
+
   background-image: url('../images/placeholder/home-illustration.png'), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 642.8"><polygon fill="#{$upd-color-brand-grey}" points="0,0 750,0 750,205 0,642.8 "/><polygon fill="#{$upd-color-brand-grey-blue}" points="1000,350.9 750,205 750,0 1000,0 "/></svg>');
-  background-position: right top, center top;
+  background-position: center top;
   background-repeat: no-repeat;
-  background-size: 50%, contain;
-  padding-bottom: 4 * $upd-spacing-gutter-large;
+  background-size: $min-background-width / 2, $min-background-width;
+  padding-top: calc(#{3 * $upd-spacing-gutter-large} + 25%);
+
+  @include mq(small) {
+    padding-bottom: 3 * $upd-spacing-gutter-large;
+  }
+
+  @include mq(medium) {
+    background-size: 50%, 100%;
+  }
+
+  @include mq(x-large) {
+    background-position: right top;
+    padding-top: 0;
+  }
 }
 
 .hero__title {
   @extend %font-hero;
 
+  display: none;
   max-width: $upd-max-width / 2;
   padding: 6 * $upd-spacing-gutter-large 0;
+
+  @include mq(x-large) {
+    display: block;
+  }
 }
 
 
 .hero__intro {
   @extend %font-hero-intro;
 
-  margin-top: rems(100px);
-  padding: 0 5%;
+  margin: 0;
+  padding: (2 * $upd-spacing-gutter-large) 0;
   text-align: center;
+
+  @include mq(small) {
+    margin-top: rems(100px);
+    padding: 0;
+  }
+
+  @include mq(medium) {
+    padding: 0 5%;
+  }
 }
