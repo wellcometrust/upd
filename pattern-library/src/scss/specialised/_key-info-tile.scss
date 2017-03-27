@@ -31,7 +31,8 @@
 
 
 .key-info-tile__text {
-  @extend %h3;
+  @extend %font-heading-3;
+  @extend %font-heading-3--key-information;
 
   margin-bottom: rems(40px);
 }

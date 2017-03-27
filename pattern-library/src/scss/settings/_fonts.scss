@@ -148,8 +148,9 @@ $upd-line-height-heading-2: rems(44px) / $upd-font-size-heading-2;
   @include font-heading-2--resource-title;
 }
 
+
 $upd-font-size-heading-3: rems(20px);
-$upd-line-height-heading-3: rems(32px) / $upd-font-size-heading-3;
+$upd-line-height-heading-3: rems(28px) / $upd-font-size-heading-3;
 
 @mixin font-heading-3 {
   color: $upd-color-text-highlight-dark;
@@ -158,8 +159,18 @@ $upd-line-height-heading-3: rems(32px) / $upd-font-size-heading-3;
   line-height: $upd-line-height-heading-3;
 }
 
+$upd-line-height-heading-3--key-information: rems(32px) / $upd-font-size-heading-3;
+
+@mixin font-heading-3--key-information {
+  line-height: $upd-line-height-heading-3--key-information;
+}
+
 %font-heading-3 {
   @include font-heading-3;
+}
+
+%font-heading-3--key-information {
+  @include font-heading-3--key-information;
 }
 
 
