@@ -1,26 +1,25 @@
-uuid: 8785afc1-7be4-42e8-afe0-b642284b9d4f
+uuid: 1b24a0e2-75a3-44ea-b2f7-d2953a163a41
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.search_result
     - field.field.node.art.body
     - node.type.art
   module:
     - text
     - user
-id: node.art.default
+id: node.art.search_result
 targetEntityType: node
 bundle: art
-mode: default
+mode: search_result
 content:
   body:
     label: hidden
-    type: text_default
-    weight: 101
-    settings: {  }
+    type: text_trimmed
+    weight: 0
+    settings:
+      trim_length: 600
     third_party_settings: {  }
-  links:
-    weight: 100
-    settings: {  }
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  links: true

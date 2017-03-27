@@ -16,4 +16,5 @@ content:
   links:
     weight: 100
 hidden:
+  field_faq_dropdown: true
   field_standfirst: true

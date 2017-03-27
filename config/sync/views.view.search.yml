@@ -75,10 +75,10 @@ display:
         options:
           view_modes:
             'entity:node':
-              art: teaser
-              case_study: teaser
-              resource: teaser
-              vertical_tab: default
+              art: search_result
+              case_study: search_result
+              faq: search_result
+              resource: search_result
       fields: {  }
       filters:
         search_api_fulltext:
