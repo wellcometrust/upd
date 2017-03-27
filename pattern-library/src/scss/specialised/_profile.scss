@@ -33,6 +33,6 @@
   display: block;
 
   .profile__info & {
-    line-height: rems(20px);
+    line-height: rems(20px) / $upd-font-size-body-copy-small;
   }
 }
