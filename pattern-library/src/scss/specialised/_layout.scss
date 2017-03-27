@@ -62,7 +62,7 @@
   .layout__item--sticky {
     padding-bottom: $upd-spacing-gutter-large;
     position: sticky;
-    top: 0;
+    top: $upd-site-header-height;
   }
 
 
