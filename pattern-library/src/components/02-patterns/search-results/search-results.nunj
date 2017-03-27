@@ -1,12 +1,6 @@
 <div class="search-results{% for modifier in modifiers %}  search-results--{{ modifier }}{% endfor %}">
 
-    <header class="search-results__header">
-
-        {% if count %}
-
-            <span class="search-results__count">{{ count }} results</span>
-
-        {% endif %}
+    <header class="search-results__header{% if featured %}    u-display-none  u-display-block-from-x-large{% endif %}">
 
         {% if featured %}
 
@@ -14,17 +8,23 @@
 
                 {% for i in range(3) %}
 
-                    <li class="grid__item    gutter__item    u-width-1-of-3">
+                <li class="grid__item    gutter__item    u-width-1-of-3">
 
-                        {% render '@case-study-tile' %}
+                    {% render '@case-study-tile' %}
 
                     <!-- /li -->
 
-                {% endfor %}
+                    {% endfor %}
 
             </ul>
 
+        {% elif count %}
+
+            <span class="search-results__count">{{ count }} results</span>
+
         {% endif %}
+
+
 
     </header>
 
@@ -32,7 +32,7 @@
 
         {% for item in items %}
 
-            <li>
+            <li{% if featured %}{% if loop.index < 3 %} class="u-display-none-from-x-large"{% endif %}{% endif %}>
 
                 <a class="search-result" href="#link-to-page">
 
