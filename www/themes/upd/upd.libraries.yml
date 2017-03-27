@@ -1,5 +1,7 @@
 global-styling:
   version: VERSION
+  js:
+    assets/js/index.js: {}
   css:
     base:
       assets/css/main.css: {}
