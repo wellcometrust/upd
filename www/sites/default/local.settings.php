@@ -55,7 +55,6 @@
  * register custom, site-specific service definitions and/or swap out default
  * implementations with custom ones.
  */
-
 /**
  * Database settings:
  *
@@ -86,7 +85,7 @@
  * );
  * @endcode
  */
- $databases = array();
+$databases = array();
 
 /**
  * Customizing database settings.
@@ -218,7 +217,6 @@
  *   );
  * @endcode
  */
-
 /**
  * Location of the site configuration files.
  *
@@ -255,7 +253,6 @@ $config_directories = array();
  *
  * @see \Drupal\Core\Site\Settings::get()
  */
-
 /**
  * The active installation profile.
  *
@@ -439,15 +436,15 @@ $settings['update_free_access'] = FALSE;
  * uncomment the code below.
  */
 /*
-if ($settings['hash_salt']) {
+  if ($settings['hash_salt']) {
   $prefix = 'drupal.' . hash('sha256', 'drupal.' . $settings['hash_salt']);
   $apc_loader = new \Symfony\Component\ClassLoader\ApcClassLoader($prefix, $class_loader);
   unset($prefix);
   $class_loader->unregister();
   $apc_loader->register();
   $class_loader = $apc_loader;
-}
-*/
+  }
+ */
 
 /**
  * Authorized file system operations:
@@ -566,7 +563,6 @@ if ($settings['hash_salt']) {
  * Settings defined there should not be duplicated here so as to avoid conflict
  * issues.
  */
-
 /**
  * If you encounter a situation where users post a large amount of text, and
  * the result is stripped out upon viewing but can still be edited, Drupal's
@@ -700,7 +696,6 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  * will allow the site to run off of all variants of example.com and
  * example.org, with all subdomains included.
  */
-
 /**
  * Load local development override configuration, if available.
  *
@@ -714,7 +709,7 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
 # if (file_exists(__DIR__ . '/settings.local.php')) {
 #   include __DIR__ . '/settings.local.php';
 # }
-$databases['default']['default'] = array (
+$databases['default']['default'] = array(
   'database' => 'drupal',
   'username' => 'dev',
   'password' => 'dev',
@@ -731,7 +726,16 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 
-$config_directories['sync'] = '../config/sync';$databases['default']['default'] = array (
+$config_directories['sync'] = '../config/sync';
+
+$config['config_ignore.settings']['ignored_config_entities'] = array(
+  'devel.*',
+  'kint.*',
+  'webprofiler.*',
+  'devel_generate.*',
+);
+
+$databases['default']['default'] = array(
   'database' => 'drupal',
   'username' => 'dev',
   'password' => 'dev',
