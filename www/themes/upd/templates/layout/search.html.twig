@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Search page layout.
+ *
+ */
+#}
+<aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
+  <div class="layout__wrapper">
+    {{ content.filters }}
+  </div>
+</aside>
+<article class="layout__item  layout__item--primary" id="primary">
+  <div class="layout__wrapper">
+    <div class="search-results">
+      {{ content.results }}
+    </div>
+  </div>
+</article>
