@@ -45,7 +45,15 @@ $upd-ratios: (
 /* Site patterns
    ========================================================================== */
 
-/* CTA  =============== */
+/* Buttons
+  ========================================================================== */
+$upd-button-height: rems(40px);
+$upd-button-height-small: rems(30px);
+$upd-button-height-tiny: rems(18px);
+
+
+/* CTA
+   ========================================================================== */
 $upd-cta-extensions: docx, pdf, pptx;
 
 
@@ -63,3 +71,4 @@ $upd-site-header-height-small: rems(55px);
 $upd-site-header-breakpoint-height: small;
 $upd-site-header-breakpoint-navigation: x-large;
 $upd-site-header-breakpoint-search: medium;
+$upd-site-header-popup-button-height: $upd-site-header-height-small;

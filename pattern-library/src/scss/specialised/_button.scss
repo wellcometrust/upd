@@ -8,17 +8,16 @@
 
 .button,
 %button {
-  $height: rems(40px);
-  $padding-horizontal: ($height - $upd-font-size-button) / 2;
-  $padding-vertical: $height * 0.8;
+  $padding-horizontal: ($upd-button-height - $upd-font-size-button) / 2;
+  $padding-vertical: $upd-button-height * 0.8;
 
   @extend %font-button;
 
   background-color: $upd-color-brand-red;
-  border-radius: $height / 2;
+  border-radius: $upd-button-height / 2;
   color: $upd-color-text-reverse;
   display: inline-block;
-  height: $height;  /* 1 */
+  height: $upd-button-height;  /* 1 */
   line-height: 1;   /* 2 */
   padding: $padding-horizontal $padding-vertical; /* 2 */
   text-align: center;
@@ -49,23 +48,21 @@
 }
 
 .button--small {
-  $height: rems(30px);
-  $padding-horizontal: ($height - $upd-font-size-button-small) / 2;
-  $padding-vertical: $height * 0.8;
+  $padding-horizontal: ($upd-button-height-small - $upd-font-size-button-small) / 2;
+  $padding-vertical: $upd-button-height-small * 0.8;
 
   @extend %font-button-small;
 
-  height: $height;  /* 1 */
+  height: $upd-button-height-small;  /* 1 */
   padding: $padding-horizontal $padding-vertical; /* 2 */
 }
 
 .button--tiny {
-  $height: rems(18px);
-  $padding-horizontal: ($height - $upd-font-size-button-tiny) / 2;
-  $padding-vertical: $height * 0.5;
+  $padding-horizontal: ($upd-button-height-tiny - $upd-font-size-button-tiny) / 2;
+  $padding-vertical: $upd-button-height-tiny * 0.5;
 
   @extend %font-button-tiny;
 
-  height: $height;  /* 1 */
+  height: $upd-button-height-tiny;  /* 1 */
   padding: $padding-horizontal $padding-vertical; /* 2 */
 }

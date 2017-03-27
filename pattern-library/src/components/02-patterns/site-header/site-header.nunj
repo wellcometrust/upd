@@ -18,7 +18,7 @@
 
     <a aria-controls="site-header-navigation"
        aria-expanded="false"
-       class="site-header__button  site-header__button--toggle"
+       class="site-header__button    u-display-none-from-visible-navigation"
        data-toggle="is-open"
        data-toggle-group="site-header"
        href="#site-header-navigation">
@@ -45,7 +45,7 @@
 
     <a aria-controls="site-header-search"
        aria-expanded="false"
-       class="site-header__button  site-header__button--toggle"
+       class="site-header__button    u-display-none-from-visible-navigation"
        data-toggle="is-open"
        data-toggle-group="site-header"
        href="#site-header-search">
@@ -60,6 +60,21 @@
 
     </a>
 
+    {% if popup %}
+
+        <a aria-controls="{{ popup.id }}"
+           aria-expanded="false"
+           class="site-header__popup-bar    u-display-none-from-visible-navigation"
+           data-toggle="is-open"
+           data-toggle-group="site-header"
+           href="#{{ popup.id }}">
+
+            {{ popup.label }}
+
+        </a>
+
+    {% endif %}
+
 </header>
 
-<div class="site-header  site-header--placeholder"></div>
+<div class="site-header  site-header--placeholder{% if popup %}  site-header--popup{% endif %}"></div>

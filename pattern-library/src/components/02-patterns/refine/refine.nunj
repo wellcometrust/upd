@@ -1,43 +1,47 @@
-{% if search %}
+<div class="pop-up  pop-up--layout    js-prevent-background-scroll" id="popup-refine">
 
-    <div class="refine">
+    {% if search %}
 
-        {% render '@search' %}
+        <div class="refine">
 
-    </div>
+            {% render '@search' %}
 
-{% endif %}
+        </div>
 
-{% if categories %}
+    {% endif %}
 
-    <form class="refine">
+    {% if categories %}
 
-        {% for category in categories %}
+        <form class="refine">
 
-            <fieldset class="refine__category">
+            {% for category in categories %}
 
-                <legend class="refine__title">{{ category.title }}</legend>
+                <fieldset class="refine__category">
 
-                {% for option in category.options %}
+                    <legend class="refine__title">{{ category.title }}</legend>
 
-                    <input id="{{ option.id }}" name="{{ option.name }}" type="checkbox">
+                    {% for option in category.options %}
 
-                    <label class="refine__option" for="{{ option.id }}">{{ option.label }}</label>
+                        <input id="{{ option.id }}" name="{{ option.name }}" type="checkbox">
 
-                {% endfor %}
+                        <label class="refine__option" for="{{ option.id }}">{{ option.label }}</label>
 
-                <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
+                    {% endfor %}
 
-            </fieldset>
+                    <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
 
-        {% endfor %}
+                </fieldset>
 
-        {% if submit %}
+            {% endfor %}
 
-            <button class="button  button--block  button--secondary" type="submit">{{ submit }}</button>
+            {% if submit %}
 
-        {% endif %}
+                 <button class="button  button--block  button--secondary" type="submit">{{ submit }}</button>
 
-    </form>
+            {% endif %}
 
-{% endif %}
+        </form>
+
+    {% endif %}
+
+</div>

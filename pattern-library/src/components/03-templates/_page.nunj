@@ -1,4 +1,12 @@
-{% render '@site-header' %}
+{% if siteHeader.layout %}
+
+    {% render '@site-header--' + siteHeader.layout %}
+
+{% else %}
+
+    {% render '@site-header', siteHeader %}
+
+{% endif %}
 
 {% if header.layout %}
 

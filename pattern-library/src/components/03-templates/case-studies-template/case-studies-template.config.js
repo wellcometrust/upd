@@ -1,6 +1,9 @@
 const config = {
   context: {
-    layout: 'case-studies'
+    layout: 'case-studies',
+    siteHeader: {
+      layout: 'search-results'
+    }
   }
 }
 
