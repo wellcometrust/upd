@@ -1,4 +1,4 @@
-<div class="pop-up  pop-up--layout    js-prevent-background-scroll" id="popup-refine">
+<div class="pop-up  pop-up--layout" id="popup-refine">
 
     {% if search %}
 
@@ -20,13 +20,17 @@
 
                     <legend class="refine__title">{{ category.title }}</legend>
 
-                    {% for option in category.options %}
+                        <div class="refine__options">
 
-                        <input id="{{ option.id }}" name="{{ option.name }}" type="checkbox">
+                            {% for option in category.options %}
 
-                        <label class="refine__option" for="{{ option.id }}">{{ option.label }}</label>
+                                <input id="{{ option.id }}" name="{{ option.name }}" type="checkbox">
 
-                    {% endfor %}
+                                <label class="refine__option" for="{{ option.id }}">{{ option.label }}</label>
+
+                            {% endfor %}
+
+                        </div>
 
                     <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
 
