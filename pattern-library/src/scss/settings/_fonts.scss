@@ -42,7 +42,7 @@
 /* Body-copy
    ========================================================================== */
 $upd-font-size-body-copy: rems(18px);
-$upd-line-height-body-copy: rems(32px);
+$upd-line-height-body-copy: rems(32px) / $upd-font-size-body-copy;
 
 @mixin font-body-copy {
   font-size: $upd-font-size-body-copy;
@@ -55,7 +55,7 @@ $upd-line-height-body-copy: rems(32px);
 
 
 $upd-font-size-body-copy-intro: rems(22px);
-$upd-line-height-body-copy-intro: rems(38px);
+$upd-line-height-body-copy-intro: rems(38px) / $upd-font-size-body-copy-intro;
 
 @mixin font-body-copy-intro {
   color: $upd-color-text-highlight-light;
@@ -69,7 +69,7 @@ $upd-line-height-body-copy-intro: rems(38px);
 
 
 $upd-font-size-body-copy-small: rems(14px);
-$upd-line-height-body-copy-small: rems(24px);
+$upd-line-height-body-copy-small: rems(24px) / $upd-font-size-body-copy-small;
 
 @mixin font-body-copy-small {
   font-size: $upd-font-size-body-copy-small;
@@ -87,7 +87,7 @@ $upd-line-height-body-copy-small: rems(24px);
 /* Headings
    ========================================================================== */
 $upd-font-size-hero: rems(68px);
-$upd-line-height-hero: rems(74px);
+$upd-line-height-hero: rems(74px) / $upd-font-size-hero;
 
 @mixin font-hero {
   color: $upd-color-text-reverse;
@@ -103,7 +103,7 @@ $upd-line-height-hero: rems(74px);
 
 /* Headline */
 $upd-font-size-heading-1: rems(48px);
-$upd-line-height-heading-1: rems(58px);
+$upd-line-height-heading-1: rems(58px) / $upd-font-size-heading-1;
 
 @mixin font-heading-1 {
   color: $upd-color-text-highlight-mid;
@@ -119,7 +119,7 @@ $upd-line-height-heading-1: rems(58px);
 
 /* Section title */
 $upd-font-size-heading-2: rems(30px);
-$upd-line-height-heading-2: rems(44px);
+$upd-line-height-heading-2: rems(44px) / $upd-font-size-heading-2;
 
 @mixin font-heading-2 {
   color: $upd-color-text-highlight-dark;
@@ -149,7 +149,7 @@ $upd-line-height-heading-2: rems(44px);
 }
 
 $upd-font-size-heading-3: rems(20px);
-$upd-line-height-heading-3: rems(32px);
+$upd-line-height-heading-3: rems(32px) / $upd-font-size-heading-3;
 
 @mixin font-heading-3 {
   color: $upd-color-text-highlight-dark;
@@ -179,7 +179,7 @@ $upd-line-height-heading-4: $upd-line-height-body-copy;
 
 
 $upd-font-size-heading-5: rems(14px);
-$upd-line-height-heading-5: rems(16px);
+$upd-line-height-heading-5: rems(16px) / $upd-font-size-heading-5;
 
 @mixin font-heading-5 {
   @extend %font-highlight;
@@ -200,7 +200,7 @@ $upd-line-height-heading-5: rems(16px);
 
  */
 $upd-font-size-intro: rems(24px);
-$upd-line-height-intro: rems(38px);
+$upd-line-height-intro: rems(38px) / $upd-font-size-intro;
 
 @mixin font-intro {
   color: $upd-color-text-highlight-light;
@@ -260,7 +260,7 @@ $upd-font-size-button-tiny: rems(11px);
 /* Tags
    ========================================================================== */
 $upd-font-size-tag: rems(10px);
-$upd-line-height-tag: rems(20px);
+$upd-line-height-tag: rems(20px) / $upd-font-size-tag;
 
 @mixin font-tag {
   @extend %font-highlight;
@@ -281,7 +281,7 @@ $upd-line-height-tag: rems(20px);
 /* Content Pagination
    ========================================================================== */
 $upd-font-size-content-pagination: rems(42px);
-$upd-line-height-content-pagination: rems(48px);
+$upd-line-height-content-pagination: rems(48px) / $upd-font-size-content-pagination;
 
 @mixin font-heading-content-pagination {
   color: $upd-color-brand-red;
@@ -301,7 +301,7 @@ $upd-line-height-content-pagination: rems(48px);
 /* Resource box
    ========================================================================== */
 $upd-font-size-resource-box: rems(16px);
-$upd-line-height-resource-box: rems(24px);
+$upd-line-height-resource-box: rems(24px) / $upd-font-size-resource-box;
 
 @mixin font-resource-box {
   color: $upd-color-text-highlight-mid;

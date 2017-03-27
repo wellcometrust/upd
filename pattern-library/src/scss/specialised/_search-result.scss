@@ -42,7 +42,7 @@
 .search-result__category {
   @extend %h5;
 
-  margin-bottom: $upd-line-height-heading-5;
+  margin-bottom: $upd-line-height-heading-5 * 1em;
 }
 
 .search-result__title {

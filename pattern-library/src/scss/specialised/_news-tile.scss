@@ -10,15 +10,15 @@
 .news-tile__date {
   @extend %h5;
 
-  margin-bottom: $upd-line-height-heading-5;
+  margin-bottom: $upd-line-height-heading-5 * 1em;
 }
 
 
 .news-tile__title {
   @extend %h3;
 
-  margin-bottom: $upd-line-height-heading-3;
-  min-height: 2 * $upd-line-height-heading-3;
+  margin-bottom: $upd-line-height-heading-3 * 1em;
+  min-height: 2 * $upd-line-height-heading-3 * 1em;
 }
 
 

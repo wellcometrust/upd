@@ -8,7 +8,7 @@
     ol:not([class]),
     ul:not([class]),
     .u-mb {
-      margin-bottom: $line-height;
+      margin-bottom: $line-height * 1em;
     }
 
     li > ol:not([class]),
@@ -18,7 +18,7 @@
 
     ol:not([class]),
     ul:not([class]) {
-      padding-left: $line-height;
+      padding-left: $line-height * 1em;
     }
   }
 }
