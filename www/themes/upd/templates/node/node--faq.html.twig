@@ -72,8 +72,7 @@
  * @ingroup themeable
  */
 #}
-<article{{ attributes }}>
-  {{ title_prefix }}
+    {{ title_prefix }}
   {% if label %}
   {% if page %}
   <header class="page-header">
@@ -89,6 +88,12 @@
   {% endif %}
   {{ title_suffix }}
 
+ <div class="wrapper wrapper--gutter">
+     <main class="layout">
+    <article id="primary" {{ attributes.addClass('layout__item') }}>
+    <div class="layout__wrapper">
+
+
   {% if display_submitted %}
     <footer>
       {{ author_picture }}
@@ -99,8 +104,11 @@
     </footer>
   {% endif %}
 
-  <div{{ content_attributes }}>
-    {{ content }}
+  <div{{ content_attributes.addClass('content u-font-body-copy') }}>
+    {{ content.field_faq_dropdown }}
   </div>
+ </div>
+  </article>
+     </main>
+ </div>
 
-</article>
