@@ -5,15 +5,76 @@
  *
  */
 #}
-<aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
-  <div class="layout__wrapper">
-    {{ content.filters }}
-  </div>
-</aside>
-<article class="layout__item  layout__item--primary" id="primary">
-  <div class="layout__wrapper">
-    <div class="search-results">
-      {{ content.results }}
+<header class="page-header">
+
+  <div class="wrapper  wrapper--gutter">
+
+
+
+    <h1 class="page-header__title">Search results</h1>
+
+
+
+    <div class="page-header__search">
+
+      <form class="search">
+
+        <label class="u-visually-hidden" for="search">Search the entire Understanding Patient Data site</label>
+
+        <input class="search__input" id="search" required="" value="Lorem ipsum" type="search">
+
+          <button class="search__submit" type="submit">
+
+            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
+
+
+
+              <title>Search</title>
+
+
+
+
+
+              <use xlink:href="#svg-icon-search"></use>
+
+
+
+
+
+            </svg>
+
+
+          </button>
+
+      </form>
+
     </div>
+
+
+
+
+
+
+
   </div>
-</article>
+
+</header>
+<div class="wrapper  wrapper--gutter">
+  <main class="layout">
+    <aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
+      <div class="layout__wrapper">
+        {{ content.filters }}
+      </div>
+    </aside>
+    <article class="layout__item  layout__item--primary" id="primary">
+      <div class="layout__wrapper">
+        <div class="search-results">
+          <header class="search-results__header">
+            <span class="search-results__count">123 results</span>
+          </header>
+          {{ content.main }}
+        </div>
+      </div>
+    </article>
+  </main>
+</div>

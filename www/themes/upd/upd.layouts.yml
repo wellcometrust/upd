@@ -3,7 +3,7 @@ search:
   category: UPD
   template: templates/layouts/search
   regions:
-    results:
+    main:
       label: Results
     filters:
       label: Filters
