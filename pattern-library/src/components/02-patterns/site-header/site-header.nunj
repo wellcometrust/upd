@@ -1,7 +1,10 @@
 <header class="site-header">
 
-    <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/logo.svg' | path }}">
+    <{% if home  %}span{% else %}a href="/"{% endif %} class="site-header__logo">
 
+        <img alt="Understanding Patient Data" src="{{ '/images/logo.svg' | path }}">
+
+    </{% if home  %}span{% else %}a{% endif %}>
 
     <div class="site-header__navigation    drop-down" id="site-header-navigation">
 
