@@ -28,6 +28,6 @@
   padding: $upd-spacing-gutter-medium;
 
   .pop-up--layout & {
-    @extend %u-hidden-layout-complex;
+    @extend %u-display-none-from-complex-layout;
   }
 }

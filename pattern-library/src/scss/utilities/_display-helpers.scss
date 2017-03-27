@@ -19,18 +19,41 @@
 }
 
 
-.u-hidden-layout-simple,
-%u-hidden-layout-simple {
+.u-display-none {
   display: none;
+}
 
-  @include mq($upd-layout-breakpoint) {
-    display: block;
+@each $breakpoint, $size in $upd-breakpoints {
+  @include mq($breakpoint) {
+    .u-display-block-from-#{$breakpoint},
+    %u-display-block-from-#{$breakpoint} {
+      display: block;
+    }
+
+    .u-display-none-from-#{$breakpoint},
+    %u-display-none-from-#{$breakpoint} {
+      display: none;
+    }
   }
 }
 
-.u-hidden-layout-complex,
-%u-hidden-layout-complex {
-  @include mq($upd-layout-breakpoint) {
-    display: none;
-  }
+.u-display-block-from-complex-layout,
+%u-display-block-from-complex-layout {
+  @extend %u-display-block-from-#{$upd-layout-breakpoint};
+}
+
+.u-display-none-from-complex-layout,
+%u-display-none-from-complex-layout {
+  @extend %u-display-none-from-#{$upd-layout-breakpoint};
+}
+
+
+.u-display-block-from-visible-navigation,
+%u-display-block-from-visible-navigation {
+  @extend %u-display-block-from-#{$upd-site-header-breakpoint-navigation};
+}
+
+.u-display-none-from-visible-navigation,
+%u-display-none-from-visible-navigation {
+  @extend %u-display-none-from-#{$upd-site-header-breakpoint-navigation};
 }
