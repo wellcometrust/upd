@@ -50,9 +50,13 @@
 }
 
 
+.site-footer__logo {
+  margin-bottom: $upd-spacing-gutter-large;
+}
+
+
 .site-footer__socials {
   justify-content: center;
-  margin-top: 0;
 
   @include mq(medium) {
     bottom: 0;
