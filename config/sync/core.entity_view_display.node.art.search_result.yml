@@ -1,0 +1,25 @@
+uuid: 1b24a0e2-75a3-44ea-b2f7-d2953a163a41
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.art.body
+    - node.type.art
+  module:
+    - text
+    - user
+id: node.art.search_result
+targetEntityType: node
+bundle: art
+mode: search_result
+content:
+  body:
+    label: hidden
+    type: text_trimmed
+    weight: 0
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+hidden:
+  links: true

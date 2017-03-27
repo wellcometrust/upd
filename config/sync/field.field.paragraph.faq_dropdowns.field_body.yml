@@ -1,0 +1,21 @@
+uuid: 270a4b4e-a9d2-4050-970a-e1c6581b981a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.faq_dropdowns
+  module:
+    - text
+id: paragraph.faq_dropdowns.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: faq_dropdowns
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,34 @@
+uuid: f869dca4-4322-486c-94e4-dc527bfdd87a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.faq_dropdowns.field_body
+    - field.field.paragraph.faq_dropdowns.field_title
+    - paragraphs.paragraphs_type.faq_dropdowns
+  module:
+    - content_moderation
+    - text
+id: paragraph.faq_dropdowns.default
+targetEntityType: paragraph
+bundle: faq_dropdowns
+mode: default
+content:
+  field_body:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+hidden:
+  created: true
+  status: true
+  uid: true

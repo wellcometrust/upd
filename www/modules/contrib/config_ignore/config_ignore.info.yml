@@ -1,0 +1,14 @@
+name: Config Ignore
+type: module
+description: Ignore certain configuration during import
+# core: 8.x
+package: Configuration
+configure: config_ignore.settings
+dependencies:
+  - config
+
+# Information added by Drupal.org packaging script on 2017-02-17
+version: '8.x-1.3'
+core: '8.x'
+project: 'config_ignore'
+datestamp: 1487336290

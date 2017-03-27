@@ -1,0 +1,20 @@
+uuid: d9012680-4607-4209-8a60-d65aa43f70df
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.faq.field_standfirst
+    - node.type.faq
+  module:
+    - user
+id: node.faq.teaser
+targetEntityType: node
+bundle: faq
+mode: teaser
+content:
+  links:
+    weight: 100
+hidden:
+  field_faq_dropdown: true
+  field_standfirst: true

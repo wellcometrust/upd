@@ -1,0 +1,40 @@
+uuid: 2043fdf2-d84f-441a-b5f2-0eaf70d91478
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_featured
+    - field.field.node.case_study.field_impact_of_work
+    - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_pdf
+    - field.field.node.case_study.field_sources_of_data
+    - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_vertical_tab
+    - node.type.case_study
+  module:
+    - text
+    - user
+id: node.case_study.search_result
+targetEntityType: node
+bundle: case_study
+mode: search_result
+content:
+  field_standfirst:
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    type: text_trimmed
+hidden:
+  content_moderation_control: true
+  field_disease_type: true
+  field_featured: true
+  field_impact_of_work: true
+  field_list_text: true
+  field_pdf: true
+  field_sources_of_data: true
+  field_vertical_tab: true
+  links: true

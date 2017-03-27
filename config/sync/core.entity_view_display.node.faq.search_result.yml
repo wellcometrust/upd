@@ -1,0 +1,27 @@
+uuid: cd10bcb7-edeb-4a41-8f0b-6a2c592fe653
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.faq.field_faq_dropdown
+    - field.field.node.faq.field_standfirst
+    - node.type.faq
+  module:
+    - text
+    - user
+id: node.faq.search_result
+targetEntityType: node
+bundle: faq
+mode: search_result
+content:
+  field_standfirst:
+    type: text_trimmed
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+hidden:
+  field_faq_dropdown: true
+  links: true

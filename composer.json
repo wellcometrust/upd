@@ -39,7 +39,8 @@
     "drupal/facets": "1.*",
     "drupal/workbench": "1.*",
     "drupal/search_api": "1.*",
-    "drupal/paragraphs": "1.*"
+    "drupal/paragraphs": "1.*",
+    "drupal/config_ignore": "1.*"
   },
   "require-dev": {
     "drupal/devel": "1.*"

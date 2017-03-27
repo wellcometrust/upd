@@ -1,0 +1,29 @@
+uuid: 5a3f85eb-e0d9-4971-bb86-c6009193f412
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.faq_dropdowns.field_body
+    - field.field.paragraph.faq_dropdowns.field_title
+    - paragraphs.paragraphs_type.faq_dropdowns
+  module:
+    - text
+id: paragraph.faq_dropdowns.default
+targetEntityType: paragraph
+bundle: faq_dropdowns
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_title:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden: {  }
