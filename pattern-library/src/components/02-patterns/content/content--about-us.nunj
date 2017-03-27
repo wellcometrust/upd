@@ -52,11 +52,11 @@
 
         <p>Fusce vehicula dolor arcu, sit amet blandit dolor mollis nec. Donec viverra eleifend lacus, vitae ullamcorper metus. Sed.</p>
 
-        <ul class="grid  grid--large">
+        <ul class="grid    gutter  gutter--large">
 
             {% for i in range(6) %}
 
-                <li class="grid__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+                <li class="grid__item    gutter__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
 
                     {% render '@team-tile' %}
 
@@ -75,11 +75,11 @@
 
         <p>A Steering Committee helps provide strategic direction and oversight for our work. Members of the Steering Committee are:</p>
 
-        <ul class="grid  grid--large    u-mb">
+        <ul class="grid  gutter  gutter--large    u-mb">
 
             {% for i in range(6) %}
 
-            <li class="grid__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+            <li class="grid__item    gutter__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
 
                 {% render '@profile--avatar' %}
 
@@ -122,11 +122,11 @@
 
         <p>The following organisations provide funding support for Understanding Patient Data:</p>
 
-        <ul class="grid  grid--center  grid--large    u-mb">
+        <ul class="grid  grid--center  gutter  gutter--large    u-mb">
 
             {% for logo in logos %}
 
-                <li class="grid__item">
+                <li class="grid__item  gutter__item">
 
                     <img src="{{ logo | path }}">
 

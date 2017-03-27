@@ -23,7 +23,7 @@
     }
   }
 
-  @include wrapper--gutter($upd-spacing-gutter-base);
+  @include wrapper--gutter($upd-spacing-gutter-medium);
 
   @include mq(small) {
     @include wrapper--gutter($upd-spacing-gutter-large);

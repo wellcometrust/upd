@@ -2,11 +2,11 @@
 
 .page-header {
   background-color: $upd-color-background-secondary;
-  padding: 3 * $upd-spacing-gutter-base 0;
+  padding: 3 * $upd-spacing-gutter-medium 0;
 }
 
 .page-header--case-study {
-  $padding: 2.5 * $upd-spacing-gutter-base 0;
+  $padding: 2.5 * $upd-spacing-gutter-medium 0;
 }
 
 
@@ -24,7 +24,7 @@
 
 
 .page-header__search {
-  margin-top: ($upd-spacing-gutter-base / 2);
+  margin-top: ($upd-spacing-gutter-medium / 2);
 }
 
 

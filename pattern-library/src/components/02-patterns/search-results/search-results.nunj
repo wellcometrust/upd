@@ -10,11 +10,11 @@
 
         {% if featured %}
 
-            <ul class="grid">
+            <ul class="grid    gutter  gutter--medium">
 
                 {% for i in range(3) %}
 
-                    <li class="grid__item u-width-1-of-3">
+                    <li class="grid__item    gutter__item    u-width-1-of-3">
 
                         {% render '@case-study-tile' %}
 

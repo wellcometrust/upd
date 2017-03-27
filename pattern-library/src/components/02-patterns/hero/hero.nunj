@@ -4,11 +4,11 @@
 
         <h1 class="hero__title">{{ title }}</h1>
 
-        <ul class="grid  grid--center  grid--large">
+        <ul class="grid  grid--center    gutter  gutter--large">
 
             {% for tile in keyInfo %}
 
-                <li class="grid__item  u-width-1-of-1  u-width-1-of-3-from-x-large">
+                <li class="grid__item    gutter__item    u-width-1-of-1  u-width-1-of-3-from-x-large">
 
                     {% render '@key-info-tile', tile %}
 

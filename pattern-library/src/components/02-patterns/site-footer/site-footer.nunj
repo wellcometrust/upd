@@ -8,11 +8,11 @@
 
                 <img alt="Understanding Patient Data" class="site-footer__logo" src="{{ '/images/logo.svg' | path }}">
 
-                <ul class="site-footer__socials  grid">
+                <ul class="site-footer__socials  grid    gutter  gutter--small">
 
                     {% for social in socials %}
 
-                        <li class="grid__item">
+                        <li class="grid__item    gutter__item">
 
                             <a href="{{ social.href }}">
 

@@ -8,8 +8,7 @@
   display: block; // Fallback for browsers without flex support
   display: flex;
   flex-wrap: wrap;
-  margin: (-$upd-spacing-gutter-base) 0 0 (-$upd-spacing-gutter-base);
-  padding: 0;
+  list-style: none;
 }
 
 .grid--center {
@@ -17,29 +16,12 @@
   text-align: center;
 }
 
-.grid--large {
-  margin: (-$upd-spacing-gutter-large) 0 0 (-$upd-spacing-gutter-large);
-}
-
-.grid--flush {
-  margin-left: 0;
-}
-
 
 .grid__item {
   display: inline-block; // Fallback for browsers without flex support
   display: flex;
-  padding: $upd-spacing-gutter-base 0 0 $upd-spacing-gutter-base;
 
   .grid--center & {
     text-align: left;
-  }
-
-  .grid--large & {
-    padding: $upd-spacing-gutter-large 0 0 $upd-spacing-gutter-large;
-  }
-
-  .grid--flush & {
-    padding-left: 0;
   }
 }

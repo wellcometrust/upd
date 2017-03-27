@@ -1,4 +1,4 @@
-<ul class="content-pagination    grid  grid--flush">
+<ul class="content-pagination    grid">
 
     {% for item in items %}
 

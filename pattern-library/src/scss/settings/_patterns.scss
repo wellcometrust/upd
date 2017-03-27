@@ -19,6 +19,18 @@ $upd-input-radius: rems(4px);
 /* Generic patterns
    ========================================================================== */
 
+/* Gutter
+   ========================================================================== */
+$upd-gutter-sizes: (
+  small: $upd-spacing-gutter-small,
+  medium: $upd-spacing-gutter-medium,
+  large: $upd-spacing-gutter-large
+);
+
+
+
+
+
 /* Ratios
    ========================================================================== */
 $upd-ratios: (

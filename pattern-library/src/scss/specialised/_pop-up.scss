@@ -25,7 +25,7 @@
 
 
 .pop-up__close {
-  padding: $upd-spacing-gutter-base;
+  padding: $upd-spacing-gutter-medium;
 
   .pop-up--layout & {
     @extend %u-hidden-layout-complex;
