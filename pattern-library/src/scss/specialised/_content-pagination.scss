@@ -9,10 +9,12 @@
 
 
 .content-pagination__item {
-  width: 50%;
+  @include mq(medium) {
+    width: 50%;
 
-  * + & {
-    border-left: 1px solid $upd-color-background-primary;
+    * + & {
+      border-left: 1px solid $upd-color-background-primary;
+    }
   }
 }
 
