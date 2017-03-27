@@ -94,9 +94,27 @@
   {% endif %}
   {% endif %}
   {{ title_suffix }}
-<article{{ attributes.addClass('layout__item layout__item--primary') }}>
 
+  <div class="wrapper  wrapper--gutter">
+    <main class="layout">
+        {% if content.vertical is not empty %}  
+    <aside class="layout__item  layout__item--secondary  layout__item--sticky  u-hidden-layout-simple">
+      <div class="layout__wrapper">
+        <ul class="toc" data-scroll-spy="#primary">
+      {% for item in content.vertical %}
+          <li class="toc__item">
+            <a class="toc__element" href="#{{ item.url }}">
+              {{ item.title }}
+            </a>
+          </li>
+      {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  {%endif%}    
+  <article{{ attributes.addClass('layout__item layout__item--primary') }}>
 
+ <div class="layout__wrapper">
   {% if display_submitted %}
     <footer>
       {{ author_picture }}
@@ -106,17 +124,17 @@
       </div>
     </footer>
   {% endif %}
-  <div class="wrapper  wrapper--gutter">
-    <main class="layout">
   {% if content.field_standfirst is not empty %}
     {{ content.field_standfirst }}
   {% endif %}
+
   {% if content.field_vertical_tab is not empty %}
   <div class="content u-font-body-copy">
     {{ content.field_vertical_tab }}
   </div>
   {% endif %}
-
+ </div>
+</article>
 </main>
     </div>
-</article>
+
