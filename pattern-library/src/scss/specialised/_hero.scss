@@ -17,8 +17,7 @@
 
 
 .hero__intro {
-  @extend %h2;
-  @extend %h2--homepage-intro;
+  @extend %font-hero-intro;
 
   margin-top: rems(100px);
   padding: 0 5%;

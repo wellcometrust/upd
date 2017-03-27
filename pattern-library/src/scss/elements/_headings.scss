@@ -35,11 +35,6 @@ h1, h2, h3, h4, h5, h6,
 
 
 /* Create modifier classes and placeholders */
-.h2--homepage-intro,
-%h2--homepage-intro {
-  @extend %font-heading-2--homepage-intro;
-}
-
 .h2--resource-title,
 %h2--resource-title {
   @extend %font-heading-2--resource-title;

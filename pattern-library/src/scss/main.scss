@@ -14,7 +14,6 @@
 /* Settings
    ========================================================================== */
 @import "settings/general"; /* Import general settings first */
-@import "settings/fonts";
 @import "settings/animation";
 @import "settings/patterns";
 
@@ -30,9 +29,10 @@
 
 
 
-/* Webfonts
+/* Fonts
    ========================================================================== */
-@import "webfonts/gt-walsheim-pro";
+@import "fonts/styles";
+@import "fonts/gt-walsheim-pro";
 
 
 

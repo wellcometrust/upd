@@ -4,13 +4,9 @@
  * 1. Prevent font weight changes in Safari during CSS transitions
  */
 html {
-  font-size: 0.9 * ($upd-font-size-base / 16px) * 1em;
+  font-size: ($upd-font-size-base / 16px) * 1em;
   -webkit-font-smoothing: antialiased;  /* 1 */
   text-size-adjust: 100%;
-
-  @include mq($upd-font-size-base-breakpoint) {
-    font-size: ($upd-font-size-base / 16px) * 1em;
-  }
 }
 
 body {

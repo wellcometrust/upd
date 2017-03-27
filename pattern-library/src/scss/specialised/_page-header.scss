@@ -16,7 +16,7 @@
 
 
 .page-header__subheading {
-  @extend %font-body-copy-intro;
+  @extend %font-intro;
 
   margin: ($upd-spacing-gutter-large / 2) 0 0;
   max-width: rems(900px);
