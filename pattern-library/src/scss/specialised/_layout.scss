@@ -1,7 +1,7 @@
 /* Layout */
 
 @include private {
-  $sidebar-width: ($upd-max-width - 3 * $upd-spacing-gutter-large) / 4;
+  $sidebar-width: $upd-max-width / 4;
 
   .layout {
     @extend %clearfix;
