@@ -4,13 +4,10 @@
 %tag {
   @extend %font-tag;
 
-  background-color: rgba($upd-color-brand-red, 0.5);
-  border-radius: rems(4px);
-  color: $upd-color-text-reverse;
+  color: $upd-color-brand-red;
   display: inline-block;
   max-width: 100%;
   overflow: hidden;
-  padding: 0 1em;
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
@@ -18,6 +15,6 @@
 
 @each $variant, $color in $upd-colors-tag {
   .tag--#{$variant} {
-    background-color: $color;
+    color: $color;
   }
 }

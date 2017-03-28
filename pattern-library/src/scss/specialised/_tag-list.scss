@@ -1,13 +1,13 @@
 /* Tag list */
 
 @include private {
-  $gutter: rems(4px);
+  $gutter: rems(16px);
 
   .tag-list {
     @extend %clearfix;
     @extend %list-bare;
 
-    margin: (-$gutter) 0 0 (-$gutter);
+    margin: 0 0 0 (-$gutter);
   }
 
 
@@ -15,6 +15,6 @@
     float: left;
     line-height: 1;
     max-width: 100%;
-    padding: $gutter 0 0 $gutter;
+    padding: 0 0 0 $gutter;
   }
 }
