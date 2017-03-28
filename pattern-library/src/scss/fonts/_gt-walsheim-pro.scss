@@ -1,66 +1,72 @@
-/* GT Walsheim Pro - dev */
+/* GT Walsheim Pro */
 
 @font-face {
   font-family: "GT Walsheim Pro";
-  src: url("../fonts/gt-walsheim-pro-trial-light-oblique-webfont.woff2") format("woff2"),
-  url("../fonts/gt-walsheim-pro-trial-light-oblique-webfont.woff") format("woff");
-  font-weight: $upd-font-weight-light;
-  font-style: oblique;
-}
-
-@font-face {
-  font-family: "GT Walsheim Pro";
-  src: url("../fonts/gt-walsheim-pro-trial-light-webfont.woff2") format("woff2"),
-  url("../fonts/gt-walsheim-pro-trial-light-webfont.woff") format("woff");
-  font-weight: $upd-font-weight-light;
-  font-style: normal;
-
-}
-
-
-
-
-@font-face {
-  font-family: "GT Walsheim Pro";
-  src: url("../fonts/gt-walsheim-pro-trial-medium-oblique-webfont.woff2") format("woff2"),
-  url("../fonts/gt-walsheim-pro-trial-medium-oblique-webfont.woff") format("woff");
-  font-weight: $upd-font-weight-medium;
-  font-style: oblique;
-
-}
-
-
-
-
-@font-face {
-  font-family: "GT Walsheim Pro";
-  src: url("../fonts/gt-walsheim-pro-trial-medium-webfont.woff2") format("woff2"),
-  url("../fonts/gt-walsheim-pro-trial-medium-webfont.woff") format("woff");
-  font-weight: $upd-font-weight-medium;
-  font-style: normal;
-
-}
-
-
-
-
-@font-face {
-  font-family: "GT Walsheim Pro";
-  src: url("../fonts/gt-walsheim-pro-trial-regular-oblique-webfont.woff2") format("woff2"),
-  url("../fonts/gt-walsheim-pro-trial-regular-oblique-webfont.woff") format("woff");
+  src: url('../fonts/gt-walsheim-regular-oblique.eot');
+  src: url('../fonts/gt-walsheim-regular-oblique.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/gt-walsheim-regular-oblique.woff') format('woff'),
+  url('../fonts/gt-walsheim-regular-oblique.ttf')  format('truetype'),
+  url('../fonts/gt-walsheim-regular-oblique.otf')  format('opentype');
   font-weight: $upd-font-weight-regular;
   font-style: oblique;
-
 }
-
-
 
 
 @font-face {
   font-family: "GT Walsheim Pro";
-  src: url("../fonts/gt-walsheim-pro-trial-regular-webfont.woff2") format("woff2"),
-  url("../fonts/gt-walsheim-pro-trial-regular-webfont.woff") format("woff");
+  src: url('../fonts/gt-walsheim-regular.eot');
+  src: url('../fonts/gt-walsheim-regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/gt-walsheim-regular.woff') format('woff'),
+  url('../fonts/gt-walsheim-regular.ttf')  format('truetype'),
+  url('../fonts/gt-walsheim-regular.otf')  format('opentype');
   font-weight: $upd-font-weight-regular;
   font-style: normal;
+}
 
+
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url('../fonts/gt-walsheim-medium-oblique.eot');
+  src: url('../fonts/gt-walsheim-medium-oblique.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/gt-walsheim-medium-oblique.woff') format('woff'),
+       url('../fonts/gt-walsheim-medium-oblique.ttf')  format('truetype'),
+       url('../fonts/gt-walsheim-medium-oblique.otf')  format('opentype');
+  font-weight: $upd-font-weight-medium;
+  font-style: oblique;
+}
+
+
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url('../fonts/gt-walsheim-medium.eot');
+  src: url('../fonts/gt-walsheim-medium.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/gt-walsheim-medium.woff') format('woff'),
+       url('../fonts/gt-walsheim-medium.ttf')  format('truetype'),
+       url('../fonts/gt-walsheim-medium.otf')  format('opentype');
+  font-weight: $upd-font-weight-medium;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url('../fonts/gt-walsheim-bold-oblique.eot');
+  src: url('../fonts/gt-walsheim-bold-oblique.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/gt-walsheim-bold-oblique.woff') format('woff'),
+  url('../fonts/gt-walsheim-bold-oblique.ttf')  format('truetype'),
+  url('../fonts/gt-walsheim-bold-oblique.otf')  format('opentype');
+  font-weight: $upd-font-weight-bold;
+  font-style: oblique;
+}
+
+
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url('../fonts/gt-walsheim-bold.eot');
+  src: url('../fonts/gt-walsheim-bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/gt-walsheim-bold.woff') format('woff'),
+  url('../fonts/gt-walsheim-bold.ttf')  format('truetype'),
+  url('../fonts/gt-walsheim-bold.otf')  format('opentype');
+  font-weight: $upd-font-weight-bold;
+  font-style: normal;
 }
