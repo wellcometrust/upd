@@ -16,7 +16,6 @@
 
 .toc__element {
   color: inherit;
-  transition: color $upd-transition-time;
 
   &.is-active {
     color: $upd-color-brand-navy;

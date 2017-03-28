@@ -8,8 +8,12 @@
   height: $upd-input-height;
   max-width: $upd-input-max-width;
   padding: 0 1em;
-  transition: background $upd-transition-time, border $upd-transition-time;
   width: 100%;
+
+  &:focus {
+    background-color: tint($upd-color-background-secondary, 50%);
+    border-color: shade($upd-color-border-light, $upd-tint-active);
+  }
 
   &::placeholder {
     color: $upd-color-text-placeholder;
@@ -111,12 +115,20 @@ label {
 
     margin-left: $gutter;
 
+    &:hover {
+      text-decoration: underline;
+    }
+
     &:before {
       @include radiobox;
 
       left: -$gutter;
       position: relative;
     }
+  }
+
+  :focus + & {
+    text-decoration: underline;
   }
 
   [type=radio] + & {

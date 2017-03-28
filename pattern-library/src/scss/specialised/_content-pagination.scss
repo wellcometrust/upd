@@ -28,12 +28,18 @@
 
 
 .content-pagination__control {
-  @extend %tile;
+  @extend %link-bare;
 
+  background-color: $upd-color-background-secondary;
   box-shadow: none;
   min-height: rems(160px);
   padding: $upd-spacing-gutter-large (2 * $upd-spacing-gutter-large);
   position: relative;
+
+  &:focus,
+  &:hover {
+    background-color: tint($upd-color-background-secondary, 50%);
+  }
 }
 
 
@@ -61,5 +67,15 @@
 
   .content-pagination__item--previous & {
     left: 1em;
+  }
+
+  .content-pagination__item--next a:focus &,
+  .content-pagination__item--next a:hover & {
+    transform: scale(1.2) translateX(-0.2em);
+  }
+
+  .content-pagination__item--previous a:focus &,
+  .content-pagination__item--previous a:hover & {
+    transform: scale(1.2) translateX(0.2em);
   }
 }

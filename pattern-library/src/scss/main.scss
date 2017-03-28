@@ -45,6 +45,7 @@
 @import "resets/forms";
 @import "resets/iframe";
 @import "resets/images";
+@import "resets/transitions";
 
 
 
@@ -66,6 +67,7 @@
 
 /* Generic Patterns
    ========================================================================== */
+@import "generic/link-bare";
 @import "generic/box";
 @import "generic/clearfix";
 @import "generic/column";

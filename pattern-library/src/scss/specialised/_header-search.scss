@@ -56,6 +56,7 @@
 
   background: none;
   border: none;
+  border-radius: 0;
   height: 100%;
   max-width: unset;
   padding: 0 $upd-site-header-height 0 $upd-spacing-gutter-medium 0; /* 4 */
@@ -64,7 +65,6 @@
   @include mq($upd-site-header-breakpoint-navigation) {
     margin-right: -$apparent-width;  /* 1 */
     padding: 0 $upd-spacing-gutter-medium 0 $upd-site-header-height; /* 4 */
-    transition: margin $upd-transition-time;
     vertical-align: top;
     width: $actual-width; /* 4 */
 
@@ -72,5 +72,9 @@
     :focus + & {
       margin-right: 0;  /* 3 */
     }
+  }
+
+  &:focus {
+    background: none;
   }
 }

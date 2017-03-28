@@ -52,7 +52,7 @@ const config = {
     },
     {
       context: {
-        content: '<p>Contact the team directly on <a class="u-whitespace-nowrap" href="tel:+4420786118646">+44 207 8611 8646</a></p>\n\n<p>or email <a href="mailto:hello@understandingpatientdata.org.uk">hello@understandingpatientdata.org.uk</a></p>'
+        content: '<p>Contact the team directly on <a class="link-bare u-whitespace-nowrap" href="tel:+4420786118646">+44 207 8611 8646</a></p>\n\n<p>or email <a href="mailto:hello@understandingpatientdata.org.uk">hello@understandingpatientdata.org.uk</a></p>'
       },
       name: 'Contact us'
     }

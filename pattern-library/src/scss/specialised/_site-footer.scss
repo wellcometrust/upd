@@ -41,6 +41,8 @@
 }
 
 .site-footer__text--phone {
+  @extend %link-bare;
+
   color: rgba($upd-color-text-reverse, 0.6);
   font-size: rems(20px);
 }
@@ -64,10 +66,20 @@
   }
 }
 
-.site-footer__social-icon {
-  background: rgba($upd-color-text-reverse, 0.1);
+
+.site-footer__social-link {
   color: rgba($upd-color-text-reverse, 0.6);
   font-size: rems(30px);
+
+  &:focus,
+  &:hover {
+    color: rgba($upd-color-text-reverse, 0.8);
+  }
+}
+
+
+.site-footer__social-icon {
+  background: rgba($upd-color-text-reverse, 0.1);
 }
 
 
@@ -77,6 +89,10 @@
   border-top-right-radius: 0;
   color: $upd-color-text-primary;
   width: 70%;
+
+  &:focus {
+    background: $upd-color-background-primary;
+  }
 }
 
 
@@ -85,10 +101,15 @@
   border-radius: 0 $upd-input-radius $upd-input-radius 0;
   height: $upd-input-height;
   line-height: $upd-input-height;
-  padding: 0;
+  padding: 0 0.2em 0 0;
+  transition: background $upd-transition-time;
   vertical-align: top;
   white-space: nowrap;
   width: 30%;
+
+  &:hover {
+    background-color: shade($upd-color-brand-red, $upd-tint-active);
+  }
 }
 
 
@@ -112,6 +133,10 @@
 
   &:last-child {
     margin: 0;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 }
 

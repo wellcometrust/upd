@@ -21,6 +21,10 @@
   a:not([class]),
   a.is-styled {
     color: $upd-color-brand-red;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   & > * + section:not([class]) {

@@ -14,7 +14,7 @@
 
                         <li class="grid__item    gutter__item">
 
-                            <a href="{{ social.href }}">
+                            <a class="site-footer__social-link" href="{{ social.href }}">
 
                                 {% render '@svg-icon', social %}
 
@@ -91,9 +91,9 @@
 
             </ul>
 
-            <a href="http://hactar.is/">
+            <a class="site-footer__hactar" href="http://hactar.is/">
 
-                <img alt="Made by Hactar" class="site-footer__hactar" src="{{ '/images/made-by-hactar.svg' | path }}">
+                <img alt="Made by Hactar" src="{{ '/images/made-by-hactar.svg' | path }}">
 
             </a>
 

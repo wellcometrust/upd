@@ -84,7 +84,6 @@
   height: $upd-site-header-height-small;
   line-height: 1;
   padding: $padding;
-  transition: background $upd-transition-time;
   vertical-align: middle;
 
   @include mq($upd-site-header-breakpoint-height) {
@@ -102,6 +101,7 @@
 
 .site-header__popup-bar {
   @extend %h5;
+  @extend %link-bare;
 
   background-color: $upd-site-header-color-active;
   color: inherit;
@@ -121,7 +121,6 @@
     margin-top: -0.5em;
     position: absolute;
     right: $padding;
-    transition: transform $upd-transition-time;
     top: 50%;
 
     @include mq($upd-site-header-breakpoint-height) {
