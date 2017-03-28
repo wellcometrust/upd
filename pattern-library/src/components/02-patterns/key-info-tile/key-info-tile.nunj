@@ -8,10 +8,6 @@
 
     <p class="key-info-tile__text">{{ text }}</p>
 
-    <div class="key-info-tile__action">
-
-        <span class="cta  cta--arrow">{{ cta }}</span>
-
-    </div>
+    {% render '@call-to-action', { icon: 'arrow', label: cta } %}
 
 </a>

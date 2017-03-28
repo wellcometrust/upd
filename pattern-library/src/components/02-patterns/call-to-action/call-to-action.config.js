@@ -5,6 +5,7 @@ const config = {
     label: 'View case study'
   },
   default: 'Click-through',
+  notes: 'Avoid unnecessary whitespace within the `.cta` tag, as this will cause a hanging underline on rollover.',
   variants: [
     {
       context: {
