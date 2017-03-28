@@ -47,6 +47,11 @@
     @include mq($upd-layout-breakpoint) {
       padding-left: $sidebar-width + $upd-spacing-gutter-large;
       width: 100%;
+
+      .layout--reverse & {
+        padding-left: $upd-spacing-gutter-large;
+        padding-right: $sidebar-width + $upd-spacing-gutter-large;
+      }
     }
   }
 
@@ -56,6 +61,11 @@
     @include mq($upd-layout-breakpoint) {
       margin-right: -$sidebar-width;  /* 1 */
       width: $sidebar-width;  /* 1 */
+
+      .layout--reverse & {
+        margin-left: -$sidebar-width; /* 1 */
+        margin-right: 0;  /* 1 */
+      }
     }
   }
 
