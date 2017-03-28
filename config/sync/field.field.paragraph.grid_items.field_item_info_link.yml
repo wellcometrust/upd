@@ -1,0 +1,23 @@
+uuid: de0541ac-aacc-41cb-9b2f-248a202418cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_item_info_link
+    - paragraphs.paragraphs_type.grid_items
+  module:
+    - link
+id: paragraph.grid_items.field_item_info_link
+field_name: field_item_info_link
+entity_type: paragraph
+bundle: grid_items
+label: 'Info link'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

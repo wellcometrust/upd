@@ -1,0 +1,42 @@
+uuid: c069dcb2-240a-44a2-82fc-da960d1ece7d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.landing_page.field_3_items_grid
+    - field.field.node.landing_page.field_hero_intro
+    - field.field.node.landing_page.field_testimonial
+    - node.type.landing_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.landing_page.default
+targetEntityType: node
+bundle: landing_page
+mode: default
+content:
+  field_3_items_grid:
+    type: entity_reference_revisions_entity_view
+    weight: 102
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_hero_intro:
+    weight: 103
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  field_testimonial:
+    type: entity_reference_revisions_entity_view
+    weight: 104
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  links:
+    weight: 100
+hidden: {  }
