@@ -1,6 +1,6 @@
 uuid: 89932b86-5583-4f16-aff3-c87809c0ed31
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - system.menu.admin
@@ -12,7 +12,7 @@ _core:
   default_config_hash: DWAB7HaAfAJerAmyT8B2K-6qxicu9n0PcKVpDr--N4c
 id: upd_admin
 theme: upd
-region: '-1'
+region: footer
 weight: -4
 provider: null
 plugin: 'system_menu_block:admin'
