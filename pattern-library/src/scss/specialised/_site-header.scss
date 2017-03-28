@@ -110,6 +110,7 @@
   padding: 0 1em;
   position: relative;
   width: 100%;
+  z-index: 0;
 
   &:after {
     $padding: ($upd-site-header-height-small - 1rem) / 2;

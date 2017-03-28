@@ -3,6 +3,9 @@ const config = {
     layout: 'search-results',
     header: {
       layout: 'search-results'
+    },
+    siteHeader: {
+      layout: 'search-results'
     }
   }
 }

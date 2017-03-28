@@ -1,5 +1,5 @@
 .pop-up {
-  background-color: $upd-color-background-primary;
+  background-color: $upd-color-background-secondary;
   bottom: 0;
   left: 0;
   -webkit-overflow-scrolling: touch;
@@ -23,7 +23,8 @@
 
 .pop-up--layout {
   @include mq($upd-layout-breakpoint) {
-    overflow: auto;
+    background: none;
+    overflow: visible;
     position: relative;
     top: 0;
     transform: none;

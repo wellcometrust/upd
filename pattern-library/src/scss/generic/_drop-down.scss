@@ -6,6 +6,7 @@
   top: 100%;
   visibility: hidden;
   width: 100%;
+  z-index: 1;
 
   &:target,
   &.is-open {

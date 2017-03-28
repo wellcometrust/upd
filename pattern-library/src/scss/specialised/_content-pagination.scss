@@ -9,6 +9,8 @@
 
 
 .content-pagination__item {
+  width: 100%;
+
   @include mq(medium) {
     width: 50%;
 
@@ -35,6 +37,7 @@
   min-height: rems(160px);
   padding: $upd-spacing-gutter-large (2 * $upd-spacing-gutter-large);
   position: relative;
+  width: 100%;
 
   &:focus,
   &:hover {
