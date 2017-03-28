@@ -1,34 +1,32 @@
 /* Widths */
 
 /**
- * Manually define our full-width class
- */
-.u-width-1-of-1,
-%u-width-1-of-1 {
-  width: 100%;
-}
-
-/**
  * Iterate through denominators and numerators to generate all our common
  * widths.
  */
-@for $denominator from 1 through 4 {
-  @for $numerator from 1 to $denominator {
-    $name: u-width-#{$numerator}-of-#{$denominator};
-    $width: percentage($numerator / $denominator);
+@mixin widths($suffix) {
+  @for $denominator from 1 through 4 {
+    @for $numerator from 1 through $denominator {
+      @if $denominator == 1 or $denominator != $numerator {
+        $name: u-width-#{$numerator}-of-#{$denominator};
+        $width: percentage($numerator / $denominator);
 
-    .#{$name},
-    %#{$name} {
-      width: $width;
-    }
+        .#{$name}#{$suffix},
+        %#{$name}#{$suffix} {
+          width: $width;
+        }
 
-    @each $breakpoint, $size in $upd-breakpoints {
-      @include mq($breakpoint) {
-        .#{$name}-from-#{$breakpoint},
-        %#{$name}-from-#{$breakpoint} {
-          width: $width
+        .#{$name}-from-complex-layout,
+        %#{$name}-from-complex-layout {
+          @extend %#{$name}-from-#{$upd-layout-breakpoint} !optional;
         }
       }
     }
+  }
+}
+
+@each $breakpoint, $size in $upd-breakpoints {
+  @include mq($breakpoint) {
+    @include widths(-from-#{$breakpoint})
   }
 }
