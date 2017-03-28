@@ -4,7 +4,7 @@
  * Iterate through denominators and numerators to generate all our common
  * widths.
  */
-@mixin widths($suffix) {
+@mixin widths($suffix: '') {
   @for $denominator from 1 through 4 {
     @for $numerator from 1 through $denominator {
       @if $denominator == 1 or $denominator != $numerator {
@@ -24,6 +24,8 @@
     }
   }
 }
+
+@include widths;
 
 @each $breakpoint, $size in $upd-breakpoints {
   @include mq($breakpoint) {

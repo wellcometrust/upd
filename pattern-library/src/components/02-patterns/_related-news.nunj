@@ -1,10 +1,10 @@
-<h2 class="h3  u-mb">Related news</h2>
+<h2 class="h3  h3--sidebar">Related news</h2>
 
-<ul class="grid    gutter  gutter--large">
+<ul class="grid   gutter  gutter--large">
 
     {% for i in range(4) %}
 
-        <li class="grid__item    gutter__item  u-width-1-of-2-from-medium  u-width-1-of-1-from-complex-layout">
+        <li class="grid__item    gutter__item  u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-1-from-complex-layout">
 
             {% render '@news-tile' %}
 
