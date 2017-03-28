@@ -22,10 +22,14 @@
   };
 }
 
-
+/**
+ * 1. Make sure child elements are focusable as soon as parent element is
+ *    visible
+ */
 .drop-down__container {
   transform: translateY(-100%);
   transition: background $upd-transition-time, transform $upd-transition-time;
+  visibility: visible; /* 1 */
 
   .is-open > & {
     transform: none;
