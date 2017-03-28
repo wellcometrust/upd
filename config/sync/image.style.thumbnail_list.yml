@@ -1,0 +1,14 @@
+uuid: 1cfd89df-2188-4cba-af37-d5636180b2c4
+langcode: en
+status: true
+dependencies: {  }
+name: thumbnail_list
+label: 'Thumbnail list'
+effects:
+  b1c8af37-0f55-44f2-9974-cbeef91b8541:
+    uuid: b1c8af37-0f55-44f2-9974-cbeef91b8541
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 258
+      height: 160
