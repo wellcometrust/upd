@@ -131,8 +131,19 @@
   {% if content.field_vertical_tab is not empty %}
   <div class="content u-font-body-copy">
     {{ content.field_vertical_tab }}
+    
+    <ul class="content__actions">
+      <li class="content__action">
+        <a class="button  button--tertiary" href="#link-to-printable-version">Print page</a>
+      </li>
+      <li class="content__action">
+        <a class="button  button--tertiary" href="{{ content.field_pdf[0]['#markup'] }}">Download PDF</a>
+      </li>
+    </ul>
+
   </div>
   {% endif %}
+
  </div>
 </article>
 </main>

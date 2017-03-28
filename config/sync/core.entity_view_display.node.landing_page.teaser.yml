@@ -14,4 +14,7 @@ mode: teaser
 content:
   links:
     weight: 100
-hidden: {  }
+hidden:
+  field_3_items_grid: true
+  field_hero_intro: true
+  field_testimonial: true
