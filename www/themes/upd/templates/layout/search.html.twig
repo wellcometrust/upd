@@ -17,11 +17,11 @@
 
     <div class="page-header__search">
 
-      <form class="search">
+      <form class="search" method='GET' action='/search'>
 
         <label class="u-visually-hidden" for="search">Search the entire Understanding Patient Data site</label>
 
-        <input class="search__input" id="search" required="" value="Lorem ipsum" type="search">
+        <input class="search__input" id="search" name="query" type="search">
 
           <button class="search__submit" type="submit">
 
@@ -69,9 +69,6 @@
     <article class="layout__item  layout__item--primary" id="primary">
       <div class="layout__wrapper">
         <div class="search-results">
-          <header class="search-results__header">
-            <span class="search-results__count">123 results</span>
-          </header>
           {{ content.main }}
         </div>
       </div>

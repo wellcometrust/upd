@@ -32,6 +32,11 @@
  * @ingroup themeable
  */
 #}
-  {{ rows }}
-  {{ empty }}
-  {{ pager }}
+
+
+<header class="search-results__header">
+  <span class="search-results__count"> {{ view.total_rows }} results</span>
+</header>
+{{ rows }}
+{{ empty }}
+{{ pager }}
