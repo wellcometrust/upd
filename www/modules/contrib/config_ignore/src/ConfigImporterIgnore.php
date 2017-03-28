@@ -13,6 +13,9 @@ use Drupal\user\SharedTempStore;
  */
 class ConfigImporterIgnore {
 
+  const FORCE_EXCLUSION_PREFIX = '~';
+  const INCLUDE_SUFFIX = '*';
+
   /**
    * Gather config that we want to keep.
    *
@@ -115,23 +118,16 @@ class ConfigImporterIgnore {
   public static function matchConfigName($config_name) {
     $config_ignore_settings = \Drupal::config('config_ignore.settings')->get('ignored_config_entities');
     \Drupal::moduleHandler()->invokeAll('config_ignore_settings_alter', [&$config_ignore_settings]);
+
+    // If the string is an excluded config, don't ignore it.
+    if (in_array(static::FORCE_EXCLUSION_PREFIX . $config_name, $config_ignore_settings, TRUE)) {
+      return FALSE;
+    }
+
     foreach ($config_ignore_settings as $config_ignore_setting) {
-      // Check if the last character in the string is an asterisk.
-      // If so, it means that it is a wildcard.
-      if (Unicode::substr($config_ignore_setting, -1) == '*') {
-        // Remove the asterisk character from the end of the string.
-        $config_ignore_setting = rtrim($config_ignore_setting, '*');
-        // Test if the start of the config, we are checking, are matching
-        // the $config_ignore_setting string. If it is a match, mark
-        // that config name to be ignored.
-        if (Unicode::substr($config_name, 0, strlen($config_ignore_setting)) == $config_ignore_setting) {
-          return TRUE;
-        }
-      }
-      // If string does not contain an asterisk in the end, just compare
-      // the two strings, and if they match, mark that config name to be
-      // ignored.
-      elseif ($config_name == $config_ignore_setting) {
+      // Test if the config_name is in the ignore list using a shell like
+      // validation function to test the config_ignore_setting pattern.
+      if (fnmatch($config_ignore_setting, $config_name)) {
         return TRUE;
       }
     }
