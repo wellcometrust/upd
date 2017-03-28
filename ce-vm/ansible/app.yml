@@ -11,4 +11,3 @@
   roles:
     
     - { role: drush_aliases }
-    - { role: db_init }
