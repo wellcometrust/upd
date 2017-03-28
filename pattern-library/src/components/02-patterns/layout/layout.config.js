@@ -59,6 +59,21 @@ const config = {
       },
       noMobileSidebar: false,
       name: 'Contact us'
+    },
+    {
+      context: {
+        content: [
+          '<div class="content    u-font-body-copy"><p>The Guardian is running a <a href="#link-to-story">story</a> today about 700,000 missing NHS letters.  We issued the following statement in response to the story:</p>\n\n<p>“Today’s news about the large amount of undelivered medical correspondence illustrates why the NHS can no longer rely on an outdated system of paper and faxes to correspond about patients.</p>\n\n<p>“If GPs and hospitals could communicate electronically, through a joined up and secure digital system, we would see a transformation in healthcare. It would allow the NHS to deliver a more effective service, protect patient confidentiality and, most importantly, significantly improve patient care.”</p></div>'
+        ],
+        sidebar: [
+          {
+            name: 'related-news'
+          }
+        ],
+        noMobileSidebar: false,
+        reverse: true
+      },
+      name: 'News article'
     }
   ]
 }
