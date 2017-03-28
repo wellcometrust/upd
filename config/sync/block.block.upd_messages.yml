@@ -1,6 +1,6 @@
 uuid: ebfb14ce-db56-4b6f-b673-729b6c41bdd3
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - system
@@ -10,8 +10,8 @@ _core:
   default_config_hash: 5MNdk3fpMKx_xxBTcz2T11DL4XEU1H5SgHl8BsYdFsA
 id: upd_messages
 theme: upd
-region: '-1'
-weight: 0
+region: content
+weight: -4
 provider: null
 plugin: system_messages_block
 settings:

@@ -14,8 +14,33 @@
  * @ingroup themeable
  */
 #}
-{% if content %}
-  <div id="site-header-navigation" class="site-header__navigation" {{ attributes }}>
-    {{ content }}
+
+<img alt="Understanding Patient Data" class="site-header__logo" src="{{ base_path }}themes/upd/assets/images/logo.svg">
+  {{ content }}
+  <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--toggle" data-toggle="is-open" data-toggle-group="site-header" href="#site-header-navigation">
+    <svg class="svg-icon  svg-icon--inline" role="presentation">
+      <title>Navigation menu</title>
+      <use xlink:href="#svg-icon-hamburger"></use>
+    </svg>
+  </a>
+  <div class="site-header__search    drop-down" data-focus="#header-search" id="site-header-search">
+    <div class="site-header__drop-down    drop-down__container">
+      <form class="header-search" method="GET" action="{{ base_path }}/search">
+        <label class="u-visually-hidden" for="header-search">Search the entire Understanding Patient Data site</label>
+        <button class="site-header__button    header-search__button  js-header-search" type="submit">
+          <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
+            <title>Search</title>
+            <use class="header-search__icon  header-search__icon--mobile" xlink:href="#svg-icon-arrow"></use>
+            <use class="header-search__icon  header-search__icon--desktop" xlink:href="#svg-icon-search"></use>
+          </svg>
+        </button>
+        <input class="header-search__input" name="query" id="header-search" placeholder="Search..." type="search">
+      </form>
+    </div>
   </div>
-{% endif %}
+  <a aria-controls="site-header-search" aria-expanded="false" class="site-header__button  site-header__button--toggle" data-toggle="is-open" data-toggle-group="site-header" href="#site-header-search">
+    <svg class="svg-icon  svg-icon--inline" role="presentation">
+      <title>Search</title>
+      <use xlink:href="#svg-icon-search"></use>
+    </svg>
+  </a>
