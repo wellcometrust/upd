@@ -1,6 +1,6 @@
 uuid: 6bc6cbe5-2779-448e-866e-8cb38bcc16ef
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - ctools
@@ -10,8 +10,8 @@ _core:
   default_config_hash: 8yptDf6WrXxeyevUz4nP5vfr7BtxQqCBMninhV2IJ1g
 id: upd_page_title
 theme: upd
-region: content
-weight: -2
+region: '-1'
+weight: 0
 provider: null
 plugin: page_title_block
 settings:

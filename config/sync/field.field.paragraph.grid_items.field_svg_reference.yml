@@ -1,0 +1,19 @@
+uuid: cb6b7edc-4416-45be-8123-caa60f914be3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_svg_reference
+    - paragraphs.paragraphs_type.grid_items
+id: paragraph.grid_items.field_svg_reference
+field_name: field_svg_reference
+entity_type: paragraph
+bundle: grid_items
+label: 'SVG reference'
+description: 'String ID for an inline svg icon (eg #svg-icon-home-heart)'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

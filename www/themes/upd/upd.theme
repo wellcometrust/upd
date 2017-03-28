@@ -10,7 +10,9 @@
  * @todo filter on paragraph bundle.
  */
 function upd_preprocess_paragraph(&$variables) {
-  $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
+  if(!empty($variables['content']['field_title'][0]['#context']['value'])){
+    $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
+  }
 }
 
 /**

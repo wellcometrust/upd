@@ -1,0 +1,39 @@
+uuid: 88462435-7ff4-4266-b6c2-71bca8811d3a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_3_items_grid
+    - node.type.landing_page
+    - paragraphs.paragraphs_type.grid_items
+  module:
+    - entity_reference_revisions
+id: node.landing_page.field_3_items_grid
+field_name: field_3_items_grid
+entity_type: node
+bundle: landing_page
+label: '3 items grid'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      grid_items: grid_items
+    target_bundles_drag_drop:
+      case_study_vertical_tab:
+        weight: 5
+        enabled: false
+      faq_dropdowns:
+        weight: 6
+        enabled: false
+      grid_items:
+        enabled: true
+        weight: 7
+      resource_vertical_tab:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions

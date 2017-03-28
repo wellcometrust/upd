@@ -1,0 +1,50 @@
+uuid: 6010b2c8-49eb-4855-8d8e-b38e7d1666fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.grid_items.field_item_info_button
+    - field.field.paragraph.grid_items.field_item_info_link
+    - field.field.paragraph.grid_items.field_item_info_text
+    - field.field.paragraph.grid_items.field_svg_reference
+    - paragraphs.paragraphs_type.grid_items
+  module:
+    - link
+id: paragraph.grid_items.default
+targetEntityType: paragraph
+bundle: grid_items
+mode: default
+content:
+  field_item_info_button:
+    weight: 3
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+  field_item_info_link:
+    weight: 2
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link_separate
+  field_item_info_text:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+  field_svg_reference:
+    weight: 4
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden: {  }

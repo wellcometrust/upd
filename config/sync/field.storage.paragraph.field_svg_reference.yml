@@ -1,0 +1,21 @@
+uuid: c8043930-3cd3-4490-bda9-c7e87bff5a87
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_svg_reference
+field_name: field_svg_reference
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
