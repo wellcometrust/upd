@@ -1,10 +1,10 @@
 <header class="site-header">
 
-    <{% if home  %}span{% else %}a href="/"{% endif %} class="site-header__logo">
+    {% if home !== true %}<a href="/">{% endif %}
 
-        <img alt="Understanding Patient Data" src="{{ '/images/logo.svg' | path }}">
+        <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/logo.svg' | path }}">
 
-    </{% if home  %}span{% else %}a{% endif %}>
+    {% if home !== true %}</a>{% endif %}
 
     <div class="site-header__navigation    drop-down" id="site-header-navigation">
 
