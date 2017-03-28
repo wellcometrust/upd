@@ -4,7 +4,7 @@
 
         {% if sidebar %}
 
-            <aside class="layout__item  layout__item--secondary{% if sticky %}  layout__item--sticky{% endif %}{% if important !== true %}  u-hidden-layout-simple{% endif %}">
+            <aside class="layout__item  layout__item--secondary{% if sticky %}  layout__item--sticky{% endif %}{% if important !== true %}   u-display-none  u-display-block-from-complex-layout{% endif %}">
 
                 <div class="layout__wrapper">
 
