@@ -22,7 +22,7 @@ variant_settings:
       label_display: visible
       views_label: ''
       items_per_page: none
-      region: right
+      region: main
       weight: 0
       uuid: 5842d796-f63b-4db1-adaf-704d7e697322
       context_mapping: {  }
@@ -31,7 +31,7 @@ variant_settings:
       label: 'Content type'
       provider: facets
       label_display: visible
-      region: left
+      region: filters
       weight: 0
       uuid: b0de109b-2d09-42fe-a233-570055de172e
       context_mapping: {  }
@@ -39,7 +39,7 @@ variant_settings:
   uuid: 685f63fe-f3a3-4ffa-ac48-b84807a5859b
   label: null
   weight: 0
-  layout: twocol
+  layout: search
   layout_settings: {  }
   page_title: ''
   storage_type: page_manager

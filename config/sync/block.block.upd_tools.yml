@@ -1,6 +1,6 @@
 uuid: bdebb4ca-365b-400f-8c13-a013eb1e61d7
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.tools
@@ -12,8 +12,8 @@ _core:
   default_config_hash: xCOijLdB1-UgXxQ9a0D1_pd8vxNEhfMnxXZc8jYhHjs
 id: upd_tools
 theme: upd
-region: sidebar_first
-weight: 0
+region: '-1'
+weight: 1
 provider: null
 plugin: 'system_menu_block:tools'
 settings:

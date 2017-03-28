@@ -1,0 +1,9 @@
+search:
+  label: Search page
+  category: UPD
+  template: templates/layouts/search
+  regions:
+    main:
+      label: Results
+    filters:
+      label: Filters

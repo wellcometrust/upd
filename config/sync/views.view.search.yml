@@ -75,10 +75,10 @@ display:
         options:
           view_modes:
             'entity:node':
-              art: teaser
-              case_study: teaser
-              resource: teaser
-              vertical_tab: default
+              art: search_result
+              case_study: search_result
+              faq: search_result
+              resource: search_result
       fields: {  }
       filters:
         search_api_fulltext:
@@ -123,6 +123,47 @@ display:
             rendered_item: rendered_item
             title: title
           plugin_id: search_api_fulltext
+        type:
+          id: type
+          table: search_api_index_content
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            art: art
+            case_study: case_study
+            resource: resource
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: search_api_options
       sorts:
         search_api_relevance:
           id: search_api_relevance

@@ -1,6 +1,6 @@
 uuid: fc8ec2c3-a2f9-49d6-9fec-e907a4d9f75c
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - user
@@ -10,8 +10,8 @@ _core:
   default_config_hash: 4QlSnWBcxxKMIFRM8sbu_MjSkcp3NjGgnVrc-lynQHI
 id: upd_login
 theme: upd
-region: sidebar_first
-weight: 0
+region: '-1'
+weight: -1
 provider: null
 plugin: user_login_block
 settings:
