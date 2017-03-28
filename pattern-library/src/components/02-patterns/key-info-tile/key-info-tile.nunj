@@ -10,7 +10,7 @@
 
     <div class="key-info-tile__action">
 
-        <span class="button  button--shadow">{{ button }}</span>
+        <span class="cta  cta--arrow">{{ cta }}</span>
 
     </div>
 
