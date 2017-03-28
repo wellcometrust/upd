@@ -1,3 +1,25 @@
+const _ = require('lodash')
+
+const newsConfig = require('../news-tile/news-tile.config')
+
+const headlines = [
+  'Missing NHS medical correspondence',
+  'NHS data loss: 500 patients may have suffered serious harm in data scandal',
+  'NHS misplaced half a million patient documents',
+  'Pellentesque faucibus facilisis metus, ut faucibus purus volutpat nec'
+]
+
+let newsTiles = headlines.map((title) => {
+  return {
+    component: 'news-tile',
+    context: _.merge({}, newsConfig.context, {
+      title
+    })
+  }
+})
+
+newsTiles = newsTiles.concat(newsTiles, newsTiles)
+
 const config = {
   context: {
     items: [
@@ -44,10 +66,18 @@ const config = {
         },
         component: 'resource-tile'
       }
-    ]
+    ],
+    widths: 'u-width-1-of-1  u-width-1-of-2-from-large'
   },
   preview: '@preview-boxed',
   variants: [
+    {
+      context: {
+        items: newsTiles,
+        widths: 'u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-x-large'
+      },
+      name: 'News'
+    },
     {
       context: {
         items: [

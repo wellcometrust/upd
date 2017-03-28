@@ -2,7 +2,7 @@
 
     {% for item in items %}
 
-        <li class="grid__item    gutter__item    masonry__item    u-width-1-of-1  u-width-1-of-2-from-large">
+        <li class="grid__item    gutter__item    masonry__item    {{ widths }}">
 
                 {% if item.component %}
 

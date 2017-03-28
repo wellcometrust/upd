@@ -36,6 +36,8 @@
 
 
   .masonry__item {
+    transition: none; // Handle transitions purely with JS
+
     .masonry--loading & {
       animation-delay: 0s, $delay;
       animation-duration: $delay, $upd-transition-time;
