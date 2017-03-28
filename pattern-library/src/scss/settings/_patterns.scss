@@ -21,6 +21,7 @@ $upd-input-radius: rems(4px);
 
 /* Gutter
    ========================================================================== */
+$upd-gutter-enable-responsive-sizes: false;
 $upd-gutter-sizes: (
   small: $upd-spacing-gutter-small,
   medium: $upd-spacing-gutter-medium,
