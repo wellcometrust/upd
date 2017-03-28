@@ -1,0 +1,41 @@
+uuid: 88710a23-4511-422b-8ed3-3e20f31ee2f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - page_manager.page.case_studies
+    - views.view.case_studies_index
+  module:
+    - panels
+    - views
+id: case_studies-panels_variant-0
+label: Panels
+variant: panels_variant
+variant_settings:
+  blocks:
+    f08a42b3-46dd-4d19-9b43-4b268c2513d0:
+      id: 'views_block:case_studies_index-block_1'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: main
+      weight: 0
+      uuid: f08a42b3-46dd-4d19-9b43-4b268c2513d0
+      context_mapping: {  }
+  id: panels_variant
+  uuid: 4ef328aa-1cf0-42ae-9e67-f8ccbe661122
+  label: null
+  weight: 0
+  layout: case_studies_index
+  layout_settings: {  }
+  page_title: ''
+  storage_type: page_manager
+  storage_id: case_studies-panels_variant-0
+  builder: standard
+page: case_studies
+weight: 0
+selection_criteria: {  }
+selection_logic: and
+static_context: {  }

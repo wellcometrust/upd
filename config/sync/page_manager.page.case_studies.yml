@@ -1,0 +1,12 @@
+uuid: c5c6da4c-0101-4fc5-86a7-a861ad1caecb
+langcode: en
+status: true
+dependencies: {  }
+id: case_studies
+label: 'Case studies'
+description: ''
+use_admin_theme: false
+path: /case-studies
+access_logic: and
+access_conditions: {  }
+parameters: {  }

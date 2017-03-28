@@ -75,5 +75,5 @@
 <a class="search-result" href="{{ url }}">
   <span class="search-result__category">{{ node.type.entity.label }}</span>
   <h2 class="search-result__title">{{ label }}</h2>
-  <p class="search-result__description">{{ content }}</p>
+  <p class="search-result__description">{{ content.field_standfirst|raw }}</p>
 </a>

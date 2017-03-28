@@ -2917,87 +2917,6 @@
         ]
     },
     {
-        "name": "drupal/ctools",
-        "version": "3.0.0-alpha27",
-        "version_normalized": "3.0.0.0-alpha27",
-        "source": {
-            "type": "git",
-            "url": "https://git.drupal.org/project/ctools",
-            "reference": "8.x-3.0-alpha27"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/ctools-8.x-3.0-alpha27.zip",
-            "reference": null,
-            "shasum": "3e069c46902dd05c2a4e0caf7b185942e9b53238"
-        },
-        "require": {
-            "drupal/core": "~8.0"
-        },
-        "type": "drupal-module",
-        "extra": {
-            "branch-alias": {
-                "dev-3.x": "3.x-dev"
-            },
-            "drupal": {
-                "version": "8.x-3.0-alpha27",
-                "datestamp": "1471723439"
-            }
-        },
-        "installation-source": "dist",
-        "notification-url": "https://packages.drupal.org/8/downloads",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "authors": [
-            {
-                "name": "EclipseGc",
-                "homepage": "https://www.drupal.org/user/61203"
-            },
-            {
-                "name": "damiankloip",
-                "homepage": "https://www.drupal.org/user/1037976"
-            },
-            {
-                "name": "dawehner",
-                "homepage": "https://www.drupal.org/user/99340"
-            },
-            {
-                "name": "esmerel",
-                "homepage": "https://www.drupal.org/user/164022"
-            },
-            {
-                "name": "japerry",
-                "homepage": "https://www.drupal.org/user/45640"
-            },
-            {
-                "name": "merlinofchaos",
-                "homepage": "https://www.drupal.org/user/26979"
-            },
-            {
-                "name": "neclimdul",
-                "homepage": "https://www.drupal.org/user/48673"
-            },
-            {
-                "name": "sdboyer",
-                "homepage": "https://www.drupal.org/user/146719"
-            },
-            {
-                "name": "sun",
-                "homepage": "https://www.drupal.org/user/54136"
-            },
-            {
-                "name": "tim.plunkett",
-                "homepage": "https://www.drupal.org/user/241634"
-            }
-        ],
-        "description": "Provides a number of utility and helper APIs for Drupal developers and site builders.",
-        "homepage": "https://www.drupal.org/project/ctools",
-        "support": {
-            "source": "http://cgit.drupalcode.org/ctools"
-        }
-    },
-    {
         "name": "drupal/page_manager",
         "version": "1.0.0-alpha24",
         "version_normalized": "1.0.0.0-alpha24",
@@ -3689,18 +3608,18 @@
     },
     {
         "name": "drupal/config_ignore",
-        "version": "1.3.0",
-        "version_normalized": "1.3.0.0",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
         "source": {
             "type": "git",
             "url": "https://git.drupal.org/project/config_ignore",
-            "reference": "8.x-1.3"
+            "reference": "8.x-1.4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/config_ignore-8.x-1.3.zip",
+            "url": "https://ftp.drupal.org/files/projects/config_ignore-8.x-1.4.zip",
             "reference": null,
-            "shasum": "60e4014e4d4b119b924d1e1ee5c914b4a6bd59a7"
+            "shasum": "6b55ca40891bd2a6320c61a3406cae0a16e4e9b9"
         },
         "require": {
             "drupal/core": "*"
@@ -3711,8 +3630,8 @@
                 "dev-1.x": "1.x-dev"
             },
             "drupal": {
-                "version": "8.x-1.3",
-                "datestamp": "1487336284"
+                "version": "8.x-1.4",
+                "datestamp": "1490346183"
             }
         },
         "installation-source": "dist",
@@ -3738,6 +3657,218 @@
             "source": "http://cgit.drupalcode.org/config_ignore",
             "issues": "http://drupal.org/project/config_ignore",
             "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
+        "name": "drupal/token",
+        "version": "1.0.0-rc1",
+        "version_normalized": "1.0.0.0-RC1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/token",
+            "reference": "8.x-1.0-rc1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/token-8.x-1.0-rc1.zip",
+            "reference": null,
+            "shasum": "204b2f18a3d770589d66656aa83121d2156d0a31"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-rc1",
+                "datestamp": "1483290542"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Berdir",
+                "homepage": "https://www.drupal.org/user/214652"
+            },
+            {
+                "name": "Dave Reid",
+                "homepage": "https://www.drupal.org/user/53892"
+            },
+            {
+                "name": "eaton",
+                "homepage": "https://www.drupal.org/user/16496"
+            },
+            {
+                "name": "fago",
+                "homepage": "https://www.drupal.org/user/16747"
+            },
+            {
+                "name": "greggles",
+                "homepage": "https://www.drupal.org/user/36762"
+            },
+            {
+                "name": "mikeryan",
+                "homepage": "https://www.drupal.org/user/4420"
+            }
+        ],
+        "description": "Provides a user interface for the Token API and some missing core tokens.",
+        "homepage": "https://www.drupal.org/project/token",
+        "support": {
+            "source": "http://cgit.drupalcode.org/token",
+            "issues": "https://www.drupal.org/project/issues/token"
+        }
+    },
+    {
+        "name": "drupal/ctools",
+        "version": "3.0.0-beta1",
+        "version_normalized": "3.0.0.0-beta1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/ctools",
+            "reference": "8.x-3.0-beta1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/ctools-8.x-3.0-beta1.zip",
+            "reference": null,
+            "shasum": "8798ba7640a9188df9f9043e6f49b5ff0252e3dc"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-3.x": "3.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-3.0-beta1",
+                "datestamp": "1490677984"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Kris Vanderwater (EclipseGc)",
+                "homepage": "https://www.drupal.org/u/eclipsegc",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Jakob Perry (japerry)",
+                "homepage": "https://www.drupal.org/u/japerry",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Tim Plunkett (tim.plunkett)",
+                "homepage": "https://www.drupal.org/u/timplunkett",
+                "role": "Maintainer"
+            },
+            {
+                "name": "James Gilliland (neclimdul)",
+                "homepage": "https://www.drupal.org/u/neclimdul",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Daniel Wehner (dawehner)",
+                "homepage": "https://www.drupal.org/u/dawehner",
+                "role": "Maintainer"
+            },
+            {
+                "name": "merlinofchaos",
+                "homepage": "https://www.drupal.org/user/26979"
+            },
+            {
+                "name": "neclimdul",
+                "homepage": "https://www.drupal.org/user/48673"
+            },
+            {
+                "name": "sdboyer",
+                "homepage": "https://www.drupal.org/user/146719"
+            },
+            {
+                "name": "sun",
+                "homepage": "https://www.drupal.org/user/54136"
+            },
+            {
+                "name": "tim.plunkett",
+                "homepage": "https://www.drupal.org/user/241634"
+            }
+        ],
+        "description": "Provides a number of utility and helper APIs for Drupal developers and site builders.",
+        "homepage": "https://www.drupal.org/project/ctools",
+        "support": {
+            "source": "http://cgit.drupalcode.org/ctools",
+            "issues": "https://www.drupal.org/project/issues/ctools"
+        }
+    },
+    {
+        "name": "drupal/pathauto",
+        "version": "1.0.0-rc1",
+        "version_normalized": "1.0.0.0-RC1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/pathauto",
+            "reference": "8.x-1.0-rc1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-rc1.zip",
+            "reference": null,
+            "shasum": "2460339ac8739317b3c4e66e9ce7142cc02adac3"
+        },
+        "require": {
+            "drupal/core": "*",
+            "drupal/ctools": "*",
+            "drupal/token": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-rc1",
+                "datestamp": "1485702484"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Berdir",
+                "homepage": "https://www.drupal.org/user/214652"
+            },
+            {
+                "name": "Dave Reid",
+                "homepage": "https://www.drupal.org/user/53892"
+            },
+            {
+                "name": "Freso",
+                "homepage": "https://www.drupal.org/user/27504"
+            },
+            {
+                "name": "greggles",
+                "homepage": "https://www.drupal.org/user/36762"
+            }
+        ],
+        "description": "Provides a mechanism for modules to automatically generate aliases for the content they manage.",
+        "homepage": "https://www.drupal.org/project/pathauto",
+        "support": {
+            "source": "http://cgit.drupalcode.org/pathauto"
         }
     }
 ]
