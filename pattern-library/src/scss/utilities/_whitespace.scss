@@ -3,3 +3,9 @@
 .u-whitespace-nowrap {
   white-space: nowrap;
 }
+
+.u-whitespace-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

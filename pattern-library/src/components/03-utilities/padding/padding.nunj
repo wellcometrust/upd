@@ -1,0 +1,9 @@
+{%  for size in ['small', 'medium', 'large'] %}
+
+    <p class="u-pb-{{ size }}">The bottom padding on this text is set to the {{ size }} gutter size.</p>
+
+{% endfor %}
+
+<p class="u-mb-zero">The bottom padding on this text is set to zero.</p>
+
+<p><strong>Note:</strong> use the font helper classes if you want to set the bottom padding to equal the element's line height (eg to match paragraph spacing).</p>

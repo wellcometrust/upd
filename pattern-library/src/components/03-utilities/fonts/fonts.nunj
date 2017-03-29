@@ -1,0 +1,18 @@
+<div class="u-font-{{ name }}">
+
+    <p>Paragraphs and top-level lists without classes will have a bottom margin equal to their line height.</p>
+
+    <div class="u-font-{{ name }}__mb">
+
+        Elements with the 'u-font-{{ name }}__mb' helper class will also have a bottom margin equal to their line height.
+
+    </div>
+
+
+    <div class="u-font-{{ name }}__pb">
+
+        Elements with the 'u-font-{{ name }}__pb' helper class will have bottom padding equal to their line height.
+
+    </div>
+
+</div>
