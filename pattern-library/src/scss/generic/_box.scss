@@ -22,10 +22,14 @@
   background: $upd-color-background-secondary;
 }
 
-
 .box--large,
 %box--large {
   padding: $upd-spacing-gutter-large;
+}
+
+.box--small,
+%box--small {
+  padding: $upd-spacing-gutter-small;
 }
 
 .box--horizontal {
