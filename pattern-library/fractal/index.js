@@ -14,7 +14,7 @@ if (paths.dest.library) fractal.web.set('builder.dest', paths.dest.library)
 
 // Components
 fractal.components.engine(nunjucks)
-fractal.components.set('default.status', 'prototype')
+fractal.components.set('default.status', 'ready')
 fractal.components.set('ext', '.nunj')
 fractal.components.set('path', paths.source.components)
 
