@@ -7,6 +7,7 @@
 
 use Drupal\node\Entity\Node;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Mail\MailFormatHelper;
 
 /**
  * Retrieve a default node excerpt when none is generated from search.
@@ -26,6 +27,7 @@ function upd_search_node_generate_excerpt(Node $node) {
   if (empty($excerpt)) {
     $excerpt = upd_search_node_fetch_rendered($node);
   }
+  $excerpt = MailFormatHelper::htmlToText($excerpt);
   return Unicode::truncate($excerpt, 400, TRUE, TRUE);
 }
 

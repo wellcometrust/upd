@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Grid of items as a list.
+ *
+ * Available variables:
+ * - items: List items
+ * - grid: integer
+ * @ingroup themeable
+ */
+#}
+
+<ul class="grid">
+  {% for item in items %}
+    <li class="grid__item u-width-1-of-{{ grid }}">
+      {{ item }}
+    </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,8 @@
+{
+    "name": "ce/ce_deploy",
+    "description": "Zero-touch deployment Drupal module.",
+    "type": "drupal-custom-module",
+    "license": "GPL-2.0+"
+}
+
+

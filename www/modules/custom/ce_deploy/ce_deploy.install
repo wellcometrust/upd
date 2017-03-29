@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Delete field author to replace with taxonomy.
+ */
+function ce_deploy_install() {
+  ce_deploy_delete_all_field_instances('field_standfirst');
+}

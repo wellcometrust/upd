@@ -1,0 +1,5 @@
+name: Ce Deploy
+type: module
+description: Manages deployment tasks.
+package: Code Enigma
+core: 8.x

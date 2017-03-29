@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Delete all instances of a given field.
+ *
+ * @param string $field_name
+ *   The field to delete.
+ * @param string $entity_type
+ *   The parent entity type.
+ */
+function ce_deploy_delete_all_field_instances($field_name, $entity_type = 'node') {
+  $properties = [
+    'entity_type' => $entity_type,
+    'include_deleted' => TRUE,
+    'field_name' => $field_name,
+  ];
+  $fields = \Drupal::entityManager()->getStorage('field_config')->loadByProperties($properties);
+  $info = \Drupal::entityManager()->getDefinitions();
+  foreach ($fields as $field) {
+    $entity_type = $field->getTargetEntityTypeId();
+
+    // Proceed only if the module implementing the entity has not been uninstalled already.
+    if (isset($info[$entity_type])) {
+      Drupal::entityManager()->getStorage($entity_type)->purgeFieldData($field, 100);
+    }
+    $field->delete();
+    field_purge_field($field);
+  }
+}

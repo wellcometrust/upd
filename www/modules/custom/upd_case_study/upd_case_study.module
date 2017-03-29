@@ -2,22 +2,38 @@
 
 /**
  * @file
+ */
+
+use Drupal\Core\Block\BlockPluginInterface;
+
+/**
+ * @file
  * UPD case study module file.
  */
 
 use Drupal\image\Entity\ImageStyle;
 
 /**
+ * Implements hook_block_view_alter().
+ *
+ * NOTE: You MUST implement this hook if you want your block plugins to work
+ * even if you do nothing inside the function body!
+ */
+function upd_case_study_block_view_alter(array &$build, BlockPluginInterface $block) {
+
+}
+
+/**
  * Implements hook_preprocess_node().
  */
-
 function upd_case_study_preprocess_node(&$variables) {
   _upd_case_study_preprocess_node_vertical_tabs($variables);
   _upd_case_study_preprocess_node_tags($variables);
   _upd_case_study_preprocess_node_thumbnail($variables);
 }
+
 /**
- * Alter node rendering to get image thumbnail url
+ * Alter node rendering to get image thumbnail url.
  *
  * @see upd_preprocess_node()
  */
@@ -29,8 +45,9 @@ function _upd_case_study_preprocess_node_thumbnail(&$variables) {
   if (!isset($node->field_thumbnail)) {
     return;
   }
-  $variables['content']['thumbnail_url'] = ImageStyle::load('thumbnail_list')->buildUrl($node->field_thumbnail[0]->entity->uri->value); 
+  $variables['content']['thumbnail_url'] = ImageStyle::load('thumbnail_list')->buildUrl($node->field_thumbnail[0]->entity->uri->value);
 }
+
 /**
  * Alter node rendering to add pseudo "vertical tabs".
  *
@@ -71,7 +88,7 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
   ];
   foreach ($fields as $field) {
     foreach ($node->get($field)->referencedEntities() as $term) {
-      $node->updTags[$term->id()] = $term->label();
+      $node->updTags[] = $term->label();
     }
   }
 }
