@@ -1,4 +1,4 @@
-{% render '@site-header', { home: true } %}
+{% render '@site-header--homepage' %}
 
 <main>
 
@@ -18,4 +18,4 @@
 
 </main>
 
-{% render '@site-footer' %}
+{% render '@site-footer--homepage' %}

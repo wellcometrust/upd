@@ -23,7 +23,15 @@ const config = {
         title: 'Follow us on Facebook'
       }
     ]
-  }
+  },
+  variants: [
+    {
+      context: {
+        home: true
+      },
+      name: 'Homepage'
+    }
+  ]
 }
 
 module.exports = config
