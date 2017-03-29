@@ -1,14 +1,18 @@
-/* Fonts */
+/* Font helper classes */
 
-@mixin utility-font($name, $line-height) {
+@mixin font-helper($name, $line-height) {
   .u-font-#{$name} {
     @extend %font-#{$name};
 
     p:not([class]),
     ol:not([class]),
     ul:not([class]),
-    .u-mb {
+    &__mb {
       margin-bottom: $line-height * 1em;
+    }
+
+    &__pb {
+      padding-bottom: $line-height * 1em;
     }
 
     li > ol:not([class]),
@@ -23,8 +27,8 @@
   }
 }
 
-@include utility-font(body-copy, $upd-line-height-body-copy);
+@include font-helper(body-copy, $upd-line-height-body-copy);
 
-@include utility-font(body-copy-small, $upd-line-height-body-copy-small);
+@include font-helper(body-copy-small, $upd-line-height-body-copy-small);
 
-@include utility-font(intro, $upd-line-height-intro);
+@include font-helper(intro, $upd-line-height-intro);

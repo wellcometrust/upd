@@ -1,9 +1,16 @@
 /* Margins */
-
-.u-mb {
-  margin-bottom: $upd-spacing-gutter-medium;
+.u-mb-medium {
+  margin-bottom: $upd-spacing-gutter-medium !important;
 }
 
 .u-mb-large {
-  margin-bottom: $upd-spacing-gutter-large;
+  margin-bottom: $upd-spacing-gutter-large !important;
+}
+
+.u-mb-medium {
+  margin-bottom: $upd-spacing-gutter-small !important;
+}
+
+.u-mb-zero {
+  margin-bottom: 0 !important;
 }

@@ -1,9 +1,17 @@
 /* Padding */
 
-.u-pb {
-  padding-bottom: $upd-spacing-gutter-medium;
+.u-pb-medium {
+  padding-bottom: $upd-spacing-gutter-medium !important;
 }
 
 .u-pb-large {
-  padding-bottom: $upd-spacing-gutter-large;
+  padding-bottom: $upd-spacing-gutter-large !important;
+}
+
+.u-pb-small {
+  padding-bottom: $upd-spacing-gutter-large !important;
+}
+
+.u-pb-zero {
+  padding-bottom: 0 !important;
 }

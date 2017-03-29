@@ -6,7 +6,7 @@
 
         <p>We aim to support discussions with the public, patients and healthcare professionals about uses of health and care data by:</p>
 
-        <div class="column  column--max-two">
+        <div class="column">
 
             <ol>
 
@@ -75,7 +75,7 @@
 
         <p>A Steering Committee helps provide strategic direction and oversight for our work. Members of the Steering Committee are:</p>
 
-        <ul class="grid  gutter  gutter--large    u-mb">
+        <ul class="grid  gutter  gutter--large    u-font-body-copy__mb">
 
             {% for i in range(6) %}
 
@@ -99,7 +99,7 @@
 
                     {% for advisor in advisors %}
 
-                        <li class="column__group  u-pb">
+                        <li class="column__group  u-font-body-copy__pb">
 
                             {% render '@profile', advisor %}
 
@@ -122,7 +122,7 @@
 
         <p>The following organisations provide funding support for Understanding Patient Data:</p>
 
-        <ul class="grid  grid--center  gutter  gutter--large    u-mb">
+        <ul class="grid  grid--center  gutter  gutter--large    u-font-body-copy__mb">
 
             {% for logo in logos %}
 
