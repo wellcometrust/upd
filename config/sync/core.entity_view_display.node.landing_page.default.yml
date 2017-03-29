@@ -18,29 +18,36 @@ mode: default
 content:
   field_3_items_grid:
     type: entity_reference_revisions_entity_view
-    weight: 102
+    weight: 1
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+  field_featured_articles:
+    type: entity_reference_entity_view
+    weight: 4
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
   field_hero_intro:
-    weight: 103
+    weight: 2
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
   field_testimonial:
     type: entity_reference_revisions_entity_view
-    weight: 104
+    weight: 3
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
   links:
-    weight: 100
+    weight: 0
     settings: {  }
     third_party_settings: {  }
-hidden:
-  field_featured_articles: true
+hidden: {  }
