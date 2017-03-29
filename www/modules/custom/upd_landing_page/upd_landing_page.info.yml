@@ -1,5 +1,5 @@
-name: UPD Case study
+name: UPD landing page
 type: module
-description: 'Provide functionalities around the case study content type.'
+description: 'Provide functionalities around the landing page content type.'
 package: UPD
 core: '8.x'

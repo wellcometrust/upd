@@ -2,15 +2,14 @@
 
 /**
  * @file
- * UPD case study module file.
+ * UPD landing page module file.
  */
 
 /**
  * Implements hook_preprocess_node().
  */
-function upd_case_study_preprocess_node(&$variables) {
-  _upd_case_study_preprocess_node_vertical_tabs($variables);
-  _upd_case_study_preprocess_node_tags($variables);
+function upd_landing_page_preprocess_node(&$variables) {
+  _upd_case_study_preprocess_node_featured_news($variables);
 }
 
 /**
@@ -18,53 +17,13 @@ function upd_case_study_preprocess_node(&$variables) {
  *
  * @see upd_preprocess_node()
  */
-function _upd_case_study_preprocess_node_vertical_tabs(&$variables) {
+function _upd_case_study_preprocess_node_featured_news(&$variables) {
   if ($variables['view_mode'] !== 'full') {
     return;
   }
   $node = $variables['node'];
-  if (!isset($node->field_vertical_tab)) {
+  if (!isset($node->field_featured_articles)) {
     return;
   }
-  $i = 0;
-  $variables['content']['vertical'][$i]['title'] = 'Introduction';
-  $variables['content']['vertical'][$i]['url'] = 'introduction';
-  foreach ($node->field_vertical_tab as $item) {
-    $i++;
-    $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')->getValue()[0]['value'];
-    $variables['content']['vertical'][$i]['url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $item->entity->get('field_title')->getValue()[0]['value'])));
-  }
-}
-
-/**
- * Gather all taxonomy fields into a single place for theming.
- *
- * @see upd_preprocess_node()
- */
-function _upd_case_study_preprocess_node_tags(&$variables) {
-  $node = $variables['node'];
-  if ($node->bundle() !== 'case_study') {
-    return;
-  }
-  $fields = [
-    'field_disease_type',
-    'field_impact_of_work',
-    'field_sources_of_data',
-  ];
-  foreach ($fields as $field) {
-    foreach ($node->get($field)->referencedEntities() as $term) {
-      $node->updTags[$term->id()] = $term->label();
-    }
-  }
-}
-
-/**
- * Implements hook_preprocess_paragraphs().
- *
- * @todo filter on paragraph bundle.
- */
-function upd_case_study_preprocess_paragraph(&$variables) {
-  if (!empty($variables['content']['field_title'][0]['#context']['value'])) {
-    $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
-  }
+  $variables['featured_news'] = views_embed_view('featured_news', 'featured_news');
 }
