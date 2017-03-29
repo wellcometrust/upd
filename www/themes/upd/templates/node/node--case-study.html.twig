@@ -80,13 +80,17 @@
       <span class="page-header__category">Case study</span>
       {{ title_prefix }}
       <h1 class="page-header__title">{{ label }}</h1>
-         <div class="page-header__tag">
-            <div class="tag">
-                <span class="tag__inner">{{ content.field_disease_type[0]['#title'] }}</span>
-                <span class="tag__inner">{{ content.field_impact_of_work[0]['#title'] }}</span>
-                <span class="tag__inner">{{ content.field_sources_of_data[0]['#title'] }}</span>
-            </div>
-        </div>
+      <div class="page-header__tags">
+        <ul class="tag-list">
+            {% for term in node.updTags %}
+            <li class="tag-list__item"> 
+              <span class="tag">
+                {{term}} 
+              </span>
+            </li>
+{%endfor %}
+        </ul>
+      </div>
     </div>
   </header>
   {% else %}
@@ -136,9 +140,11 @@
       <li class="content__action">
         <a class="button  button--tertiary" href="#link-to-printable-version">Print page</a>
       </li>
+      {% if content.field_pdf is not empty %}
       <li class="content__action">
         <a class="button  button--tertiary" href="{{ content.field_pdf[0]['#markup'] }}">Download PDF</a>
       </li>
+      {% endif %}
     </ul>
 
   </div>
