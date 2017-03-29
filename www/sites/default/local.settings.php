@@ -733,6 +733,7 @@ $config['config_ignore.settings']['ignored_config_entities'] = array(
   'kint.*',
   'webprofiler.*',
   'devel_generate.*',
+  'system.menu.devel.*',
 );
 
 $databases['default']['default'] = array(
