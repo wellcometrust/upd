@@ -6,741 +6,397 @@
  */
 #}
 <header class="page-header">
-
-    <div class="wrapper  wrapper--gutter">
-
-        
-
-        <h1 class="page-header__title">Case studies</h1>
-
-        
-
-        
-
-            <p class="page-header__subheading">Mauris non tempor quam, et lacinia sapien. Mauris accumsan eros eget libero posuere vulputate. Etiam elit elit, elementum sed varius at.</p>
-
-        
-
-        
-
-    </div>
-
+  <div class="wrapper  wrapper--gutter">
+    <h1 class="page-header__title">Case studies</h1>
+  </div>
 </header>
 <div class="wrapper  wrapper--gutter">
-
-    
-
-        <main class="layout">
-
-    
-
-        
-
-            <aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
-
-                <div class="layout__wrapper">
-
-                    
-
-                        
-
-                            
-
-    <div class="refine">
-
-        <form class="search">
-
-    <label class="u-visually-hidden" for="search">Search the entire Understanding Patient Data site</label>
-
-    <input class="search__input" id="search" placeholder="Search..." required="" type="search">
-
-    <button class="search__submit" type="submit">
-
-        <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
-
-    
-
-        <title>Search</title>
-
-    
-
-    
-
-        <use xlink:href="#svg-icon-search"></use>
-
-    
-
-    
-
-</svg>
-
-
-    </button>
-
-</form>
-
-    </div>
-
-
-
-
-
-    <form class="refine">
-
-        
-
-            <fieldset class="refine__category">
-
-                <legend class="refine__title">Impact of work</legend>
-
-                
-
-                    <input id="impact-individual-care" name="" type="checkbox">
-
-                    <label class="refine__option" for="impact-individual-care">Individual care</label>
-
-                
-
-                    <input id="impact-disearch-risks-and-causes" name="" type="checkbox">
-
-                    <label class="refine__option" for="impact-disearch-risks-and-causes">Disearch risks and causes</label>
-
-                
-
-                    <input id="impact-diagnosis" name="" type="checkbox">
-
-                    <label class="refine__option" for="impact-diagnosis">Diagnosis</label>
-
-                
-
-                    <input id="impact-treatment-and-prevention" name="" type="checkbox">
-
-                    <label class="refine__option" for="impact-treatment-and-prevention">Treatment and prevention</label>
-
-                
-
-                    <input id="impact-planning" name="" type="checkbox">
-
-                    <label class="refine__option" for="impact-planning">Planning</label>
-
-                
-
-                    <input id="impact-patient-safety" name="" type="checkbox">
-
-                    <label class="refine__option" for="impact-patient-safety">Patient safety</label>
-
-                
-
-                    <input id="impact-policy" name="" type="checkbox">
-
-                    <label class="refine__option" for="impact-policy">Policy</label>
-
-                
-
-                <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
-
-            </fieldset>
-
-        
-
-            <fieldset class="refine__category">
-
-                <legend class="refine__title">Disease type</legend>
-
-                
-
-                    <input id="disease-asthma" name="" type="checkbox">
-
-                    <label class="refine__option" for="disease-asthma">Asthma</label>
-
-                
-
-                    <input id="disease-austism" name="" type="checkbox">
-
-                    <label class="refine__option" for="disease-austism">Austism</label>
-
-                
-
-                    <input id="disease-cancer" name="" type="checkbox">
-
-                    <label class="refine__option" for="disease-cancer">Cancer</label>
-
-                
-
-                    <input id="disease-copd" name="" type="checkbox">
-
-                    <label class="refine__option" for="disease-copd">COPD</label>
-
-                
-
-                    <input id="disease-cardiovascular-disease" name="" type="checkbox">
-
-                    <label class="refine__option" for="disease-cardiovascular-disease">Cardiovascular disease</label>
-
-                
-
-                    <input id="disease-dementia" name="" type="checkbox">
-
-                    <label class="refine__option" for="disease-dementia">Dementia</label>
-
-                
-
-                <button class="refine__clear  button  button--tertiary  button--tiny" type="reset">Clear</button>
-
-            </fieldset>
-
-        
-
-        
-
-            <button class="button  button--block  button--secondary" type="submit">Apply filters</button>
-
-        
-
-    </form>
-
-
-
-
-                        
-
-                    
-
-                </div>
-
-            </aside>
-
-        
-
-    
-
+  <main class="layout">
+    <aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
+      <div class="layout__wrapper">
+        {{ content.filters }}
+      </div>
+    </aside>
     <article class="layout__item  layout__item--primary" id="primary">
+      <div class="layout__wrapper">
+        <div class="search-results">
+          <header class="search-results__header">
 
-        <div class="layout__wrapper">
 
-            
 
-                
 
-                    <div class="search-results">
-
-    <header class="search-results__header">
-
-        
-
-        
 
             <ul class="grid">
 
-                
 
-                    <li class="grid__item u-width-1-of-3">
 
-                        <a class="case-study-tile" href="#link-to-destination">
+              <li class="grid__item u-width-1-of-3">
 
-    <img alt="" class="case-study-tile__image" src="../../images/placeholder/case-study-tile-whooping-cough.jpg">
+                <a class="case-study-tile" href="#link-to-destination">
 
-    <div class="case-study-tile__info">
+                  <img alt="" class="case-study-tile__image" src="../../images/placeholder/case-study-tile-whooping-cough.jpg">
 
-        <h2 class="case-study-tile__title">Whooping cough vaccination during pregnancy</h2>
+                  <div class="case-study-tile__info">
 
-        <ul class="tag-list">
+                    <h2 class="case-study-tile__title">Whooping cough vaccination during pregnancy</h2>
 
-    
+                    <ul class="tag-list">
 
-        <li class="tag-list__item">
 
-            <span class="tag  tag--planning">
 
-    Planning
+                      <li class="tag-list__item">
 
-</span>
+                        <span class="tag  tag--planning">
 
+                          Planning
 
-        </li>
+                        </span>
 
-    
 
-        <li class="tag-list__item">
+                      </li>
 
-            <span class="tag  tag--disease-risks-and-causes">
 
-    Disease risks and causes
 
-</span>
+                      <li class="tag-list__item">
 
+                        <span class="tag  tag--disease-risks-and-causes">
 
-        </li>
+                          Disease risks and causes
 
-    
+                        </span>
 
-        <li class="tag-list__item">
 
-            <span class="tag  tag--diagnosis">
+                      </li>
 
-    Diagnosis
 
-</span>
 
+                      <li class="tag-list__item">
 
-        </li>
+                        <span class="tag  tag--diagnosis">
 
-    
+                          Diagnosis
 
-        <li class="tag-list__item">
+                        </span>
 
-            <span class="tag  tag--patient-safety">
 
-    Patient safety
+                      </li>
 
-</span>
 
 
-        </li>
+                      <li class="tag-list__item">
 
-    
+                        <span class="tag  tag--patient-safety">
 
-        <li class="tag-list__item">
+                          Patient safety
 
-            <span class="tag  tag--policy">
+                        </span>
 
-    Policy
 
-</span>
+                      </li>
 
 
-        </li>
 
-    
+                      <li class="tag-list__item">
 
-        <li class="tag-list__item">
+                        <span class="tag  tag--policy">
 
-            <span class="tag  tag--treatment-and-prevention">
+                          Policy
 
-    Treatment and prevention
+                        </span>
 
-</span>
 
+                      </li>
 
-        </li>
 
-    
 
-        <li class="tag-list__item">
+                      <li class="tag-list__item">
 
-            <span class="tag  tag--individual-care">
+                        <span class="tag  tag--treatment-and-prevention">
 
-    Individual care
+                          Treatment and prevention
 
-</span>
+                        </span>
 
 
-        </li>
+                      </li>
 
-    
 
-</ul>
 
-    </div>
+                      <li class="tag-list__item">
 
-</a>
+                        <span class="tag  tag--individual-care">
 
-                    <!-- /li -->
+                          Individual care
 
-                
+                        </span>
 
-                    </li><li class="grid__item u-width-1-of-3">
 
-                        <a class="case-study-tile" href="#link-to-destination">
+                      </li>
 
-    <img alt="" class="case-study-tile__image" src="../../images/placeholder/case-study-tile-whooping-cough.jpg">
 
-    <div class="case-study-tile__info">
 
-        <h2 class="case-study-tile__title">Whooping cough vaccination during pregnancy</h2>
+                    </ul>
 
-        <ul class="tag-list">
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--planning">
-
-    Planning
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--disease-risks-and-causes">
-
-    Disease risks and causes
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--diagnosis">
-
-    Diagnosis
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--patient-safety">
-
-    Patient safety
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--policy">
-
-    Policy
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--treatment-and-prevention">
-
-    Treatment and prevention
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--individual-care">
-
-    Individual care
-
-</span>
-
-
-        </li>
-
-    
-
-</ul>
-
-    </div>
-
-</a>
-
-                    <!-- /li -->
-
-                
-
-                    </li><li class="grid__item u-width-1-of-3">
-
-                        <a class="case-study-tile" href="#link-to-destination">
-
-    <img alt="" class="case-study-tile__image" src="../../images/placeholder/case-study-tile-whooping-cough.jpg">
-
-    <div class="case-study-tile__info">
-
-        <h2 class="case-study-tile__title">Whooping cough vaccination during pregnancy</h2>
-
-        <ul class="tag-list">
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--planning">
-
-    Planning
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--disease-risks-and-causes">
-
-    Disease risks and causes
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--diagnosis">
-
-    Diagnosis
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--patient-safety">
-
-    Patient safety
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--policy">
-
-    Policy
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--treatment-and-prevention">
-
-    Treatment and prevention
-
-</span>
-
-
-        </li>
-
-    
-
-        <li class="tag-list__item">
-
-            <span class="tag  tag--individual-care">
-
-    Individual care
-
-</span>
-
-
-        </li>
-
-    
-
-</ul>
-
-    </div>
-
-</a>
-
-                    <!-- /li -->
-
-                
-
-            </li></ul>
-
-        
-
-    </header>
-    {{ content.main }}
-    <ul class="search-pagination">
-
-    <li class="search-pagination__item  search-pagination__item--step">
-
-        <a class="search-pagination__control" href="#link-to-previous-results">
-
-            <svg class="svg-icon svg-icon--inline" xmlns="http://www.w3.org/2000/svg" title="Previous results">
-
-    
-
-        <title>Previous results</title>
-
-    
-
-    
-
-        <use xlink:href="#svg-icon-chevron-left"></use>
-
-    
-
-    
-
-</svg>
-
-
-        </a>
-
-    <!-- /li -->
-
-    
-
-        </li><li class="search-pagination__item search-pagination__item--link">
-
-            
-
-                <a class="search-pagination__control" href="#link-to-page-1">
-
-                    1
+                  </div>
 
                 </a>
 
-            
+                <!-- /li -->
 
-        <!-- /li -->
 
-    
 
-        </li><li class="search-pagination__item search-pagination__item--link">
+              </li><li class="grid__item u-width-1-of-3">
 
-            
+                <a class="case-study-tile" href="#link-to-destination">
 
-                <a class="search-pagination__control" href="#link-to-page-2">
+                  <img alt="" class="case-study-tile__image" src="../../images/placeholder/case-study-tile-whooping-cough.jpg">
 
-                    2
+                  <div class="case-study-tile__info">
+
+                    <h2 class="case-study-tile__title">Whooping cough vaccination during pregnancy</h2>
+
+                    <ul class="tag-list">
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--planning">
+
+                          Planning
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--disease-risks-and-causes">
+
+                          Disease risks and causes
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--diagnosis">
+
+                          Diagnosis
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--patient-safety">
+
+                          Patient safety
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--policy">
+
+                          Policy
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--treatment-and-prevention">
+
+                          Treatment and prevention
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--individual-care">
+
+                          Individual care
+
+                        </span>
+
+
+                      </li>
+
+
+
+                    </ul>
+
+                  </div>
 
                 </a>
 
-            
+                <!-- /li -->
 
-        <!-- /li -->
 
-    
 
-        </li><li class="search-pagination__item">
+              </li><li class="grid__item u-width-1-of-3">
 
-            
+                <a class="case-study-tile" href="#link-to-destination">
 
-                <span class="search-pagination__control  search-pagination__control--active">
+                  <img alt="" class="case-study-tile__image" src="../../images/placeholder/case-study-tile-whooping-cough.jpg">
 
-                    3
+                  <div class="case-study-tile__info">
 
-                </span>
+                    <h2 class="case-study-tile__title">Whooping cough vaccination during pregnancy</h2>
 
-            
+                    <ul class="tag-list">
 
-        <!-- /li -->
 
-    
 
-        </li><li class="search-pagination__item search-pagination__item--link">
+                      <li class="tag-list__item">
 
-            
+                        <span class="tag  tag--planning">
 
-                <a class="search-pagination__control" href="#link-to-page-4">
+                          Planning
 
-                    4
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--disease-risks-and-causes">
+
+                          Disease risks and causes
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--diagnosis">
+
+                          Diagnosis
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--patient-safety">
+
+                          Patient safety
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--policy">
+
+                          Policy
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--treatment-and-prevention">
+
+                          Treatment and prevention
+
+                        </span>
+
+
+                      </li>
+
+
+
+                      <li class="tag-list__item">
+
+                        <span class="tag  tag--individual-care">
+
+                          Individual care
+
+                        </span>
+
+
+                      </li>
+
+
+
+                    </ul>
+
+                  </div>
 
                 </a>
 
-            
-
-        <!-- /li -->
-
-    
-
-        </li><li class="search-pagination__item search-pagination__item--link">
-
-            
-
-                <a class="search-pagination__control" href="#link-to-page-5">
-
-                    5
-
-                </a>
-
-            
-
-        <!-- /li -->
-
-    
-
-    </li><li class="search-pagination__item  search-pagination__item--step">
-
-        <a class="search-pagination__control" href="#link-to-next-results">
-
-            <svg class="svg-icon svg-icon--inline" xmlns="http://www.w3.org/2000/svg" title="Next results">
-
-    
-
-        <title>Next results</title>
-
-    
-
-    
-
-        <use xlink:href="#svg-icon-chevron-right"></use>
-
-    
-
-    
-
-</svg>
+                <!-- /li -->
 
 
-        </a>
 
-    <!-- /li -->
-
-</li></ul>
+              </li></ul>
 
 
-</div>
 
-
-                
-
-            
+          </header>
+          {{ content.main }}
 
         </div>
 
+
+
+
+
+
+      </div>
+
     </article>
 
-    
 
-</main>
 
-    
+  </main>
+
+
 
 </div>

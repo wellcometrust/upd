@@ -76,7 +76,7 @@ display:
           view_modes:
             'entity:node':
               art: search_result
-              case_study: search_result
+              case_study: case_studies_index
               faq: search_result
               landing_page: default
               resource: search_result

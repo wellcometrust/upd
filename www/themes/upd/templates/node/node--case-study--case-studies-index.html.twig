@@ -73,7 +73,16 @@
  */
 #}
 <a class="search-result" href="{{ url }}">
-  <span class="search-result__category">{{ node.type.entity.label }}</span>
   <h2 class="search-result__title">{{ label }}</h2>
   <p class="search-result__description">{{ node.excerpt|raw }}</p>
+  <ul class="tag-list">
+{% for term in node.updTags %}
+  <li class="tag-list__item"> 
+    <span class="tag">
+    {{term}} 
+    </span>
+  </li>
+{%endfor %}
+
+</ul>
 </a>
