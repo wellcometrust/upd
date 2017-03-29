@@ -21,7 +21,7 @@
 
 {% if main %}</main>{% endif %}
 
-<script src="{{ '/js/index.js' | path }}"></script>
+<script src="{{ '/js/main.js' | path }}"></script>
 
 </body>
 

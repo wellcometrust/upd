@@ -17,7 +17,7 @@ if (isBuild) {
 module.exports = {
   entry: paths.source.js,
   output: {
-    filename: 'index.js',
+    filename: 'main.js',
     libraryTarget: 'umd',
     path: paths.dest.js
   },
