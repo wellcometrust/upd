@@ -3,17 +3,15 @@
 .column {
   column-count: 1;
   column-gap: $upd-spacing-gutter-large;
+
+  @include mq(large) {
+    column-count: 2;
+  }
 }
 
 .column--max-three {
   @include mq(x-large) {
     column-count: 3;
-  }
-}
-
-.column--max-two {
-  @include mq(large) {
-    column-count: 2;
   }
 }
 
