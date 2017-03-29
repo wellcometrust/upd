@@ -1,0 +1,5 @@
+name: prevnext
+description: A module for displaying next and previous case study
+core: 8.x
+package: Custom
+type: module
