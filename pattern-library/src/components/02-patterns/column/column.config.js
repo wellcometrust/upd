@@ -7,10 +7,6 @@ const config = {
       'Sed tincidunt pellentesque nisl sit amet aliquam. Duis convallis pretium mi, vitae condimentum massa congue ac. Vivamus porta, erat eget pulvinar eleifend, nisi ligula aliquet libero, in tincidunt nibh ligula laoreet eros. Sed lectus lorem, euismod in lectus eget, condimentum elementum mauris. Nam varius libero vitae sollicitudin interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Quisque lectus elit, elementum ac nibh vel, euismod porttitor urna.'
     ]
   },
-  notes: '* The column count defaults to one on small screens and two on larger screens. Add the `max-three` modifier to allow three columns on very large screens.' +
-         '* The `column__group` element is optional: it simply prevents the column from breaking within the group.\n' +
-         '* Bottom margins can be wrapped across columns, creating unwanted vertical whitespace at the top of the column. To avoid this, ensure that the last element in the column has no bottom margin. If space is required between elements, use bottom padding instead.\n' +
-         '* Applying the `column` class directly to a bullet or numbered list may cause problems with the left-hand padding on the list. Avoid this by wrapping the list in a `div` (or other unstyled element).',
   preview: '@preview-boxed',
   variants: [
     {
