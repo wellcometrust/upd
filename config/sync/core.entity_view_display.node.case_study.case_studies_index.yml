@@ -1,0 +1,84 @@
+uuid: 9cef562e-b67d-4381-8e8d-04e05da8c10e
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.case_studies_index
+    - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_featured
+    - field.field.node.case_study.field_impact_of_work
+    - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_pdf
+    - field.field.node.case_study.field_sources_of_data
+    - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_thumbnail
+    - field.field.node.case_study.field_vertical_tab
+    - node.type.case_study
+  module:
+    - entity_reference_revisions
+    - file
+    - text
+    - user
+id: node.case_study.case_studies_index
+targetEntityType: node
+bundle: case_study
+mode: case_studies_index
+content:
+  content_moderation_control:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+  field_disease_type:
+    type: entity_reference_label
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_impact_of_work:
+    type: entity_reference_label
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_list_text:
+    weight: 6
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  field_pdf:
+    weight: 8
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: file_url_plain
+  field_sources_of_data:
+    type: entity_reference_label
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_standfirst:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_vertical_tab:
+    type: entity_reference_revisions_entity_view
+    weight: 7
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  links:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_featured: true
+  field_thumbnail: true

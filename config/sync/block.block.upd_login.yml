@@ -11,7 +11,7 @@ _core:
 id: upd_login
 theme: upd
 region: footer
-weight: -5
+weight: -3
 provider: null
 plugin: user_login_block
 settings:

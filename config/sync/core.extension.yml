@@ -29,7 +29,6 @@ module:
   options: 0
   page_cache: 0
   page_manager: 0
-  page_manager_ui: 0
   panels: 0
   paragraphs: 0
   path: 0
@@ -40,10 +39,11 @@ module:
   taxonomy: 0
   text: 0
   toolbar: 0
+  upd_case_study: 0
+  upd_search: 0
   update: 0
   user: 0
   views: 0
-  views_ui: 0
   menu_link_content: 1
   minimal: 1000
 theme:
