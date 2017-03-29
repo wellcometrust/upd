@@ -39,6 +39,20 @@ CLI Options:
 
 ### Run a development server
 
+If you are running a development server you don't need to run the build script. Instead, use Gulp and Webpack to watch and continuously build your assets:
+
+```
+gulp
+```
+
+And:
+
+```
+webpack --config config/webpack.config.js --watch
+```
+
+Then start the Fractal development server:
+
 ```
 node ./scripts/start
 ```
