@@ -36,5 +36,6 @@ hidden:
   field_list_text: true
   field_pdf: true
   field_sources_of_data: true
+  field_thumbnail: true
   field_vertical_tab: true
   links: true

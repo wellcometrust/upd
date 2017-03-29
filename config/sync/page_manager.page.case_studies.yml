@@ -1,12 +1,12 @@
-uuid: 81d85ff3-7b18-4e93-8453-47f52edbe8f2
+uuid: c5c6da4c-0101-4fc5-86a7-a861ad1caecb
 langcode: en
 status: true
 dependencies: {  }
-id: homepage
-label: homepage
+id: case_studies
+label: 'Case studies'
 description: ''
 use_admin_theme: false
-path: /homepage
+path: /case-studies
 access_logic: and
 access_conditions: {  }
 parameters: {  }

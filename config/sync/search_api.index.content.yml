@@ -3,6 +3,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_disease_type
+    - field.storage.node.field_impact_of_work
+    - field.storage.node.field_sources_of_data
+    - field.storage.node.field_standfirst
     - search_api.server.local_db
   module:
     - search_api
@@ -62,6 +66,38 @@ field_settings:
     type: integer
     indexed_locked: true
     type_locked: true
+  field_disease_type:
+    label: 'Disease type'
+    datasource_id: 'entity:node'
+    property_path: field_disease_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_disease_type
+  field_impact_of_work:
+    label: 'Impact of work'
+    datasource_id: 'entity:node'
+    property_path: field_impact_of_work
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+  field_sources_of_data:
+    label: 'Sources of data'
+    datasource_id: 'entity:node'
+    property_path: field_sources_of_data
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_sources_of_data
+  field_standfirst:
+    label: Standfirst
+    datasource_id: 'entity:node'
+    property_path: field_standfirst
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_standfirst
 datasource_settings:
   'entity:node':
     bundles:
@@ -78,10 +114,11 @@ processor_settings:
       preprocess_query: -10
   highlight:
     highlight: always
-    highlight_partial: false
+    highlight_partial: true
     excerpt: true
     excerpt_length: 256
-    exclude_fields: {  }
+    exclude_fields:
+      - title
     prefix: '<strong>'
     suffix: '</strong>'
     weights:

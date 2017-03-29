@@ -13,3 +13,6 @@ planer/.git
 .idea/*
 node_modules/
 .DS_STORE
+config/sync/system.menu.devel
+config/sync/devel.*
+config/sync/devel_generate.*

@@ -7,3 +7,13 @@ search:
       label: Results
     filters:
       label: Filters
+      
+case_studies_index:
+  label: Case studies index
+  category: UPD
+  template: templates/layouts/case-studies-index
+  regions:
+    main:
+      label: Results
+    filters:
+      label: Filters

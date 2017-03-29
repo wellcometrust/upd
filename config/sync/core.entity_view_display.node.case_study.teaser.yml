@@ -21,7 +21,11 @@ content:
     weight: 100
 hidden:
   field_disease_type: true
+  field_featured: true
   field_impact_of_work: true
   field_list_text: true
+  field_pdf: true
   field_sources_of_data: true
   field_standfirst: true
+  field_thumbnail: true
+  field_vertical_tab: true

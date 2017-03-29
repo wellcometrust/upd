@@ -1,0 +1,10 @@
+uuid: 6c6b95ba-d290-49c8-b145-4026cb09dcfe
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.case_studies_index
+label: 'Case studies index'
+targetEntityType: node
+cache: true
