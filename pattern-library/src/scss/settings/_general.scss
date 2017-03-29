@@ -3,6 +3,9 @@
 /**
  * All global variables that don't relate to a specific component should be
  * defined here.
+ *
+ * Note that all global variables are namespaced to avoid collisions with any
+ * third party imports.
  */
 
 /* Colors

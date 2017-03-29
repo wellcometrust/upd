@@ -1,11 +1,30 @@
 /* Understanding Patient Data */
 
+/**
+ * IMPORTANT
+ *
+ * This Sass file is carefully structured to make use of source order priority.
+ *
+ * Functions, settings and mixins are imported first, as they don't direclty
+ * generate any CSS, and it makes sure they are available for the rest of the
+ * project.
+ *
+ * Styles are then imported from most general through to most specific, with
+ * various utility classes imported last so they can override others.
+ *
+ * Note that partials within each sections are ordered alphabetically. This is
+ * done to make duplicate imports easier to spot, as order within each section
+ * shouldn't have any affect.
+ *
+ * This structure is heavily inspired by Harry Roberts' ITCSS architecture
+ * (see https://www.youtube.com/watch?v=1OKZOV-iLj4)
+ */
+
 /* Functions
    ========================================================================== */
 @import "functions/color";
 @import "functions/rems";
 @import "functions/svg-url";
-
 
 
 
@@ -29,15 +48,6 @@
 
 
 
-/* Fonts
-   ========================================================================== */
-@import "fonts/styles";
-@import "fonts/gt-walsheim-pro";
-
-
-
-
-
 /* Resets
    ========================================================================== */
 @import "normalizecss/normalize.css";
@@ -46,6 +56,15 @@
 @import "resets/iframe";
 @import "resets/images";
 @import "resets/transitions";
+
+
+
+
+
+/* Fonts
+   ========================================================================== */
+@import "fonts/styles";
+@import "fonts/gt-walsheim-pro";
 
 
 
