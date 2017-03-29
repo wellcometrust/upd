@@ -53,7 +53,7 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
   ];
   foreach ($fields as $field) {
     foreach ($node->get($field)->referencedEntities() as $term) {
-      $node->updTags[] = $term->label();
+      $node->updTags[$term->id()] = $term->label();
     }
   }
 }
