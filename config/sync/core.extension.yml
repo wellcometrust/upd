@@ -23,6 +23,7 @@ module:
   filter: 0
   image: 0
   inline_form_errors: 0
+  jquery_colorpicker: 0
   layout_plugin: 0
   link: 0
   menu_ui: 0

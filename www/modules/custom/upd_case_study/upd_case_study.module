@@ -86,7 +86,7 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
       $color = $term->get('field_color')->value;
       $node->updTags[$term->id()] = [
         'label' => $term->label(),
-        'color' => !empty($color) ? $color : '#f8533d',
+        'color' => !empty($color) ? $color : 'f8533d',
       ];
     }
   }
@@ -101,11 +101,4 @@ function upd_case_study_preprocess_paragraph(&$variables) {
   if (!empty($variables['content']['field_title'][0]['#context']['value'])) {
     $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
   }
-}
-
-/**
- * Implements hook_form_alter().
- */
-function upd_search_form_taxonomy_term_impact_of_work_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-//  dpm($form['field_color']);
 }

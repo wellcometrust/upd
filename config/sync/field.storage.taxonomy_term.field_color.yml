@@ -1,18 +1,16 @@
-uuid: 907d9004-eaaa-4e51-9803-ef30aa7d8c22
+uuid: 7e199900-f866-408f-97fe-9504c0e489d4
 langcode: en
 status: true
 dependencies:
   module:
+    - jquery_colorpicker
     - taxonomy
 id: taxonomy_term.field_color
 field_name: field_color
 entity_type: taxonomy_term
-type: string
-settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
-module: core
+type: jquery_colorpicker
+settings: {  }
+module: jquery_colorpicker
 locked: false
 cardinality: 1
 translatable: true

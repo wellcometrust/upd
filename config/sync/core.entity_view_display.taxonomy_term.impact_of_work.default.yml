@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.impact_of_work.field_color
     - taxonomy.vocabulary.impact_of_work
   module:
+    - jquery_colorpicker
     - text
 id: taxonomy_term.impact_of_work.default
 targetEntityType: taxonomy_term
@@ -21,8 +22,7 @@ content:
   field_color:
     weight: 1
     label: above
-    settings:
-      link_to_entity: false
+    settings: {  }
     third_party_settings: {  }
-    type: string
+    type: jquery_colorpicker_color_display
 hidden: {  }
