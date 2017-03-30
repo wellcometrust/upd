@@ -1,0 +1,21 @@
+uuid: 2a3c1fd8-7bd5-4837-8b4d-d452a56ee26d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.tile_paragraph
+  module:
+    - text
+id: paragraph.tile_paragraph.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: tile_paragraph
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

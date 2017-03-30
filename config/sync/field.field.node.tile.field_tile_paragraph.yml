@@ -1,0 +1,45 @@
+uuid: e736d940-f1be-4db5-baf8-4eca61c42ef8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tile_paragraph
+    - node.type.tile
+    - paragraphs.paragraphs_type.tile_paragraph
+  module:
+    - entity_reference_revisions
+id: node.tile.field_tile_paragraph
+field_name: field_tile_paragraph
+entity_type: node
+bundle: tile
+label: 'Tile paragraph'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      tile_paragraph: tile_paragraph
+    target_bundles_drag_drop:
+      case_study_vertical_tab:
+        weight: 7
+        enabled: false
+      faq_dropdowns:
+        weight: 8
+        enabled: false
+      grid_items:
+        weight: 9
+        enabled: false
+      resource_vertical_tab:
+        weight: 10
+        enabled: false
+      testimonial:
+        weight: 11
+        enabled: false
+      tile_paragraph:
+        enabled: true
+        weight: 12
+field_type: entity_reference_revisions

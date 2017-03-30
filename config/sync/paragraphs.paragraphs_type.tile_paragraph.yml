@@ -1,0 +1,7 @@
+uuid: 96f10830-5cfa-4355-8bd3-e6a4ef575520
+langcode: en
+status: true
+dependencies: {  }
+id: tile_paragraph
+label: 'Tile paragraph'
+behavior_plugins: {  }
