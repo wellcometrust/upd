@@ -1,0 +1,44 @@
+/* Resource box */
+
+.resource-box {
+  background-color: $upd-color-background-secondary;
+  max-width: rems(320px);
+  padding: $upd-spacing-gutter-medium;
+}
+
+
+.resource-box__title {
+  @extend %font-resource-box;
+
+  margin-bottom: $upd-spacing-gutter-medium;
+
+  &:before {
+    $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.8 16"><path fill="#{$upd-color-border-light}" d="M1.5,14.5v-13h4.3v5.3h5.5v7.7H1.5z M7,5.7V2l3.8,3.8L7,5.7z M12.8,5.7L7,0H1.2C0.5,0,0,0.5,0,1.1c0,0,0,0,0,0v13.7
+	C0,15.5,0.5,16,1.2,16h10.5c0.6,0,1.1-0.5,1.1-1.1V5.7z"/></svg>';
+
+    content: svg-url($svg);
+    display: block;
+    float: left;
+    height: rems(40px);
+    margin-right: rems(18px);
+    width: rems(32px);
+  }
+}
+
+
+.resource-box__list {
+  @extend %clearfix;
+  @extend %list-bare;
+
+  clear: both;
+}
+
+
+.resource-box__list-item {
+  display: block;
+  float: left;
+
+  * + & {
+    margin-left: 1em;
+  }
+}

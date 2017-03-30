@@ -1,0 +1,1 @@
+All content that is edited via WYSIWYG editor should be placed within the a `content` block, as it has been specifically design to apply appropriate styles without any special markup requirements.

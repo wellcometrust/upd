@@ -1,0 +1,15 @@
+<div class="team-tile">
+
+    <img alt="" class="team-tile__image" src="{{ image | path }}">
+
+    <span class="team-tile__name">{{ name }}</span>
+
+    <span class="team-tile__title">{{ title }}</span>
+
+    <a href="#link-to-twitter-account">
+
+        {% render '@svg-icon', { circular: true, classes: 'team-tile__icon', icon: 'twitter', title: 'Twitter'} %}
+
+    </a>
+
+</div>

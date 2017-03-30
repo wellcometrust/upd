@@ -1,0 +1,60 @@
+/* Display helpers */
+
+/**
+ * Various utility classes (and placeholders) for hiding/showing elements
+ */
+
+/**
+ * Hide an element in such a way that it is still accessible to assistive
+ * technology. From:
+ * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+ */
+
+.u-visually-hidden,
+%u-visually-hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px; width: 1px;
+  overflow: hidden;
+  position: absolute !important;
+}
+
+
+.u-display-none {
+  display: none;
+}
+
+@each $breakpoint, $size in $upd-breakpoints {
+  @include mq($breakpoint) {
+    .u-display-block-from-#{$breakpoint},
+    %u-display-block-from-#{$breakpoint} {
+      display: block;
+    }
+
+    .u-display-none-from-#{$breakpoint},
+    %u-display-none-from-#{$breakpoint} {
+      display: none;
+    }
+  }
+}
+
+
+.u-display-block-from-complex-layout,
+%u-display-block-from-complex-layout {
+  @extend %u-display-block-from-#{$upd-layout-breakpoint};
+}
+
+.u-display-none-from-complex-layout,
+%u-display-none-from-complex-layout {
+  @extend %u-display-none-from-#{$upd-layout-breakpoint};
+}
+
+
+.u-display-block-from-visible-navigation,
+%u-display-block-from-visible-navigation {
+  @extend %u-display-block-from-#{$upd-site-header-breakpoint-navigation};
+}
+
+.u-display-none-from-visible-navigation,
+%u-display-none-from-visible-navigation {
+  @extend %u-display-none-from-#{$upd-site-header-breakpoint-navigation};
+}

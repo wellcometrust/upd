@@ -1,27 +1,27 @@
 <header class="site-header">
 
-    <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/placeholder/logo.svg' | path }}">
+    {% if home !== true %}<a href="/">{% endif %}
 
+        <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/logo.svg' | path }}">
 
-    <div class="site-header__navigation" id="site-header-navigation">
+    {% if home !== true %}</a>{% endif %}
 
-        <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--close" href="#">
+    <div class="site-header__navigation    drop-down" id="site-header-navigation">
 
-            <svg class="svg-icon  svg-icon--inline" role="presentation">
+        <div class="site-header__drop-down  drop-down__container">
 
-                <title>Close navigation</title>
+            {% render '@header-navigation' %}
 
-                <use xlink:href="#svg-icon-arrow"/>
-
-            </svg>
-
-        </a>
-
-        {% render '@header-navigation' %}
+        </div>
 
     </div>
 
-    <a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--navigation" href="#site-header-navigation">
+    <a aria-controls="site-header-navigation"
+       aria-expanded="false"
+       class="site-header__button    u-display-none-from-visible-navigation"
+       data-toggle="is-open"
+       data-toggle-group="site-header"
+       href="#site-header-navigation">
 
         <svg class="svg-icon  svg-icon--inline" role="presentation">
 
@@ -33,9 +33,9 @@
 
     </a>
 
-    <div class="site-header__search" id="site-header-search">
+    <div class="site-header__search    drop-down" data-focus="#header-search" id="site-header-search">
 
-        <div class="site-header__search-inner">
+        <div class="site-header__drop-down    drop-down__container">
 
             {% render '@header-search' %}
 
@@ -43,7 +43,12 @@
 
     </div>
 
-    <a aria-controls="site-header-search" aria-expanded="false" class="site-header__button  site-header__button--toggle  site-header__button--search" href="#site-header-search">
+    <a aria-controls="site-header-search"
+       aria-expanded="false"
+       class="site-header__button    u-display-none-from-visible-navigation"
+       data-toggle="is-open"
+       data-toggle-group="site-header"
+       href="#site-header-search">
 
         <svg class="svg-icon  svg-icon--inline" role="presentation">
 
@@ -55,4 +60,21 @@
 
     </a>
 
+    {% if popup %}
+
+        <a aria-controls="{{ popup.id }}"
+           aria-expanded="false"
+           class="site-header__popup-bar    u-display-none-from-visible-navigation"
+           data-toggle="is-open"
+           data-toggle-group="site-header"
+           href="#{{ popup.id }}">
+
+            {{ popup.label }}
+
+        </a>
+
+    {% endif %}
+
 </header>
+
+<div class="site-header  site-header--placeholder{% if popup %}  site-header--popup{% endif %}"></div>

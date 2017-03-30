@@ -1,7 +1,18 @@
-<input {% if checked %}checked{% endif %}
-       {% if disabled %}disabled{% endif %}
-       id="{{ id }}"
-       name="{{ name }}"
-       {% if pattern %}pattern="{{ pattern }}"{% endif %}
-       {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
-       type="{{ type }}">
+{% if type === 'textarea' %}
+
+    <textarea {% if disabled %}disabled{% endif %}
+              id="{{ id }}"
+              name="{{ name }}"
+              rows="0"></textarea>
+
+{% else %}
+
+    <input {% if checked %}checked{% endif %}
+           {% if disabled %}disabled{% endif %}
+           id="{{ id }}"
+           name="{{ name }}"
+           {% if pattern %}pattern="{{ pattern }}"{% endif %}
+           {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+           type="{{ type }}">
+
+{% endif %}

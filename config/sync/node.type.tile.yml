@@ -1,0 +1,18 @@
+uuid: 658e34ff-0ffc-48d5-915b-15e86b4b9a6b
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Tile
+type: tile
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

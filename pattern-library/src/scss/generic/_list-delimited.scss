@@ -1,0 +1,16 @@
+/* List delimited */
+
+.list-delimited,
+%list-delimited {
+  @extend %list-bare;
+
+  & > * {
+    display: inline-block;
+
+    & + * {
+      &:before {
+        content: "| "
+      }
+    }
+  }
+}

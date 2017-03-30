@@ -1,0 +1,34 @@
+/* Widths */
+
+/**
+ * Iterate through denominators and numerators to generate all our common
+ * widths.
+ */
+@mixin widths($suffix: '') {
+  @for $denominator from 1 through 4 {
+    @for $numerator from 1 through $denominator {
+      @if $denominator == 1 or $denominator != $numerator {
+        $name: u-width-#{$numerator}-of-#{$denominator};
+        $width: percentage($numerator / $denominator);
+
+        .#{$name}#{$suffix},
+        %#{$name}#{$suffix} {
+          width: $width;
+        }
+
+        .#{$name}-from-complex-layout,
+        %#{$name}-from-complex-layout {
+          @extend %#{$name}-from-#{$upd-layout-breakpoint} !optional;
+        }
+      }
+    }
+  }
+}
+
+@include widths;
+
+@each $breakpoint, $size in $upd-breakpoints {
+  @include mq($breakpoint) {
+    @include widths(-from-#{$breakpoint})
+  }
+}

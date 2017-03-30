@@ -1,0 +1,27 @@
+/* Layout */
+
+/**
+ * Simple grid system
+ */
+
+.grid {
+  display: block; // Fallback for browsers without flex support
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.grid--center {
+  justify-content: center;
+  text-align: center;
+}
+
+
+.grid__item {
+  display: inline-block; // Fallback for browsers without flex support
+  display: flex;
+
+  .grid--center & {
+    text-align: left;
+  }
+}

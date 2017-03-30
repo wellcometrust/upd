@@ -1,0 +1,23 @@
+<main class="layout  layout--equal   content  u-font-body-copy">
+
+    <div class="layout__item">
+
+        <div class="layout__wrapper">
+
+            {% include '@tile' %}
+
+        </div>
+
+    </div>
+
+    <div class="layout__item">
+
+        <div class="layout__wrapper">
+
+            {% render '@form--contact-us' %}
+
+        </div>
+
+    </div>
+
+</main>

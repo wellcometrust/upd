@@ -1,0 +1,21 @@
+uuid: ad52d142-5f5e-4437-85b0-01e210a2ee5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_standfirst
+    - node.type.tile
+  module:
+    - text
+id: node.tile.field_standfirst
+field_name: field_standfirst
+entity_type: node
+bundle: tile
+label: Standfirst
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

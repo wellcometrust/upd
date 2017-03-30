@@ -1,0 +1,42 @@
+uuid: 34ff2f13-31dc-475e-87bf-74607453027e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.tile_paragraph.field_body
+    - field.field.paragraph.tile_paragraph.field_link
+    - field.field.paragraph.tile_paragraph.field_title
+    - paragraphs.paragraphs_type.tile_paragraph
+  module:
+    - link
+    - text
+id: paragraph.tile_paragraph.default
+targetEntityType: paragraph
+bundle: tile_paragraph
+mode: default
+content:
+  field_body:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_link:
+    weight: 2
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link_separate
+  field_title:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden: {  }

@@ -1,9 +1,0 @@
-{% render '@site-header' %}
-
-{% render '@page-header' %}
-
-<div class="wrapper  wrapper--gutter">
-
-    {% render '@layout--case-studies' %}
-
-</div>

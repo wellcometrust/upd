@@ -1,0 +1,20 @@
+/* Tag */
+
+.tag,
+%tag {
+  @extend %font-tag;
+
+  color: $upd-color-brand-red;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+@each $variant, $color in $upd-colors-tag {
+  .tag--#{$variant} {
+    color: $color;
+  }
+}

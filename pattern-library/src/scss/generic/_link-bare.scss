@@ -1,0 +1,9 @@
+/* Bare link */
+
+.link-bare,
+%link-bare {
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
+}

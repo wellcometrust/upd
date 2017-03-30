@@ -1,0 +1,27 @@
+<figure class="testimonial">
+
+    <blockquote class="testimonial__quote">
+
+        {{ quote }}
+
+    </blockquote>
+
+    <figcaption class="testimonial__attribution">
+
+        {% if image %}
+
+            <img alt="" class="testimonial__image" src="{{ image | path }}">
+
+        {% endif %}
+
+        <span class="testimonial__name">{{ name }}</span>
+
+        {% if title %}
+
+            <span class="testimonial__title">{{ title }}</span>
+
+        {% endif %}
+
+    </figcaption>
+
+</figure>

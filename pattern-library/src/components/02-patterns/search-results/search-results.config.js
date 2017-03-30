@@ -38,7 +38,8 @@ const config = {
         featured: true,
         items: makeItems(7, true)
       },
-      name: 'Case studies'
+      name: 'Case studies',
+      notes: 'The featured items should be repeated in the main list results (but with the `u-display-none-from-x-large` class) so that they are still visible on smaller devices.'
     }
   ]
 }

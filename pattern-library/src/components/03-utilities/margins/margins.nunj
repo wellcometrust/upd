@@ -1,0 +1,9 @@
+{%  for size in ['small', 'medium', 'large'] %}
+
+    <p class="u-mb-{{ size }}">The bottom margin on this text is set to the {{ size }} gutter size.</p>
+
+{% endfor %}
+
+<p class="u-mb-zero">The bottom margin on this text is set to zero.</p>
+
+<p class="u-mb-line-height">The bottom margin on this text is set to the base line height. When used within an element with a font helper class, the bottom margin is set to the line height of that font.</p>

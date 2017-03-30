@@ -1,0 +1,4 @@
+* The column count defaults to one on small screens and two on larger screens. Add the `max-three` modifier to allow three columns on very large screens
+* The `column__group` element is optional: it simply prevents the column from breaking within the group.
+* Bottom margins can be wrapped across columns, creating unwanted vertical whitespace at the top of the column. To avoid this, ensure that the last element in the column has no bottom margin. If space is required between elements, use bottom padding instead. (Refer to [font](fonts.html)/[margin](margins.html)/[padding](padding.html) utility patterns for details on applying/removing bottom padding and margins.)
+* Applying the `column` class directly to a bullet or numbered list may cause problems with the left-hand padding on the list. Avoid this by wrapping the list in a `div` (or other unstyled element).

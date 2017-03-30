@@ -1,0 +1,29 @@
+<form class="form">
+
+    {%  for field in fields %}
+
+        {% render '@field', field %}
+
+    {% endfor %}
+
+    {% for group in groups %}
+
+        <fieldset class="form__group{% if group.error %}  form__group--error{% endif %}">
+
+            <legend class="form__label  form__label--group">{{ label }}</legend>
+
+            {%  for field in group.fields %}
+
+                {% render '@field', field %}
+
+            {% endfor %}
+
+            {% if group.error %}<p class="form__error">{{ group.error }}</p>{% endif %}
+
+        </fieldset>
+
+    {% endfor %}
+
+    <button class="button" type="submit">{{ submit }}</button>
+
+</form>

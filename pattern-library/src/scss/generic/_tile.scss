@@ -1,0 +1,31 @@
+/* Tile */
+
+.tile,
+%tile {
+  @extend %link-bare;
+
+  background-color: $upd-color-background-secondary;
+  box-shadow: 0 rems(2px) $upd-color-border-light;
+  display: block;
+  overflow: hidden;
+  padding: $upd-spacing-gutter-large;
+  position: relative;
+  margin: 0 auto;
+  max-width: $upd-input-max-width;
+  width: 100%;
+}
+
+a.tile,
+a%tile {
+  &:focus,
+  &:hover {
+    $shade: shade($upd-color-border-light, $upd-tint-active);
+
+    box-shadow: 0 rems(2px) $shade;
+
+    @include mq(x-large) {
+      box-shadow: 0 rems(5px) rems(10px) rgba($shade, 0.4);
+      transform: scale(1.03);
+    }
+  }
+}

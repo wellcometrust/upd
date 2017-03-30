@@ -1,0 +1,3 @@
+<p class="u-whitespace-nowrap">This text will not wrap on to a new line: it will overflow instead. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+<p class="u-whitespace-truncate">This text will not wrap on to a new line: it will be truncated instead. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>

@@ -1,0 +1,16 @@
+/* SVG icon */
+
+.svg-icon {
+  display: block;
+  height: 1em;
+  width: 1em;
+}
+
+.svg-icon--circular {
+  border-radius: 50%;
+}
+
+.svg-icon--inline {
+  display: inline-block;
+  vertical-align: middle;
+}

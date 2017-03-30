@@ -1,0 +1,49 @@
+/* Refine */
+
+.refine {
+  @extend %font-body-copy-small;
+
+  background: $upd-color-background-secondary;
+  padding: $upd-spacing-gutter-medium;
+
+  & + & {
+    border-top: 1px solid $upd-color-background-primary;
+  }
+}
+
+
+.refine__category {
+  margin-bottom: $upd-spacing-gutter-medium;
+  position: relative;
+}
+
+
+.refine__clear {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+
+.refine__title {
+  @extend %h5;
+
+  margin-bottom: $upd-spacing-gutter-medium;
+}
+
+
+.refine__options {
+  $row-height: ($upd-font-size-body-copy-small * $upd-line-height-body-copy-small) + ($upd-font-size-body-copy-small / 2);
+
+  max-height: 4 * $row-height;
+  overflow-y: auto;
+
+  @include mq($upd-layout-breakpoint) {
+    max-height: 8 * $row-height;
+  }
+}
+
+
+.refine__option {
+  margin-bottom: $upd-font-size-body-copy-small / 2;
+}

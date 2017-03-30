@@ -1,0 +1,160 @@
+<div class="content    u-font-body-copy">
+
+    <section>
+
+        <h2 id="content-aims-and-objectives">Aims and objectives</h2>
+
+        <p>We aim to support discussions with the public, patients and healthcare professionals about uses of health and care data by:</p>
+
+        <div class="column">
+
+            <ol>
+
+                <li>
+
+                    providing objective evidence about:
+
+                    <ul>
+
+                        <li>how and why data can be used for care and research</li>
+
+                        <li>the benefits and risks</li>
+
+                        <li>what is allowed and not allowed</li>
+
+                        <li>how personal information is safeguarded</li>
+
+                    </ul>
+
+                </li>
+
+                <li>helping people make informed decisions when they have options about how data might be used</li>
+
+                <li>developing advocates who can champion the responsible use of data</li>
+
+                <li>bringing together other engagement initiatives to strengthen the voice of individual activities</li>
+
+                <li>working with the media to present an even-handed portrayal of stories relating to health data</li>
+
+                <li>providing analysis about public attitudes to help inform NHS England, Department of Health and NHS Digital policy and communications</li>
+
+                <li>examining emerging issues from new data-driven technologies and the implications for public confidence.</li>
+
+            </ol>
+
+        </div>
+
+    </section>
+
+    <section>
+
+        <h2 id="content-meet-the-team">Meet the team</h2>
+
+        <p>Fusce vehicula dolor arcu, sit amet blandit dolor mollis nec. Donec viverra eleifend lacus, vitae ullamcorper metus. Sed.</p>
+
+        <ul class="grid    gutter  gutter--large">
+
+            {% for i in range(6) %}
+
+                <li class="grid__item    gutter__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+
+                    {% render '@team-tile' %}
+
+                <!-- /li -->
+
+            {% endfor %}
+
+        </ul>
+
+
+    </section>
+
+    <section>
+
+        <h2 id="content-governance">Governance</h2>
+
+        <p>A Steering Committee helps provide strategic direction and oversight for our work. Members of the Steering Committee are:</p>
+
+        <ul class="grid  gutter  gutter--large    u-mb-line-height">
+
+            {% for i in range(6) %}
+
+            <li class="grid__item    gutter__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+
+                {% render '@profile--avatar' %}
+
+                <!-- /li -->
+
+                {% endfor %}
+
+        </ul>
+
+        <div class="box  box--highlight  box--large">
+
+            <p>We are also supported by an advisory group representing a wide range of stakeholders to provide a broader perspective to our work across different audiences.</p>
+
+            <div class="column  column--max-three">
+
+                <ul class="list-bare">
+
+                    {% for advisor in advisors %}
+
+                        <li class="column__group  u-pb-line-height">
+
+                            {% render '@profile', advisor %}
+
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <section>
+
+        <h2 id="content-funding">Funding</h2>
+
+        <p>The following organisations provide funding support for Understanding Patient Data:</p>
+
+        <ul class="grid  grid--center  gutter  gutter--large    u-mb-line-height">
+
+            {% for logo in logos %}
+
+                <li class="grid__item  gutter__item">
+
+                    <img src="{{ logo | path }}">
+
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+        <p>Medical Research Council, Economic and Social Research Council, Department of Health/National Institute of Health Research, Public Health England and Wellcome Trust.</p>
+
+        <p>Our views and outputs are independent of Government and the other funders. Understanding Patient Data has the backing of the UK Clinical Research Collaboration Board.
+        </p>
+
+    </section>
+
+    <section>
+
+        <h2 id="content-supporters">Supporters</h2>
+
+        <p>These organisations support the work of Understanding Patient Data, sharing information and engaging with their membership to help develop the team’s ideas and resources.</p>
+
+        <div class="box box--highlight box--large">
+
+            <img src="{{ '/images/placeholder/about-us-logos.png' | path }}">
+
+        </div>
+
+    </section>
+
+</div>

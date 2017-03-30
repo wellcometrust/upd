@@ -20,6 +20,8 @@
 
         <p>Many people express concerns that they might be identified when data is used. The technical language of identifiability (called ‘disclosure risk’) is complex, but if you need to talk about whether someone could be identified from the data, using pictures to help explain the concepts is helpful:</p>
 
+        <img alt="The spectrum of identifiability ranges from personally identifiable data, to de-personalised data to anymous grouped data." src="{{ '/images/placeholder/key-information-diagram.png' | path }}">
+
     </section>
 
     <section>
@@ -41,6 +43,8 @@
         <p>We held a creative workshop with a range of language experts, and then tested the words and imagery with the public, patients and healthcare professionals, using quickfire focus groups.  The findings presented here underpin the rationale for the guidance listed above.</p>
 
     </section>
+
+    {% render '@resource-box' %}
 
     <ul class="content__actions">
 

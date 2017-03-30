@@ -1,4 +1,4 @@
-<div class="intro    u-font-heading-3">
+<div class="intro    u-font-intro">
 
     {{ content }}
 

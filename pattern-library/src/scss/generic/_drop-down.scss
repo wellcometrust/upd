@@ -1,0 +1,42 @@
+/* Drop-down */
+.drop-down {
+  overflow: hidden;
+  position: absolute;
+  transition: visibility 0s $upd-transition-time;
+  top: 100%;
+  visibility: hidden;
+  width: 100%;
+  z-index: 1;
+
+  &:target,
+  &.is-open {
+    transition: none;
+    visibility: visible;
+    z-index: 2; // Make sure the opening menu is stacked above the closing one
+  }
+
+  @include mq($upd-site-header-breakpoint-navigation) {
+    transition: none;
+    visibility: visible;
+    width: auto;
+  };
+}
+
+/**
+ * 1. Make sure child elements are focusable as soon as parent element is
+ *    visible
+ */
+.drop-down__container {
+  transform: translateY(-100%);
+  transition: background $upd-transition-time, transform $upd-transition-time;
+  visibility: visible; /* 1 */
+
+  .is-open > & {
+    transform: none;
+  }
+
+  @include mq($upd-site-header-breakpoint-navigation) {
+    transform: none;
+    transition: none;
+  };
+}

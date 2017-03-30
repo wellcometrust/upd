@@ -1,0 +1,50 @@
+/* Testimonial */
+
+.testimonial {
+  color: $upd-color-text-highlight-light;
+  display: block;
+  margin: 0 auto;
+  max-width: rems(800px);
+  text-align: center;
+}
+
+
+.testimonial__quote {
+  @extend %font-intro;
+
+  margin: 0 0 rems(50px);
+
+  &:before {
+    $svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 27"><path fill="#{$upd-color-border-light}" d="M35.164,19.588 C35.164,15.812 32.45,12.862 28.438,12.862 C27.376,12.862 26.196,13.216 25.606,13.806 C25.37,12.626 25.37,11.092 26.196,8.968 C27.14,5.9 30.09,4.13 34.338,4.13 L34.338,0 C25.134,0.118 19.116,4.13 19.116,15.104 C19.116,21.712 22.656,26.55 28.084,26.55 C32.332,26.55 35.164,23.364 35.164,19.588 Z M16.048,19.588 C16.048,15.812 13.334,12.862 9.204,12.862 C8.26,12.862 6.962,13.216 6.372,13.806 C6.254,12.626 6.136,11.092 7.08,8.968 C7.906,5.9 10.856,4.13 15.222,4.13 L15.222,0 C5.9,0.118 0,4.13 0,15.104 C0,21.712 3.422,26.55 8.85,26.55 C13.098,26.55 16.048,23.364 16.048,19.588 Z"/></svg>';
+
+    content: svg-url($svg);
+    display: block;
+    height: rems(27px);
+    line-height: inherit;
+    margin: 0 auto rems(40px);
+    width: rems(36px);
+  }
+
+  &:after {
+    content: "\201D";
+  }
+}
+
+
+.testimonial__image {
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  width: rems(70px);
+}
+
+
+.testimonial__name {
+  display: block;
+  font-weight: $upd-font-weight-medium;
+}
+
+
+.testimonial__title {
+  display: block;
+  font-weight: $upd-font-weight-regular;
+}

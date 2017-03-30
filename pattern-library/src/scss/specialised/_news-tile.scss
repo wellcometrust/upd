@@ -1,0 +1,29 @@
+/* News tile */
+
+.news-tile {
+  @extend %tile;
+
+  max-width: rems(354px);
+}
+
+
+.news-tile__date {
+  @extend %h5;
+
+  margin-bottom: $upd-line-height-heading-5 * 1em;
+}
+
+
+.news-tile__title {
+  @extend %h3;
+
+  margin-bottom: $upd-line-height-heading-3 * 1em;
+  min-height: 2 * $upd-line-height-heading-3 * 1em;
+}
+
+
+.news-tile__tag {
+  left:0;
+  position: absolute;
+  top: 0;
+}

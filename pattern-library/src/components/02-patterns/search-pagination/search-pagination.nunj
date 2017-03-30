@@ -1,4 +1,4 @@
-<ul class="search-pagination">
+<ul class="search-pagination{% if center %}  search-pagination--center{% endif %}">
 
     <li class="search-pagination__item  search-pagination__item--step">
 

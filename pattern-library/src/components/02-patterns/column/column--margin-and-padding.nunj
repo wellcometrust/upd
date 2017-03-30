@@ -1,0 +1,13 @@
+<div class="column{% for modifier in modifiers %}  column--{{ modifier }}{% endfor %}">
+
+    {% for item in items %}
+
+        <div class="column__group  u-pb-line-height">
+
+            <p class="u-mb-zero">{{ item }}</p>
+
+        </div>
+
+    {% endfor %}
+
+</div>
