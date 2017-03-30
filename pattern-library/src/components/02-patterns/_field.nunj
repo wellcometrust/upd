@@ -1,0 +1,28 @@
+<div class="form__field{% if type %}  form__field--{{ type }}{% endif %}{% if disabled %}  form__field--disabled{% endif %}{% if required %}  form__field--required{% endif %}{% if error %}  form__field--error{% endif %}">
+
+    {% set radioboxRegExp = r/^(checkbox|radio)$/ %}
+    {% if radioboxRegExp.test(type) %}
+
+        {% include '@input' %}
+
+        {% include '@label' %}
+
+    {% else %}
+
+        {% include '@label' %}
+
+        {% if type === 'select' %}
+
+            {% include '@select' %}
+
+        {% else %}
+
+            {% include '@input' %}
+
+        {% endif %}
+
+    {% endif %}
+
+    {% if error %}<p class="form__error">{{ error }}</p>{% endif %}
+
+</div>

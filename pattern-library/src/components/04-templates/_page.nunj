@@ -1,0 +1,35 @@
+{% if siteHeader.layout %}
+
+    {% render '@site-header--' + siteHeader.layout %}
+
+{% else %}
+
+    {% render '@site-header', siteHeader %}
+
+{% endif %}
+
+{% if header.layout %}
+
+    {% render '@page-header--' + header.layout %}
+
+{% else %}
+
+    {% render '@page-header', header %}
+
+{% endif %}
+
+<div class="wrapper  wrapper--gutter">
+
+    {% if layout %}
+
+        {% render '@layout--' + layout %}
+
+    {% else %}
+
+        {% include '@layout' %}
+
+    {% endif %}
+
+</div>
+
+{% render '@site-footer' %}

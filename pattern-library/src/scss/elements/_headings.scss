@@ -1,0 +1,51 @@
+/* Headings */
+
+/**
+ * 1. Remove all margins, as it's easier to add as required than to
+ *    continually override.
+ * 2. Explicitly set display to `block` so faux-headings are consistent with
+ *    real ones.
+ * 3. Stop font weights from being overridden in the CMS
+ */
+
+h1, h2, h3, h4, h5, h6,
+%h1, %h2, %h3, %h4, %h5, %h6 {
+  display: block; /* 1 */
+  margin: 0;      /* 2 */
+  page-break-after: avoid;
+
+  & strong, & b {
+    font-weight: inherit; /* 3 */
+  }
+
+}
+
+
+/* Map font styles to headings and create utility classes */
+@for $i from 1 through 6 {
+  h#{$i},
+  %h#{$i} {
+    @extend %font-heading-#{$i} !optional;
+  }
+
+  .h#{$i} {
+    @extend %h#{$i};
+  }
+}
+
+
+/* Create modifier classes and placeholders */
+.h2--resource-title,
+%h2--resource-title {
+  @extend %font-heading-2--resource-title;
+}
+
+.h3--sidebar,
+%h3--sidebar {
+  margin-bottom: $upd-spacing-gutter-large;
+  text-align: center;
+
+  @include mq($upd-layout-breakpoint) {
+    text-align: left;
+  }
+}

@@ -4,7 +4,7 @@
 
     {% for option in options %}
 
-        <option {% if option.selected %}option.selected {% endif %}value="{{ option.value }}">{{ option.label }}</option>
+        <option {% if option.disabled %}disabled {% endif %}{% if option.selected %}selected {% endif %}value="{{ option.value }}">{{ option.label }}</option>
 
     {% endfor %}
 

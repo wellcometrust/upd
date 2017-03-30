@@ -1,0 +1,17 @@
+/* Resource tile */
+
+.resource-tile {
+  @extend %tile;
+
+  padding: $upd-spacing-gutter-large rems(40px) rems(60px);
+}
+
+
+.resource-tile__title {
+  @extend %h2--resource-title;
+}
+
+
+.resource-tile__description {
+  padding: ($upd-line-height-body-copy-small * 1em) 0;
+}

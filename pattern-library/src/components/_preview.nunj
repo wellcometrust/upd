@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-gb" dir="ltr">
 
 {% include '@head' %}
 
@@ -20,6 +20,8 @@
 <!-- End preview -->
 
 {% if main %}</main>{% endif %}
+
+<script src="{{ '/js/main.js' | path }}"></script>
 
 </body>
 

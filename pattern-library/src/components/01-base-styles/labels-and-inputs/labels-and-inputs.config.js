@@ -29,7 +29,6 @@ let config = {
   context: {
     label: 'Text input without placeholder'
   },
-  status: 'wip',
   variants: [
     {
       context: {

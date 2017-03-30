@@ -1,0 +1,24 @@
+<aside class="resource-box">
+
+    <h3 class="resource-box__title">{{ title }}</h3>
+
+    <ul class="resource-box__list">
+
+        {% for extension in extensions %}
+
+            <li class="resource-box__list-item">
+
+                <a class="cta  cta--download  cta--small" href="#link-to-report.{{ extension }}">
+
+                    Download <span class="u-visually-hidden">{{ title }} in </span>{{ extension | upper }}<span class="u-visually-hidden">format</span>
+
+                </a>
+
+            <!-- /li -->
+
+        {% endfor %}
+
+    </ul>
+
+
+</aside>

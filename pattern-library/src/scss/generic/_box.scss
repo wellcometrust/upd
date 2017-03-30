@@ -1,0 +1,47 @@
+/* Box */
+
+/**
+ * A simple padded wrapper for boxing-off content
+ */
+
+.box,
+%box {
+  @extend %clearfix;
+
+  margin: 0;
+  padding: $upd-spacing-gutter-medium;
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+
+.box--highlight,
+%box--highlight {
+  background: $upd-color-background-secondary;
+}
+
+.box--large,
+%box--large {
+  padding: $upd-spacing-gutter-large;
+}
+
+.box--small,
+%box--small {
+  padding: $upd-spacing-gutter-small;
+}
+
+.box--horizontal {
+  padding: {
+    left: 0;
+    right: 0;
+  }
+}
+
+.box--vertical {
+  padding: {
+    top: 0;
+    bottom: 0;
+  }
+}

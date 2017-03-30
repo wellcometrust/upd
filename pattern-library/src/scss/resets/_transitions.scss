@@ -1,0 +1,12 @@
+/* Transitions */
+
+*, *:before, *:after {
+  transition: all $upd-transition-time;
+}
+
+/**
+ * Disable transitions on SVG elements due to various browser rendering bugs
+ */
+svg * {
+  transition: none;
+}

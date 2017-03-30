@@ -1,10 +1,30 @@
 /* Understanding Patient Data */
 
+/**
+ * IMPORTANT
+ *
+ * This Sass file is carefully structured to make use of source order priority.
+ *
+ * Functions, settings and mixins are imported first, as they don't direclty
+ * generate any CSS, and it makes sure they are available for the rest of the
+ * project.
+ *
+ * Styles are then imported from most general through to most specific, with
+ * various utility classes imported last so they can override others.
+ *
+ * Note that partials within each sections are ordered alphabetically. This is
+ * done to make duplicate imports easier to spot, as order within each section
+ * shouldn't have any affect.
+ *
+ * This structure is heavily inspired by Harry Roberts' ITCSS architecture
+ * (see https://www.youtube.com/watch?v=1OKZOV-iLj4)
+ */
+
 /* Functions
    ========================================================================== */
-@import "functions.rems";
-@import "functions.svg-url";
-
+@import "functions/color";
+@import "functions/rems";
+@import "functions/svg-url";
 
 
 
@@ -12,10 +32,9 @@
 
 /* Settings
    ========================================================================== */
-@import "settings.general"; /* Import general settings first */
-@import "settings.fonts";
-@import "settings.animation";
-@import "settings.patterns";
+@import "settings/general"; /* Import general settings first */
+@import "settings/animation";
+@import "settings/patterns";
 
 
 
@@ -23,15 +42,7 @@
 
 /* Tools
    ========================================================================== */
-@import "tools.mixins";
-
-
-
-
-
-/* Webfonts
-   ========================================================================== */
-@import "webfonts.gt-walsheim-pro";
+@import "tools/mixins";
 
 
 
@@ -40,10 +51,20 @@
 /* Resets
    ========================================================================== */
 @import "normalizecss/normalize.css";
-@import "resets.box-sizing";
-@import "resets.forms";
-@import "resets.iframe";
-@import "resets.images";
+@import "resets/box-sizing";
+@import "resets/forms";
+@import "resets/iframe";
+@import "resets/images";
+@import "resets/transitions";
+
+
+
+
+
+/* Fonts
+   ========================================================================== */
+@import "fonts/styles";
+@import "fonts/gt-walsheim-pro";
 
 
 
@@ -51,13 +72,13 @@
 
 /* Base styles
    ========================================================================== */
-@import "base.emphasis";
-@import "base.headings";
-@import "base.inputs.scss";
-@import "base.links";
-@import "base.lists";
-@import "base.page";
-@import "base.paragraph";
+@import "elements/emphasis";
+@import "elements/headings";
+@import "elements/inputs.scss";
+@import "elements/links";
+@import "elements/lists";
+@import "elements/page";
+@import "elements/paragraph";
 
 
 
@@ -65,50 +86,62 @@
 
 /* Generic Patterns
    ========================================================================== */
-@import "generic.box";
-@import "generic.clearfix";
-@import "generic.grid";
-@import "generic.list-bare";
-@import "generic.ratio";
-@import "generic.tile";
-@import "generic.svg-icon";
-@import "generic.wrapper";
+@import "generic/link-bare";
+@import "generic/box";
+@import "generic/clearfix";
+@import "generic/column";
+@import "generic/drop-down";
+@import "generic/grid";
+@import "generic/gutter";
+@import "generic/list-bare";
+@import "generic/list-delimited";
+@import "generic/ratio";
+@import "generic/tile";
+@import "generic/svg-icon";
+@import "generic/wrapper";
 
 
 
 
 
-/* Site Patterns
+/* Specialised Patterns
    ========================================================================== */
-@import "site.accordion";
-@import "site.button";
-@import "site.case-study-tile";
-@import "site.content";
-@import "site.content-pagination";
-@import "site.cta";
-@import "site.do-dont";
-@import "site.feature-list";
-@import "site.header-nav";
-@import "site.header-search";
-@import "site.hero";
-@import "site.intro";
-@import "site.key-info-tile";
-@import "site.layout";
-@import "site.masonry";
-@import "site.news-tile";
-@import "site.page-header";
-@import "site.panel";
-@import "site.pop-up";
-@import "site.refine";
-@import "site.resource-tile";
-@import "site.search";
-@import "site.search-pagination";
-@import "site.search-result";
-@import "site.search-results";
-@import "site.site-header";
-@import "site.tag";
-@import "site.tag-list";
-@import "site.toc";
+@import "specialised/accordion";
+@import "specialised/button";
+@import "specialised/case-study-tile";
+@import "specialised/content";
+@import "specialised/content-pagination";
+@import "specialised/cta";
+@import "specialised/do-dont";
+@import "specialised/feature-list";
+@import "specialised/form";
+@import "specialised/header-nav";
+@import "specialised/header-search";
+@import "specialised/hero";
+@import "specialised/icon";
+@import "specialised/intro";
+@import "specialised/key-info-tile";
+@import "specialised/layout";
+@import "specialised/masonry";
+@import "specialised/news-tile";
+@import "specialised/page-header";
+@import "specialised/panel";
+@import "specialised/pop-up";
+@import "specialised/profile";
+@import "specialised/refine";
+@import "specialised/resource-box";
+@import "specialised/resource-tile";
+@import "specialised/search";
+@import "specialised/search-pagination";
+@import "specialised/search-result";
+@import "specialised/search-results";
+@import "specialised/site-footer";
+@import "specialised/site-header";
+@import "specialised/tag";
+@import "specialised/tag-list";
+@import "specialised/team-tile";
+@import "specialised/testimonial";
+@import "specialised/toc";
 
 
 
@@ -116,6 +149,9 @@
 
 /* Utilities
    ========================================================================== */
-@import "utilities.display-helpers";
-@import "utilities.fonts";
-@import "utilities.widths";
+@import "utilities/display-helpers";
+@import "utilities/fonts";
+@import "utilities/margins";
+@import "utilities/padding";
+@import "utilities/whitespace.scss";
+@import "utilities/widths";

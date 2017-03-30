@@ -1,0 +1,76 @@
+/* Pattern settings */
+
+/**
+ * Settings that affect specific patterns should be defined here.
+ */
+
+/* Base styles
+   ========================================================================== */
+$upd-font-size-base-breakpoint: 400px;  // Define in pixels, not rems
+
+$upd-input-height: rems(48px);
+$upd-input-max-width: rems(480px);
+$upd-input-radius: rems(4px);
+
+
+
+
+
+/* Generic patterns
+   ========================================================================== */
+
+/* Gutter
+   ========================================================================== */
+$upd-gutter-enable-responsive-sizes: false;
+$upd-gutter-sizes: (
+  small: $upd-spacing-gutter-small,
+  medium: $upd-spacing-gutter-medium,
+  large: $upd-spacing-gutter-large
+);
+
+
+
+
+
+/* Ratios
+   ========================================================================== */
+$upd-ratios: (
+        4:3,
+        16:9
+);
+
+
+
+
+
+/* Site patterns
+   ========================================================================== */
+
+/* Buttons
+  ========================================================================== */
+$upd-button-height: rems(40px);
+$upd-button-height-small: rems(30px);
+$upd-button-height-tiny: rems(18px);
+
+
+/* CTA
+   ========================================================================== */
+$upd-cta-extensions: docx, pdf, pptx;
+
+
+/* Site header
+   ========================================================================== */
+$upd-layout-breakpoint: large;
+
+
+/* Site header
+   ========================================================================== */
+$upd-site-header-breakpoint-height: small;
+$upd-site-header-breakpoint-navigation: x-large;
+$upd-site-header-breakpoint-search: medium;
+$upd-site-header-color-base: $upd-color-brand-navy;
+$upd-site-header-color-active: tint($upd-color-brand-navy, 10%);
+$upd-site-header-height: rems(70px);
+$upd-site-header-height-small: rems(55px);
+$upd-site-header-min-width: rems(320px);
+$upd-site-header-popup-button-height: $upd-site-header-height-small;

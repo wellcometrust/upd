@@ -33,28 +33,47 @@ const config = {
     },
     {
       context: {
+        href: '#link-to-destination',
+        icon: 'download',
+        label: 'Download PPT'
+      },
+      name: 'Download (link)'
+    },
+    {
+      context: {
+        icon: 'download',
+        label: 'Download PPT',
+        small: true
+      },
+      name: 'Download'
+    },
+    {
+      context: {
+        asset: true,
         href: '#link-to.docx',
         icon: false,
         label: 'Public support for research in the NHS',
-        asset: true
+        small: true
       },
       name: 'Asset link (DOCX)'
     },
     {
       context: {
+        asset: true,
         href: '#link-to.pptx',
         icon: false,
         label: 'Public support for research in the NHS',
-        asset: true
+        small: true
       },
       name: 'Asset link (PPTX)'
     },
     {
       context: {
+        asset: true,
         href: '#link-to.pdf',
         icon: false,
         label: 'Public support for research in the NHS',
-        asset: true
+        small: true
       },
       name: 'Asset link (PDF)'
     }

@@ -1,0 +1,163 @@
+<div class="content    u-font-body-copy">
+
+    <section>
+
+        <h2 id="content-1-identifying-information">1. Identifying information is removed wherever possible</h2>
+
+        <p>The simplest way to protect someone’s information is to remove identifying details.  Anyone wanting to use patient data will only be given access the minimum information necessary to answer a question.
+            Wherever possible, the data will be anonymised  in line with guidance given by the Information Commissioner’s Office (ICO Code of anonymisation).  This code sets out what details must be removed or disguised, and the safeguards that must be followed to protect data.</p>
+
+        <p>If it is not possible to anonymise the data, there are strict controls on how personally identifiable data can be used and stored. It can only be used if you give your permission (consent) or where required by law, and then only with robust safeguards.</p>
+
+        <h3 class="h4">Find out more</h3>
+
+        <ul class="list-bare">
+
+            <li>
+
+                <a class="cta  cta--arrow" href="#link-to-information">When does the law allow personally identifiable information to be shared without consent</a>
+
+            </li>
+
+            <li>
+
+                <a class="cta  cta--arrow" href="#link-to-information">What laws control how personally identifiable data is used</a>
+
+            </li>
+
+        </ul>
+
+    </section>
+
+    <section>
+
+        <h2 id="content-2-an-independent-review-process">2. An independent review process</h2>
+
+        <p>Any request to use patient data must first be assessed by an independent review committee. All organisations that look after patient data will have a clear review process  to ensure data is only used appropriately.</p>
+
+        <p>There are three things that will be checked before approval is given:</p>
+
+        <div class="column  column--max-three">
+
+            <section class="column__group">
+
+                <h3>Why</h3>
+
+                <p>The purpose.</p>
+
+                <p>Data can only be used to improve health, care and services.</p>
+
+            </section>
+
+            <section class="column__group">
+
+                <h3>Who</h3>
+
+                <p>is accessing the data?</p>
+
+                <p>The organisation must check anyone who will be able to access data.</p>
+
+            </section>
+
+            <section class="column__group">
+
+                <h3>How</h3>
+
+                <p>will the data be used?</p>
+
+                <p>The organisation must have appropriate IT systems in place to protect data.</p>
+
+            </section>
+
+        </div>
+
+        <h3 class="h4">Find out more</h3>
+
+        <ul class="list-bare">
+
+            <li>
+
+                <a class="cta  cta--arrow" href="#link-to-information">NHS Digital</a>
+
+                <p class="u-font-body-copy-small">The Independent Group Advising on the Release of Data (IGARD) reviews applications for sensitive NHS
+
+            </li>
+
+            <li>
+
+                <a class="cta  cta--arrow" href="#link-to-information">HRA</a>
+
+                <p class="u-font-body-copy-small">Confidentiality Advisory Group</p>
+
+            </li>
+
+        </ul>
+
+    </section>
+
+    <section>
+
+        <h2 id="content-3-strict-legal-contracts">3. Strict legal contracts</h2>
+
+        <p>If a request to use data is approved, a data sharing contract must be signed before the data can be transferred.   This is a legal agreement which sets out strict rules about what an organisation can do with the data and what they must never do.</p>
+
+        <p>A data sharing contract sets out:</p>
+
+        <ul>
+
+            <li>What data will be provided, and how</li>
+
+            <li>The purpose for which the data can be used</li>
+
+            <li>When and how data must be destroyed after use</li>
+
+            <li>The data security requirements that must be followed</li>
+
+
+            <li>
+
+                What an organisation must not do with the data:
+
+                <ul>
+
+                    <li>data cannot be used in any way to re-identify an individual</li>
+
+                    <li>data cannot be linked with any other data, unless explicitly approved in the application</li>
+
+                    <li>data cannot be passed to anyone else, unless explicitly approved in the application</li>
+
+                </ul>
+
+            </li>
+
+            <li>The organisation can be audited to check data is being used appropriately</li>
+
+        </ul>
+
+    </section>
+
+    <section>
+
+        <h2 id="content-4-robust-data-security-standards">4. Robust data security standards</h2>
+
+        <p>IT systems have high standards of data security to keep data safe, and must be kept up-to-date.  Technology can be used to protect data in a number of ways, for example by restricting access (using passwords or swipe cards to control access to data), or using encryption so the data cannot to be read without a code.</p>
+
+        <p>Anyone accessing data must provide evidence that they have appropriate technical security, and there must be an audit trail that records every time that personally identifiable data is accessed and used.</p>
+
+    </section>
+
+    <ul class="content__actions">
+
+        {% for action in actions %}
+
+            <li class="content__action">
+
+                <a class="button  button--tertiary" href="{{ action.href }}">{{ action.label }}</a>
+
+            <!-- /li -->
+
+        {% endfor %}
+
+    </ul>
+
+</div>

@@ -1,0 +1,5 @@
+<div class="ratio{% if ratio %}  ratio--{{ ratio }}{% endif %}">
+
+    <iframe allowfullscreen class="ratio__content" src="{{ url }}" title="{{ title }}"></iframe>
+
+</div>

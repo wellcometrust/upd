@@ -1,0 +1,109 @@
+<footer class="site-footer">
+
+    <div class="wrapper  wrapper--gutter">
+
+        <ul class="site-footer__sections">
+
+            <li class="site-footer__section  site-footer__section--primary    u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+
+                {% if home !== true %}<a href="/">{% endif %}
+
+                    <img alt="Understanding Patient Data" class="site-footer__logo" src="{{ '/images/logo.svg' | path }}">
+
+                {% if home !== true %}</a>{% endif %}
+
+                <ul class="site-footer__socials  grid    gutter  gutter--small">
+
+                    {% for social in socials %}
+
+                        <li class="grid__item    gutter__item">
+
+                            <a class="site-footer__social-link" href="{{ social.href }}">
+
+                                {% render '@svg-icon', social %}
+
+                            </a>
+
+                        <!-- /li -->
+
+                    {% endfor %}
+
+                </ul>
+
+            <!-- /li -->
+
+            <li class="site-footer__section    u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+
+                <span class="site-footer__text  site-footer__text--title">Contact us</span>
+
+                <dl class="list-bare">
+
+                    <dt class="u-visually-hidden">Telephone</dt>
+
+                    <dd>
+
+                        <a class="site-footer__text  site-footer__text--phone" href="tel:+4420786118646">+44 207 8611 8646</a>
+
+                    </dd>
+
+
+                    <dt class="u-visually-hidden">Email</dt>
+
+                    <dd>
+
+                        <a class="site-footer__text" href="mailto:hello@understandingpatientdata.org.uk">hello@understandingpatientdata.org.uk</a>
+
+                    </dd>
+
+                </dl>
+
+            <!-- /li -->
+
+            <li class="site-footer__section   u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+
+                <form>
+
+                    <label class="site-footer__text  site-footer__text--title" for="subscribe">Join our mailing list</label>
+
+                    <input class="site-footer__input" id="subscribe" placeholder="Email address" required type="email"><!-- Avoid whitespace between elements
+
+                --><button class="site-footer__submit" type="submit">Sign up</button>
+
+                </form>
+
+            <!-- /li -->
+
+        </ul>
+
+        <div class="site-footer__details">
+
+            <span class="site-footer__detail">Copyright 2017 Wellcome Trust Ltd.</span>
+
+            <ul class="site-footer__detail    list-delimited">
+
+                <li>
+
+                    <a href="#link-to-ts-and-cs">Terms &amp; conditions</a>
+
+                </li>
+
+                <li>
+
+                    <a href="#link-to-privacy-policy">Privacy policy</a>
+
+                </li>
+
+            </ul>
+
+            <a class="site-footer__hactar" href="http://hactar.is/">
+
+                <img alt="Made by Hactar" src="{{ '/images/made-by-hactar.svg' | path }}">
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</footer>

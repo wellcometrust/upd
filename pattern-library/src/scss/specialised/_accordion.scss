@@ -1,0 +1,56 @@
+/* Accordion */
+
+.accordion {
+  @extend %font-body-copy;
+
+  border-color: $upd-color-border-light;
+  border-style: solid;
+  border-width: 1px 0;
+
+  &:first-child,
+  & + & {
+    border-top-width: 0;
+  }
+}
+
+
+.accordion__trigger {
+  display: block;
+}
+
+
+.accordion__title {
+  @extend %h4;
+
+  font-size: inherit;
+  line-height: inherit;
+  padding: $upd-spacing-gutter-large 1.5em $upd-spacing-gutter-large 0;
+  position: relative;
+
+  &:after {
+    @extend %icon;
+    @extend %icon--chevron-down;
+
+    margin-top: -0.5em;
+    position: absolute;
+    right: 0;
+    top: 50%;
+
+    .is-open > &,
+    :target > & {
+      transform: rotate(180deg);
+      transform: rotateX(180deg);
+    }
+  }
+}
+
+
+.accordion__content {
+  height: 0;
+  overflow: hidden;
+
+  .is-open + &,
+  :target + & {
+    height: auto;
+  }
+}

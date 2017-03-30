@@ -1,0 +1,88 @@
+/* Hero */
+
+/**
+ * 1. Limit the position of the hero image to a central column
+ * 2. Position the hero image to the right of the column
+ * 3. Position the background image relative to hero image
+ * 4. Adjust the position of the background image as required
+ * 5. Prevent any of the images from overflowing
+ */
+.hero {
+  overflow: hidden; /* 5 */
+
+  @include mq(medium) {
+    padding-bottom: 3 * $upd-spacing-gutter-large;
+  }
+}
+
+
+.hero__image-wrapper {
+  @extend %wrapper;   /* 1 */
+
+  position: relative; /* 1 */
+  padding-bottom: 3 * $upd-spacing-gutter-large;
+  padding-top: 25%;
+  max-width: rems(1280px);  /* 1 */
+
+  @include mq(x-large) {
+    padding: 0;
+  }
+}
+
+
+.hero__image-container {
+  max-width: 100%;
+  position: absolute; /* 2 */
+  right: 0; /* 2 */
+  top: 0;
+  width: rems(640px);
+  z-index: 0;
+}
+
+
+.hero__image {
+  position: relative;
+  z-index: 1;
+}
+
+
+.hero__image-background {
+  left: 0;  /* 3 */
+  margin-left: -446%; /* 4 */
+  margin-top: -106%;  /* 4 */
+  position: absolute; /* 3 */
+  top: 0;  /* 3 */
+  width: 1000%;
+}
+
+
+.hero__title {
+  @extend %font-hero;
+
+  display: none;
+  max-width: $upd-max-width / 2;
+  padding: 6 * $upd-spacing-gutter-large 0;
+  position: relative;
+
+  @include mq(x-large) {
+    display: block;
+  }
+}
+
+
+.hero__intro {
+  @extend %font-hero-intro;
+
+  margin: 0;
+  padding: (2 * $upd-spacing-gutter-large) 0;
+  text-align: center;
+
+  @include mq(small) {
+    margin-top: rems(100px);
+    padding: 0;
+  }
+
+  @include mq(medium) {
+    padding: 0 5%;
+  }
+}

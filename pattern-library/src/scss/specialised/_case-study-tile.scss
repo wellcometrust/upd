@@ -1,0 +1,44 @@
+/* Case study tile */
+
+/**
+ * 1. Absolutely position the image, so we can make sure the text occupies the
+ *    full column height
+ * 2. Add top padding to allow for the height of the image
+ * 3. Use flex to vertically justify the text
+ */
+.case-study-tile {
+  @extend %tile;
+
+  max-width: rems(258px);
+  padding: 0;
+}
+
+.case-study-tile--alt {
+  background: $upd-color-background-primary;
+}
+
+
+.case-study-tile__image {
+  left: 0;  /* 1 */
+  position: absolute; /* 1 */
+  top: 0; /* 1 */
+}
+
+
+
+.case-study-tile__info {
+  display: flex;  /* 3 */
+  flex-direction: column; /* 3 */
+  height: 100%;
+  justify-content: space-between; /* 3 */
+  padding: $upd-spacing-gutter-medium;
+  padding-top: percentage(320px / 516px) /* 2 */
+}
+
+
+.case-study-tile__title {
+  @extend %h3;
+
+  min-height: rems(140px);
+  padding: rems(17px) 0;
+}

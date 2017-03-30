@@ -1,0 +1,20 @@
+/* Margins */
+.u-mb-medium {
+  margin-bottom: $upd-spacing-gutter-medium !important;
+}
+
+.u-mb-large {
+  margin-bottom: $upd-spacing-gutter-large !important;
+}
+
+.u-mb-small {
+  margin-bottom: $upd-spacing-gutter-small !important;
+}
+
+.u-mb-zero {
+  margin-bottom: 0 !important;
+}
+
+.u-mb-line-height {
+  margin-bottom: $upd-line-height-base * 1em;
+}

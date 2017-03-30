@@ -1,0 +1,19 @@
+<p class="u-visually-hidden">This text is available to screen readers, but is not visually present in the page.</p>
+
+<p class="u-display-none">This text is hidden.</p>
+
+{% for size in ['small', 'medium', 'large', 'x-large'] %}
+
+    <p class="u-display-none  u-display-block-from-{{ size }}">This text will be displayed from the '{{ size }}' breakpoint and up.</p>
+
+    <p class="u-display-none-from-{{ size }}">This text will be hidden from the '{{ size }}' breakpoint and up.</p>
+
+{% endfor %}
+
+<p class="u-display-none  u-display-block-from-complex-layout">This text will be displayed on screens on which the two column layout applies.</p>
+
+<p class="u-display-none-from-complex-layout">This text will be hidden on screens on which the two column layout applies.</p>
+
+<p class="u-display-none  u-display-block-from-visible-navigation">This text will be displayed on screens on which the full navigation bar appears.</p>
+
+<p class="u-display-none-from-visible-navigation">This text will be hidden on screens on which the full navigation bar appears.</p>

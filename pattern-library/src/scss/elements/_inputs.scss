@@ -1,0 +1,145 @@
+/* Labels and inputs */
+
+@mixin input {
+  appearance: none;
+  background: $upd-color-background-primary;
+  border: 1px solid $upd-color-border-light;
+  border-radius: $upd-input-radius;
+  height: $upd-input-height;
+  max-width: $upd-input-max-width;
+  padding: 0 1em;
+  width: 100%;
+
+  &:focus {
+    background-color: tint($upd-color-background-secondary, 50%);
+    border-color: shade($upd-color-border-light, $upd-tint-active);
+  }
+
+  &::placeholder {
+    color: $upd-color-text-placeholder;
+  }
+}
+
+@mixin input--select {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%225%22%20viewBox%3D%220%200%2012%205%22%3E%3Cpath%20fill%3D%22%23%7B%24dc-color-text-base%7D%22%20d%3D%22M12%200L6%205%200%200%22%2F%3E%3C%2Fsvg%3E');
+  background-position: right 0.75em center;
+  background-repeat: no-repeat;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+@mixin input--textarea {
+  display: block;
+  height: auto;
+  min-height: rems(150px);
+  padding: 1em;
+  resize: vertical;
+}
+
+
+/**
+ * 1. Give the radiobox zero net width so it can be positioned relative
+ *    to the text without affecting the layout
+ */
+@mixin radiobox {
+  $size: 2ex;
+
+  background: $upd-color-background-primary;
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  content: '';
+  color: $upd-color-border-mid;
+  display: inline-block;
+  height: $size;
+  margin-bottom: -0.25ex;
+  margin-right: -$size; /* 1 */
+  vertical-align: baseline;
+  width: $size; /* 1 */
+}
+
+@mixin radiobox--radio {
+  border-radius: 50%;
+}
+
+@mixin radiobox--checked {
+  background-color: currentColor;
+  box-shadow: inset 0 0 0 2px $upd-color-background-primary;
+  color: $upd-color-brand-navy;
+}
+
+
+fieldset,
+legend {
+  border: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+input,
+select,
+textarea {
+  @include input;
+}
+
+input[type=checkbox],
+input[type=radio] {
+  @extend %u-visually-hidden;
+}
+
+/* Override normalize.css */
+input[type=search] {
+  appearance: none;
+  box-sizing: inherit;
+}
+
+
+select {
+  @include input--select;
+}
+
+
+textarea {
+  @include input--textarea;
+}
+
+
+label {
+  display: block;
+
+  [type=checkbox] + &,
+  [type=radio] + & {
+    $gutter: $upd-line-height-base * 1em;
+
+    margin-left: $gutter;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:before {
+      @include radiobox;
+
+      left: -$gutter;
+      position: relative;
+    }
+  }
+
+  :focus + & {
+    text-decoration: underline;
+  }
+
+  [type=radio] + & {
+    &:before {
+      @include radiobox--radio;
+    }
+  }
+
+  :checked + & {
+    &:before {
+      @include radiobox--checked;
+    }
+  }
+}

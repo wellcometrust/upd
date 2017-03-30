@@ -1,0 +1,16 @@
+/* Colour functions */
+
+/**
+ * Tint a color by a specified percentage
+ */
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+
+/**
+ * Lighten a color by a specified percentage
+ */
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}

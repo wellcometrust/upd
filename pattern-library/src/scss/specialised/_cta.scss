@@ -1,0 +1,61 @@
+/* Call to Action */
+
+.cta {
+  @extend %font-body-copy;
+
+  color: $upd-color-brand-red;
+  display: block;
+  font-weight: $upd-font-weight-medium;
+
+  &:hover,
+  a:hover & {
+    text-decoration: underline;
+  }
+
+  &:hover {
+    &:after {
+      @extend %cta--icon-hover;
+    }
+  }
+
+  &:after {
+    @extend %icon;
+
+    margin-left: 0.3em;
+
+    a:hover & {
+      @extend %cta--icon-hover;
+    }
+  }
+}
+
+%cta--icon-hover {
+  transform: translateX(0.3em);
+}
+
+.cta--arrow {
+  &:after {
+    @extend %icon--arrow;
+  }
+}
+
+.cta--download {
+  &:after {
+    @extend %icon--download;
+  }
+}
+
+.cta--extension {
+  @each $extension in $upd-cta-extensions {
+    &[href*=".#{$extension}"]:before {
+      @extend %tag;
+
+      content: "#{$extension}";
+      margin-right: 0.5em;
+    }
+  }
+}
+
+.cta--small {
+  @extend %font-body-copy-small;
+}

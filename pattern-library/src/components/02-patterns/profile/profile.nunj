@@ -1,0 +1,7 @@
+<div class="profile">
+
+    <span class="profile__name">{{ name }}</span>
+
+    <span class="profile__title">{{ title }}</span>
+
+</div>

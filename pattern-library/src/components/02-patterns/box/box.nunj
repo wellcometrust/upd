@@ -1,0 +1,5 @@
+<div class="box{% for modifier in modifiers %}  box--{{ modifier }}{% endfor %}">
+
+    {{ content }}
+
+</div>

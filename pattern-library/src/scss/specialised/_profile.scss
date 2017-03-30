@@ -1,0 +1,38 @@
+/* Profile */
+
+.profile {
+  @extend %clearfix;
+  @extend %font-body-copy-small;
+
+  break-inside: avoid;
+  width: 100%;
+}
+
+
+.profile__image {
+  border-radius: 50%;
+  float: left;
+  margin-right: 1em;
+  width: rems(70px);
+}
+
+
+.profile__info {
+  padding: rems(10px) 0 0;
+}
+
+
+.profile__name {
+  color: $upd-color-text-highlight-dark;
+  display: block;
+  font-weight: $upd-font-weight-medium;
+}
+
+
+.profile__title {
+  display: block;
+
+  .profile__info & {
+    line-height: rems(20px) / $upd-font-size-body-copy-small;
+  }
+}

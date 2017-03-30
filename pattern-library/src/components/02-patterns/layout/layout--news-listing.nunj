@@ -1,0 +1,11 @@
+<main class="layout">
+
+    <div class="layout__item">
+
+        {% render '@masonry--news' %}
+
+        {% render '@search-pagination', { activePage: 3, center: true, count: 5 } %}
+
+    </div>
+
+</main>

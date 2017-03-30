@@ -1,0 +1,43 @@
+<div class="content    u-font-body-copy">
+
+    <h2 class="h4">Vestibulum rutrum quam vitae fringilla tincidunt</h2>
+
+    <p>Almost four in five of the public (77 per cent) say they would be willing to allow their medical records to be used in a research study if they were anonymised.</p>
+
+    <a class="cta  cta--arrow" href="#link-to-resource">Wellcome Monitor (Wave 3)</a>
+
+    <h2 class="h4">Public attitudes to commercial access to health data (Wellcome 2016)</h2>
+
+    <p>A slight majority (53%) of people would be happy for their data to be used by commercial organisations if it was for research, but most people were extremely wary of insurance and marketing companies accessing even anonymised information</p>
+
+    <a class="cta  cta--arrow" href="https://wellcome.ac.uk/publicattitudes">https://wellcome.ac.uk/publicattitudes</a>
+
+    <h2 class="h4">Royal Statistical Society</h2>
+
+    <p>The RSS commissioned two surveys around the theme of data democracy and understanding (2014) </p>
+
+    <a class="cta  cta--arrow" href="#link-to-resource">The data trust deficit: Trust in data and attitudes toward data use and data sharing in the UK</a>
+
+    <p>A <a href="#link-to-resource">summary</a>, <a href="#link-to-resource">slides</a>, and <a href="#link-to-resource">tables</a> from the research are available</p>
+
+    <h2 class="h4">Attitudes to using and linking administrative data for research </h2>
+
+    <p>ESRC and Office for National Statistics (2013)  </p>
+
+    <a class="cta  cta--extension" href="#link-to-resource.pdf">Dialogue on Data: Exploring the public’s views on using linked administrative data for research purposes</a>
+
+    <ul class="content__actions">
+
+        {% for action in actions %}
+
+            <li class="content__action">
+
+                <a class="button  button--tertiary" href="{{ action.href }}">{{ action.label }}</a>
+
+            <!-- /li -->
+
+        {% endfor %}
+
+    </ul>
+
+</div>

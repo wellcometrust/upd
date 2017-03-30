@@ -1,0 +1,17 @@
+<div class="column{% for modifier in modifiers %}  column--{{ modifier }}{% endfor %}">
+
+    <ul>
+
+        {% for item in items %}
+
+            <li class="column__group">
+
+                {{ item }}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>

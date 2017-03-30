@@ -12,13 +12,13 @@
 
     </header>
 
-    <ul class="grid  grid--center">
+    <ul class="grid  grid--center    gutter  gutter--medium">
 
         {% if news %}
 
             {% for i in range(3) %}
 
-                <li class="grid__item u-width-1-of-1  u-width-1-of-2-from-small  u-width-1-of-3-from-large">
+                <li class="grid__item    gutter__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
 
                     {%  render '@news-tile' %}
 
@@ -30,9 +30,9 @@
 
             {% for i in range(4) %}
 
-                <li class="grid__item u-width-1-of-1  u-width-1-of-2-from-small  u-width-1-of-4-from-x-large">
+                <li class="grid__item    gutter__item    u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-4-from-x-large">
 
-                    {%  render '@case-study-tile' %}
+                    {%  render '@case-study-tile--alternative-background-colour' %}
 
                 <!-- /li -->
 

@@ -6,6 +6,7 @@ const isBuild = (process.env.CI === 'true' || process.env.NODE_ENV === 'build')
 
 let tasks = [
   'icons',
+  'images',
   'sass',
   'static'
 ]

@@ -1,12 +1,17 @@
 <section class="accordion">
 
-    <a class="accordion__trigger" href="#{{ id }}" id="{{ id }}">
+    <a aria-controls="accordion-{{ id }}"
+       aria-expanded="false"
+       class="accordion__trigger"
+       data-toggle="is-open"
+       href="#{{ id }}"
+       id="{{ id }}">
 
         <h{{ level }} class="accordion__title">{{ title }}</h{{ level }}>
 
     </a>
 
-    <div class="accordion__content">
+    <div class="accordion__content" id="accordion-{{ id }}">
 
         {{ content }}
 

@@ -1,0 +1,33 @@
+/* Gutter */
+
+@mixin gutter($gutter) {
+  margin-left: -$gutter;
+  margin-top: -$gutter;
+
+  & .gutter__item {
+    padding-left: $gutter;
+    padding-top: $gutter;
+  }
+}
+
+.gutter,
+.gutter__item {
+  margin: 0;
+  padding: 0;
+}
+
+@each $name, $gutter in $upd-gutter-sizes {
+  .gutter--#{$name} {
+    @include gutter($gutter);
+
+    @if ($upd-gutter-enable-responsive-sizes == true) {
+      @each $breakpoint, $size in $upd-breakpoints {
+        @include mq($breakpoint) {
+          &-from-#{$breakpoint} {
+            @include gutter($gutter);
+          }
+        }
+      }
+    }
+  }
+}

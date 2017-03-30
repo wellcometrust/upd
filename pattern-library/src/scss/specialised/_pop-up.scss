@@ -1,0 +1,34 @@
+.pop-up {
+  background-color: $upd-color-background-secondary;
+  bottom: 0;
+  left: 0;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+  position: fixed;
+  top: $upd-site-header-height-small + $upd-site-header-popup-button-height;
+  transform: translateY(-100%);
+  transition: transform $upd-transition-time, visibility 0s $upd-transition-time;
+  width: 100%;
+  z-index: 9999;
+
+  @include mq($upd-site-header-breakpoint-height) {
+    top: $upd-site-header-height  + $upd-site-header-popup-button-height;
+  }
+
+  &:target,
+  &.is-open {
+    transform: translateY(0);
+  }
+}
+
+.pop-up--layout {
+  @include mq($upd-layout-breakpoint) {
+    background: none;
+    overflow: visible;
+    position: relative;
+    top: 0;
+    transform: none;
+    transition: none;
+    z-index: auto;
+  }
+}

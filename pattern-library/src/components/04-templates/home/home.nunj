@@ -1,0 +1,21 @@
+{% render '@site-header--homepage' %}
+
+<main>
+
+    {% render '@hero' %}
+
+    {% if primaryPanel %}
+
+        {% render '@panel', primaryPanel %}
+
+    {% endif %}
+
+    {% if secondaryPanel %}
+
+        {% render '@panel', secondaryPanel %}
+
+    {% endif %}
+
+</main>
+
+{% render '@site-footer--homepage' %}

@@ -1,0 +1,9 @@
+<div class="content    u-font-body-copy">
+
+    {% for accordion in accordions %}
+
+        {% render '@accordion', accordion %}
+
+    {%  endfor %}
+
+</div>

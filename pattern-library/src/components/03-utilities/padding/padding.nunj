@@ -1,0 +1,9 @@
+{%  for size in ['small', 'medium', 'large'] %}
+
+    <p class="u-pb-{{ size }}">The bottom padding on this text is set to the {{ size }} gutter size.</p>
+
+{% endfor %}
+
+<p class="u-pb-zero">The bottom padding on this text is set to zero.</p>
+
+<p class="u-pb-line-height">The bottom padding on this text is set to the base line height. When used within an element with a font helper class, the bottom padding is set to the line height of that font.</p>
