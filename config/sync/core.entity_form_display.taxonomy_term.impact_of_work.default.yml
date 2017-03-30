@@ -1,0 +1,42 @@
+uuid: fd43b867-edb6-4dbc-9d7c-102c279535c1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.impact_of_work.field_color
+    - taxonomy.vocabulary.impact_of_work
+  module:
+    - path
+    - text
+id: taxonomy_term.impact_of_work.default
+targetEntityType: taxonomy_term
+bundle: impact_of_work
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_color:
+    weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  name:
+    type: string_textfield
+    weight: -5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

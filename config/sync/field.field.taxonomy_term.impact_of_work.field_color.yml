@@ -1,0 +1,19 @@
+uuid: b08dd141-82d5-4a49-93d4-0d5e9a227bc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_color
+    - taxonomy.vocabulary.impact_of_work
+id: taxonomy_term.impact_of_work.field_color
+field_name: field_color
+entity_type: taxonomy_term
+bundle: impact_of_work
+label: Color
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -3,14 +3,11 @@
 /**
  * @file
  */
-
 use Drupal\Core\Block\BlockPluginInterface;
-
 /**
  * @file
  * UPD case study module file.
  */
-
 use Drupal\image\Entity\ImageStyle;
 
 /**
@@ -20,7 +17,7 @@ use Drupal\image\Entity\ImageStyle;
  * even if you do nothing inside the function body!
  */
 function upd_case_study_block_view_alter(array &$build, BlockPluginInterface $block) {
-
+  
 }
 
 /**
@@ -82,13 +79,15 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
     return;
   }
   $fields = [
-    'field_disease_type',
     'field_impact_of_work',
-    'field_sources_of_data',
   ];
   foreach ($fields as $field) {
     foreach ($node->get($field)->referencedEntities() as $term) {
-      $node->updTags[] = $term->label();
+      $color = $term->get('field_color')->value;
+      $node->updTags[$term->id()] = [
+        'label' => $term->label(),
+        'color' => !empty($color) ? $color : '#f8533d',
+      ];
     }
   }
 }
@@ -102,4 +101,11 @@ function upd_case_study_preprocess_paragraph(&$variables) {
   if (!empty($variables['content']['field_title'][0]['#context']['value'])) {
     $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
   }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function upd_search_form_taxonomy_term_impact_of_work_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+//  dpm($form['field_color']);
 }
