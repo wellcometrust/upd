@@ -668,9 +668,9 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  page_1:
+  news:
     display_plugin: page
-    id: page_1
+    id: news
     display_title: Page
     position: 1
     display_options:
@@ -685,6 +685,35 @@ display:
         weight: 0
         context: '0'
         menu_name: main
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          tokenize: false
+          content:
+            value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
+            format: full_html
+          plugin_id: text
+      defaults:
+        header: false
+        style: false
+        row: false
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: .news-tile
+          default_row_class: true
+      row:
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: default
     cache_metadata:
       max-age: -1
       contexts:
