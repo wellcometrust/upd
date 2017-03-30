@@ -3,6 +3,7 @@
 /**
  * @file
  */
+
 use Drupal\Core\Block\BlockPluginInterface;
 /**
  * @file
@@ -17,7 +18,7 @@ use Drupal\image\Entity\ImageStyle;
  * even if you do nothing inside the function body!
  */
 function upd_case_study_block_view_alter(array &$build, BlockPluginInterface $block) {
-  
+
 }
 
 /**

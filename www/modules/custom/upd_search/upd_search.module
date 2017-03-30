@@ -7,7 +7,6 @@
 
 use Drupal\node\Entity\Node;
 use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Mail\MailFormatHelper;
 
 /**
  * Retrieve a default node excerpt when none is generated from search.
