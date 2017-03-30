@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function upd_theme($existing, $type, $theme, $path) {
+  return array(
+    'upd_grid_list' => array(
+      'variables' => array('items' => array(), 'grid' => 3),
+      'template' => 'custom/upd-grid-list',
+    ),
+  );
+}

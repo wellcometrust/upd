@@ -11,6 +11,7 @@ dependencies:
   module:
     - facets
     - panels
+    - upd_case_study
     - views
 id: case_studies-panels_variant-0
 label: Panels
@@ -25,7 +26,7 @@ variant_settings:
       views_label: ''
       items_per_page: none
       region: main
-      weight: 0
+      weight: -1
       uuid: f08a42b3-46dd-4d19-9b43-4b268c2513d0
       context_mapping: {  }
     ea0a4706-0e6d-4418-a502-a9cb0605c1c4:
@@ -54,6 +55,16 @@ variant_settings:
       region: filters
       weight: 0
       uuid: 52214c35-5468-47fa-abfa-38cea8247cab
+      context_mapping: {  }
+    6d6d060e-9f91-45e9-9410-042d98c420be:
+      id: featured_case_studies
+      label: 'Featured case studies'
+      provider: upd_case_study
+      label_display: '0'
+      view_mode: teaser
+      region: main
+      weight: -2
+      uuid: 6d6d060e-9f91-45e9-9410-042d98c420be
       context_mapping: {  }
   id: panels_variant
   uuid: 4ef328aa-1cf0-42ae-9e67-f8ccbe661122
