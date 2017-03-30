@@ -7,11 +7,11 @@
     p:not([class]),
     ol:not([class]),
     ul:not([class]),
-    &__mb {
+    .u-mb-line-height {
       margin-bottom: $line-height * 1em;
     }
 
-    &__pb {
+    .u-pb-line-height {
       padding-bottom: $line-height * 1em;
     }
 

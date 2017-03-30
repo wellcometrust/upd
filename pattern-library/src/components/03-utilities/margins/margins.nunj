@@ -6,4 +6,4 @@
 
 <p class="u-mb-zero">The bottom margin on this text is set to zero.</p>
 
-<p><strong>Note:</strong> use the font helper classes if you want to set the bottom margin to equal the element's line height (eg to match paragraph spacing).</p>
+<p class="u-mb-line-height">The bottom margin on this text is set to the base line height. When used within an element with a font helper class, the bottom margin is set to the line height of that font.</p>

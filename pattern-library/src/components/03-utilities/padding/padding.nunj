@@ -4,6 +4,6 @@
 
 {% endfor %}
 
-<p class="u-mb-zero">The bottom padding on this text is set to zero.</p>
+<p class="u-pb-zero">The bottom padding on this text is set to zero.</p>
 
-<p><strong>Note:</strong> use the font helper classes if you want to set the bottom padding to equal the element's line height (eg to match paragraph spacing).</p>
+<p class="u-pb-line-height">The bottom padding on this text is set to the base line height. When used within an element with a font helper class, the bottom padding is set to the line height of that font.</p>

@@ -75,7 +75,7 @@
 
         <p>A Steering Committee helps provide strategic direction and oversight for our work. Members of the Steering Committee are:</p>
 
-        <ul class="grid  gutter  gutter--large    u-font-body-copy__mb">
+        <ul class="grid  gutter  gutter--large    u-mb-line-height">
 
             {% for i in range(6) %}
 
@@ -99,7 +99,7 @@
 
                     {% for advisor in advisors %}
 
-                        <li class="column__group  u-font-body-copy__pb">
+                        <li class="column__group  u-pb-line-height">
 
                             {% render '@profile', advisor %}
 
@@ -122,7 +122,7 @@
 
         <p>The following organisations provide funding support for Understanding Patient Data:</p>
 
-        <ul class="grid  grid--center  gutter  gutter--large    u-font-body-copy__mb">
+        <ul class="grid  grid--center  gutter  gutter--large    u-mb-line-height">
 
             {% for logo in logos %}
 
