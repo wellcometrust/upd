@@ -5,3 +5,4 @@ global-styling:
   css:
     base:
       assets/css/main.css: {}
+      local.css: {}
