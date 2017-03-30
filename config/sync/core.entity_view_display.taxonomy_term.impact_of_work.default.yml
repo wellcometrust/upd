@@ -1,0 +1,28 @@
+uuid: 55004505-2ff2-4567-b59f-da2173dd071b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.impact_of_work.field_color
+    - taxonomy.vocabulary.impact_of_work
+  module:
+    - jquery_colorpicker
+    - text
+id: taxonomy_term.impact_of_work.default
+targetEntityType: taxonomy_term
+bundle: impact_of_work
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+  field_color:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: jquery_colorpicker_color_display
+hidden: {  }

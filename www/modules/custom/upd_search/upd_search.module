@@ -7,7 +7,6 @@
 
 use Drupal\node\Entity\Node;
 use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Mail\MailFormatHelper;
 
 /**
  * Retrieve a default node excerpt when none is generated from search.
@@ -19,32 +18,12 @@ use Drupal\Core\Mail\MailFormatHelper;
  *   The generated excerpt, or an empty string.
  */
 function upd_search_node_generate_excerpt(Node $node) {
+  $excerpt = '';
   // Fetch from node if possible.
   if (isset($node->field_standfirst)) {
     $excerpt = $node->get('field_standfirst')->getString();
   }
-  // Else try to use the rendered one from indexing.
-  if (empty($excerpt)) {
-    $excerpt = upd_search_node_fetch_rendered($node);
-  }
-  $excerpt = MailFormatHelper::htmlToText($excerpt);
   return Unicode::truncate($excerpt, 400, TRUE, TRUE);
-}
-
-/**
- * Retrieve a node rendered string directly from Search API table.
- *
- * @param \Drupal\node\Entity\Node $node
- *   The loaded node entity to generate an excerpt for.
- *
- * @return string
- *   The generated output from search API, or an empty string.
- */
-function upd_search_node_fetch_rendered(Node $node) {
-  $id = 'entity:node/' . $node->id() . ':en';
-  $query = "SELECT rendered_item FROM {search_api_db_content} WHERE item_id = :id";
-  $args = [':id' => $id];
-  return db_query($query, $args)->fetchField();
 }
 
 /**
