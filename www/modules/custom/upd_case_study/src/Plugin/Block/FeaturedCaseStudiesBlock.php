@@ -30,15 +30,20 @@ class FeaturedCaseStudiesBlock extends BlockBase implements BlockPluginInterface
   public function build() {
     $build = [];
     $build['#cache'] = ['contexts' => ['url.path']];
+    // Only show when no query.
+    if (count($_GET)) {
+      return $build;
+    }
     $config = $this->getConfiguration();
     $view_mode = $config['view_mode'];
     $query = \Drupal::entityQuery('node');
     $query->condition('status', 1);
     $query->condition('type', 'case_study');
+    $query->condition('sticky', 1);
     $query->range(0, 3);
     $query->sort('created', 'DESC');
     $entity_ids = $query->execute();
-    if (!count($entity_ids < 3)) {
+    if (count($entity_ids) < 3) {
       return $build;
     }
     $nodes = entity_load_multiple('node', $entity_ids);
