@@ -10,7 +10,7 @@ third_party_settings:
     available_menus: {  }
     parent: ''
   content_moderation:
-    enabled: true
+    enabled: false
     allowed_moderation_states:
       - published
       - archived
