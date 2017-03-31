@@ -1,5 +1,5 @@
 @import "sassdash/_index";
 
 @function svg-url($svg) {
-  @return url("data:image/svg+xml;utf8,#{_encode($svg)}");
+  @return url("data:image/svg+xml;charset=utf8,#{_encode($svg)}");
 }

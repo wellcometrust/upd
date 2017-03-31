@@ -64,7 +64,7 @@
 
         <a aria-controls="{{ popup.id }}"
            aria-expanded="false"
-           class="site-header__popup-bar    u-display-none-from-visible-navigation"
+           class="site-header__popup-bar    u-display-none-from-complex-layout"
            data-toggle="is-open"
            data-toggle-group="site-header"
            href="#{{ popup.id }}">
