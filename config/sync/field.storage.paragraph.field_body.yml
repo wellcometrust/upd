@@ -8,7 +8,7 @@ dependencies:
 id: paragraph.field_body
 field_name: field_body
 entity_type: paragraph
-type: string_long
+type: text_long
 settings: {  }
 module: text
 locked: false
