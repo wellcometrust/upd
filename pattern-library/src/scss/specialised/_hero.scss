@@ -47,12 +47,17 @@
 
 
 .hero__image-background {
+  $native-height: 642.8px;
+  $native-width: 1500px;
+  $scale: 1000%;
+
+  height: ($native-height / $native-width) * $scale;
   left: 0;  /* 3 */
   margin-left: -446%; /* 4 */
   margin-top: -106%;  /* 4 */
   position: absolute; /* 3 */
   top: 0;  /* 3 */
-  width: 1000%;
+  width: $scale;
 }
 
 
