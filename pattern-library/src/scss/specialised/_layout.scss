@@ -70,9 +70,11 @@
   }
 
   .layout__item--sticky {
-    padding-bottom: $upd-spacing-gutter-large;
-    position: sticky;
-    top: $upd-site-header-height;
+    @include mq($upd-layout-breakpoint) {
+      padding-bottom: $upd-spacing-gutter-large;
+      position: sticky;
+      top: $upd-site-header-height;
+    }
   }
 
 
