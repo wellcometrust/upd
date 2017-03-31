@@ -14,6 +14,7 @@ const config = {
     header: {
       title: 'About us'
     },
+    noMobileSidebar: true,
     sidebar: [
       {
         name: 'table-of-contents',
