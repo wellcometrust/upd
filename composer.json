@@ -37,7 +37,6 @@
     "drupal/layout_plugin": "1.*",
     "drupal/panels": "3.*",
     "drupal/facets": "1.*",
-    "drupal/workbench": "1.*",
     "drupal/search_api": "1.*",
     "drupal/paragraphs": "1.*",
     "drupal/config_ignore": "1.*",
