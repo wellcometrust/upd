@@ -3,6 +3,11 @@
 .page-header {
   background-color: $upd-color-background-secondary;
   padding: 3 * $upd-spacing-gutter-medium 0;
+
+  @media print {
+    border-bottom: 1px solid $upd-color-border-light;
+    padding: $upd-spacing-gutter-medium 0;
+  }
 }
 
 .page-header--case-study {
