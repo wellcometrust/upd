@@ -33,16 +33,16 @@
  * @ingroup themeable
  */
 #}
-<div class="site-header__navigation    drop-down" id="site-header-navigation">
-  <div class="site-header__drop-down  drop-down__container">
+<div class="site-header__navigation drop-down" id="site-header-navigation">
+  <div class="site-header__drop-down drop-down__container">
     <nav class="header-nav">
       {{ content }}
     </nav>
   </div>
 </div>
-<a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button site-header__button--toggle" data-toggle="is-open" data-toggle-group="site-header" href="#site-header-navigation">
+<a aria-controls="site-header-navigation" aria-expanded="false" class="site-header__button u-display-none-from-visible-navigation" data-toggle="is-open" data-toggle-group="site-header" href="#site-header-navigation">
   <svg class="svg-icon  svg-icon--inline" role="presentation">
   <title>Navigation menu</title>
-  <use xlink:href="#svg-icon-hamburger"></use>
+  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-icon-hamburger"></use>
   </svg>
 </a>
