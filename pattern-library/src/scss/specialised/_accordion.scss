@@ -41,6 +41,10 @@
       transform: rotate(180deg);
       transform: rotateX(180deg);
     }
+
+    @media print {
+      visibility: hidden;
+    }
   }
 }
 
@@ -51,6 +55,10 @@
 
   .is-open + &,
   :target + & {
+    height: auto;
+  }
+
+  @media print {
     height: auto;
   }
 }

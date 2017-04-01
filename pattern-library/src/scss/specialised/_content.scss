@@ -55,6 +55,10 @@
   @include mq(small) {
     text-align: right;
   }
+
+  @media print {
+    display: none;
+  }
 }
 
 .content__action {

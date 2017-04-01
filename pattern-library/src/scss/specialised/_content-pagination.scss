@@ -5,6 +5,10 @@
   @extend %list-bare;
 
   background-color: $upd-color-background-secondary;
+
+  @media print {
+    display: none;
+  }
 }
 
 

@@ -32,4 +32,11 @@
   @include mq(medium) {
     @include wrapper--gutter(2 * $upd-spacing-gutter-large);
   }
+
+  @media print {
+    padding: {
+      left: 0;
+      right: 0;
+    }
+  }
 }
