@@ -8,7 +8,7 @@ dependencies:
   module:
     - search_api
 id: disease_type
-name: 'Disease type'
+name: 'Disease type or population group'
 url_alias: disease_type
 weight: 0
 min_count: 1
