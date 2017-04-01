@@ -6,4 +6,4 @@ name: 'Source of data'
 vid: source_of_data
 description: ''
 hierarchy: 0
-weight: 0
+weight: -8
