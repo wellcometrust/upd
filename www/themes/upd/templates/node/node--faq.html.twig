@@ -104,6 +104,10 @@
           </footer>
         {% endif %}
 
+        {% if content.body|render %}
+          {{ content.body }}
+        {% endif %}
+        
         <div{{ content_attributes.addClass('content u-font-body-copy') }}>
           {{ content.field_faq_dropdown }}
         </div>
