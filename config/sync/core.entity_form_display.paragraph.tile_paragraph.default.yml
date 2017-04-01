@@ -17,21 +17,21 @@ bundle: tile_paragraph
 mode: default
 content:
   field_body:
-    weight: 9
+    weight: 1
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
   field_link:
-    weight: 8
+    weight: 2
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
   field_title:
-    weight: 6
+    weight: 0
     settings:
       size: 60
       placeholder: ''
