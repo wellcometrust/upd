@@ -1,16 +1,16 @@
-uuid: 567fa5c1-0cef-4425-adfc-61d8d2c5dbf7
+uuid: 9845b701-8c99-45a3-9d12-6c084dcc9bef
 langcode: en
 status: true
 dependencies:
   module:
     - paragraphs
-id: paragraph.field_dos_donts
-field_name: field_dos_donts
+    - text
+id: paragraph.field_dos_and_donts
+field_name: field_dos_and_donts
 entity_type: paragraph
-type: string_long
-settings:
-  case_sensitive: false
-module: core
+type: text_long
+settings: {  }
+module: text
 locked: false
 cardinality: -1
 translatable: true

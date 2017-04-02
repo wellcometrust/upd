@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.faq.body
     - field.field.node.faq.field_faq_dropdown
     - field.field.node.faq.field_standfirst
     - node.type.faq
@@ -11,20 +10,11 @@ dependencies:
     - content_moderation
     - paragraphs
     - path
-    - text
 id: node.faq.default
 targetEntityType: node
 bundle: faq
 mode: default
 content:
-  body:
-    weight: 7
-    settings:
-      rows: 9
-      summary_rows: 3
-      placeholder: ''
-    third_party_settings: {  }
-    type: text_textarea_with_summary
   created:
     type: datetime_timestamp
     weight: 2

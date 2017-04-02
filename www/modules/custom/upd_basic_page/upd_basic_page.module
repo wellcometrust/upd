@@ -26,6 +26,8 @@ function _upd_basic_page_preprocess_node_sections(&$variables) {
     return;
   }
   $i = 0;
+  $variables['content']['vertical'][$i]['title'] = 'Summary';
+  $variables['content']['vertical'][$i]['url'] = 'intro';
   foreach ($node->field_sections as $item) {
     $i++;
     $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')->getValue()[0]['value'];

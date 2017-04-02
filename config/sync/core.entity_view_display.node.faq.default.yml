@@ -3,25 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.faq.body
     - field.field.node.faq.field_faq_dropdown
     - field.field.node.faq.field_standfirst
     - node.type.faq
   module:
     - entity_reference_revisions
-    - text
     - user
 id: node.faq.default
 targetEntityType: node
 bundle: faq
 mode: default
 content:
-  body:
-    weight: 104
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: text_default
   field_faq_dropdown:
     type: entity_reference_revisions_entity_view
     weight: 103
