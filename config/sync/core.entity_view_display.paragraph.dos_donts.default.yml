@@ -1,0 +1,19 @@
+uuid: c9850e70-1cf4-402b-a2f6-10b7083b1959
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.dos_donts.field_dos_donts
+    - paragraphs.paragraphs_type.dos_donts
+id: paragraph.dos_donts.default
+targetEntityType: paragraph
+bundle: dos_donts
+mode: default
+content:
+  field_dos_donts:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+hidden: {  }

@@ -1,0 +1,7 @@
+uuid: 631491d8-756e-44b3-ad56-e49f304fd89f
+langcode: en
+status: true
+dependencies: {  }
+id: basic_vertical_tab
+label: 'Vertical tab'
+behavior_plugins: {  }

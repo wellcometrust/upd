@@ -1,0 +1,21 @@
+uuid: 2d43e01c-b1c2-4fa4-8476-7f28e89171a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.basic_title_link
+  module:
+    - text
+id: paragraph.basic_title_link.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: basic_title_link
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

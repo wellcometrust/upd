@@ -1,0 +1,23 @@
+uuid: 82ecafd2-fb4e-45f9-a1cf-419063628f1c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_side_menu
+    - node.type.basic_page
+id: node.basic_page.field_side_menu
+field_name: field_side_menu
+entity_type: node
+bundle: basic_page
+label: 'Side menu'
+description: 'Whether or not to display the sections in a menu at the side.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

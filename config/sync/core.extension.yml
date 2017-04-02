@@ -42,6 +42,7 @@ module:
   text: 0
   token: 0
   toolbar: 0
+  upd_basic_page: 0
   upd_case_study: 0
   upd_search: 0
   update: 0
