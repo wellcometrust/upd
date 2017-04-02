@@ -9,16 +9,17 @@ label: 'Title only'
 type: 'canonical_entities:node'
 pattern: '[node:title]'
 selection_criteria:
-  4e0ad354-55c5-4e4a-8599-d87eb04ab47a:
+  3521586d-d7b5-41b5-adf7-060c497b4639:
     id: node_type
     bundles:
+      basic_page: basic_page
       faq: faq
       landing_page: landing_page
       tile: tile
     negate: false
     context_mapping:
       node: node
-    uuid: 4e0ad354-55c5-4e4a-8599-d87eb04ab47a
+    uuid: 3521586d-d7b5-41b5-adf7-060c497b4639
 selection_logic: and
 weight: -5
 relationships: {  }
