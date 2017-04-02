@@ -35,11 +35,18 @@ filters:
     status: true
     weight: -48
     settings: {  }
-  filter_autop:
-    id: filter_autop
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: false
+    weight: -43
+    settings:
+      filter_url_length: 72
+  filter_html_image_secure:
+    id: filter_html_image_secure
     provider: filter
     status: true
-    weight: -49
+    weight: -42
     settings: {  }
   filter_align:
     id: filter_align
@@ -53,16 +60,9 @@ filters:
     status: false
     weight: -45
     settings: {  }
-  filter_html_image_secure:
-    id: filter_html_image_secure
+  filter_autop:
+    id: filter_autop
     provider: filter
     status: true
-    weight: -42
+    weight: -49
     settings: {  }
-  filter_url:
-    id: filter_url
-    provider: filter
-    status: false
-    weight: -43
-    settings:
-      filter_url_length: 72
