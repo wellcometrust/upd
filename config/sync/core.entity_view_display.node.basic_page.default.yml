@@ -51,7 +51,7 @@ content:
     third_party_settings: {  }
   field_standfirst:
     weight: 6
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: text_default

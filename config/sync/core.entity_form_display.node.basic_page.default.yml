@@ -65,7 +65,7 @@ content:
     third_party_settings: {  }
     type: boolean_checkbox
   field_standfirst:
-    weight: 26
+    weight: 6
     settings:
       rows: 5
       placeholder: ''
