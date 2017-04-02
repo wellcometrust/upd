@@ -1,0 +1,19 @@
+uuid: aecabc23-a507-41a6-ad52-be38a2a6c275
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_dos_donts
+    - paragraphs.paragraphs_type.dos_donts
+id: paragraph.dos_donts.field_dos_donts
+field_name: field_dos_donts
+entity_type: paragraph
+bundle: dos_donts
+label: 'Dos and don''ts'
+description: 'Odd values will be Dos and even values will be Don''ts'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,21 @@
+uuid: eeebb004-6b00-42af-9f81-87485853a96b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.basic_vertical_tab
+  module:
+    - text
+id: paragraph.basic_vertical_tab.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: basic_vertical_tab
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

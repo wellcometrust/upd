@@ -1,0 +1,63 @@
+uuid: 9a5df564-f42c-41a8-bbd1-8dcb9b7e6614
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.basic_page.body
+    - field.field.node.basic_page.field_list_text
+    - field.field.node.basic_page.field_pdf
+    - field.field.node.basic_page.field_sections
+    - field.field.node.basic_page.field_side_menu
+    - field.field.node.basic_page.field_standfirst
+    - node.type.basic_page
+  module:
+    - entity_reference_revisions
+    - file
+    - text
+    - user
+id: node.basic_page.default
+targetEntityType: node
+bundle: basic_page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+  field_pdf:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: file_default
+  field_sections:
+    type: entity_reference_revisions_entity_view
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_side_menu:
+    type: boolean
+    weight: 5
+    label: hidden
+    settings:
+      format: boolean
+      format_custom_true: ''
+      format_custom_false: ''
+    third_party_settings: {  }
+  field_standfirst:
+    weight: 4
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  links:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_list_text: true

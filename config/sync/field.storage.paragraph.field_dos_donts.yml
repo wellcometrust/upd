@@ -1,0 +1,19 @@
+uuid: 567fa5c1-0cef-4425-adfc-61d8d2c5dbf7
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_dos_donts
+field_name: field_dos_donts
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

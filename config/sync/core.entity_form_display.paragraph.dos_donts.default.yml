@@ -1,0 +1,25 @@
+uuid: 0d8c4dc4-4c73-4f0e-9f7e-41a1cc5c7d6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.dos_donts.field_dos_donts
+    - paragraphs.paragraphs_type.dos_donts
+  module:
+    - content_moderation
+id: paragraph.dos_donts.default
+targetEntityType: paragraph
+bundle: dos_donts
+mode: default
+content:
+  field_dos_donts:
+    weight: 6
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+hidden:
+  created: true
+  status: true
+  uid: true
