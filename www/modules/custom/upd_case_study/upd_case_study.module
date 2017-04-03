@@ -28,6 +28,7 @@ function upd_case_study_preprocess_node(&$variables) {
   _upd_case_study_preprocess_node_vertical_tabs($variables);
   _upd_case_study_preprocess_node_tags($variables);
   _upd_case_study_preprocess_node_thumbnail($variables);
+  _upd_case_study_preprocess_node_nextprevious($variables);
 }
 
 /**
@@ -89,6 +90,23 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
         'label' => $term->label(),
         'color' => !empty($color) ? $color : 'f8533d',
       ];
+    }
+  }
+}
+
+/**
+ * Getting nextpreviousblock and pass it to template.
+ *
+ * @see upd_preprocess_node()
+ */
+function _upd_case_study_preprocess_node_nextprevious(&$variables) {
+  $nextprevious_block = \Drupal::entityManager()->getStorage('block')->load('nextpreviousblock');
+  if (!empty($nextprevious_block)){
+    $nextprevious_block_content = \Drupal::entityManager()
+      ->getViewBuilder('block')
+      ->view($nextprevious_block);
+    if ($nextprevious_block_content) {
+      $variables['content']['nextpreviousblock'] = $nextprevious_block_content;
     }
   }
 }
