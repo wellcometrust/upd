@@ -20,5 +20,9 @@ function upd_theme($existing, $type, $theme, $path) {
         ),
       'template' => 'custom/upd-previous-next',
     ),
+    'contact_message_contact_us_form' => array(
+      'render element' => 'form',
+      'template' => 'form/contact-message-contact-form',
+    ),
   );
 }
