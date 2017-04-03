@@ -35,6 +35,10 @@ function upd_search_preprocess_views_view(&$variables) {
   // Hacky way of injecting an "excerpt" into view result.
   // Search API does not allow it to be added for entity
   // rendering, nor without a query string.
+  // @todo If excerpt functionality is not re-instated
+  // later, this whole module can be removed, and
+  // the list text/standfirst can just be dealy with in
+  // the template file for the listing/search view mode.
   $view = $variables['view'];
   if (!in_array($view->id(), ['search', 'case_studies_index'])) {
     return;
