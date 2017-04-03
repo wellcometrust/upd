@@ -100,6 +100,9 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
  * @see upd_preprocess_node()
  */
 function _upd_case_study_preprocess_node_nextprevious(&$variables) {
+  if ($variables['node']->getType() != 'case_study') {
+    return;
+  }
   $nextprevious_block = \Drupal::entityManager()->getStorage('block')->load('nextpreviousblock');
   if (!empty($nextprevious_block)) {
     $nextprevious_block_content = \Drupal::entityManager()

@@ -13,7 +13,7 @@
  * @ingroup themeable
  */
 #}
-
+{% if previous_url %}
 <li class="content-pagination__item content-pagination__item--previous grid__item">
   <a class="content-pagination__control" href="{{ previous_url }}">
     <span class="content-pagination__description">{{ previous_display_text }}</span>
@@ -25,6 +25,8 @@
     </div>
   </a>
 </li>
+{% endif %}
+{% if next_url %}
 <li class="content-pagination__item content-pagination__item--next grid__item">
   <a class="content-pagination__control" href="{{ next_url }}">
     <span class="content-pagination__description">{{ next_display_text }}</span>
@@ -36,3 +38,4 @@
     </div>
   </a>
 </li>
+{% endif %}

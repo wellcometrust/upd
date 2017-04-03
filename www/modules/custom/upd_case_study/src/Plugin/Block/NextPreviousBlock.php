@@ -21,8 +21,11 @@ class NextPreviousBlock extends BlockBase {
   public function build() {
     // Get the created time of the current node.
     $build = [];
-    $build['#prefix'] = '<aside><nav><ul class="content-pagination grid">';
     $node = \Drupal::request()->attributes->get('node');
+    if ($node == NULL) {
+      return $build;
+    }
+    $build['#prefix'] = '<aside><nav><ul class="content-pagination grid">';
     $created_time = $node->getCreatedTime();
     $previous_node = $this->generatePrevious($created_time);
     $build['#theme'] = 'upd_previous_next';
