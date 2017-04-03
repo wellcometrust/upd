@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * UPD contact module.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function upd_contact_form_contact_message_contact_us_form_alter(&$form, &$form_state) {
+  dpm($form);
+  $form['name']['#title'] = t('Name');
+  $form['mail']['#title'] = t('Email address');
+  $form['actions']['preview']['#access'] = FALSE;
+}
