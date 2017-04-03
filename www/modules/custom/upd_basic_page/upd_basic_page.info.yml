@@ -1,0 +1,5 @@
+name: UPD Basic page
+type: module
+description: 'Provide functionalities around the basic page content type.'
+package: UPD
+core: '8.x'

@@ -11,6 +11,10 @@
   @include mq(medium) {
     text-align: left;
   }
+
+  @media print {
+    display: none;
+  }
 }
 
 

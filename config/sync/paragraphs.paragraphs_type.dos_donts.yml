@@ -1,0 +1,7 @@
+uuid: bae04a12-3c3e-45c1-9ed3-799a9ab76717
+langcode: en
+status: true
+dependencies: {  }
+id: dos_donts
+label: 'Dos and don''ts'
+behavior_plugins: {  }

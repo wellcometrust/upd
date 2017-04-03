@@ -1,0 +1,25 @@
+uuid: 57e66ba3-5bf6-464b-ac36-680a8377f29b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: title_only
+label: 'Title only'
+type: 'canonical_entities:node'
+pattern: '[node:title]'
+selection_criteria:
+  3521586d-d7b5-41b5-adf7-060c497b4639:
+    id: node_type
+    bundles:
+      basic_page: basic_page
+      faq: faq
+      landing_page: landing_page
+      tile: tile
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 3521586d-d7b5-41b5-adf7-060c497b4639
+selection_logic: and
+weight: -5
+relationships: {  }

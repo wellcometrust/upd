@@ -61,8 +61,8 @@ function _upd_case_study_preprocess_node_vertical_tabs(&$variables) {
     return;
   }
   $i = 0;
-  $variables['content']['vertical'][$i]['title'] = 'Introduction';
-  $variables['content']['vertical'][$i]['url'] = 'introduction';
+  $variables['content']['vertical'][$i]['title'] = 'Summary';
+  $variables['content']['vertical'][$i]['url'] = 'intro';
   foreach ($node->field_vertical_tab as $item) {
     $i++;
     $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')->getValue()[0]['value'];

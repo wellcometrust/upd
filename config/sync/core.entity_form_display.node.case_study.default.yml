@@ -60,7 +60,7 @@ content:
     third_party_settings: {  }
     type: file_generic
   field_sources_of_data:
-    weight: 6
+    weight: 5
     settings:
       match_operator: CONTAINS
       size: 60
@@ -94,7 +94,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 5
+    weight: 6
     settings: {  }
     third_party_settings: {  }
   sticky:

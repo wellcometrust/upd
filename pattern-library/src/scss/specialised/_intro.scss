@@ -5,10 +5,10 @@
   position: relative;
 
   &:after {
-    background-color: $upd-color-border-light;
+    border-top: rems(6px) solid $upd-color-border-light;
     content: '';
     display: block;
-    height: rems(6px);
+    height: 0;
     margin: (2 * $upd-spacing-gutter-large) 0 0;
     width: 2 * $upd-spacing-gutter-large
   }

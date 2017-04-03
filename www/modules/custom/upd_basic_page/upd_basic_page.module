@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * UPD basic page module file.
+ */
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function upd_basic_page_preprocess_node(&$variables) {
+  _upd_basic_page_preprocess_node_sections($variables);
+}
+
+/**
+ * Alter node rendering to add pseudo "vertical tabs".
+ *
+ * @see upd_preprocess_node()
+ */
+function _upd_basic_page_preprocess_node_sections(&$variables) {
+  if ($variables['view_mode'] !== 'full') {
+    return;
+  }
+  $node = $variables['node'];
+  if (!isset($node->field_sections)) {
+    return;
+  }
+  $i = 0;
+  $variables['content']['vertical'][$i]['title'] = 'Summary';
+  $variables['content']['vertical'][$i]['url'] = 'intro';
+  foreach ($node->field_sections as $item) {
+    $i++;
+    $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')->getValue()[0]['value'];
+    $variables['content']['vertical'][$i]['url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $item->entity->get('field_title')->getValue()[0]['value'])));
+  }
+}

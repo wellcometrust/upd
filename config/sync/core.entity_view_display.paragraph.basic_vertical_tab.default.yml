@@ -1,0 +1,39 @@
+uuid: 4a465b57-0edc-4fc7-900f-7d2cd6f0a660
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.basic_vertical_tab.field_body
+    - field.field.paragraph.basic_vertical_tab.field_nested_paragraphs
+    - field.field.paragraph.basic_vertical_tab.field_title
+    - paragraphs.paragraphs_type.basic_vertical_tab
+  module:
+    - entity_reference_revisions
+    - text
+id: paragraph.basic_vertical_tab.default
+targetEntityType: paragraph
+bundle: basic_vertical_tab
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_nested_paragraphs:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden: {  }

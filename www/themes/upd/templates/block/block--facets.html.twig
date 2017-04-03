@@ -34,8 +34,11 @@
  */
 #}
 <div class="refine">
-  <fieldset class="refine__category">
-    <legend class="refine__title">{{ label }}</legend>
-    {{ content }}
-  </fieldset>
+    <fieldset class="refine__category">
+        <legend class="refine__title">{{ label }}</legend>
+        <div class="refine__options">
+            {{ content }}
+        </div>
+        {#<button class="refine__clear button button--tertiary button--tiny" type="reset">Clear</button>#}
+    </fieldset>
 </div>

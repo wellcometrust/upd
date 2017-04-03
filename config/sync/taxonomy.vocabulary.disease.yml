@@ -2,8 +2,8 @@ uuid: 815cf6fa-156d-446e-a812-3fa6d6681a43
 langcode: en
 status: true
 dependencies: {  }
-name: 'Disease type'
+name: 'Disease type or population group'
 vid: disease
 description: ''
 hierarchy: 0
-weight: 0
+weight: -9

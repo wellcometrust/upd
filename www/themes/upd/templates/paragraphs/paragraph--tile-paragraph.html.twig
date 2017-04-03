@@ -45,7 +45,9 @@
     <div class="resource-tile__description  u-font-body-copy-small">
         {{ content.field_body }}
     </div>
-    <a class="button" href="{{ content.field_link[0]['#url_title'] }}">{{ content.field_link[0]['#title'] }}</a>
+    {% if content.field_link|render  %}
+        <a class="button" href="{{ content.field_link[0]['#url_title'] }}">{{ content.field_link[0]['#title'] }}</a>
+    {%  endif %}
 
 </div>
 

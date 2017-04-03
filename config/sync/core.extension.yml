@@ -40,13 +40,16 @@ module:
   system: 0
   taxonomy: 0
   text: 0
+  token: 0
   toolbar: 0
+  upd_basic_page: 0
   upd_case_study: 0
   upd_search: 0
   update: 0
   user: 0
   views: 0
   menu_link_content: 1
+  pathauto: 1
   minimal: 1000
 theme:
   stable: 0

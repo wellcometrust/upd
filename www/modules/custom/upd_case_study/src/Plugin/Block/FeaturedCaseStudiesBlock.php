@@ -31,7 +31,7 @@ class FeaturedCaseStudiesBlock extends BlockBase implements BlockPluginInterface
     $build = [];
     $build['#cache'] = ['contexts' => ['url.path']];
     // Only show when no query.
-    if (count($_GET)) {
+    if (count($_GET) > 1) {
       return $build;
     }
     $config = $this->getConfiguration();

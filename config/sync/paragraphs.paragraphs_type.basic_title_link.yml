@@ -1,0 +1,7 @@
+uuid: 4b267934-89f7-48da-bcd5-9e06f3c3b197
+langcode: en
+status: true
+dependencies: {  }
+id: basic_title_link
+label: 'Title, text, link'
+behavior_plugins: {  }

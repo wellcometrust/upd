@@ -14,6 +14,7 @@ const config = {
     header: {
       title: 'How is data kept safe?'
     },
+    noMobileSidebar: true,
     sidebar: [
       {
         name: 'table-of-contents',
