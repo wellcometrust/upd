@@ -4,7 +4,6 @@
  * @file
  * UPD search module file.
  */
-
 use Drupal\node\Entity\Node;
 use Drupal\Component\Utility\Unicode;
 
@@ -20,7 +19,10 @@ use Drupal\Component\Utility\Unicode;
 function upd_search_node_generate_excerpt(Node $node) {
   $excerpt = '';
   // Fetch from node if possible.
-  if (isset($node->field_standfirst)) {
+  if (isset($node->field_list_text)) {
+    $excerpt = $node->get('field_list_text')->getString();
+  }
+  if (empty($excerpt) && isset($node->field_standfirst)) {
     $excerpt = $node->get('field_standfirst')->getString();
   }
   return Unicode::truncate($excerpt, 400, TRUE, TRUE);
@@ -37,14 +39,15 @@ function upd_search_preprocess_views_view(&$variables) {
   if (!in_array($view->id(), ['search', 'case_studies_index'])) {
     return;
   }
-  $excerpt = [];
-  foreach ($view->result as $result) {
-    $excerpt[$result->search_api_id] = !empty($result->search_api_excerpt) ? $result->search_api_excerpt : '';
-  }
+//  $excerpt = [];
+//  foreach ($view->result as $result) {
+//    $excerpt[$result->search_api_id] = !empty($result->search_api_excerpt) ? $result->search_api_excerpt : '';
+//  }
   foreach ($variables['rows'] as $row) {
     foreach ($row['#rows'] as $item) {
       $id = 'entity:node/' . $item['#node']->id() . ':en';
-      $item['#node']->excerpt = !empty($excerpt[$id]) ? $excerpt[$id] : upd_search_node_generate_excerpt($item['#node']);
+//      $item['#node']->excerpt = !empty($excerpt[$id]) ? $excerpt[$id] : upd_search_node_generate_excerpt($item['#node']);
+      $item['#node']->excerpt = upd_search_node_generate_excerpt($item['#node']);
     }
   }
 }
