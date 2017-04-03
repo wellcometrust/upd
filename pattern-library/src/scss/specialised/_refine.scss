@@ -28,6 +28,7 @@
 .refine__title {
   @extend %h5;
 
+  display: table; // Allow text to wrap in IE
   margin-bottom: $upd-spacing-gutter-medium;
 }
 
