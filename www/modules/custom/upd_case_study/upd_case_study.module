@@ -101,7 +101,7 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
  */
 function _upd_case_study_preprocess_node_nextprevious(&$variables) {
   $nextprevious_block = \Drupal::entityManager()->getStorage('block')->load('nextpreviousblock');
-  if (!empty($nextprevious_block)){
+  if (!empty($nextprevious_block)) {
     $nextprevious_block_content = \Drupal::entityManager()
       ->getViewBuilder('block')
       ->view($nextprevious_block);

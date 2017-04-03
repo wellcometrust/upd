@@ -27,15 +27,15 @@ class NextPreviousBlock extends BlockBase {
     $previous_node = $this->generatePrevious($created_time);
     $build['#theme'] = 'upd_previous_next';
     if ($previous_node != NULL) {
-      $build['#previous_url'] = $previous_node['next_url']; 
-      $build['#previous_display_text'] = $previous_node['display_text'];  
-      $build['#previous_title'] = $previous_node['title'];  
+      $build['#previous_url'] = $previous_node['next_url'];
+      $build['#previous_display_text'] = $previous_node['display_text'];
+      $build['#previous_title'] = $previous_node['title'];
     }
     $next_node = $this->generateNext($created_time);
     if ($next_node != NULL) {
-      $build['#next_url'] = $next_node['next_url']; 
-      $build['#next_display_text'] = $next_node['display_text'];  
-      $build['#next_title'] = $next_node['title'];  
+      $build['#next_url'] = $next_node['next_url'];
+      $build['#next_display_text'] = $next_node['display_text'];
+      $build['#next_title'] = $next_node['title'];
     }
     $build['#suffix'] = '</aside></nav></ul>';
     return $build;
