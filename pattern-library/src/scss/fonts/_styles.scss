@@ -298,7 +298,7 @@ $upd-line-height-hero-intro: $upd-line-height-heading-2;
    ========================================================================== */
 $upd-font-size-intro: rems(18px);
 $upd-font-size-intro-from-small: rems(24px);
-$upd-line-height-intro: rems(38px) / $upd-font-size-intro;
+$upd-line-height-intro: rems(38px) / $upd-font-size-intro-from-small;
 
 @mixin font-intro {
   color: $upd-color-text-highlight-light;
