@@ -1,0 +1,41 @@
+{#
+/**
+ * @file
+ * Display of previous and next case study
+ *
+ * Available variables:
+ * - previous_url: string
+ * - previous_display_text: string
+ * - previous_title: string
+ * - next_url: string
+ * - next_display_text: string
+ * - next_title: string
+ * @ingroup themeable
+ */
+#}
+{% if previous_url %}
+<li class="content-pagination__item content-pagination__item--previous grid__item">
+  <a class="content-pagination__control" href="{{ previous_url }}">
+    <span class="content-pagination__description">{{ previous_display_text }}</span>
+    <span class="content-pagination__title">{{ previous_title }}</span>
+    <div class="content-pagination__decoration">
+      <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="{{ previous_title }}">
+        <title>{{ previous_title }}</title><use xlink:href="#svg-icon-chevron-left" />
+      </svg>
+    </div>
+  </a>
+</li>
+{% endif %}
+{% if next_url %}
+<li class="content-pagination__item content-pagination__item--next grid__item">
+  <a class="content-pagination__control" href="{{ next_url }}">
+    <span class="content-pagination__description">{{ next_display_text }}</span>
+    <span class="content-pagination__title">{{ next_title }}</span>
+    <div class="content-pagination__decoration">
+      <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="{{ next_title }}">
+        <title>{{ next_title }}</title><use xlink:href="#svg-icon-chevron-right" />
+      </svg>
+    </div>
+  </a>
+</li>
+{% endif %}
