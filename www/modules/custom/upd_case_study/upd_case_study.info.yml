@@ -3,3 +3,6 @@ type: module
 description: 'Provide functionalities around the case study content type.'
 package: UPD
 core: '8.x'
+dependencies:
+  - node
+  - block

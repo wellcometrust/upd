@@ -9,5 +9,16 @@ function upd_theme($existing, $type, $theme, $path) {
       'variables' => array('items' => array(), 'grid' => 3),
       'template' => 'custom/upd-grid-list',
     ),
+    'upd_previous_next' => array(
+      'variables' => array(
+        'previous_url' => '', 
+        'previous_display_text' => '', 
+        'previous_title' => '',
+        'next_url'=> '',
+        'next_display_text' => '',
+        'next_title' => ''
+        ),
+      'template' => 'custom/upd-previous-next',
+    ),
   );
 }
