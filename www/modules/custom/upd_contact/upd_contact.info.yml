@@ -4,4 +4,4 @@ description: 'Provide contact and newsletter functionalities.'
 package: UPD
 core: '8.x'
 dependencies:
-  - contact
+  - drupal:contact
