@@ -74,16 +74,16 @@
 #}
   {{ title_prefix }}
   {% if label %}
-  {% if page %}
-  <header class="page-header">
-    <div class="wrapper  wrapper--gutter">
-      <span class="page-header__category">Case study</span>
-      {{ title_prefix }}
-      <h1 class="page-header__title">{{ label }}</h1>
-      <div class="page-header__tags">
-        <ul class="tag-list">
-            {% for term in node.updTags %}
-            <li class="tag-list__item"> 
+      {% if page %}
+          <header class="page-header">
+              <div class="wrapper  wrapper--gutter">
+                  <span class="page-header__category">Case study</span>
+                  {{ title_prefix }}
+                  <h1 class="page-header__title">{{ label }}</h1>
+                  <div class="page-header__tags">
+                      <ul class="tag-list">
+                          {% for term in node.updTags %}
+                              <li class="tag-list__item">
               <span class="tag" style="color:#{{ term.color }};">
                 {{ term.label }}
               </span>
@@ -148,7 +148,7 @@
 
                     </div>
                 {% endif %}
-
+                {{ content.nextpreviousblock }}
             </div>
         </article>
     </main>
