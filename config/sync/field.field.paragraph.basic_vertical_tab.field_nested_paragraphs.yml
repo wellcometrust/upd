@@ -7,6 +7,7 @@ dependencies:
     - paragraphs.paragraphs_type.basic_vertical_tab
     - paragraphs.paragraphs_type.dos_donts
     - paragraphs.paragraphs_type.faq_dropdowns
+    - paragraphs.paragraphs_type.file_download
   module:
     - entity_reference_revisions
 id: paragraph.basic_vertical_tab.field_nested_paragraphs
@@ -25,6 +26,7 @@ settings:
     target_bundles:
       faq_dropdowns: faq_dropdowns
       dos_donts: dos_donts
+      file_download: file_download
     target_bundles_drag_drop:
       basic_title_link:
         weight: 9
@@ -38,12 +40,12 @@ settings:
       faq_dropdowns:
         enabled: true
         weight: 12
-      grid_items:
-        weight: 13
-        enabled: false
       dos_donts:
         enabled: true
         weight: 13
+      grid_items:
+        weight: 13
+        enabled: false
       resource_vertical_tab:
         weight: 14
         enabled: false
@@ -53,4 +55,7 @@ settings:
       tile_paragraph:
         weight: 16
         enabled: false
+      file_download:
+        enabled: true
+        weight: 16
 field_type: entity_reference_revisions

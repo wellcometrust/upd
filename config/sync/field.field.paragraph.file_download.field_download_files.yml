@@ -1,0 +1,27 @@
+uuid: 1d264eab-ce57-4f89-936d-6a03e55674b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_download_files
+    - paragraphs.paragraphs_type.file_download
+  module:
+    - file
+id: paragraph.file_download.field_download_files
+field_name: field_download_files
+entity_type: paragraph
+bundle: file_download
+label: 'Download files'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf ppt pptx doc docx'
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file
