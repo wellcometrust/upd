@@ -9,6 +9,7 @@ dependencies:
   module:
     - facets
     - panels
+    - upd_search
     - views
 id: search-panels_variant-0
 label: Panels
@@ -34,6 +35,18 @@ variant_settings:
       region: filters
       weight: 0
       uuid: b0de109b-2d09-42fe-a233-570055de172e
+      context_mapping: {  }
+    32ed2b14-920c-4b11-8ab0-2009a2c2e91c:
+      id: upd_search_form
+      label: 'Search form'
+      provider: upd_search
+      label_display: visible
+      form_action: search
+      form_label: 'Search the entire Understanding Patient Data site'
+      region: header
+      weight: 0
+      action: search
+      uuid: 32ed2b14-920c-4b11-8ab0-2009a2c2e91c
       context_mapping: {  }
   id: panels_variant
   uuid: 685f63fe-f3a3-4ffa-ac48-b84807a5859b

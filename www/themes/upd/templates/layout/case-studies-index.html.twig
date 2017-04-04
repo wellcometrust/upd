@@ -17,18 +17,6 @@
     <main class="layout">
         <aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
             <div class="layout__wrapper">
-                <div class="refine">
-                    <form class="search" method="GET" action="{{ base_path }}/case-studies">
-                        <label class="u-visually-hidden" for="search">Search case studies</label>
-                        <input class="search__input" id="search" placeholder="Search..." name="query" type="search">
-                        <button class="search__submit" type="submit">
-                            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
-                                <title>Search</title>
-                                <use xlink:href="#svg-icon-search"></use>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
                 {{ content.filters }}
             </div>
         </aside>
