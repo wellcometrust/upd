@@ -46,9 +46,9 @@
         <a class="button  button--small" href="/news">View all</a>
       </div>
     </header>
-    <ul class="grid  grid--center">
+    <ul class="grid grid--center gutter gutter--medium">
       {% for item in items %}
-      <li class="grid__item u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
+      <li class="grid__item gutter__item u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-3-from-large">
         {{ item.content }}
       </li>
       {% endfor %}
