@@ -38,7 +38,9 @@
  * @ingroup themeable
  */
 #}
-
- <ul class="grid    gutter  gutter--large">
+{% if content.field_display_mode[0]['#markup'] == 'Teaser' %}
+ {% set attributes = attributes.addClass('u-mb-line-height') %}
+{% endif %}
+ <ul class="{{ attributes.addclass('grid gutter gutter--large') }}">
   {{ content }}
  </ul>

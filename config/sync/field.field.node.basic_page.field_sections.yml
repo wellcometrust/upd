@@ -32,18 +32,18 @@ settings:
       faq_dropdowns:
         weight: 8
         enabled: false
+      grid_items:
+        weight: 9
+        enabled: false
       basic_vertical_tab:
         enabled: true
         weight: 9
-      grid_items:
-        weight: 9
+      resource_vertical_tab:
+        weight: 10
         enabled: false
       basic_title_link:
         enabled: true
         weight: 10
-      resource_vertical_tab:
-        weight: 10
-        enabled: false
       testimonial:
         weight: 11
         enabled: false
@@ -52,5 +52,20 @@ settings:
         enabled: false
       dos_donts:
         weight: 13
+        enabled: false
+      file_download:
+        weight: 20
+        enabled: false
+      funding:
+        weight: 21
+        enabled: false
+      list_item:
+        weight: 23
+        enabled: false
+      list_with_sublist:
+        weight: 24
+        enabled: false
+      team_list:
+        weight: 26
         enabled: false
 field_type: entity_reference_revisions

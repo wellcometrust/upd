@@ -1,0 +1,7 @@
+uuid: 9278fa4e-daf2-47f7-ac42-d6a5e4f2e256
+langcode: en
+status: true
+dependencies: {  }
+id: box_list
+label: 'Box list'
+behavior_plugins: {  }

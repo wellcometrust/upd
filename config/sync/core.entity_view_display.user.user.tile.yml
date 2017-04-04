@@ -1,44 +1,55 @@
-uuid: 3a28b424-cb41-4ccd-a354-04e933030cf3
+uuid: 9a367d9c-de14-4d67-a6ca-cbcc728e0774
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.user.teaser
+    - core.entity_view_mode.user.tile
     - field.field.user.user.field_name_and_surname
     - field.field.user.user.field_photo
     - field.field.user.user.field_position
     - field.field.user.user.field_twitter
-    - image.style.user_thumbnail
+    - image.style.thumbnail_list
   module:
     - image
+    - link
     - user
-id: user.user.teaser
+id: user.user.tile
 targetEntityType: user
 bundle: user
-mode: teaser
+mode: tile
 content:
   field_name_and_surname:
-    weight: 1
+    weight: 6
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
   field_photo:
+    type: image
     weight: 0
     label: hidden
     settings:
-      image_style: user_thumbnail
+      image_style: thumbnail_list
       image_link: ''
     third_party_settings: {  }
-    type: image
   field_position:
-    weight: 2
+    weight: 7
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+  field_twitter:
+    weight: 9
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: true
+      url_plain: true
+      rel: '0'
+      target: '0'
+    third_party_settings: {  }
+    type: link
 hidden:
-  field_twitter: true
   member_for: true

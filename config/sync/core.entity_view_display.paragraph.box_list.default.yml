@@ -1,0 +1,27 @@
+uuid: 2ad0e56b-7e6e-4cd0-9618-d09916495137
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.box_list.field_list_title
+    - field.field.paragraph.box_list.field_title
+    - paragraphs.paragraphs_type.box_list
+id: paragraph.box_list.default
+targetEntityType: paragraph
+bundle: box_list
+mode: default
+content:
+  field_list_title:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  field_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden: {  }

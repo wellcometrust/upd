@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.team_list.field_display_mode
     - field.field.paragraph.team_list.field_team_member
     - paragraphs.paragraphs_type.team_list
   module:
@@ -12,6 +13,11 @@ targetEntityType: paragraph
 bundle: team_list
 mode: default
 content:
+  field_display_mode:
+    weight: 7
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
   field_team_member:
     weight: 6
     settings:

@@ -18,11 +18,11 @@ default_value_callback: ''
 settings:
   handler: 'default:user'
   handler_settings:
-    include_anonymous: true
+    include_anonymous: false
     filter:
       type: _none
     target_bundles: null
     sort:
       field: _none
-    auto_create: false
+    auto_create: true
 field_type: entity_reference

@@ -1,26 +1,25 @@
-uuid: 28b53e33-9867-44e4-a4dd-b3248fcb0459
+uuid: 11a06084-1adb-4fc0-acde-2871bac8b003
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.resource_vertical_tab.field_body
-    - field.field.paragraph.resource_vertical_tab.field_title
-    - paragraphs.paragraphs_type.resource_vertical_tab
+    - field.field.paragraph.box_list.field_list_title
+    - field.field.paragraph.box_list.field_title
+    - paragraphs.paragraphs_type.box_list
   module:
     - content_moderation
-    - text
-id: paragraph.resource_vertical_tab.default
+id: paragraph.box_list.default
 targetEntityType: paragraph
-bundle: resource_vertical_tab
+bundle: box_list
 mode: default
 content:
-  field_body:
+  field_list_title:
     weight: 7
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
+    type: string_textarea
   field_title:
     weight: 6
     settings:

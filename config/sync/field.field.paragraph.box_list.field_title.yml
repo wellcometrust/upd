@@ -1,14 +1,14 @@
-uuid: 61410aeb-60b4-4c9e-8238-ede7d79d482d
+uuid: 6cc7efcc-339c-4c1c-b282-e9751eea18e8
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_title
-    - paragraphs.paragraphs_type.resource_vertical_tab
-id: paragraph.resource_vertical_tab.field_title
+    - paragraphs.paragraphs_type.box_list
+id: paragraph.box_list.field_title
 field_name: field_title
 entity_type: paragraph
-bundle: resource_vertical_tab
+bundle: box_list
 label: Title
 description: ''
 required: false

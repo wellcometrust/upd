@@ -1,0 +1,33 @@
+uuid: f39c69f9-c16b-4d7a-920f-07006d1c8bce
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_display_mode
+    - paragraphs.paragraphs_type.team_list
+  module:
+    - entity_reference_display
+id: paragraph.team_list.field_display_mode
+field_name: field_display_mode
+entity_type: paragraph
+bundle: team_list
+label: 'Display mode'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: tile
+default_value_callback: ''
+settings:
+  exclude:
+    case_studies_index: case_studies_index
+    case_study_home: case_study_home
+    compact: compact
+    full: full
+    home_teaser: home_teaser
+    preview: preview
+    rss: rss
+    search_result: search_result
+    token: token
+field_type: entity_reference_display
