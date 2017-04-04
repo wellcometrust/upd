@@ -1,0 +1,14 @@
+uuid: 1163e94a-fb34-4aad-a296-9ae730f111ff
+langcode: en
+status: true
+dependencies: {  }
+name: user_profile
+label: 'User profile'
+effects:
+  53763ef8-f0b0-44da-a4e0-6467c0d606a8:
+    uuid: 53763ef8-f0b0-44da-a4e0-6467c0d606a8
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 80
+      height: 80
