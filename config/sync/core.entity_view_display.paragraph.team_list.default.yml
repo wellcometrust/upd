@@ -1,0 +1,21 @@
+uuid: 1e51e457-7e9d-4b9a-a115-5a16d5a5862d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.team_list.field_team_member
+    - paragraphs.paragraphs_type.team_list
+id: paragraph.team_list.default
+targetEntityType: paragraph
+bundle: team_list
+mode: default
+content:
+  field_team_member:
+    weight: 0
+    label: above
+    settings:
+      view_mode: teaser
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+hidden: {  }
