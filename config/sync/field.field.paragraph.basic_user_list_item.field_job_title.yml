@@ -1,0 +1,19 @@
+uuid: c1c800da-b1ed-4d9c-8353-92e2d7c091e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_job_title
+    - paragraphs.paragraphs_type.basic_user_list_item
+id: paragraph.basic_user_list_item.field_job_title
+field_name: field_job_title
+entity_type: paragraph
+bundle: basic_user_list_item
+label: 'Job title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

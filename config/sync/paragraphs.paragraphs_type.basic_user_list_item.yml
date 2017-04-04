@@ -1,0 +1,7 @@
+uuid: 99d2ae49-2d31-46f6-8be6-18cca6f4d41e
+langcode: en
+status: true
+dependencies: {  }
+id: basic_user_list_item
+label: 'Basic user list item'
+behavior_plugins: {  }

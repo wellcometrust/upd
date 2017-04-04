@@ -4,10 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.box_list.field_list_title
-    - field.field.paragraph.box_list.field_title
+    - field.field.paragraph.box_list.field_simple_user_list
     - paragraphs.paragraphs_type.box_list
   module:
     - content_moderation
+    - paragraphs
 id: paragraph.box_list.default
 targetEntityType: paragraph
 bundle: box_list
@@ -20,13 +21,17 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
-  field_title:
-    weight: 6
+  field_simple_user_list:
+    type: entity_reference_paragraphs
+    weight: 8
     settings:
-      size: 60
-      placeholder: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: string_textfield
 hidden:
   created: true
   status: true

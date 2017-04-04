@@ -1,0 +1,72 @@
+uuid: c65f0bc3-54be-49bb-aa72-a4dc88de8cdd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_simple_user_list
+    - paragraphs.paragraphs_type.basic_user_list_item
+    - paragraphs.paragraphs_type.box_list
+  module:
+    - entity_reference_revisions
+id: paragraph.box_list.field_simple_user_list
+field_name: field_simple_user_list
+entity_type: paragraph
+bundle: box_list
+label: 'Simple user list'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      basic_user_list_item: basic_user_list_item
+    target_bundles_drag_drop:
+      basic_title_link:
+        weight: 16
+        enabled: false
+      basic_user_list_item:
+        enabled: true
+        weight: 17
+      basic_vertical_tab:
+        weight: 18
+        enabled: false
+      box_list:
+        weight: 19
+        enabled: false
+      case_study_vertical_tab:
+        weight: 20
+        enabled: false
+      dos_donts:
+        weight: 21
+        enabled: false
+      faq_dropdowns:
+        weight: 22
+        enabled: false
+      file_download:
+        weight: 23
+        enabled: false
+      funding:
+        weight: 24
+        enabled: false
+      grid_items:
+        weight: 25
+        enabled: false
+      list_item:
+        weight: 26
+        enabled: false
+      list_with_sublist:
+        weight: 27
+        enabled: false
+      team_list:
+        weight: 28
+        enabled: false
+      testimonial:
+        weight: 29
+        enabled: false
+      tile_paragraph:
+        weight: 30
+        enabled: false
+field_type: entity_reference_revisions

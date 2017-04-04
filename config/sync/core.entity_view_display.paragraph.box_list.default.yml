@@ -4,8 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.box_list.field_list_title
-    - field.field.paragraph.box_list.field_title
+    - field.field.paragraph.box_list.field_simple_user_list
     - paragraphs.paragraphs_type.box_list
+  module:
+    - entity_reference_revisions
 id: paragraph.box_list.default
 targetEntityType: paragraph
 bundle: box_list
@@ -17,11 +19,12 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
-  field_title:
-    weight: 0
+  field_simple_user_list:
+    type: entity_reference_revisions_entity_view
+    weight: 2
     label: above
     settings:
-      link_to_entity: false
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: string
 hidden: {  }
