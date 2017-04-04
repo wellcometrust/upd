@@ -43,12 +43,12 @@
     <header class="feature-list__header">
       <h2 class="feature-list__title">{{ label }}</h2>
       <div class="feature-list__title  feature-list__title--action">
-        <a class="button  button--small" href="/case-studies">View all</a>
+        <a class="button button--small" href="/case-studies">View all</a>
       </div>
     </header>
-    <ul class="grid  grid--center">
+    <ul class="grid grid--center gutter gutter--medium">
       {% for item in items %}
-        <li class="grid__item u-width-1-of-1  u-width-1-of-2-from-medium  u-width-1-of-4-from-x-large">
+        <li class="grid__item u-width-1-of-1 gutter__item u-width-1-of-2-from-medium u-width-1-of-4-from-x-large">
           {{ item.content }}
         </li>
       {% endfor %}
