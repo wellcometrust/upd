@@ -122,3 +122,16 @@ function upd_preprocess_html(&$variables) {
     ];
   }
 }
+
+/**
+ * Implements hook_preprocess_image()
+ */
+function upd_preprocess_image(&$variables) {
+  // Remove width/height, this should be CSS driven.
+  if (isset($variables['attributes']['width'])) {
+    unset($variables['attributes']['width']);
+  }
+  if(isset($variables['attributes']['height'])){
+    unset($variables['attributes']['height']);
+  }
+}
