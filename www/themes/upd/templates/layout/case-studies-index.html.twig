@@ -6,48 +6,43 @@
  */
 #}
 <header class="page-header">
-  <div class="wrapper  wrapper--gutter">
-    <h1 class="page-header__title">Case studies</h1>
-  </div>
+    <div class="wrapper  wrapper--gutter">
+        <h1 class="page-header__title">Case studies</h1>
+        <p class="page-header__subheading">These examples show the wide range of ways that patient data can be used to deliver better care and improve health. You can search the case studies by type of impact, disease type, and the type of data used. We'll be adding to this resource over time, so please let us know if you have good examples to share.</p>
+    </div>
 </header>
 <div class="wrapper  wrapper--gutter">
-  <main class="layout">
-    <aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
-      <div class="layout__wrapper">
-        <div class="refine">
-          <form class="search" method="GET" action="{{ base_path }}/case-studies">
-            <label class="u-visually-hidden" for="search">Search case studies</label>
-            <input class="search__input" id="search" placeholder="Search..." name="query" type="search">
-              <button class="search__submit" type="submit">
-                <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
-                  <title>Search</title>
-                  <use xlink:href="#svg-icon-search"></use>
-                </svg>
-              </button>
-          </form>
-        </div>
-        {{ content.filters }}
-      </div>
-    </aside>
-    <article class="layout__item  layout__item--primary" id="primary">
-      <div class="layout__wrapper">
-        <div class="search-results">
-          {{ content.main }}
-        </div>
+    <main class="layout">
+        <aside class="layout__item  layout__item--secondary  u-hidden-layout-simple">
+            <div class="layout__wrapper">
+                <div class="refine">
+                    <form class="search" method="GET" action="{{ base_path }}/case-studies">
+                        <label class="u-visually-hidden" for="search">Search case studies</label>
+                        <input class="search__input" id="search" placeholder="Search..." name="query" type="search">
+                        <button class="search__submit" type="submit">
+                            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
+                                <title>Search</title>
+                                <use xlink:href="#svg-icon-search"></use>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                {{ content.filters }}
+            </div>
+        </aside>
+        <article class="layout__item  layout__item--primary" id="primary">
+            <div class="layout__wrapper">
+                <div class="search-results">
+                    {{ content.main }}
+                </div>
 
 
+            </div>
+
+        </article>
 
 
-
-
-      </div>
-
-    </article>
-
-
-
-  </main>
-
+    </main>
 
 
 </div>
