@@ -1,0 +1,21 @@
+uuid: 86a7ae3d-1539-4746-adff-c3eb2daa2b9c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.funding
+  module:
+    - text
+id: paragraph.funding.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: funding
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,31 @@
+uuid: b17e31c9-b522-4acd-8e59-7488b5c11f5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.funding.field_body
+    - field.field.paragraph.funding.field_funding_image
+    - paragraphs.paragraphs_type.funding
+  module:
+    - image
+    - text
+id: paragraph.funding.default
+targetEntityType: paragraph
+bundle: funding
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_funding_image:
+    weight: 0
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+hidden: {  }

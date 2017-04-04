@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.dos_donts
     - paragraphs.paragraphs_type.faq_dropdowns
     - paragraphs.paragraphs_type.file_download
+    - paragraphs.paragraphs_type.funding
     - paragraphs.paragraphs_type.list_with_sublist
     - paragraphs.paragraphs_type.team_list
   module:
@@ -28,6 +29,7 @@ settings:
     target_bundles:
       faq_dropdowns: faq_dropdowns
       dos_donts: dos_donts
+      funding: funding
       file_download: file_download
       list_with_sublist: list_with_sublist
       team_list: team_list
@@ -53,6 +55,9 @@ settings:
       resource_vertical_tab:
         weight: 14
         enabled: false
+      funding:
+        enabled: true
+        weight: 15
       testimonial:
         weight: 15
         enabled: false
