@@ -23,16 +23,16 @@ function upd_theme($existing, $type, $theme, $path) {
     'contact_message_contact_us_form' => [
       'render element' => 'form',
       'template' => 'form/contact-message-contact-form',
-    ),
-    'upd_search_form' => array(
-      'variables' => array(
+    ],
+    'upd_search_form' => [
+      'variables' => [
         'search_terms' => '',
-        'action' => '', 
+        'action' => '',
         'label' => '',
-        ),
+      ],
       'template' => 'custom/upd-search-form',
-    ),
-  );
+    ],
+  ];
 }
 
 /**
