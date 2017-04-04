@@ -1,0 +1,7 @@
+uuid: 06c94af0-a08a-487e-89ed-ce424286c0e3
+langcode: en
+status: true
+dependencies: {  }
+id: team_list
+label: 'Team list'
+behavior_plugins: {  }

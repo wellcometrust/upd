@@ -1,0 +1,64 @@
+uuid: 6f09bdee-8cc9-46a5-a9f8-8c82fc3891b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_name_and_surname
+    - field.field.user.user.field_photo
+    - field.field.user.user.field_position
+    - field.field.user.user.field_twitter
+    - image.style.thumbnail
+  module:
+    - image
+    - link
+    - path
+    - user
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  account:
+    weight: -10
+  contact:
+    weight: 5
+  field_name_and_surname:
+    weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  field_photo:
+    weight: 33
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+  field_position:
+    weight: 32
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  field_twitter:
+    weight: 34
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+  google_analytics:
+    weight: 3
+  language:
+    weight: 0
+  path:
+    type: path
+    weight: 30
+    settings: {  }
+    third_party_settings: {  }
+  timezone:
+    weight: 6
+hidden: {  }
