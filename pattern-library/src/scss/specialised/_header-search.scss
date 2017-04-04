@@ -69,7 +69,8 @@
     width: $actual-width; /* 4 */
 
     &:focus,
-    :focus + & {
+    :focus + &,
+    .is-active > & {
       margin-right: 0;  /* 3 */
     }
   }

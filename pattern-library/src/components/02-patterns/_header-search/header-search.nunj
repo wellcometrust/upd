@@ -1,13 +1,13 @@
-<form class="header-search">
+<form class="header-search    js-header-search">
 
     <label class="u-visually-hidden" for="header-search">Search the entire Understanding Patient Data site</label>
 
-    <button class="site-header__button    header-search__button  js-header-search" type="submit">
+    <button class="site-header__button    header-search__button    js-header-search-submit" type="submit">
 
         {% include '@svg-icon' %}
 
     </button>
 
-    <input class="header-search__input" id="header-search" placeholder="Search..." required type="search">
+    <input class="header-search__input    js-header-search-input" id="header-search" placeholder="Search..." required type="search">
 
 </form>
