@@ -21,16 +21,16 @@
   {{ content }}
   <div class="site-header__search  drop-down" data-focus="#header-search" id="site-header-search">
     <div class="site-header__drop-down    drop-down__container">
-      <form class="header-search" method="GET" action="{{ base_path }}/search">
+      <form class="header-search js-header-search" method="GET" action="{{ base_path }}/search">
         <label class="u-visually-hidden" for="header-search">Search the entire Understanding Patient Data site</label>
-        <button class="site-header__button    header-search__button  js-header-search" type="submit">
+        <button class="site-header__button header-search__button  js-header-search-submit" type="submit">
           <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
             <title>Search</title>
             <use class="header-search__icon  header-search__icon--mobile" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-icon-arrow"></use>
             <use class="header-search__icon  header-search__icon--desktop" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-icon-search"></use>
           </svg>
         </button>
-        <input class="header-search__input" name="query" id="header-search" placeholder="Search..." required type="search">
+        <input class="header-search__input js-header-search-input" name="query" id="header-search" placeholder="Search..." required type="search">
       </form>
     </div>
   </div>
