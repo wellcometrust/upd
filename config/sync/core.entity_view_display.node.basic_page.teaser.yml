@@ -23,4 +23,9 @@ content:
     third_party_settings: {  }
   links:
     weight: 100
-hidden: {  }
+hidden:
+  field_list_text: true
+  field_pdf: true
+  field_sections: true
+  field_side_menu: true
+  field_standfirst: true
