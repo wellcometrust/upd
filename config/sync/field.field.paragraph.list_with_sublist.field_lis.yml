@@ -1,0 +1,63 @@
+uuid: 364f5358-7875-43c9-ac28-6f73680f3f43
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lis
+    - paragraphs.paragraphs_type.list_item
+    - paragraphs.paragraphs_type.list_with_sublist
+  module:
+    - entity_reference_revisions
+id: paragraph.list_with_sublist.field_lis
+field_name: field_lis
+entity_type: paragraph
+bundle: list_with_sublist
+label: 'List item'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      list_item: list_item
+    target_bundles_drag_drop:
+      basic_title_link:
+        weight: 13
+        enabled: false
+      basic_vertical_tab:
+        weight: 14
+        enabled: false
+      case_study_vertical_tab:
+        weight: 15
+        enabled: false
+      dos_donts:
+        weight: 16
+        enabled: false
+      faq_dropdowns:
+        weight: 17
+        enabled: false
+      file_download:
+        weight: 18
+        enabled: false
+      grid_items:
+        weight: 19
+        enabled: false
+      list_item:
+        enabled: true
+        weight: 20
+      list_with_sublist:
+        weight: 21
+        enabled: false
+      resource_vertical_tab:
+        weight: 22
+        enabled: false
+      testimonial:
+        weight: 23
+        enabled: false
+      tile_paragraph:
+        weight: 24
+        enabled: false
+field_type: entity_reference_revisions

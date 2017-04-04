@@ -1,0 +1,30 @@
+uuid: c39c1fe6-cb03-4c0b-bfc7-8f31398316e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.list_with_sublist.field_lis
+    - paragraphs.paragraphs_type.list_with_sublist
+  module:
+    - content_moderation
+    - paragraphs
+id: paragraph.list_with_sublist.default
+targetEntityType: paragraph
+bundle: list_with_sublist
+mode: default
+content:
+  field_lis:
+    type: entity_reference_paragraphs
+    weight: 6
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

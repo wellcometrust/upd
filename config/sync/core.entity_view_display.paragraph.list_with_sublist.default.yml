@@ -1,0 +1,23 @@
+uuid: 45d051d5-f373-4b09-b3f4-f0a811de47b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.list_with_sublist.field_lis
+    - paragraphs.paragraphs_type.list_with_sublist
+  module:
+    - entity_reference_revisions
+id: paragraph.list_with_sublist.default
+targetEntityType: paragraph
+bundle: list_with_sublist
+mode: default
+content:
+  field_lis:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+hidden: {  }

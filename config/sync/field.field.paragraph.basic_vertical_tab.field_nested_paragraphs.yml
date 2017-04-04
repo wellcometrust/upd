@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.dos_donts
     - paragraphs.paragraphs_type.faq_dropdowns
     - paragraphs.paragraphs_type.file_download
+    - paragraphs.paragraphs_type.list_with_sublist
   module:
     - entity_reference_revisions
 id: paragraph.basic_vertical_tab.field_nested_paragraphs
@@ -27,6 +28,7 @@ settings:
       faq_dropdowns: faq_dropdowns
       dos_donts: dos_donts
       file_download: file_download
+      list_with_sublist: list_with_sublist
     target_bundles_drag_drop:
       basic_title_link:
         weight: 9
@@ -58,4 +60,10 @@ settings:
       file_download:
         enabled: true
         weight: 16
+      list_item:
+        weight: 20
+        enabled: false
+      list_with_sublist:
+        enabled: true
+        weight: 21
 field_type: entity_reference_revisions
