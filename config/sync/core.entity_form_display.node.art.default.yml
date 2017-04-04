@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.art.body
+    - field.field.node.art.field_related_news
     - node.type.art
   module:
     - content_moderation
@@ -27,6 +28,14 @@ content:
     weight: 10
     settings: {  }
     third_party_settings: {  }
+  field_related_news:
+    weight: 32
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
   path:
     type: path
     weight: 30
