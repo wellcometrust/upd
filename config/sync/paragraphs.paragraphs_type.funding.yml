@@ -1,0 +1,7 @@
+uuid: 9f2fde08-337f-4aa8-b353-665a7bbdf532
+langcode: en
+status: true
+dependencies: {  }
+id: funding
+label: Funding
+behavior_plugins: {  }

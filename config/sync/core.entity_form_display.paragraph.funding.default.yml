@@ -1,0 +1,36 @@
+uuid: 462dab85-59e2-4f55-9785-161c9f9bad32
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.funding.field_body
+    - field.field.paragraph.funding.field_funding_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.funding
+  module:
+    - content_moderation
+    - image
+    - text
+id: paragraph.funding.default
+targetEntityType: paragraph
+bundle: funding
+mode: default
+content:
+  field_body:
+    weight: 7
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+  field_funding_image:
+    weight: 6
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+hidden:
+  created: true
+  status: true
+  uid: true
