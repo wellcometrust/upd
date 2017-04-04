@@ -1,0 +1,10 @@
+<form class="search" method='GET' action='{{ base_path }}/{{ action }}'>
+  <label class="u-visually-hidden" for="search">{{ label }}</label>
+  <input class="search__input" id="search" name="query" type="search" value="{{ search_terms }}">
+    <button class="search__submit" type="submit">
+      <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" title="Search">
+        <title>Search</title>
+        <use xlink:href="#svg-icon-search"></use>
+      </svg>
+    </button>
+</form>

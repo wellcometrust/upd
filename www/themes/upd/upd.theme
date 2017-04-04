@@ -4,25 +4,121 @@
  * Implements hook_theme().
  */
 function upd_theme($existing, $type, $theme, $path) {
-  return array(
-    'upd_grid_list' => array(
-      'variables' => array('items' => array(), 'grid' => 3),
+  return [
+    'upd_grid_list' => [
+      'variables' => ['items' => [], 'grid' => 3],
       'template' => 'custom/upd-grid-list',
-    ),
-    'upd_previous_next' => array(
-      'variables' => array(
-        'previous_url' => '', 
-        'previous_display_text' => '', 
+    ],
+    'upd_previous_next' => [
+      'variables' => [
+        'previous_url' => '',
+        'previous_display_text' => '',
         'previous_title' => '',
-        'next_url'=> '',
+        'next_url' => '',
         'next_display_text' => '',
-        'next_title' => ''
-        ),
+        'next_title' => '',
+      ],
       'template' => 'custom/upd-previous-next',
-    ),
-    'contact_message_contact_us_form' => array(
+    ],
+    'contact_message_contact_us_form' => [
       'render element' => 'form',
       'template' => 'form/contact-message-contact-form',
-    ),
-  );
+    ],
+    'upd_search_form' => [
+      'variables' => [
+        'search_terms' => '',
+        'action' => '',
+        'label' => '',
+      ],
+      'template' => 'custom/upd-search-form',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_html().
+ * @param $variables
+ */
+function upd_preprocess_html(&$variables) {
+  $image_path = drupal_get_path('theme', 'upd') . '/assets/images';
+  $basic_favicons = [
+    'shortcut-favicon' => [
+      'rel' => 'shortcut icon',
+      'file_name' => 'favicon.ico',
+    ],
+    'favicon' => [
+      'rel' => 'icon',
+      'file_name' => 'favicon.ico',
+    ],
+  ];
+  foreach ($basic_favicons as $name => $config) {
+    $variables['touch_icons'][$name] = [
+      '#type' => 'inline_template',
+      '#template' => '<link href="{{ href }}" rel="{{ rel }}" type="image/x-icon" />',
+      '#context' => [
+        'href' => "$image_path/{$config['file_name']}",
+        'rel' => $config['rel'],
+      ],
+    ];
+  }
+  $icons = [
+    '57',
+    '60',
+    '72',
+    '76',
+    '114',
+    '120',
+    '144',
+    '152',
+    '180',
+  ];
+  foreach ($icons as $size) {
+    $sizes = $size . 'x' . $size;
+    $variables['touch_icons']["apple-$size"] = [
+      '#type' => 'inline_template',
+      '#template' => '<link href="{{ href }}" rel="{{ rel }}" sizes="{{ size }}" />',
+      '#context' => [
+        'href' => "$image_path/apple-icon-$sizes",
+        'rel' => 'apple-touch-icon',
+        'size' => $sizes,
+      ],
+    ];
+  }
+  $more_favicons = [
+    '16',
+    '32',
+    '96',
+    '192',
+  ];
+  foreach ($more_favicons as $size) {
+    $sizes = $size . 'x' . $size;
+    $variables['touch_icons']["favicon-$size"] = [
+      '#type' => 'inline_template',
+      '#template' => '<link href="{{ href }}" type="image/png" rel="icon" sizes="{{ size }}" />',
+      '#context' => [
+        'href' => "$image_path/favicon-$sizes",
+        'size' => $sizes,
+      ],
+    ];
+  }
+  $meta = [
+    'apple-mobile-web-app-title' => 'Understanding Patient Data',
+    'application-name' => 'Understanding Patient Data',
+    'msapplication-square70x70logo' => "$image_path/ms-icon-70x70.png",
+    'msapplication-square150x150logo' => "$image_path/ms-icon-150x150.png",
+    'msapplication-square310x310logo' => "$image_path/ms-icon-310x310.png",
+    'msapplication-TileColor' => '#014061',
+    'msapplication-TileImage' => "$image_path/ms-icon-144x144.png",
+    'theme-color' => '#014061',
+  ];
+  foreach ($meta as $name => $content) {
+    $variables['touch_icons'][$name] = [
+      '#type' => 'inline_template',
+      '#template' => '<meta name="{{ name }}" content="{{ content }}" />',
+      '#context' => [
+        'name' => $name,
+        'content' => $content,
+      ],
+    ];
+  }
 }

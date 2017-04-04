@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\Core\Block\BlockPluginInterface;
+
 /**
  * @file
  * UPD search module file.
@@ -54,4 +56,14 @@ function upd_search_preprocess_views_view(&$variables) {
       $item['#node']->excerpt = upd_search_node_generate_excerpt($item['#node']);
     }
   }
+}
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * NOTE: You MUST implement this hook if you want your block plugins to work
+ * even if you do nothing inside the function body!
+ */
+function upd_search_block_view_alter(array &$build, BlockPluginInterface $block) {
+
 }

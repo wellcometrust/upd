@@ -3,6 +3,8 @@ search:
   category: UPD
   template: templates/layouts/search
   regions:
+    header:
+      label: Search
     main:
       label: Results
     filters:
