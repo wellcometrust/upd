@@ -1,0 +1,19 @@
+uuid: a8033520-4e29-467c-9a27-d4ae078a55dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.file_download
+id: paragraph.file_download.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: file_download
+label: Title
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

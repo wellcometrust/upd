@@ -1,0 +1,7 @@
+uuid: 1ae51ad5-b5fd-4dcc-bc8e-f6164dde1ac8
+langcode: en
+status: true
+dependencies: {  }
+id: file_download
+label: 'File download block'
+behavior_plugins: {  }

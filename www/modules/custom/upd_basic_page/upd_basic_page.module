@@ -30,7 +30,23 @@ function _upd_basic_page_preprocess_node_sections(&$variables) {
   $variables['content']['vertical'][$i]['url'] = 'intro';
   foreach ($node->field_sections as $item) {
     $i++;
-    $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')->getValue()[0]['value'];
-    $variables['content']['vertical'][$i]['url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $item->entity->get('field_title')->getValue()[0]['value'])));
+    $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')
+      ->getValue()[0]['value'];
+    $variables['content']['vertical'][$i]['url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $item->entity->get('field_title')
+      ->getValue()[0]['value'])));
+  }
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function upd_basic_page_preprocess_paragraph(&$variables) {
+  if (in_array($variables['paragraph']->bundle(), ['file_download'])) {
+    $paragraph = $variables['paragraph'];
+    foreach ($paragraph->field_download_files as $key => $item) {
+      $file_uri = $item->entity->getFileUri();
+      $variables['content']['file_info'][$key]['url'] = file_create_url($file_uri);
+      $variables['content']['file_info'][$key]['extension'] = pathinfo($file_uri, PATHINFO_EXTENSION);
+    }
   }
 }
