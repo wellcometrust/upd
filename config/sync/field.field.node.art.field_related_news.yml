@@ -1,16 +1,15 @@
-uuid: c9cfbfd3-196a-4f6b-b871-f7acddc1135e
+uuid: 473394e5-bdec-49fd-8b35-9acc2ecba56b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_featured_articles
+    - field.storage.node.field_related_news
     - node.type.art
-    - node.type.landing_page
-id: node.landing_page.field_featured_articles
-field_name: field_featured_articles
+id: node.art.field_related_news
+field_name: field_related_news
 entity_type: node
-bundle: landing_page
-label: 'Latest news'
+bundle: art
+label: 'Related news'
 description: ''
 required: false
 translatable: false
