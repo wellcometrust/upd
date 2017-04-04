@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.funding.field_body
     - field.field.paragraph.funding.field_funding_image
+    - image.style.logo
     - paragraphs.paragraphs_type.funding
   module:
     - image
@@ -24,7 +25,7 @@ content:
     weight: 0
     label: above
     settings:
-      image_style: ''
+      image_style: logo
       image_link: ''
     third_party_settings: {  }
     type: image
