@@ -1,0 +1,14 @@
+uuid: 86bfb085-c723-4bbe-99fc-310d566f12e4
+langcode: en
+status: true
+dependencies: {  }
+name: user_thumbnail
+label: 'User thumbnail'
+effects:
+  6f79b052-637f-4c1f-a5b8-6222c385c62e:
+    uuid: 6f79b052-637f-4c1f-a5b8-6222c385c62e
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 258
+      height: 204

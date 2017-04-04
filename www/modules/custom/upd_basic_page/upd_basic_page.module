@@ -31,9 +31,9 @@ function _upd_basic_page_preprocess_node_sections(&$variables) {
   foreach ($node->field_sections as $item) {
     $i++;
     $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')
-      ->getValue()[0]['value'];
+            ->getValue()[0]['value'];
     $variables['content']['vertical'][$i]['url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $item->entity->get('field_title')
-      ->getValue()[0]['value'])));
+                    ->getValue()[0]['value'])));
   }
 }
 
@@ -49,4 +49,25 @@ function upd_basic_page_preprocess_paragraph(&$variables) {
       $variables['content']['file_info'][$key]['extension'] = pathinfo($file_uri, PATHINFO_EXTENSION);
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_field().
+ * 
+ * @todo this should belong to a upd_user module.
+ * Left here as it is only used in basic_page for now.
+ */
+function upd_basic_page_preprocess_field(&$variables, $hook) {
+  static $pass = FALSE;
+  if ($variables['field_name'] !== 'field_photo') {
+    return;
+  }
+  if ($variables['entity_type'] !== 'user') {
+    return;
+  }
+  foreach ($variables['items'] as $delta => $item) {
+    $variables['items'][$delta]['content']['#item_attributes']['class'][] = 'team-tile__image';
+  }
+
+  $pass = TRUE;
 }

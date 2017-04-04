@@ -8,6 +8,7 @@ dependencies:
     - field.field.user.user.field_photo
     - field.field.user.user.field_position
     - field.field.user.user.field_twitter
+    - image.style.user_thumbnail
   module:
     - image
     - link
@@ -28,7 +29,7 @@ content:
     weight: 8
     label: hidden
     settings:
-      image_style: ''
+      image_style: user_thumbnail
       image_link: ''
     third_party_settings: {  }
     type: image
