@@ -1,0 +1,26 @@
+uuid: 0864871e-d5ec-4758-a029-d8b11c8d8e8f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.list_item.field_list_title
+    - field.field.paragraph.list_item.field_sublist_item
+    - paragraphs.paragraphs_type.list_item
+id: paragraph.list_item.default
+targetEntityType: paragraph
+bundle: list_item
+mode: default
+content:
+  field_list_title:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  field_sublist_item:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+hidden: {  }

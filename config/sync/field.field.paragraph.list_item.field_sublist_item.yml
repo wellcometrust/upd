@@ -1,0 +1,19 @@
+uuid: d3aa43f6-9a86-4f0b-9ecf-dcb826490b83
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_sublist_item
+    - paragraphs.paragraphs_type.list_item
+id: paragraph.list_item.field_sublist_item
+field_name: field_sublist_item
+entity_type: paragraph
+bundle: list_item
+label: 'Sublist item'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
