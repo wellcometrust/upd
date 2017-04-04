@@ -72,16 +72,25 @@
  * @ingroup themeable
  */
 #}
-<a class="news-tile" href="{{ url }}">
-
-    <time class="news-tile__date">{{ content.field_publish_date }}</time>
-
-    <h2 class="news-tile__title">{{ label }}</h2>
-
-    <div class="cta  cta--small  cta--arrow">
-
-        Read more
-
-    </div>
-
-</a>
+<header class="page-header">
+  <div class="wrapper  wrapper--gutter">
+    <span class="page-header__category">{{ content.field_publish_date }}</span>
+    <h1 class="page-header__title">{{ label }}</h1>
+  </div>
+</header>
+<div class="wrapper wrapper--gutter">
+  <main class="layout layout--reverse">
+    <article class="layout__item layout__item--primary" id="primary">
+      <div class="layout__wrapper">
+        <div class="content u-font-body-copy">
+          {{ content.body }}
+        </div>
+      </div>
+    </article>
+    <aside class="layout__item  layout__item--secondary  layout__item--sticky">
+      <div class="layout__wrapper">
+        {{ content.field_related_news }}
+      </div>
+    </aside>
+  </main>
+</div>
