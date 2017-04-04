@@ -52,7 +52,9 @@ class HeaderSearch {
   }
 
   _handleKeyup (e) {
-    if (e.keyCode === 27 && document.activeElement === this.searchEl) {
+    if (e.keyCode === 27 && document.activeElement.parentElement === this.formEl) {
+      this.searchEl.blur()
+      this.submitEl.blur()
       classie.remove(this.formEl, this.activeClassName)
     }
   }
