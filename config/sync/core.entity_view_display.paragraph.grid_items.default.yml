@@ -27,12 +27,12 @@ content:
     label: above
     settings:
       trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
+      url_only: true
+      url_plain: true
+      rel: '0'
+      target: '0'
     third_party_settings: {  }
-    type: link_separate
+    type: link
   field_item_info_text:
     weight: 1
     label: above

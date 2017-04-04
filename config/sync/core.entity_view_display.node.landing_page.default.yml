@@ -29,7 +29,7 @@ content:
     weight: 5
     label: above
     settings:
-      view_mode: teaser
+      view_mode: home_teaser
       link: false
     third_party_settings: {  }
     type: entity_reference_entity_view

@@ -5,8 +5,8 @@ dependencies: {  }
 id: contact_us
 label: 'Contact us'
 recipients:
-  - example@example.com
+  - hello@understandingpatientdata.org.uk
 reply: ''
 weight: 0
-message: 'Thanks all'
+message: ''
 redirect: ''

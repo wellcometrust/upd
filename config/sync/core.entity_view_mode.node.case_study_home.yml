@@ -1,0 +1,10 @@
+uuid: 63cd85d8-d9f2-43c0-887d-fe6b7e3fa837
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.case_study_home
+label: 'Case study home'
+targetEntityType: node
+cache: true

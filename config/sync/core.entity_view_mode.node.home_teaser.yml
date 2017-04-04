@@ -1,0 +1,10 @@
+uuid: f4a6ecb6-1da8-4b30-9edb-f2d2c8809c05
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.home_teaser
+label: 'Home teaser'
+targetEntityType: node
+cache: true
