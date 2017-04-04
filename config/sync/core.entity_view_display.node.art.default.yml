@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.node.art.body
+    - field.field.node.art.field_publish_date
     - field.field.node.art.field_related_news
     - node.type.art
   module:
+    - datetime
     - text
     - user
 id: node.art.default
@@ -20,6 +22,14 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+  field_publish_date:
+    weight: 103
+    label: above
+    settings:
+      timezone_override: ''
+      date_format: 'j M Y'
+    third_party_settings: {  }
+    type: datetime_custom
   field_related_news:
     weight: 102
     label: above
