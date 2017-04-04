@@ -10,7 +10,7 @@ id: node.landing_page.field_featured_articles
 field_name: field_featured_articles
 entity_type: node
 bundle: landing_page
-label: 'Featured articles'
+label: 'Latest news'
 description: ''
 required: false
 translatable: false
