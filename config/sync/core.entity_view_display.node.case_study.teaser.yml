@@ -5,10 +5,18 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_featured
     - field.field.node.case_study.field_impact_of_work
+    - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_pdf
     - field.field.node.case_study.field_sources_of_data
+    - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_thumbnail
+    - field.field.node.case_study.field_vertical_tab
+    - image.style.thumbnail_list
     - node.type.case_study
   module:
+    - image
     - user
 id: node.case_study.teaser
 targetEntityType: node
@@ -17,8 +25,18 @@ mode: teaser
 content:
   content_moderation_control:
     weight: -20
+  field_thumbnail:
+    type: image
+    weight: 0
+    label: above
+    settings:
+      image_style: thumbnail_list
+      image_link: ''
+    third_party_settings: {  }
   links:
     weight: 100
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_disease_type: true
   field_featured: true
@@ -27,5 +45,4 @@ hidden:
   field_pdf: true
   field_sources_of_data: true
   field_standfirst: true
-  field_thumbnail: true
   field_vertical_tab: true

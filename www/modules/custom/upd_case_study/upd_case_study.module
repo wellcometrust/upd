@@ -27,24 +27,7 @@ function upd_case_study_block_view_alter(array &$build, BlockPluginInterface $bl
 function upd_case_study_preprocess_node(&$variables) {
   _upd_case_study_preprocess_node_vertical_tabs($variables);
   _upd_case_study_preprocess_node_tags($variables);
-  _upd_case_study_preprocess_node_thumbnail($variables);
   _upd_case_study_preprocess_node_nextprevious($variables);
-}
-
-/**
- * Alter node rendering to get image thumbnail url.
- *
- * @see upd_preprocess_node()
- */
-function _upd_case_study_preprocess_node_thumbnail(&$variables) {
-  if ($variables['view_mode'] !== 'teaser') {
-    return;
-  }
-  $node = $variables['node'];
-  if (!isset($node->field_thumbnail)) {
-    return;
-  }
-  $variables['content']['thumbnail_url'] = ImageStyle::load('thumbnail_list')->buildUrl($node->field_thumbnail[0]->entity->uri->value);
 }
 
 /**
@@ -122,5 +105,22 @@ function _upd_case_study_preprocess_node_nextprevious(&$variables) {
 function upd_case_study_preprocess_paragraph(&$variables) {
   if (!empty($variables['content']['field_title'][0]['#context']['value'])) {
     $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
+  }
+}
+
+/**
+ * Implements hook_preprocess_field().
+ *
+ */
+function upd_case_study_preprocess_field(&$variables, $hook) {
+  if ($variables['field_name'] != 'field_thumbnail') {
+    return;
+  }
+  if ($variables['entity_type'] !== 'node') {
+    return;
+  }
+  $class = 'case-study-tile__image';
+  foreach ($variables['items'] as $delta => $item) {
+    $variables['items'][$delta]['content']['#item_attributes']['class'][] = $class;
   }
 }
