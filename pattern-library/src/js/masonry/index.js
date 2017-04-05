@@ -1,4 +1,6 @@
+import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 import classie from 'desandro-classie'
+import debounce from 'lodash-es/debounce'
 import Masonry from 'masonry-layout'
 
 import select from '../select'
@@ -10,11 +12,15 @@ const masonry = (target) => {
     percentPosition: true
   })
 
+  const debouncedLayout = debounce(masonry.layout.bind(masonry), 50)
+
+  const masonryItems = masonry.getItemElements()
+
+  // Trigger layout whenever a masonry item changes size
+  masonryItems.forEach((el) => ResizeSensor(el, debouncedLayout))
+
   masonry.once('layoutComplete', () => {
     classie.remove(target, 'masonry--loading')
-
-    // Force relayout to correct vertical margin issue
-    window.setTimeout(() => masonry.layout())
   })
 
   masonry.layout()
