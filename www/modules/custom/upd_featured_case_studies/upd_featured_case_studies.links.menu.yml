@@ -1,0 +1,5 @@
+upd_featured_case_studies.settings:
+  title: 'UPD featured case studies'
+  description: 'Administer featured case studies.'
+  route_name: upd_featured_case_studies.settings
+  parent: system.admin_config_content
