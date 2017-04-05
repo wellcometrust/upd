@@ -39,7 +39,7 @@
   background-color: $upd-color-background-secondary;
   box-shadow: none;
   min-height: rems(160px);
-  padding: $upd-spacing-gutter-large (2 * $upd-spacing-gutter-large);
+  padding: (2 * $upd-spacing-gutter-large);
   position: relative;
   width: 100%;
 
@@ -54,26 +54,51 @@
   @extend %h5;
 
   margin-bottom: 1em;
+  white-space: nowrap;
 }
 
 
 .content-pagination__title {
+  $side-padding: 1rem;
+
   display: block;
+  max-width: rems(480px);
+
+  .content-pagination__item--next & {
+    padding-right: $side-padding;
+  }
+
+  .content-pagination__item--previous & {
+    margin-left: auto;
+    padding-left: $side-padding;
+  }
 }
 
 
 .content-pagination__decoration {
+  $side-offset: 3%;
+  $side-offset-from-x-large: 5%;
+
   font-size: rems(24px);
-  margin-top: -0.5em;
+  margin-top: -1em;
+  padding: 1rem;
   position: absolute;
   top: 50%;
 
   .content-pagination__item--next & {
-    right: 1em;
+    right: $side-offset;
+
+    @include mq(x-large) {
+      right: $side-offset-from-x-large;
+    }
   }
 
   .content-pagination__item--previous & {
-    left: 1em;
+    left: $side-offset;
+
+    @include mq(x-large) {
+      left: $side-offset-from-x-large;
+    }
   }
 
   .content-pagination__item--next a:focus &,
