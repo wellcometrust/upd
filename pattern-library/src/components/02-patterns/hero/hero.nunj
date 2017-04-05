@@ -12,7 +12,11 @@
 
             </svg>
 
-            <img alt="" class="hero__image" src="{{ '/images/hero.svg' | path }}">
+            <div class="hero__image    ratio  ratio--1-to-1">
+
+                <img alt="" class="ratio__content" src="{{ '/images/hero.svg' | path }}">
+
+            </div>
 
         </div>
 
