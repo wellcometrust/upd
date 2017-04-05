@@ -59,18 +59,14 @@ function upd_basic_page_preprocess_paragraph(&$variables) {
  * Left here as it is only used in basic_page for now.
  */
 function upd_basic_page_preprocess_field(&$variables, $hook) {
-  static $pass = FALSE;
   if ($variables['field_name'] !== 'field_photo') {
     return;
   }
   if ($variables['entity_type'] !== 'user') {
     return;
   }
-
   $class = $variables['element']['#view_mode'] == 'tile' ? 'team-tile__image' : 'profile__image';
   foreach ($variables['items'] as $delta => $item) {
     $variables['items'][$delta]['content']['#item_attributes']['class'][] = $class;
   }
-
-  $pass = TRUE;
 }

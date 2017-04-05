@@ -1,0 +1,92 @@
+uuid: dfc11a77-5e3a-4e41-81a7-57764a879111
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.home_teaser
+    - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_featured
+    - field.field.node.case_study.field_impact_of_work
+    - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_pdf
+    - field.field.node.case_study.field_sources_of_data
+    - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_thumbnail
+    - field.field.node.case_study.field_vertical_tab
+    - image.style.thumbnail_list
+    - node.type.case_study
+  module:
+    - entity_reference_revisions
+    - file
+    - image
+    - user
+id: node.case_study.home_teaser
+targetEntityType: node
+bundle: case_study
+mode: home_teaser
+content:
+  content_moderation_control:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+  field_disease_type:
+    type: entity_reference_label
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_impact_of_work:
+    type: entity_reference_label
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_list_text:
+    weight: 6
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  field_pdf:
+    weight: 8
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: file_url_plain
+  field_sources_of_data:
+    type: entity_reference_label
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_standfirst:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  field_thumbnail:
+    type: image
+    weight: 0
+    label: above
+    settings:
+      image_style: thumbnail_list
+      image_link: ''
+    third_party_settings: {  }
+  field_vertical_tab:
+    type: entity_reference_revisions_entity_view
+    weight: 7
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  links:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_featured: true
