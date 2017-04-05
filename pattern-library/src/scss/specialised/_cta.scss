@@ -48,10 +48,21 @@
 .cta--extension {
   @each $extension in $upd-cta-extensions {
     &[href*=".#{$extension}"]:before {
-      @extend %tag;
+      $height: rems(22px);
 
+      @extend %font-tag;
+
+      background-color: rgba($upd-color-brand-red, 0.5);
+      border-radius: rems(4px);
+      color: $upd-color-text-reverse;
       content: "#{$extension}";
-      margin-right: 0.5em;
+      display: inline-block;
+      height: $height;
+      line-height: $height;
+      margin-right: 1em;
+      margin-top: -0.3em;
+      padding: 0 0.6em;
+      vertical-align: middle;
     }
   }
 }
