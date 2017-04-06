@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the upd_featured_case_studies module.
+ */
+
+function upd_featured_case_studies_update_8201(&$sandbox) {
+  $state = \Drupal::state();
+  $state->set('featured_case_study_1', '25');
+  $state->set('featured_case_study_2', '13');
+  $state->set('featured_case_study_3', '12');
+}
