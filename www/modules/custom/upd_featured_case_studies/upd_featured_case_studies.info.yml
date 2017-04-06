@@ -3,5 +3,3 @@ type: module
 description: 'Provide form to choose featured case studies'
 package: UPD
 core: '8.x'
-
-configure: upd_featured_case_studies.settings

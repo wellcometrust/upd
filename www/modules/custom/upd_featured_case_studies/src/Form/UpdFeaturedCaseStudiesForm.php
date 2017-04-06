@@ -22,16 +22,14 @@ class UpdFeaturedCaseStudiesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
-    return [
-      'upd_featured_case_studies.settings',
-    ];
+    return [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('upd_featured_case_studies.settings');
+    $state = \Drupal::state();
     for ($i = 1; $i <= 3; $i++) {
       $form['featured_case_study_' . $i] = [
         '#type' => 'entity_autocomplete',
@@ -39,8 +37,8 @@ class UpdFeaturedCaseStudiesForm extends ConfigFormBase {
         '#selection_settings' => [
           'target_bundles' => ['case_study'],
         ],
-        '#default_value' => Node::load($config->get('featured_case_study_' . $i)),
-        '#title' => 'Featured case study ' . $i
+        '#default_value' => Node::load($state->get('featured_case_study_' . $i)),
+        '#title' => 'Featured case study ' . $i,
       ];
     }
     return parent::buildForm($form, $form_state);
@@ -50,11 +48,10 @@ class UpdFeaturedCaseStudiesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $state = \Drupal::state();
     for ($i = 1; $i <= 3; $i++) {
-      $this->config('upd_featured_case_studies.settings')
-        ->set('featured_case_study_' . $i, $form_state->getValue('featured_case_study_' . $i));
+      $state->set('featured_case_study_' . $i, $form_state->getValue('featured_case_study_' . $i));
     }
-    $this->config('upd_featured_case_studies.settings')->save();
     parent::submitForm($form, $form_state);
   }
 

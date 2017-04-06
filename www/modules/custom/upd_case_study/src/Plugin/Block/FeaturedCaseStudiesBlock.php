@@ -36,10 +36,10 @@ class FeaturedCaseStudiesBlock extends BlockBase implements BlockPluginInterface
     }
     $config = $this->getConfiguration();
     $view_mode = $config['view_mode'];
-    $config = \Drupal::config('upd_featured_case_studies.settings');
+    $state = \Drupal::state();
     $entity_ids = [];
     for ($i = 1; $i <= 3; $i++) {
-      $entity_ids[$i] = $config->get('featured_case_study_' . $i);
+      $entity_ids[$i] = $state->get('featured_case_study_' . $i);
       if ($entity_ids[$i] == NULL) {
         return $build;
       }
