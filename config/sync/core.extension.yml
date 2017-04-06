@@ -48,6 +48,7 @@ module:
   upd_basic_page: 0
   upd_case_study: 0
   upd_contact: 0
+  upd_featured_case_studies: 0
   upd_search: 0
   update: 0
   user: 0

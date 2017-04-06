@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for 
+ * the upd_featured_case_studies module.
+ */
+
+/**
+ * {@inheritdoc}
+ */
+function upd_featured_case_studies_update_8201(&$sandbox) {
+  $state = \Drupal::state();
+  $state->set('featured_case_study_1', '25');
+  $state->set('featured_case_study_2', '13');
+  $state->set('featured_case_study_3', '12');
+}
+
+/**
+ * {@inheritdoc}
+ */
+function upd_featured_case_studies_install() {
+  $state = \Drupal::state();
+  $state->set('featured_case_study_1', '25');
+  $state->set('featured_case_study_2', '13');
+  $state->set('featured_case_study_3', '12');
+}
