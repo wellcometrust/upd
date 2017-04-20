@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\search_api_db;
+namespace Drupal\Tests\search_api_db\FunctionalJavascript;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\FunctionalJavascriptTests\JavascriptTestBase;

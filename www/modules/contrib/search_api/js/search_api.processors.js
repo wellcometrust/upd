@@ -5,9 +5,9 @@
 
 (function ($) {
 
-  "use strict";
+  'use strict';
 
-  Drupal.behaviors.searchApiIndexFormatter = {
+  Drupal.behaviors.searchApiProcessor = {
     attach: function (context, settings) {
       $('.search-api-status-wrapper input.form-checkbox', context).each(function () {
         var $checkbox = $(this);

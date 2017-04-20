@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\search_api;
+namespace Drupal\Tests\search_api\Unit;
 
 use Drupal\user\UserInterface;
 

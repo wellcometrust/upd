@@ -127,8 +127,8 @@ abstract class FieldsProcessorPluginBase extends ProcessorPluginBase implements 
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $fields = $this->index->getFields();
-    $field_options = array();
-    $default_fields = array();
+    $field_options = [];
+    $default_fields = [];
     if (isset($this->configuration['fields'])) {
       $default_fields = $this->configuration['fields'];
     }
@@ -141,12 +141,12 @@ abstract class FieldsProcessorPluginBase extends ProcessorPluginBase implements 
       }
     }
 
-    $form['fields'] = array(
+    $form['fields'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Enable this processor on the following fields'),
       '#options' => $field_options,
       '#default_value' => $default_fields,
-    );
+    ];
 
     return $form;
   }
@@ -210,7 +210,7 @@ abstract class FieldsProcessorPluginBase extends ProcessorPluginBase implements 
       if ($value instanceof TextValueInterface) {
         $tokens = $value->getTokens();
         if ($tokens !== NULL) {
-          $new_tokens = array();
+          $new_tokens = [];
           foreach ($tokens as $token) {
             $token_text = $token->getText();
             $this->processFieldValue($token_text, $type);
@@ -317,7 +317,7 @@ abstract class FieldsProcessorPluginBase extends ProcessorPluginBase implements 
           // when one of the two values got removed. (Note that this check will
           // also catch empty strings.) Processors who need different behavior
           // have to override this method.
-          $between_operator = in_array($condition->getOperator(), array('BETWEEN', 'NOT BETWEEN'));
+          $between_operator = in_array($condition->getOperator(), ['BETWEEN', 'NOT BETWEEN']);
           if ($between_operator && count($value) < 2) {
             continue;
           }
@@ -369,7 +369,7 @@ abstract class FieldsProcessorPluginBase extends ProcessorPluginBase implements 
    */
   protected function testType($type) {
     return $this->getDataTypeHelper()
-      ->isTextType($type, array('text', 'string'));
+      ->isTextType($type, ['text', 'string']);
   }
 
   /**

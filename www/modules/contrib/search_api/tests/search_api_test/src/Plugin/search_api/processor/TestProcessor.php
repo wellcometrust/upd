@@ -76,7 +76,7 @@ class TestProcessor extends ProcessorPluginBase {
   public function onDependencyRemoval(array $dependencies) {
     $remove = $this->getReturnValue(__FUNCTION__, FALSE);
     if ($remove) {
-      $this->configuration = array();
+      $this->configuration = [];
     }
     return $remove;
   }

@@ -2,8 +2,9 @@
 
 /**
  * @file
- * Provides a setup for testing Database Search.
+ * Contains hook implementations for testing Database Search.
  */
+
 use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\search_api\Query\QueryInterface;
 

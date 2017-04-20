@@ -3,12 +3,12 @@
 namespace Drupal\search_api\Plugin\search_api\display;
 
 /**
- * Represents a Views REST display.
+ * Represents a Views page display.
  *
  * @SearchApiDisplay(
- *   id = "views_rest",
- *   views_display_type = "rest_export",
+ *   id = "views_page",
+ *   views_display_type = "page",
  *   deriver = "Drupal\search_api\Plugin\search_api\display\ViewsDisplayDeriver"
  * )
  */
-class ViewsRestDisplay extends ViewsDisplayBase {}
+class ViewsPage extends ViewsDisplayBase {}
