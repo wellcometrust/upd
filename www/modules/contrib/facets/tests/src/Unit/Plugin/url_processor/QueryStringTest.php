@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\facets\Unit\Plugin\url_processor;
 
-use Drupal\Core\Url;
 use Drupal\facets\Entity\Facet;
 use Drupal\facets\Entity\FacetSource;
 use Drupal\facets\Plugin\facets\url_processor\QueryString;
@@ -283,7 +282,7 @@ class QueryStringTest extends UnitTestCase {
       ->disableOriginalConstructor()
       ->getMock();
     $fsi->method('getPath')
-      ->willReturn(new Url('test'));
+      ->willReturn('test');
 
     $manager = $this->getMockBuilder('\Drupal\facets\FacetSource\FacetSourcePluginManager')
       ->disableOriginalConstructor()

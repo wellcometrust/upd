@@ -109,7 +109,7 @@ class DateBasicWidget extends WidgetPluginBase {
     }, $facet->getResults());
 
     return [
-      '#theme' => 'item_list',
+      '#theme' => 'facets_item_list',
       '#items' => $items,
       '#attributes' => ['data-drupal-facet-id' => $facet->id()],
       '#cache' => [

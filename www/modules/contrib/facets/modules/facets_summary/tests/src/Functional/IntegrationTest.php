@@ -3,6 +3,7 @@
 namespace Drupal\Tests\facets_summary\Functional;
 
 use Drupal\Tests\facets\Functional\FacetsTestBase;
+use Drupal\facets_summary\Entity\FacetsSummary;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -86,6 +87,9 @@ class IntegrationTest extends FacetsTestBase {
     // Enable a facet and check it's status after saving.
     $this->drupalPostForm(NULL, ['facets[llama][checked]' => TRUE], 'Save');
     $this->assertFieldChecked('edit-facets-llama-checked');
+
+    $this->configureShowCountProcessor();
+    $this->configureResetFacetsProcessor();
   }
 
   /**
@@ -170,6 +174,9 @@ class IntegrationTest extends FacetsTestBase {
       ->findById('block-' . $block->id())
       ->findAll('css', 'li');
     $this->assertCount(2, $list_items);
+
+    $this->checkShowCountProcessor();
+    $this->checkResetFacetsProcessor();
   }
 
   /**
@@ -202,6 +209,133 @@ class IntegrationTest extends FacetsTestBase {
     $view->setDisplay('page_1');
     $current_cache = $view->display_handler->getOption('cache');
     $this->assertEquals('none', $current_cache['type']);
+  }
+
+  /**
+   * Tests configuring show_count processor.
+   */
+  protected function configureShowCountProcessor() {
+    $this->assertSession()->checkboxNotChecked('edit-facets-summary-settings-show-count-status');
+    $this->drupalPostForm(NULL, ['facets_summary_settings[show_count][status]' => TRUE], 'Save');
+    $this->assertSession()->checkboxChecked('edit-facets-summary-settings-show-count-status');
+    $this->assertSession()->pageTextContains(t('Facets Summary Owl has been updated.'));
+  }
+
+  /**
+   * Tests configuring reset facets processor.
+   */
+  protected function configureResetFacetsProcessor() {
+    $this->assertSession()->checkboxNotChecked('edit-facets-summary-settings-reset-facets-status');
+    $this->drupalPostForm(NULL, ['facets_summary_settings[reset_facets][status]' => TRUE], 'Save');
+    $this->assertSession()->checkboxChecked('edit-facets-summary-settings-reset-facets-status');
+    $this->assertSession()->pageTextContains(t('Facets Summary Owl has been updated.'));
+
+    $this->assertSession()->fieldExists('facets_summary_settings[reset_facets][settings][link_text]');
+    $this->drupalPostForm(NULL, ['facets_summary_settings[reset_facets][settings][link_text]' => 'Reset facets'], 'Save');
+    $this->assertSession()->pageTextContains(t('Facets Summary Owl has been updated.'));
+    $this->assertSession()->fieldValueEquals('facets_summary_settings[reset_facets][settings][link_text]', 'Reset facets');
+  }
+
+  /**
+   * Tests show_count processor.
+   */
+  protected function checkShowCountProcessor() {
+    // Create new facets summary.
+    FacetsSummary::create([
+      'id' => 'show_count',
+      'name' => 'Show count summary',
+      'facet_source_id' => 'search_api:views_page__search_api_test_view__page_1',
+      'facets' => [
+        'giraffe' => [
+          'checked' => 1,
+          'label' => 'Giraffe',
+          'separator' => ',',
+          'weight' => 0,
+          'show_count' => 0,
+        ],
+        'llama' => [
+          'checked' => 1,
+          'label' => 'Llama',
+          'separator' => ',',
+          'weight' => 0,
+          'show_count' => 0,
+        ],
+      ],
+      'processor_configs' => [
+        'show_count' => [
+          'processor_id' => 'show_count',
+          'weights' => ['build' => -10],
+        ],
+      ],
+    ])->save();
+
+    // Clear the cache after the new facet summary entity was created.
+    $this->resetAll();
+
+    // Place a block and test show_count processor.
+    $this->drupalPlaceBlock('facets_summary_block:show_count', ['region' => 'footer', 'id' => 'show-count']);
+    $this->drupalGet('search-api-test-fulltext');
+
+    $this->assertSession()->pageTextNotContains('5 results found');
+
+    $this->clickLink('apple');
+    $this->assertSession()->pageTextContains('2 results found');
+
+    $this->clickLink('item');
+    $this->assertSession()->pageTextContains('1 result found');
+  }
+
+  /**
+   * Tests reset facets processor.
+   */
+  protected function checkResetFacetsProcessor() {
+    // Create new facets summary.
+    FacetsSummary::create([
+      'id' => 'reset_facets',
+      'name' => t('Reset facets summary'),
+      'facet_source_id' => 'search_api:views_page__search_api_test_view__page_1',
+      'facets' => [
+        'giraffe' => [
+          'checked' => 1,
+          'label' => 'Giraffe',
+          'separator' => ',',
+          'weight' => 0,
+          'show_count' => 0,
+        ],
+        'llama' => [
+          'checked' => 1,
+          'label' => 'Llama',
+          'separator' => ',',
+          'weight' => 0,
+          'show_count' => 0,
+        ],
+      ],
+      'processor_configs' => [
+        'reset_facets' => [
+          'processor_id' => 'reset_facets',
+          'weights' => ['build' => -10],
+          'settings' => ['link_text' => 'Reset facets'],
+        ],
+      ],
+    ])->save();
+
+    // Clear the cache after the new facet summary entity was created.
+    $this->resetAll();
+
+    // Place a block and test reset facets processor.
+    $this->drupalPlaceBlock('facets_summary_block:reset_facets', ['region' => 'footer', 'id' => 'reset-facets']);
+    $this->drupalGet('search-api-test-fulltext');
+
+    $this->assertSession()->pageTextContains(t('Displaying 5 search results'));
+    $this->assertSession()->pageTextNotContains(t('Reset facets'));
+
+    $this->clickLink('apple');
+    $this->assertSession()->pageTextContains(t('Displaying 2 search results'));
+    $this->assertSession()->pageTextContains(t('Reset facets'));
+
+    $this->clickLink(t('Reset facets'));
+    $this->assertSession()->pageTextContains(t('Displaying 5 search results'));
+    $this->assertSession()->pageTextNotContains(t('Reset facets'));
   }
 
 }

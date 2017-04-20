@@ -213,4 +213,26 @@ class RestIntegrationTest extends FacetsTestBase {
 
   }
 
+  /**
+   * Tests that the system raises an error when selecting the wrong widget.
+   */
+  public function testWidgetSelection() {
+    $name = 'Type';
+    $id = 'type';
+
+    // Add a new facet to filter by content type.
+    $this->createFacet($name, $id, 'type', 'rest_export_1', 'views_rest__search_api_rest_test_view');
+
+    // Use the array widget.
+    $facet_edit_page = '/admin/config/search/facets/' . $id . '/edit';
+    $this->drupalGet($facet_edit_page);
+    $this->assertResponse(200);
+
+    $this->drupalPostForm(NULL, ['widget' => 'checkbox'], $this->t('Configure widget'));
+    $this->assertText('The Facet source is a Rest export. Please select a raw widget.');
+
+    $this->drupalPostForm(NULL, ['widget' => 'array'], $this->t('Configure widget'));
+    $this->assertNoText('The Facet source is a Rest export. Please select a raw widget.');
+  }
+
 }

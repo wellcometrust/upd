@@ -109,7 +109,7 @@ class DefaultFacetsSummaryManager {
     }
 
     $build = array(
-      '#theme' => 'item_list',
+      '#theme' => 'facets_summary_item_list',
       '#attributes' => array(
         'data-drupal-facets-summary-id' => $facets_summary->id(),
       ),

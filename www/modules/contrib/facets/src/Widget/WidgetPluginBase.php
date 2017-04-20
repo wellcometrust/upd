@@ -61,7 +61,7 @@ abstract class WidgetPluginBase extends PluginBase implements WidgetPluginInterf
     $widget = $facet->getWidget();
 
     return [
-      '#theme' => 'item_list',
+      '#theme' => 'facets_item_list',
       '#items' => $items,
       '#attributes' => [
         'data-drupal-facet-id' => $facet->id(),
@@ -151,7 +151,7 @@ abstract class WidgetPluginBase extends PluginBase implements WidgetPluginInterf
       }
 
       $items['children'] = [
-        '#theme' => 'item_list',
+        '#theme' => 'facets_item_list',
         '#items' => $child_items,
       ];
 

@@ -7,6 +7,8 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\facets\Plugin\facets\facet_source\SearchApiDisplay;
+use Drupal\facets\FacetSource\SearchApiFacetSourceInterface;
+use Drupal\search_api\Plugin\search_api\display\ViewsRest;
 use Drupal\facets\Processor\ProcessorInterface;
 use Drupal\facets\Processor\ProcessorPluginManager;
 use Drupal\facets\UrlProcessor\UrlProcessorInterface;
@@ -572,6 +574,19 @@ class FacetForm extends EntityForm {
 
         $processor_form_state = SubformState::createForSubform($form['facet_sorting'][$processor_id]['settings'], $form, $form_state);
         $processors[$processor_id]->validateConfigurationForm($form['facet_sorting'][$processor_id], $processor_form_state, $facet);
+      }
+    }
+
+    // Only widgets that return an array can work with rest facet sources, so if
+    // the user has selected another widget, we should point them to their
+    // misconfiguration.
+    if ($facet_source = $facet->getFacetSource()) {
+      if ($facet_source instanceof SearchApiFacetSourceInterface) {
+        if ($facet_source->getDisplay() instanceof ViewsRest) {
+          if (strpos($values['widget'], 'array') === FALSE) {
+            $form_state->setErrorByName('widget', $this->t('The Facet source is a Rest export. Please select a raw widget.'));
+          }
+        }
       }
     }
 

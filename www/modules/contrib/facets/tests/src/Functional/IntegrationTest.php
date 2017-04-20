@@ -238,13 +238,14 @@ class IntegrationTest extends FacetsTestBase {
     $this->assertFacetBlocksAppear();
 
     // Change the visiblity settings of the DependingFacet.
-    $this->drupalGet('admin/structure/block/manage/dependingfacet');
+    $this->drupalGet('admin/config/search/facets/' . $depending_facet_id . '/edit');
     $edit = [
-      'visibility[other_facet][facets]' => 'facet_block:dependablefacet',
-      'visibility[other_facet][facet_value]' => 'item',
+      'facet_settings[dependent_processor][status]' => TRUE,
+      'facet_settings[dependent_processor][settings][' . $facet_id . '][enable]' => TRUE,
+      'facet_settings[dependent_processor][settings][' . $facet_id . '][condition]' => 'values',
+      'facet_settings[dependent_processor][settings][' . $facet_id . '][values]' => 'item',
     ];
-    $this->drupalPostForm(NULL, $edit, 'Save block');
-    $this->assertText('The block configuration has been saved.');
+    $this->drupalPostForm(NULL, $edit, 'Save');
 
     // Go to the view and test that only the types are shown.
     $this->drupalGet('search-api-test-fulltext');
@@ -266,13 +267,15 @@ class IntegrationTest extends FacetsTestBase {
     $this->assertNoLink('orange');
 
     // Change the visibility settings to negate the previous settings.
-    $this->drupalGet('admin/structure/block/manage/dependingfacet');
+    $this->drupalGet('admin/config/search/facets/' . $depending_facet_id . '/edit');
     $edit = [
-      'visibility[other_facet][facets]' => 'facet_block:dependablefacet',
-      'visibility[other_facet][facet_value]' => 'item',
-      'visibility[other_facet][negate]' => TRUE,
+      'facet_settings[dependent_processor][status]' => TRUE,
+      'facet_settings[dependent_processor][settings][' . $facet_id . '][enable]' => TRUE,
+      'facet_settings[dependent_processor][settings][' . $facet_id . '][condition]' => 'values',
+      'facet_settings[dependent_processor][settings][' . $facet_id . '][values]' => 'item',
+      'facet_settings[dependent_processor][settings][' . $facet_id . '][negate]' => TRUE,
     ];
-    $this->drupalPostForm(NULL, $edit, 'Save block');
+    $this->drupalPostForm(NULL, $edit, 'Save');
 
     // Go the the view and test only the type facet is shown.
     $this->drupalGet('search-api-test-fulltext');

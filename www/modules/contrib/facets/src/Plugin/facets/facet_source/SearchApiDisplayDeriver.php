@@ -30,13 +30,12 @@ class SearchApiDisplayDeriver extends FacetSourceDeriverBase {
 
       $display = $display_plugin_manager->createInstance($display_id);
 
-      $supports_facets = $display->getIndex()
-        ->getServerInstance()
-        ->supportsFeature('search_api_facets');
+      $server = $display->getIndex()
+        ->getServerInstance();
 
       // If facets are not supported by the server, don't actually add this to
       // the list of plugins.
-      if (!$supports_facets) {
+      if (empty($server) || !$server->supportsFeature('search_api_facets')) {
         continue;
       }
 
