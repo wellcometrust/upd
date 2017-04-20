@@ -7,7 +7,6 @@ dependencies:
     - field.field.paragraph.faq_dropdowns.field_title
     - paragraphs.paragraphs_type.faq_dropdowns
   module:
-    - content_moderation
     - text
 id: paragraph.faq_dropdowns.default
 targetEntityType: paragraph

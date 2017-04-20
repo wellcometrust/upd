@@ -4,13 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.node.landing_page.field_3_items_grid
-    - field.field.node.landing_page.field_case_studies
     - field.field.node.landing_page.field_featured_articles
     - field.field.node.landing_page.field_hero_intro
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
-    - content_moderation
     - paragraphs
     - path
 id: node.landing_page.default
@@ -34,14 +32,6 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-  field_case_studies:
-    weight: 36
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
   field_featured_articles:
     weight: 35
     settings:

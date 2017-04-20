@@ -8,7 +8,6 @@ dependencies:
     - image.style.thumbnail
     - paragraphs.paragraphs_type.funding
   module:
-    - content_moderation
     - image
     - text
 id: paragraph.funding.default

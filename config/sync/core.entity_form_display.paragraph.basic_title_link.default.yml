@@ -8,7 +8,6 @@ dependencies:
     - field.field.paragraph.basic_title_link.field_title
     - paragraphs.paragraphs_type.basic_title_link
   module:
-    - content_moderation
     - link
     - text
 id: paragraph.basic_title_link.default

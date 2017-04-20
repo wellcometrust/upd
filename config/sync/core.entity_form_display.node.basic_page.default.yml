@@ -11,7 +11,6 @@ dependencies:
     - field.field.node.basic_page.field_standfirst
     - node.type.basic_page
   module:
-    - content_moderation
     - file
     - paragraphs
     - path

@@ -8,7 +8,6 @@ dependencies:
     - field.field.node.art.field_related_news
     - node.type.art
   module:
-    - content_moderation
     - datetime
     - path
     - text

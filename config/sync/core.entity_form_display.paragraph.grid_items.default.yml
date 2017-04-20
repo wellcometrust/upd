@@ -9,7 +9,6 @@ dependencies:
     - field.field.paragraph.grid_items.field_svg_reference
     - paragraphs.paragraphs_type.grid_items
   module:
-    - content_moderation
     - link
 id: paragraph.grid_items.default
 targetEntityType: paragraph

@@ -7,7 +7,6 @@ dependencies:
     - field.field.paragraph.case_study_vertical_tab.field_title
     - paragraphs.paragraphs_type.case_study_vertical_tab
   module:
-    - content_moderation
     - text
 id: paragraph.case_study_vertical_tab.default
 targetEntityType: paragraph

@@ -8,7 +8,6 @@ dependencies:
     - field.field.paragraph.tile_paragraph.field_title
     - paragraphs.paragraphs_type.tile_paragraph
   module:
-    - content_moderation
     - link
     - text
 id: paragraph.tile_paragraph.default

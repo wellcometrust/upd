@@ -10,7 +10,6 @@ dependencies:
     - image.style.thumbnail
     - paragraphs.paragraphs_type.testimonial
   module:
-    - content_moderation
     - image
 id: paragraph.testimonial.default
 targetEntityType: paragraph

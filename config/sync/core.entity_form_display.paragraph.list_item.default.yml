@@ -6,8 +6,6 @@ dependencies:
     - field.field.paragraph.list_item.field_list_title
     - field.field.paragraph.list_item.field_sublist_item
     - paragraphs.paragraphs_type.list_item
-  module:
-    - content_moderation
 id: paragraph.list_item.default
 targetEntityType: paragraph
 bundle: list_item
