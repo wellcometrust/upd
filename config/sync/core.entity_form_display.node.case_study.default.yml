@@ -3,6 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.case_study.field_disease_type
+    - field.field.node.case_study.field_featured
+    - field.field.node.case_study.field_impact_of_work
+    - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_pdf
+    - field.field.node.case_study.field_sources_of_data
+    - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_thumbnail
+    - field.field.node.case_study.field_vertical_tab
     - node.type.case_study
   module:
     - path
@@ -16,16 +25,19 @@ content:
     weight: 8
     settings: {  }
     third_party_settings: {  }
+    region: content
   path:
     type: path
     weight: 6
     settings: {  }
     third_party_settings: {  }
+    region: content
   sticky:
     type: options_buttons
     weight: 12
     settings: {  }
     third_party_settings: {  }
+    region: content
   title:
     type: string_textfield
     weight: 0
@@ -33,6 +45,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 7
@@ -41,5 +54,15 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
 hidden:
+  field_disease_type: true
+  field_featured: true
+  field_impact_of_work: true
+  field_list_text: true
+  field_pdf: true
+  field_sources_of_data: true
+  field_standfirst: true
+  field_thumbnail: true
+  field_vertical_tab: true
   promote: true

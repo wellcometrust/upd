@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.case_study.field_pdf
     - field.field.node.case_study.field_sources_of_data
     - field.field.node.case_study.field_standfirst
+    - field.field.node.case_study.field_thumbnail
     - field.field.node.case_study.field_vertical_tab
     - node.type.case_study
   module:
@@ -28,6 +29,7 @@ content:
       trim_length: 600
     third_party_settings: {  }
     type: text_trimmed
+    region: content
 hidden:
   content_moderation_control: true
   field_disease_type: true

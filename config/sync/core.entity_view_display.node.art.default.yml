@@ -22,6 +22,7 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+    region: content
   field_publish_date:
     weight: 103
     label: above
@@ -30,6 +31,7 @@ content:
       date_format: 'j M Y'
     third_party_settings: {  }
     type: datetime_custom
+    region: content
   field_related_news:
     weight: 102
     label: above
@@ -38,8 +40,10 @@ content:
       link: false
     third_party_settings: {  }
     type: entity_reference_entity_view
+    region: content
   links:
     weight: 100
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden: {  }

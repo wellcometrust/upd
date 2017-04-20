@@ -22,6 +22,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
   field_item_info_link:
     weight: 8
     settings:
@@ -29,6 +30,7 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
   field_item_info_text:
     weight: 7
     settings:
@@ -36,6 +38,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
   field_svg_reference:
     weight: 10
     settings:
@@ -43,6 +46,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
 hidden:
   created: true
   status: true
