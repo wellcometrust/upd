@@ -4,4 +4,4 @@ upd_featured_case_studies.settings:
     _form: '\Drupal\upd_featured_case_studies\Form\UpdFeaturedCaseStudiesForm'
     _title: 'UPD featured case studies'
   requirements:
-    _permission: 'administer content'
+    _permission: 'administer nodes'
