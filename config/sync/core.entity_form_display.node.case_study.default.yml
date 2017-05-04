@@ -12,8 +12,12 @@ dependencies:
     - field.field.node.case_study.field_standfirst
     - field.field.node.case_study.field_thumbnail
     - field.field.node.case_study.field_vertical_tab
+    - image.style.thumbnail
     - node.type.case_study
   module:
+    - file
+    - image
+    - paragraphs
     - path
 id: node.case_study.default
 targetEntityType: node
@@ -26,15 +30,79 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
+  field_disease_type:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_impact_of_work:
+    type: entity_reference_autocomplete
+    weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_list_text:
+    type: string_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_pdf:
+    type: file_generic
+    weight: 6
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_sources_of_data:
+    type: entity_reference_autocomplete
+    weight: 9
+    region: content
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_standfirst:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_thumbnail:
+    type: image_image
+    weight: 2
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_vertical_tab:
+    type: paragraphs
+    weight: 4
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
   path:
     type: path
-    weight: 6
-    settings: {  }
-    third_party_settings: {  }
-    region: content
-  sticky:
-    type: options_buttons
-    weight: 12
+    weight: 5
     settings: {  }
     third_party_settings: {  }
     region: content
@@ -56,13 +124,6 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
-  field_disease_type: true
   field_featured: true
-  field_impact_of_work: true
-  field_list_text: true
-  field_pdf: true
-  field_sources_of_data: true
-  field_standfirst: true
-  field_thumbnail: true
-  field_vertical_tab: true
   promote: true
+  sticky: true
