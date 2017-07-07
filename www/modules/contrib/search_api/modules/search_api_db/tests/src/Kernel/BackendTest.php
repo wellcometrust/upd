@@ -300,7 +300,7 @@ class BackendTest extends BackendTestBase {
     $this->assertResults([2, 4, 1, 3], $results, 'Search for »test foo«', ['foo']);
 
     $results = $this->buildSearch('foo', ['type,item'])->execute();
-    $this->assertResults([1, 2, 3], $results, 'Search for »foo«', ['foo'], [$this->t('No valid search keys were present in the query.')]);
+    $this->assertResults([1, 2, 3], $results, 'Search for »foo«', ['foo'], ['No valid search keys were present in the query.']);
 
     $keys = [
       '#conjunction' => 'AND',

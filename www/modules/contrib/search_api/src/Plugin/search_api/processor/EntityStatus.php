@@ -2,8 +2,7 @@
 
 namespace Drupal\search_api\Plugin\search_api\processor;
 
-use Drupal\comment\CommentInterface;
-use Drupal\node\NodeInterface;
+use Drupal\Core\Entity\EntityPublishedInterface;
 use Drupal\search_api\IndexInterface;
 use Drupal\search_api\Processor\ProcessorPluginBase;
 use Drupal\user\UserInterface;
@@ -44,12 +43,8 @@ class EntityStatus extends ProcessorPluginBase {
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($items as $item_id => $item) {
       $object = $item->getOriginalObject()->getValue();
-      // @todo Use EntityPublishedInterface once we depend on Drupal 8.3+.
       $enabled = TRUE;
-      if ($object instanceof NodeInterface) {
-        $enabled = $object->isPublished();
-      }
-      elseif ($object instanceof CommentInterface) {
+      if ($object instanceof EntityPublishedInterface) {
         $enabled = $object->isPublished();
       }
       elseif ($object instanceof UserInterface) {

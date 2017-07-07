@@ -8,7 +8,7 @@ use Drupal\node\Entity\NodeType;
 use Drupal\search_api\Item\Field;
 use Drupal\search_api\Query\Query;
 use Drupal\simpletest\NodeCreationTrait;
-use Drupal\taxonomy\Tests\TaxonomyTestTrait;
+use Drupal\Tests\taxonomy\Functional\TaxonomyTestTrait;
 use Drupal\Tests\search_api\Kernel\ResultsTrait;
 
 /**
@@ -76,7 +76,7 @@ class AddHierarchyTest extends ProcessorTestBase {
    * {@inheritdoc}
    */
   public function setUp($processor = NULL) {
-    parent::setUp('hierarchy');
+    parent::setUp();
 
     $this->installConfig(['filter']);
     $this->installEntitySchema('taxonomy_term');
@@ -119,7 +119,6 @@ class AddHierarchyTest extends ProcessorTestBase {
     $term_field->setDatasourceId('entity:node');
     $term_field->setLabel('Terms');
     $this->index->addField($term_field);
-    $this->index->save();
 
     // Index the entity reference field.
     $reference_field = new Field($this->index, 'parent_reference');
@@ -128,9 +127,15 @@ class AddHierarchyTest extends ProcessorTestBase {
     $reference_field->setDatasourceId('entity:node');
     $reference_field->setLabel('Parent page');
     $this->index->addField($reference_field);
-    $this->index->save();
 
-    // Setup a node index.
+    // Add the "Index hierarchy" processor only now (not in parent method) since
+    // it can only be enabled once there are actually hierarchical fields.
+    $this->processor = \Drupal::getContainer()
+      ->get('search_api.plugin_helper')
+      ->createProcessorPlugin($this->index, 'hierarchy');
+    $this->index->addProcessor($this->processor);
+
+    // Add the node datasource to the index.
     $datasources = \Drupal::getContainer()
       ->get('search_api.plugin_helper')
       ->createDatasourcePlugins($this->index, ['entity:node']);

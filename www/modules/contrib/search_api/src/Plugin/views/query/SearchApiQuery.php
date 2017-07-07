@@ -65,13 +65,6 @@ class SearchApiQuery extends QueryPluginBase {
   protected $query;
 
   /**
-   * The results returned by the query, after it was executed.
-   *
-   * @var \Drupal\search_api\Query\ResultSetInterface
-   */
-  protected $searchApiResults;
-
-  /**
    * Array of all encountered errors.
    *
    * Each of these is fatal, meaning that a non-empty $errors property will
@@ -323,6 +316,15 @@ class SearchApiQuery extends QueryPluginBase {
   public function build(ViewExecutable $view) {
     $this->view = $view;
 
+    // Initialize the pager and let it modify the query to add limits. This has
+    // to be done even for aborted queries since it might otherwise lead to a
+    // fatal error when Views tries to access $view->pager.
+    $view->initPager();
+    $view->pager->query();
+
+    // If the query was aborted by some plugin (or, possibly, hook), we don't
+    // need to do anything else here. Adding conditions or other options to an
+    // aborted query doesn't make sense.
     if ($this->shouldAbort()) {
       return;
     }
@@ -365,10 +367,6 @@ class SearchApiQuery extends QueryPluginBase {
       }
     }
 
-    // Initialize the pager and let it modify the query to add limits.
-    $view->initPager();
-    $view->pager->query();
-
     // Add the "search_api_bypass_access" option to the query, if desired.
     if (!empty($this->options['bypass_access'])) {
       $this->query->setOption('search_api_bypass_access', TRUE);
@@ -382,6 +380,10 @@ class SearchApiQuery extends QueryPluginBase {
 
     // Save query information for Views UI.
     $view->build_info['query'] = (string) $this->query;
+
+    // Add the properties to be retrieved to the query, as information for the
+    // backend.
+    $this->query->setOption('search_api_retrieved_properties', $this->retrievedProperties);
   }
 
   /**
@@ -433,7 +435,6 @@ class SearchApiQuery extends QueryPluginBase {
 
       // Execute the search.
       $results = $this->query->execute();
-      $this->searchApiResults = $results;
 
       // Store the results.
       if (!$skip_result_count) {
@@ -487,7 +488,7 @@ class SearchApiQuery extends QueryPluginBase {
    * @see SearchApiQuery::abort()
    */
   public function shouldAbort() {
-    return $this->abort;
+    return $this->abort || !$this->query || $this->query->wasAborted();
   }
 
   /**
@@ -611,29 +612,12 @@ class SearchApiQuery extends QueryPluginBase {
   /**
    * Retrieves the Search API result set returned for this query.
    *
-   * @return \Drupal\search_api\Query\ResultSetInterface|null
-   *   The result set of this query, if it has been retrieved already. NULL
-   *   otherwise.
+   * @return \Drupal\search_api\Query\ResultSetInterface
+   *   The result set of this query. Might not contain the actual results yet if
+   *   the query hasn't been executed yet.
    */
   public function getSearchApiResults() {
-    return $this->searchApiResults;
-  }
-
-  /**
-   * Sets the Search API result set.
-   *
-   * Usually this is done by the query plugin class itself, but in rare cases
-   * (such as for caching purposes) it might be necessary to set it from
-   * outside.
-   *
-   * @param \Drupal\search_api\Query\ResultSetInterface $search_api_results
-   *   The result set.
-   *
-   * @return $this
-   */
-  public function setSearchApiResults(ResultSetInterface $search_api_results) {
-    $this->searchApiResults = $search_api_results;
-    return $this;
+    return $this->query->getResults();
   }
 
   /**
@@ -1025,6 +1009,9 @@ class SearchApiQuery extends QueryPluginBase {
     }
     elseif (in_array($operator, ['in', 'not in', 'between', 'not between'])) {
       $operator = strtoupper($operator);
+    }
+    elseif (in_array($operator, ['IS NULL', 'IS NOT NULL'])) {
+      $operator = ($operator == 'IS NULL') ? '=' : '<>';
     }
     return $operator;
   }

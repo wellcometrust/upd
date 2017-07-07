@@ -104,7 +104,7 @@ class TestBackend extends BackendPluginBase implements PluginFormInterface {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['test'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Test'),
+      '#title' => 'Test',
       '#default_value' => $this->configuration['test'],
     ];
     return $form;

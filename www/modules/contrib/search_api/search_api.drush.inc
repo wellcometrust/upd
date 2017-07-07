@@ -171,6 +171,16 @@ function search_api_drush_command() {
     'aliases' => ['sapi-sd'],
   ];
 
+  $items['search-api-server-clear'] = [
+    'description' => 'Clear all search indexes on the search server and mark them for reindexing.',
+    'examples' => [
+      'drush search-api-server-clear' => dt('Clear all search indexes on the search server @server.', ['@server' => 'my_solr_server']),
+      'drush sapi-sc' => dt('Alias to clear all search indexes on the search server @server.', ['@server' => 'my_solr_server']),
+    ],
+    'arguments' => $server,
+    'aliases' => ['sapi-sc'],
+  ];
+
   $items['search-api-set-index-server'] = [
     'description' => 'Set the search server used by a given index.',
     'examples' => [
@@ -349,6 +359,7 @@ function drush_search_api_index($index_id = NULL) {
     return;
   }
 
+  $batch_set = FALSE;
   foreach ($indexes as $index) {
     $tracker = $index->getTrackerInstance();
     $remaining = $tracker->getTotalItemsCount() - $tracker->getIndexedItemsCount();
@@ -368,37 +379,40 @@ function drush_search_api_index($index_id = NULL) {
 
     // If we pass NULL, it would be used as "no items". -1 is the correct way to
     // index all items.
-    $limit = $limit ?: -1;
+    $current_limit = $limit ?: -1;
 
     // Get the default batch size.
     if (!isset($batch_size)) {
       $cron_limit = $index->getOption('cron_limit');
-      $batch_size = $cron_limit ?: \Drupal::configFactory()->get('search_api.settings')->get('default_cron_limit');
+      $batch_size = $cron_limit ?: \Drupal::configFactory()
+        ->get('search_api.settings')
+        ->get('default_cron_limit');
     }
 
     // Get the number items to index.
-    if (!isset($limit) || !is_int($limit += 0) || $limit <= 0) {
-      $limit = $remaining;
+    if (!isset($current_limit) || !is_int($current_limit += 0) || $current_limit <= 0) {
+      $current_limit = $remaining;
     }
 
     $arguments = [
       '@index' => $index->label(),
-      '@limit' => $limit,
+      '@limit' => $current_limit,
       '@batch_size' => $batch_size,
     ];
     drush_log(dt("Indexing a maximum number of @limit items (@batch_size items per batch run) for the index '@index'.", $arguments), 'ok');
 
     // Create the batch.
     try {
-      IndexBatchHelper::create($index, $batch_size, $limit);
-      drush_backend_batch_process();
+      IndexBatchHelper::create($index, $batch_size, $current_limit);
+      $batch_set = TRUE;
     }
     catch (SearchApiException $e) {
       drush_log(dt("Couldn't create a batch, please check the batch size and limit parameters."), 'error');
     }
+  }
 
-    // @todo Report number of successfully indexed items, and check whether that
-    //   matched the expectations.
+  if ($batch_set) {
+    drush_backend_batch_process();
   }
 }
 
@@ -636,6 +650,29 @@ function drush_search_api_server_disable($server_id = NULL) {
   $server = _search_api_drush_reload_entity_override_free($server);
   $server->setStatus(FALSE)->save();
   drush_print(dt('The server was disabled successfully.'));
+}
+
+/**
+ * Clears all search indexes on the server and marks them for reindexing.
+ *
+ * @param string $server_id
+ *   The ID of the server to clear all search indexes.
+ */
+function drush_search_api_server_clear($server_id = NULL) {
+  if (!isset($server_id)) {
+    drush_print(dt('Please provide a valid server id.'));
+    return;
+  }
+  $server = Server::load($server_id);
+  if (empty($server)) {
+    drush_print(dt('The server could not be loaded.'));
+    return;
+  }
+
+  foreach ($server->getIndexes() as $index) {
+    $index->clear();
+  }
+  drush_print(dt('All indexes on the search server @server_id were cleared.', array('@server_id' => $server_id)));
 }
 
 /**

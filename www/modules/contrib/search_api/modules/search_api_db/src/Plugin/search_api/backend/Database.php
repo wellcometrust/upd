@@ -29,7 +29,7 @@ use Drupal\search_api\Query\ConditionGroupInterface;
 use Drupal\search_api\Query\QueryInterface;
 use Drupal\search_api\SearchApiException;
 use Drupal\search_api\Utility\DataTypeHelper;
-use Drupal\search_api_autocomplete\Entity\SearchApiAutocompleteSearch;
+use Drupal\search_api_autocomplete\SearchInterface;
 use Drupal\search_api_autocomplete\Suggestion;
 use Drupal\search_api_db\DatabaseCompatibility\DatabaseCompatibilityHandlerInterface;
 use Drupal\search_api_db\DatabaseCompatibility\GenericDatabase;
@@ -823,6 +823,7 @@ class Database extends BackendPluginBase implements PluginFormInterface {
   protected function sqlType($type) {
     switch ($type) {
       case 'text':
+        return ['type' => 'varchar', 'length' => 30];
       case 'string':
       case 'uri':
         return ['type' => 'varchar', 'length' => 255];
@@ -2469,15 +2470,14 @@ class Database extends BackendPluginBase implements PluginFormInterface {
   }
 
   /**
-   * Implements SearchApiAutocompleteInterface::getAutocompleteSuggestions().
+   * Implements AutocompleteBackendInterface::getAutocompleteSuggestions().
+   *
+   * @todo Add type-hint for $search as soon as we can rely on the class name.
    */
-  public function getAutocompleteSuggestions(QueryInterface $query, SearchApiAutocompleteSearch $search, $incomplete_key, $user_input) {
-    $settings = isset($this->configuration['autocomplete']) ? $this->configuration['autocomplete'] : [];
-    $settings += [
-      'suggest_suffix' => TRUE,
-      'suggest_words' => TRUE,
-    ];
-    // If none of these options is checked, the user apparently chose a very
+  public function getAutocompleteSuggestions(QueryInterface $query, $search, $incomplete_key, $user_input) {
+    $settings = $this->configuration['autocomplete'];
+
+    // If none of the options is checked, the user apparently chose a very
     // roundabout way of telling us he doesn't want autocompletion.
     if (!array_filter($settings)) {
       return [];
@@ -2522,9 +2522,6 @@ class Database extends BackendPluginBase implements PluginFormInterface {
     // suggest them.
     $keys = static::splitIntoWords($user_input);
     $keys = array_combine($keys, $keys);
-    if ($incomplete_key) {
-      $keys[$incomplete_key] = $incomplete_key;
-    }
 
     foreach ($passes as $pass) {
       if ($pass == 2 && $incomplete_key) {

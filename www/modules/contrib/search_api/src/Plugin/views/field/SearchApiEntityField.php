@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\search_api\Plugin\views\EntityFieldRenderer;
 use Drupal\search_api\Utility\Utility;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
-use Drupal\views\Plugin\views\field\Field;
+use Drupal\views\Plugin\views\field\EntityField;
 use Drupal\views\Plugin\views\field\MultiItemsFieldHandlerInterface;
 use Drupal\views\ResultRow;
 use Drupal\views\ViewExecutable;
@@ -16,13 +16,11 @@ use Drupal\views\Views;
 /**
  * Displays entity field data.
  *
- * @todo Once we depend on Drupal 8.3+, inherit from EntityField instead.
- *
  * @ingroup views_field_handlers
  *
  * @ViewsField("search_api_field")
  */
-class SearchApiEntityField extends Field {
+class SearchApiEntityField extends EntityField {
 
   use SearchApiFieldTrait {
     preRender as traitPreRender;

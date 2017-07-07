@@ -965,6 +965,9 @@ class Index extends ConfigEntityBase implements IndexInterface {
       // effect again. Therefore, we reset the flag.
       $this->setHasReindexed(FALSE);
       \Drupal::moduleHandler()->invokeAll('search_api_items_indexed', [$this, $processed_ids]);
+
+      // Clear search api list caches.
+      Cache::invalidateTags(['search_api_list:' . $this->id]);
     }
 
     return $processed_ids;
@@ -1208,6 +1211,15 @@ class Index extends ConfigEntityBase implements IndexInterface {
         ->get('search_api.fields_helper')
         ->retrieveNestedProperty($properties[$datasource_id], $field->getPropertyPath())) {
         $this->removeField($field_id);
+      }
+    }
+
+    // Check whether all enabled processors actually still support this index.
+    // (Since we can't remove processors which are present in overrides anyways,
+    // we don't need to take overrides into account here.)
+    foreach ($this->getProcessors() as $processor_id => $processor) {
+      if (!$processor->supportsIndex($this)) {
+        $this->removeProcessor($processor_id);
       }
     }
 

@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\search_api\Unit\Plugin\Processor;
 
+use Drupal\search_api\IndexInterface;
 use Drupal\search_api\Item\Field;
 use Drupal\search_api\Plugin\search_api\data_type\value\TextToken;
 use Drupal\search_api\Plugin\search_api\data_type\value\TextValue;
@@ -92,6 +93,51 @@ class FieldsProcessorPluginBaseTest extends UnitTestCase {
     $expected = [
       'bar',
       'string_field',
+      'text_field_2',
+    ];
+    $this->assertEquals($expected, $fields);
+  }
+
+  /**
+   * Tests whether the "Enable on all supported fields" option works correctly.
+   *
+   * We want the option to make sure that all supported fields are automatically
+   * added to the processor, without adding unsupported ones or keeping old ones
+   * that were removed.
+   */
+  public function testAllFields() {
+    $configuration['all_fields'] = TRUE;
+    $configuration['fields'] = [
+      'float_field',
+      'string_field',
+    ];
+    $this->processor->setConfiguration($configuration);
+
+    $override = function ($type) {
+      return in_array($type, ['string', 'text']);
+    };
+    $this->processor->setMethodOverride('testType', $override);
+
+    // Since it's not possible to override an already specified method on a mock
+    // object, we need to create a new mock object for the index in this test.
+    /** @var \Drupal\search_api\IndexInterface|\PHPUnit_Framework_MockObject_MockObject $index */
+    $index = $this->getMock(IndexInterface::class);
+    $index->method('getFields')->willReturn([
+      'float_field' => (new Field($this->index, ''))->setType('float'),
+      'float_field_2' => (new Field($this->index, ''))->setType('float'),
+      'string_field' => (new Field($this->index, ''))->setType('string'),
+      'text_field' => (new Field($this->index, ''))->setType('text'),
+      'text_field_2' => (new Field($this->index, ''))->setType('text'),
+    ]);
+    $this->processor->setIndex($index);
+
+    $this->processor->preIndexSave();
+
+    $fields = $this->processor->getConfiguration()['fields'];
+    sort($fields);
+    $expected = [
+      'string_field',
+      'text_field',
       'text_field_2',
     ];
     $this->assertEquals($expected, $fields);

@@ -66,11 +66,11 @@ class SearchApiFulltext extends FilterPluginBase {
   /**
    * {@inheritdoc}
    */
-  protected function operatorForm(&$form, FormStateInterface $form_state) {
-    parent::operatorForm($form, $form_state);
+  public function showOperatorForm(&$form, FormStateInterface $form_state) {
+    parent::showOperatorForm($form, $form_state);
 
     if (!empty($form['operator'])) {
-      $form['operator']['#description'] = $this->t('Based on the parse mode set, some of these options might not work as expected. Please either use "Multiple terms" as the parse mode or make sure that the filter behaves as expected for multiple words.');
+      $form['operator']['#description'] = $this->t('Depending on the parse mode set, some of these options might not work as expected. Please either use "@multiple_words" as the parse mode or make sure that the filter behaves as expected for multiple words.', ['@multiple_words' => $this->t('Multiple words')]);
     }
   }
 
@@ -231,11 +231,11 @@ class SearchApiFulltext extends FilterPluginBase {
       $input = &$this->options['group_info']['group_items'][$input]['value'];
     }
 
-    // If there is no input, we check whether the filter was set to "Required".
-    // If it was required yet not provided, then abort the query so no results
-    // are returned.
     if (!trim($input)) {
-      if (!empty($this->options['expose']['required'])) {
+      // No input was given by the user. If the filter was set to "required" and
+      // there is a query (not the case when an exposed filter block is
+      // displayed stand-alone), abort it.
+      if (!empty($this->options['expose']['required']) && $this->getQuery()) {
         $this->getQuery()->abort();
       }
       // If the input is empty, there is nothing to validate: return early.
