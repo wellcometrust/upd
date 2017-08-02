@@ -384,6 +384,7 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
     // Always allow items with undefined language. (Can be the case when
     // entities are created programmatically.)
     $allowed_languages[LanguageInterface::LANGCODE_NOT_SPECIFIED] = TRUE;
+    $allowed_languages[LanguageInterface::LANGCODE_NOT_APPLICABLE] = TRUE;
 
     $entity_ids = [];
     foreach ($ids as $item_id) {
@@ -666,6 +667,13 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
    * {@inheritdoc}
    */
   public function getPartialItemIds($page = NULL, array $bundles = NULL, array $languages = NULL) {
+    // These would be pretty pointless calls, but for the sake of completeness
+    // we should check for them and return early. (Otherwise makes the rest of
+    // the code more complicated.)
+    if (($bundles === [] && !$languages) || ($languages === [] && !$bundles)) {
+      return NULL;
+    }
+
     $select = $this->getEntityTypeManager()
       ->getStorage($this->getEntityTypeId())
       ->getQuery();
@@ -698,6 +706,9 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
       $page_size = $this->getConfigValue('tracking_page_size');
       assert('$page_size', 'Tracking page size is not set.');
       $select->range($page * $page_size, $page_size);
+      // For paging to reliably work, a sort should be present.
+      $entity_id = $this->getEntityType()->getKey('id');
+      $select->sort($entity_id);
     }
 
     $entity_ids = $select->execute();
@@ -719,14 +730,17 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
     }
     // Also, we want to always include entities with unknown language.
     $enabled_languages[] = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+    $enabled_languages[] = LanguageInterface::LANGCODE_NOT_APPLICABLE;
 
     /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
     foreach ($this->getEntityStorage()->loadMultiple($entity_ids) as $entity_id => $entity) {
       $translations = array_keys($entity->getTranslationLanguages());
-      if (!isset($bundles) || in_array($entity->bundle(), $bundles)) {
-        $translations = array_intersect($translations, $enabled_languages);
-      }
-      else {
+      $translations = array_intersect($translations, $enabled_languages);
+      // If only languages were specified, keep only those translations matching
+      // them. If bundles were also specified, keep all (enabled) translations
+      // for those entities that match those bundles.
+      if ($languages !== NULL
+          && (!$bundles || !in_array($entity->bundle(), $bundles))) {
         $translations = array_intersect($translations, $languages);
       }
       foreach ($translations as $langcode) {

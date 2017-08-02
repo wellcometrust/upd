@@ -210,10 +210,11 @@ class ViewsDisplayCachingTest extends KernelTestBase {
    */
   protected function triggerInvalidation($plugin_type) {
     switch ($plugin_type) {
-      // When using the 'tag' based caching strategy, create a new entity of the
-      // type that is used in the index. This should clear it.
+      // When using the 'tag' based caching strategy, create and index a new
+      // entity of the type that is used in the index. This should clear it.
       case 'tag':
         EntityTestMulRevChanged::create(['name' => 'Tomahawk'])->save();
+        $this->index->indexItems();
         break;
 
       // When using 'time' based caching, pretend to be more than 1 hour in the
@@ -340,11 +341,9 @@ class ViewsDisplayCachingTest extends KernelTestBase {
           // available as a cache tag, so that the caches are invalidated if the
           // view configuration changes.
           'config:views.view.search_api_test_cache',
-          // Since we are indexing entities of type 'entity_test_mulrev_changed'
-          // it is expected that the caches are invalidated when any entity
-          // changes. After all, it is possible that a change to any entity
-          // might cause it to appear or disappear from a particular result set.
-          'entity_test_mulrev_changed_list',
+          // Caches should also be invalidated if any items on the index are
+          // indexed or deleted.
+          'search_api_list:database_search_index',
         ],
         // No specific cache contexts are expected to be present.
         [],

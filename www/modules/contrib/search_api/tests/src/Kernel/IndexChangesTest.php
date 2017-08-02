@@ -8,7 +8,9 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Entity\Server;
+use Drupal\search_api\IndexInterface;
 use Drupal\search_api\Utility\Utility;
+use Drupal\search_api_test\Plugin\search_api\processor\TestProcessor;
 use Drupal\search_api_test\PluginTestTrait;
 use Drupal\user\Entity\User;
 
@@ -196,7 +198,18 @@ class IndexChangesTest extends KernelTestBase {
       ->get('search_api.fields_helper')
       ->createField($this->index, 'id', $info);
     $this->index->addField($field);
+
+    $processor = \Drupal::getContainer()
+      ->get('search_api.plugin_helper')
+      ->createProcessorPlugin($this->index, 'search_api_test');
+    $this->index->addProcessor($processor);
+    $this->setMethodOverride('processor', 'supportsIndex', function (IndexInterface $index) {
+      return in_array('entity:entity_test_mulrev_changed', $index->getDatasourceIds());
+    });
+
     $this->index->save();
+
+    $this->assertArrayHasKey('search_api_test', $this->index->getProcessors());
 
     $tracker = $this->index->getTrackerInstance();
 
@@ -221,6 +234,7 @@ class IndexChangesTest extends KernelTestBase {
     $this->index->removeDatasource('entity:entity_test_mulrev_changed')->save();
 
     $this->assertArrayNotHasKey('id', $this->index->getFields());
+    $this->assertArrayNotHasKey('search_api_test', $this->index->getProcessors());
 
     $this->assertEquals(1, $tracker->getTotalItemsCount());
 

@@ -15,6 +15,9 @@ search_api.fields_processor_configuration:
   type: search_api.default_processor_configuration
   label: 'Fields processor configuration'
   mapping:
+    all_fields:
+      type: boolean
+      label: 'Enabled for all supported fields'
     fields:
       type: sequence
       label: 'The selected fields'
