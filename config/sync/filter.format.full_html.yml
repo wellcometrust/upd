@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - editor
+    - video_embed_wysiwyg
 name: 'Full html'
 format: full_html
 weight: 0
@@ -26,7 +27,7 @@ filters:
     status: true
     weight: -50
     settings:
-      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <sup> <sub> <img src alt data-entity-type data-entity-uuid data-align data-caption>'
+      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <sup> <sub> <img src alt data-entity-type data-entity-uuid data-align data-caption> <video>'
       filter_html_help: true
       filter_html_nofollow: false
   filter_htmlcorrector:
@@ -65,4 +66,10 @@ filters:
     provider: filter
     status: true
     weight: -49
+    settings: {  }
+  video_embed_wysiwyg:
+    id: video_embed_wysiwyg
+    provider: video_embed_wysiwyg
+    status: true
+    weight: 0
     settings: {  }
