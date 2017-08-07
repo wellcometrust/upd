@@ -84,4 +84,30 @@
     orphans: 3;
     widows: 3;
   }
+
+  /**
+   * UDP specific print styles.
+   */
+  .layout {
+    margin-top: 0;
+  }
+
+  *+.toc__item {
+    margin-top: 0.5rem;
+  }
+
+  .intro:after {
+    margin: 2rem 0 0;
+  }
+
+  .content {
+    section:not([class]) {
+      margin-top: 0;
+    }
+
+    h2:not([class]) {
+      padding: 2rem 0 1rem;
+    }
+  }
+
 }
