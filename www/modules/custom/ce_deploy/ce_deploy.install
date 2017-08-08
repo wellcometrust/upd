@@ -10,3 +10,12 @@
 function ce_deploy_install() {
   ce_deploy_delete_all_field_instances('field_standfirst');
 }
+
+/**
+ * Flush image styles for better logo sizes.
+ */
+use Drupal\image\Entity\ImageStyle;
+function ce_deploy_update_8301() {
+  $style = ImageStyle::load('logo');
+  $style->flush();
+}
