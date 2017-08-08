@@ -41,7 +41,8 @@
     "drupal/paragraphs": "1.*",
     "drupal/config_ignore": "1.*",
     "drupal/pathauto": "1.*",
-    "drupal/jquery_colorpicker": "1.*"
+    "drupal/jquery_colorpicker": "1.*",
+    "drupal/video_embed_field": "^1.5"
   },
   "require-dev": {
     "drupal/devel": "1.*"

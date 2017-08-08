@@ -25,7 +25,7 @@ module:
   image: 0
   inline_form_errors: 0
   jquery_colorpicker: 0
-  layout_plugin: 0
+  layout_discovery: 0
   link: 0
   menu_ui: 0
   metatag: 0
@@ -51,6 +51,8 @@ module:
   upd_search: 0
   update: 0
   user: 0
+  video_embed_field: 0
+  video_embed_wysiwyg: 0
   views: 0
   menu_link_content: 1
   pathauto: 1
