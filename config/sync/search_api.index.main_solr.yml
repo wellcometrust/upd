@@ -32,16 +32,24 @@ field_settings:
           faq: default
           landing_page: default
           tile: default
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
   title:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
+    boost: !!float 13
   name:
     label: 'Impact of work » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_impact_of_work:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_impact_of_work
@@ -51,7 +59,7 @@ field_settings:
     label: 'Disease type or population group » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_disease_type:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_disease_type
@@ -61,7 +69,7 @@ field_settings:
     label: 'Impact of work » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_impact_of_work:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_impact_of_work
@@ -79,33 +87,36 @@ field_settings:
     label: 'Sources of data » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_sources_of_data:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_sources_of_data
       module:
         - taxonomy
   status:
-    label: null
+    label: status
     datasource_id: 'entity:node'
     property_path: status
     type: boolean
     indexed_locked: true
     type_locked: true
   uid:
-    label: null
+    label: uid
     datasource_id: 'entity:node'
     property_path: uid
     type: integer
     indexed_locked: true
     type_locked: true
-  node_grants:
-    label: 'Node access information'
-    property_path: search_api_node_grants
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
     type: string
-    indexed_locked: true
-    type_locked: true
-    hidden: true
 datasource_settings:
   'entity:node':
     bundles:
@@ -117,21 +128,26 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
-  rendered_item: {  }
   content_access:
     weights:
       preprocess_query: -30
   entity_status: {  }
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields:
+      - title
+    prefix: '<strong>'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
   html_filter:
     all_fields: false
     fields:
-      - rendered_item
       - title
-      - name
-      - name_1
-      - name_2
-      - field_standfirst
-      - name_3
+      - type
     title: true
     alt: true
     tags:
@@ -140,8 +156,6 @@ processor_settings:
       h3: 2
       strong: 2
       b: 2
-      em: 1
-      u: 1
     weights:
       preprocess_index: -15
       preprocess_query: -15
@@ -158,6 +172,7 @@ processor_settings:
     weights:
       preprocess_index: -20
       preprocess_query: -20
+  rendered_item: {  }
   stemmer:
     all_fields: false
     fields:
@@ -193,6 +208,49 @@ processor_settings:
     weights:
       preprocess_index: -20
       preprocess_query: -20
+  stopwords:
+    all_fields: false
+    fields:
+      - title
+    stopwords:
+      - a
+      - an
+      - and
+      - are
+      - as
+      - at
+      - be
+      - but
+      - by
+      - for
+      - if
+      - in
+      - into
+      - is
+      - it
+      - 'no'
+      - not
+      - of
+      - 'on'
+      - or
+      - s
+      - such
+      - t
+      - that
+      - the
+      - their
+      - then
+      - there
+      - these
+      - they
+      - this
+      - to
+      - was
+      - will
+      - with
+    weights:
+      preprocess_index: -5
+      preprocess_query: -2
 tracker_settings:
   default: {  }
 options:
