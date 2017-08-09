@@ -1748,7 +1748,7 @@ class SearchApiSolrBackend extends BackendPluginBase implements SolrBackendInter
           return "$field:[* TO *]";
         }
         else {
-          return "(*:* -$field:$value)";
+          return "-$field:$value";
         }
 
       case '<':
@@ -1767,7 +1767,7 @@ class SearchApiSolrBackend extends BackendPluginBase implements SolrBackendInter
         return "$field:[" . array_shift($value) . ' TO ' . array_shift($value) . ']';
 
       case 'NOT BETWEEN':
-        return "(*:* -$field:[" . array_shift($value) . ' TO ' . array_shift($value) . '])';
+        return "-$field:[" . array_shift($value) . ' TO ' . array_shift($value) . ']';
 
       case 'IN':
         $parts = [];
@@ -1781,8 +1781,7 @@ class SearchApiSolrBackend extends BackendPluginBase implements SolrBackendInter
           }
         }
         if ($null) {
-          // @see https://stackoverflow.com/questions/4238609/how-to-query-solr-for-empty-fields/28859224#28859224
-          return "(*:* -$field:[* TO *])";
+          $parts[] = "(-$field:[* TO *])";
         }
         return '(' . implode(" ", $parts) . ')';
 
@@ -1802,8 +1801,7 @@ class SearchApiSolrBackend extends BackendPluginBase implements SolrBackendInter
       case '=':
       default:
         if (is_null($value)) {
-          // @see https://stackoverflow.com/questions/4238609/how-to-query-solr-for-empty-fields/28859224#28859224
-          return "(*:* -$field:[* TO *])";
+          return "-$field:[* TO *]";
         }
         else {
           return "$field:$value";
@@ -2206,17 +2204,11 @@ class SearchApiSolrBackend extends BackendPluginBase implements SolrBackendInter
           }
           if ($snippets) {
             $values = $item_fields[$search_api_property]->getValues();
+            /** @var \Drupal\search_api\Plugin\search_api\data_type\value\TextValue $value */
             foreach ($values as $value) {
               foreach ($snippets as $snippet) {
-                if ($value instanceof TextValue) {
-                  if ($value->getText() === $snippet['raw']) {
-                    $value->setText($snippet['replace']);
-                  }
-                }
-                else {
-                  if ($value == $snippet['raw']) {
-                    $value == $snippet['replace'];
-                  }
+                if ($value->getText() === $snippet['raw']) {
+                  $value->setText($snippet['replace']);
                 }
               }
             }
