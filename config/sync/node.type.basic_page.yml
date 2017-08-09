@@ -8,7 +8,7 @@ third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
-name: 'Basic page'
+name: Information
 type: basic_page
 description: 'A page with multiple variations to deal with pages that aren''t case studies, News, Faqs or landing pages.'
 help: ''
