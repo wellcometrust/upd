@@ -7,6 +7,8 @@ dependencies:
     - field.storage.node.field_disease_type
     - field.storage.node.field_standfirst
     - field.storage.node.field_sources_of_data
+    - field.storage.node.field_geographical_area
+    - field.storage.node.field_type_of_user
     - search_api.server.local_solr
   module:
     - taxonomy
@@ -143,6 +145,42 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_sources_of_data
+  name_4:
+    label: 'Geographical area » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_geographical_area:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_geographical_area
+      module:
+        - taxonomy
+  name_5:
+    label: 'Type of user » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_type_of_user:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_type_of_user
+      module:
+        - taxonomy
+  field_geographical_area:
+    label: 'Geographical area'
+    datasource_id: 'entity:node'
+    property_path: field_geographical_area
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_geographical_area
+  field_type_of_user:
+    label: 'Type of user'
+    datasource_id: 'entity:node'
+    property_path: field_type_of_user
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_type_of_user
 datasource_settings:
   'entity:node':
     bundles:

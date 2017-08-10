@@ -4,8 +4,10 @@ status: true
 dependencies:
   config:
     - facets.facet.disease_type_or_population_group
+    - facets.facet.geographical_area
     - facets.facet.impact_of_work_solr
     - facets.facet.sources_of_data_solr
+    - facets.facet.type_of_user
     - page_manager.page.case_studies_solr
     - views.view.case_studies_index_solr
   module:
@@ -24,7 +26,7 @@ variant_settings:
       provider: facets
       label_display: visible
       region: filters
-      weight: -1
+      weight: -2
       uuid: 46167dc8-efe6-4c18-a770-e61af0897552
       context_mapping: {  }
     a703d4b4-2623-40cd-b0b9-efaf9be08e90:
@@ -33,7 +35,7 @@ variant_settings:
       provider: facets
       label_display: visible
       region: filters
-      weight: 1
+      weight: 0
       uuid: a703d4b4-2623-40cd-b0b9-efaf9be08e90
       context_mapping: {  }
     a03e997c-b437-45f3-b5f3-c8632092175e:
@@ -42,7 +44,7 @@ variant_settings:
       provider: facets
       label_display: visible
       region: filters
-      weight: 0
+      weight: -1
       uuid: a03e997c-b437-45f3-b5f3-c8632092175e
       context_mapping: {  }
     3473d89e-1407-41af-8fdc-717dda8f308c:
@@ -74,8 +76,26 @@ variant_settings:
       form_action: case-studies-solr
       form_label: 'Search the entire Understanding Patient Data site'
       region: filters
-      weight: -2
+      weight: -3
       uuid: 3bd1a6e4-a0b2-4e09-8ac1-1dff5dc5497d
+      context_mapping: {  }
+    ca920e53-93cb-44a2-ac18-e10e936390ae:
+      id: 'facet_block:geographical_area'
+      label: 'Geographical area'
+      provider: facets
+      label_display: visible
+      region: filters
+      weight: 1
+      uuid: ca920e53-93cb-44a2-ac18-e10e936390ae
+      context_mapping: {  }
+    41d73537-46ea-4ead-b2a9-ca9c9f883cd8:
+      id: 'facet_block:type_of_user'
+      label: 'Type of user'
+      provider: facets
+      label_display: visible
+      region: filters
+      weight: 2
+      uuid: 41d73537-46ea-4ead-b2a9-ca9c9f883cd8
       context_mapping: {  }
   id: panels_variant
   uuid: 3dac35d1-4614-4c8b-8b9e-11020e48279c

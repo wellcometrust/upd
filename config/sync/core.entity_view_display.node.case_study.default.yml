@@ -5,12 +5,14 @@ dependencies:
   config:
     - field.field.node.case_study.field_disease_type
     - field.field.node.case_study.field_featured
+    - field.field.node.case_study.field_geographical_area
     - field.field.node.case_study.field_impact_of_work
     - field.field.node.case_study.field_list_text
     - field.field.node.case_study.field_pdf
     - field.field.node.case_study.field_sources_of_data
     - field.field.node.case_study.field_standfirst
     - field.field.node.case_study.field_thumbnail
+    - field.field.node.case_study.field_type_of_user
     - field.field.node.case_study.field_vertical_tab
     - node.type.case_study
   module:
@@ -35,6 +37,14 @@ content:
     settings:
       link: true
     third_party_settings: {  }
+    region: content
+  field_geographical_area:
+    weight: 9
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
     region: content
   field_impact_of_work:
     type: entity_reference_label
@@ -72,6 +82,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_type_of_user:
+    weight: 10
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
     region: content
   field_vertical_tab:
     type: entity_reference_revisions_entity_view
