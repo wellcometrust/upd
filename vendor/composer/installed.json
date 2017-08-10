@@ -3980,7 +3980,7 @@
         "dist": {
             "type": "zip",
             "url": "https://ftp.drupal.org/files/projects/search_api_solr-8.x-1.0-rc4.zip",
-            "reference": null,
+            "reference": "8.x-1.0-rc4",
             "shasum": "8d49e3b4d4783fff318763e1051ca9592544c6bf"
         },
         "require": {

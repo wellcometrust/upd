@@ -21,6 +21,7 @@ field_settings:
     label: 'Rendered HTML output'
     property_path: rendered_item
     type: text
+    boost: 0.8
     configuration:
       roles:
         anonymous: anonymous
@@ -80,6 +81,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: field_standfirst
     type: text
+    boost: !!float 5
     dependencies:
       config:
         - field.storage.node.field_standfirst
@@ -146,7 +148,9 @@ processor_settings:
   html_filter:
     all_fields: false
     fields:
+      - rendered_item
       - title
+      - field_standfirst
       - type
     title: true
     alt: true
@@ -159,121 +163,7 @@ processor_settings:
     weights:
       preprocess_index: -15
       preprocess_query: -15
-  ignorecase:
-    all_fields: false
-    fields:
-      - rendered_item
-      - title
-      - field_standfirst
-    weights:
-      preprocess_index: -20
-      preprocess_query: -20
-  ignore_character:
-    all_fields: false
-    fields:
-      - title
-    ignorable: '[''¿¡!?,.:;]'
-    strip:
-      character_sets:
-        Pc: Pc
-        Pd: Pd
-        Pe: Pe
-        Pf: Pf
-        Pi: Pi
-        Po: Po
-        Ps: Ps
-        Cc: 0
-        Cf: 0
-        Co: 0
-        Mc: 0
-        Me: 0
-        Mn: 0
-        Sc: 0
-        Sk: 0
-        Sm: 0
-        So: 0
-        Zl: 0
-        Zp: 0
-        Zs: 0
-    weights:
-      preprocess_index: -10
-      preprocess_query: -10
   rendered_item: {  }
-  stemmer:
-    all_fields: false
-    fields:
-      - rendered_item
-      - title
-      - field_standfirst
-    exceptions:
-      texan: texa
-      mexican: mexic
-    weights:
-      preprocess_index: 0
-      preprocess_query: 0
-  stopwords:
-    all_fields: false
-    fields:
-      - title
-    stopwords:
-      - a
-      - an
-      - and
-      - are
-      - as
-      - at
-      - be
-      - but
-      - by
-      - for
-      - if
-      - in
-      - into
-      - is
-      - it
-      - 'no'
-      - not
-      - of
-      - 'on'
-      - or
-      - s
-      - such
-      - t
-      - that
-      - the
-      - their
-      - then
-      - there
-      - these
-      - they
-      - this
-      - to
-      - was
-      - will
-      - with
-    weights:
-      preprocess_index: -5
-      preprocess_query: -2
-  tokenizer:
-    all_fields: false
-    fields:
-      - rendered_item
-      - title
-      - field_standfirst
-    spaces: ''
-    overlap_cjk: 1
-    minimum_word_size: '3'
-    weights:
-      preprocess_index: -6
-      preprocess_query: -6
-  transliteration:
-    all_fields: false
-    fields:
-      - rendered_item
-      - title
-    weights:
-      preprocess_index: -20
-      preprocess_query: -20
 tracker_settings:
   default: {  }
 options:

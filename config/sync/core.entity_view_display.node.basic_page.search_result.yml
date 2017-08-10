@@ -19,17 +19,22 @@ targetEntityType: node
 bundle: basic_page
 mode: search_result
 content:
+  field_list_text:
+    type: basic_string
+    weight: 1
+    region: content
+    label: above
+    settings: {  }
+    third_party_settings: {  }
   field_standfirst:
     weight: 0
     label: hidden
-    settings:
-      trim_length: 600
+    settings: {  }
     third_party_settings: {  }
-    type: text_trimmed
+    type: text_default
     region: content
 hidden:
   body: true
-  field_list_text: true
   field_pdf: true
   field_sections: true
   field_side_menu: true

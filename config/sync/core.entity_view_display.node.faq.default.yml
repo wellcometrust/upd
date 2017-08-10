@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.faq.field_faq_dropdown
+    - field.field.node.faq.field_list_text
     - field.field.node.faq.field_standfirst
     - node.type.faq
   module:
@@ -22,6 +23,13 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_list_text:
+    weight: 104
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
     region: content
   links:
     weight: 100

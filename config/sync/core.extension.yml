@@ -6,6 +6,8 @@ module:
   ckeditor: 0
   config: 0
   config_ignore: 0
+  config_update: 0
+  config_update_ui: 0
   contact: 0
   contextual: 0
   ctools: 0

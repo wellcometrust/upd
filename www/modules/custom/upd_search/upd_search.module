@@ -21,14 +21,14 @@ use Drupal\Component\Utility\Unicode;
 function upd_search_node_generate_excerpt(Node $node) {
   $excerpt = '';
   // Fetch from node if possible.
-  if (isset($node->field_list_text)) {
-    $excerpt = $node->get('field_list_text')->getString();
+  if (!empty($node->get('field_list_text')->value)) {
+    $excerpt = $node->get('field_list_text')->value;
   }
-  elseif (empty($excerpt) && isset($node->field_standfirst)) {
+  elseif (!empty($node->get('field_standfirst')->value)) {
     $excerpt = $node->get('field_standfirst')->value;
   }
   // Worst case, brute force the first bit of the body.
-  elseif (empty($excerpt) && isset($node->body)) {
+  elseif (!empty($node->get('body')->value)) {
     $excerpt = Unicode::truncate(strip_tags($node->get('body')->value), 400, TRUE, TRUE);
   }
 
