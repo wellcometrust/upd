@@ -47,7 +47,7 @@ function upd_search_preprocess_views_view(&$variables) {
   // the list text/standfirst can just be dealy with in
   // the template file for the listing/search view mode.
   $view = $variables['view'];
-  if (!in_array($view->id(), ['search', 'case_studies_index', 'site_search'])) {
+  if (!in_array($view->id(), ['search', 'case_studies_index', 'site_search', 'case_studies_index_solr'])) {
     return;
   }
 //  $excerpt = [];
