@@ -6,7 +6,7 @@ id: solr_site_search
 label: 'Solr Site Search'
 description: ''
 use_admin_theme: false
-path: /solrsearch
+path: /search
 access_logic: and
 access_conditions: {  }
 parameters: {  }

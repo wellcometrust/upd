@@ -21,7 +21,7 @@ variant_settings:
       label: 'Search form'
       provider: upd_search
       label_display: visible
-      form_action: solrsearch
+      form_action: search
       form_label: 'Search the entire Understanding Patient Data site'
       region: header
       weight: 0
