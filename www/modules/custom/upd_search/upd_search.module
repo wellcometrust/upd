@@ -24,13 +24,12 @@ function upd_search_node_generate_excerpt(Node $node) {
   if (isset($node->field_list_text)) {
     $excerpt = $node->get('field_list_text')->getString();
   }
-
-  if (empty($excerpt) && isset($node->field_standfirst)) {
-    $standfirst = $node->get('field_standfirst')->getValue();
-    // If the standfirst is HTML format then strip tags.
-    if ($standfirst[0]['format'] && $standfirst[0]['format'] == 'full_html') {
-      $excerpt = strip_tags($standfirst[0]['value']);
-    }
+  elseif (empty($excerpt) && isset($node->field_standfirst)) {
+    $excerpt = $node->get('field_standfirst')->value;
+  }
+  // Worst case, brute force the first bit of the body.
+  elseif (empty($excerpt) && isset($node->body)) {
+    $excerpt = Unicode::truncate(strip_tags($node->get('body')->value), 400, TRUE, TRUE);
   }
 
   return Unicode::truncate($excerpt, 4000, TRUE, TRUE);
