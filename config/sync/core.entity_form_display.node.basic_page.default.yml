@@ -22,7 +22,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 7
+    weight: 8
     settings:
       rows: 9
       summary_rows: 3
@@ -31,12 +31,12 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 2
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     region: content
   field_list_text:
-    weight: 8
+    weight: 1
     settings:
       rows: 5
       placeholder: ''
@@ -70,7 +70,7 @@ content:
     type: boolean_checkbox
     region: content
   field_standfirst:
-    weight: 6
+    weight: 7
     settings:
       rows: 5
       placeholder: ''
@@ -79,7 +79,7 @@ content:
     region: content
   path:
     type: path
-    weight: 5
+    weight: 6
     settings: {  }
     third_party_settings: {  }
     region: content
@@ -87,14 +87,14 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 3
+    weight: 4
     third_party_settings: {  }
     region: content
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 5
     third_party_settings: {  }
     region: content
   title:
@@ -107,7 +107,7 @@ content:
     region: content
   uid:
     type: entity_reference_autocomplete
-    weight: 1
+    weight: 2
     settings:
       match_operator: CONTAINS
       size: 60

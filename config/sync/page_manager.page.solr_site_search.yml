@@ -1,0 +1,12 @@
+uuid: c04c81ce-c25f-4d33-9a62-e99f07b2d84e
+langcode: en
+status: true
+dependencies: {  }
+id: solr_site_search
+label: 'Solr Site Search'
+description: ''
+use_admin_theme: false
+path: /search
+access_logic: and
+access_conditions: {  }
+parameters: {  }

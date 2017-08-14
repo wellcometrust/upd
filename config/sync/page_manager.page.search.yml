@@ -6,7 +6,7 @@ id: search
 label: Search
 description: ''
 use_admin_theme: false
-path: /search
+path: /old_search
 access_logic: and
 access_conditions: {  }
 parameters: {  }
