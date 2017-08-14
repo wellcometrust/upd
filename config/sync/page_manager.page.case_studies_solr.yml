@@ -6,7 +6,7 @@ id: case_studies_solr
 label: 'Case studies solr'
 description: ''
 use_admin_theme: false
-path: /case-studies-solr
+path: /case-studies
 access_logic: and
 access_conditions: {  }
 parameters: {  }
