@@ -33,9 +33,11 @@ field_settings:
       view_mode:
         'entity:node':
           art: default
+          basic_page: default
           case_study: default
-          resource: default
-          vertical_tab: default
+          faq: default
+          landing_page: default
+          tile: default
   nid:
     label: ID
     datasource_id: 'entity:node'
@@ -138,6 +140,7 @@ processor_settings:
     weights:
       preprocess_index: -10
       preprocess_query: -10
+    all_fields: false
   ignorecase:
     fields:
       - type
@@ -145,7 +148,7 @@ processor_settings:
     weights:
       preprocess_index: -9
       preprocess_query: -10
-  node_status: {  }
+    all_fields: false
   rendered_item: {  }
   stemmer:
     fields:
@@ -156,6 +159,7 @@ processor_settings:
     weights:
       preprocess_index: -5
       preprocess_query: 0
+    all_fields: false
   stopwords:
     fields:
       - title
@@ -198,6 +202,7 @@ processor_settings:
     weights:
       preprocess_index: -4
       preprocess_query: -2
+    all_fields: false
   tokenizer:
     fields:
       - title
@@ -207,6 +212,7 @@ processor_settings:
     weights:
       preprocess_index: -6
       preprocess_query: -6
+    all_fields: false
   transliteration:
     fields:
       - type
@@ -214,6 +220,7 @@ processor_settings:
     weights:
       preprocess_index: -7
       preprocess_query: -10
+    all_fields: false
 tracker_settings:
   default: {  }
 options:

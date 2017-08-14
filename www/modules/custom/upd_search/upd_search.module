@@ -21,13 +21,18 @@ use Drupal\Component\Utility\Unicode;
 function upd_search_node_generate_excerpt(Node $node) {
   $excerpt = '';
   // Fetch from node if possible.
-  if (isset($node->field_list_text)) {
-    $excerpt = $node->get('field_list_text')->getString();
+  if (isset($node->field_list_text) && !empty($node->get('field_list_text')->value)) {
+    $excerpt = $node->get('field_list_text')->value;
   }
-  if (empty($excerpt) && isset($node->field_standfirst)) {
-    $excerpt = $node->get('field_standfirst')->getString();
+  elseif (isset($node->field_standfirst) && !empty($node->get('field_standfirst')->value)) {
+    $excerpt = $node->get('field_standfirst')->value;
   }
-  return Unicode::truncate($excerpt, 400, TRUE, TRUE);
+  // Worst case, brute force the first bit of the body.
+  elseif (isset($node->body) &&  !empty($node->get('body')->value)) {
+    $excerpt = Unicode::truncate(strip_tags($node->get('body')->value), 400, TRUE, TRUE);
+  }
+
+  return Unicode::truncate($excerpt, 4000, TRUE, TRUE);
 }
 
 /**
@@ -42,17 +47,12 @@ function upd_search_preprocess_views_view(&$variables) {
   // the list text/standfirst can just be dealy with in
   // the template file for the listing/search view mode.
   $view = $variables['view'];
-  if (!in_array($view->id(), ['search', 'case_studies_index'])) {
+  if (!in_array($view->id(), ['search', 'case_studies_index', 'site_search'])) {
     return;
   }
-//  $excerpt = [];
-//  foreach ($view->result as $result) {
-//    $excerpt[$result->search_api_id] = !empty($result->search_api_excerpt) ? $result->search_api_excerpt : '';
-//  }
+
   foreach ($variables['rows'] as $row) {
     foreach ($row['#rows'] as $item) {
-      $id = 'entity:node/' . $item['#node']->id() . ':en';
-//      $item['#node']->excerpt = !empty($excerpt[$id]) ? $excerpt[$id] : upd_search_node_generate_excerpt($item['#node']);
       $item['#node']->excerpt = upd_search_node_generate_excerpt($item['#node']);
     }
   }
@@ -65,5 +65,20 @@ function upd_search_preprocess_views_view(&$variables) {
  * even if you do nothing inside the function body!
  */
 function upd_search_block_view_alter(array &$build, BlockPluginInterface $block) {
+}
 
+/**
+ * Implements hook_preprocess_block().
+ *
+ */
+function upd_search_preprocess_block(&$variables) {
+  // Hide some content types in the facet.
+  $content_type_to_hide = ['FAQ', 'Tile'];
+  if ($variables['elements']['#plugin_id'] == 'facet_block:content_type_solr') {
+    foreach ($variables['content'][0]['#items'] as $i => $facet) {
+      if (in_array($facet['#title']['#value'], $content_type_to_hide)) {
+        unset($variables['content'][0]['#items'][$i]);
+      }
+    }
+  }
 }

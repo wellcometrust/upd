@@ -1,0 +1,19 @@
+uuid: 4e8485e9-3a8e-4932-8a9f-580a8b065263
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_list_text
+    - node.type.art
+id: node.art.field_list_text
+field_name: field_list_text
+entity_type: node
+bundle: art
+label: 'List text'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

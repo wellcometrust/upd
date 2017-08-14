@@ -1,0 +1,26 @@
+uuid: cc7daf9d-5b95-4c99-a240-104d11be8fd0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.tile.field_standfirst
+    - field.field.node.tile.field_tile_paragraph
+    - node.type.tile
+  module:
+    - user
+id: node.tile.search_result
+targetEntityType: node
+bundle: tile
+mode: search_result
+content:
+  field_standfirst:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+hidden:
+  field_tile_paragraph: true
+  links: true

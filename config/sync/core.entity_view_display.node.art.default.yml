@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.art.body
+    - field.field.node.art.field_list_text
     - field.field.node.art.field_publish_date
     - field.field.node.art.field_related_news
     - node.type.art
@@ -19,12 +20,12 @@ content:
   body:
     label: hidden
     type: text_default
-    weight: 101
+    weight: 1
     settings: {  }
     third_party_settings: {  }
     region: content
   field_publish_date:
-    weight: 103
+    weight: 3
     label: above
     settings:
       timezone_override: ''
@@ -33,7 +34,7 @@ content:
     type: datetime_custom
     region: content
   field_related_news:
-    weight: 102
+    weight: 2
     label: above
     settings:
       view_mode: default
@@ -42,8 +43,9 @@ content:
     type: entity_reference_entity_view
     region: content
   links:
-    weight: 100
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
-hidden: {  }
+hidden:
+  field_list_text: true
