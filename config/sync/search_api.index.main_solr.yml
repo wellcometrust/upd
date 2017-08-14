@@ -7,6 +7,9 @@ dependencies:
     - field.storage.node.field_disease_type
     - field.storage.node.field_standfirst
     - field.storage.node.field_sources_of_data
+    - field.storage.node.field_geographical_area
+    - field.storage.node.field_type_of_user
+    - field.storage.node.field_key_words
     - search_api.server.local_solr
   module:
     - taxonomy
@@ -21,7 +24,6 @@ field_settings:
     label: 'Rendered HTML output'
     property_path: rendered_item
     type: text
-    boost: 0.8
     configuration:
       roles:
         anonymous: anonymous
@@ -45,7 +47,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: title
     type: text
-    boost: !!float 13
+    boost: !!float 8
   name:
     label: 'Impact of work » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -81,7 +83,6 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: field_standfirst
     type: text
-    boost: !!float 5
     dependencies:
       config:
         - field.storage.node.field_standfirst
@@ -119,6 +120,76 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: type
     type: string
+  field_disease_type:
+    label: 'Disease type or population group'
+    datasource_id: 'entity:node'
+    property_path: field_disease_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_disease_type
+  field_impact_of_work:
+    label: 'Impact of work'
+    datasource_id: 'entity:node'
+    property_path: field_impact_of_work
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+  field_sources_of_data:
+    label: 'Sources of data'
+    datasource_id: 'entity:node'
+    property_path: field_sources_of_data
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_sources_of_data
+  name_4:
+    label: 'Geographical area » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_geographical_area:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_geographical_area
+      module:
+        - taxonomy
+  name_5:
+    label: 'Type of user » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_type_of_user:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_type_of_user
+      module:
+        - taxonomy
+  field_geographical_area:
+    label: 'Geographical area'
+    datasource_id: 'entity:node'
+    property_path: field_geographical_area
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_geographical_area
+  field_type_of_user:
+    label: 'Type of user'
+    datasource_id: 'entity:node'
+    property_path: field_type_of_user
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_type_of_user
+  name_6:
+    label: 'Key words » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_key_words:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_key_words
+      module:
+        - taxonomy
 datasource_settings:
   'entity:node':
     bundles:

@@ -1,0 +1,12 @@
+uuid: fbff2dc3-0689-4bc1-a32c-97e525fb892e
+langcode: en
+status: true
+dependencies: {  }
+id: case_studies_solr
+label: 'Case studies solr'
+description: ''
+use_admin_theme: false
+path: /case-studies-solr
+access_logic: and
+access_conditions: {  }
+parameters: {  }
