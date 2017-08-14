@@ -103,7 +103,7 @@ variant_settings:
   weight: 0
   layout: case_studies_index
   layout_settings: {  }
-  page_title: ''
+  page_title: 'Case studies'
   storage_type: page_manager
   storage_id: case_studies_solr-panels_variant-0
   builder: standard
