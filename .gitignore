@@ -17,3 +17,4 @@ config/sync/system.menu.devel.*
 config/sync/devel.*
 config/sync/devel_generate.*
 config/sync/webprofiler.*
+www/modules/contrib/devel/*
