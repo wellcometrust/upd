@@ -38,6 +38,7 @@ settings:
         -
           name: Tools
           items:
+            - tooltip
             - Source
   plugins:
     language:

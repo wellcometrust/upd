@@ -47,6 +47,7 @@ module:
   toolbar: 0
   upd_basic_page: 0
   upd_case_study: 0
+  upd_ck_tooltip: 0
   upd_contact: 0
   upd_featured_case_studies: 0
   upd_search: 0
