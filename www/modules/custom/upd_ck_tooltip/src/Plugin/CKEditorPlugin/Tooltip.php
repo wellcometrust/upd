@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\udp_ck_tooltip\Plugin\CKEditorPlugin;
+namespace Drupal\upd_ck_tooltip\Plugin\CKEditorPlugin;
 
 use Drupal\editor\Entity\Editor;
 use Drupal\ckeditor\CKEditorPluginBase;
@@ -13,7 +13,7 @@ use Drupal\ckeditor\CKEditorPluginCssInterface;
  * @CKEditorPlugin(
  *   id = "tooltip",
  *   label = @Translation("CKEditor tooltip"),
- *   module = "udp_ck_tooltip"
+ *   module = "upd_ck_tooltip"
  * )
  */
 class Tooltip extends CKEditorPluginBase implements CKEditorPluginCssInterface {
