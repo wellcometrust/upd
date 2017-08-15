@@ -1,0 +1,29 @@
+[tooltip] {
+  border-bottom: 1px dotted #555; /* If you want dots under the hoverable text */
+  position : relative;
+  display: inline-block;
+  transition: none;
+}
+
+[tooltip]:before {
+  position : absolute;
+  content : attr(tooltip);
+  opacity : 0;
+  transition: none;
+}
+
+[tooltip]:hover:before {
+  opacity: 1;
+  width: 275px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+
+  line-height: 1em;
+  font-size: 0.9em;
+  top: -110%;
+  left: -50%;
+  transition: opacity 0.5s;
+}
