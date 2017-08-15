@@ -53,7 +53,7 @@ variant_settings:
   weight: 0
   layout: search
   layout_settings: {  }
-  page_title: ''
+  page_title: 'Site search'
   storage_type: page_manager
   storage_id: solr_site_search-panels_variant-0
   builder: standard
