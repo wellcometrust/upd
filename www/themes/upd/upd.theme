@@ -147,6 +147,16 @@ function upd_preprocess_image(&$variables) {
  * Implements hook_preprocess_node()
  */
 function upd_preprocess_node(&$variables) {
+  _generate_related_news_block($variables);
+}
+
+/**
+ * Helper function to generate block of related content for news.
+ *
+ * @param $variables
+ * @see hook_preprocess_node()
+ */
+function _generate_related_news_block(&$variables) {
   $node = $variables['node'];
   // If we are looking at the full view of a news article node.
   if ($node->getType() == 'art' && $variables['view_mode'] == 'full') {
