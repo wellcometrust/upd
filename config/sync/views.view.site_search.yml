@@ -249,7 +249,7 @@ display:
           expose:
             label: ''
           plugin_id: search_api
-      title: ''
+      title: 'Site search'
       header: {  }
       footer: {  }
       empty: {  }
