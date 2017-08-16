@@ -5,9 +5,11 @@ dependencies:
   config:
     - field.field.node.faq.field_faq_dropdown
     - field.field.node.faq.field_list_text
+    - field.field.node.faq.field_pdf
     - field.field.node.faq.field_standfirst
     - node.type.faq
   module:
+    - file
     - paragraphs
     - path
 id: node.faq.default
@@ -40,6 +42,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_pdf:
+    weight: 26
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
     region: content
   field_standfirst:
     weight: 7

@@ -111,6 +111,15 @@
         <div{{ content_attributes.addClass('content u-font-body-copy') }}>
           {{ content.field_faq_dropdown }}
         </div>
+
+        <ul class="content__actions">
+          {% if content.field_pdf|render %}
+            <li class="content__action">
+              <a class="button button--tertiary" href="{{ content.field_pdf[0]['#markup'] }}">Download PDF</a>
+            </li>
+          {% endif %}
+        </ul>
+
       </div>
     </article>
   </main>
