@@ -35,7 +35,7 @@
     "drupal/page_manager": "1.*",
     "drupal/ctools": "3.*",
     "drupal/layout_plugin": "1.*",
-    "drupal/panels": "3.*",
+    "drupal/panels": "4.*",
     "drupal/facets": "1.*",
     "drupal/search_api": "1.*",
     "drupal/paragraphs": "1.*",
@@ -43,7 +43,8 @@
     "drupal/pathauto": "1.*",
     "drupal/jquery_colorpicker": "1.*",
     "drupal/video_embed_field": "^1.5",
-    "drupal/search_api_solr": "^1.0"
+    "drupal/search_api_solr": "^1.0",
+    "drupal/metatag": "^1.2"
   },
   "require-dev": {
     "drupal/devel": "1.*"

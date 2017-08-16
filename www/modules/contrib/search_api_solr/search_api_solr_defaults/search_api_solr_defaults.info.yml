@@ -13,8 +13,8 @@ dependencies:
   - drupal:views
   - search_api_solr
 
-# Information added by Drupal.org packaging script on 2017-06-09
-version: '8.x-1.0-rc4'
+# Information added by Drupal.org packaging script on 2017-06-27
+version: '8.x-1.0'
 core: '8.x'
 project: 'search_api_solr'
-datestamp: 1497007746
+datestamp: 1498580649

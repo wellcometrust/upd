@@ -478,8 +478,12 @@ class PanelsIPEPageController extends ControllerBase {
       throw new AccessDeniedHttpException();
     }
 
-    // Grab our Block Content Entity form handler.
-    $form = $this->entityFormBuilder()->getForm($block, 'panels_ipe');
+    // Grab our Block Content Entity form handler, and pass the Panels display
+    // variant to it in $form_state.
+    $form_state = [
+      'panels_display' => $this->loadPanelsDisplay($panels_storage_type, $panels_storage_id),
+    ];
+    $form = $this->entityFormBuilder()->getForm($block, 'panels_ipe', $form_state);
 
     // Return the rendered form as a proper Drupal AJAX response.
     $response = new AjaxResponse();
