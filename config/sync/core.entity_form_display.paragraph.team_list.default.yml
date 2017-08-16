@@ -6,8 +6,6 @@ dependencies:
     - field.field.paragraph.team_list.field_display_mode
     - field.field.paragraph.team_list.field_team_member
     - paragraphs.paragraphs_type.team_list
-  module:
-    - content_moderation
 id: paragraph.team_list.default
 targetEntityType: paragraph
 bundle: team_list
@@ -18,6 +16,7 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
   field_team_member:
     weight: 6
     settings:
@@ -26,6 +25,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
 hidden:
   created: true
   status: true

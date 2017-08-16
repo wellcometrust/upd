@@ -8,7 +8,6 @@ dependencies:
     - image.style.thumbnail
     - paragraphs.paragraphs_type.funding
   module:
-    - content_moderation
     - image
     - text
 id: paragraph.funding.default
@@ -23,6 +22,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
   field_funding_image:
     weight: 6
     settings:
@@ -30,6 +30,7 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
 hidden:
   created: true
   status: true

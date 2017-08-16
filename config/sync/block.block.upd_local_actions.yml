@@ -8,7 +8,7 @@ _core:
   default_config_hash: PffmQ-ABSz5tFjWmVsR7NesunDnEivvopnJnBjl8KNE
 id: upd_local_actions
 theme: upd
-region: '-1'
+region: header
 weight: -3
 provider: null
 plugin: local_actions_block

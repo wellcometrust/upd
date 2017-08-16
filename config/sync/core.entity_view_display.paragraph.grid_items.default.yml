@@ -22,6 +22,7 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
   field_item_info_link:
     weight: 2
     label: above
@@ -33,6 +34,7 @@ content:
       target: '0'
     third_party_settings: {  }
     type: link
+    region: content
   field_item_info_text:
     weight: 1
     label: above
@@ -40,6 +42,7 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
   field_svg_reference:
     weight: 4
     label: above
@@ -47,4 +50,5 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
 hidden: {  }

@@ -10,7 +10,6 @@ dependencies:
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
-    - content_moderation
     - paragraphs
     - path
 id: node.landing_page.default
@@ -23,6 +22,7 @@ content:
     weight: 10
     settings: {  }
     third_party_settings: {  }
+    region: content
   field_3_items_grid:
     type: entity_reference_paragraphs
     weight: 32
@@ -34,14 +34,7 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-  field_case_studies:
-    weight: 36
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
+    region: content
   field_featured_articles:
     weight: 35
     settings:
@@ -50,6 +43,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
   field_hero_intro:
     weight: 33
     settings:
@@ -57,6 +51,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
   field_testimonial:
     type: entity_reference_paragraphs
     weight: 34
@@ -68,23 +63,27 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
+    region: content
   path:
     type: path
     weight: 30
     settings: {  }
     third_party_settings: {  }
+    region: content
   promote:
     type: boolean_checkbox
     settings:
       display_label: true
     weight: 15
     third_party_settings: {  }
+    region: content
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
     weight: 16
     third_party_settings: {  }
+    region: content
   title:
     type: string_textfield
     weight: -5
@@ -92,6 +91,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 5
@@ -100,4 +100,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+    region: content
+hidden:
+  field_case_studies: true

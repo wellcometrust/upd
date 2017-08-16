@@ -89,6 +89,7 @@ class FacetSourceEditForm extends EntityForm {
     /** @var \Drupal\facets\FacetSourceInterface $facet_source */
     $facet_source = $this->getEntity();
 
+    $form['#tree'] = TRUE;
     $form['filter_key'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Filter key'),
@@ -101,8 +102,8 @@ class FacetSourceEditForm extends EntityForm {
       ),
     ];
 
-    $url_processors = array();
-    $url_processors_description = array();
+    $url_processors = [];
+    $url_processors_description = [];
     foreach ($this->urlProcessorPluginManager->getDefinitions() as $definition) {
       $url_processors[$definition['id']] = $definition['label'];
       $url_processors_description[] = $definition['description'];
@@ -114,6 +115,27 @@ class FacetSourceEditForm extends EntityForm {
       '#default_value' => $facet_source->getUrlProcessorName(),
       '#description' => $this->t(
         'The URL Processor defines the url structure used for this facet source.') . '<br />- ' . implode('<br>- ', $url_processors_description),
+    ];
+
+    $breadcrumb_settings = $facet_source->getBreadcrumbSettings();
+    $form['breadcrumb'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Breadcrumb'),
+    ];
+    $form['breadcrumb']['active'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Append active facets to breadcrumb'),
+      '#default_value' => isset($breadcrumb_settings['active']) ? $breadcrumb_settings['active'] : FALSE,
+    ];
+    $form['breadcrumb']['group'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Group active items under same crumb (not implemented yet - now always grouping)'),
+      '#default_value' => isset($breadcrumb_settings['group']) ? $breadcrumb_settings['group'] : FALSE,
+      '#states' => [
+        'visible' => [
+          ':input[name="breadcrumb[active]"]' => ['checked' => TRUE],
+        ],
+      ],
     ];
 
     // The parent's form build method will add a save button.

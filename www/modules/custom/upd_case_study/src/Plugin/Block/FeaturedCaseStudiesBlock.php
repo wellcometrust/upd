@@ -36,15 +36,13 @@ class FeaturedCaseStudiesBlock extends BlockBase implements BlockPluginInterface
     }
     $config = $this->getConfiguration();
     $view_mode = $config['view_mode'];
-    $query = \Drupal::entityQuery('node');
-    $query->condition('status', 1);
-    $query->condition('type', 'case_study');
-    $query->condition('sticky', 1);
-    $query->range(0, 3);
-    $query->sort('created', 'DESC');
-    $entity_ids = $query->execute();
-    if (count($entity_ids) < 3) {
-      return $build;
+    $state = \Drupal::state();
+    $entity_ids = [];
+    for ($i = 1; $i <= 3; $i++) {
+      $entity_ids[$i] = $state->get('featured_case_study_' . $i);
+      if ($entity_ids[$i] == NULL) {
+        return $build;
+      }
     }
     $nodes = entity_load_multiple('node', $entity_ids);
     foreach ($nodes as $node) {

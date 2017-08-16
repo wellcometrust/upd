@@ -56,14 +56,11 @@ class ModerationOptOutUnpublishNode extends UnpublishNode implements ContainerFa
   public function access($entity, AccountInterface $account = NULL, $return_as_object = FALSE) {
     /** @var \Drupal\node\NodeInterface $entity */
     if ($entity && $this->moderationInfo->isModeratedEntity($entity)) {
-      drupal_set_message($this->t("@bundle @label were skipped as they are under moderation and may not be directly unpublished.", [
-        '@bundle' => node_get_type_label($entity),
-        '@label'  => $entity->getEntityType()->getPluralLabel()
-      ]), 'warning');
+      drupal_set_message($this->t("@bundle @label were skipped as they are under moderation and may not be directly unpublished.", ['@bundle' => node_get_type_label($entity), '@label' => $entity->getEntityType()->getPluralLabel()]), 'warning');
       $result = AccessResult::forbidden();
       return $return_as_object ? $result : $result->isAllowed();
     }
-    return parent::access($entity, $account, TRUE)
-      ->andif(AccessResult::forbiddenIf($this->moderationInfo->isModeratedEntity($entity))->addCacheableDependency($entity));
+    return parent::access($entity, $account, $return_as_object);
   }
+
 }

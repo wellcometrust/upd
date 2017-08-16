@@ -1,0 +1,41 @@
+uuid: 3dbb8b08-b358-453e-9a24-4224a5d1fa8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.basic_page.body
+    - field.field.node.basic_page.field_list_text
+    - field.field.node.basic_page.field_pdf
+    - field.field.node.basic_page.field_sections
+    - field.field.node.basic_page.field_side_menu
+    - field.field.node.basic_page.field_standfirst
+    - node.type.basic_page
+  module:
+    - text
+    - user
+id: node.basic_page.search_result
+targetEntityType: node
+bundle: basic_page
+mode: search_result
+content:
+  field_list_text:
+    type: basic_string
+    weight: 1
+    region: content
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+  field_standfirst:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  body: true
+  field_pdf: true
+  field_sections: true
+  field_side_menu: true
+  links: true

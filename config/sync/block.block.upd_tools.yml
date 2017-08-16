@@ -12,7 +12,7 @@ _core:
   default_config_hash: xCOijLdB1-UgXxQ9a0D1_pd8vxNEhfMnxXZc8jYhHjs
 id: upd_tools
 theme: upd
-region: '-1'
+region: header
 weight: -1
 provider: null
 plugin: 'system_menu_block:tools'

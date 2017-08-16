@@ -20,8 +20,10 @@ mode: default
 content:
   account:
     weight: -10
+    region: content
   contact:
     weight: 5
+    region: content
   field_name_and_surname:
     weight: 31
     settings:
@@ -29,6 +31,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
   field_photo:
     weight: 33
     settings:
@@ -36,6 +39,7 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
   field_position:
     weight: 32
     settings:
@@ -43,6 +47,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
   field_twitter:
     weight: 34
     settings:
@@ -50,15 +55,20 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
   google_analytics:
     weight: 3
+    region: content
   language:
     weight: 0
+    region: content
   path:
     type: path
     weight: 30
     settings: {  }
     third_party_settings: {  }
+    region: content
   timezone:
     weight: 6
+    region: content
 hidden: {  }

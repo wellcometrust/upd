@@ -87,9 +87,12 @@
         </div>
       </div>
     </article>
+
     <aside class="layout__item  layout__item--secondary  layout__item--sticky">
       <div class="layout__wrapper">
-        {{ content.field_related_news }}
+        <h2 class="h3  h3--sidebar">Related news</h2>
+          {{ related_news_articles }}
+          {{ content.field_related_news }}
       </div>
     </aside>
   </main>

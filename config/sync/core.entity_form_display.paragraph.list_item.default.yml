@@ -6,8 +6,6 @@ dependencies:
     - field.field.paragraph.list_item.field_list_title
     - field.field.paragraph.list_item.field_sublist_item
     - paragraphs.paragraphs_type.list_item
-  module:
-    - content_moderation
 id: paragraph.list_item.default
 targetEntityType: paragraph
 bundle: list_item
@@ -20,6 +18,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
   field_sublist_item:
     weight: 7
     settings:
@@ -27,6 +26,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
 hidden:
   created: true
   status: true

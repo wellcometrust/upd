@@ -7,7 +7,6 @@ dependencies:
     - field.field.paragraph.case_study_vertical_tab.field_title
     - paragraphs.paragraphs_type.case_study_vertical_tab
   module:
-    - content_moderation
     - text
 id: paragraph.case_study_vertical_tab.default
 targetEntityType: paragraph
@@ -21,6 +20,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
   field_title:
     weight: 6
     settings:
@@ -28,6 +28,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
 hidden:
   created: true
   status: true

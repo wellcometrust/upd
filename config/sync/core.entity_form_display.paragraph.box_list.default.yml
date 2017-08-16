@@ -7,7 +7,6 @@ dependencies:
     - field.field.paragraph.box_list.field_simple_user_list
     - paragraphs.paragraphs_type.box_list
   module:
-    - content_moderation
     - paragraphs
 id: paragraph.box_list.default
 targetEntityType: paragraph
@@ -21,6 +20,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
   field_simple_user_list:
     type: entity_reference_paragraphs
     weight: 8
@@ -32,6 +32,7 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
+    region: content
 hidden:
   created: true
   status: true

@@ -7,7 +7,6 @@ dependencies:
     - field.field.paragraph.faq_dropdowns.field_title
     - paragraphs.paragraphs_type.faq_dropdowns
   module:
-    - content_moderation
     - text
 id: paragraph.faq_dropdowns.default
 targetEntityType: paragraph
@@ -21,6 +20,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
   field_title:
     weight: 0
     settings:
@@ -28,6 +28,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
 hidden:
   created: true
   status: true

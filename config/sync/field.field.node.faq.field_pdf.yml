@@ -1,0 +1,27 @@
+uuid: 921e8450-711f-4270-b674-8d5ff394ebe4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pdf
+    - node.type.faq
+  module:
+    - file
+id: node.faq.field_pdf
+field_name: field_pdf
+entity_type: node
+bundle: faq
+label: Pdf
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

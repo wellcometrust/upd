@@ -1,0 +1,19 @@
+uuid: 79bc0be3-c52c-4e12-aa36-3b80248852e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_list_text
+    - node.type.faq
+id: node.faq.field_list_text
+field_name: field_list_text
+entity_type: node
+bundle: faq
+label: 'List text'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

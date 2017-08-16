@@ -1,0 +1,7 @@
+upd_featured_case_studies.settings:
+  path: '/admin/content/featured-case-studies'
+  defaults:
+    _form: '\Drupal\upd_featured_case_studies\Form\UpdFeaturedCaseStudiesForm'
+    _title: 'UPD featured case studies'
+  requirements:
+    _permission: 'administer nodes'

@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.tile.field_standfirst
+    - field.field.node.tile.field_tile_paragraph
     - node.type.tile
   module:
     - user
@@ -14,6 +16,7 @@ mode: teaser
 content:
   links:
     weight: 100
+    region: content
 hidden:
   field_standfirst: true
   field_tile_paragraph: true

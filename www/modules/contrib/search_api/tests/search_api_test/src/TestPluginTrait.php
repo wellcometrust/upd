@@ -41,13 +41,13 @@ trait TestPluginTrait {
    * @param array $args
    *   (optional) The method arguments.
    */
-  protected function logMethodCall($method, array $args = array()) {
+  protected function logMethodCall($method, array $args = []) {
     $type = $this->getPluginType();
     $state = \Drupal::state();
 
     // Log call.
     $key = "search_api_test.$type.methods_called";
-    $methods_called = $state->get($key, array());
+    $methods_called = $state->get($key, []);
     $methods_called[] = $method;
     $state->set($key, $methods_called);
 
@@ -74,6 +74,21 @@ trait TestPluginTrait {
   }
 
   /**
+   * Retrieves a possible override set for the given method.
+   *
+   * @param string $method
+   *   The name of the method.
+   *
+   * @return callable|null
+   *   The method override to use, or NULL if none was set.
+   */
+  protected function getMethodOverride($method) {
+    $type = $this->getPluginType();
+    $key = "search_api_test.$type.method.$method";
+    return \Drupal::state()->get($key);
+  }
+
+  /**
    * Returns the plugin type of this object.
    *
    * Equivalent to the last component of the namespace.
@@ -89,6 +104,30 @@ trait TestPluginTrait {
     }
 
     return $this->pluginType;
+  }
+
+  /**
+   * Implements the magic __call() method.
+   *
+   * Allows the easy definition of additional methods via method overrides.
+   *
+   * @param string $name
+   *   The method name.
+   * @param array $arguments
+   *   The arguments of the method call.
+   *
+   * @return mixed
+   *   The method's return value, if any.
+   *
+   * @see \Drupal\search_api_test\TestPluginTrait::getMethodOverride()
+   */
+  public function __call($name, $arguments) {
+    if ($override = $this->getMethodOverride($name)) {
+      array_unshift($arguments, $this);
+      return call_user_func_array($override, $arguments);
+    }
+    $class = static::class;
+    throw new \BadMethodCallException("Method $class::$name() doesn't exist.");
   }
 
 }

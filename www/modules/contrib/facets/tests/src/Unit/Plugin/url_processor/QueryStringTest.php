@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\facets\Unit\Plugin\url_processor;
 
-use Drupal\Core\Url;
 use Drupal\facets\Entity\Facet;
 use Drupal\facets\Entity\FacetSource;
 use Drupal\facets\Plugin\facets\url_processor\QueryString;
@@ -148,7 +147,7 @@ class QueryStringTest extends UnitTestCase {
     /** @var \Drupal\facets\Result\ResultInterface $r */
     foreach ($results as $r) {
       $this->assertInstanceOf('\Drupal\facets\Result\ResultInterface', $r);
-      $this->assertEquals('route:test?f[0]=test%3A' . $r->getRawValue(), $r->getUrl()->toUriString());
+      $this->assertEquals('route:test?f%5B0%5D=test%3A' . $r->getRawValue(), $r->getUrl()->toUriString());
     }
   }
 
@@ -174,10 +173,10 @@ class QueryStringTest extends UnitTestCase {
     foreach ($results as $k => $r) {
       $this->assertInstanceOf('\Drupal\facets\Result\ResultInterface', $r);
       if ($k === 2) {
-        $this->assertEquals('route:test?f[0]=king%3Akong', $r->getUrl()->toUriString());
+        $this->assertEquals('route:test?f%5B0%5D=king%3Akong', $r->getUrl()->toUriString());
       }
       else {
-        $this->assertEquals('route:test?f[0]=king%3Akong&f[1]=test%3A' . $r->getRawValue(), $r->getUrl()->toUriString());
+        $this->assertEquals('route:test?f%5B0%5D=king%3Akong&f%5B1%5D=test%3A' . $r->getRawValue(), $r->getUrl()->toUriString());
       }
     }
   }
@@ -198,9 +197,9 @@ class QueryStringTest extends UnitTestCase {
     $this->processor = new QueryString(['facet' => $facet], 'query_string', [], new Request());
     $results = $this->processor->buildUrls($facet, $this->originalResults);
 
-    $this->assertEquals('route:test?f[0]=test%3A' . $results[0]->getRawValue(), $results[0]->getUrl()->toUriString());
-    $this->assertEquals('route:test?f[0]=test%3A' . $results[3]->getRawValue(), $results[3]->getUrl()->toUriString());
-    $this->assertEquals('route:test?f[0]=test%3A' . $results[4]->getRawValue(), $results[4]->getUrl()->toUriString());
+    $this->assertEquals('route:test?f%5B0%5D=test%3A' . $results[0]->getRawValue(), $results[0]->getUrl()->toUriString());
+    $this->assertEquals('route:test?f%5B0%5D=test%3A' . $results[3]->getRawValue(), $results[3]->getUrl()->toUriString());
+    $this->assertEquals('route:test?f%5B0%5D=test%3A' . $results[4]->getRawValue(), $results[4]->getUrl()->toUriString());
     $this->assertEquals('route:test', $results[1]->getUrl()->toUriString());
     $this->assertEquals('route:test', $results[2]->getUrl()->toUriString());
   }
@@ -241,7 +240,7 @@ class QueryStringTest extends UnitTestCase {
     /** @var \Drupal\facets\Result\ResultInterface $r */
     foreach ($results as $r) {
       $this->assertInstanceOf('\Drupal\facets\Result\ResultInterface', $r);
-      $this->assertEquals('route:test?ab[0]=test%3A' . $r->getRawValue(), $r->getUrl()->toUriString());
+      $this->assertEquals('route:test?ab%5B0%5D=test%3A' . $r->getRawValue(), $r->getUrl()->toUriString());
     }
 
   }
@@ -259,7 +258,42 @@ class QueryStringTest extends UnitTestCase {
     $results = $this->processor->buildUrls($facet, $this->originalResults);
 
     foreach ($results as $result) {
-      $this->assertEquals('route:test?f[0]=test__' . $result->getRawValue(), $result->getUrl()->toUriString());
+      $this->assertEquals('route:test?f%5B0%5D=test__' . $result->getRawValue(), $result->getUrl()->toUriString());
+    }
+  }
+
+  /**
+   * Tests that contextual filter get's re-added.
+   */
+  public function testContextualFilters() {
+    // Override router.
+    $router = $this->getMockBuilder('Drupal\Tests\Core\Routing\TestRouterInterface')
+      ->disableOriginalConstructor()
+      ->getMock();
+    $router->expects($this->any())
+      ->method('matchRequest')
+      ->willReturn([
+        '_raw_variables' => new ParameterBag(['node' => '1']),
+        '_route' => 'node_view',
+      ]);
+
+    // Get the container from the setUp method and change it with the
+    // implementation created here, that has the route parameters.
+    $container = \Drupal::getContainer();
+    $container->set('router.no_access_checks', $router);
+    \Drupal::setContainer($container);
+
+    // Create facet.
+    $facet = new Facet([], 'facets_facet');
+    $facet->setFieldIdentifier('test');
+    $facet->setUrlAlias('test');
+    $facet->setFacetSourceId('facet_source__dummy');
+
+    $this->processor = new QueryString(['facet' => $facet], 'query_string', [], new Request());
+    $results = $this->processor->buildUrls($facet, $this->originalResults);
+
+    foreach ($results as $result) {
+      $this->assertEquals(['node' => 1], $result->getUrl()->getRouteParameters());
     }
   }
 
@@ -283,7 +317,7 @@ class QueryStringTest extends UnitTestCase {
       ->disableOriginalConstructor()
       ->getMock();
     $fsi->method('getPath')
-      ->willReturn(new Url('test'));
+      ->willReturn('test');
 
     $manager = $this->getMockBuilder('\Drupal\facets\FacetSource\FacetSourcePluginManager')
       ->disableOriginalConstructor()

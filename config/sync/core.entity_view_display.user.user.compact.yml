@@ -24,6 +24,7 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
   field_photo:
     weight: 8
     label: above
@@ -32,6 +33,7 @@ content:
       image_link: ''
     third_party_settings: {  }
     type: image
+    region: content
   field_position:
     weight: 7
     label: above
@@ -39,6 +41,7 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
   field_twitter:
     weight: 9
     label: above
@@ -50,8 +53,10 @@ content:
       target: ''
     third_party_settings: {  }
     type: link
+    region: content
   member_for:
     weight: 5
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden: {  }

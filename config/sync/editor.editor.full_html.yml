@@ -34,15 +34,24 @@ settings:
           items:
             - DrupalImage
             - Blockquote
+            - video_embed
         -
           name: Tools
           items:
+            - tooltip
             - Source
   plugins:
     language:
       language_list: un
     stylescombo:
       styles: ''
+    video_embed:
+      defaults:
+        children:
+          autoplay: false
+          responsive: true
+          width: '854'
+          height: '480'
 image_upload:
   status: true
   scheme: public

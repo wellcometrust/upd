@@ -4,10 +4,10 @@ namespace Drupal\facets\Plugin\facets\facet_source;
 
 use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Drupal\facets\Exception\InvalidQueryTypeException;
 use Drupal\facets\FacetInterface;
 use Drupal\facets\FacetSource\FacetSourcePluginBase;
+use Drupal\facets\FacetSource\SearchApiFacetSourceInterface;
 use Drupal\facets\QueryType\QueryTypePluginManager;
 use Drupal\search_api\Backend\BackendInterface;
 use Drupal\search_api\Display\DisplayPluginManager;
@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
  *   deriver = "Drupal\facets\Plugin\facets\facet_source\SearchApiDisplayDeriver"
  * )
  */
-class SearchApiDisplay extends FacetSourcePluginBase {
+class SearchApiDisplay extends FacetSourcePluginBase implements SearchApiFacetSourceInterface {
 
   /**
    * The search index the query should is executed on.
@@ -86,6 +86,13 @@ class SearchApiDisplay extends FacetSourcePluginBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    // If the Search API module is not enabled, we should just return an empty
+    // object. This allows us to have this class in the module without having a
+    // dependency on the Search API module.
+    if (!$container->get('module_handler')->moduleExists('search_api')) {
+      return new \stdClass();
+    }
+
     return new static(
       $configuration,
       $plugin_id,
@@ -115,14 +122,14 @@ class SearchApiDisplay extends FacetSourcePluginBase {
    * {@inheritdoc}
    */
   public function getPath() {
-    // The implementation in search api tells us that this is a url object only
-    // if a path is defined, and null if that isn't done. This means that we
-    // have to check for this + create our own Url object if that's needed.
-    if ($this->getDisplay()->getUrl() instanceof Url) {
-      return $this->getDisplay()->getUrl();
+    // The implementation in search api tells us that this is a base path only
+    // if a path is defined, and false if that isn't done. This means that we
+    // have to check for this + create our own uri if that's needed.
+    if ($this->getDisplay()->getPath()) {
+      return $this->getDisplay()->getPath();
     }
 
-    return Url::createFromRequest($this->request);
+    return \Drupal::service('path.current')->getPath();
   }
 
   /**
@@ -163,11 +170,11 @@ class SearchApiDisplay extends FacetSourcePluginBase {
     // Loop over each facet and execute the build method from the given
     // query type.
     foreach ($facets as $facet) {
-      $configuration = array(
+      $configuration = [
         'query' => NULL,
         'facet' => $facet,
         'results' => isset($facet_results[$facet->getFieldIdentifier()]) ? $facet_results[$facet->getFieldIdentifier()] : [],
-      );
+      ];
 
       // Get the Facet Specific Query Type so we can process the results
       // using the build() function of the query type.
@@ -276,6 +283,7 @@ class SearchApiDisplay extends FacetSourcePluginBase {
       case 'decimal':
       case 'integer':
         $query_types['numeric'] = 'search_api_granular';
+        $query_types['range'] = 'search_api_range';
         break;
 
     }
@@ -311,12 +319,9 @@ class SearchApiDisplay extends FacetSourcePluginBase {
   }
 
   /**
-   * Retrieves the Search API display plugin associated with this facet source.
-   *
-   * @return \Drupal\search_api\Display\DisplayInterface
-   *   The Search API display plugin associated with this facet source.
+   * {@inheritdoc}
    */
-  protected function getDisplay() {
+  public function getDisplay() {
     return $this->displayPluginManager
       ->createInstance($this->pluginDefinition['display_id']);
   }

@@ -19,10 +19,12 @@ content:
     weight: 0
     settings: {  }
     third_party_settings: {  }
+    region: content
   field_color:
     weight: 1
     label: above
     settings: {  }
     third_party_settings: {  }
     type: jquery_colorpicker_color_display
+    region: content
 hidden: {  }

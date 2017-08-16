@@ -2,6 +2,7 @@
 
 namespace Drupal\facets\Plugin\facets\url_processor;
 
+use Drupal\Core\Url;
 use Drupal\facets\FacetInterface;
 use Drupal\facets\UrlProcessor\UrlProcessorPluginBase;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,11 +63,17 @@ class QueryString extends UrlProcessorPluginBase {
     // Set the url alias from the the facet object.
     $this->urlAlias = $facet->getUrlAlias();
 
-    $url = $facet->getFacetSource()->getPath();
-    $url->setOption('attributes', ['rel' => 'nofollow']);
+    $request = $this->request;
+    if ($facet->getFacetSource()->getPath()) {
+      $request = Request::create($facet->getFacetSource()->getPath());
+    }
 
     /** @var \Drupal\facets\Result\ResultInterface[] $results */
     foreach ($results as &$result) {
+      // Reset the URL for each result.
+      $url = Url::createFromRequest($request);
+      $url->setOption('attributes', ['rel' => 'nofollow']);
+
       // Sets the url for children.
       if ($children = $result->getChildren()) {
         $this->buildUrls($facet, $children);
@@ -122,6 +129,12 @@ class QueryString extends UrlProcessorPluginBase {
       }
 
       $result_get_params->set($this->filterKey, array_values($filter_params));
+      // Grab any route params from the original request.
+      $routeParameters = Url::createFromRequest($this->request)
+        ->getRouteParameters();
+      if (!empty($routeParameters)) {
+        $url->setRouteParameters($routeParameters);
+      }
 
       $new_url = clone $url;
       if ($result_get_params->all() !== [$this->filterKey => []]) {
@@ -164,7 +177,12 @@ class QueryString extends UrlProcessorPluginBase {
     $url_parameters = $this->request->query;
 
     // Get the active facet parameters.
-    $active_params = $url_parameters->get($this->filterKey, array(), TRUE);
+    $active_params = $url_parameters->get($this->filterKey, [], TRUE);
+
+    // When an invalid parameter is passed in the url, we can't do anything.
+    if (!is_array($active_params)) {
+      return;
+    }
 
     // Explode the active params on the separator.
     foreach ($active_params as $param) {

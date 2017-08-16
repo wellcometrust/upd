@@ -8,7 +8,6 @@ dependencies:
     - field.field.paragraph.basic_title_link.field_title
     - paragraphs.paragraphs_type.basic_title_link
   module:
-    - content_moderation
     - link
     - text
 id: paragraph.basic_title_link.default
@@ -23,6 +22,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
   field_link:
     weight: 8
     settings:
@@ -30,6 +30,7 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
   field_title:
     weight: 6
     settings:
@@ -37,6 +38,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
 hidden:
   created: true
   status: true

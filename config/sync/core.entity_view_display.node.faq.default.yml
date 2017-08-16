@@ -4,10 +4,13 @@ status: true
 dependencies:
   config:
     - field.field.node.faq.field_faq_dropdown
+    - field.field.node.faq.field_list_text
+    - field.field.node.faq.field_pdf
     - field.field.node.faq.field_standfirst
     - node.type.faq
   module:
     - entity_reference_revisions
+    - file
     - user
 id: node.faq.default
 targetEntityType: node
@@ -22,8 +25,24 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_list_text:
+    weight: 104
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_pdf:
+    weight: 105
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: file_url_plain
+    region: content
   links:
     weight: 100
+    region: content
     settings: {  }
     third_party_settings: {  }
 hidden:

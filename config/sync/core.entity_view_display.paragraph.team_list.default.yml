@@ -22,5 +22,6 @@ content:
       link: false
     third_party_settings: {  }
     type: entity_reference_display_default
+    region: content
 hidden:
   field_display_mode: true

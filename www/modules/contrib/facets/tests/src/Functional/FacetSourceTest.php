@@ -40,9 +40,9 @@ class FacetSourceTest extends FacetsTestBase {
    */
   public function testEditFilterKey() {
     // Change the filter key.
-    $edit = array(
+    $edit = [
       'filter_key' => 'fq',
-    );
+    ];
     $this->assertField('filter_key');
     $this->assertField('url_processor');
     $this->drupalPostForm(NULL, $edit, 'Save');
@@ -63,9 +63,9 @@ class FacetSourceTest extends FacetsTestBase {
    */
   public function testEditUrlProcessor() {
     // Change the url processor.
-    $edit = array(
+    $edit = [
       'url_processor' => 'dummy_query',
-    );
+    ];
     $this->assertField('filter_key');
     $this->assertField('url_processor');
     $this->drupalPostForm(NULL, $edit, 'Save');
@@ -81,6 +81,31 @@ class FacetSourceTest extends FacetsTestBase {
     /** @var \Behat\Mink\Element\NodeElement[] $elements */
     $elements = $this->xpath('//input[@id=:id]', [':id' => 'edit-url-processor-dummy-query']);
     $this->assertEquals('dummy_query', $elements[0]->getValue());
+  }
+
+  /**
+   * Tests editing the breadcrumb settings.
+   */
+  public function testEditBreadcrumbSettings() {
+    $this->assertSession()->fieldExists('breadcrumb[active]');
+    $this->assertSession()->fieldExists('breadcrumb[group]');
+    $this->assertSession()->checkboxNotChecked('breadcrumb[group]');
+    $this->assertSession()->checkboxNotChecked('breadcrumb[active]');
+    // Change the breadcrumb settings.
+    $edit = [
+      'breadcrumb[active]' => TRUE,
+      'breadcrumb[group]' => TRUE,
+    ];
+    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->assertSession()->statusCodeEquals(200);
+
+    $this->assertSession()->addressEquals('admin/config/search/facets');
+    $this->assertSession()->pageTextContains('Facet source search_api:views_block__search_api_test_view__block_1 has been saved.');
+    $this->clickLink('Configure');
+
+    // Test that saving worked and that the url processor has the new value.
+    $this->assertSession()->checkboxChecked('breadcrumb[group]');
+    $this->assertSession()->checkboxChecked('breadcrumb[active]');
   }
 
 }

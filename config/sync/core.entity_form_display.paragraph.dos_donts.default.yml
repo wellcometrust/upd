@@ -6,7 +6,6 @@ dependencies:
     - field.field.paragraph.dos_donts.field_dos_and_donts
     - paragraphs.paragraphs_type.dos_donts
   module:
-    - content_moderation
     - text
 id: paragraph.dos_donts.default
 targetEntityType: paragraph
@@ -20,6 +19,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
 hidden:
   created: true
   status: true

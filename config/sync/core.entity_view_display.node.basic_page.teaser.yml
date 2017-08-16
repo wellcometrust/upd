@@ -5,6 +5,11 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.basic_page.body
+    - field.field.node.basic_page.field_list_text
+    - field.field.node.basic_page.field_pdf
+    - field.field.node.basic_page.field_sections
+    - field.field.node.basic_page.field_side_menu
+    - field.field.node.basic_page.field_standfirst
     - node.type.basic_page
   module:
     - text
@@ -21,8 +26,10 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
+    region: content
   links:
     weight: 100
+    region: content
 hidden:
   field_list_text: true
   field_pdf: true

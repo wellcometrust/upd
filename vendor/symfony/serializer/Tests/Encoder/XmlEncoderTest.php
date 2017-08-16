@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\Tests\Fixtures\NormalizableTraversableDummy;
 use Symfony\Component\Serializer\Tests\Fixtures\ScalarDummy;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -223,6 +222,46 @@ XML;
         $this->assertEquals('foo', $this->encoder->decode($source, 'xml'));
     }
 
+    public function testDecodeBigDigitAttributes()
+    {
+        $source = <<<XML
+<?xml version="1.0"?>
+<document index="182077241760011681341821060401202210011000045913000000017100">Name</document>
+XML;
+
+        $this->assertSame(array('@index' => 182077241760011681341821060401202210011000045913000000017100, '#' => 'Name'), $this->encoder->decode($source, 'xml'));
+    }
+
+    public function testDecodeNegativeIntAttribute()
+    {
+        $source = <<<XML
+<?xml version="1.0"?>
+<document index="-1234">Name</document>
+XML;
+
+        $this->assertSame(array('@index' => -1234, '#' => 'Name'), $this->encoder->decode($source, 'xml'));
+    }
+
+    public function testDecodeFloatAttribute()
+    {
+        $source = <<<XML
+<?xml version="1.0"?>
+<document index="-12.11">Name</document>
+XML;
+
+        $this->assertSame(array('@index' => -12.11, '#' => 'Name'), $this->encoder->decode($source, 'xml'));
+    }
+
+    public function testDecodeNegativeFloatAttribute()
+    {
+        $source = <<<XML
+<?xml version="1.0"?>
+<document index="-12.11">Name</document>
+XML;
+
+        $this->assertSame(array('@index' => -12.11, '#' => 'Name'), $this->encoder->decode($source, 'xml'));
+    }
+
     public function testEncode()
     {
         $source = $this->getXmlSource();
@@ -371,6 +410,44 @@ XML;
         $this->assertEquals($expected, $this->encoder->decode($source, 'xml'));
     }
 
+    public function testDecodeXMLWithProcessInstruction()
+    {
+        $source = <<<'XML'
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/xmlverbatimwrapper.xsl"?>
+    <?display table-view?>
+    <?sort alpha-ascending?>
+    <response>
+        <foo>foo</foo>
+        <?textinfo whitespace is allowed ?>
+        <bar>a</bar>
+        <bar>b</bar>
+        <baz>
+            <key>val</key>
+            <key2>val</key2>
+            <item key="A B">bar</item>
+            <item>
+                <title>title1</title>
+            </item>
+            <?item ignore-title ?>
+            <item>
+                <title>title2</title>
+            </item>
+            <Barry>
+                <FooBar id="1">
+                    <Baz>Ed</Baz>
+                </FooBar>
+            </Barry>
+        </baz>
+        <qux>1</qux>
+    </response>
+    <?instruction <value> ?>
+XML;
+        $obj = $this->getObject();
+
+        $this->assertEquals(get_object_vars($obj), $this->encoder->decode($source, 'xml'));
+    }
+
     public function testDecodeIgnoreWhiteSpace()
     {
         $source = <<<'XML'
@@ -435,23 +512,12 @@ XML;
         $this->encoder->decode('<?xml version="1.0"?><invalid><xml>', 'xml');
     }
 
+    /**
+     * @expectedException \Symfony\Component\Serializer\Exception\UnexpectedValueException
+     */
     public function testPreventsComplexExternalEntities()
     {
-        $oldCwd = getcwd();
-        chdir(__DIR__);
-
-        try {
-            $this->encoder->decode('<?xml version="1.0"?><!DOCTYPE scan[<!ENTITY test SYSTEM "php://filter/read=convert.base64-encode/resource=XmlEncoderTest.php">]><scan>&test;</scan>', 'xml');
-            chdir($oldCwd);
-
-            $this->fail('No exception was thrown.');
-        } catch (\Exception $e) {
-            chdir($oldCwd);
-
-            if (!$e instanceof UnexpectedValueException) {
-                $this->fail('Expected UnexpectedValueException');
-            }
-        }
+        $this->encoder->decode('<?xml version="1.0"?><!DOCTYPE scan[<!ENTITY test SYSTEM "php://filter/read=convert.base64-encode/resource=XmlEncoderTest.php">]><scan>&test;</scan>', 'xml');
     }
 
     public function testDecodeEmptyXml()

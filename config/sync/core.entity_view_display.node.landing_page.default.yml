@@ -25,6 +25,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
   field_case_studies:
     weight: 5
     label: above
@@ -33,6 +34,7 @@ content:
       link: false
     third_party_settings: {  }
     type: entity_reference_entity_view
+    region: content
   field_featured_articles:
     type: entity_reference_entity_view
     weight: 4
@@ -41,12 +43,14 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
+    region: content
   field_hero_intro:
     weight: 2
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
   field_testimonial:
     type: entity_reference_revisions_entity_view
     weight: 3
@@ -55,8 +59,10 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
   links:
     weight: 0
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden: {  }

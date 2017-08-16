@@ -14,13 +14,6 @@ class CacheabilityTest extends SearchApiBrowserTestBase {
   use ExampleContentTrait;
 
   /**
-   * The ID of the search server used for this test.
-   *
-   * @var string
-   */
-  protected $serverId;
-
-  /**
    * {@inheritdoc}
    */
   public static $modules = [
@@ -36,14 +29,11 @@ class CacheabilityTest extends SearchApiBrowserTestBase {
   public function setUp() {
     parent::setUp();
 
-    // Add a test server and index.
-    $this->getTestServer();
-    $this->getTestIndex();
-
     // Set up example structure and content and populate the test index with
     // that content.
     $this->setUpExampleStructure();
     $this->insertExampleContent();
+
     \Drupal::getContainer()
       ->get('search_api.index_task_manager')
       ->addItemsAll(Index::load($this->indexId));
@@ -61,6 +51,36 @@ class CacheabilityTest extends SearchApiBrowserTestBase {
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->responseHeaderEquals('x-drupal-dynamic-cache', 'UNCACHEABLE');
     $this->assertTrue(strpos($this->drupalGetHeader('cache-control'), 'no-cache'));
+
+    // Verify that the search results are displayed.
+    $this->assertSession()->pageTextContains('foo test');
+    $this->assertSession()->pageTextContains('foo baz');
+  }
+
+  /**
+   * Tests that indexing or deleting items clears the cache.
+   */
+  public function testViewsCacheAddRemoveContent() {
+    $entity = $this->addTestEntity(6, [
+      'name' => 'Fresh node',
+      'body' => 'test foobar Case',
+      'type' => 'item',
+    ]);
+    // Prime page cache before indexing.
+    $this->drupalGet('search-api-test-search-view-caching-tag');
+    $this->assertSession()->pageTextContains('Displaying 5 search results');
+
+    $this->indexItems($this->indexId);
+
+    // Check that the newly indexed node is visible on the search index.
+    $this->drupalGet('search-api-test-search-view-caching-tag');
+    $this->assertSession()->pageTextContains('Displaying 6 search results');
+
+    $entity->delete();
+
+    // Check that the deleted entity is now no longer shown.
+    $this->drupalGet('search-api-test-search-view-caching-tag');
+    $this->assertSession()->pageTextContains('Displaying 5 search results');
   }
 
 }

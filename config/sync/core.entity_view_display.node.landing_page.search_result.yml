@@ -1,0 +1,69 @@
+uuid: bc74fdd0-5726-4096-ac23-e7a755037396
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.landing_page.field_3_items_grid
+    - field.field.node.landing_page.field_case_studies
+    - field.field.node.landing_page.field_featured_articles
+    - field.field.node.landing_page.field_hero_intro
+    - field.field.node.landing_page.field_testimonial
+    - node.type.landing_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.landing_page.search_result
+targetEntityType: node
+bundle: landing_page
+mode: search_result
+content:
+  field_3_items_grid:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_case_studies:
+    weight: 5
+    label: above
+    settings:
+      view_mode: home_teaser
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+  field_featured_articles:
+    type: entity_reference_entity_view
+    weight: 4
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_hero_intro:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_testimonial:
+    type: entity_reference_revisions_entity_view
+    weight: 3
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

@@ -29,6 +29,7 @@ content:
     weight: 0
     settings: {  }
     third_party_settings: {  }
+    region: content
   field_disease_type:
     type: entity_reference_label
     weight: 0
@@ -36,6 +37,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
+    region: content
   field_impact_of_work:
     type: entity_reference_label
     weight: 0
@@ -43,18 +45,21 @@ content:
     settings:
       link: true
     third_party_settings: {  }
+    region: content
   field_list_text:
     weight: 6
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
   field_pdf:
     weight: 8
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: file_url_plain
+    region: content
   field_sources_of_data:
     type: entity_reference_label
     weight: 0
@@ -62,12 +67,14 @@ content:
     settings:
       link: true
     third_party_settings: {  }
+    region: content
   field_standfirst:
     weight: 2
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
   field_thumbnail:
     type: image
     weight: 0
@@ -76,6 +83,7 @@ content:
       image_style: thumbnail_list
       image_link: ''
     third_party_settings: {  }
+    region: content
   field_vertical_tab:
     type: entity_reference_revisions_entity_view
     weight: 7
@@ -84,9 +92,11 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
   links:
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden:
   field_featured: true

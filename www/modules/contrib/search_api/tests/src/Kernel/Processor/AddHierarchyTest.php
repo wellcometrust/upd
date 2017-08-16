@@ -2,13 +2,17 @@
 
 namespace Drupal\Tests\search_api\Kernel\Processor;
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\field\Tests\EntityReference\EntityReferenceTestTrait;
 use Drupal\node\Entity\NodeType;
 use Drupal\search_api\Item\Field;
 use Drupal\search_api\Query\Query;
 use Drupal\simpletest\NodeCreationTrait;
-use Drupal\taxonomy\Tests\TaxonomyTestTrait;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\taxonomy\VocabularyInterface;
 use Drupal\Tests\search_api\Kernel\ResultsTrait;
 
 /**
@@ -25,36 +29,35 @@ class AddHierarchyTest extends ProcessorTestBase {
   use NodeCreationTrait;
   use EntityReferenceTestTrait;
   use ResultsTrait;
-  use TaxonomyTestTrait;
 
   /**
    * {@inheritdoc}
    */
-  public static $modules = array(
+  public static $modules = [
     'filter',
     'taxonomy',
-  );
+  ];
 
   /**
    * A hierarchy to test.
    */
-  protected static $hierarchy = array(
-    'fruit' => array(
+  protected static $hierarchy = [
+    'fruit' => [
       'apple',
-      'pear'
-    ),
-    'vegetable' => array(
+      'pear',
+    ],
+    'vegetable' => [
       'radish',
       'turnip',
-    ),
-  );
+    ],
+  ];
 
   /**
    * The nodes created for testing.
    *
    * @var \Drupal\node\NodeInterface[]
    */
-  protected $nodes = array();
+  protected $nodes = [];
 
   /**
    * Hierarchical taxonomy terms.
@@ -63,7 +66,7 @@ class AddHierarchyTest extends ProcessorTestBase {
    *
    * @var \Drupal\taxonomy\TermInterface[]
    */
-  protected $terms = array();
+  protected $terms = [];
 
   /**
    * Vocabulary to test with when using taxonomy for the hierarchy.
@@ -76,17 +79,17 @@ class AddHierarchyTest extends ProcessorTestBase {
    * {@inheritdoc}
    */
   public function setUp($processor = NULL) {
-    parent::setUp('hierarchy');
+    parent::setUp();
 
-    $this->installConfig(array('filter'));
+    $this->installConfig(['filter']);
     $this->installEntitySchema('taxonomy_term');
     $this->createTaxonomyHierarchy();
 
     // Create a node type for testing.
-    $type = NodeType::create(array(
+    $type = NodeType::create([
       'type' => 'page',
       'name' => 'page',
-    ));
+    ]);
     $type->save();
 
     // Add the taxonomy field to page type.
@@ -97,7 +100,7 @@ class AddHierarchyTest extends ProcessorTestBase {
       NULL,
       'taxonomy_term',
       'default',
-      array(),
+      [],
       FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED
     );
 
@@ -109,7 +112,7 @@ class AddHierarchyTest extends ProcessorTestBase {
       NULL,
       'node',
       'default',
-      array()
+      []
     );
 
     // Index the taxonomy field.
@@ -119,7 +122,6 @@ class AddHierarchyTest extends ProcessorTestBase {
     $term_field->setDatasourceId('entity:node');
     $term_field->setLabel('Terms');
     $this->index->addField($term_field);
-    $this->index->save();
 
     // Index the entity reference field.
     $reference_field = new Field($this->index, 'parent_reference');
@@ -128,12 +130,19 @@ class AddHierarchyTest extends ProcessorTestBase {
     $reference_field->setDatasourceId('entity:node');
     $reference_field->setLabel('Parent page');
     $this->index->addField($reference_field);
-    $this->index->save();
 
-    // Setup a node index.
-    $this->index->setDatasources(array(
-      'entity:node' => $this->index->createPlugin('datasource', 'entity:node'),
-    ));
+    // Add the "Index hierarchy" processor only now (not in parent method) since
+    // it can only be enabled once there are actually hierarchical fields.
+    $this->processor = \Drupal::getContainer()
+      ->get('search_api.plugin_helper')
+      ->createProcessorPlugin($this->index, 'hierarchy');
+    $this->index->addProcessor($this->processor);
+
+    // Add the node datasource to the index.
+    $datasources = \Drupal::getContainer()
+      ->get('search_api.plugin_helper')
+      ->createDatasourcePlugins($this->index, ['entity:node']);
+    $this->index->setDatasources($datasources);
     $this->index->save();
     $this->container
       ->get('search_api.index_task_manager')
@@ -141,7 +150,7 @@ class AddHierarchyTest extends ProcessorTestBase {
     $index_storage = $this->container
       ->get('entity_type.manager')
       ->getStorage('search_api_index');
-    $index_storage->resetCache(array($this->index->id()));
+    $index_storage->resetCache([$this->index->id()]);
     $this->index = $index_storage->load($this->index->id());
   }
 
@@ -153,16 +162,66 @@ class AddHierarchyTest extends ProcessorTestBase {
 
     foreach (static::$hierarchy as $type => $items) {
       // Add the 'type' item, and nest items underneath.
-      $this->terms[$type] = $type_term = $this->createTerm($this->vocabulary, array(
+      $this->terms[$type] = $type_term = $this->createTerm($this->vocabulary, [
         'name' => $type,
-      ));
+      ]);
       foreach ($items as $item) {
-        $this->terms["$type.$item"] = $this->createTerm($this->vocabulary, array(
+        $this->terms["$type.$item"] = $this->createTerm($this->vocabulary, [
           'name' => $item,
           'parent' => $type_term,
-        ));
+        ]);
       }
     }
+  }
+
+  // @todo Use TaxonomyTestTrait once we depend on Drupal 8.4+.
+
+  /**
+   * Returns a new vocabulary with random properties.
+   *
+   * @return \Drupal\taxonomy\VocabularyInterface
+   *   The new vocabulary.
+   */
+  public function createVocabulary() {
+    // Create a vocabulary.
+    $vocabulary = Vocabulary::create([
+      'name' => $this->randomMachineName(),
+      'description' => $this->randomMachineName(),
+      'vid' => Unicode::strtolower($this->randomMachineName()),
+      'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+      'weight' => mt_rand(0, 10),
+    ]);
+    $vocabulary->save();
+    return $vocabulary;
+  }
+
+  /**
+   * Returns a new term with random properties in vocabulary $vid.
+   *
+   * @param \Drupal\taxonomy\VocabularyInterface $vocabulary
+   *   The vocabulary object.
+   * @param array $values
+   *   (optional) An array of values to set, keyed by property name. If the
+   *   entity type has bundles, the bundle key has to be specified.
+   *
+   * @return \Drupal\taxonomy\Entity\Term
+   *   The new taxonomy term object.
+   */
+  public function createTerm(VocabularyInterface $vocabulary, $values = []) {
+    $filter_formats = filter_formats();
+    $format = array_pop($filter_formats);
+    $term = Term::create($values + [
+        'name' => $this->randomMachineName(),
+        'description' => [
+          'value' => $this->randomMachineName(),
+          // Use the first available text format.
+          'format' => $format->id(),
+        ],
+        'vid' => $vocabulary->id(),
+        'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+      ]);
+    $term->save();
+    return $term;
   }
 
   /**
@@ -172,13 +231,13 @@ class AddHierarchyTest extends ProcessorTestBase {
    */
   public function testPreprocessIndexItemsTaxonomy() {
     // Add hierarchical terms to 3 nodes.
-    foreach (array('vegetable.turnip', 'vegetable', 'fruit.pear') as $i => $term) {
-      $this->nodes[$i] = $this->createNode(array(
+    foreach (['vegetable.turnip', 'vegetable', 'fruit.pear'] as $i => $term) {
+      $this->nodes[$i] = $this->createNode([
         'type' => 'page',
-        'term_field' => array(
+        'term_field' => [
           'target_id' => $this->terms[$term]->id(),
-        ),
-      ));
+        ],
+      ]);
     }
     $this->index->reindex();
     $this->indexItems();
@@ -188,16 +247,16 @@ class AddHierarchyTest extends ProcessorTestBase {
     $query = new Query($this->index);
     $query->addCondition('term_field', $this->terms['vegetable']->id());
     $result = $query->execute();
-    $expected = array('node' => array(1));
+    $expected = ['node' => [1]];
     $this->assertResults($result, $expected);
 
     // Enable hierarchical indexing.
     $processor = $this->index->getProcessor('hierarchy');
-    $processor->setConfiguration(array(
-      'fields' => array(
+    $processor->setConfiguration([
+      'fields' => [
         'term_field' => 'taxonomy_term-parent',
-      ),
-    ));
+      ],
+    ]);
     $this->index->save();
     $this->indexItems();
 
@@ -206,27 +265,27 @@ class AddHierarchyTest extends ProcessorTestBase {
     $query = new Query($this->index);
     $query->addCondition('term_field', $this->terms['vegetable']->id());
     $result = $query->execute();
-    $expected = array('node' => array(0, 1));
+    $expected = ['node' => [0, 1]];
     $this->assertResults($result, $expected);
 
     // A search for just turnips should return node 1 only.
     $query = new Query($this->index);
     $query->addCondition('term_field', $this->terms['vegetable.turnip']->id());
     $result = $query->execute();
-    $expected = array('node' => array(0));
+    $expected = ['node' => [0]];
     $this->assertResults($result, $expected);
 
     // Also add a term with multiple parents.
-    $this->terms['avocado'] = $this->createTerm($this->vocabulary, array(
+    $this->terms['avocado'] = $this->createTerm($this->vocabulary, [
       'name' => 'Avocado',
-      'parent' => array($this->terms['fruit']->id(), $this->terms['vegetable']->id()),
-    ));
-    $this->nodes[3] = $this->createNode(array(
+      'parent' => [$this->terms['fruit']->id(), $this->terms['vegetable']->id()],
+    ]);
+    $this->nodes[3] = $this->createNode([
       'type' => 'page',
-      'term_field' => array(
+      'term_field' => [
         'target_id' => $this->terms['avocado']->id(),
-      ),
-    ));
+      ],
+    ]);
     $this->index->reindex();
     $this->indexItems();
 
@@ -234,13 +293,13 @@ class AddHierarchyTest extends ProcessorTestBase {
     $query = new Query($this->index);
     $query->addCondition('term_field', $this->terms['fruit']->id());
     $result = $query->execute();
-    $expected = array('node' => array(2, 3));
+    $expected = ['node' => [2, 3]];
     $this->assertResults($result, $expected);
 
     $query = new Query($this->index);
     $query->addCondition('term_field', $this->terms['vegetable']->id());
     $result = $query->execute();
-    $expected = array('node' => array(0, 1, 3));
+    $expected = ['node' => [0, 1, 3]];
     $this->assertResults($result, $expected);
   }
 
@@ -253,22 +312,22 @@ class AddHierarchyTest extends ProcessorTestBase {
   public function testPreprocessIndexItems() {
     // Setup the nodes to follow the hierarchy.
     foreach (static::$hierarchy as $type => $items) {
-      $this->nodes[] = $type_node = $this->createNode(array(
+      $this->nodes[] = $type_node = $this->createNode([
         'title' => $type,
-      ));
+      ]);
       foreach ($items as $item) {
-        $this->nodes[] = $this->createNode(array(
+        $this->nodes[] = $this->createNode([
           'title' => $item,
-          'parent_reference' => array('target_id' => $type_node->id()),
-        ));
+          'parent_reference' => ['target_id' => $type_node->id()],
+        ]);
       }
     }
     // Add a third tier of hierarchy for specific types of radishes.
-    foreach (array('Cherry Belle', 'Snow Belle', 'Daikon') as $item) {
-      $this->nodes[] = $this->createNode(array(
+    foreach (['Cherry Belle', 'Snow Belle', 'Daikon'] as $item) {
+      $this->nodes[] = $this->createNode([
         'title' => $item,
-        'parent_reference' => array('target_id' => $this->nodes[5]->id()),
-      ));
+        'parent_reference' => ['target_id' => $this->nodes[5]->id()],
+      ]);
     }
     $this->index->reindex();
     $this->indexItems();
@@ -278,16 +337,16 @@ class AddHierarchyTest extends ProcessorTestBase {
     $query = new Query($this->index);
     $query->addCondition('parent_reference', $this->nodes[3]->id());
     $result = $query->execute();
-    $expected = array('node' => array(4, 5));
+    $expected = ['node' => [4, 5]];
     $this->assertResults($result, $expected);
 
     // Enable hierarchical indexing.
     $processor = $this->index->getProcessor('hierarchy');
-    $processor->setConfiguration(array(
-      'fields' => array(
+    $processor->setConfiguration([
+      'fields' => [
         'parent_reference' => 'node-parent_reference',
-      ),
-    ));
+      ],
+    ]);
     $this->index->save();
     $this->indexItems();
 
@@ -295,7 +354,7 @@ class AddHierarchyTest extends ProcessorTestBase {
     $query = new Query($this->index);
     $query->addCondition('parent_reference', $this->nodes[3]->id());
     $result = $query->execute();
-    $expected = array('node' => array(4, 5, 6, 7, 8));
+    $expected = ['node' => [4, 5, 6, 7, 8]];
     $this->assertResults($result, $expected);
   }
 

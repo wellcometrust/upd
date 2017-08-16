@@ -26,12 +26,14 @@ content:
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
   field_pdf:
     weight: 2
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: file_default
+    type: file_url_plain
+    region: content
   field_sections:
     type: entity_reference_revisions_entity_view
     weight: 3
@@ -40,6 +42,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
   field_side_menu:
     type: boolean
     weight: 5
@@ -49,14 +52,17 @@ content:
       format_custom_true: ''
       format_custom_false: ''
     third_party_settings: {  }
+    region: content
   field_standfirst:
     weight: 6
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
   links:
     weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
 hidden:

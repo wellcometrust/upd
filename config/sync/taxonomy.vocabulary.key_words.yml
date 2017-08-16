@@ -1,0 +1,9 @@
+uuid: b2194e93-7b32-4c79-ac49-ab1d54fedbb4
+langcode: en
+status: true
+dependencies: {  }
+name: 'Key words'
+vid: key_words
+description: 'Words used to describe case studies that do not appear in the body text.'
+hierarchy: 0
+weight: 0

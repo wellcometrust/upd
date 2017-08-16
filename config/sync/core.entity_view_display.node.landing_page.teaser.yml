@@ -4,6 +4,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.landing_page.field_3_items_grid
+    - field.field.node.landing_page.field_case_studies
+    - field.field.node.landing_page.field_featured_articles
+    - field.field.node.landing_page.field_hero_intro
+    - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
     - user
@@ -14,7 +19,10 @@ mode: teaser
 content:
   links:
     weight: 100
+    region: content
 hidden:
   field_3_items_grid: true
+  field_case_studies: true
+  field_featured_articles: true
   field_hero_intro: true
   field_testimonial: true

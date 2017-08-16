@@ -6,8 +6,6 @@ dependencies:
     - field.field.paragraph.basic_user_list_item.field_job_title
     - field.field.paragraph.basic_user_list_item.field_name
     - paragraphs.paragraphs_type.basic_user_list_item
-  module:
-    - content_moderation
 id: paragraph.basic_user_list_item.default
 targetEntityType: paragraph
 bundle: basic_user_list_item
@@ -20,6 +18,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
   field_name:
     weight: 6
     settings:
@@ -27,6 +26,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
 hidden:
   created: true
   status: true

@@ -30,13 +30,13 @@ class ContentEntityDatasourceTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = array(
+  public static $modules = [
     'search_api',
     'language',
     'user',
     'system',
     'entity_test',
-  );
+  ];
 
   /**
    * The search index used for testing.
@@ -53,6 +53,13 @@ class ContentEntityDatasourceTest extends KernelTestBase {
   protected $datasource;
 
   /**
+   * The item IDs of all items that can be part of the datasource.
+   *
+   * @var string[]
+   */
+  protected $allItemIds;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -61,34 +68,46 @@ class ContentEntityDatasourceTest extends KernelTestBase {
     // Enable translation for the entity_test module.
     \Drupal::state()->set('entity_test.translation', TRUE);
 
-    $this->installSchema('search_api', array('search_api_item'));
+    $this->installSchema('search_api', ['search_api_item']);
     $this->installEntitySchema('entity_test_mulrev_changed');
-    $this->installConfig(array('language'));
+    $this->installConfig(['language']);
 
     // Create some languages.
     for ($i = 0; $i < 2; ++$i) {
-      ConfigurableLanguage::create(array(
+      ConfigurableLanguage::create([
         'id' => 'l' . $i,
         'label' => 'language - ' . $i,
         'weight' => $i,
-      ))->save();
+      ])->save();
     }
 
     // Create a test index.
-    $this->index = Index::create(array(
+    $this->index = Index::create([
       'name' => 'Test Index',
       'id' => 'test_index',
       'status' => FALSE,
-      'datasource_settings' => array(
-        'entity:' . $this->testEntityTypeId => array(),
-      ),
-      'tracker_settings' => array(
-        'default' => array(),
-      ),
-    ));
+      'datasource_settings' => [
+        'entity:' . $this->testEntityTypeId => [],
+      ],
+      'tracker_settings' => [
+        'default' => [],
+      ],
+    ]);
     $this->datasource = $this->index->getDatasource('entity:' . $this->testEntityTypeId);
 
     $this->setUpExampleStructure();
+
+    foreach (['item', 'article'] as $i => $bundle) {
+      $entity = EntityTestMulRevChanged::create([
+        'id' => $i + 1,
+        'type' => $bundle,
+        'langcode' => 'l0',
+      ]);
+      $entity->save();
+      $entity->addTranslation('l1')->save();
+    }
+
+    $this->allItemIds = ['1:l0', '1:l1', '2:l0', '2:l1'];
   }
 
   /**
@@ -97,46 +116,34 @@ class ContentEntityDatasourceTest extends KernelTestBase {
    * @covers ::loadMultiple
    */
   public function testEntityLoading() {
-    foreach (array('item', 'article') as $i => $bundle) {
-      $entity = EntityTestMulRevChanged::create(array(
-        'id' => $i + 1,
-        'type' => $bundle,
-        'langcode' => 'l0',
-      ));
-      $entity->save();
-      $entity->addTranslation('l1')->save();
-    }
+    $loaded_items = $this->datasource->loadMultiple($this->allItemIds);
+    $this->assertCorrectItems($this->allItemIds, $loaded_items);
 
-    $all_item_ids = array('1:l0', '1:l1', '2:l0', '2:l1');
-
-    $loaded_items = $this->datasource->loadMultiple($all_item_ids);
-    $this->assertCorrectItems($all_item_ids, $loaded_items);
-
-    $this->datasource->setConfiguration(array(
-      'bundles' => array(
+    $this->datasource->setConfiguration([
+      'bundles' => [
         'default' => FALSE,
-        'selected' => array('item'),
-      ),
-      'languages' => array(
+        'selected' => ['item'],
+      ],
+      'languages' => [
         'default' => TRUE,
-        'selected' => array('l0'),
-      ),
-    ));
-    $loaded_items = $this->datasource->loadMultiple($all_item_ids);
-    $this->assertCorrectItems(array('1:l1'), $loaded_items);
+        'selected' => ['l0'],
+      ],
+    ]);
+    $loaded_items = $this->datasource->loadMultiple($this->allItemIds);
+    $this->assertCorrectItems(['1:l1'], $loaded_items);
 
-    $this->datasource->setConfiguration(array(
-      'bundles' => array(
+    $this->datasource->setConfiguration([
+      'bundles' => [
         'default' => TRUE,
-        'selected' => array('item'),
-      ),
-      'languages' => array(
+        'selected' => ['item'],
+      ],
+      'languages' => [
         'default' => FALSE,
-        'selected' => array('l0', 'l1'),
-      ),
-    ));
-    $loaded_items = $this->datasource->loadMultiple($all_item_ids);
-    $this->assertCorrectItems(array('2:l0', '2:l1'), $loaded_items);
+        'selected' => ['l0', 'l1'],
+      ],
+    ]);
+    $loaded_items = $this->datasource->loadMultiple($this->allItemIds);
+    $this->assertCorrectItems(['2:l0', '2:l1'], $loaded_items);
   }
 
   /**
@@ -160,6 +167,91 @@ class ContentEntityDatasourceTest extends KernelTestBase {
       $this->assertEquals($id, $entity->id());
       $this->assertEquals($langcode, $entity->language()->getId());
     }
+  }
+
+  /**
+   * Verifies that paged item discovery works correctly.
+   *
+   * @covers ::getPartialItemIds
+   */
+  public function testItemDiscovery() {
+    // Set page size to 1 to also test paging.
+    \Drupal::configFactory()
+      ->getEditable('search_api.settings')
+      ->set('tracking_page_size', 1)
+      ->save();
+
+    // Test item discovery with various bundle/language combinations.
+    $discovered_ids = $this->getItemIds();
+    $this->assertEquals($this->allItemIds, $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(['item']);
+    $this->assertEquals(['1:l0', '1:l1'], $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(['item'], []);
+    $this->assertEquals(['1:l0', '1:l1'], $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(NULL, ['l0']);
+    $this->assertEquals(['1:l0', '2:l0'], $discovered_ids);
+
+    $discovered_ids = $this->getItemIds([], ['l0']);
+    $this->assertEquals(['1:l0', '2:l0'], $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(['item'], ['l0']);
+    $this->assertEquals(['1:l0', '1:l1', '2:l0'], $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(['item', 'article'], ['l0']);
+    $this->assertEquals($this->allItemIds, $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(['item'], ['l0', 'l1']);
+    $this->assertEquals($this->allItemIds, $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(['item', 'article'], []);
+    $this->assertEquals($this->allItemIds, $discovered_ids);
+
+    $discovered_ids = $this->getItemIds([], ['l0', 'l1']);
+    $this->assertEquals($this->allItemIds, $discovered_ids);
+
+    $discovered_ids = $this->getItemIds([], []);
+    $this->assertEquals([], $discovered_ids);
+
+    $discovered_ids = $this->getItemIds([], NULL);
+    $this->assertEquals([], $discovered_ids);
+
+    $discovered_ids = $this->getItemIds(NULL, []);
+    $this->assertEquals([], $discovered_ids);
+  }
+
+  /**
+   * Retrieves the IDs of all matching items from the test datasource.
+   *
+   * Will automatically use paging to go through the entire result set.
+   *
+   * If both $bundles and $languages are specified, they are combined with OR.
+   *
+   * @param string[]|null $bundles
+   *   (optional) The bundles for which all item IDs should be returned; or NULL
+   *   to retrieve IDs from all enabled bundles in this datasource.
+   * @param string[]|null $languages
+   *   (optional) The languages for which all item IDs should be returned; or
+   *   NULL to retrieve IDs from all enabled languages in this datasource.
+   *
+   * @return string[]
+   *   All discovered item IDs.
+   *
+   * @see \Drupal\search_api\Plugin\search_api\datasource\EntityDatasourceInterface::getPartialItemIds()
+   */
+  protected function getItemIds(array $bundles = NULL, array $languages = NULL) {
+    $discovered_ids = [];
+    for ($page = 0; ; ++$page) {
+      $new_ids = $this->datasource->getPartialItemIds($page, $bundles, $languages);
+      if ($new_ids === NULL) {
+        break;
+      }
+      $discovered_ids = array_merge($discovered_ids, $new_ids);
+    }
+    sort($discovered_ids);
+    return $discovered_ids;
   }
 
 }

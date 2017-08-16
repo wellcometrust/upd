@@ -162,6 +162,8 @@ class XmlDumperTest extends TestCase
         $container->compile();
         $dumper = new XmlDumper($container);
         $dumper->dump();
+
+        $this->addToAssertionCount(1);
     }
 
     public function provideCompiledContainerData()
@@ -189,5 +191,13 @@ class XmlDumperTest extends TestCase
         $dumper = new XmlDumper($container);
 
         $this->assertEquals(file_get_contents(self::$fixturesPath.'/xml/services24.xml'), $dumper->dump());
+    }
+
+    public function testDumpAbstractServices()
+    {
+        $container = include self::$fixturesPath.'/containers/container_abstract.php';
+        $dumper = new XmlDumper($container);
+
+        $this->assertEquals(file_get_contents(self::$fixturesPath.'/xml/services_abstract.xml'), $dumper->dump());
     }
 }

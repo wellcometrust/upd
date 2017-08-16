@@ -17,10 +17,12 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
   field_sublist_item:
     weight: 1
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
 hidden: {  }

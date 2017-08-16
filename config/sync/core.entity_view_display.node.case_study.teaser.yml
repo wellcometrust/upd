@@ -25,6 +25,7 @@ mode: teaser
 content:
   content_moderation_control:
     weight: -20
+    region: content
   field_thumbnail:
     type: image
     weight: 0
@@ -33,10 +34,12 @@ content:
       image_style: thumbnail_list
       image_link: ''
     third_party_settings: {  }
+    region: content
   links:
     weight: 100
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden:
   field_disease_type: true
   field_featured: true
