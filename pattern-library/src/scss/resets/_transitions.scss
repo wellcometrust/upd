@@ -2,11 +2,13 @@
 
 *, *:before, *:after {
   transition: all $upd-transition-time;
-}
 
-/**
- * Disable transitions on SVG elements due to various browser rendering bugs
- */
-svg * {
-  transition: none;
+  /**
+   * Disable transitions prior to page load and on all SVG elements,
+   * as these cause various rendering issues
+   */
+  .preload &,
+  svg & {
+    transition: none !important;
+  }
 }
