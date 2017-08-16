@@ -237,7 +237,19 @@ display:
           expose:
             label: ''
           plugin_id: search_api
-      title: ''
+        nid:
+          id: nid
+          table: search_api_index_main_solr
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: search_api
+      title: 'Site search'
       header: {  }
       footer: {  }
       empty: {  }

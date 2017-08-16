@@ -22,5 +22,6 @@ content:
     type: basic_string
     region: content
 hidden:
+  field_list_text: true
   field_tile_paragraph: true
   links: true
