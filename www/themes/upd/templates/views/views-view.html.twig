@@ -33,23 +33,24 @@
  */
 #}
 {%
-  set classes = [
-    dom_id ? 'js-view-dom-id-' ~ dom_id,
-  ]
+set classes = [
+dom_id ? 'js-view-dom-id-' ~ dom_id,
+]
 %}
 <div{{ attributes.addClass(classes) }}>
 
-
-  <header class="page-header">
-    <div class="wrapper  wrapper--gutter">
-      <h1 class="page-header__title">
-        {{ view.element['view_build']['#title']['#markup'] }}        
-      </h1>
-      {% if header %}
-      <p class="page-header__subheading">{{ header['area']['#text'] }}</p>
-      {% endif %}
-    </div>
-  </header>
+  {% if (view.element['view_build']['#title']['#markup'] or header) %}
+    <header class="page-header">
+      <div class="wrapper  wrapper--gutter">
+        <h1 class="page-header__title">
+          {{ view.element['view_build']['#title']['#markup'] }}
+        </h1>
+        {% if header %}
+          <p class="page-header__subheading">{{ header['area']['#text'] }}</p>
+        {% endif %}
+      </div>
+    </header>
+  {% endif %}
 
 
   {{ exposed }}
