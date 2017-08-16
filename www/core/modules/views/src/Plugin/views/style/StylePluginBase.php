@@ -50,7 +50,7 @@ abstract class StylePluginBase extends PluginBase {
   protected $rowTokens = [];
 
   /**
-   * Does the style plugin allows to use style plugins.
+   * Whether or not this style uses a row plugin.
    *
    * @var bool
    */
@@ -482,8 +482,8 @@ abstract class StylePluginBase extends PluginBase {
    *   - level: The hierarchical level of the grouping.
    *   - rows: The result rows to be rendered in this group..
    *
-   * @return string
-   *   Rendered output of given grouping sets.
+   * @return array
+   *   Render array of grouping sets.
    */
   public function renderGroupingSets($sets) {
     $output = [];
