@@ -7,7 +7,6 @@ _core:
 id: global
 label: Global
 tags:
-  description: XXXXX
   image_src: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
   title: '[current-page:title] | [site:name]'
   og_image: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
