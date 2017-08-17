@@ -8,4 +8,7 @@ id: front
 label: 'Front page'
 tags:
   canonical_url: '[site:url]'
+  content_language: EN
+  image_src: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/apple-icon-180x180.png'
   shortlink: '[site:url]'
+  title: 'Understanding Patient Data --  '

@@ -8,4 +8,10 @@ id: global
 label: Global
 tags:
   description: XXXXX
+  image_src: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
   title: '[current-page:title] | [site:name]'
+  og_image: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
+  og_site_name: 'Understanding Patient Data'
+  twitter_cards_image: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
+  twitter_cards_site: '@Patient_Data'
+  twitter_cards_type: summary
