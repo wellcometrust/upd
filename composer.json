@@ -44,7 +44,8 @@
     "drupal/jquery_colorpicker": "1.*",
     "drupal/video_embed_field": "^1.5",
     "drupal/search_api_solr": "^1.0",
-    "drupal/metatag": "^1.2"
+    "drupal/metatag": "^1.2",
+    "drupal/simple_sitemap": "^2.9"
   },
   "require-dev": {
     "drupal/devel": "1.*"
