@@ -191,8 +191,8 @@ class Highlight extends ProcessorPluginBase implements PluginFormInterface {
     }
     $form['exclude_fields'] = [
       '#type' => 'checkboxes',
-      '#title' => t('Exclude fields from excerpt'),
-      '#description' => t('Exclude certain fulltext fields from being included in the excerpt.'),
+      '#title' => $this->t('Exclude fields from excerpt'),
+      '#description' => $this->t('Exclude certain fulltext fields from being included in the excerpt.'),
       '#options' => $fulltext_fields,
       '#default_value' => $this->configuration['exclude_fields'],
       '#attributes' => ['class' => ['search-api-checkboxes-list']],

@@ -307,6 +307,9 @@ abstract class BackendPluginBase extends ConfigurablePluginBase implements Backe
    * Automatically translates a NULL value in the query object to all fulltext
    * fields in the search index.
    *
+   * If a specific backend supports any "virtual" fulltext fields not listed in
+   * the index, it should override this method to add them, if appropriate.
+   *
    * @param \Drupal\search_api\Query\QueryInterface $query
    *   The search query.
    *
@@ -317,7 +320,8 @@ abstract class BackendPluginBase extends ConfigurablePluginBase implements Backe
    */
   protected function getQueryFulltextFields(QueryInterface $query) {
     $fulltext_fields = $query->getFulltextFields();
-    return $fulltext_fields === NULL ? $query->getIndex()->getFulltextFields() : $fulltext_fields;
+    $index_fields = $query->getIndex()->getFulltextFields();
+    return $fulltext_fields === NULL ? $index_fields : array_intersect($fulltext_fields, $index_fields);
   }
 
 }

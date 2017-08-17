@@ -1,0 +1,4 @@
+tooltip_styles:
+  css:
+    component:
+      css/upd_ck_tooltip.css: {}

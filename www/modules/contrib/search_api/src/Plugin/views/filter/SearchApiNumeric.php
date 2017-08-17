@@ -24,11 +24,4 @@ class SearchApiNumeric extends NumericFilter {
     return $operators;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function opEmpty($field) {
-    $this->getQuery()->addCondition($this->realField, NULL, $this->operator == 'empty' ? '=' : '<>', $this->options['group']);
-  }
-
 }

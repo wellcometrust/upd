@@ -1,0 +1,7 @@
+uuid: 3c5db3f2-1389-4443-b599-db7696823f5d
+langcode: en
+status: true
+dependencies: {  }
+id: node__art
+label: 'Content: News'
+tags: {  }

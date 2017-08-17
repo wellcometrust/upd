@@ -1,0 +1,28 @@
+uuid: 6c1188f3-74c8-4487-98ea-84455b031689
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_geographical_area
+    - node.type.case_study
+    - taxonomy.vocabulary.geographical_area
+id: node.case_study.field_geographical_area
+field_name: field_geographical_area
+entity_type: node
+bundle: case_study
+label: Location
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      geographical_area: geographical_area
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

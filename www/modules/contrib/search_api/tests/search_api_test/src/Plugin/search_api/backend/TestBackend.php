@@ -81,6 +81,9 @@ class TestBackend extends BackendPluginBase implements PluginFormInterface {
    * {@inheritdoc}
    */
   public function getSupportedFeatures() {
+    if ($override = $this->getMethodOverride(__FUNCTION__)) {
+      return call_user_func($override, $this);
+    }
     return ['search_api_mlt'];
   }
 
@@ -88,7 +91,10 @@ class TestBackend extends BackendPluginBase implements PluginFormInterface {
    * {@inheritdoc}
    */
   public function supportsDataType($type) {
-    return $type == 'search_api_test' || $type == 'search_api_test_altering';
+    if ($override = $this->getMethodOverride(__FUNCTION__)) {
+      return call_user_func($override, $this, $type);
+    }
+    return in_array($type, ['search_api_test', 'search_api_test_altering']);
   }
 
   /**
@@ -104,7 +110,7 @@ class TestBackend extends BackendPluginBase implements PluginFormInterface {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['test'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Test'),
+      '#title' => 'Test',
       '#default_value' => $this->configuration['test'],
     ];
     return $form;

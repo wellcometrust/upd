@@ -133,14 +133,13 @@ class IndexForm extends EntityForm {
       '#default_value' => $index->label(),
       '#required' => TRUE,
     ];
-    $index_storage = $this->entityTypeManager->getStorage('search_api_index');
     $form['id'] = [
       '#type' => 'machine_name',
       '#default_value' => $index->isNew() ? NULL : $index->id(),
       '#maxlength' => 50,
       '#required' => TRUE,
       '#machine_name' => [
-        'exists' => [$index_storage, 'load'],
+        'exists' => '\Drupal\search_api\Entity\Index::load',
         'source' => ['name'],
       ],
       '#disabled' => !$index->isNew(),

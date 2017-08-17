@@ -4,12 +4,9 @@
   @extend %font-body-copy;
   @extend %list-bare;
 
-  margin-top: rems(50px);
+  margin: rems(50px) 0;
   text-align: center;
 
-  @include mq($upd-layout-breakpoint) {
-    text-align: left;
-  }
 }
 
 .search-pagination--center {

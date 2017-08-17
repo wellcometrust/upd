@@ -44,7 +44,7 @@
         {% for item in content.file_info %}
             <li class="resource-box__list-item">
                 <a class="cta cta--download cta--small" href="{{ item.url }}">
-                    Download <span class="u-visually-hidden">{{ content.field_title }} in </span>{{ item.extension }}<span class="u-visually-hidden">format</span>
+                    Download <span class="u-visually-hidden">{{ content.field_title }} in </span>{{ item.extension|upper }}<span class="u-visually-hidden">format</span>
                 </a>
             </li>
         {% endfor %}

@@ -1,0 +1,28 @@
+uuid: 0f76d4f0-f72c-4245-af94-6a83283fc6ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type_of_user
+    - node.type.case_study
+    - taxonomy.vocabulary.type_of_user
+id: node.case_study.field_type_of_user
+field_name: field_type_of_user
+entity_type: node
+bundle: case_study
+label: 'Type of organisation using the data'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      type_of_user: type_of_user
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

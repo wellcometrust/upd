@@ -154,7 +154,6 @@ trait SearchApiCachePluginTrait {
         $this->getQueryHelper()->addResults($results);
 
         try {
-          $this->getQuery()->setSearchApiResults($results);
           $this->getQuery()->setSearchApiQuery($results->getQuery());
         }
         catch (SearchApiException $e) {

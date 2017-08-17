@@ -235,6 +235,9 @@ function _search_api_views_handler_mapping() {
         ],
       ],
       'date' => [
+        'argument' => [
+          'id' => 'search_api_date',
+        ],
         'filter' => [
           'id' => 'search_api_date',
         ],
@@ -543,8 +546,7 @@ function _search_api_views_datasource_table(DatasourceInterface $datasource, arr
  */
 function _search_api_views_entity_type_table($entity_type_id, array &$data) {
   $entity_type = \Drupal::entityTypeManager()->getDefinition($entity_type_id);
-  // @todo Once we depend on Drupal 8.3+, use entityClassImplements().
-  if (!$entity_type || !$entity_type->isSubclassOf(FieldableEntityInterface::class)) {
+  if (!$entity_type || !$entity_type->entityClassImplements(FieldableEntityInterface::class)) {
     return [];
   }
 

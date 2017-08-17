@@ -19,7 +19,7 @@
         "symfony/polyfill-iconv": "~1.0",
         "symfony/yaml": "~2.8",
         "twig/twig": "^1.23.1",
-        "doctrine/common": "^2.5",
+        "doctrine/common": "^2.5<2.8",
         "doctrine/annotations": "1.2.*",
         "guzzlehttp/guzzle": "^6.2.1",
         "symfony-cmf/routing": "~1.4",
@@ -33,6 +33,9 @@
         "composer/semver": "~1.0",
         "paragonie/random_compat": "^1.0|^2.0",
         "asm89/stack-cors": "~1.0"
+    },
+    "conflict": {
+        "drush/drush": "<8.1.10"
     },
     "require-dev": {
         "behat/mink": "1.7.x-dev",
@@ -172,8 +175,7 @@
     "scripts": {
         "pre-autoload-dump": "Drupal\\Core\\Composer\\Composer::preAutoloadDump",
         "post-autoload-dump": [
-          "Drupal\\Core\\Composer\\Composer::ensureHtaccess",
-          "Drupal\\Core\\Composer\\Composer::configurePhpcs"
+          "Drupal\\Core\\Composer\\Composer::ensureHtaccess"
         ]
     }
 }

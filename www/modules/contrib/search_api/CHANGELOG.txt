@@ -1,3 +1,90 @@
+Search API 1.3 (2017-07-19):
+----------------------------
+- #2888584 by drunken monkey: Fixed index description for "cron batch size" of
+  -1.
+- #2895142 by drunken monkey: Made our test classes more useful for other
+  modules.
+- #2851436 by Erik Frèrejean, andywhale, beltofte, drunken monkey: Added a
+  "Type-specific boosting" processor.
+- #2889426 by cspitzlay, drunken monkey: Fixed test fails on Drupal 8.3.
+- #2891387 by drunken monkey: Fixed some new code style issues.
+- #2891246 by drunken monkey: Fixed error detection in plugin helper.
+- #2884451 by drunken monkey: Fixed missing primary key for denormalized index
+  tables in DB backend.
+- #2886978 by drunken monkey: Fixed tracking of entities in disabled languages.
+
+Search API 1.2 (2017-06-25):
+----------------------------
+- #2881198 by jzavrl, drunken monkey, borisson_: Added property paths to "Add
+  fields" form.
+- #2883475 by Matthijs, drunken monkey, borisson_: Added support for "Language
+  not applicable".
+- #2883807 by LammensJ, drunken monkey: Fixed warning in Views UI for
+  contextual filters.
+- #2880239 by acbramley, drunken monkey, borisson_: Fixed logic for multiple
+  sorts on the same field.
+- #2889426 by drunken monkey: Fixed test fails for latest Core changes.
+- #2884720 by blake.thompson: Added a display plugin for the Views Embed
+  display type.
+- #2882347 by mkalkbrenner: Fixed forms to not have unserializable properties.
+- #2676468 by acbramley, drunken monkey, borisson_: Fixed stale cache in search
+  view with tag-based caching.
+- #2876398 by drunken monkey: Fixed operator description of Views "Fulltext
+  search" filter.
+- #2881945 by drunken monkey: Removed unnecessary check in
+  AddURL::addFieldValues().
+- #2886981 by drunken monkey: Fixed test fails for latest Core changes.
+- #2880026 by Anton4yk, drunken monkey: Fixed bugs in entity datasource's item
+  discovery code for edge cases.
+- #2881631 by jzavrl, drunken monkey, borisson_: Added alphabetic sort for
+  properties in "Add fields" form.
+- #2867809 by drunken monkey, borisson_: Added an option to enable a processor
+  for all compatible fields.
+- #2878974 by acbramley: Added the date Views argument plugin.
+- #2840274 by drunken monkey, borisson_: Updated the Core dependency to 8.3.
+- #2874895 by harsha012, drunken monkey, borisson_: Fixed OOP code to use the
+  t() method instead of the global t() function.
+- #2624876 by drunken monkey, borisson_: Added a query option for "properties
+  to retrieve".
+- #2682949 by drunken monkey, borisson_: Adapted to changes in the Autocomplete
+  module.
+
+Search API 1.1 (2017-05-10):
+----------------------------
+- #2858303 by beluoctavian, drunken monkey: Fixed "is empty" Views filters for
+  taxonomy term references.
+- #2873246 by drunken monkey: Fixed a second error for cached aborted search
+  queries in Views.
+- #2862289 by hoebekewim, drunken monkey: Fixed oversized column for fulltext
+  fields in denormalized index table.
+- #2859683 by drunken monkey: Added a note to fields processors explaining that
+  per-field keywords processing isn't supported.
+- #2871497 by drunken monkey: Fixed validation of "Whitespace characters"
+  setting for the Tokenizer processor.
+- #2868704 by drunken monkey: Fixed old removed fields being present on query
+  object.
+- #2863955 by alan-ps, drunken monkey, borisson_: Fixed unsupported processors
+  remaining enabled.
+- #2870988 by sahilsharma011, c.nish2k3, kala4ek: Removed translations from all
+  tests.
+- #2871030 by drunken monkey: Fixed error for cached aborted search queries in
+  Views.
+- #2230935 by shkiper, drunken monkey: Added the "search-api-server-clear"
+  Drush command.
+
+Search API 1.0 (2017-04-26):
+----------------------------
+- #2871145 by opdavies, drunken monkey, borisson_: Fixed link to php.net for
+  PCRE reference.
+- #2543472 by drunken monkey: Fixed indexing of multiple indexes via Drush.
+- #2871549 by drunken monkey: Added note about backwards compatibility to
+  README.txt.
+
+Search API 1.0, RC 4 (2017-04-21):
+----------------------------------
+- #2869121 by drunken monkey: Fixed fatal error when required fulltext filter is
+  in exposed form block.
+
 Search API 1.0, RC 3 (2017-04-20):
 ----------------------------------
 - #2869121 by drunken monkey, Wim Leers, wouter.adem, borisson_: Added improved

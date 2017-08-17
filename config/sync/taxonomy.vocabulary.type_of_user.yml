@@ -1,0 +1,9 @@
+uuid: be1deff5-a625-4dca-bc6b-3c21a4ad9ee9
+langcode: en
+status: true
+dependencies: {  }
+name: 'Type of organisation using the data'
+vid: type_of_user
+description: ''
+hierarchy: 0
+weight: 0

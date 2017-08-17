@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Contains upd_ck_tooltip.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function upd_ck_tooltip_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.upd_ck_tooltip':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Allows editors to insert tooltip buttons in CKEditor.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+function upd_ck_tooltip_preprocess_page(&$variables) {
+  $variables['#attached']['library'][] = 'upd_ck_tooltip/tooltip_styles';
+}

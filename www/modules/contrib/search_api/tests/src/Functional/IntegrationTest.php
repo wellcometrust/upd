@@ -741,6 +741,7 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     $url_options['query']['datasource'] = 'entity:node';
     $this->drupalGet($this->getIndexPath('fields/add/nojs'), $url_options);
     $this->assertHtmlEscaped($field_name);
+    $this->assertSession()->responseContains('(<code>field__field_</code>)');
 
     $this->addField('entity:node', 'field__field_', $field_name);
 
@@ -973,12 +974,12 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     // Remove a field and make sure that doing so does not remove the search
     // index.
     $this->drupalGet('admin/structure/types/manage/article/fields/node.article.field_link/delete');
-    $this->assertSession()->pageTextNotContains(t('The listed configuration will be deleted.'));
-    $this->assertSession()->pageTextContains(t('Search index'));
+    $this->assertSession()->pageTextNotContains('The listed configuration will be deleted.');
+    $this->assertSession()->pageTextContains('Search index');
 
-    $this->submitForm([], t('Delete'));
+    $this->submitForm([], 'Delete');
     $this->drupalGet('admin/structure/types/manage/article/fields/node.article.field_image/delete');
-    $this->submitForm([], t('Delete'));
+    $this->submitForm([], 'Delete');
 
     $this->assertNotNull($this->getIndex(), 'Index was not deleted.');
 
@@ -1114,7 +1115,7 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     $this->drupalGet('node/2/edit');
     $edit = ['field__reference_field_[0][target_id]' => 'Something (2)'];
     $this->drupalGet('node/2/edit');
-    $this->submitForm($edit, 'Save and keep published');
+    $this->submitForm($edit, 'Save');
     $indexed_values = \Drupal::state()->get("search_api_test.backend.indexed.{$this->indexId}", []);
     $this->assertEquals([2], $indexed_values['entity:node/2:en']['field__reference_field_'], 'Correct value indexed for nested non-base field.');
   }
@@ -1138,6 +1139,7 @@ class IntegrationTest extends SearchApiBrowserTestBase {
         'fields' => [
           'title',
         ],
+        'all_fields' => FALSE,
       ];
       $this->assertEquals($expected, $configuration, 'Title field enabled for ignore case filter.');
     }
@@ -1446,12 +1448,12 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     // Load confirmation form.
     $this->drupalGet('admin/config/search/search-api/server/' . $this->serverId . '/delete');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertSession()->responseContains(t('Are you sure you want to delete the search server %name?', ['%name' => $server->label()]));
-    $this->assertSession()->pageTextContains(t('Deleting a server will disable all its indexes and their searches.'));
+    $this->assertSession()->responseContains(new FormattableMarkup('Are you sure you want to delete the search server %name?', ['%name' => $server->label()]));
+    $this->assertSession()->pageTextContains('Deleting a server will disable all its indexes and their searches.');
 
     // Confirm deletion.
-    $this->submitForm([], t('Delete'));
-    $this->assertSession()->responseContains(t('The search server %name has been deleted.', ['%name' => $server->label()]));
+    $this->submitForm([], 'Delete');
+    $this->assertSession()->responseContains(new FormattableMarkup('The search server %name has been deleted.', ['%name' => $server->label()]));
     $this->assertFalse(Server::load($this->serverId), 'Server could not be found anymore.');
     $this->assertSession()->addressEquals('admin/config/search/search-api');
 

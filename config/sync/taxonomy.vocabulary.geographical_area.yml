@@ -1,0 +1,9 @@
+uuid: b384cccc-6c32-45d4-91e9-2fa1b0085118
+langcode: en
+status: true
+dependencies: {  }
+name: Location
+vid: geographical_area
+description: ''
+hierarchy: 0
+weight: 0

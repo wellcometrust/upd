@@ -1,0 +1,28 @@
+uuid: 21d285be-7d8e-4d20-adc1-a3a14aa6de5f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_key_words
+    - node.type.case_study
+    - taxonomy.vocabulary.key_words
+id: node.case_study.field_key_words
+field_name: field_key_words
+entity_type: node
+bundle: case_study
+label: 'Key words'
+description: 'Enter words used to describe the case study that are not used in the rest of the text. These key words will be indexed and help users find the right content. Separate multiple terms with commas e.g. "labrador, Boston terrier, corgi"'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      key_words: key_words
+    sort:
+      field: _none
+    auto_create: true
+    auto_create_bundle: impact_of_work
+field_type: entity_reference

@@ -40,6 +40,8 @@ function upd_theme($existing, $type, $theme, $path) {
  * @param $variables
  */
 function upd_preprocess_html(&$variables) {
+  _override_page_title($variables);
+
   $image_path = drupal_get_path('theme', 'upd') . '/assets/images';
   $basic_favicons = [
     'shortcut-favicon' => [
@@ -140,5 +142,56 @@ function upd_preprocess_image(&$variables) {
   }
   if(isset($variables['attributes']['height'])){
     unset($variables['attributes']['height']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_node()
+ */
+function upd_preprocess_node(&$variables) {
+  _generate_related_news_block($variables);
+}
+
+/**
+ * Helper function to generate block of related content for news.
+ *
+ * @param $variables
+ * @see hook_preprocess_node()
+ */
+function _generate_related_news_block(&$variables) {
+  $node = $variables['node'];
+  // If we are looking at the full view of a news article node.
+  if ($node->getType() == 'art' && $variables['view_mode'] == 'full') {
+    // If the related news article taxonomy term is populated.
+    if (isset($node->field_news_category) && !empty($node->field_news_category->getValue())) {
+      // Then build and render the related_news_articles views block.
+      $term = $node->field_news_category->getValue();
+      // Supply taxonomy term to search for and NID of current node to exclude.
+      $args = [$term[0]['target_id'], $node->id()];
+      $view = \Drupal\views\Views::getView('related_news_articles');
+      if (is_object($view)) {
+        $view->setArguments($args);
+        $view->setDisplay('Block');
+        $variables['related_news_articles'] = $view->buildRenderable();
+      }
+    }
+  }
+}
+
+/**
+ * For some reason panel pages page titles do not take the configured value.
+ * We override them here.
+ *
+ * @param $variables
+ * @see upd_preprocess_html()
+ */
+function  _override_page_title(&$variables) {
+  switch ($variables['root_path']) {
+    case 'case-studies':
+      $variables['head_title']['title'] = 'Case studies | Understand Patient Data';
+      break;
+    case 'search':
+      $variables['head_title']['title'] = 'Search | Understand Patient Data';
+      break;
   }
 }

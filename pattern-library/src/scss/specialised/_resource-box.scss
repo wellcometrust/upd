@@ -4,6 +4,11 @@
   background-color: $upd-color-background-secondary;
   max-width: rems(320px);
   padding: $upd-spacing-gutter-medium;
+  margin-top: 2em;
+
+  .cta {
+    margin-top: 1em;
+  }
 }
 
 

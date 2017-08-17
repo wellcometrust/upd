@@ -2,13 +2,17 @@
 
 namespace Drupal\Tests\search_api\Kernel\Processor;
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\field\Tests\EntityReference\EntityReferenceTestTrait;
 use Drupal\node\Entity\NodeType;
 use Drupal\search_api\Item\Field;
 use Drupal\search_api\Query\Query;
 use Drupal\simpletest\NodeCreationTrait;
-use Drupal\taxonomy\Tests\TaxonomyTestTrait;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\taxonomy\VocabularyInterface;
 use Drupal\Tests\search_api\Kernel\ResultsTrait;
 
 /**
@@ -25,7 +29,6 @@ class AddHierarchyTest extends ProcessorTestBase {
   use NodeCreationTrait;
   use EntityReferenceTestTrait;
   use ResultsTrait;
-  use TaxonomyTestTrait;
 
   /**
    * {@inheritdoc}
@@ -76,7 +79,7 @@ class AddHierarchyTest extends ProcessorTestBase {
    * {@inheritdoc}
    */
   public function setUp($processor = NULL) {
-    parent::setUp('hierarchy');
+    parent::setUp();
 
     $this->installConfig(['filter']);
     $this->installEntitySchema('taxonomy_term');
@@ -119,7 +122,6 @@ class AddHierarchyTest extends ProcessorTestBase {
     $term_field->setDatasourceId('entity:node');
     $term_field->setLabel('Terms');
     $this->index->addField($term_field);
-    $this->index->save();
 
     // Index the entity reference field.
     $reference_field = new Field($this->index, 'parent_reference');
@@ -128,9 +130,15 @@ class AddHierarchyTest extends ProcessorTestBase {
     $reference_field->setDatasourceId('entity:node');
     $reference_field->setLabel('Parent page');
     $this->index->addField($reference_field);
-    $this->index->save();
 
-    // Setup a node index.
+    // Add the "Index hierarchy" processor only now (not in parent method) since
+    // it can only be enabled once there are actually hierarchical fields.
+    $this->processor = \Drupal::getContainer()
+      ->get('search_api.plugin_helper')
+      ->createProcessorPlugin($this->index, 'hierarchy');
+    $this->index->addProcessor($this->processor);
+
+    // Add the node datasource to the index.
     $datasources = \Drupal::getContainer()
       ->get('search_api.plugin_helper')
       ->createDatasourcePlugins($this->index, ['entity:node']);
@@ -164,6 +172,56 @@ class AddHierarchyTest extends ProcessorTestBase {
         ]);
       }
     }
+  }
+
+  // @todo Use TaxonomyTestTrait once we depend on Drupal 8.4+.
+
+  /**
+   * Returns a new vocabulary with random properties.
+   *
+   * @return \Drupal\taxonomy\VocabularyInterface
+   *   The new vocabulary.
+   */
+  public function createVocabulary() {
+    // Create a vocabulary.
+    $vocabulary = Vocabulary::create([
+      'name' => $this->randomMachineName(),
+      'description' => $this->randomMachineName(),
+      'vid' => Unicode::strtolower($this->randomMachineName()),
+      'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+      'weight' => mt_rand(0, 10),
+    ]);
+    $vocabulary->save();
+    return $vocabulary;
+  }
+
+  /**
+   * Returns a new term with random properties in vocabulary $vid.
+   *
+   * @param \Drupal\taxonomy\VocabularyInterface $vocabulary
+   *   The vocabulary object.
+   * @param array $values
+   *   (optional) An array of values to set, keyed by property name. If the
+   *   entity type has bundles, the bundle key has to be specified.
+   *
+   * @return \Drupal\taxonomy\Entity\Term
+   *   The new taxonomy term object.
+   */
+  public function createTerm(VocabularyInterface $vocabulary, $values = []) {
+    $filter_formats = filter_formats();
+    $format = array_pop($filter_formats);
+    $term = Term::create($values + [
+        'name' => $this->randomMachineName(),
+        'description' => [
+          'value' => $this->randomMachineName(),
+          // Use the first available text format.
+          'format' => $format->id(),
+        ],
+        'vid' => $vocabulary->id(),
+        'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+      ]);
+    $term->save();
+    return $term;
   }
 
   /**
