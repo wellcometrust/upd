@@ -89,27 +89,38 @@
 
 .site-footer__input {
   border: none;
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
   color: $upd-color-text-primary;
-  width: 70%;
+  margin-bottom: 1em;
 
   &:focus {
     background: $upd-color-background-primary;
   }
 }
+.site-footer{
+  #mc_embed_signup {
+    width: 100%;
+  }
+  .half-left {
+    float: left;
+    width: 48%;
+  }
 
+  .half-right {
+    float: right;
+    width: 48%;
+  }
+}
 
 .site-footer__submit {
   background: $upd-color-brand-red;
-  border-radius: 0 $upd-input-radius $upd-input-radius 0;
+  border-radius: $upd-input-radius $upd-input-radius;
   height: $upd-input-height;
   line-height: $upd-input-height;
   padding: 0 0.2em 0 0;
   transition: background $upd-transition-time;
   vertical-align: top;
   white-space: nowrap;
-  width: 30%;
+  width: 100%;
 
   &:hover {
     background-color: shade($upd-color-brand-red, $upd-tint-active);
