@@ -270,8 +270,7 @@ display:
     display_options:
       display_extenders: {  }
       cache:
-        type: search_api_tag
-        options: {  }
+        type: none
       defaults:
         cache: false
     cache_metadata:
