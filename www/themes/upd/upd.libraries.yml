@@ -2,6 +2,8 @@ global-styling:
   version: VERSION
   js:
     assets/js/main.js: {}
+    assets/js/newsletter-signup.js: {}
+
   css:
     base:
       assets/css/main.css: {}
