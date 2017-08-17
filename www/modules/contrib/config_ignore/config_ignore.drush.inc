@@ -36,11 +36,6 @@ function drush_config_ignore_pre_config_import($source = NULL) {
 
   $source_storage = new FileStorage($source_dir);
 
-  $storage_filters = drush_config_get_storage_filters();
-  if (!empty($storage_filters)) {
-    $source_storage = new StorageWrapper($source_storage, $storage_filters);
-  }
-
   /** @var ConfigManagerInterface $config_manager */
   $config_manager = \Drupal::service('config.manager');
   $storage_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);
