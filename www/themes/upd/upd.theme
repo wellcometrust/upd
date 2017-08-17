@@ -40,6 +40,8 @@ function upd_theme($existing, $type, $theme, $path) {
  * @param $variables
  */
 function upd_preprocess_html(&$variables) {
+  _override_page_title($variables);
+
   $image_path = drupal_get_path('theme', 'upd') . '/assets/images';
   $basic_favicons = [
     'shortcut-favicon' => [
@@ -173,5 +175,23 @@ function _generate_related_news_block(&$variables) {
         $variables['related_news_articles'] = $view->buildRenderable();
       }
     }
+  }
+}
+
+/**
+ * For some reason panel pages page titles do not take the configured value.
+ * We override them here.
+ *
+ * @param $variables
+ * @see upd_preprocess_html()
+ */
+function  _override_page_title(&$variables) {
+  switch ($variables['root_path']) {
+    case 'case-studies':
+      $variables['head_title']['title'] = 'Case studies | Understand Patient Data';
+      break;
+    case 'search':
+      $variables['head_title']['title'] = 'Search | Understand Patient Data';
+      break;
   }
 }
