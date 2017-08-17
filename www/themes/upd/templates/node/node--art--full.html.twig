@@ -90,7 +90,9 @@
 
     <aside class="layout__item  layout__item--secondary  layout__item--sticky">
       <div class="layout__wrapper">
-        <h2 class="h3  h3--sidebar">Related news</h2>
+        {% if (related_news_articles or content.field_related_news[0]) %}
+          <h2 class="h3  h3--sidebar">Related news</h2>
+        {% endif %}
           {{ related_news_articles }}
           {{ content.field_related_news }}
       </div>
