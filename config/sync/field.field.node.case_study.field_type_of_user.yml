@@ -10,7 +10,7 @@ id: node.case_study.field_type_of_user
 field_name: field_type_of_user
 entity_type: node
 bundle: case_study
-label: 'Type of user'
+label: 'Type of organisation using the data'
 description: ''
 required: false
 translatable: false

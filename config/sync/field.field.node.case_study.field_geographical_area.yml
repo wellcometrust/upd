@@ -10,7 +10,7 @@ id: node.case_study.field_geographical_area
 field_name: field_geographical_area
 entity_type: node
 bundle: case_study
-label: 'Geographical area'
+label: Location
 description: ''
 required: false
 translatable: false
