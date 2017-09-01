@@ -145,7 +145,7 @@ field_settings:
       config:
         - field.storage.node.field_sources_of_data
   name_4:
-    label: 'Geographical area » Taxonomy term » Name'
+    label: 'Location » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_geographical_area:entity:name'
     type: text
@@ -155,7 +155,7 @@ field_settings:
       module:
         - taxonomy
   name_5:
-    label: 'Type of user » Taxonomy term » Name'
+    label: 'Type of organisation » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_type_of_user:entity:name'
     type: text
@@ -165,7 +165,7 @@ field_settings:
       module:
         - taxonomy
   field_geographical_area:
-    label: 'Geographical area'
+    label: 'Location'
     datasource_id: 'entity:node'
     property_path: field_geographical_area
     type: integer
@@ -173,7 +173,7 @@ field_settings:
       config:
         - field.storage.node.field_geographical_area
   field_type_of_user:
-    label: 'Type of user'
+    label: 'Type of organisation'
     datasource_id: 'entity:node'
     property_path: field_type_of_user
     type: integer
