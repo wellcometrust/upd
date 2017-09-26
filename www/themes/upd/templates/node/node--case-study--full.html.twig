@@ -72,6 +72,8 @@
  * @ingroup themeable
  */
 #}
+{% set updatedDate = node.getUpdatedTime|date('j F Y') %}
+
   {{ title_prefix }}
   {% if label %}
       {% if page %}
@@ -136,7 +138,10 @@
                     <div class="content u-font-body-copy">
                         {{ content.field_vertical_tab }}
                         <ul class="content__actions">
-                            <li class="content__action">
+                          <li>
+                            <span class="resource-box__list-item">Page updated: {{ updatedDate }}</span>
+                          </li>
+                          <li class="content__action">
                                 <a class="button button--tertiary" href="#" onClick="window.print();return false">Print page</a>
                             </li>
                             {% if content.field_pdf|render %}
