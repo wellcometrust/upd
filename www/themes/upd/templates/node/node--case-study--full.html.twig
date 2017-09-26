@@ -86,74 +86,93 @@
                       <ul class="tag-list">
                           {% for term in node.updTags %}
                               <li class="tag-list__item">
-              <span class="tag" style="color:#{{ term.color }};">
-                {{ term.label }}
-              </span>
+                                  <span class="tag" style="color:#{{ term.color }};">
+                                    {{ term.label }}
+                                  </span>
                               </li>
                           {% endfor %}
                       </ul>
                   </div>
+                  <div class="page-header__share">
+                     <a class="share-button"
+                        target="_blank"
+                        href="https://twitter.com/intent/tweet?text={{ node
+                        .label }}&url={{ url('<front>') }}{{ url|trim('/',
+                        'left') }}&via=Patient_Data">
+                        <img src="{{  url('<front>') }}{{ directory
+                          }}/assets/images/round_twitter.png"/>
+                     </a>
+                     <a class="share-button"
+                        target="_blank"
+                        href='mailto:?Subject=Understanding Patient Data: {{node
+                        .label }}&body=You might be interested in this: "{{ node
+                        .label }}" ({{ url('<front>') }}{{ url|trim('/',
+                        'left') }})' >
+                         <img src="{{  url('<front>') }}{{ directory
+                          }}/assets/images/round_email.png"/>
+                     </a>
+                  </div>
               </div>
           </header>
-      {% else %}
-          <h2 class="node-title"><a href="{{ url }}" class="node__title-link" rel="bookmark">{{ label }}</a></h2>
-      {% endif %}
-  {% endif %}
-  {{ title_suffix }}
+              {% else %}
+                  <h2 class="node-title"><a href="{{ url }}" class="node__title-link" rel="bookmark">{{ label }}</a></h2>
+              {% endif %}
+          {% endif %}
+          {{ title_suffix }}
 
-<div class="wrapper wrapper--gutter">
-    <main class="layout">
-        {% if content.vertical is not empty %}
-            <aside class="layout__item layout__item--secondary layout__item--sticky u-hidden-layout-simple">
-                <div class="layout__wrapper">
-                    <ul class="toc" data-scroll-spy="#primary">
-                        {% for item in content.vertical %}
-                            <li class="toc__item">
-                                <a class="toc__element" href="#{{ item.url }}">
-                                    {{ item.title }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </aside>
-        {% endif %}
-        <article{{ attributes.addClass('layout__item layout__item--primary') }}>
+            <div class="wrapper wrapper--gutter">
+                <main class="layout">
+                    {% if content.vertical is not empty %}
+                        <aside class="layout__item layout__item--secondary layout__item--sticky u-hidden-layout-simple">
+                            <div class="layout__wrapper">
+                                <ul class="toc" data-scroll-spy="#primary">
+                                    {% for item in content.vertical %}
+                                        <li class="toc__item">
+                                            <a class="toc__element" href="#{{ item.url }}">
+                                                {{ item.title }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </aside>
+                    {% endif %}
+                    <article{{ attributes.addClass('layout__item layout__item--primary') }}>
 
-            <div class="layout__wrapper">
-                {% if display_submitted %}
-                    <footer>
-                        {{ author_picture }}
-                        <div{{ author_attributes }}>
-                            {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
-                            {{ metadata }}
-                        </div>
-                    </footer>
-                {% endif %}
-                {% if content.field_standfirst|render %}
-                    {{ content.field_standfirst }}
-                {% endif %}
-
-                {% if content.field_vertical_tab|render %}
-                    <div class="content u-font-body-copy">
-                        {{ content.field_vertical_tab }}
-                        <ul class="content__actions">
-                          <li>
-                            <span class="resource-box__list-item">Page updated: {{ updatedDate }}</span>
-                          </li>
-                          <li class="content__action">
-                                <a class="button button--tertiary" href="#" onClick="window.print();return false">Print page</a>
-                            </li>
-                            {% if content.field_pdf|render %}
-                                <li class="content__action">
-                                    <a class="button  button--tertiary" href="{{ content.field_pdf[0]['#markup'] }}">Download PDF</a>
-                                </li>
+                        <div class="layout__wrapper">
+                            {% if display_submitted %}
+                                <footer>
+                                    {{ author_picture }}
+                                    <div{{ author_attributes }}>
+                                        {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+                                        {{ metadata }}
+                                    </div>
+                                </footer>
                             {% endif %}
-                        </ul>
+                            {% if content.field_standfirst|render %}
+                                {{ content.field_standfirst }}
+                            {% endif %}
 
-                    </div>
-                {% endif %}
-                {#{{ content.nextpreviousblock }}#}
+                            {% if content.field_vertical_tab|render %}
+                                <div class="content u-font-body-copy">
+                                    {{ content.field_vertical_tab }}
+                                    <ul class="content__actions">
+                                      <li>
+                                        <span class="resource-box__list-item">Page updated: {{ updatedDate }}</span>
+                                      </li>
+                                      <li class="content__action">
+                                            <a class="button button--tertiary" href="#" onClick="window.print();return false">Print page</a>
+                                        </li>
+                                        {% if content.field_pdf|render %}
+                                            <li class="content__action">
+                                                <a class="button  button--tertiary" href="{{ content.field_pdf[0]['#markup'] }}">Download PDF</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+
+                                </div>
+                            {% endif %}
+                            {#{{ content.nextpreviousblock }}#}
             </div>
         </article>
     </main>

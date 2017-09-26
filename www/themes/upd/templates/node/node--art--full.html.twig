@@ -76,6 +76,23 @@
   <div class="wrapper  wrapper--gutter">
     <span class="page-header__category">{{ content.field_publish_date }}</span>
     <h1 class="page-header__title">{{ label }}</h1>
+    <div class="page-header__share">
+      <a class="share-button"
+         target="_blank"
+         href="https://twitter.com/intent/tweet?text={{ node
+         .label }}&url={{ url('<front>') }}{{ url|trim('/',
+         'left') }}&via=Patient_Data">
+        <img src="{{  url('<front>') }}{{ directory
+        }}/assets/images/round_twitter.pnggst"/></a>
+      <a class="share-button"
+         target="_blank"
+         href='mailto:?Subject=Understanding Patient Data: {{node
+         .label }}&body=You might be interested in this: "{{ node
+         .label }}" ({{ url('<front>') }}{{ url|trim('/',
+         'left') }})' >
+        <img src="{{  url('<front>') }}{{ directory
+        }}/assets/images/round_email.png"/></a>
+    </div>
   </div>
 </header>
 <div class="wrapper wrapper--gutter">
