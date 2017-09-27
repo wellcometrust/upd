@@ -26,4 +26,5 @@
   top: -110%;
   left: -50%;
   transition: opacity 0.5s;
+  z-index:100000;
 }
