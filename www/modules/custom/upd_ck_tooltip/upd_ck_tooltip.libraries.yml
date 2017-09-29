@@ -2,3 +2,7 @@ tooltip_styles:
   css:
     component:
       css/upd_ck_tooltip.css: {}
+      /libraries/tooltipster-master/dist/css/tooltipster.bundle.min.css: {}
+  js:
+    js/upd_ck_tooltip.js: {}
+    /libraries/tooltipster-master/dist/js/tooltipster.bundle.min.js: {}

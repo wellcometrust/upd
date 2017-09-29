@@ -1,4 +1,5 @@
 <?php
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_theme().
@@ -194,4 +195,54 @@ function  _override_page_title(&$variables) {
       $variables['head_title']['title'] = 'Search | Understand Patient Data';
       break;
   }
+}
+
+/**
+ * Implements hook_form_alter.
+ */
+function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  upd_news_dropdown_to_links($form, $form_state, $form_id);
+}
+
+/**
+ * Convert a dropdown to clickable links.
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-news-news') {
+    $html = '<div class="wrapper  wrapper--gutter news-filter-container"><h4>Filter by</h4>';
+    // Only get options which are taxonomy terms, e.g. not "all".
+    foreach ($form['field_news_category_target_id']['#options'] as $k => $option) {
+      $article_count = is_numeric($k) ? _upd_get_article_count($k) : NULL;
+      if ($k == "All") {
+        $html .= '<a href="#" class="news-cat-changer active" data-term-id="' . $k . '">All</a>';
+      }
+      elseif ($article_count > 0) {
+        $html .= '<a href="#" class="news-cat-changer" data-term-id="' . $k . '">' . $option . ' (' . $article_count . ')</a>';
+      }
+    }
+    $form['options'] = [
+      '#markup' => $html . '</div>',
+    ];
+    $form['#attached']['library'][] = 'upd/news-cat';
+  }
+}
+
+/**
+ * Returns count of nodes tagged with term. Only news articles are tagged with
+ * "news category" tag so we don't need to join.
+ *
+ * @param $tid
+ *
+ * @return int
+ */
+function _upd_get_article_count($tid) {
+  $query = \Drupal::database()->select('taxonomy_index', 'ti');
+  $query->fields('ti', ['nid']);
+  $query->condition('ti.tid', $tid);
+  $nodes = $query->execute()->fetchAll();
+  return count($nodes);
 }

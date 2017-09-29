@@ -165,7 +165,7 @@ field_settings:
       module:
         - taxonomy
   field_geographical_area:
-    label: 'Location'
+    label: Location
     datasource_id: 'entity:node'
     property_path: field_geographical_area
     type: integer
