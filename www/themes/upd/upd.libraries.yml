@@ -7,3 +7,8 @@ global-styling:
   css:
     base:
       assets/css/main.css: {}
+
+news-cat:
+  version: VERSION
+  js:
+    assets/js/news-cat-changer.js: {}

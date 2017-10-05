@@ -33,3 +33,28 @@
     display: block;
   }
 }
+
+/* News Ajax Filters */
+.form-item-field-news-category-target-id,
+#views-exposed-form-news-news .form-submit {
+  display: none;
+}
+
+.news-filter-container {
+  margin: 1em auto -1em auto;
+  a.news-cat-changer {
+    display: inline-block;
+    margin: 1em 1em 0 0;
+    background-color: $upd-color-brand-red;
+    color: $upd-color-text-reverse;
+    border-radius: 16px;
+    font-weight: bold;
+    padding: 5px 10px;
+  }
+
+  a.news-cat-changer.active {
+    background-color: $upd-color-text-reverse;
+    color: $upd-color-brand-red;
+    border: 1px solid $upd-color-brand-red;
+  }
+}
