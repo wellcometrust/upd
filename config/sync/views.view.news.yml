@@ -740,7 +740,7 @@ display:
         description: ''
         expanded: false
         parent: ''
-        weight: -47
+        weight: -45
         context: '0'
         menu_name: main
       header:
