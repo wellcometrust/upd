@@ -72,7 +72,7 @@
  * @ingroup themeable
  */
 #}
-{% set updatedDate = node.getUpdatedTime|date('j F Y') %}
+{% set updatedDate = node.changed.value|date('j F Y') %}
 
   {{ title_prefix }}
   {% if label %}
