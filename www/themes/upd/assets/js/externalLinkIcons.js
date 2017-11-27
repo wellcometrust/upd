@@ -4,5 +4,5 @@
       this.hostname !== location.hostname &&
       this.hostname !== 'twitter.com' &&
       this.hostname !== 'facebook.com';
-  }).addClass('external-link').attr('target','_blank');
+  }).addClass('external-link').attr('target', '_blank');
 })(jQuery);
