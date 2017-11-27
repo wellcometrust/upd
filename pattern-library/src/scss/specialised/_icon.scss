@@ -31,3 +31,16 @@
 
   content: svg-url($svg);
 }
+
+@mixin externalSiteIcon($color: '000000') {
+  background-image: url("data:image/svg+xml,%3Csvg height='10' viewBox='5 5 10 10' width='10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23#{$color}' d='m13.5 15h-8.5v-8.5h4v1.5h-2.5v5.5h5.5v-2.5h1.5z'/%3E%3Cpath fill='%23#{$color}' d='m15 9.5h-1.5v-3h-3v-1.5h4.5z'/%3E%3Cpath fill='%23#{$color}' d='m10.696 5.384h1.5v6.34h-1.5z' transform='matrix(.7071 .7071 -.7071 .7071 9.4012 -5.5881)'/%3E%3C/svg%3E");
+}
+
+.external-link {
+  @include externalSiteIcon('014061');
+  background-repeat: no-repeat;
+  background-position: right;
+  padding-right: 17px;
+  color: $upd-color-brand-red;
+}
+
