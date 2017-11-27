@@ -3,6 +3,7 @@ global-styling:
   js:
     assets/js/main.js: {}
     assets/js/newsletter-signup.js: {}
+    assets/js/externalLinkIcons.js: {}
 
   css:
     base:
