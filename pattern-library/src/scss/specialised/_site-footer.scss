@@ -27,7 +27,7 @@
 
 .site-footer__section {
   float: left;
-  margin-bottom: $upd-spacing-gutter-large;
+  margin-bottom: 0;
   padding-left: $upd-spacing-gutter-large;
   position: relative;
   width: 100%;
@@ -62,12 +62,7 @@
 
 
 .site-footer__socials {
-  justify-content: center;
-
-  @include mq(medium) {
-    bottom: 0;
-    position: absolute;
-  }
+  justify-content: left;
 }
 
 
@@ -96,6 +91,18 @@
     background: $upd-color-background-primary;
   }
 }
+.email.site-footer__input {
+  border: none;
+  color: $upd-color-text-primary;
+  margin-bottom: 1em;
+  border-radius: $upd-input-radius 0 0 $upd-input-radius;
+  width: 75%;
+  float: left;
+
+  &:focus {
+    background: $upd-color-background-primary;
+  }
+}
 .site-footer{
   #mc_embed_signup {
     width: 100%;
@@ -113,14 +120,14 @@
 
 .site-footer__submit {
   background: $upd-color-brand-red;
-  border-radius: $upd-input-radius $upd-input-radius;
+  border-radius: 0 $upd-input-radius $upd-input-radius 0;
   height: $upd-input-height;
   line-height: $upd-input-height;
   padding: 0 0.2em 0 0;
   transition: background $upd-transition-time;
   vertical-align: top;
   white-space: nowrap;
-  width: 100%;
+  width: 25%;
 
   &:hover {
     background-color: shade($upd-color-brand-red, $upd-tint-active);
