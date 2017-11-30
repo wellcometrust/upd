@@ -110,4 +110,18 @@
     }
   }
 
+  .page-header__share,
+  .layout__item--secondary {
+    display: none;
+  }
+
+  ul.toc {
+    display: none;
+  }
+
+  /* target edit / view tab links */
+  body.user-logged-in > ul:first-of-type {
+    display: none;
+  }
+
 }
