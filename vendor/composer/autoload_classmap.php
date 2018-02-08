@@ -6,14 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'CallbackFilterIterator' => $vendorDir . '/symfony/polyfill-php54/Resources/stubs/CallbackFilterIterator.php',
     'Drupal' => $baseDir . '/www/core/lib/Drupal.php',
+    'DrupalFinder\\DrupalFinder' => $vendorDir . '/webflo/drupal-finder/src/DrupalFinder.php',
     'Drupal\\Component\\Utility\\Timer' => $baseDir . '/www/core/lib/Drupal/Component/Utility/Timer.php',
     'Drupal\\Component\\Utility\\Unicode' => $baseDir . '/www/core/lib/Drupal/Component/Utility/Unicode.php',
     'Drupal\\Core\\Database\\Database' => $baseDir . '/www/core/lib/Drupal/Core/Database/Database.php',
     'Drupal\\Core\\DrupalKernel' => $baseDir . '/www/core/lib/Drupal/Core/DrupalKernel.php',
     'Drupal\\Core\\DrupalKernelInterface' => $baseDir . '/www/core/lib/Drupal/Core/DrupalKernelInterface.php',
     'Drupal\\Core\\Site\\Settings' => $baseDir . '/www/core/lib/Drupal/Core/Site/Settings.php',
-    'RecursiveCallbackFilterIterator' => $vendorDir . '/symfony/polyfill-php54/Resources/stubs/RecursiveCallbackFilterIterator.php',
-    'SessionHandlerInterface' => $vendorDir . '/symfony/polyfill-php54/Resources/stubs/SessionHandlerInterface.php',
 );
