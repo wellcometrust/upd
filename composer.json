@@ -48,7 +48,8 @@
     "drupal/simple_sitemap": "^2.9",
     "drupal/video_embed_field": "^1.5",
     "drupal/google_analytics": "2.x",
-    "drupal/entity_reference_display": "1.x"
+    "drupal/entity_reference_display": "1.x",
+    "drupal/config_filter": "1.x"
   },
   "require-dev": {
     "drupal/devel": "1.*"
