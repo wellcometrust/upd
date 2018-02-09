@@ -6,8 +6,8 @@ package: Configuration
 dependencies:
   - config_ignore
 
-# Information added by Drupal.org packaging script on 2017-03-24
-version: '8.x-1.4'
+# Information added by Drupal.org packaging script on 2017-10-11
+version: '8.x-2.1'
 core: '8.x'
 project: 'config_ignore'
-datestamp: 1490346197
+datestamp: 1507706047
