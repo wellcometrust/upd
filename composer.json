@@ -31,7 +31,7 @@
   "require": {
     "composer/installers": "1.*",
     "drupal-composer/drupal-scaffold": "2.*",
-    "drupal/config_ignore": "1.*",
+    "drupal/config_ignore": "2.x",
     "drupal/console": "~1.0",
     "drupal/core": "~8. ",
     "drupal/ctools": "3.*",
@@ -46,7 +46,9 @@
     "drupal/search_api": "1.*",
     "drupal/search_api_solr": "^1.0",
     "drupal/simple_sitemap": "^2.9",
-    "drupal/video_embed_field": "^1.5"
+    "drupal/video_embed_field": "^1.5",
+    "drupal/google_analytics": "2.x",
+    "drupal/entity_reference_display": "1.x"
   },
   "require-dev": {
     "drupal/devel": "1.*"
