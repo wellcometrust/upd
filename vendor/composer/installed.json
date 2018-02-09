@@ -670,59 +670,6 @@
         }
     },
     {
-        "name": "drupal/config_ignore",
-        "version": "1.4.0",
-        "version_normalized": "1.4.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://git.drupal.org/project/config_ignore",
-            "reference": "8.x-1.4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/config_ignore-8.x-1.4.zip",
-            "reference": "8.x-1.4",
-            "shasum": "6b55ca40891bd2a6320c61a3406cae0a16e4e9b9"
-        },
-        "require": {
-            "drupal/core": "*"
-        },
-        "type": "drupal-module",
-        "extra": {
-            "branch-alias": {
-                "dev-1.x": "1.x-dev"
-            },
-            "drupal": {
-                "version": "8.x-1.4",
-                "datestamp": "1490346183"
-            }
-        },
-        "installation-source": "dist",
-        "notification-url": "https://packages.drupal.org/8/downloads",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "authors": [
-            {
-                "name": "Tommy Lynge Jørgensen",
-                "homepage": "https://github.com/tlyngej",
-                "email": "tlyngej@gmail.com",
-                "role": "Maintainer"
-            },
-            {
-                "name": "tlyngej",
-                "homepage": "https://www.drupal.org/user/413139"
-            }
-        ],
-        "description": "Ignore certain configuration during import.",
-        "homepage": "http://drupal.org/project/config_ignore",
-        "support": {
-            "source": "http://cgit.drupalcode.org/config_ignore",
-            "issues": "http://drupal.org/project/config_ignore",
-            "irc": "irc://irc.freenode.org/drupal-contribute"
-        }
-    },
-    {
         "name": "drupal/jquery_colorpicker",
         "version": "1.3.0",
         "version_normalized": "1.3.0.0",
@@ -5744,6 +5691,251 @@
         "support": {
             "source": "http://cgit.drupalcode.org/devel",
             "issues": "http://drupal.org/project/devel",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
+        "name": "drupal/google_analytics",
+        "version": "2.2.0",
+        "version_normalized": "2.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/google_analytics",
+            "reference": "8.x-2.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/google_analytics-8.x-2.2.zip",
+            "reference": "8.x-2.2",
+            "shasum": "15cd0642ad99f3776a46b702e5012713405a0733"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "require-dev": {
+            "drupal/php": "*",
+            "drupal/token": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.2",
+                "datestamp": "1506372845",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "hass",
+                "homepage": "https://www.drupal.org/u/hass"
+            },
+            {
+                "name": "See other contributors",
+                "homepage": "https://www.drupal.org/node/49388/committers"
+            }
+        ],
+        "description": "Allows your site to be tracked by Google Analytics by adding a Javascript tracking code to every page.",
+        "homepage": "https://www.drupal.org/project/google_analytics",
+        "support": {
+            "source": "http://git.drupal.org/project/google_analytics.git",
+            "issues": "https://www.drupal.org/project/issues/google_analytics"
+        }
+    },
+    {
+        "name": "drupal/entity_reference_display",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/entity_reference_display",
+            "reference": "8.x-1.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/entity_reference_display-8.x-1.1.zip",
+            "reference": "8.x-1.1",
+            "shasum": "136c3531a241bf86845c4bfc83881f59c806a149"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.1",
+                "datestamp": "1515494584",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "kyberman",
+                "homepage": "https://www.drupal.org/user/402924"
+            },
+            {
+                "name": "murrayw",
+                "homepage": "https://www.drupal.org/user/595658"
+            },
+            {
+                "name": "wiifm",
+                "homepage": "https://www.drupal.org/user/358731"
+            }
+        ],
+        "description": "Defines a field type for display mode selection for entity reference fields.",
+        "homepage": "https://www.drupal.org/project/entity_reference_display",
+        "support": {
+            "source": "http://cgit.drupalcode.org/entity_reference_display"
+        }
+    },
+    {
+        "name": "drupal/config_filter",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/config_filter",
+            "reference": "8.x-1.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/config_filter-8.x-1.1.zip",
+            "reference": "8.x-1.1",
+            "shasum": "4fffc62f2e1214bc58e7318c780eec04c5cd1d4c"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "suggest": {
+            "drupal/config_split": "Split site configuration for different environments."
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.1",
+                "datestamp": "1511779985",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Fabian Bircher",
+                "homepage": "https://www.drupal.org/u/bircher",
+                "email": "opensource@fabianbircher.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Nuvole Web",
+                "homepage": "http://nuvole.org",
+                "email": "info@nuvole.org",
+                "role": "Maintainer"
+            },
+            {
+                "name": "pescetti",
+                "homepage": "https://www.drupal.org/user/436244"
+            }
+        ],
+        "description": "Config Filter allows other modules to interact with a ConfigStorage through filter plugins.",
+        "homepage": "https://www.drupal.org/project/config_filter",
+        "keywords": [
+            "Drupal",
+            "configuration",
+            "configuration management"
+        ],
+        "support": {
+            "source": "http://cgit.drupalcode.org/config_filter",
+            "issues": "https://www.drupal.org/project/issues/config_filter",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
+        "name": "drupal/config_ignore",
+        "version": "2.1.0",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/config_ignore",
+            "reference": "8.x-2.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/config_ignore-8.x-2.1.zip",
+            "reference": "8.x-2.1",
+            "shasum": "07e00684930706632b3f2fc2a7433ffdae57cde7"
+        },
+        "require": {
+            "drupal/config_filter": "1.*",
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.1",
+                "datestamp": "1507706044",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Tommy Lynge Jørgensen",
+                "homepage": "https://www.drupal.org/u/tlyngej",
+                "email": "tlyngej@gmail.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Fabian Bircher",
+                "homepage": "https://www.drupal.org/u/bircher",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "Ignore certain configuration during import.",
+        "homepage": "http://drupal.org/project/config_ignore",
+        "support": {
+            "source": "http://cgit.drupalcode.org/config_ignore",
+            "issues": "http://drupal.org/project/config_ignore",
             "irc": "irc://irc.freenode.org/drupal-contribute"
         }
     }
