@@ -1,0 +1,26 @@
+uuid: 0a3e56c5-0b8a-446f-8be2-553fe825de7d
+langcode: en
+status: true
+dependencies:
+  module:
+    - mailchimp_signup
+    - system
+  theme:
+    - upd
+id: mailchimpsubscriptionformsubscribetothenewsletter
+theme: upd
+region: footer
+weight: 0
+provider: null
+plugin: 'mailchimp_signup_subscribe_block:subscribe_to_the_newsletter'
+settings:
+  id: 'mailchimp_signup_subscribe_block:subscribe_to_the_newsletter'
+  label: 'Subscribe to the newsletter'
+  provider: mailchimp_signup
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: '*'
+    negate: false
+    context_mapping: {  }
