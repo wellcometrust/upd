@@ -3,7 +3,7 @@
   * email sign up field.
  **/
 document.getElementById("mce-EMAIL").onclick = function(){
-  var fieldsToShow = Array.from(document.getElementById("mc_embed_signup").getElementsByClassName("visually-hidden"));
+  var fieldsToShow = Array.from(document.getElementById("mc_embed_signup").getElementsByTagName("input"));
 
   fieldsToShow.forEach(function(item, index){
     fieldsToShow[index].classList.remove("visually-hidden");
