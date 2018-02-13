@@ -50,6 +50,7 @@
     "drupal/google_analytics": "2.x",
     "drupal/entity_reference_display": "1.x",
     "drupal/config_filter": "1.x",
+    "drupal/mailchimp": "1.x",
     "drupal/admin_toolbar": "1.x"
   },
   "require-dev": {
