@@ -213,15 +213,29 @@ function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
  */
 function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'views-exposed-form-news-news') {
+
+    // Obtain parameter from URL so we can work out which is active.
+    $field_news_category_target_id = \Drupal::request()->get('field_news_category_target_id');
+
     $html = '<div class="wrapper  wrapper--gutter news-filter-container"><h4>Filter by</h4>';
+
     // Only get options which are taxonomy terms, e.g. not "all".
     foreach ($form['field_news_category_target_id']['#options'] as $k => $option) {
       $article_count = is_numeric($k) ? _upd_get_article_count($k) : NULL;
+
+      // If term is selected, set active class.
+      if ($k == $field_news_category_target_id) {
+        $state_class = ' active';
+      }
+      else {
+        $state_class = '';
+      }
+
       if ($k == "All") {
-        $html .= '<a href="#" class="news-cat-changer active" data-term-id="' . $k . '">All</a>';
+        $html .= '<a href="#" class="news-cat-changer' . $state_class . '" data-term-id="' . $k . '">All</a>';
       }
       elseif ($article_count > 0) {
-        $html .= '<a href="#" class="news-cat-changer" data-term-id="' . $k . '">' . $option . ' (' . $article_count . ')</a>';
+        $html .= '<a href="#" class="news-cat-changer' . $state_class . '" data-term-id="' . $k . '">' . $option . ' (' . $article_count . ')</a>';
       }
     }
     $form['options'] = [
