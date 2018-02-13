@@ -31,6 +31,9 @@ module:
   jquery_colorpicker: 0
   layout_discovery: 0
   link: 0
+  mailchimp: 0
+  mailchimp_lists: 0
+  mailchimp_signup: 0
   menu_ui: 0
   metatag: 0
   metatag_facebook: 0
@@ -41,6 +44,7 @@ module:
   options: 0
   page_cache: 0
   page_manager: 0
+  page_manager_ui: 0
   panels: 0
   paragraphs: 0
   path: 0
@@ -64,6 +68,7 @@ module:
   video_embed_field: 0
   video_embed_wysiwyg: 0
   views: 0
+  views_ui: 0
   menu_link_content: 1
   pathauto: 1
   minimal: 1000
