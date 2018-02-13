@@ -86,6 +86,7 @@ class ComposerStaticInitd8a5e5b3b903cef55784731b066e4a98
         'M' => 
         array (
             'Masterminds\\' => 12,
+            'Mailchimp\\' => 10,
         ),
         'G' => 
         array (
@@ -293,6 +294,10 @@ class ComposerStaticInitd8a5e5b3b903cef55784731b066e4a98
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
+        'Mailchimp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkshout/mailchimp-api-php/src',
+        ),
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
@@ -388,6 +393,13 @@ class ComposerStaticInitd8a5e5b3b903cef55784731b066e4a98
             'Solarium\\' => 
             array (
                 0 => __DIR__ . '/..' . '/solarium/solarium/library',
+            ),
+        ),
+        'M' => 
+        array (
+            'Mailchimp' => 
+            array (
+                0 => __DIR__ . '/../..' . '/www/modules/contrib/mailchimp/src',
             ),
         ),
         'J' => 
