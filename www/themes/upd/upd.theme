@@ -318,8 +318,10 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
 
     // Only radio buttons are allowed by mailchimp form builder, so changing field type here.
 
-    $form['mergevars']['MMERGE5']['#title_display'] = 'invisible';
-    $form['mergevars']['MMERGE5']['#type'] = 'checkboxes';
+    $form['mergevars']['MMERGE5']['#type'] = 'checkbox';
+    $form['mergevars']['MMERGE5']['#title'] = 'I agree to receive this newsletter';
+    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'site-footer__fieldset';
+    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'visually-hidden';
 
     // Group email and submit to match current form styling.
 
