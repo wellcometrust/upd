@@ -81,6 +81,19 @@
   background: rgba($upd-color-text-reverse, 0.1);
 }
 
+.form-type-checkbox {
+  margin-bottom: 1em;
+  clear: both;
+}
+
+.site-footer__fieldset {
+  border: none;
+  color: $upd-color-text-reverse;
+}
+
+.privacy-statement {
+  clear: both;
+}
 
 .site-footer__input {
   border: none;
