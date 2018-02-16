@@ -15,7 +15,8 @@ use Drupal\Core\Form\FormStateInterface;
  *   label = @Translation("Selected display mode"),
  *   description = @Translation("This formatter allows you to render referenced entities by selected display mode."),
  *   field_types = {
- *     "entity_reference"
+ *     "entity_reference",
+ *     "entity_reference_revisions"
  *   }
  * )
  */
@@ -102,7 +103,7 @@ class EntityReferenceDisplayFormatter extends EntityReferenceEntityFormatter {
     $entity_fields = \Drupal::service('entity_field.manager')
       ->getFieldDefinitions($entity_type, $entity_bundle);
     /** @var \Drupal\Core\Field\FieldDefinitionInterface $field */
-    foreach ($entity_fields as $key => $field) {
+    foreach ($entity_fields as $field) {
       // Formatter is only available for entity types with display mode field.
       if ($field->getType() == 'entity_reference_display') {
         return TRUE;
