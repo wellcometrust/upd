@@ -10,8 +10,85 @@ dependencies:
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
+    - field_group
     - paragraphs
     - path
+third_party_settings:
+  field_group:
+    group_content_landing:
+      children:
+        - group_main_content_landing
+        - group_testimonial_landing
+        - group_three_column_grid_landing
+        - group_related_content_landing
+        - group_categorisation_landing
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: Content
+      region: content
+    group_main_content_landing:
+      children:
+        - title
+        - field_hero_intro
+      parent_name: group_content_landing
+      weight: 2
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Main Content'
+      region: content
+    group_three_column_grid_landing:
+      children:
+        - field_3_items_grid
+      parent_name: group_content_landing
+      weight: 4
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Three column grid'
+      region: content
+    group_testimonial_landing:
+      children:
+        - field_testimonial
+      parent_name: group_content_landing
+      weight: 3
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Testimonial
+      region: content
+    group_related_content_landing:
+      children:
+        - field_featured_articles
+        - field_case_studies
+      parent_name: group_content_landing
+      weight: 5
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Related Content'
+      region: content
 id: node.landing_page.default
 targetEntityType: node
 bundle: landing_page
@@ -19,13 +96,13 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 2
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     region: content
   field_3_items_grid:
     type: entity_reference_paragraphs
-    weight: 6
+    weight: 3
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -37,7 +114,7 @@ content:
     region: content
   field_case_studies:
     type: entity_reference_autocomplete
-    weight: 10
+    weight: 11
     region: content
     settings:
       match_operator: CONTAINS
@@ -45,7 +122,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_featured_articles:
-    weight: 9
+    weight: 10
     settings:
       match_operator: CONTAINS
       size: 60
@@ -54,7 +131,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_hero_intro:
-    weight: 7
+    weight: 2
     settings:
       rows: 5
       placeholder: ''
@@ -63,7 +140,7 @@ content:
     region: content
   field_testimonial:
     type: entity_reference_paragraphs
-    weight: 8
+    weight: 4
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -75,7 +152,7 @@ content:
     region: content
   path:
     type: path
-    weight: 5
+    weight: 6
     settings: {  }
     third_party_settings: {  }
     region: content
@@ -83,26 +160,26 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 3
+    weight: 4
     third_party_settings: {  }
     region: content
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 121
+    weight: 7
     third_party_settings: {  }
     region: content
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 5
     third_party_settings: {  }
     region: content
   title:
     type: string_textfield
-    weight: 0
+    weight: 1
     settings:
       size: 60
       placeholder: ''
@@ -110,7 +187,7 @@ content:
     region: content
   uid:
     type: entity_reference_autocomplete
-    weight: 1
+    weight: 2
     settings:
       match_operator: CONTAINS
       size: 60
