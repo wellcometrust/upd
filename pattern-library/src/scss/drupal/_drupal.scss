@@ -46,12 +46,12 @@ div#block-upd-local-tasks {
   max-width:50%
 }
 
-div#block-upd-local-tasks ul {
+div#block-upd-local-tasks > ul {
   display: flex;
   padding: 10px;
 }
 
-div#block-upd-local-tasks ul > li {
+div#block-upd-local-tasks > ul > li {
   flex: 1;
   list-style: none;
   border: solid gray;
@@ -60,10 +60,10 @@ div#block-upd-local-tasks ul > li {
   text-align: center;
 }
 
-div#block-upd-local-tasks ul > li:last-child {
+div#block-upd-local-tasks > ul > li:last-child {
   border-width: 1px;
 }
 
-div#block-upd-local-tasks ul > li > a {
+div#block-upd-local-tasks > ul > li > a {
   display: block;
 }
