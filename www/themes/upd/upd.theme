@@ -225,24 +225,24 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
     foreach ($form['field_news_category_target_id']['#options'] as $k => $option) {
       $article_count = is_numeric($k) ? _upd_get_article_count($k) : NULL;
 
-      // If term is selected, set active class.
-      if ($k == $field_news_category_target_id) {
-        $state_class = 'active';
-      }
-      else {
-        $state_class = '';
-      }
-
-      // Set title, ensuringq that correct term is used for 'any' filter option.
-      $title = $option == '- Any -' ? 'All' : $option;
-
-      // Create Url object from an internal path, and append parameter.
-      $path = '/news';
-      $options = array('query' => array('field_news_category_target_id' => $k));
-
-      $url = Url::fromUri('internal:'.$path, $options);
-
       if ($article_count > 0 || $k == 'All') {
+
+        // If term is selected, set active class.
+        if ($k == $field_news_category_target_id) {
+          $state_class = 'active';
+        }
+        else {
+          $state_class = '';
+        }
+
+        // Set title, ensuring that correct term is used for 'any' filter option.
+        $title = $option == '- Any -' ? 'All' : $option;
+
+        // Create Url object from an internal path, and append parameter.
+        $path = '/news';
+        $options = array('query' => array('field_news_category_target_id' => $k));
+
+        $url = Url::fromUri('internal:'.$path, $options);
 
         // We want to add a count after the title, if it's available.
         $count = ($article_count > 0) ? '(' . $article_count . ')' : '';
