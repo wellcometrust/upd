@@ -11,7 +11,7 @@ const sourcemaps = require('gulp-sourcemaps')
 const postcssPlugins = [
   cssImport(),
   autoprefixer(),
-  cssnano()
+  cssnano({zindex: false})
 ]
 
 module.exports = (gulp, paths, isBuild) => {
