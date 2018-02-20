@@ -42,6 +42,7 @@ class ComposerStaticInitd8a5e5b3b903cef55784731b066e4a98
         ),
         'S' => 
         array (
+            'Symfony\\Thanks\\' => 15,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
             'Symfony\\Polyfill\\Apcu\\' => 22,
@@ -153,6 +154,10 @@ class ComposerStaticInitd8a5e5b3b903cef55784731b066e4a98
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Thanks\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/thanks/src',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
