@@ -228,12 +228,7 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
       if ($article_count > 0 || $k == 'All') {
 
         // If term is selected, set active class.
-        if ($k == $field_news_category_target_id) {
-          $state_class = 'active';
-        }
-        else {
-          $state_class = '';
-        }
+        $state_class = ($k == $field_news_category_target_id) ? 'active' : '';
 
         // Set title, ensuring that correct term is used for 'any' filter option.
         $title = $option == '- Any -' ? 'All' : $option;
