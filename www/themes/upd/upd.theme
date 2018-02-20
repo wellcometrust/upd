@@ -1,5 +1,7 @@
 <?php
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
 
 /**
  * Implements hook_theme().
@@ -225,18 +227,38 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
 
       // If term is selected, set active class.
       if ($k == $field_news_category_target_id) {
-        $state_class = ' active';
+        $state_class = 'active';
       }
       else {
         $state_class = '';
       }
 
-      if ($k == "All") {
-        $html .= '<a href="#" class="news-cat-changer' . $state_class . '" data-term-id="' . $k . '">All</a>';
+      // Set title, ensuringq that correct term is used for 'any' filter option.
+      $title = $option == '- Any -' ? 'All' : $option;
+
+      // Create Url object from an internal path, and append parameter.
+      $path = '/news';
+      $options = array('query' => array('field_news_category_target_id' => $k));
+
+      $url = Url::fromUri('internal:'.$path, $options);
+
+      // We want to add a count after the title, if it's available.
+      if ($article_count > 0) {
+        $count = '(' . $article_count . ')';
       }
-      elseif ($article_count > 0) {
-        $html .= '<a href="#" class="news-cat-changer' . $state_class . '" data-term-id="' . $k . '">' . $option . ' (' . $article_count . ')</a>';
-      }
+
+      $link = Link::fromTextAndUrl(t('@title @count', array('@title' => $title, '@count' => $count)), $url);
+
+      $link = $link->toRenderable();
+
+      // Populate render array with class / data attribute.
+      $link['#attributes'] = array(
+        'class' => array('news-cat-changer', $state_class),
+        'data-term-id' => array($k));
+
+      $output = render($link);
+
+      $html .= $output;
     }
     $form['options'] = [
       '#markup' => $html . '</div>',
@@ -244,6 +266,8 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
     $form['#attached']['library'][] = 'upd/news-cat';
   }
 }
+
+
 
 /**
  * Returns count of nodes tagged with term. Only news articles are tagged with
