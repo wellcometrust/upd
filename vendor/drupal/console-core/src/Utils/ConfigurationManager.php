@@ -154,10 +154,7 @@ class ConfigurationManager
     {
         $sitesDirectories = array_map(
             function ($directory) {
-                return sprintf(
-                    '%s/sites',
-                    $directory
-                );
+                return $directory . 'sites';
             },
             $this->getConfigurationDirectories()
         );
@@ -168,6 +165,8 @@ class ConfigurationManager
                 return is_dir($directory);
             }
         );
+
+        $sitesDirectories = array_unique($sitesDirectories);
 
         return $sitesDirectories;
     }
@@ -419,6 +418,9 @@ class ConfigurationManager
             ];
 
             foreach ($environments as $environment => $config) {
+                if (!array_key_exists('type', $config)) {
+                    throw new \UnexpectedValueException("The 'type' parameter is required in sites configuration.");
+                }
                 if ($config['type'] !== 'local') {
                     if (array_key_exists('host', $config)) {
                         $targetInformation['remote'] = true;
