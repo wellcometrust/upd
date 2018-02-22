@@ -21,6 +21,12 @@
   @media print {
     display: none;
   }
+
+  @include mq($upd-site-header-breakpoint-navigation) {
+    display: flex;
+    flex-direction: row;
+  }
+
 }
 
 .site-header--placeholder {
@@ -36,9 +42,13 @@
   }
 }
 
+.site-header__logo-wrapper {
+  position: relative;
+  flex-basis: 205px;
+  flex-grow: 0;
+}
 
 .site-header__logo {
-  display: inline-block;
   height: 100%;
   padding: 0.7em;
 
@@ -49,23 +59,19 @@
 
 .site-header__navigation {
   @include mq($upd-site-header-breakpoint-navigation) {
-    float: right;
-    left: 0;
-    max-width: unset;
-    padding-right: $upd-site-header-height; // Allow space for search icon
+
     position: relative;
+    flex: 1;
     top: 0;
-    visibility: visible;
-    width: auto;
-    z-index: auto;
   }
 }
 
 
 .site-header__search {
   @include mq($upd-site-header-breakpoint-navigation) {
-    position: absolute;
-    right: 0;
+    position: relative;
+    flex-basis: 70px;
+    flex-grow: 0;
     top: 0;
   }
 }
