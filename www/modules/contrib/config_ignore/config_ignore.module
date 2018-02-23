@@ -5,48 +5,66 @@
  * Hooks implemented by the config_ignore module.
  */
 
-use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Config\StorageInterface;
 use Drupal\Core\Config\StorageComparer;
-use Drupal\config_ignore\ConfigImporterIgnore;
-
-/**
- * Implements hook_config_import_steps_alter().
- */
-function config_ignore_config_import_steps_alter(&$sync_steps, ConfigImporter $config_importer) {
-  // Add a "step" to the config import workflow, before any other step is
-  // getting executed.
-  array_unshift($sync_steps, ['Drupal\config_ignore\ConfigImporterIgnore', 'preImport']);
-
-  // Add a step that should be the last to run during the config import
-  // workflow.
-  array_push($sync_steps, ['Drupal\config_ignore\ConfigImporterIgnore', 'postImport']);
-}
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function config_ignore_form_config_admin_import_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // Load the needed services.
-  $storage_sync = \Drupal::service('config.storage.sync');
+
+  // Load Services that we need.
+  $stock_storage_sync = \Drupal::service('config_filter.storage_factory')->getSyncWithoutExcluded(['config_ignore']);
+  $active_storage_sync = \Drupal::service('config.storage.sync');
   $storage = \Drupal::service('config.storage');
   $config_manager = \Drupal::service('config.manager');
 
-  $storage_compare = new StorageComparer($storage_sync, $storage, $config_manager);
-  foreach ($storage_compare->getAllCollectionNames() as $collection) {
-    // Add a new header.
-    $form[$collection]['update']['list']['#header'][] = t('Ignored');
+  // Create two StorageComparer objects, one with the filter enabled and one
+  // as without. We will compare them later to see what changes that has been
+  // ignored.
+  $unfiltered_storage_compare = new StorageComparer($stock_storage_sync, $storage, $config_manager);
+  $filtered_storage_compare = new StorageComparer($active_storage_sync, $storage, $config_manager);
+  $unfiltered_storage_compare->createChangelist();
+  $filtered_storage_compare->createChangelist();
 
-    // Now check if the rows match any of the ignored entities.
-    if (isset($form[$collection]['update']['list']['#rows']) && !empty($form[$collection]['update']['list']['#rows'])) {
-      foreach ($form[$collection]['update']['list']['#rows'] as $key => $row) {
-        if (ConfigImporterIgnore::matchConfigName($row['name'])) {
-          $form[$collection]['update']['list']['#rows'][$key]['ignored'] = t('✔');
-        }
-        else {
-          $form[$collection]['update']['list']['#rows'][$key]['ignored'] = t('✖');
+  // Create an array of the changes with the filter on.
+  $config_changes = [];
+  foreach ($filtered_storage_compare->getChangelist() as $config_names) {
+    foreach ($config_names as $config_name) {
+      $config_changes[] = $config_name;
+    }
+  }
+
+  foreach ($unfiltered_storage_compare->getAllCollectionNames() as $collection) {
+    foreach ($unfiltered_storage_compare->getChangelist(NULL, $collection) as $config_change_type => $config_names) {
+      foreach ($config_names as $config_name) {
+        // If the config name exists here, but not in the $config_changes array
+        // the it's because it's getting ignored.
+        if (!in_array($config_name, $config_changes)) {
+          $ignored_config_entities[] = [
+            $config_name,
+            $config_change_type,
+          ];
         }
       }
     }
   }
+
+  // Build a table of changes that are not going to happen, due to the ignored
+  // config entities.
+  if (!empty($ignored_config_entities)) {
+    $form['ignored'] = [
+      '#type' => 'table',
+      '#header' => ['Config name', 'Action'],
+      '#caption' => t('<h3>The following configuration entities are ignored due to the <a href="@url">Config Ignore Settings</a> and therefore not displayed in the list above</h3>', [
+        '@url' => Url::fromRoute('config_ignore.settings')
+          ->toString()
+      ]),
+      '#rows' => $ignored_config_entities,
+    ];
+  }
+
 }

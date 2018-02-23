@@ -1,5 +1,8 @@
 <?php
+
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
 
 /**
  * Implements hook_theme().
@@ -38,6 +41,7 @@ function upd_theme($existing, $type, $theme, $path) {
 
 /**
  * Implements hook_preprocess_html().
+ *
  * @param $variables
  */
 function upd_preprocess_html(&$variables) {
@@ -141,7 +145,7 @@ function upd_preprocess_image(&$variables) {
   if (isset($variables['attributes']['width'])) {
     unset($variables['attributes']['width']);
   }
-  if(isset($variables['attributes']['height'])){
+  if (isset($variables['attributes']['height'])) {
     unset($variables['attributes']['height']);
   }
 }
@@ -157,6 +161,7 @@ function upd_preprocess_node(&$variables) {
  * Helper function to generate block of related content for news.
  *
  * @param $variables
+ *
  * @see hook_preprocess_node()
  */
 function _generate_related_news_block(&$variables) {
@@ -184,9 +189,10 @@ function _generate_related_news_block(&$variables) {
  * We override them here.
  *
  * @param $variables
+ *
  * @see upd_preprocess_html()
  */
-function  _override_page_title(&$variables) {
+function _override_page_title(&$variables) {
   switch ($variables['root_path']) {
     case 'case-studies':
       $variables['head_title']['title'] = 'Case studies | Understand Patient Data';
@@ -202,6 +208,7 @@ function  _override_page_title(&$variables) {
  */
 function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   upd_news_dropdown_to_links($form, $form_state, $form_id);
+  upd_mailchimp_form_theming($form, $form_state, $form_id);
 }
 
 /**
@@ -213,21 +220,163 @@ function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
  */
 function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'views-exposed-form-news-news') {
+
+    // Obtain parameter from URL so we can work out which is active.
+    $field_news_category_target_id = \Drupal::request()->get('field_news_category_target_id');
+
     $html = '<div class="wrapper  wrapper--gutter news-filter-container"><h4>Filter by</h4>';
+
     // Only get options which are taxonomy terms, e.g. not "all".
     foreach ($form['field_news_category_target_id']['#options'] as $k => $option) {
       $article_count = is_numeric($k) ? _upd_get_article_count($k) : NULL;
-      if ($k == "All") {
-        $html .= '<a href="#" class="news-cat-changer active" data-term-id="' . $k . '">All</a>';
+
+      if ($article_count > 0 || $k == 'All') {
+
+        // If term is selected, set active class.
+        $state_class = ($k == $field_news_category_target_id) ? 'active' : '';
+
+        // Set title, ensuring that correct term is used for 'any' filter option.
+        $title = $option == '- Any -' ? 'All' : $option;
+
+        // Create Url object from an internal path, and append parameter.
+        $path = '/news';
+        $options = array('query' => array('field_news_category_target_id' => $k));
+
+        $url = Url::fromUri('internal:'.$path, $options);
+
+        // We want to add a count after the title, if it's available.
+        $count = ($article_count > 0) ? '(' . $article_count . ')' : '';
+
+        $link = Link::fromTextAndUrl(t('@title @count', array('@title' => $title, '@count' => $count)), $url);
+
+        $link = $link->toRenderable();
+
+        // Populate render array with class / data attribute.
+        $link['#attributes'] = array(
+          'class' => array('news-cat-changer', $state_class),
+          'data-term-id' => array($k));
+
+        $output = render($link);
+
+        $html .= $output;
       }
-      elseif ($article_count > 0) {
-        $html .= '<a href="#" class="news-cat-changer" data-term-id="' . $k . '">' . $option . ' (' . $article_count . ')</a>';
-      }
+
     }
     $form['options'] = [
       '#markup' => $html . '</div>',
     ];
     $form['#attached']['library'][] = 'upd/news-cat';
+  }
+}
+
+
+
+/**
+ * Implements hook_theme_suggestions_form_element_alter().
+ */
+function upd_theme_suggestions_form_element_alter(array &$suggestions, array $variables) {
+  if (substr_compare($variables['element']['#name'], 'mergevars', 0, 9) == 0) {
+    $suggestions[] = 'form_element__mailchimp';
+  }
+  if (stristr($variables['element']['#name'], 'mergevars[EMAIL]')) {
+    $suggestions[] = 'form_element__mailchimp_nowrapper';
+  }
+}
+
+/**
+ * Implements hook_preprocess_form_element__CUSTOM().
+ */
+function upd_preprocess_form_element__mailchimp(&$variables) {
+  $element_name = $variables['element']['#name'];
+
+  switch (TRUE) {
+    case stristr($element_name, 'mergevars[EMAIL]'):
+      break;
+    case stristr($element_name, 'mergevars[FNAME]'):
+      $variables['attributes']['class'][] = "half-left";
+      break;
+    case stristr($element_name, 'mergevars[LNAME]'):
+      $variables['attributes']['class'][] = "half-right";
+      break;
+    case stristr($element_name, 'mergevars[MMERGE3]'):
+      $variables['attributes']['class'][] = "half-left";
+      break;
+    case stristr($element_name, 'mergevars[MMERGE4]'):
+      $variables['attributes']['class'][] = "half-right";
+      break;
+  }
+}
+
+/**
+ * Theme mailchimp signup form.
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] == 'mailchimp-signup-subscribe-block-subscribe-to-the-newsletter-form') {
+
+    // Add placeholders, hide titles and add specific classes to form items.
+
+    $form['actions']['submit']['#attributes']['class'][] = 'site-footer__submit';
+
+    $form['mergevars']['EMAIL']['#attributes']['placeholder'] = $form['mergevars']['EMAIL']['#title'];
+    $form['mergevars']['EMAIL']['#attributes']['id'] = 'mce-EMAIL';
+    $form['mergevars']['EMAIL']['#attributes']['class'][] = 'site-footer__input';
+    $form['mergevars']['EMAIL']['#attributes']['class'][] = 'email';
+    $form['mergevars']['EMAIL']['#title_display'] = 'invisible';
+
+    $form['mergevars']['FNAME']['#attributes']['placeholder'] = $form['mergevars']['FNAME']['#title'];
+    $form['mergevars']['FNAME']['#attributes']['id'] = 'mce-FNAME';
+    $form['mergevars']['FNAME']['#attributes']['class'][] = 'site-footer__input';
+    $form['mergevars']['FNAME']['#attributes']['class'][] = 'visually-hidden';
+    $form['mergevars']['FNAME']['#title_display'] = 'invisible';
+
+    $form['mergevars']['LNAME']['#attributes']['placeholder'] = $form['mergevars']['LNAME']['#title'];
+    $form['mergevars']['LNAME']['#attributes']['id'] = 'mce-LNAME';
+    $form['mergevars']['LNAME']['#attributes']['class'][] = 'site-footer__input';
+    $form['mergevars']['LNAME']['#attributes']['class'][] = 'visually-hidden';
+    $form['mergevars']['LNAME']['#title_display'] = 'invisible';
+
+    $form['mergevars']['MMERGE3']['#attributes']['placeholder'] = $form['mergevars']['MMERGE3']['#title'];
+    $form['mergevars']['MMERGE3']['#attributes']['id'] = 'mce-MMERGE3';
+    $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'site-footer__input';
+    $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'visually-hidden';
+    $form['mergevars']['MMERGE3']['#title_display'] = 'invisible';
+
+    $form['mergevars']['MMERGE4']['#attributes']['placeholder'] = $form['mergevars']['MMERGE4']['#title'];
+    $form['mergevars']['MMERGE4']['#attributes']['id'] = 'mce-MMERGE4';
+    $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'site-footer__input';
+    $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'visually-hidden';
+    $form['mergevars']['MMERGE4']['#title_display'] = 'invisible';
+
+    // Only radio buttons are allowed by mailchimp form builder, so changing field type here.
+
+    $form['mergevars']['MMERGE5']['#type'] = 'checkbox';
+    $form['mergevars']['MMERGE5']['#title'] = 'I agree to receive this newsletter';
+    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'site-footer__fieldset';
+    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'visually-hidden';
+    $form['mergevars']['MMERGE5']['#value'] = 'I agree to receive this newsletter';
+    $form['mergevars']['MMERGE5']['#weight'] = 17;
+    $form['mergevars']['MMERGE5']['#label_attributes'] = array('class' => array('visually-hidden'));
+
+
+    // Alter order of form elements to form styling.
+
+    $form['mergevars']['actions'] = $form['actions'];
+
+    $form['mergevars']['EMAIL']['#weight'] = 15;
+    $form['mergevars']['actions']['#weight'] = 15;
+
+    unset($form['actions']);
+
+    $form['mergevars']['statement'] = [
+      '#prefix' => '<div class="privacy-statement visually-hidden">',
+      '#suffix' => '</div>',
+      '#markup' => '<p>' . t('We use a third party provider, MailChimp, to deliver our newsletter. For more information about how we handle your data, please read our privacy notice. You can unsubscribe at any time using links in the emails you receive.') . '</p>',
+      '#weight' => 20,
+    ];
   }
 }
 

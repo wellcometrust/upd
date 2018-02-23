@@ -7,7 +7,12 @@
     {
       "name": "Tommy Lynge Jørgensen",
       "email": "tlyngej@gmail.com",
-      "homepage": "https://github.com/tlyngej",
+      "homepage": "https://www.drupal.org/u/tlyngej",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Fabian Bircher",
+      "homepage": "https://www.drupal.org/u/bircher",
       "role": "Maintainer"
     }
   ],
@@ -18,5 +23,7 @@
   },
   "license": "GPL-2.0+",
   "minimum-stability": "dev",
-  "require": { }
+  "require": {
+    "drupal/config_filter": "1.*"
+  }
 }

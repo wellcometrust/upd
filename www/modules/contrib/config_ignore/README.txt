@@ -19,7 +19,7 @@ Then this module is what you are looking for.
 
 REQUIREMENTS
 ------------
-You will need the `config` module, from D8 Core, to be enabled.
+You will need the `config_filter` module to be enabled.
 
 INSTALLATION
 ------------
@@ -30,13 +30,12 @@ CONFIGURATION
 -------------
 Go to `admin/config/development/configuration/ignore` to set what configuration you want to ignore upon import.
 
-For now, this module only supports changes/updates to existing configuration. Configuration marked for deletion or
-creation will still be deleted or created.
-
-This module do not support changes in the `core.extension` yet. It might work, it might not.
+Do not ignore the `core.extension` configuration as it will prevent you from enabling new modules with a config import.
+Use the `config_split` module for environment specific modules.
 
 MAINTAINERS
 -----------
 Current maintainers:
 
  * Tommy Lynge Jørgensen (TLyngeJ) - https://www.drupal.org/u/tlyngej
+ * Fabian Bircher (bircher) - https://www.drupal.org/u/bircher

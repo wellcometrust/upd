@@ -17,3 +17,53 @@ ul.js-facets-checkbox-links {
 .view-related-news-block {
   padding-bottom: 2em;
 }
+
+// Fix toolbar on content pages.
+
+div#toolbar-administration {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+
+.toolbar-horizontal header.site-header {
+  margin-top: 40px;
+}
+
+.toolbar-tray-open.toolbar-horizontal header.site-header {
+  margin-top: 80px;
+}
+
+// User Login.
+
+.user-login-form {
+  padding: 10px;
+}
+
+// Local Tasks.
+
+div#block-upd-local-tasks {
+  max-width:50%
+}
+
+div#block-upd-local-tasks > ul {
+  display: flex;
+  padding: 10px;
+}
+
+div#block-upd-local-tasks > ul > li {
+  flex: 1;
+  list-style: none;
+  border: solid gray;
+  border-width: 1px 0 1px 1px;
+  padding: 10px;
+  text-align: center;
+}
+
+div#block-upd-local-tasks > ul > li:last-child {
+  border-width: 1px;
+}
+
+div#block-upd-local-tasks > ul > li > a {
+  display: block;
+}

@@ -95,13 +95,12 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
    * {@inheritdoc}
    */
   public function getPossibleOptions(AccountInterface $account = NULL) {
-    // Initialize options with default display mode.
-    $options = ['default' => 'Default'];
     // Get all display modes in alphabetical order.
     $display_modes = $this->getAllDisplayModes();
     // Get displays to exclude from options.
     $exclude = $this->getSetting('exclude');
     // Get options array.
+    $options = [];
     foreach ($display_modes as $key => $display_mode) {
       // Only if display is not excluded.
       if (!isset($exclude[$key])) {
@@ -129,7 +128,7 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
   }
 
   /**
-   * Get all display modes in alphabetical order.
+   * Get all display modes in alphabetical order with Default as first.
    */
   private function getAllDisplayModes() {
     // Get all display modes grouped by entity types.
@@ -137,7 +136,7 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
       ->getAllViewModes();
     // Get basic information about display modes.
     $result = [];
-    foreach ($display_modes as $entity_type => $modes) {
+    foreach ($display_modes as $modes) {
       foreach ($modes as $mode => $info) {
         // If display mode is not already in result set.
         if (!isset($result[$mode])) {
@@ -147,8 +146,8 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
     }
     // Sort display modes in alphabetical order.
     asort($result);
-    // Return array of all display modes.
-    return $result;
+    // Return array of all display modes prepended by Default.
+    return ['default' => 'Default'] + $result;
   }
 
 }

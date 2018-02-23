@@ -38,6 +38,7 @@ settings:
         -
           name: Tools
           items:
+            - RemoveFormat
             - tooltip
             - Source
   plugins:

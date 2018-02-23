@@ -1,10 +1,14 @@
 module:
+  admin_toolbar: 0
+  admin_toolbar_links_access_filter: 0
+  admin_toolbar_tools: 0
   block: 0
   block_content: 0
   breakpoint: 0
   ce_deploy: 0
   ckeditor: 0
   config: 0
+  config_filter: 0
   config_ignore: 0
   contact: 0
   contextual: 0
@@ -18,6 +22,7 @@ module:
   entity_reference_revisions: 0
   facets: 0
   field: 0
+  field_group: 0
   field_ui: 0
   file: 0
   filter: 0
@@ -27,6 +32,9 @@ module:
   jquery_colorpicker: 0
   layout_discovery: 0
   link: 0
+  mailchimp: 0
+  mailchimp_lists: 0
+  mailchimp_signup: 0
   menu_ui: 0
   metatag: 0
   metatag_facebook: 0
@@ -37,13 +45,13 @@ module:
   options: 0
   page_cache: 0
   page_manager: 0
+  page_manager_ui: 0
   panels: 0
   paragraphs: 0
   path: 0
   search_api: 0
   search_api_db: 0
   search_api_solr: 0
-  search_api_views_taxonomy: 0
   simple_sitemap: 0
   system: 0
   taxonomy: 0
@@ -61,6 +69,7 @@ module:
   video_embed_field: 0
   video_embed_wysiwyg: 0
   views: 0
+  views_ui: 0
   menu_link_content: 1
   pathauto: 1
   minimal: 1000
