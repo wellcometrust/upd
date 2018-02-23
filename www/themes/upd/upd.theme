@@ -278,7 +278,7 @@ function upd_theme_suggestions_form_element_alter(array &$suggestions, array $va
   if (substr_compare($variables['element']['#name'], 'mergevars', 0, 9) == 0) {
     $suggestions[] = 'form_element__mailchimp';
   }
-  if (stristr($variables['element']['#name'], 'mergevars[grouped][EMAIL]')) {
+  if (stristr($variables['element']['#name'], 'mergevars[EMAIL]')) {
     $suggestions[] = 'form_element__mailchimp_nowrapper';
   }
 }
@@ -357,28 +357,25 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['mergevars']['MMERGE5']['#title'] = 'I agree to receive this newsletter';
     $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'site-footer__fieldset';
     $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'visually-hidden';
+    $form['mergevars']['MMERGE5']['#value'] = 'I agree to receive this newsletter';
+    $form['mergevars']['MMERGE5']['#weight'] = 17;
+    $form['mergevars']['MMERGE5']['#label_attributes'] = array('class' => array('visually-hidden'));
 
-    // Group email and submit to match current form styling.
 
-    $form['mergevars']['grouped'] = [
-      '#type' => 'container',
-      '#attributes' => [
-        'class' => ['clear'],
-      ],
-      '#weight' => 10,
-    ];
+    // Alter order of form elements to form styling.
 
-    $form['mergevars']['grouped']['submit'] = $form['actions']['submit'];
-    $form['mergevars']['grouped']['EMAIL'] = $form['mergevars']['EMAIL'];
+    $form['mergevars']['actions'] = $form['actions'];
+
+    $form['mergevars']['EMAIL']['#weight'] = 15;
+    $form['mergevars']['actions']['#weight'] = 15;
 
     unset($form['actions']);
-    unset($form['mergevars']['EMAIL']);
 
     $form['mergevars']['statement'] = [
       '#prefix' => '<div class="privacy-statement visually-hidden">',
       '#suffix' => '</div>',
       '#markup' => '<p>' . t('We use a third party provider, MailChimp, to deliver our newsletter. For more information about how we handle your data, please read our privacy notice. You can unsubscribe at any time using links in the emails you receive.') . '</p>',
-      '#weight' => 15,
+      '#weight' => 20,
     ];
   }
 }
