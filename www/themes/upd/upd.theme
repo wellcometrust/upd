@@ -358,6 +358,9 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'site-footer__fieldset';
     $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'visually-hidden';
     $form['mergevars']['MMERGE5']['#value'] = 'I agree to receive this newsletter';
+    $form['mergevars']['MMERGE5']['#weight'] = 17;
+    $form['mergevars']['MMERGE5']['#label_attributes'] = array('class' => array('visually-hidden'));
+
 
     // Alter order of form elements to form styling.
 
