@@ -43,6 +43,7 @@
 /* Tools
    ========================================================================== */
 @import "tools/mixins";
+@import "tools/svgs";
 
 
 
@@ -165,3 +166,4 @@
 /* Drupal fixes
    ========================================================================== */
 @import "drupal/drupal";
+@import "drupal/system-messages";
