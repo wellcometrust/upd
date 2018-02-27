@@ -14,6 +14,24 @@
       "type": "composer",
       "url": "https://packages.drupal.org/8"
     },
+    "dropzone": {
+      "type": "package",
+      "package": {
+        "name": "dropzone/dropzone.js",
+        "version": "4.3.0",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "dropzone"
+        },
+        "dist": {
+          "url": "https://github.com/enyo/dropzone/archive/v4.3.0.zip",
+          "type": "zip"
+        },
+        "require": {
+          "composer/installers": "~1.0"
+        }
+      }
+    },
     "ce_deploy": {
       "type": "package",
       "package": {
@@ -30,6 +48,7 @@
   },
   "require": {
     "composer/installers": "1.*",
+    "dropzone/dropzone.js": "4.3.0",
     "drupal-composer/drupal-scaffold": "2.*",
     "drupal/config_ignore": "2.x",
     "drupal/core": "~8. ",
@@ -45,14 +64,19 @@
     "drupal/search_api": "1.*",
     "drupal/search_api_solr": "^1.0",
     "drupal/simple_sitemap": "^2.9",
-    "drupal/video_embed_field": "^1.5",
+    "drupal/video_embed_field": "2.x",
     "drupal/google_analytics": "2.x",
     "drupal/entity_reference_display": "1.x",
     "drupal/config_filter": "1.x",
     "drupal/mailchimp": "1.x",
     "drupal/admin_toolbar": "1.x",
     "drupal/field_group": "3.x",
-    "drupal/console": "~1.0"
+    "drupal/console": "~1.0",
+    "drupal/media_entity_browser": "2.x",
+    "drupal/media_entity_video": "2.x",
+    "drupal/media_upload": "2.x",
+    "drupal/dropzonejs": "2.x",
+    "drupal/Inline_entity_form": "1.x"
   },
   "require-dev": {
     "drupal/devel": "1.*"
@@ -70,7 +94,8 @@
       "www/profiles/contrib/{$name}": ["type:drupal-profile"],
       "www/themes/contrib/{$name}": ["type:drupal-theme"],
       "www/themes/custom/{$name}": ["type:drupal-custom-theme"],
-      "www/contrib/{$name}": ["type:drupal-drush"]
+      "www/contrib/{$name}": ["type:drupal-drush"],
+      "www/libraries/{$name}": ["type:drupal-library"]
     }
   },
   "config": {
