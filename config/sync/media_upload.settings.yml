@@ -1,0 +1,13 @@
+bundles: {  }
+video_ext: ''
+image_ext: ''
+document_ext: ''
+audio_ext: ''
+video_size: null
+image_size: null
+document_size: null
+audio_size: null
+total_size: 250MB
+single_size: 50MB
+_core:
+  default_config_hash: 93C4sBkIHtGbeazcN6xeRQkbdN-vcmQU4J0YA_1kFUw

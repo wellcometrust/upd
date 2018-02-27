@@ -1,0 +1,128 @@
+uuid: 771e210f-65bc-49cb-806f-7b6a68594bbe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.video.field_media_file
+    - field.field.media.video.field_video_embed
+    - field.field.media.video.field_video_poster
+    - image.style.thumbnail
+    - media.type.video
+  module:
+    - field_group
+    - file
+    - image
+    - path
+    - video_embed_field
+third_party_settings:
+  field_group:
+    group_content_video:
+      children:
+        - group_main_content
+        - group_settings
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: Content
+      region: content
+    group_main_content:
+      children:
+        - name
+        - field_video_embed
+        - field_media_file
+        - field_video_poster
+      parent_name: group_content_video
+      weight: 1
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Main Content'
+      region: content
+    group_settings:
+      children:
+        - uid
+        - created
+        - path
+        - status
+      parent_name: group_content_video
+      weight: 2
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Settings
+      region: content
+id: media.video.default
+targetEntityType: media
+bundle: video
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_media_file:
+    type: file_generic
+    weight: 5
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_video_embed:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: video_embed_field_textfield
+    region: content
+  field_video_poster:
+    weight: 6
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  name:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 6
+    region: content
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }
