@@ -76,7 +76,9 @@
     "drupal/media_entity_video": "2.x",
     "drupal/media_upload": "2.x",
     "drupal/dropzonejs": "2.x",
-    "drupal/Inline_entity_form": "1.x"
+    "drupal/Inline_entity_form": "1.x",
+    "drupal/image_widget_crop": "2.x",
+    "drupal/colorbox": "1.x"
   },
   "require-dev": {
     "drupal/devel": "1.*"
