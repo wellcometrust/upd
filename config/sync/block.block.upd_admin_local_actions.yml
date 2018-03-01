@@ -1,13 +1,13 @@
-uuid: 1badffc7-d266-480e-8ee6-d54b152f2029
+uuid: db7398cd-9759-43eb-a880-08243f656488
 langcode: en
-status: false
+status: true
 dependencies:
   theme:
-    - upd
+    - upd_admin
 _core:
   default_config_hash: PffmQ-ABSz5tFjWmVsR7NesunDnEivvopnJnBjl8KNE
-id: upd_local_actions
-theme: upd
+id: upd_admin_local_actions
+theme: upd_admin
 region: header
 weight: -3
 provider: null

@@ -10,7 +10,7 @@ dependencies:
 id: mailchimpsubscriptionformsubscribetothenewsletter
 theme: upd
 region: footer
-weight: 0
+weight: -5
 provider: null
 plugin: 'mailchimp_signup_subscribe_block:subscribe_to_the_newsletter'
 settings:
