@@ -1,0 +1,27 @@
+/* Highlight page header */
+
+.highlight-header {
+  background-color: $upd-site-header-color-base;
+  color: $upd-color-text-reverse;
+
+  @media print {
+    border-bottom: 1px solid $upd-color-border-light;
+  }
+
+  .highlight-header__title {
+    max-width: rems(640px);
+    color: $upd-color-text-reverse;
+  }
+
+  .highlight-header__wrapper {
+    display: flex;
+  }
+
+  .highlight-header__subheading {
+    @extend %font-intro;
+
+    margin: ($upd-spacing-gutter-large / 2) 0 0;
+    max-width: rems(900px);
+  }
+
+}
