@@ -1,5 +1,31 @@
-<header class="page-header">
+{% if highlightHeader %}
+  <header class="highlight-header">
 
+    <div class="wrapper wrapper--gutter highlight-header__wrapper">
+
+      <div>
+
+        <h1 class="highlight-header__title">{{ title }}</h1>
+
+        {% if subheading %}
+
+          <p class="highlight-header__subheading">{{ subheading }}</p>
+
+        {% endif %}
+
+      </div>
+
+      <div>
+
+        <img alt="" class="" src="{{ '/images/placeholder/women-computer.png' | path }}">
+
+      </div>
+
+    </div>
+
+  </header>
+{% else %}
+  <header class="page-header">
     <div class="wrapper  wrapper--gutter">
 
         {% if category %}
@@ -33,5 +59,6 @@
         {% endif %}
 
     </div>
+  </header>
 
-</header>
+{% endif %}
