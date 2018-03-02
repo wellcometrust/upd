@@ -26,7 +26,7 @@
 
       </div>
 
-      <a class="cta cta--arrow" href="#link-to-resource">{{ link }}</a>
+      <a class="cta cta--arrow media-panel__cta" href="#link-to-resource">{{ link }}</a>
     </div>
 
 
