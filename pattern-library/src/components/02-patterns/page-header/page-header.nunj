@@ -3,7 +3,7 @@
 
     <div class="wrapper wrapper--gutter highlight-header__wrapper">
 
-      <div>
+      <div class="highlight-header__context-container">
 
         <h1 class="highlight-header__title">{{ title }}</h1>
 
@@ -15,9 +15,9 @@
 
       </div>
 
-      <div>
+      <div class="highlight-header__img-container">
 
-        <img alt="" class="" src="{{ '/images/placeholder/women-computer.png' | path }}">
+        <img alt="" class="highlight-header__img" src="{{ '/images/placeholder/women-computer.png' | path }}">
 
       </div>
 
