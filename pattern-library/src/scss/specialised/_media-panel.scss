@@ -1,9 +1,11 @@
 .media-panel {
   background-color: $upd-site-header-color-base;
-  padding: 4.125rem 0;
+  padding: $upd-spacing-gutter-large 0;
 
   .media-panel__wrapper {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
   .media-panel__title {
@@ -11,11 +13,17 @@
   }
 
   .media-panel__media-container {
-    width: 40%;
+    width: 650px;
+    height: 250px;
     margin-right: 4em;
-    border: 10px solid white;
+    border: 10px solid $upd-color-background-primary;
     background-size: cover;
     background-repeat: no-repeat;
-    position: relative;
+    display: flex;
+    align-items: center;
+
+    .media-panel__play {
+      margin: 0 auto;
+    }
   }
 }
