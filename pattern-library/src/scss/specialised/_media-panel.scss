@@ -1,0 +1,21 @@
+.media-panel {
+  background-color: $upd-site-header-color-base;
+  padding: 4.125rem 0;
+
+  .media-panel__wrapper {
+    display: flex;
+  }
+
+  .media-panel__title {
+    color: $upd-color-text-reverse;
+  }
+
+  .media-panel__media-container {
+    width: 40%;
+    margin-right: 4em;
+    border: 10px solid white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+}
