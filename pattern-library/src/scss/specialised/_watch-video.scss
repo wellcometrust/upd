@@ -1,0 +1,25 @@
+.watch-video__wrapper {
+  position: relative;
+
+  .watch-video__context {
+    position: absolute;
+    text-align: center;
+    width: 100%
+  }
+
+  .watch-video__title, .watch-video__standfirst {
+    max-width: rems(640px);
+    color: $upd-color-text-reverse;
+    margin: 0 auto;
+  }
+
+  .watch-video__standfirst {
+    line-height: 2;
+  }
+
+}
+
+.watch-video--full-width {
+  height: 550px;
+  overflow: hidden;
+}
