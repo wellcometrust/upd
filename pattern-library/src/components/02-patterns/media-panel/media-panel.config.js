@@ -4,6 +4,7 @@ const config = {
     description: 'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus,sollicitudin, erat a elementum rutrum.',
     title: 'How your data can help others who suffer with cancer'
   },
+    default: 'Media Panel with static image',
   variants: [
     {
       context: {
