@@ -1,0 +1,36 @@
+<div class="media-panel" >
+  <div class="wrapper  wrapper--gutter media-panel__wrapper">
+    <div class="media-panel__media-container" style="background-image: url('{{ '/images/placeholder/media-example.png' | path }}')">
+
+      {% if video %}
+
+        <div class="media-panel__play">
+          <a class="icon-block">
+            <svg class="svg-icon svg-icon--inline" xmlns="http://www.w3.org/2000/svg" role="presentation">
+
+              <use xlink:href="#svg-icon-chevron-right" />
+
+            </svg>
+          </a>
+        </div>
+
+      {% endif %}
+
+    </div>
+    <div class="media-panel__context">
+      <h2 class="media-panel__title">{{ title }}</h2>
+
+      <div class="media-panel__description u-font-body-copy-small">
+
+          {{ description }}
+
+      </div>
+
+      <a class="cta cta--arrow" href="#link-to-resource">{{ link }}</a>
+    </div>
+
+
+
+  </div>
+
+</div>
