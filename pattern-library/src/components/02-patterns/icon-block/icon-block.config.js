@@ -1,15 +1,6 @@
 const config = {
   default: 'Standard',
-  variants: [
-    {
-      context: {
-        modifiers: [
-          'play'
-        ]
-      },
-      name: 'Play'
-    }
-  ]
+  variants: []
 }
 
 module.exports = config
