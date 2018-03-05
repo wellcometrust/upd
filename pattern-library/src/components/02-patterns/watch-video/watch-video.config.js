@@ -2,7 +2,8 @@ const config = {
   context: {
     title: 'What you need to know',
     standfirst: 'Everyone should be able to find out how patient data is used and why, what the safeguards are, and how decisions are made.',
-    link: 'Watch video'
+    link: 'Watch video',
+    fullWidth: true
   },
   default: 'Static image full width',
   variants: [
@@ -21,7 +22,8 @@ const config = {
     },
     {
       context: {
-        video: true
+        video: true,
+        fullWidth: false
       },
       name: 'Looping Video non full width'
     }
