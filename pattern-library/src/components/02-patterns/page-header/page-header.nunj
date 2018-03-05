@@ -15,10 +15,7 @@
 
       </div>
 
-      <div class="highlight-header__img-container">
-
-        <img alt="" class="highlight-header__img" src="{{ '/images/placeholder/women-computer.png' | path }}">
-
+      <div class="highlight-header__img-container" style="background-image: url('{{ '/images/placeholder/women-computer.png' | path }}');">
       </div>
 
     </div>
