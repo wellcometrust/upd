@@ -4,8 +4,11 @@
 
   .media-panel__wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    @include mq(medium) {
+      flex-direction: row;
+    }
   }
 
   .media-panel__title {
@@ -13,17 +16,31 @@
   }
 
   .media-panel__media-container {
-    width: 650px;
-    height: 250px;
-    margin-right: 4em;
+    width: 100%;
+    min-height: 250px;
+    height: inherit;
+    margin: $upd-spacing-gutter-medium 0;
     border: 10px solid $upd-color-background-primary;
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
     align-items: center;
 
+    @include mq(medium) {
+      width: 50%;
+      margin: 0 $upd-spacing-gutter-medium 0 0;
+    }
+
     .media-panel__play {
       margin: 0 auto;
+    }
+  }
+
+  .media-panel__context {
+    width: 100%;
+
+    @include mq(medium) {
+      width: 50%;
     }
   }
 }
