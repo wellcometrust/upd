@@ -20,6 +20,11 @@
     padding: $upd-spacing-gutter-small;
   }
 
+  .watch-video__cta:hover {
+    transform: scale(1.03);
+    transition: all $upd-transition-time;
+  }
+
   .watch-video__video {
     vertical-align: middle;
   }
