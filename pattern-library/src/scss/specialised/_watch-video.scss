@@ -64,11 +64,10 @@
     background-position: center;
     height: 550px;
 
-    &.watch-video__media--full-width.watch-video__media--video, &.watch-video__media--video{
+    &.watch-video__media--video {
       @include mq(x-large) {
         height: auto;
       }
-
     }
 
     .watch-video__overlay {
@@ -97,14 +96,25 @@
       }
     }
   }
-
-  .watch-video__media.watch-video__media--full-width .watch-video__overlay {
-    width: 100%;
-  }
 }
 
 
+//overrides for when it is full width
 .watch-video--full-width {
   max-height: 550px;
   overflow: hidden;
+}
+
+.watch-video__wrapper.watch-video--full-width {
+  .watch-video__media {
+    &.watch-video__media--video {
+      @include mq(x-large) {
+        height: auto;
+      }
+    }
+    .watch-video__overlay {
+      width: 100%;
+    }
+  }
+
 }
