@@ -17,7 +17,7 @@
 
 
     <div class="watch-video__media{% if fullWidth %} watch-video__media--full-width{% endif %}{% if video %} watch-video__media--video{% endif %}" style="background-image: url('{{ '/images/placeholder/talking_heads_placeholder.jpg' | path }}')">
-      <div class="watch-video__overlay{% if fullWidth %} watch-video__overlay--full-width{% endif %}"></div>
+      <div class="watch-video__overlay"></div>
 
       {% if video %}
 
