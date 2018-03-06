@@ -2,6 +2,7 @@
   overflow: auto;
   margin: $upd-spacing-gutter-medium auto;
   .column-content__wrapper {
+    display: inline-block; // Fallback for browsers without flex support
     display: flex;
     flex-direction: column;
 

@@ -7,14 +7,13 @@
   top: 0;
   left: 0;
   background: rgba(46, 98, 124, 0.6);
+  display: block; // Fallback for browsers without flex support
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 
   .video-embed-field-provider-youtube {
-    -webkit-box-shadow: 0px 16px 20px 0px rgba(0,0,0,0.56);
-    -moz-box-shadow: 0px 16px 20px 0px rgba(0,0,0,0.56);
     box-shadow: 0px 16px 20px 0px rgba(0,0,0,0.56);
   }
 

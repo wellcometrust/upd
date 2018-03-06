@@ -15,6 +15,7 @@
   }
 
   .highlight-header__wrapper {
+    display: inline-block; // Fallback for browsers without flex support
     display: flex;
     flex-direction: column;
     @include mq(large) {

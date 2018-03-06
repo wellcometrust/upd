@@ -10,6 +10,7 @@
 
   .watch-video__context-wrapper {
     height: inherit;
+    display: block; // Fallback for browsers without flex support
     display: flex;
     align-items: center;
     justify-content: center;
