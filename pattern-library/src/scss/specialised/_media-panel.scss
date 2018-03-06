@@ -42,8 +42,10 @@ $upd-media-panel-link-color: #1B9CA6;
   .media-panel__media-container--hover:hover {
     box-shadow: 0 rems(5px) rems(10px) rgba(0,0,0, 0.4);
     transform: scale(1.03);
+    transition: all $upd-transition-time;
     .media-panel__play {
       transform: scale(1.03);
+      transition: all $upd-transition-time;
     }
   }
 
