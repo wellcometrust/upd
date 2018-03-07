@@ -1,0 +1,9 @@
+name: NG Lightbox
+description: A path based lightbox solution using CSS 3 properties.
+type: module
+core: 8.x
+package: NG
+configure: ng_lightbox.settings
+
+files:
+  - ng_lightbox.test
