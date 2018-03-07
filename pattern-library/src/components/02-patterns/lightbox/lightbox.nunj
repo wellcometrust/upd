@@ -1,5 +1,7 @@
 <div class="light-box">
-  <div class="light-box__close">Close</div>
+  <div class="light-box__close">
+    <div class="light-box__icon icon--x"></div>
+  </div>
   <div class="video-embed-field-provider-youtube video-embed-field-responsive-video">
     <iframe width="854" height="480" frameborder="0" allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/iE7N3jgF4nU?autoplay=0&amp;start=0&amp;rel=0"></iframe>
   </div>
