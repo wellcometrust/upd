@@ -37,6 +37,15 @@ $upd-media-panel-link-color: #1B9CA6;
 
     .media-panel__play {
       margin: 0 auto;
+
+      .icon-block {
+        display: inline-flex;
+        &:after {
+          height: 14px;
+          width: 14px;
+  	      content: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTUuMzQsMS4zM2wtMSwxTDkuNjcsOGwtNS4zLDUuNjQsMSwxTDExLjYzLDhaIi8+PC9zdmc+);
+        }
+      }
     }
   }
 

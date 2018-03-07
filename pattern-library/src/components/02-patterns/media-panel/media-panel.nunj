@@ -5,13 +5,7 @@
       {% if video %}
 
         <div class="media-panel__play">
-          <a class="icon-block">
-            <svg class="svg-icon svg-icon--inline" xmlns="http://www.w3.org/2000/svg" role="presentation">
-
-              <use xlink:href="#svg-icon-chevron-right" />
-
-            </svg>
-          </a>
+          <a class="icon-block"></a>
         </div>
 
       {% endif %}
