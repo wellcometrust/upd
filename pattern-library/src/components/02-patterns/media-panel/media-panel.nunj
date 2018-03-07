@@ -5,7 +5,7 @@
       {% if video %}
 
         <div class="media-panel__play">
-          <a class="icon-block"></a>
+          <a class="icon-block svg-icon--chevron-right"></a>
         </div>
 
       {% endif %}

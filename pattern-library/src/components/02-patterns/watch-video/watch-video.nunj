@@ -6,11 +6,8 @@
       <div class="watch-video__context-wrapper">
         <h1 class="watch-video__title">{{title}}</h1>
         <p class="watch-video__standfirst">{{standfirst}}</p>
-        <a class="button watch-video__cta" href="#">
+        <a class="button watch-video__cta svg-icon--chevron-right" href="#">
           {{link}}
-          <svg class="svg-icon svg-icon--inline" xmlns="http://www.w3.org/2000/svg" role="presentation">
-            <use xlink:href="#svg-icon-chevron-right" />
-        </svg>
         </a>
       </div>
     </div>
