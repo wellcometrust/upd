@@ -23,7 +23,7 @@ $upd-media-panel-link-color: #1B9CA6;
     width: 100%;
     min-height: 317px;
     height: inherit;
-    margin: $upd-spacing-gutter-medium 0;
+    margin: rems(47px) 0;
     border: 10px solid $upd-color-background-primary;
     background-size: cover;
     background-repeat: no-repeat;
@@ -32,7 +32,7 @@ $upd-media-panel-link-color: #1B9CA6;
 
     @include mq(medium) {
       width: 50%;
-      margin: 0 $upd-spacing-gutter-medium 0 0;
+      margin: 0 rems(47px) 0 0;
     }
 
     .media-panel__play {
