@@ -26,7 +26,7 @@
     transition: all $upd-transition-time;
   }
 
-  .watch-video__video {
+  video {
     vertical-align: middle;
   }
 
@@ -89,7 +89,7 @@
       }
     }
 
-    .watch-video__video {
+    video {
       display: none;
       @include mq(x-large) {
         display: inline-block;
