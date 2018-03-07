@@ -46,6 +46,15 @@
   }
 }
 
+.cta--link {
+  &:after {
+    @extend %icon--link;
+    margin-left: 1em !important;
+    height: auto !important;
+    vertical-align: text-top !important; 
+  }
+}
+
 .cta--extension {
   @each $extension in $upd-cta-extensions {
     &[href*=".#{$extension}"]:before {
