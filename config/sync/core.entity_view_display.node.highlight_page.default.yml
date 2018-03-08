@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.highlight_page.field_footer_area
     - field.field.node.highlight_page.field_hero_area
     - field.field.node.highlight_page.field_sections
+    - field.field.node.highlight_page.field_standfirst
     - node.type.highlight_page
   module:
     - user
@@ -22,4 +23,5 @@ hidden:
   field_footer_area: true
   field_hero_area: true
   field_sections: true
+  field_standfirst: true
   links: true

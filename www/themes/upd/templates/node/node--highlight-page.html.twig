@@ -97,6 +97,15 @@
 
         <article class="layout__item  layout__item--primary" id="primary">
 
+            {% if content.field_standfirst|render %}
+                {{ content.field_standfirst }}
+            {% endif %}
+            
+            {% if content.body|render %}
+                <section class="body">
+                    {{ content.body }}
+                </section>
+            {% endif %}
             <div class="layout__wrapper content  u-font-body-copy">
 
                 {{ content.field_sections }}

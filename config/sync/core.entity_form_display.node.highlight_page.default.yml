@@ -8,16 +8,19 @@ dependencies:
     - field.field.node.highlight_page.field_footer_area
     - field.field.node.highlight_page.field_hero_area
     - field.field.node.highlight_page.field_sections
+    - field.field.node.highlight_page.field_standfirst
     - node.type.highlight_page
   module:
     - field_group
     - paragraphs
     - path
+    - text
 third_party_settings:
   field_group:
     group_content:
       children:
         - group_header_content
+        - group_initial_content
         - group_sections_highlight
         - group_main_content
         - group_footer_area_highlight
@@ -35,7 +38,7 @@ third_party_settings:
       children:
         - field_content_area
       parent_name: group_content
-      weight: 16
+      weight: 17
       format_type: tab
       format_settings:
         id: ''
@@ -54,7 +57,7 @@ third_party_settings:
         - path
         - status
       parent_name: group_content
-      weight: 18
+      weight: 19
       format_type: tab
       format_settings:
         id: ''
@@ -83,7 +86,7 @@ third_party_settings:
       children:
         - field_sections
       parent_name: group_content
-      weight: 15
+      weight: 16
       format_type: tab
       format_settings:
         id: ''
@@ -97,7 +100,7 @@ third_party_settings:
       children:
         - field_footer_area
       parent_name: group_content
-      weight: 17
+      weight: 18
       format_type: tab
       format_settings:
         id: ''
@@ -106,6 +109,20 @@ third_party_settings:
         description: ''
         required_fields: true
       label: 'Footer area'
+      region: content
+    group_initial_content:
+      children:
+        - field_standfirst
+      parent_name: group_content
+      weight: 15
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Initial content'
       region: content
 id: node.highlight_page.default
 targetEntityType: node
@@ -161,7 +178,7 @@ content:
     type: paragraphs
     region: content
   field_sections:
-    weight: 26
+    weight: 29
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -173,6 +190,14 @@ content:
       autocollapse: none
     third_party_settings: {  }
     type: paragraphs
+    region: content
+  field_standfirst:
+    weight: 27
+    settings:
+      rows: 5
+      placeholder: Optional
+    third_party_settings: {  }
+    type: text_textarea
     region: content
   path:
     type: path
