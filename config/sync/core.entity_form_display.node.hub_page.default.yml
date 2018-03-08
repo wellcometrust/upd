@@ -1,0 +1,251 @@
+uuid: c7d88493-760f-4657-b118-e21a59e4fa95
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.hub_page.body
+    - field.field.node.hub_page.field_content_area
+    - field.field.node.hub_page.field_faq_area
+    - field.field.node.hub_page.field_footer_area
+    - field.field.node.hub_page.field_hero_area
+    - field.field.node.hub_page.field_tiled_content
+    - node.type.hub_page
+  module:
+    - field_group
+    - paragraphs
+    - path
+third_party_settings:
+  field_group:
+    group_content_hub:
+      children:
+        - group_header_content_hub
+        - group_tiled_content
+        - group_main_content_hub
+        - group_faq_content
+        - group_footer_content
+        - group_settings
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: Content
+      region: content
+    group_header_content_hub:
+      children:
+        - title
+        - field_hero_area
+      parent_name: group_content_hub
+      weight: 20
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Header Content'
+      region: content
+    group_main_content_hub:
+      children:
+        - field_content_area
+      parent_name: group_content_hub
+      weight: 22
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Main Content'
+      region: content
+    group_settings:
+      children:
+        - uid
+        - created
+        - promote
+        - sticky
+        - path
+        - status
+      parent_name: group_content_hub
+      weight: 25
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Settings
+      region: content
+    group_tiled_content:
+      children:
+        - field_tiled_content
+      parent_name: group_content_hub
+      weight: 21
+      format_type: tab
+      format_settings:
+        label: 'Tiled Content'
+        formatter: closed
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+      label: 'Tiled Content'
+      region: content
+    group_faq_content:
+      children:
+        - field_faq_area
+      parent_name: group_content_hub
+      weight: 23
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'FAQ Content'
+      region: content
+    group_footer_content:
+      children:
+        - field_footer_area
+      parent_name: group_content_hub
+      weight: 24
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Footer content'
+      region: content
+id: node.hub_page.default
+targetEntityType: node
+bundle: hub_page
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_content_area:
+    type: paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed
+      closed_mode: summary
+      autocollapse: none
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    region: content
+  field_faq_area:
+    type: entity_reference_paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_footer_area:
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      closed_mode: summary
+      autocollapse: none
+    third_party_settings: {  }
+    type: paragraphs
+    region: content
+  field_hero_area:
+    type: paragraphs
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      closed_mode: summary
+      autocollapse: none
+    third_party_settings: {  }
+    region: content
+  field_tiled_content:
+    type: paragraphs
+    weight: 27
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      closed_mode: summary
+      autocollapse: none
+    third_party_settings: {  }
+    region: content
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 4
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 7
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 5
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden:
+  body: true

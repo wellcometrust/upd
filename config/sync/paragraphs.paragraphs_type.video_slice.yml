@@ -5,5 +5,5 @@ dependencies: {  }
 id: video_slice
 label: 'Video Slice'
 icon_uuid: null
-description: ''
+description: 'Add a video slice, providing users with a method for viewing an embedded youtube video. Either a video loop or poster frame can be used as a background placeholder.'
 behavior_plugins: {  }

@@ -9,10 +9,10 @@ dependencies:
     - views
 name: video_browser
 label: 'Video Browser'
-display: iframe
+display: modal
 display_configuration:
-  width: '650'
-  height: '500'
+  width: '850'
+  height: ''
   link_text: 'Select entities'
   auto_open: false
 selection_display: no_display

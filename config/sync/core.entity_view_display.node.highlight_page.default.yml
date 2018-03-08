@@ -1,0 +1,25 @@
+uuid: 2903d2a5-de2b-463d-92e3-2cb92218852b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.highlight_page.body
+    - field.field.node.highlight_page.field_content_area
+    - field.field.node.highlight_page.field_footer_area
+    - field.field.node.highlight_page.field_hero_area
+    - field.field.node.highlight_page.field_sections
+    - node.type.highlight_page
+  module:
+    - user
+id: node.highlight_page.default
+targetEntityType: node
+bundle: highlight_page
+mode: default
+content: {  }
+hidden:
+  body: true
+  field_content_area: true
+  field_footer_area: true
+  field_hero_area: true
+  field_sections: true
+  links: true

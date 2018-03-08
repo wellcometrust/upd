@@ -48,10 +48,11 @@ third_party_settings:
       region: content
     group_settings:
       children:
+        - status
+        - field_full_width
         - uid
         - created
         - path
-        - status
       parent_name: group_content_video
       weight: 2
       format_type: tab
@@ -70,7 +71,7 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 4
+    weight: 33
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -105,7 +106,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 5
+    weight: 34
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -113,12 +114,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 6
+    weight: 30
     region: content
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 3
+    weight: 32
     settings:
       match_operator: CONTAINS
       size: 60

@@ -1,0 +1,23 @@
+uuid: 00957edd-cfbd-4f61-a670-12b090d1fd59
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_full_width
+    - paragraphs.paragraphs_type.video_slice
+id: paragraph.video_slice.field_full_width
+field_name: field_full_width
+entity_type: paragraph
+bundle: video_slice
+label: 'Full width'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

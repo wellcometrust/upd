@@ -3,12 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.video_browser
+    - field.field.paragraph.video_slice.field_full_width
     - field.field.paragraph.video_slice.field_link
     - field.field.paragraph.video_slice.field_standfirst
     - field.field.paragraph.video_slice.field_title
     - field.field.paragraph.video_slice.field_video
     - paragraphs.paragraphs_type.video_slice
   module:
+    - entity_browser
     - field_group
     - link
     - text
@@ -18,13 +21,15 @@ third_party_settings:
       children:
         - group_overlay_content_video_slic
         - group_video_content_video_slice
+        - group_settings
       parent_name: ''
       weight: 0
       format_type: tabs
       format_settings:
+        label: Content
+        direction: horizontal
         id: ''
         classes: ''
-        direction: vertical
       label: Content
       region: content
     group_overlay_content_video_slic:
@@ -57,11 +62,32 @@ third_party_settings:
         required_fields: true
       label: 'Video Content'
       region: content
+    group_settings:
+      children:
+        - field_full_width
+      parent_name: group_content_video_slice
+      weight: 9
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Settings
+      region: content
 id: paragraph.video_slice.default
 targetEntityType: paragraph
 bundle: video_slice
 mode: default
 content:
+  field_full_width:
+    weight: 9
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   field_link:
     weight: 3
     settings:
@@ -87,13 +113,18 @@ content:
     type: string_textfield
     region: content
   field_video:
-    type: entity_reference_autocomplete
+    type: entity_browser_entity_reference
     weight: 0
     region: content
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      entity_browser: video_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: default
     third_party_settings: {  }
 hidden:
   created: true

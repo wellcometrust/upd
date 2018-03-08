@@ -1,0 +1,32 @@
+uuid: 05aaf6e1-956f-46a0-8004-a4237aa9aaf3
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.hub_page.body
+    - field.field.node.hub_page.field_content_area
+    - field.field.node.hub_page.field_hero_area
+    - node.type.hub_page
+  module:
+    - text
+    - user
+id: node.hub_page.teaser
+targetEntityType: node
+bundle: hub_page
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_content_area: true
+  field_hero_area: true

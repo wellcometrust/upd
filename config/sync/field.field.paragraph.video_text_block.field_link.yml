@@ -1,0 +1,23 @@
+uuid: 6c478d26-fabd-4b63-8b33-fc28bbd56687
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_link
+    - paragraphs.paragraphs_type.video_text_block
+  module:
+    - link
+id: paragraph.video_text_block.field_link
+field_name: field_link
+entity_type: paragraph
+bundle: video_text_block
+label: Link
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

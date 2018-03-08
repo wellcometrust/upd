@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.video_slice.field_full_width
     - field.field.paragraph.video_slice.field_link
     - field.field.paragraph.video_slice.field_standfirst
     - field.field.paragraph.video_slice.field_title
@@ -47,9 +48,10 @@ content:
     weight: 3
     label: hidden
     settings:
-      link: true
-      view_mode: default
+      view_mode: background_mode
+      link: false
     third_party_settings: {  }
     type: entity_reference_entity_view
     region: content
-hidden: {  }
+hidden:
+  field_full_width: true

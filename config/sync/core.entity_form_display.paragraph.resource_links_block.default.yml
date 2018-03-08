@@ -1,0 +1,66 @@
+uuid: 13019fe5-4842-4eee-a1a3-03e000ae76f5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.resource_links_block.field_resource_link
+    - field.field.paragraph.resource_links_block.field_title
+    - paragraphs.paragraphs_type.resource_links_block
+  module:
+    - field_group
+    - link
+third_party_settings:
+  field_group:
+    group_content_resource_link:
+      children:
+        - group_main_content_resource_link
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        label: Content
+        direction: horizontal
+        id: ''
+        classes: ''
+      label: Content
+      region: content
+    group_main_content_resource_link:
+      children:
+        - field_title
+        - field_resource_link
+      parent_name: group_content_resource_link
+      weight: 22
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Main Content'
+      region: content
+id: paragraph.resource_links_block.default
+targetEntityType: paragraph
+bundle: resource_links_block
+mode: default
+content:
+  field_resource_link:
+    weight: 22
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_title:
+    weight: 21
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

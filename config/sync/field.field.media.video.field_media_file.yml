@@ -12,8 +12,8 @@ field_name: field_media_file
 entity_type: media
 bundle: video
 label: 'Video Cinemagraph'
-description: 'A short decorative looping version of the video, used to provide visual interest.'
-required: true
+description: 'A short decorative looping version of the video, used to provide visual interest. Second file upload will be used as a fallback.'
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
