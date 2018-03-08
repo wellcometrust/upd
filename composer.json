@@ -32,6 +32,24 @@
         }
       }
     },
+    "colorbox": {
+      "type": "package",
+      "package": {
+        "name": "colorbox/colorbox.js",
+        "version": "1.6.4",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "colorbox"
+        },
+        "dist": {
+          "url": "https://github.com/jackmoore/colorbox/archive/1.6.4.zip",
+          "type": "zip"
+        },
+        "require": {
+          "composer/installers": "~1.0"
+        }
+      }
+    },
     "ce_deploy": {
       "type": "package",
       "package": {
@@ -49,6 +67,7 @@
   "require": {
     "composer/installers": "1.*",
     "dropzone/dropzone.js": "4.3.0",
+    "colorbox/colorbox.js": "1.6.4",
     "drupal-composer/drupal-scaffold": "2.*",
     "drupal/config_ignore": "2.x",
     "drupal/core": "~8. ",
@@ -78,7 +97,8 @@
     "drupal/dropzonejs": "2.x",
     "drupal/Inline_entity_form": "1.x",
     "drupal/image_widget_crop": "2.x",
-    "drupal/colorbox": "1.x"
+    "drupal/colorbox": "1.x",
+    "drupal/colorbox_load": "1.x"
   },
   "require-dev": {
     "drupal/devel": "1.*"
