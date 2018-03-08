@@ -1,0 +1,52 @@
+#block-upd-messages {
+
+  .system-message__content {
+
+    margin-top: 1px;
+
+    &-inner {
+      padding: 10px 10px 10px 35px;
+      max-width: $upd-max-width;
+      margin: 0 auto;
+
+      background-repeat: no-repeat;
+      background-size: 25px 25px;
+      background-position: left center;
+
+    }
+
+    &--status {
+      .system-message__content-inner {
+        background-image: $upd-icon-status;
+      }
+      background-color: $upd-color-messages-status;
+      color: $upd-color-brand-blue;
+    }
+
+    &--warning {
+      .system-message__content-inner {
+        background-image: $upd-icon-warning;
+      }
+      background-color: $upd-color-messages-warning;
+      color: white
+    }
+
+    &--error {
+      .system-message__content-inner {
+        background-image: $upd-icon-error;
+      }
+      background-color: $upd-color-messages-error;
+      color: white;
+
+    }
+
+    &--info {
+      .system-message__content-inner {
+        background-image: $upd-icon-info;
+      }
+      background-color: $upd-color-messages-info;
+      color: white;
+
+    }
+  }
+}
