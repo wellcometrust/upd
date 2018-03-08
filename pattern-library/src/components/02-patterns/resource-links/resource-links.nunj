@@ -5,7 +5,7 @@
 
       {% for item in items %}
         <li>
-          <a class="cta cta--link resource-links__link" href="#link-to-information">{{ item }}</a>
+          <a class="external-link" href="{{item.link}}">{{ item.title }}</a> ({{item.source}})
         </li>
       {% endfor %}
     </ul>
