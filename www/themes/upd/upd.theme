@@ -158,6 +158,116 @@ function upd_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_node()
+ */
+function upd_preprocess_media__video(&$variables) {
+
+  $media = $variables['media'];
+
+  // Each view mode requires different preprocessed variables.
+
+  switch ($variables['elements']['#view_mode']) {
+
+    case 'background_mode':
+      $parent_field_name = $media->get('field_media_file')->getValue();
+      if (!empty($parent_field_name)) {
+        $variables['video_class'] = 'watch-video__media--video';
+      }
+
+      break;
+
+    case 'embed_mode':
+      $variables['media_link'] =  _upd_create_media_link($media->id(), array('icon-block', 'svg-icon--chevron-right'));
+
+      break;
+  }
+
+}
+
+
+/**
+ * Implements hook_preprocess_paragraph__TYPE()
+ */
+function upd_preprocess_paragraph__tile_paragraph(&$variables) {
+
+  $paragraph = $variables['paragraph'];
+
+  $parent_field_name = $paragraph->get('parent_field_name')->getValue();
+
+  // Rather than create a new tile component, augmenting display here to match phase 2
+  // designs.
+
+  // Add a class to template to provide a max width tile.
+  // Class should be: resource-tile--max-width if it's associated with our new content.
+
+  if (in_array($parent_field_name[0]['value'], array('field_content_area'))) {
+    $variables['attributes']['class'] = ['resource-tile', 'resource-tile--max-width'];
+  }
+  else if (in_array($parent_field_name[0]['value'], array('field_tiled_content'))) {
+    $variables['attributes']['class'] = ['resource-tile', 'resource-tile--max-width', 'resource-tile--height'];
+  }
+  else {
+    $variables['attributes']['class'] = ['resource-tile'];
+  }
+
+}
+
+/**
+ * Implements hook_preprocess_paragraph__TYPE()
+ */
+function upd_preprocess_paragraph__video_slice(&$variables) {
+
+  $paragraph = $variables['paragraph'];
+
+  $full_width = $paragraph->get('field_full_width')->getValue();
+
+  $media_id = $paragraph->get('field_video')->getValue();
+
+  // Add a class to template to provide a max width video, if selected.
+  // Class should be: watch-video--full-width if it's associated with our new content.
+
+  if ($full_width[0]['value'] == '1') {
+    $variables['video_wrapper_class'] = 'watch-video--full-width';
+    $variables['video_context_class'] = 'watch-video__context--full-width';
+  }
+  else {
+    $variables['video_wrapper_class'] = 'wrapper wrapper--gutter';
+    $variables['video_context_class'] = 'watch-video__context--non-full-width';
+  }
+
+  $variables['media_link'] = _upd_create_media_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Watch video');
+
+}
+
+/**
+ * Helper function to create a link to a media item using the lightbox view mode.
+ * This is important to make use of the ng-lightbox module, which requires links
+ * pass through a theme function.
+ *
+ * @param $id
+ *
+ * @param $classes
+ *
+ */
+function _upd_create_media_link($id, $classes, $title) {
+
+  // Create Url object from route created using custom module upd_video, and provide media ID as parameter.
+
+  $url = Url::fromRoute('upd_video.content', ['media' => $id]);
+  $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
+  $link = $link->toRenderable();
+
+  // Populate render array with class / data attribute.
+
+  $link['#attributes'] = array(
+    'class' => $classes,
+  );
+
+  return render($link);
+
+}
+
+/**
  * Helper function to generate block of related content for news.
  *
  * @param $variables
@@ -166,7 +276,7 @@ function upd_preprocess_node(&$variables) {
  */
 function _generate_related_news_block(&$variables) {
   $node = $variables['node'];
-  // If we are looking at the full view of a news article node.
+  // If we are looking at the full view of asf news article node.
   if ($node->getType() == 'art' && $variables['view_mode'] == 'full') {
     // If the related news article taxonomy term is populated.
     if (isset($node->field_news_category) && !empty($node->field_news_category->getValue())) {
@@ -282,6 +392,7 @@ function upd_theme_suggestions_form_element_alter(array &$suggestions, array $va
     $suggestions[] = 'form_element__mailchimp_nowrapper';
   }
 }
+
 
 /**
  * Implements hook_preprocess_form_element__CUSTOM().
