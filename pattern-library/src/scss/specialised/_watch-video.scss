@@ -2,6 +2,7 @@
   position: relative;
   height: 550px;
   overflow: hidden;
+  margin-bottom: 40px;
 
   .watch-video__context {
     position: absolute;
@@ -109,6 +110,7 @@
 }
 
 .watch-video__wrapper.watch-video--full-width {
+  margin: 0;
   .watch-video__title {
     @extend %font-heading-1;
     font-size: rems(69px);
