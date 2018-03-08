@@ -24,12 +24,14 @@ third_party_settings:
         - group_settings
       parent_name: ''
       weight: 0
-      format_type: tabs
+      format_type: fieldset
       format_settings:
         label: Content
         direction: horizontal
         id: ''
         classes: ''
+        description: ''
+        required_fields: true
       label: Content
       region: content
     group_overlay_content_video_slic:
@@ -39,13 +41,19 @@ third_party_settings:
         - field_link
       parent_name: group_content_video_slice
       weight: 7
-      format_type: tab
+      format_type: html_element
       format_settings:
         id: ''
         classes: ''
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Overlay Content'
       region: content
     group_video_content_video_slice:
@@ -53,13 +61,19 @@ third_party_settings:
         - field_video
       parent_name: group_content_video_slice
       weight: 8
-      format_type: tab
+      format_type: html_element
       format_settings:
         id: ''
         classes: ''
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Video Content'
       region: content
     group_settings:
@@ -67,13 +81,19 @@ third_party_settings:
         - field_full_width
       parent_name: group_content_video_slice
       weight: 9
-      format_type: tab
+      format_type: html_element
       format_settings:
         id: ''
         classes: ''
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        effect: none
+        speed: fast
+        attributes: ''
       label: Settings
       region: content
 id: paragraph.video_slice.default
