@@ -255,7 +255,7 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
  *
  * @return mixed|null
  */
-function _upd_create_media_link($id, $classes, $title) {
+function _upd_create_media_link($id, $classes, $title = '') {
 
   $media = Media::load($id);
 
