@@ -1,0 +1,9 @@
+uuid: 328fe6b0-7cd1-4626-a6ac-8fb18fac67bf
+langcode: en
+status: true
+dependencies: {  }
+id: referenced_link
+label: 'Referenced Link'
+icon_uuid: null
+description: 'Used to provide links output with a text reference.'
+behavior_plugins: {  }

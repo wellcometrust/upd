@@ -39,14 +39,6 @@
  */
 #}
 
-<div class="resource-links">
-    <div class="wrapper content ">
-        <h3 class="h3 resource-links__title">{{ content.field_title }}</h2>
-            <ul class="list-bare">
-
-                {{ content.field_referenced_links }}
-
-            </ul>
-    </div>
-</div>
-
+<li>
+  <a class="external-link" href="{% spaceless %}{{ render_var(content.field_link[0]['#url']) }}{% endspaceless %}">{% spaceless %}{{ render_var(content.field_link[0]['#title']) }}{% endspaceless %}</a> {{ content.field_reference }}
+</li>
