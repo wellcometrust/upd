@@ -3,6 +3,7 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
+use Drupal\media\Entity\Media;
 
 /**
  * Implements hook_theme().
@@ -237,33 +238,89 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
 
   $variables['media_link'] = _upd_create_media_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Watch video');
 
+  $variables['media_cta_link'] = _upd_create_media_cta_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Find out more here');
+
 }
 
 /**
- * Helper function to create a link to a media item using the lightbox view mode.
- * This is important to make use of the ng-lightbox module, which requires links
- * pass through a theme function.
+ * Helper function to create a link to a media item using the lightbox view
+ * mode. This is important to make use of the ng-lightbox module, which
+ * requires links pass through a theme function.
  *
  * @param $id
  *
  * @param $classes
  *
+ * @param $title
+ *
+ * @return mixed|null
  */
-function _upd_create_media_link($id, $classes, $title) {
+function _upd_create_media_link($id, $classes, $title = '') {
 
-  // Create Url object from route created using custom module upd_video, and provide media ID as parameter.
+  $media = Media::load($id);
 
-  $url = Url::fromRoute('upd_video.content', ['media' => $id]);
-  $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
-  $link = $link->toRenderable();
+  $field_video_embed = $media->get('field_video_embed')->getValue();
 
-  // Populate render array with class / data attribute.
+  if (!empty($field_video_embed[0]['value'])) {
 
-  $link['#attributes'] = array(
-    'class' => $classes,
-  );
+    // Create Url object from route created using custom module upd_video, and provide media ID as parameter.
 
-  return render($link);
+    $url = Url::fromRoute('upd_video.content', ['media' => $id]);
+    $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
+    $link = $link->toRenderable();
+
+    // Populate render array with class / data attribute.
+
+    $link['#attributes'] = array(
+      'class' => $classes,
+    );
+
+    return render($link);
+
+  }
+
+}
+
+/**
+ * Helper function to create a link to a media item cta.
+ *
+ * @param $id
+ *
+ * @param $classes
+ *
+ * @param $title
+ *
+ * @return mixed|null
+ */
+function _upd_create_media_cta_link($id, $classes, $title) {
+
+  // Load media entity.
+
+  $media = Media::load($id);
+
+  $cta_link = $media->get('field_call_to_action')->getValue();
+
+  if (!empty($cta_link[0]['uri'])) {
+
+    $path = $cta_link[0]['uri'];
+
+    $url = Url::fromUri($path);
+
+    if (!empty($cta_link[0]['title'])) {
+      $title = $cta_link[0]['title'];
+    }
+
+    $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
+    $link = $link->toRenderable();
+
+    $link['#attributes'] = array(
+      'class' => $classes,
+    );
+
+    // Populate render array with class / data attribute.
+    return render($link);
+
+  }
 
 }
 
