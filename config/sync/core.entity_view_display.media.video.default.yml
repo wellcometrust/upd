@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.video.field_call_to_action
     - field.field.media.video.field_media_file
     - field.field.media.video.field_video_embed
     - field.field.media.video.field_video_poster
@@ -14,6 +15,7 @@ mode: default
 content: {  }
 hidden:
   created: true
+  field_call_to_action: true
   field_media_file: true
   field_video_embed: true
   field_video_poster: true

@@ -1,0 +1,19 @@
+uuid: d5ad612a-466f-422e-a9a8-5fc2e3348fba
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - media
+id: media.field_call_to_action
+field_name: field_call_to_action
+entity_type: media
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

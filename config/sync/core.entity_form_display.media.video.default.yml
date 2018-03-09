@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.video.field_call_to_action
     - field.field.media.video.field_media_file
     - field.field.media.video.field_video_embed
     - field.field.media.video.field_video_poster
@@ -12,6 +13,7 @@ dependencies:
     - field_group
     - file
     - image
+    - link
     - path
     - video_embed_field
 third_party_settings:
@@ -35,6 +37,7 @@ third_party_settings:
         - field_video_embed
         - field_media_file
         - field_video_poster
+        - field_call_to_action
       parent_name: group_content_video
       weight: 1
       format_type: tab
@@ -49,7 +52,6 @@ third_party_settings:
     group_settings:
       children:
         - status
-        - field_full_width
         - uid
         - created
         - path
@@ -75,6 +77,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_call_to_action:
+    weight: 7
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
   field_media_file:
     type: file_generic
     weight: 5

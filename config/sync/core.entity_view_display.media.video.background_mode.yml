@@ -4,12 +4,14 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.background_mode
+    - field.field.media.video.field_call_to_action
     - field.field.media.video.field_media_file
     - field.field.media.video.field_video_embed
     - field.field.media.video.field_video_poster
     - media.type.video
   module:
     - image
+    - link
     - media_entity_video
     - video_embed_field
 id: media.video.background_mode
@@ -17,6 +19,18 @@ targetEntityType: media
 bundle: video
 mode: background_mode
 content:
+  field_call_to_action:
+    type: link_separate
+    weight: 3
+    region: content
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
   field_media_file:
     label: hidden
     settings:
