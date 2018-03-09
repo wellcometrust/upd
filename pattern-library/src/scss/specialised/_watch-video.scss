@@ -20,6 +20,10 @@
     text-align: center;
     margin: 0 auto;
     padding: $upd-spacing-gutter-small;
+
+    @include mq(rems(300px)) {
+      padding: 22px;
+    }
   }
 
   .watch-video__cta:hover {
@@ -49,13 +53,22 @@
 
   .watch-video__title {
     @extend %font-heading-1;
-    font-size: rems(30px);
+    font-size: rems(26px);
     margin-bottom: 30px;
+
+    @include mq(small) {
+      font-size: rems(30px);
+
+    }
   }
 
   .watch-video__standfirst {
     @extend %font-body-copy;
-    font-size: rems(20px);
+    font-size: rems(16px);
+
+    @include mq(small) {
+      font-size: rems(20px);
+    }
   }
 
   .watch-video__title, .watch-video__standfirst {
@@ -80,6 +93,10 @@
       height: 100%;
       position: absolute;
       width: 100%;
+
+      @include mq(rems(300px)) {
+        width: calc(100% - 44px);
+      }
 
       @include mq(small) {
         width: calc(100% - 4rem);
@@ -113,12 +130,20 @@
   margin: 0;
   .watch-video__title {
     @extend %font-heading-1;
-    font-size: rems(69px);
+    font-size: rems(50px);
+
+    @include mq(small) {
+      font-size: rems(69px);
+    }
   }
 
   .watch-video__standfirst {
     @extend %font-body-copy;
-    font-size: rems(24px);
+    font-size: rems(20px);
+
+    @include mq(small) {
+      font-size: rems(24px);
+    }
   }
 
   .watch-video__title, .watch-video__standfirst {
