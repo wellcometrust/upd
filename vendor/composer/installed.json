@@ -715,65 +715,6 @@
         }
     },
     {
-        "name": "drupal/video_embed_field",
-        "version": "1.5.0",
-        "version_normalized": "1.5.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://git.drupal.org/project/video_embed_field",
-            "reference": "8.x-1.5"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/video_embed_field-8.x-1.5.zip",
-            "reference": "8.x-1.5",
-            "shasum": "f54d470ef7f863604e51e6ae98cd40ef25de5f79"
-        },
-        "require": {
-            "drupal/core": "*"
-        },
-        "require-dev": {
-            "drupal/colorbox": "*",
-            "drupal/media_entity": "*",
-            "drupal/media_entity_embeddable_video": "*"
-        },
-        "type": "drupal-module",
-        "extra": {
-            "branch-alias": {
-                "dev-1.x": "1.x-dev"
-            },
-            "drupal": {
-                "version": "8.x-1.x",
-                "datestamp": "1493246342",
-                "package": "Field types"
-            }
-        },
-        "installation-source": "dist",
-        "notification-url": "https://packages.drupal.org/8/downloads",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "authors": [
-            {
-                "name": "Sam152",
-                "homepage": "https://www.drupal.org/user/1485048"
-            },
-            {
-                "name": "jec006",
-                "homepage": "https://www.drupal.org/user/855980"
-            },
-            {
-                "name": "plopesc",
-                "homepage": "https://www.drupal.org/user/282415"
-            }
-        ],
-        "description": "A pluggable field type for storing videos from external video hosts such as Vimeo and YouTube.",
-        "homepage": "https://www.drupal.org/project/video_embed_field",
-        "support": {
-            "source": "http://cgit.drupalcode.org/video_embed_field"
-        }
-    },
-    {
         "name": "solarium/solarium",
         "version": "3.8.1",
         "version_normalized": "3.8.1.0",
@@ -5794,5 +5735,832 @@
             "drupal",
             "symfony"
         ]
+    },
+    {
+        "name": "drupal/video_embed_field",
+        "version": "2.0.0-alpha2",
+        "version_normalized": "2.0.0.0-alpha2",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/video_embed_field",
+            "reference": "8.x-2.0-alpha2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/video_embed_field-8.x-2.0-alpha2.zip",
+            "reference": "8.x-2.0-alpha2",
+            "shasum": "45b67ad5e0092f2ec9c2873ceabc85ff3a5e9620"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "require-dev": {
+            "drupal/colorbox": "*",
+            "drupal/media_entity": "*",
+            "drupal/media_entity_embeddable_video": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.x",
+                "datestamp": "1512694688",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Alpha releases are not covered by Drupal security advisories."
+                },
+                "package": "Field types"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Sam152",
+                "homepage": "https://www.drupal.org/user/1485048"
+            },
+            {
+                "name": "jec006",
+                "homepage": "https://www.drupal.org/user/855980"
+            },
+            {
+                "name": "plopesc",
+                "homepage": "https://www.drupal.org/user/282415"
+            }
+        ],
+        "description": "A pluggable field type for storing videos from external video hosts such as Vimeo and YouTube.",
+        "homepage": "https://www.drupal.org/project/video_embed_field",
+        "support": {
+            "source": "http://cgit.drupalcode.org/video_embed_field"
+        }
+    },
+    {
+        "name": "dropzone/dropzone.js",
+        "version": "4.3.0",
+        "version_normalized": "4.3.0.0",
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/enyo/dropzone/archive/v4.3.0.zip",
+            "reference": null,
+            "shasum": null
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "type": "drupal-library",
+        "extra": {
+            "installer-name": "dropzone"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "drupal/entity_browser",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/entity_browser",
+            "reference": "8.x-1.4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/entity_browser-8.x-1.4.zip",
+            "reference": "8.x-1.4",
+            "shasum": "4375e996b8d1e103ca5daf9ce352e2af9cab568f"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "require-dev": {
+            "drupal/ctools": "*",
+            "drupal/inline_entity_form": "*",
+            "drupal/media_entity": "*",
+            "drupal/paragraphs": "*",
+            "drupal/token": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev",
+                "dev-8.x-1.x": "8.1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.4",
+                "datestamp": "1512033785",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Janez Urevc",
+                "homepage": "https://github.com/slashrsm",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Primoz Hmeljak",
+                "homepage": "https://github.com/primsi",
+                "role": "Maintainer"
+            },
+            {
+                "name": "See other contributors",
+                "homepage": "https://www.drupal.org/node/1943336/committers",
+                "role": "contributor"
+            },
+            {
+                "name": "Primsi",
+                "homepage": "https://www.drupal.org/user/282629"
+            },
+            {
+                "name": "marcingy",
+                "homepage": "https://www.drupal.org/user/77320"
+            },
+            {
+                "name": "samuel.mortenson",
+                "homepage": "https://www.drupal.org/user/2582268"
+            },
+            {
+                "name": "slashrsm",
+                "homepage": "https://www.drupal.org/user/744628"
+            }
+        ],
+        "description": "Entity browsing and selecting component.",
+        "homepage": "http://drupal.org/project/entity_browser",
+        "support": {
+            "source": "http://cgit.drupalcode.org/entity_browser",
+            "issues": "http://drupal.org/project/issues/entity_browser",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
+        "name": "drupal/media_entity_browser",
+        "version": "2.0.0-alpha1",
+        "version_normalized": "2.0.0.0-alpha1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/media_entity_browser",
+            "reference": "8.x-2.0-alpha1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/media_entity_browser-8.x-2.0-alpha1.zip",
+            "reference": "8.x-2.0-alpha1",
+            "shasum": "d0de87059165dc7cda4ed1832b13c5846be9386b"
+        },
+        "require": {
+            "drupal/core": "*",
+            "drupal/entity_browser": "*"
+        },
+        "require-dev": {
+            "drupal/ctools": "*",
+            "drupal/entity_browser": "^2",
+            "drupal/video_embed_field": "^2"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.0-alpha1",
+                "datestamp": "1510532885",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Alpha releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Sam152",
+                "homepage": "https://www.drupal.org/user/1485048"
+            },
+            {
+                "name": "benjy",
+                "homepage": "https://www.drupal.org/user/1852732"
+            },
+            {
+                "name": "larowlan",
+                "homepage": "https://www.drupal.org/user/395439"
+            },
+            {
+                "name": "rikki_iki",
+                "homepage": "https://www.drupal.org/user/1068918"
+            }
+        ],
+        "description": "This module provides an Entity Browser for Media Entity.",
+        "homepage": "https://www.drupal.org/project/media_entity_browser",
+        "support": {
+            "source": "http://cgit.drupalcode.org/media_entity_browser"
+        }
+    },
+    {
+        "name": "drupal/media_entity_video",
+        "version": "2.0.0-alpha1",
+        "version_normalized": "2.0.0.0-alpha1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/media_entity_video",
+            "reference": "8.x-2.0-alpha1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/media_entity_video-8.x-2.0-alpha1.zip",
+            "reference": "8.x-2.0-alpha1",
+            "shasum": "4290ee0f8377977bfb5dd5db77a11f407fd3c5a6"
+        },
+        "require": {
+            "drupal/core": "^8.4"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.0-alpha1",
+                "datestamp": "1508247543",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Project has not opted into security advisory coverage!"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Daniel Korte",
+                "homepage": "https://www.drupal.org/u/daniel-korte",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Drupal Media Team",
+                "homepage": "https://www.drupal.org/user/3260690"
+            }
+        ],
+        "description": "Local video files integration for Drupal core Media module.",
+        "homepage": "https://www.drupal.org/project/media_entity_video",
+        "keywords": [
+            "Drupal",
+            "media",
+            "video"
+        ],
+        "support": {
+            "source": "https://www.drupal.org/project/media_entity_video",
+            "issues": "https://www.drupal.org/project/issues/media_entity_video"
+        }
+    },
+    {
+        "name": "drupal/media_upload",
+        "version": "2.0.0-alpha3",
+        "version_normalized": "2.0.0.0-alpha3",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/media_upload",
+            "reference": "8.x-2.0-alpha3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/media_upload-8.x-2.0-alpha3.zip",
+            "reference": "8.x-2.0-alpha3",
+            "shasum": "7f1d7767a1cba86824d4fa6027621b8494bf49ef"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.0-alpha3",
+                "datestamp": "1511429288",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Project has not opted into security advisory coverage!"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "hbigot",
+                "homepage": "https://www.drupal.org/user/3272546"
+            },
+            {
+                "name": "klelostec",
+                "homepage": "https://www.drupal.org/user/3455737"
+            },
+            {
+                "name": "treuliaux",
+                "homepage": "https://www.drupal.org/user/3530240"
+            }
+        ],
+        "description": "Allows uploading files in bulk and converting them to media entities.",
+        "homepage": "https://www.drupal.org/project/media_upload",
+        "support": {
+            "source": "http://cgit.drupalcode.org/media_upload"
+        }
+    },
+    {
+        "name": "drupal/dropzonejs",
+        "version": "2.0.0-alpha3",
+        "version_normalized": "2.0.0.0-alpha3",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/dropzonejs",
+            "reference": "8.x-2.0-alpha3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/dropzonejs-8.x-2.0-alpha3.zip",
+            "reference": "8.x-2.0-alpha3",
+            "shasum": "a11f37e8f37b211d7065b0fd8adb1cc85b47e691"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "require-dev": {
+            "drupal/entity_browser": "*"
+        },
+        "suggest": {
+            "enyo/dropzone": "Required to user drupal/dropzonejs. Dropzone is an easy to use drag'n'drop library."
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.0-alpha3",
+                "datestamp": "1513265285",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Project has not opted into security advisory coverage!"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Janez Urevc",
+                "homepage": "https://drupal.org/u/slashrsm",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Christian Fritsch",
+                "homepage": "https://drupal.org/u/chrfritsch",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Primoz Hmeljak",
+                "homepage": "https://drupal.org/u/Primsi",
+                "role": "Maintainer"
+            },
+            {
+                "name": "See other contributors",
+                "homepage": "https://www.drupal.org/node/1998478/committers",
+                "role": "contributor"
+            },
+            {
+                "name": "slashrsm",
+                "homepage": "https://www.drupal.org/user/744628"
+            },
+            {
+                "name": "wouters_f",
+                "homepage": "https://www.drupal.org/user/721548"
+            },
+            {
+                "name": "zkday",
+                "homepage": "https://www.drupal.org/user/888644"
+            }
+        ],
+        "description": "Drupal integration for DropzoneJS - An open source library that provides drag’n’drop file uploads with image previews.",
+        "homepage": "https://www.drupal.org/project/dropzonejs",
+        "keywords": [
+            "DropzoneJS",
+            "Drupal"
+        ],
+        "support": {
+            "source": "https://www.drupal.org/project/dropzonejs",
+            "issues": "https://www.drupal.org/project/issues/dropzonejs",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
+        "name": "drupal/inline_entity_form",
+        "version": "1.0.0-beta1",
+        "version_normalized": "1.0.0.0-beta1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/inline_entity_form",
+            "reference": "8.x-1.0-beta1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/inline_entity_form-8.x-1.0-beta1.zip",
+            "reference": "8.x-1.0-beta1",
+            "shasum": "185ffc28a7b68d19cce057855d1c111f1741a3ea"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "require-dev": {
+            "drupal/entity_reference_revisions": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-beta1",
+                "datestamp": "1477868343",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Beta releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "bojanz",
+                "homepage": "https://www.drupal.org/user/86106"
+            },
+            {
+                "name": "dawehner",
+                "homepage": "https://www.drupal.org/user/99340"
+            },
+            {
+                "name": "rszrama",
+                "homepage": "https://www.drupal.org/user/49344"
+            },
+            {
+                "name": "slashrsm",
+                "homepage": "https://www.drupal.org/user/744628"
+            },
+            {
+                "name": "webflo",
+                "homepage": "https://www.drupal.org/user/254778"
+            }
+        ],
+        "description": "Provides a widget for inline management (creation, modification, removal) of referenced entities.",
+        "homepage": "https://www.drupal.org/project/inline_entity_form",
+        "support": {
+            "source": "http://cgit.drupalcode.org/inline_entity_form"
+        }
+    },
+    {
+        "name": "drupal/crop",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/crop",
+            "reference": "8.x-1.5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/crop-8.x-1.5.zip",
+            "reference": "8.x-1.5",
+            "shasum": "bb275293508cb3988ca6ab766dc1f6ecc22cc03d"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.5",
+                "datestamp": "1516357085",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Drupal Media Team",
+                "homepage": "https://www.drupal.org/user/3260690"
+            },
+            {
+                "name": "slashrsm",
+                "homepage": "https://www.drupal.org/user/744628"
+            },
+            {
+                "name": "woprrr",
+                "homepage": "https://www.drupal.org/user/858604"
+            }
+        ],
+        "description": "Provides storage and API for image crops.",
+        "homepage": "https://www.drupal.org/project/crop",
+        "support": {
+            "source": "http://cgit.drupalcode.org/crop",
+            "issues": "https://www.drupal.org/project/issues/crop"
+        }
+    },
+    {
+        "name": "drupal/image_widget_crop",
+        "version": "2.1.0",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/image_widget_crop",
+            "reference": "8.x-2.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/image_widget_crop-8.x-2.1.zip",
+            "reference": "8.x-2.1",
+            "shasum": "76bda9a8c8d3149149bb7812e48e9f14e9ce1ffb"
+        },
+        "require": {
+            "drupal/core": "*",
+            "drupal/crop": "1.0 - 2.0"
+        },
+        "require-dev": {
+            "drupal/crop": "*",
+            "drupal/ctools": "3.x-dev",
+            "drupal/entity_browser": "1.x-dev",
+            "drupal/file_entity": "*",
+            "drupal/inline_entity_form": "*",
+            "drupal/media": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.1",
+                "datestamp": "1510136887",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Alexandre Mallet",
+                "homepage": "https://github.com/woprrr",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Drupal media CI",
+                "homepage": "https://www.drupal.org/user/3057985"
+            },
+            {
+                "name": "slashrsm",
+                "homepage": "https://www.drupal.org/user/744628"
+            },
+            {
+                "name": "woprrr",
+                "homepage": "https://www.drupal.org/user/858604"
+            }
+        ],
+        "description": "Provides an interface for using the features of the Crop API.",
+        "homepage": "https://www.drupal.org/project/image_widget_crop",
+        "keywords": [
+            "Crop",
+            "Drupal",
+            "Drupal Media"
+        ],
+        "support": {
+            "source": "https://www.drupal.org/project/image_widget_crop",
+            "issues": "https://www.drupal.org/project/issues/image_widget_crop",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
+        "name": "drupal/colorbox",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/colorbox",
+            "reference": "8.x-1.4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/colorbox-8.x-1.4.zip",
+            "reference": "8.x-1.4",
+            "shasum": "bf163fd2d28450c1324512ad7e6a72fc48d274e3"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.4",
+                "datestamp": "1493051344",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "RenatoG",
+                "homepage": "https://www.drupal.org/user/3326031"
+            },
+            {
+                "name": "Sam152",
+                "homepage": "https://www.drupal.org/user/1485048"
+            },
+            {
+                "name": "frjo",
+                "homepage": "https://www.drupal.org/user/5546"
+            },
+            {
+                "name": "jdwfly",
+                "homepage": "https://www.drupal.org/user/298179"
+            },
+            {
+                "name": "rsmylski",
+                "homepage": "https://www.drupal.org/user/1324348"
+            }
+        ],
+        "description": "A light-weight, customizable lightbox plugin for jQuery.",
+        "homepage": "https://www.drupal.org/project/colorbox",
+        "support": {
+            "source": "https://cgit.drupalcode.org/colorbox",
+            "issues": "https://www.drupal.org/project/colorbox"
+        }
+    },
+    {
+        "name": "drupal/ng_lightbox",
+        "version": "1.0.0-beta3",
+        "version_normalized": "1.0.0.0-beta3",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/ng_lightbox",
+            "reference": "8.x-1.0-beta3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/ng_lightbox-8.x-1.0-beta3.zip",
+            "reference": "8.x-1.0-beta3",
+            "shasum": "e990a144e34777ceeee60911ef8ee8013ec6acfb"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-beta3",
+                "datestamp": "1488844684",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Beta releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Sam152",
+                "homepage": "https://www.drupal.org/user/1485048"
+            },
+            {
+                "name": "benjy",
+                "homepage": "https://www.drupal.org/user/1852732"
+            }
+        ],
+        "description": "A path based lightbox solution using CSS 3 properties.",
+        "homepage": "https://www.drupal.org/project/ng_lightbox",
+        "support": {
+            "source": "http://cgit.drupalcode.org/ng_lightbox"
+        }
+    },
+    {
+        "name": "drupal/colorbox_load",
+        "version": "1.0.0-rc2",
+        "version_normalized": "1.0.0.0-RC2",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/colorbox_load",
+            "reference": "8.x-1.0-rc2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/colorbox_load-8.x-1.0-rc2.zip",
+            "reference": "8.x-1.0-rc2",
+            "shasum": "5597f044d8eddb1280d480d096177852f21f7ebf"
+        },
+        "require": {
+            "drupal/colorbox": "*",
+            "drupal/core": "~8.0",
+            "drupal/ng_lightbox": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-rc2",
+                "datestamp": "1467852839",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Project has not opted into security advisory coverage!"
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "RenatoG",
+                "homepage": "https://www.drupal.org/user/3326031"
+            },
+            {
+                "name": "Sam152",
+                "homepage": "https://www.drupal.org/user/1485048"
+            },
+            {
+                "name": "acbramley",
+                "homepage": "https://www.drupal.org/user/1036766"
+            },
+            {
+                "name": "benjy",
+                "homepage": "https://www.drupal.org/user/1852732"
+            }
+        ],
+        "description": "Allow you to load any content in a colorbox.",
+        "homepage": "https://www.drupal.org/project/colorbox_load",
+        "support": {
+            "source": "http://cgit.drupalcode.org/colorbox_load"
+        }
     }
 ]

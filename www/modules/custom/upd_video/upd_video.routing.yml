@@ -1,0 +1,12 @@
+upd_video.content:
+  path: '/upd_video/{media}/lightbox'
+  defaults:
+    _controller: '\Drupal\upd_video\Controller\UPDVideoController::content'
+    _title: 'Video'
+  requirements:
+    _permission: 'access content'
+    entity: '^[a-zA-Z0-9_]+'
+  options:
+    parameters:
+      media:
+        type: entity:media

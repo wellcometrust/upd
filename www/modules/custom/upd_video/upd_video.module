@@ -1,0 +1,14 @@
+<?php
+
+/**
+ *  Implements hook_theme().
+ */
+function upd_video_theme($existing, $type, $theme, $path) {
+  return [
+    'upd_video_lightbox' => [
+      'variables' => [
+        'embed' => [],
+      ],
+    ],
+  ];
+}

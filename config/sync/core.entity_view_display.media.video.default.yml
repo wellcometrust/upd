@@ -1,0 +1,24 @@
+uuid: 3895733d-6fbf-42d9-99e4-b3cc55a318f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.video.field_call_to_action
+    - field.field.media.video.field_media_file
+    - field.field.media.video.field_video_embed
+    - field.field.media.video.field_video_poster
+    - media.type.video
+id: media.video.default
+targetEntityType: media
+bundle: video
+mode: default
+content: {  }
+hidden:
+  created: true
+  field_call_to_action: true
+  field_media_file: true
+  field_video_embed: true
+  field_video_poster: true
+  name: true
+  thumbnail: true
+  uid: true

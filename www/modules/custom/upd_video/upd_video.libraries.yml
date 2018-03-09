@@ -1,0 +1,7 @@
+upd_lightbox:
+  version: 1.x
+  css:
+    theme:
+       colorbox/colorbox_style.css: {}
+  js:
+    colorbox/colorbox_style.js: {}

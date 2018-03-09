@@ -1,0 +1,19 @@
+uuid: cfc3176e-3fc8-43e0-8ccd-99c333626031
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.video_slice
+id: paragraph.video_slice.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: video_slice
+label: Title
+description: 'The title will be displayed as an overlay on top of your video poster image.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

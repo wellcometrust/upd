@@ -1,0 +1,20 @@
+uuid: db7398cd-9759-43eb-a880-08243f656488
+langcode: en
+status: true
+dependencies:
+  theme:
+    - upd_admin
+_core:
+  default_config_hash: PffmQ-ABSz5tFjWmVsR7NesunDnEivvopnJnBjl8KNE
+id: upd_admin_local_actions
+theme: upd_admin
+region: header
+weight: -3
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

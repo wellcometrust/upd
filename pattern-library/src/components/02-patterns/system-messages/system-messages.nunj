@@ -1,0 +1,12 @@
+{% for item in items %}
+
+<div id="block-upd-messages" class="contextual-region">
+
+    <div role="contentinfo" class = "{{ item.class }}" aria-label="Warning message">
+        <h2 class="visually-hidden">{{ item.title }}</h2>
+        {{ item.message }}
+    </div>
+
+</div>
+
+{% endfor %}

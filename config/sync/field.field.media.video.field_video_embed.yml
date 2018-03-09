@@ -1,0 +1,25 @@
+uuid: 1dd67f56-c940-47e0-9960-7e39cb1f7520
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_video_embed
+    - media.type.video
+  module:
+    - video_embed_field
+id: media.video.field_video_embed
+field_name: field_video_embed
+entity_type: media
+bundle: video
+label: 'Video Embed'
+description: 'The video provided here will be displayed in a modal window for desktop users, mobile users will view the video full screen. Video embed provided by either Youtube or Video. To use this field you need to enter the video ID or link from the relevant video provider.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_providers:
+    vimeo: vimeo
+    youtube: youtube
+    youtube_playlist: '0'
+field_type: video_embed_field

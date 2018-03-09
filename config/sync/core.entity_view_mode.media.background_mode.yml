@@ -1,0 +1,10 @@
+uuid: ac4d0838-f236-42aa-b58d-23d12ae69623
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.background_mode
+label: 'Background Mode'
+targetEntityType: media
+cache: true

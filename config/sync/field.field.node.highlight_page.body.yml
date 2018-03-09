@@ -1,0 +1,22 @@
+uuid: b7d4719a-39b3-45d6-be75-53bed0901280
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.highlight_page
+  module:
+    - text
+id: node.highlight_page.body
+field_name: body
+entity_type: node
+bundle: highlight_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

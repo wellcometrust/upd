@@ -1,0 +1,6 @@
+media_upload.add:
+  title: 'Upload media in bulk'
+  route_name: media_upload.mediaupload
+  weight: 20
+  appears_on:
+    - view.media.media_page_list

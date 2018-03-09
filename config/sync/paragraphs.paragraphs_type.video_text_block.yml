@@ -1,0 +1,9 @@
+uuid: 39daf18a-555e-4b61-a639-c1a074d734c7
+langcode: en
+status: true
+dependencies: {  }
+id: video_text_block
+label: 'Video Text Block'
+icon_uuid: null
+description: 'Adds a video together with text content and a CTA.'
+behavior_plugins: {  }

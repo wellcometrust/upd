@@ -1,0 +1,27 @@
+uuid: d1afeaa0-cae1-45d4-b511-024b89021184
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.hub_page.body
+    - field.field.node.hub_page.field_content_area
+    - field.field.node.hub_page.field_faq_area
+    - field.field.node.hub_page.field_footer_area
+    - field.field.node.hub_page.field_hero_area
+    - field.field.node.hub_page.field_tiled_content
+    - node.type.hub_page
+  module:
+    - user
+id: node.hub_page.default
+targetEntityType: node
+bundle: hub_page
+mode: default
+content: {  }
+hidden:
+  body: true
+  field_content_area: true
+  field_faq_area: true
+  field_footer_area: true
+  field_hero_area: true
+  field_tiled_content: true
+  links: true

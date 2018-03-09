@@ -1,0 +1,9 @@
+uuid: c6835c88-0daf-4049-a83c-21ed9031931e
+langcode: en
+status: true
+dependencies: {  }
+id: hero_header_slice
+label: 'Hero header slice'
+icon_uuid: null
+description: 'Provides a styled hero block, together with the option of adding an image for display alongside text content.'
+behavior_plugins: {  }

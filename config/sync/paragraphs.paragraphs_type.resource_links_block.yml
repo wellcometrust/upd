@@ -1,0 +1,9 @@
+uuid: f939ff6a-2385-44e5-949f-3e1ffd0d6d41
+langcode: en
+status: true
+dependencies: {  }
+id: resource_links_block
+label: 'Resource links block'
+icon_uuid: null
+description: 'Use to provide links to other resources.'
+behavior_plugins: {  }

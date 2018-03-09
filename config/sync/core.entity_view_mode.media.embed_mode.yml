@@ -1,0 +1,10 @@
+uuid: f2899afb-855f-4a94-89d9-74fa79161719
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.embed_mode
+label: 'Embed Mode'
+targetEntityType: media
+cache: true

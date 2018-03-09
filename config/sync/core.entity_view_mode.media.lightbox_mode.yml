@@ -1,0 +1,10 @@
+uuid: 0446e783-1cbc-4881-aa57-24b9d039b735
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.lightbox_mode
+label: 'Lightbox mode'
+targetEntityType: media
+cache: true

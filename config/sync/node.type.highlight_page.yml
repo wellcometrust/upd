@@ -1,0 +1,18 @@
+uuid: 004847ac-6758-4fc2-8488-e0761eb0fd3f
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Highlight page'
+type: highlight_page
+description: 'A highlight page provides summary information about a specific subject.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

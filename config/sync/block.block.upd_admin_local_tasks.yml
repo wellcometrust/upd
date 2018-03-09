@@ -1,0 +1,22 @@
+uuid: ae029137-9072-4c8d-87ef-af662850ad18
+langcode: en
+status: true
+dependencies:
+  theme:
+    - upd_admin
+_core:
+  default_config_hash: c-06bbElRY5sKmglk74ppgTW93Et4-EJFyNiUZMb8JY
+id: upd_admin_local_tasks
+theme: upd_admin
+region: content
+weight: -3
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

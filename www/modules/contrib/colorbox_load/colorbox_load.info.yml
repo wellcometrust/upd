@@ -1,0 +1,10 @@
+name: Colorbox Load
+type: module
+description: 'Allow you to load any content in a colorbox.'
+package: Media
+core: 8.x
+configure: ng_lightbox.settings
+
+dependencies:
+  - colorbox
+  - ng_lightbox
