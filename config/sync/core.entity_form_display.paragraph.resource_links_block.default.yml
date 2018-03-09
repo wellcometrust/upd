@@ -3,12 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.resource_links_block.field_resource_link
+    - field.field.paragraph.resource_links_block.field_referenced_links
     - field.field.paragraph.resource_links_block.field_title
     - paragraphs.paragraphs_type.resource_links_block
   module:
     - field_group
-    - link
+    - paragraphs
 third_party_settings:
   field_group:
     group_content_resource_link:
@@ -44,13 +44,17 @@ targetEntityType: paragraph
 bundle: resource_links_block
 mode: default
 content:
-  field_resource_link:
-    weight: 22
+  field_referenced_links:
+    type: entity_reference_paragraphs
+    weight: 23
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: link_default
     region: content
   field_title:
     weight: 21

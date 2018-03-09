@@ -3,27 +3,24 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.resource_links_block.field_resource_link
+    - field.field.paragraph.resource_links_block.field_referenced_links
     - field.field.paragraph.resource_links_block.field_title
     - paragraphs.paragraphs_type.resource_links_block
   module:
-    - link
+    - entity_reference_revisions
 id: paragraph.resource_links_block.default
 targetEntityType: paragraph
 bundle: resource_links_block
 mode: default
 content:
-  field_resource_link:
+  field_referenced_links:
+    type: entity_reference_revisions_entity_view
     weight: 1
-    label: hidden
+    label: above
     settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: '0'
-      target: '0'
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: link
     region: content
   field_title:
     weight: 0
