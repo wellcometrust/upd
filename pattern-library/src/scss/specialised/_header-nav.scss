@@ -20,10 +20,11 @@
   @include mq($upd-site-header-breakpoint-navigation) {
     display: inline-block;
     vertical-align: top;
+    margin-right: -2px;
   }
 }
 
-
+color
 .header-nav__link {
   @extend %link-bare;
 
