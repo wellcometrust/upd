@@ -46,6 +46,7 @@ module:
   media_entity_browser: 0
   media_entity_video: 0
   media_upload: 0
+  menu_link_attributes: 0
   menu_ui: 0
   metatag: 0
   metatag_facebook: 0
