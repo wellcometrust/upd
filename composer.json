@@ -42,7 +42,7 @@
           "installer-name": "colorbox"
         },
         "dist": {
-          "url": "https://github.com/jackmoore/colorbox/archive/1.6.4.zip",
+          "url": "https://github.com/jackmoore/colorbox/archive/master.zip",
           "type": "zip"
         },
         "require": {
@@ -98,7 +98,8 @@
     "drupal/Inline_entity_form": "1.x",
     "drupal/image_widget_crop": "2.x",
     "drupal/colorbox": "1.x",
-    "drupal/colorbox_load": "1.x"
+    "drupal/colorbox_load": "1.x",
+    "drupal/menu_link_attributes": "1.x"
   },
   "require-dev": {
     "drupal/devel": "1.*"
