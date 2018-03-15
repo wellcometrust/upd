@@ -21,8 +21,22 @@
 
   .video-embed-field-provider-youtube {
     box-shadow: 0px 16px 20px 0px rgba(0,0,0,0.56);
-  }
+    width: 100%;
 
+    @include mq(medium) {
+      width: auto;
+    }
+
+    iframe {
+      width: 100%;
+      height: calc(100% - 20px);
+
+      @include mq(large) {
+        width: 854px;
+        height: 480px;
+      }
+    }
+  }
 }
 
 .icon--x {
