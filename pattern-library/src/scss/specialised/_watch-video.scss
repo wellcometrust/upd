@@ -129,6 +129,9 @@
       @include mq(medium) {
         max-width: rems(700px);
       }
+      @include mq(large) {
+        max-width: rems(800px);
+      }
     }
   }
 
