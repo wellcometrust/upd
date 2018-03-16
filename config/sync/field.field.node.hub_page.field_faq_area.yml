@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_faq_area
     - node.type.hub_page
     - paragraphs.paragraphs_type.faq_dropdowns
+    - paragraphs.paragraphs_type.faq_referenced_questions
   module:
     - entity_reference_revisions
 id: node.hub_page.field_faq_area
@@ -24,6 +25,7 @@ settings:
     negate: 0
     target_bundles:
       faq_dropdowns: faq_dropdowns
+      faq_referenced_questions: faq_referenced_questions
     target_bundles_drag_drop:
       basic_title_link:
         weight: 20
@@ -55,6 +57,9 @@ settings:
       grid_items:
         weight: 29
         enabled: false
+      faq_referenced_questions:
+        enabled: true
+        weight: 30
       hero_header_slice:
         weight: 30
         enabled: false
@@ -81,5 +86,11 @@ settings:
         enabled: false
       video_text_block:
         weight: 38
+        enabled: false
+      referenced_link:
+        weight: 38
+        enabled: false
+      resource_links_block:
+        weight: 39
         enabled: false
 field_type: entity_reference_revisions

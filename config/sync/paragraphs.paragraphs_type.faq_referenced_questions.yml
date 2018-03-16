@@ -1,0 +1,9 @@
+uuid: 7a85aa44-95f0-451d-bf61-ce4376511f36
+langcode: en
+status: true
+dependencies: {  }
+id: faq_referenced_questions
+label: 'FAQ Referenced Questions'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

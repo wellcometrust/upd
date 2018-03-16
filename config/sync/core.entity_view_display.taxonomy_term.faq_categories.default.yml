@@ -1,0 +1,13 @@
+uuid: 201b5923-343b-488f-8009-f1c98d577565
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.faq_categories
+id: taxonomy_term.faq_categories.default
+targetEntityType: taxonomy_term
+bundle: faq_categories
+mode: default
+content: {  }
+hidden:
+  description: true

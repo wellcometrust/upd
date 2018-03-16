@@ -375,6 +375,7 @@ function _override_page_title(&$variables) {
  */
 function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   upd_news_dropdown_to_links($form, $form_state, $form_id);
+  upd_faqs_dropdown_to_links($form, $form_state, $form_id);
   upd_mailchimp_form_theming($form, $form_state, $form_id);
 }
 
@@ -433,6 +434,66 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
       '#markup' => $html . '</div>',
     ];
     $form['#attached']['library'][] = 'upd/news-cat';
+  }
+}
+
+
+
+/**
+ * Convert a dropdown to clickable links.
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-faqs-faqs') {
+
+    // Obtain parameter from URL so we can work out which is active.
+    $field_faq_category_target_id = \Drupal::request()->get('field_faq_category_target_id');
+
+    $html = '<div class="wrapper  wrapper--gutter faq-filter-container"><h4>Filter by</h4>';
+
+    // Only get options which are taxonomy terms, e.g. not "all".
+    foreach ($form['field_faq_category_target_id']['#options'] as $k => $option) {
+      $article_count = is_numeric($k) ? _upd_get_article_count($k) : NULL;
+
+      if ($article_count > 0 || $k == 'All') {
+
+        // If term is selected, set active class.
+        $state_class = ($k == $field_faq_category_target_id) ? 'active' : '';
+
+        // Set title, ensuring that correct term is used for 'any' filter option.
+        $title = $option == '- Any -' ? 'All' : $option;
+
+        // Create Url object from an internal path, and append parameter.
+        $path = '/news';
+        $options = array('query' => array('field_faq_category_target_id' => $k));
+
+        $url = Url::fromUri('internal:'.$path, $options);
+
+        // We want to add a count after the title, if it's available.
+        $count = ($article_count > 0) ? '(' . $article_count . ')' : '';
+
+        $link = Link::fromTextAndUrl(t('@title @count', array('@title' => $title, '@count' => $count)), $url);
+
+        $link = $link->toRenderable();
+
+        // Populate render array with class / data attribute.
+        $link['#attributes'] = array(
+          'class' => array('faq-cat-changer', $state_class),
+          'data-term-id' => array($k));
+
+        $output = render($link);
+
+        $html .= $output;
+      }
+
+    }
+    $form['options'] = [
+      '#markup' => $html . '</div>',
+    ];
+    $form['#attached']['library'][] = 'upd/faq-cat';
   }
 }
 
