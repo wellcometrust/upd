@@ -9,7 +9,7 @@ $upd-media-panel-link-color: #1B9CA6;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    @include mq(medium) {
+    @include mq(large) {
       flex-direction: row;
     }
   }
@@ -31,7 +31,7 @@ $upd-media-panel-link-color: #1B9CA6;
     display: flex;
     align-items: center;
 
-    @include mq(medium) {
+    @include mq(large) {
       width: 50%;
       margin: 0 rems(47px) 0 0;
     }
@@ -64,7 +64,7 @@ $upd-media-panel-link-color: #1B9CA6;
   .media-panel__context {
     width: 100%;
 
-    @include mq(medium) {
+    @include mq(large) {
       width: 50%;
     }
   }
