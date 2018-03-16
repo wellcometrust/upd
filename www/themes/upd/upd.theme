@@ -442,6 +442,9 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
  * Implements hook_theme_suggestions_form_element_alter().
  */
 function upd_theme_suggestions_form_element_alter(array &$suggestions, array $variables) {
+  if (substr_compare($variables['element']['#name'], 'mailchimp_lists', 0, 15) == 0) {
+    $suggestions[] = 'form_element__mailchimp';
+  }
   if (substr_compare($variables['element']['#name'], 'mergevars', 0, 9) == 0) {
     $suggestions[] = 'form_element__mailchimp';
   }
@@ -519,27 +522,17 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'visually-hidden';
     $form['mergevars']['MMERGE4']['#title_display'] = 'invisible';
 
-    // Only radio buttons are allowed by mailchimp form builder, so changing field type here.
-
-    $form['mergevars']['MMERGE5']['#type'] = 'checkbox';
-    $form['mergevars']['MMERGE5']['#title'] = 'I agree to receive this newsletter';
-    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'site-footer__fieldset';
-    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'visually-hidden';
-    $form['mergevars']['MMERGE5']['#value'] = 'I agree to receive this newsletter';
-    $form['mergevars']['MMERGE5']['#weight'] = 17;
-    $form['mergevars']['MMERGE5']['#label_attributes'] = array('class' => array('visually-hidden'));
-
-
     // Alter order of form elements to form styling.
 
-    $form['mergevars']['actions'] = $form['actions'];
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#title_display'] = 'invisible';
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'visually-hidden';
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'site-footer__fieldset';
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['f37abcec0e']['#required'] = true;
 
     $form['mergevars']['EMAIL']['#weight'] = 15;
-    $form['mergevars']['actions']['#weight'] = 15;
+    $form['actions']['#weight'] = 1;
 
-    unset($form['actions']);
-
-    $form['mergevars']['statement'] = [
+    $form['statement'] = [
       '#prefix' => '<div class="privacy-statement visually-hidden">',
       '#suffix' => '</div>',
       '#markup' => '<p>' . t('We use a third party provider, MailChimp, to deliver our newsletter. For more information about how we handle your data, please read our ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new">privacy notice</a>. ' . t('You can unsubscribe at any time using links in the emails you receive.') . '</p>',
