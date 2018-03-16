@@ -1,0 +1,22 @@
+uuid: d3dd9d8e-b533-4ca5-8aeb-40dfcf62e907
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.faq_referenced_questions.field_faq_content
+    - paragraphs.paragraphs_type.faq_referenced_questions
+id: paragraph.faq_referenced_questions.default
+targetEntityType: paragraph
+bundle: faq_referenced_questions
+mode: default
+content:
+  field_faq_content:
+    weight: 0
+    label: hidden
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

@@ -1,0 +1,145 @@
+uuid: f5d5479c-f002-4ade-807c-e45ea57210e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.question_content.body
+    - field.field.node.question_content.field_faq_category
+    - node.type.question_content
+  module:
+    - field_group
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_main_content_question
+        - group_categorisation_question
+        - group_settings_question
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: Content
+      region: content
+    group_main_content_question:
+      children:
+        - title
+        - body
+      parent_name: group_content
+      weight: 20
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Main Content'
+      region: content
+    group_settings_question:
+      children:
+        - status
+      parent_name: group_content
+      weight: 22
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Settings
+      region: content
+    group_categorisation_question:
+      children:
+        - field_faq_category
+      parent_name: group_content
+      weight: 21
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Categorisation
+      region: content
+id: node.question_content.default
+targetEntityType: node
+bundle: question_content
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 22
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_faq_category:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 4
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 7
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 5
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 21
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }

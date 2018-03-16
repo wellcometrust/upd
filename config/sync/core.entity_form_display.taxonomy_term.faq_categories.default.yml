@@ -1,0 +1,22 @@
+uuid: 5ec793fb-465e-456d-96ce-24717089efc6
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.faq_categories
+id: taxonomy_term.faq_categories.default
+targetEntityType: taxonomy_term
+bundle: faq_categories
+mode: default
+content:
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  description: true
+  path: true
