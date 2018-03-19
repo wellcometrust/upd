@@ -43,6 +43,7 @@
 }
 
 .site-header__logo-wrapper {
+  display: inline-block; //flexbox fallback
   position: relative;
   flex-basis: 205px;
   flex-grow: 0;
@@ -59,6 +60,7 @@
 
 .site-header__navigation {
   @include mq($upd-site-header-breakpoint-navigation) {
+    display: inline-block; //flexbox fallback
 
     position: relative;
     flex: 1;
@@ -69,6 +71,7 @@
 
 .site-header__search {
   @include mq($upd-site-header-breakpoint-navigation) {
+    display: inline-block; //flexbox fallback
     position: relative;
     flex-basis: 70px;
     flex-grow: 0;
