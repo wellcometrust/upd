@@ -1,0 +1,24 @@
+.icon-block,
+%icon-block {
+  $padding: 1rem;
+
+  @extend %font-button;
+  @extend %link-bare;
+
+  background-color: $upd-color-brand-red;
+  border-radius: 50%;
+  color: $upd-color-text-reverse;
+  display: inline-block;
+  padding: $padding;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  height: 49px; //for IE11
+
+  &:focus,
+  &:hover,
+  a:focus &,
+  a:hover & {
+    background-color: shade($upd-color-brand-red, $upd-tint-active);
+  }
+}

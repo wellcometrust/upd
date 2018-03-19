@@ -1,0 +1,10 @@
+<a class="icon-block">
+
+  <!-- Example using one of the svg-icon from the svg-icon component -->
+  <svg class="svg-icon svg-icon--inline" xmlns="http://www.w3.org/2000/svg" role="presentation">
+
+      <use xlink:href="#svg-icon-search" />
+
+  </svg>
+
+</a>

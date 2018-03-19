@@ -1,6 +1,6 @@
 <header class="site-header">
 
-    {% if home !== true %}<a href="/">{% endif %}
+    {% if home !== true %}<a class="site-header__logo-wrapper" href="/">{% endif %}
 
         <img alt="Understanding Patient Data" class="site-header__logo" src="{{ '/images/logo.svg' | path }}">
 

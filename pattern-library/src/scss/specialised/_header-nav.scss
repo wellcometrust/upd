@@ -11,6 +11,9 @@
   @include mq($upd-site-header-breakpoint-navigation) {
     display: inline-block;
     padding: 0;
+
+    float: right;
+
     vertical-align: top;
   }
 }
@@ -20,9 +23,9 @@
   @include mq($upd-site-header-breakpoint-navigation) {
     display: inline-block;
     vertical-align: top;
+    margin-right: -3px;
   }
 }
-
 
 .header-nav__link {
   @extend %link-bare;

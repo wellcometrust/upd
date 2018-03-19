@@ -1,0 +1,56 @@
+/* Highlight page header */
+
+.highlight-header {
+  background-color: $upd-site-header-color-base;
+  color: $upd-color-text-reverse;
+  min-height: 330px;
+
+  @media print {
+    border-bottom: 1px solid $upd-color-border-light;
+  }
+
+  .highlight-header__title {
+    max-width: rems(640px);
+    color: $upd-color-text-reverse;
+  }
+
+  .highlight-header__wrapper {
+    display: inline-block; // Fallback for browsers without flex support
+    display: flex;
+    flex-direction: column;
+    @include mq(large) {
+      flex-direction: row;
+    }
+  }
+
+  .highlight-header__subheading {
+    @extend %font-intro;
+
+    margin: ($upd-spacing-gutter-large / 2) 0 0;
+    max-width: rems(900px);
+  }
+
+  .highlight-header__context-container {
+    padding: $upd-spacing-gutter-medium $upd-spacing-gutter-small;
+    width: 100%;
+    @include mq(large) {
+      padding: 3 * $upd-spacing-gutter-medium $upd-spacing-gutter-small 3 * $upd-spacing-gutter-medium 0;
+      width: 50%;
+    }
+  }
+
+  .highlight-header__img-container {
+    background-repeat: no-repeat;
+    height: 200px;
+    background-size: contain;
+    background-position: center;
+    @include mq(large) {
+      width: 50%;
+      min-height: 330px;
+      height: auto;
+      background-repeat: no-repeat;
+      background-position: left;
+      background-size: cover;
+    }
+  }
+}

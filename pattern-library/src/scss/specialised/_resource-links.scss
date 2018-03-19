@@ -1,0 +1,9 @@
+.resource-links {
+  border-bottom: 1px solid $upd-color-border-light;
+  padding-bottom: 30px;
+  margin-bottom: 50px;
+
+  .resource-links__title {
+    padding: $upd-spacing-gutter-medium 0;
+  }
+}

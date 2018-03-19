@@ -35,13 +35,17 @@
 }
 
 /* News Ajax Filters */
+.form-item-field-faq-category-target-id,
+#views-exposed-form-faqs-faqs .form-submit,
 .form-item-field-news-category-target-id,
 #views-exposed-form-news-news .form-submit {
   display: none;
 }
 
+.faq-filter-container,
 .news-filter-container {
   margin: 1em auto -1em auto;
+  a.faq-cat-changer,
   a.news-cat-changer {
     display: inline-block;
     margin: 1em 1em 0 0;
@@ -51,6 +55,7 @@
     padding: 5px 10px;
   }
 
+  a.faq-cat-changer.active,
   a.news-cat-changer.active {
     background-color: $upd-color-text-reverse;
     color: $upd-color-brand-red;

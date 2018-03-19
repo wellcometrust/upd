@@ -177,6 +177,13 @@
   }
 }
 
+.site-footer__section {
+  .privacy-statement {
+    a {
+      text-decoration: underline;
+    }
+  }
+}
 
 .site-footer__hactar {
   $height: $upd-spacing-gutter-large;

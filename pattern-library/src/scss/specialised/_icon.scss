@@ -32,6 +32,14 @@
   content: svg-url($svg);
 }
 
+%icon--link {
+  $svg: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+      <path fill="#384B54" fill-rule="nonzero" d="M7.483 1.126a.563.563 0 1 1 0-1.126h3.953A.561.561 0 0 1 12 .563v3.954a.563.563 0 1 1-1.126 0V1.922L5.41 7.388a.563.563 0 0 1-.796-.797l5.465-5.465H7.483zm2.403 5.368a.563.563 0 0 1 1.125 0v4.449c0 .584-.473 1.057-1.057 1.057H1.057A1.057 1.057 0 0 1 0 10.943V2.046C0 1.462.473.989 1.057.989h4.449a.563.563 0 0 1 0 1.125h-4.38v8.76h8.76v-4.38z"/>
+  </svg>';
+
+  content: svg-url($svg);
+}
+
 @mixin externalSiteIcon($color: '000000') {
   background-image: url("data:image/svg+xml,%3Csvg height='10' viewBox='5 5 10 10' width='10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23#{$color}' d='m13.5 15h-8.5v-8.5h4v1.5h-2.5v5.5h5.5v-2.5h1.5z'/%3E%3Cpath fill='%23#{$color}' d='m15 9.5h-1.5v-3h-3v-1.5h4.5z'/%3E%3Cpath fill='%23#{$color}' d='m10.696 5.384h1.5v6.34h-1.5z' transform='matrix(.7071 .7071 -.7071 .7071 9.4012 -5.5881)'/%3E%3C/svg%3E");
 }
@@ -47,4 +55,3 @@
 .content .cta.external-link {
   background: none;
 }
-

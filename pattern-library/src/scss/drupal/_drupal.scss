@@ -67,3 +67,9 @@ div#block-upd-local-tasks > ul > li:last-child {
 div#block-upd-local-tasks > ul > li > a {
   display: block;
 }
+
+.ajax-progress,
+.ajax-progress-throbber,
+.ajax-progress-fullscreen {
+  display: none;
+}

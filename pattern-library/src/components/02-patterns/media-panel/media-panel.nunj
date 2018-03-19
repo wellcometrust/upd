@@ -1,0 +1,30 @@
+<div class="media-panel" >
+  <div class="wrapper wrapper--gutter media-panel__wrapper">
+    <div class="media-panel__media-container{% if video %} media-panel__media-container--hover{% endif %}" style="background-image: url('{{ '/images/placeholder/media-example.png' | path }}')">
+
+      {% if video %}
+
+        <div class="media-panel__play">
+          <a class="icon-block svg-icon--chevron-right"></a>
+        </div>
+
+      {% endif %}
+
+    </div>
+    <div class="media-panel__context">
+      <h2 class="media-panel__title">{{ title }}</h2>
+
+      <div class="media-panel__description u-font-body-copy-small">
+
+          {{ description }}
+
+      </div>
+
+      <a class="cta cta--arrow media-panel__cta" href="#link-to-resource">{{ link }}</a>
+    </div>
+
+
+
+  </div>
+
+</div>
