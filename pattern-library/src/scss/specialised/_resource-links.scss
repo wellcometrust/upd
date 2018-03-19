@@ -1,0 +1,11 @@
+.resource-links {
+  .resource-links__link {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .resource-links__title {
+    padding: $upd-spacing-gutter-medium 0;
+  }
+}

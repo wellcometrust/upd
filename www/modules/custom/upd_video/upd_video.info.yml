@@ -1,0 +1,5 @@
+name: UPD Highlight page
+type: module
+description: 'Helper module for highlight page nodes.'
+package: UPD
+core: '8.x'

@@ -1,0 +1,21 @@
+uuid: 4d751caa-63bf-4b1e-bedd-9883a6593d8c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_standfirst
+    - paragraphs.paragraphs_type.video_text_block
+  module:
+    - text
+id: paragraph.video_text_block.field_standfirst
+field_name: field_standfirst
+entity_type: paragraph
+bundle: video_text_block
+label: Standfirst
+description: 'Text entered here will be presented on an overlay layer, and is intended to function as introductory copy.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

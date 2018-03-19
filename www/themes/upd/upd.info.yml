@@ -1,6 +1,6 @@
-name: Universal patient data
+name: Understanding Patient Data
 type: theme
-description: 'Out universal patient data theme extending classy.'
+description: 'Understanding Patient Data'
 package: UPD
 # version: VERSION
 # core: 8.x

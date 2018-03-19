@@ -1,0 +1,9 @@
+uuid: 8bd9faf5-b8ec-4b94-9ba4-9fbed2442b5c
+langcode: en
+status: true
+dependencies: {  }
+id: video_slice
+label: 'Video Slice'
+icon_uuid: null
+description: 'Add a video slice, providing users with a method for viewing an embedded youtube video. Either a video loop or poster frame can be used as a background placeholder.'
+behavior_plugins: {  }

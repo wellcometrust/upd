@@ -3,6 +3,7 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
+use Drupal\media\Entity\Media;
 
 /**
  * Implements hook_theme().
@@ -158,6 +159,172 @@ function upd_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_node()
+ */
+function upd_preprocess_media__video(&$variables) {
+
+  $media = $variables['media'];
+
+  // Each view mode requires different preprocessed variables.
+
+  switch ($variables['elements']['#view_mode']) {
+
+    case 'background_mode':
+      $parent_field_name = $media->get('field_media_file')->getValue();
+      if (!empty($parent_field_name)) {
+        $variables['video_class'] = 'watch-video__media--video';
+      }
+
+      break;
+
+    case 'embed_mode':
+      $variables['media_link'] =  _upd_create_media_link($media->id(), array('icon-block', 'svg-icon--chevron-right'));
+
+      break;
+  }
+
+}
+
+
+/**
+ * Implements hook_preprocess_paragraph__TYPE()
+ */
+function upd_preprocess_paragraph__tile_paragraph(&$variables) {
+
+  $paragraph = $variables['paragraph'];
+
+  $parent_field_name = $paragraph->get('parent_field_name')->getValue();
+
+  // Rather than create a new tile component, augmenting display here to match phase 2
+  // designs.
+
+  // Add a class to template to provide a max width tile.
+  // Class should be: resource-tile--max-width if it's associated with our new content.
+
+  if (in_array($parent_field_name[0]['value'], array('field_content_area'))) {
+    $variables['attributes']['class'] = ['resource-tile', 'resource-tile--max-width'];
+  }
+  else if (in_array($parent_field_name[0]['value'], array('field_tiled_content'))) {
+    $variables['attributes']['class'] = ['resource-tile', 'resource-tile--max-width', 'resource-tile--height'];
+  }
+  else {
+    $variables['attributes']['class'] = ['resource-tile'];
+  }
+
+}
+
+/**
+ * Implements hook_preprocess_paragraph__TYPE()
+ */
+function upd_preprocess_paragraph__video_slice(&$variables) {
+
+  $paragraph = $variables['paragraph'];
+
+  $full_width = $paragraph->get('field_full_width')->getValue();
+
+  $media_id = $paragraph->get('field_video')->getValue();
+
+  // Add a class to template to provide a max width video, if selected.
+  // Class should be: watch-video--full-width if it's associated with our new content.
+
+  if ($full_width[0]['value'] == '1') {
+    $variables['video_wrapper_class'] = 'watch-video--full-width';
+    $variables['video_context_class'] = 'watch-video__context--full-width';
+  }
+  else {
+    $variables['video_wrapper_class'] = 'wrapper wrapper--gutter';
+    $variables['video_context_class'] = 'watch-video__context--non-full-width';
+  }
+
+  $variables['media_link'] = _upd_create_media_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Watch video');
+
+  $variables['media_cta_link'] = _upd_create_media_cta_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Find out more here');
+
+}
+
+/**
+ * Helper function to create a link to a media item using the lightbox view
+ * mode. This is important to make use of the ng-lightbox module, which
+ * requires links pass through a theme function.
+ *
+ * @param $id
+ *
+ * @param $classes
+ *
+ * @param $title
+ *
+ * @return mixed|null
+ */
+function _upd_create_media_link($id, $classes, $title = '') {
+
+  $media = Media::load($id);
+
+  $field_video_embed = $media->get('field_video_embed')->getValue();
+
+  if (!empty($field_video_embed[0]['value'])) {
+
+    // Create Url object from route created using custom module upd_video, and provide media ID as parameter.
+
+    $url = Url::fromRoute('upd_video.content', ['media' => $id]);
+    $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
+    $link = $link->toRenderable();
+
+    // Populate render array with class / data attribute.
+
+    $link['#attributes'] = array(
+      'class' => $classes,
+    );
+
+    return render($link);
+
+  }
+
+}
+
+/**
+ * Helper function to create a link to a media item cta.
+ *
+ * @param $id
+ *
+ * @param $classes
+ *
+ * @param $title
+ *
+ * @return mixed|null
+ */
+function _upd_create_media_cta_link($id, $classes, $title) {
+
+  // Load media entity.
+
+  $media = Media::load($id);
+
+  $cta_link = $media->get('field_call_to_action')->getValue();
+
+  if (!empty($cta_link[0]['uri'])) {
+
+    $path = $cta_link[0]['uri'];
+
+    $url = Url::fromUri($path);
+
+    if (!empty($cta_link[0]['title'])) {
+      $title = $cta_link[0]['title'];
+    }
+
+    $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
+    $link = $link->toRenderable();
+
+    $link['#attributes'] = array(
+      'class' => $classes,
+    );
+
+    // Populate render array with class / data attribute.
+    return render($link);
+
+  }
+
+}
+
+/**
  * Helper function to generate block of related content for news.
  *
  * @param $variables
@@ -166,7 +333,7 @@ function upd_preprocess_node(&$variables) {
  */
 function _generate_related_news_block(&$variables) {
   $node = $variables['node'];
-  // If we are looking at the full view of a news article node.
+  // If we are looking at the full view of asf news article node.
   if ($node->getType() == 'art' && $variables['view_mode'] == 'full') {
     // If the related news article taxonomy term is populated.
     if (isset($node->field_news_category) && !empty($node->field_news_category->getValue())) {
@@ -208,6 +375,7 @@ function _override_page_title(&$variables) {
  */
 function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   upd_news_dropdown_to_links($form, $form_state, $form_id);
+  upd_faqs_dropdown_to_links($form, $form_state, $form_id);
   upd_mailchimp_form_theming($form, $form_state, $form_id);
 }
 
@@ -272,16 +440,80 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
 
 
 /**
+ * Convert a dropdown to clickable links.
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-faqs-faqs') {
+
+    // Obtain parameter from URL so we can work out which is active.
+    $field_faq_category_target_id = \Drupal::request()->get('field_faq_category_target_id');
+
+    $html = '<div class="wrapper  wrapper--gutter faq-filter-container"><h4>Filter by</h4>';
+
+    // Only get options which are taxonomy terms, e.g. not "all".
+    foreach ($form['field_faq_category_target_id']['#options'] as $k => $option) {
+      $article_count = is_numeric($k) ? _upd_get_article_count($k) : NULL;
+
+      if ($article_count > 0 || $k == 'All') {
+
+        // If term is selected, set active class.
+        $state_class = ($k == $field_faq_category_target_id) ? 'active' : '';
+
+        // Set title, ensuring that correct term is used for 'any' filter option.
+        $title = $option == '- Any -' ? 'All' : $option;
+
+        // Create Url object from an internal path, and append parameter.
+        $path = '/news';
+        $options = array('query' => array('field_faq_category_target_id' => $k));
+
+        $url = Url::fromUri('internal:'.$path, $options);
+
+        // We want to add a count after the title, if it's available.
+        $count = ($article_count > 0) ? '(' . $article_count . ')' : '';
+
+        $link = Link::fromTextAndUrl(t('@title @count', array('@title' => $title, '@count' => $count)), $url);
+
+        $link = $link->toRenderable();
+
+        // Populate render array with class / data attribute.
+        $link['#attributes'] = array(
+          'class' => array('faq-cat-changer', $state_class),
+          'data-term-id' => array($k));
+
+        $output = render($link);
+
+        $html .= $output;
+      }
+
+    }
+    $form['options'] = [
+      '#markup' => $html . '</div>',
+    ];
+    $form['#attached']['library'][] = 'upd/faq-cat';
+  }
+}
+
+
+
+/**
  * Implements hook_theme_suggestions_form_element_alter().
  */
 function upd_theme_suggestions_form_element_alter(array &$suggestions, array $variables) {
+  if (substr_compare($variables['element']['#name'], 'mailchimp_lists', 0, 15) == 0) {
+    $suggestions[] = 'form_element__mailchimp';
+  }
   if (substr_compare($variables['element']['#name'], 'mergevars', 0, 9) == 0) {
     $suggestions[] = 'form_element__mailchimp';
   }
-  if (stristr($variables['element']['#name'], 'mergevars[grouped][EMAIL]')) {
+  if (stristr($variables['element']['#name'], 'mergevars[EMAIL]')) {
     $suggestions[] = 'form_element__mailchimp_nowrapper';
   }
 }
+
 
 /**
  * Implements hook_preprocess_form_element__CUSTOM().
@@ -351,34 +583,21 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'visually-hidden';
     $form['mergevars']['MMERGE4']['#title_display'] = 'invisible';
 
-    // Only radio buttons are allowed by mailchimp form builder, so changing field type here.
+    // Alter order of form elements to form styling.
 
-    $form['mergevars']['MMERGE5']['#type'] = 'checkbox';
-    $form['mergevars']['MMERGE5']['#title'] = 'I agree to receive this newsletter';
-    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'site-footer__fieldset';
-    $form['mergevars']['MMERGE5']['#attributes']['class'][] = 'visually-hidden';
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#title_display'] = 'invisible';
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'visually-hidden';
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'site-footer__fieldset';
+    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['f37abcec0e']['#required'] = true;
 
-    // Group email and submit to match current form styling.
+    $form['mergevars']['EMAIL']['#weight'] = 15;
+    $form['actions']['#weight'] = 1;
 
-    $form['mergevars']['grouped'] = [
-      '#type' => 'container',
-      '#attributes' => [
-        'class' => ['clear'],
-      ],
-      '#weight' => 10,
-    ];
-
-    $form['mergevars']['grouped']['submit'] = $form['actions']['submit'];
-    $form['mergevars']['grouped']['EMAIL'] = $form['mergevars']['EMAIL'];
-
-    unset($form['actions']);
-    unset($form['mergevars']['EMAIL']);
-
-    $form['mergevars']['statement'] = [
+    $form['statement'] = [
       '#prefix' => '<div class="privacy-statement visually-hidden">',
       '#suffix' => '</div>',
-      '#markup' => '<p>' . t('We use a third party provider, MailChimp, to deliver our newsletter. For more information about how we handle your data, please read our privacy notice. You can unsubscribe at any time using links in the emails you receive.') . '</p>',
-      '#weight' => 15,
+      '#markup' => '<p>' . t('We use a third party provider, MailChimp, to deliver our newsletter. For more information about how we handle your data, please read our ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new">privacy notice</a>. ' . t('You can unsubscribe at any time using links in the emails you receive.') . '</p>',
+      '#weight' => 20,
     ];
   }
 }

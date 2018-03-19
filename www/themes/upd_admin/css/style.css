@@ -1,0 +1,52 @@
+/* Change layout sooner to provide more space for editing: */
+
+@media screen and (min-width: 780px) {
+    .layout-region-node-main,
+    .layout-region-node-footer,
+    .layout-region-node-secondary {
+        float: none; /* LTR */
+        width: auto;
+        padding: 0;
+        clear: both;
+    }
+}
+
+@media screen and (min-width: 1281px) {
+
+    .layout-region-node-main,
+    .layout-region-node-footer {
+        float: left;
+        width: 65%;
+        clear: none;
+        padding-right: 2em;
+
+    }
+    .layout-region-node-secondary {
+        float: right; /* LTR */
+        width: 35%;
+        clear: none;
+    }
+
+}
+
+/* Reduce space used for tabs to provide more space for editing: */
+
+html .vertical-tabs__panes {
+    margin: 0 0 0 180px;
+}
+
+html .vertical-tabs__menu {
+    width: 180px;
+}
+
+/* Reduce padding to provide more space for editing: */
+
+details > .details-wrapper {
+    padding: 0 !important;
+}
+
+@media screen and (min-width: 1281px) {
+    details > .details-wrapper {
+        padding: 0.5em 1.5em !important;
+    }
+}

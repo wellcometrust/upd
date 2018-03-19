@@ -1,0 +1,28 @@
+uuid: 34701e71-6166-4099-bd72-835ffce416ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.question_content.body
+    - node.type.question_content
+  module:
+    - text
+    - user
+id: node.question_content.teaser
+targetEntityType: node
+bundle: question_content
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden: {  }

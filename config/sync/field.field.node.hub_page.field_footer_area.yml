@@ -1,0 +1,85 @@
+uuid: 7b597a01-0767-4abd-a07e-c7ab0867770d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_footer_area
+    - node.type.hub_page
+    - paragraphs.paragraphs_type.video_text_block
+  module:
+    - entity_reference_revisions
+id: node.hub_page.field_footer_area
+field_name: field_footer_area
+entity_type: node
+bundle: hub_page
+label: 'Footer area'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      video_text_block: video_text_block
+    target_bundles_drag_drop:
+      basic_title_link:
+        weight: 20
+        enabled: false
+      basic_user_list_item:
+        weight: 21
+        enabled: false
+      basic_vertical_tab:
+        weight: 22
+        enabled: false
+      box_list:
+        weight: 23
+        enabled: false
+      case_study_vertical_tab:
+        weight: 24
+        enabled: false
+      dos_donts:
+        weight: 25
+        enabled: false
+      faq_dropdowns:
+        weight: 26
+        enabled: false
+      file_download:
+        weight: 27
+        enabled: false
+      funding:
+        weight: 28
+        enabled: false
+      grid_items:
+        weight: 29
+        enabled: false
+      hero_header_slice:
+        weight: 30
+        enabled: false
+      image:
+        weight: 31
+        enabled: false
+      list_item:
+        weight: 32
+        enabled: false
+      list_with_sublist:
+        weight: 33
+        enabled: false
+      team_list:
+        weight: 34
+        enabled: false
+      testimonial:
+        weight: 35
+        enabled: false
+      tile_paragraph:
+        weight: 36
+        enabled: false
+      video_slice:
+        weight: 37
+        enabled: false
+      video_text_block:
+        enabled: true
+        weight: 38
+field_type: entity_reference_revisions

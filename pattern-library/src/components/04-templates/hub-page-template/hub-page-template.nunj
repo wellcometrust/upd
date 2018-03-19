@@ -1,0 +1,15 @@
+{% render '@site-header--homepage' %}
+
+  {% render '@watch-video--looping-video-full-width' %}
+<main class="layout">
+    {% render '@resource-tile' %}
+
+    {% render '@watch-video--static-image-non-full-width' %}
+
+    {% render '@content--key-information' %}
+</main>
+
+    {% render '@media-panel--media-panel-with-video' %}
+
+
+{% render '@site-footer--homepage' %}

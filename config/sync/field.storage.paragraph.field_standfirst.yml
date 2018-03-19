@@ -1,0 +1,19 @@
+uuid: 8fddb12e-6f91-4ea0-95ea-ccce7420d3be
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - text
+id: paragraph.field_standfirst
+field_name: field_standfirst
+entity_type: paragraph
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

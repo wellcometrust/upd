@@ -1,0 +1,91 @@
+uuid: c1d0ed75-8236-4bdd-a25d-0b49066c17b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_area
+    - node.type.hub_page
+    - paragraphs.paragraphs_type.faq_dropdowns
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.tile_paragraph
+    - paragraphs.paragraphs_type.video_slice
+  module:
+    - entity_reference_revisions
+id: node.hub_page.field_content_area
+field_name: field_content_area
+entity_type: node
+bundle: hub_page
+label: 'Content area'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      faq_dropdowns: faq_dropdowns
+      image: image
+      tile_paragraph: tile_paragraph
+      video_slice: video_slice
+    target_bundles_drag_drop:
+      basic_title_link:
+        weight: 17
+        enabled: false
+      basic_user_list_item:
+        weight: 18
+        enabled: false
+      basic_vertical_tab:
+        weight: 19
+        enabled: false
+      box_list:
+        weight: 20
+        enabled: false
+      case_study_vertical_tab:
+        weight: 21
+        enabled: false
+      dos_donts:
+        weight: 22
+        enabled: false
+      faq_dropdowns:
+        enabled: true
+        weight: 23
+      file_download:
+        weight: 24
+        enabled: false
+      funding:
+        weight: 25
+        enabled: false
+      grid_items:
+        weight: 26
+        enabled: false
+      list_item:
+        weight: 27
+        enabled: false
+      image:
+        enabled: true
+        weight: 28
+      list_with_sublist:
+        weight: 28
+        enabled: false
+      team_list:
+        weight: 29
+        enabled: false
+      testimonial:
+        weight: 30
+        enabled: false
+      hero_header_slice:
+        weight: 30
+        enabled: false
+      tile_paragraph:
+        enabled: true
+        weight: 31
+      video_slice:
+        enabled: true
+        weight: 32
+      video_text_block:
+        weight: 38
+        enabled: false
+field_type: entity_reference_revisions

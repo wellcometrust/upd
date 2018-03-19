@@ -1,0 +1,35 @@
+uuid: 104630f6-c73f-4992-84c0-9669bf3c96b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.lightbox_mode
+    - field.field.media.video.field_media_file
+    - field.field.media.video.field_video_embed
+    - field.field.media.video.field_video_poster
+    - media.type.video
+  module:
+    - video_embed_field
+id: media.video.lightbox_mode
+targetEntityType: media
+bundle: video
+mode: lightbox_mode
+content:
+  field_video_embed:
+    type: video_embed_field_video
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      autoplay: true
+      width: 854
+      height: 480
+      responsive: false
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_media_file: true
+  field_video_poster: true
+  name: true
+  thumbnail: true
+  uid: true

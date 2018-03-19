@@ -1,0 +1,19 @@
+uuid: 139b551a-61b8-4f90-9e78-ac91c805ce8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_reference
+    - paragraphs.paragraphs_type.referenced_link
+id: paragraph.referenced_link.field_reference
+field_name: field_reference
+entity_type: paragraph
+bundle: referenced_link
+label: Reference
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

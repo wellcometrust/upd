@@ -13,3 +13,9 @@ news-cat:
   version: VERSION
   js:
     assets/js/news-cat-changer.js: {}
+
+
+faq-cat:
+  version: VERSION
+  js:
+    assets/js/faq-cat-changer.js: {}

@@ -1,0 +1,25 @@
+uuid: bf1788e5-4b35-43d6-b025-a68b24360a89
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.faq_referenced_questions.field_faq_content
+    - paragraphs.paragraphs_type.faq_referenced_questions
+id: paragraph.faq_referenced_questions.default
+targetEntityType: paragraph
+bundle: faq_referenced_questions
+mode: default
+content:
+  field_faq_content:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

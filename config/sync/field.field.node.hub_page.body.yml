@@ -1,0 +1,22 @@
+uuid: 74e94382-1776-465e-b760-3de1ef4d1b0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.hub_page
+  module:
+    - text
+id: node.hub_page.body
+field_name: body
+entity_type: node
+bundle: hub_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

@@ -5,6 +5,7 @@
  */
 
 use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\Core\Entity\EntityTypeBundleManagerInterface;
 
 /**
  * @file
@@ -98,14 +99,25 @@ function _upd_case_study_preprocess_node_nextprevious(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_paragraphs().
+ * Implements hook_preprocess_paragraph().
  *
- * @todo filter on paragraph bundle.
  */
 function upd_case_study_preprocess_paragraph(&$variables) {
-  if (!empty($variables['content']['field_title'][0]['#context']['value'])) {
-    $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
+
+  $paragraph_bundle = $variables['paragraph']->bundle();
+
+  switch ($paragraph_bundle) {
+    case 'basic_vertical_tab':
+    case 'case_study_vertical_tab':
+    case 'faq_dropdowns':
+
+      if (!empty($variables['content']['field_title'][0]['#context']['value'])) {
+        $variables['content']['paragraph_url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $variables['content']['field_title'][0]['#context']['value'])));
+      }
+
+      break;
   }
+
 }
 
 /**

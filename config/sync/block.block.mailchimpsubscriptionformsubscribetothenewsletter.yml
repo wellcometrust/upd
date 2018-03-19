@@ -5,12 +5,13 @@ dependencies:
   module:
     - mailchimp_signup
     - system
+    - user
   theme:
     - upd
 id: mailchimpsubscriptionformsubscribetothenewsletter
 theme: upd
 region: footer
-weight: 0
+weight: -5
 provider: null
 plugin: 'mailchimp_signup_subscribe_block:subscribe_to_the_newsletter'
 settings:
@@ -24,3 +25,13 @@ visibility:
     pages: '*'
     negate: false
     context_mapping: {  }
+  user_role:
+    id: user_role
+    roles:
+      anonymous: anonymous
+      authenticated: authenticated
+      administrator: administrator
+      editor: editor
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

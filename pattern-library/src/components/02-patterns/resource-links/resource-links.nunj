@@ -1,0 +1,13 @@
+<div class="resource-links">
+  <div class="wrapper wrapper--gutter">
+    <h3 class="h3 resource-links__title">{{ title }}</h2>
+    <ul class="list-bare">
+
+      {% for item in items %}
+        <li>
+          <a class="cta cta--link resource-links__link" href="#link-to-information">{{ item }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

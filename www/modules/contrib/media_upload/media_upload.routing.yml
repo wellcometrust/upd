@@ -1,0 +1,17 @@
+media_upload.mediaupload:
+  path: '/media/upload'
+  defaults:
+    _form: '\Drupal\media_upload\Form\UploadMediaForm'
+    _title: 'Upload media'
+  requirements:
+    _permission: 'upload media'
+  options:
+    _admin_route: TRUE
+
+media_upload.mediaupload_settings:
+  path: '/admin/config/media/upload'
+  defaults:
+    _form: '\Drupal\media_upload\Form\MediaUploadConfigurationForm'
+    _title: 'Media upload'
+  requirements:
+    _permission: 'administer media_upload configuration'

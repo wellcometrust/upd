@@ -1,0 +1,23 @@
+bundles:
+  video: video
+  image: image
+  document: document
+  audio: 0
+video_ext: 'mp4 webm ogg ogv'
+image_ext: 'png gif jpg jpeg'
+document_ext: 'txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages'
+audio_ext: ''
+video_size: ''
+image_size: ''
+document_size: ''
+audio_size: null
+total_size: 250MB
+single_size: 50MB
+_core:
+  default_config_hash: 93C4sBkIHtGbeazcN6xeRQkbdN-vcmQU4J0YA_1kFUw
+video_bundle: video
+video_field: field_media_file
+image_bundle: image
+image_field: field_media_image
+document_bundle: file
+document_field: field_media_file
