@@ -79,7 +79,6 @@ display:
       style:
         type: default
         options:
-          grouping: {  }
           row_class: ''
           default_row_class: true
           uses_fields: false
@@ -348,7 +347,7 @@ display:
     display_options:
       display_extenders:
         metatag_display_extender: {  }
-      path: faqs
+      path: frequently-asked-questions
     cache_metadata:
       max-age: -1
       contexts:
