@@ -75,7 +75,7 @@
 {%
     set classes = [
     'node',
-    'node--type--' ~ paragraph.bundle|clean_class,
+    'node--type--' ~ node.bundle|clean_class,
     'content',
     view_mode ? 'node--view-mode--' ~ view_mode|clean_class,
 ]
@@ -83,10 +83,10 @@
 
 <section class="accordion">
       <div{{ attributes.addClass(classes) }}>
-           <a aria-controls="accordion-{{ url }}" aria-expanded="false" class="accordion__trigger" data-toggle="is-open" href="#{{ url }}" id="{{ url }}">
+           <a aria-controls="accordion-{{ label[0]['#context']['value']|clean_class }}" aria-expanded="false" class="accordion__trigger" data-toggle="is-open" href="#{{ label[0]['#context']['value']|clean_class  }}" id="{{ label[0]['#context']['value']|clean_class }}">
               <h3 class="accordion__title">{{ label }}</h3>
             </a>
-            <div class="accordion__content" id="accordion-{{ url }}">
+            <div class="accordion__content" id="accordion-{{ label[0]['#context']['value']|clean_class }}">
                 {{ content.body }}
             </div>
       </div>
