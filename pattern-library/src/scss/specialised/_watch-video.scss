@@ -31,7 +31,7 @@
     }
 
     @include mq(medium) {
-      max-width: rems(550px);
+      max-width: rems(400px);
     }
 
     @include mq(large) {
