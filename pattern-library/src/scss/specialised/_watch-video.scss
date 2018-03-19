@@ -1,0 +1,120 @@
+.watch-video__wrapper {
+  position: relative;
+  height: 550px;
+  overflow: hidden;
+
+  .watch-video__context {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .watch-video__context-wrapper {
+    height: inherit;
+    display: block; // Fallback for browsers without flex support
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-width: rems(640px);;
+    text-align: center;
+    margin: 0 auto;
+    padding: $upd-spacing-gutter-small;
+  }
+
+  .watch-video__cta:hover {
+    transform: scale(1.03);
+    transition: all $upd-transition-time;
+  }
+
+  video {
+    vertical-align: middle;
+  }
+
+  .watch-video__context--full-width {
+    height: 100%;
+    width: 100%;
+  }
+
+  .watch-video__context--non-full-width {
+    height: 100%;
+
+    @include mq(small) {
+      width: calc(100% - 4rem);
+    }
+    @include mq(medium) {
+      width: calc(100% - 8rem);
+    }
+  }
+
+  .watch-video__title {
+    @extend %font-heading-1;
+  }
+
+  .watch-video__standfirst {
+    @extend %font-body-copy;
+  }
+
+  .watch-video__title, .watch-video__standfirst {
+    color: $upd-color-text-reverse;
+  }
+
+  .watch-video__media {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 550px;
+
+    &.watch-video__media--video {
+      @include mq(x-large) {
+        height: auto;
+      }
+    }
+
+    .watch-video__overlay {
+      opacity: .5;
+      background-color: $upd-color-brand-navy;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+
+      @include mq(small) {
+        width: calc(100% - 4rem);
+      }
+
+      @include mq(medium) {
+        width: calc(100% - 8rem);
+      }
+      &.watch-video__overlay--full-width {
+        width: 100%;
+      }
+    }
+
+    video {
+      display: none;
+      @include mq(x-large) {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+
+//overrides for when it is full width
+.watch-video--full-width {
+  max-height: 550px;
+  overflow: hidden;
+}
+
+.watch-video__wrapper.watch-video--full-width {
+  .watch-video__media {
+    &.watch-video__media--video {
+      @include mq(x-large) {
+        height: auto;
+      }
+    }
+    .watch-video__overlay {
+      width: 100%;
+    }
+  }
+
+}

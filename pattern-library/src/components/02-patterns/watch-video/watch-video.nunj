@@ -1,0 +1,29 @@
+<div class="watch-video">
+  <div class="watch-video__wrapper {% if fullWidth %}watch-video--full-width{% else %}wrapper wrapper--gutter{% endif %}">
+
+    <div class="watch-video__context {% if fullWidth %}watch-video__context--full-width{% else %}watch-video__context--non-full-width{% endif %}">
+
+      <div class="watch-video__context-wrapper">
+        <h1 class="watch-video__title">{{title}}</h1>
+        <p class="watch-video__standfirst">{{standfirst}}</p>
+        <a class="button watch-video__cta svg-icon--chevron-right" href="#">
+          {{link}}
+        </a>
+      </div>
+    </div>
+
+
+    <div class="watch-video__media{% if video %} watch-video__media--video{% endif %}" style="background-image: url('{{ '/images/placeholder/talking_heads_placeholder.jpg' | path }}')">
+      <div class="watch-video__overlay"></div>
+
+      {% if video %}
+
+      <video playsinline autoplay muted loop poster="placeholder.jpg" width="100%" height="100%">
+        <source src="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4">
+      </video>
+
+      {% endif %}
+
+    </div>
+  </div>
+</div>

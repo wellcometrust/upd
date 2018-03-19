@@ -6,6 +6,13 @@
   padding: $upd-spacing-gutter-large rems(40px) rems(60px);
 }
 
+.resource-tile--max-width {
+  max-width: none;
+}
+
+.resource-tile--height {
+  height: 100%;
+}
 
 .resource-tile__title {
   @extend %h2--resource-title;

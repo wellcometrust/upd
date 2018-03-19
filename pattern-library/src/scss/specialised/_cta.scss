@@ -6,7 +6,7 @@
   color: $upd-color-brand-red;
   display: block;
   font-weight: $upd-font-weight-medium;
-  margin-top: -1.2em;
+  //margin-top: -1.2em;
 
   &:hover,
   a:hover & {
@@ -43,6 +43,15 @@
 .cta--download {
   &:after {
     @extend %icon--download;
+  }
+}
+
+.cta--link {
+  &:after {
+    @extend %icon--link;
+    margin-left: 1em !important;
+    height: auto !important;
+    vertical-align: text-top !important; 
   }
 }
 
