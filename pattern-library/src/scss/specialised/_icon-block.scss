@@ -9,11 +9,11 @@
   border-radius: 50%;
   color: $upd-color-text-reverse;
   display: inline-block;
-  line-height: 1;   /* 2 */
   padding: $padding;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
+  height: 49px; //for IE11
 
   &:focus,
   &:hover,

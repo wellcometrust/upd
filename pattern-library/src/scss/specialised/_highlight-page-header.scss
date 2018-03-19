@@ -46,6 +46,7 @@
     background-position: center;
     @include mq(large) {
       width: 50%;
+      min-height: 330px;
       height: auto;
       background-repeat: no-repeat;
       background-position: left;
