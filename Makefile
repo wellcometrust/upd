@@ -40,7 +40,7 @@ update_and_revert:
 	docker exec -ti $(shell docker ps --filter name='$(PROJECT_NAME)_php' --format "{{ .ID }}") sh -c 'cd www && drush updb -y && drush cim -y --partial --source=/var/www/html/config/sync && drush cr all && exit'
 
 set_permissions:
-	docker exec -ti $(shell docker ps --filter name='$(PROJECT_NAME)_php' --format "{{ .ID }}") sh -c 'sudo addgroup wodby www-data && sudo mkdir -p ./vendor/composer/installers && sudo find ./vendor -type d -exec sudo chmod ug=rwx,o=r '{}' \; && sudo find ./vendor -type f -exec sudo chmod ug=rw,o=r '{}' \; && sudo chown -R www-data:www-data ./vendor && sudo chmod +x fix-drupal-permissions.sh && sudo ./fix-drupal-permissions.sh --drupal_path=./www --drupal_user=www-data --httpd_group=www-data'
+	docker exec -ti $(shell docker ps --filter name='$(PROJECT_NAME)_php' --format "{{ .ID }}") sh -c 'sudo addgroup wodby www-data && sudo mkdir -p ./vendor/composer/installers && sudo find ./vendor -type d -exec sudo chmod ug=rwx,o=r '{}' \; && sudo find ./vendor -type f -exec sudo chmod ug=rw,o=r '{}' \; && sudo chown -R www-data:www-data . && sudo chmod +x fix-drupal-permissions.sh && sudo ./fix-drupal-permissions.sh --drupal_path=./www --drupal_user=www-data --httpd_group=www-data'
 
 composer_update:
 	docker exec -ti $(shell docker ps --filter name='$(PROJECT_NAME)_php' --format "{{ .ID }}") sh -c 'composer install && composer update'
