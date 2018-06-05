@@ -1,0 +1,7 @@
+field.widget.settings.jquery_colorpicker:
+  type: mapping
+  label: 'jQuery Colorpicker widget settings'
+  mapping:
+    color:
+      type: string
+      label: 'Color'
