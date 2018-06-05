@@ -12,7 +12,7 @@ use Drupal\jquery_colorpicker\Service\JQueryColorpickerServiceInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * The default jquery_colorpicker field widget
+ * The default jquery_colorpicker field widget.
  *
  * @FieldWidget(
  *   id = "jquery_colorpicker",
@@ -22,107 +22,119 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   }
  * )
  */
-class JQueryColorpickerDefaultWidget extends WidgetBase implements WidgetInterface, ContainerFactoryPluginInterface
-{
-	/**
-	 * The JQuery Colorpicker service
-	 *
-	 * @var \Drupal\jquery_colorpicker\Service\JQueryColorpickerServiceInterface
-	 */
-	protected $JQueryColorpickerService;
+class JQueryColorpickerDefaultWidget extends WidgetBase implements WidgetInterface, ContainerFactoryPluginInterface {
 
-	/**
-	 * @param string $plugin_id
-	 * @param mixed $plugin_definition
-	 * @param Drupal\Core\Field\FieldDefinitionInterface $field_definition
-	 * @param array $settings
-	 * @param array $third_party_settings
-	 * @param Drupal\jquery_colorpicker\Service\JQueryColorpickerServiceInterface $JQueryColorpickerService
-	 */
-	public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, JQueryColorpickerServiceInterface $JQueryColorpickerService)
-	{
-		parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
+  /**
+   * The JQuery Colorpicker service.
+   *
+   * @var \Drupal\jquery_colorpicker\Service\JQueryColorpickerServiceInterface
+   */
+  protected $JQueryColorpickerService;
 
-		$this->JQueryColorpickerService = $JQueryColorpickerService;
-	}
+  /**
+   * Constructs a JQueryColorpickerDefaultWidget object.
+   *
+   * @param string $plugin_id
+   *   The plugin ID.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
+   * @param Drupal\Core\Field\FieldDefinitionInterface $field_definition
+   *   The field definition.
+   * @param array $settings
+   *   The field settings.
+   * @param array $third_party_settings
+   *   Third party field settings.
+   * @param Drupal\jquery_colorpicker\Service\JQueryColorpickerServiceInterface $jQueryColorpickerService
+   *   The jQuery Colorpicker service.
+   */
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, JQueryColorpickerServiceInterface $jQueryColorpickerService) {
 
-	/**
-	 * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-	 * @param array $configuration
-	 * @param string $plugin_id
-	 * @param mixed $plugin_definition
-	 * @return static
-	 */
-	public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
-	{
-		return new static(
-			$plugin_id,
-			$plugin_definition,
-			$configuration['field_definition'],
-			$configuration['settings'],
-			$configuration['third_party_settings'],
-			$container->get('jquery_colorpicker.service')
-		);
-	}
+    parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
 
-	public static function defaultSettings()
-	{
-		return [
-			'color' => 'FFFFFF',
-		] + parent::defaultSettings();
-	}
+    $this->JQueryColorpickerService = $jQueryColorpickerService;
+  }
 
-	public function settingsForm(array $form, FormStateInterface $form_state)
-	{
-		$element['color'] = [
-			'#type' => 'textfield',
-			'#field_prefix' => '#',
-			'#title' => t('Color'),
-			'#default_value' => $this->getSetting('color'),
-			'#required' => TRUE,
-			'#element_validate' => [
-				[$this, 'settingsFormValidate'],
-			],
-		];
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $plugin_id,
+      $plugin_definition,
+      $configuration['field_definition'],
+      $configuration['settings'],
+      $configuration['third_party_settings'],
+      $container->get('jquery_colorpicker.service')
+    );
+  }
 
-		return $element;
-	}
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultSettings() {
+    return [
+      'color' => 'FFFFFF',
+    ] + parent::defaultSettings();
+  }
 
-	public function settingsFormValidate($element, FormStateInterface $form_state)
-	{
-		$color = $form_state->getValue($element['#parents']);
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    $element['color'] = [
+      '#type' => 'textfield',
+      '#field_prefix' => '#',
+      '#title' => t('Color'),
+      '#default_value' => $this->getSetting('color'),
+      '#required' => TRUE,
+      '#element_validate' => [
+        [$this, 'settingsFormValidate'],
+      ],
+    ];
 
-		$results = $this->JQueryColorpickerService->validateColor($color);
+    return $element;
+  }
 
-		$form_state->setValueForElement($element, $results['color']);
-		if(isset($results['error']))
-		{
-			$form_state->setError($element, $results['error']);
-		}
-	}
+  /**
+   * Validate the submitted settings.
+   */
+  public function settingsFormValidate($element, FormStateInterface $form_state) {
 
-	public function settingsSummary()
-	{
-		$summary = array();
+    $color = $form_state->getValue($element['#parents']);
 
-		$summary[] = t('Default Color: @color', array('@color' => '#' . $this->getSetting('color')));
+    $results = $this->JQueryColorpickerService->validateColor($color);
 
-		return $summary;
-	}
+    $form_state->setValueForElement($element, $results['color']);
+    if (isset($results['error'])) {
+      $form_state->setError($element, $results['error']);
+    }
+  }
 
-	/**
-	 * Build the form element shown when creating the entity
-	 */
-	public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state)
-	{
- 		$cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
-		$element['value'] = $element + [
-			'#type' => 'jquery_colorpicker',
-			'#default_value' => isset($items[$delta]->value) ? $items[$delta]->value : 'FFFFFF',
-			'#description' => $element['#description'],
-			'#cardinality' => $this->fieldDefinition->getFieldStorageDefinition()->getCardinality(),
-		];
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
 
-		return $element;
-	}
+    $summary = [];
+
+    $summary[] = t('Default Color: @color', ['@color' => '#' . $this->getSetting('color')]);
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    $cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
+    $element['value'] = $element + [
+      '#type' => 'jquery_colorpicker',
+      '#default_value' => isset($items[$delta]->value) ? $items[$delta]->value : 'FFFFFF',
+      '#description' => $element['#description'],
+      '#cardinality' => $this->fieldDefinition->getFieldStorageDefinition()->getCardinality(),
+    ];
+
+    return $element;
+  }
+
 }

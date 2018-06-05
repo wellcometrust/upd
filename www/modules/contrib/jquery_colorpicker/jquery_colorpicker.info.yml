@@ -4,8 +4,8 @@ description: "Creates a jQuery colorpicker field and form element"
 type: "module"
 package: "Field"
 
-# Information added by Drupal.org packaging script on 2017-02-03
-version: '8.x-1.3'
+# Information added by Drupal.org packaging script on 2018-04-15
+version: '8.x-1.4'
 core: '8.x'
 project: 'jquery_colorpicker'
-datestamp: 1486115589
+datestamp: 1523761087

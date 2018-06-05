@@ -8,7 +8,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
 
 /**
- * Provides the jquery_colorpicker field type
+ * Provides the jquery_colorpicker field type.
  *
  * @FieldType(
  *   id = "jquery_colorpicker",
@@ -17,42 +17,41 @@ use Drupal\Core\TypedData\DataDefinition;
  *   default_widget = "jquery_colorpicker",
  * )
  */
-class JQueryColorpickerItem extends FieldItemBase implements FieldItemInterface
-{
-	/**
-	 * {@inheritdoc}
-	 */
-	public static function schema(FieldStorageDefinitionInterface $field_definition)
-	{
-		return [
-			'columns' => [
-				'value' => [
-					'type' => 'varchar',
-					'length' => 6,
-					'not null' => FALSE,
-				],
-			],
-		];
-	}
+class JQueryColorpickerItem extends FieldItemBase implements FieldItemInterface {
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isEmpty()
-	{
-		$value = $this->get('value')->getValue();
+  /**
+   * {@inheritdoc}
+   */
+  public static function schema(FieldStorageDefinitionInterface $field_definition) {
+    return [
+      'columns' => [
+        'value' => [
+          'type' => 'varchar',
+          'length' => 6,
+          'not null' => FALSE,
+        ],
+      ],
+    ];
+  }
 
-		return $value === NULL || $value === '' || $value === FALSE;	
-	}
+  /**
+   * {@inheritdoc}
+   */
+  public function isEmpty() {
+    $value = $this->get('value')->getValue();
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition)
-	{
-		$properties['value'] = DataDefinition::create('string')
-			->setLabel(t('Hexidecimal color'));
+    return $value === NULL || $value === '' || $value === FALSE;
+  }
 
-		return $properties;
-	}
+  /**
+   * {@inheritdoc}
+   */
+  public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
+
+    $properties['value'] = DataDefinition::create('string')
+      ->setLabel(t('Hexidecimal color'));
+
+    return $properties;
+  }
+
 }

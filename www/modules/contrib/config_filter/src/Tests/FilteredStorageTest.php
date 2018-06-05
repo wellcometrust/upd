@@ -3,8 +3,10 @@
 namespace Drupal\config_filter\Tests;
 
 use Drupal\config_filter\Config\FilteredStorage;
+use Drupal\config_filter\Config\FilteredStorageInterface;
 use Drupal\config_filter\Config\ReadOnlyStorage;
 use Drupal\config_filter\Config\StorageFilterInterface;
+use Drupal\config_filter\Exception\InvalidStorageFilterException;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\StorageInterface;
 use Drupal\KernelTests\Core\Config\Storage\CachedStorageTest;
@@ -31,12 +33,8 @@ class FilteredStorageTest extends CachedStorageTest {
    * Test that the storage is set on the filters.
    */
   public function testSettingStorages() {
-    $filterReflection = new \ReflectionClass(FilteredStorage::class);
-    $filtersProperty = $filterReflection->getProperty('filters');
-    $filtersProperty->setAccessible(TRUE);
-
     /** @var \Drupal\config_filter\Tests\TransparentFilter[] $filters */
-    $filters = $filtersProperty->getValue($this->storage);
+    $filters = static::getProtectedFilters($this->storage);
     foreach ($filters as $filter) {
       // Test that the source storage is a ReadonlyStorage and wraps the cached
       // storage from the inherited test.
@@ -51,6 +49,69 @@ class FilteredStorageTest extends CachedStorageTest {
       // Assert that the filter gets the storage.
       $this->assertEquals($this->storage, $filter->getPrivateFilteredStorage());
     }
+  }
+
+  /**
+   * Test that creating collections keeps filters set to the correct storages.
+   */
+  public function testCollectionStorages() {
+    $collection = $this->randomString();
+
+    // The storage is in its default state.
+    $this->assertEquals(StorageInterface::DEFAULT_COLLECTION, $this->storage->getCollectionName());
+
+    /** @var \Drupal\config_filter\Tests\TransparentFilter[] $filters */
+    $filters = static::getProtectedFilters($this->storage);
+    foreach ($filters as $filter) {
+      // Test that the filters have the correct storage set.
+      $this->assertEquals($this->storage, $filter->getPrivateFilteredStorage());
+      $this->assertEquals(StorageInterface::DEFAULT_COLLECTION, $filter->getPrivateSourceStorage()->getCollectionName());
+    }
+
+    // Create a collection which creates a clone of the storage and filters.
+    $collectionStorage = $this->storage->createCollection($collection);
+    $this->assertInstanceOf(FilteredStorageInterface::class, $collectionStorage);
+
+    /** @var \Drupal\config_filter\Tests\TransparentFilter[] $collectionFilters */
+    $collectionFilters = static::getProtectedFilters($collectionStorage);
+    foreach ($collectionFilters as $filter) {
+      // Test that the cloned filter has the correct storage set.
+      $this->assertEquals($collectionStorage, $filter->getPrivateFilteredStorage());
+      $this->assertEquals($collection, $filter->getPrivateSourceStorage()->getCollectionName());
+    }
+
+    /** @var \Drupal\config_filter\Tests\TransparentFilter[] $filters */
+    $filters = static::getProtectedFilters($this->storage);
+    foreach ($filters as $filter) {
+      // Test that the filters on the original storage are still correctly set.
+      $this->assertEquals($this->storage, $filter->getPrivateFilteredStorage());
+      $this->assertEquals(StorageInterface::DEFAULT_COLLECTION, $filter->getPrivateSourceStorage()->getCollectionName());
+    }
+  }
+
+  /**
+   * Test setting up filters in FilteredStorage::createCollection().
+   */
+  public function testCreateCollectionFilter() {
+    $collection = $this->randomString();
+    $filteredCollection = $this->randomString();
+
+    $filter = $this->prophesizeFilter();
+    $filterC = $this->prophesizeFilter();
+    $filterC->filterGetCollectionName($collection)->willReturn($filteredCollection);
+    $filter->filterCreateCollection($collection)->willReturn($filterC->reveal());
+
+    $source = $this->prophesize(StorageInterface::class);
+    $sourceC = $this->prophesize(StorageInterface::class);
+    $sourceC->getCollectionName()->willReturn($collection);
+    $source->createCollection($collection)->willReturn($sourceC->reveal());
+
+    $storage = new FilteredStorage($source->reveal(), [$filter->reveal()]);
+    // Creating a collection makes sure the filters were correctly set up.
+    $storageC = $storage->createCollection($collection);
+
+    // Test that the collection is filtered in the collection storage.
+    $this->assertEquals($filteredCollection, $storageC->getCollectionName());
   }
 
   /**
@@ -279,6 +340,23 @@ class FilteredStorageTest extends CachedStorageTest {
   }
 
   /**
+   * Test that an exception is thrown when invalid arguments are passed.
+   */
+  public function testInvalidStorageFilterArgument() {
+    $source = $this->prophesize(StorageInterface::class);
+
+    // We would do this with $this->expectException but alas drupal is stuck on
+    // phpunit 4 and we try not to add deprecated code.
+    try {
+      new FilteredStorage($source->reveal(), [new \stdClass()]);
+      $this->fail('An exception should have been thrown.');
+    }
+    catch (InvalidStorageFilterException $exception) {
+      $this->assertTrue(TRUE);
+    }
+  }
+
+  /**
    * Prophesize a StorageFilter.
    */
   protected function prophesizeFilter() {
@@ -286,6 +364,23 @@ class FilteredStorageTest extends CachedStorageTest {
     $filter->setSourceStorage(Argument::type(ReadOnlyStorage::class))->shouldBeCalledTimes(1);
     $filter->setFilteredStorage(Argument::type(FilteredStorage::class))->shouldBeCalledTimes(1);
     return $filter;
+  }
+
+  /**
+   * Get the filters from a FilteredStorageInterface.
+   *
+   * @param \Drupal\Core\Config\StorageInterface $storage
+   *   The storage with the protected filters property.
+   *
+   * @return \Drupal\config_filter\Config\StorageFilterInterface[]
+   *   The array of filters.
+   */
+  protected static function getProtectedFilters(StorageInterface $storage) {
+    $filterReflection = new \ReflectionClass(FilteredStorage::class);
+    $filtersProperty = $filterReflection->getProperty('filters');
+    $filtersProperty->setAccessible(TRUE);
+
+    return $filtersProperty->getValue($storage);
   }
 
   /**

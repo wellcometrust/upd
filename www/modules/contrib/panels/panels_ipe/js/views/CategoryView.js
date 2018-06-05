@@ -315,6 +315,9 @@
 
         // Remove our throbber on load.
         ajax.options.complete = function () {
+          // Do as Drupal.Ajax would do, and mark the request as inactive.
+          ajax.ajaxing = false;
+
           self.$('.ipe-category-picker-top .ipe-icon-loading').remove();
 
           self.setTopMaxHeight();

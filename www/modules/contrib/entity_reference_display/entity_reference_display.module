@@ -5,6 +5,7 @@
  * Entity Reference Display module.
  */
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -41,6 +42,22 @@ function entity_reference_display_field_widget_info_alter(array &$info) {
 function entity_reference_display_field_formatter_info_alter(array &$info) {
   // Allow to use the same formatters as list_string field type.
   entity_reference_display_set_available_plugins($info);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function entity_reference_display_preprocess_field(&$variables) {
+  // Only for selected display mode formatter.
+  if (isset($variables['element']['#formatter'])
+    && $variables['element']['#formatter'] === 'entity_reference_display_default'
+  ) {
+    // Add display mode class for field wrapper.
+    if (!empty($variables['element'][0]['#view_mode'])) {
+      $class = 'erd-list--' . $variables['element'][0]['#view_mode'];
+      $variables['attributes']['class'][] = Html::getClass($class);
+    }
+  }
 }
 
 /**
