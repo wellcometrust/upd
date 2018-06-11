@@ -3,13 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.article_browser_news
     - field.field.node.landing_page.field_3_items_grid
     - field.field.node.landing_page.field_case_studies
+    - field.field.node.landing_page.field_content_area
     - field.field.node.landing_page.field_featured_articles
     - field.field.node.landing_page.field_hero_intro
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
+    - entity_browser
     - field_group
     - paragraphs
     - path
@@ -17,11 +20,11 @@ third_party_settings:
   field_group:
     group_content_landing:
       children:
-        - group_main_content_landing
+        - group_header_content
         - group_testimonial_landing
         - group_three_column_grid_landing
+        - group_main_content
         - group_related_content_landing
-        - group_categorisation_landing
       parent_name: ''
       weight: 0
       format_type: tabs
@@ -31,26 +34,11 @@ third_party_settings:
         direction: vertical
       label: Content
       region: content
-    group_main_content_landing:
-      children:
-        - title
-        - field_hero_intro
-      parent_name: group_content_landing
-      weight: 2
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-      label: 'Main Content'
-      region: content
     group_three_column_grid_landing:
       children:
         - field_3_items_grid
       parent_name: group_content_landing
-      weight: 4
+      weight: 23
       format_type: tab
       format_settings:
         id: ''
@@ -64,7 +52,7 @@ third_party_settings:
       children:
         - field_testimonial
       parent_name: group_content_landing
-      weight: 3
+      weight: 22
       format_type: tab
       format_settings:
         id: ''
@@ -79,7 +67,7 @@ third_party_settings:
         - field_featured_articles
         - field_case_studies
       parent_name: group_content_landing
-      weight: 5
+      weight: 25
       format_type: tab
       format_settings:
         id: ''
@@ -88,6 +76,35 @@ third_party_settings:
         description: ''
         required_fields: true
       label: 'Related Content'
+      region: content
+    group_main_content:
+      children:
+        - field_content_area
+      parent_name: group_content_landing
+      weight: 24
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: open
+        description: ''
+        required_fields: true
+      label: 'Main Content'
+      region: content
+    group_header_content:
+      children:
+        - title
+        - field_hero_intro
+      parent_name: group_content_landing
+      weight: 20
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Header Content'
       region: content
 id: node.landing_page.default
 targetEntityType: node
@@ -113,22 +130,49 @@ content:
     third_party_settings: {  }
     region: content
   field_case_studies:
-    type: entity_reference_autocomplete
+    type: entity_browser_entity_reference
     weight: 11
     region: content
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      entity_browser: article_browser_case_study
+      field_widget_display: label
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_edit: false
+      field_widget_replace: false
+      open: false
+      field_widget_display_settings: {  }
     third_party_settings: {  }
+  field_content_area:
+    weight: 26
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
+    third_party_settings: {  }
+    type: paragraphs
+    region: content
   field_featured_articles:
     weight: 10
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      entity_browser: article_browser_news
+      field_widget_display: label
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_edit: false
+      field_widget_replace: false
+      open: false
+      field_widget_display_settings: {  }
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: entity_browser_entity_reference
     region: content
   field_hero_intro:
     weight: 2

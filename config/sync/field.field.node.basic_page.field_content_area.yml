@@ -1,25 +1,21 @@
-uuid: c1d0ed75-8236-4bdd-a25d-0b49066c17b1
+uuid: 83d83caf-330f-4abc-9c97-a25c4545ff19
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_content_area
-    - node.type.hub_page
-    - paragraphs.paragraphs_type.faq_dropdowns
-    - paragraphs.paragraphs_type.image
-    - paragraphs.paragraphs_type.tile_paragraph
+    - node.type.basic_page
     - paragraphs.paragraphs_type.video_slice
-    - paragraphs.paragraphs_type.video_text_block
   module:
     - entity_reference_revisions
-id: node.hub_page.field_content_area
+id: node.basic_page.field_content_area
 field_name: field_content_area
 entity_type: node
-bundle: hub_page
-label: 'Content area'
+bundle: basic_page
+label: 'Footer area'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -27,79 +23,72 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      faq_dropdowns: faq_dropdowns
-      image: image
-      tile_paragraph: tile_paragraph
       video_slice: video_slice
-      video_text_block: video_text_block
     target_bundles_drag_drop:
       basic_title_link:
-        weight: 17
+        weight: 23
         enabled: false
       basic_user_list_item:
-        weight: 18
-        enabled: false
-      basic_vertical_tab:
-        weight: 19
-        enabled: false
-      box_list:
-        weight: 20
-        enabled: false
-      case_study_vertical_tab:
-        weight: 21
-        enabled: false
-      dos_donts:
-        weight: 22
-        enabled: false
-      faq_dropdowns:
-        enabled: true
-        weight: 23
-      file_download:
         weight: 24
         enabled: false
-      funding:
+      basic_vertical_tab:
         weight: 25
         enabled: false
-      grid_items:
+      box_list:
         weight: 26
         enabled: false
-      list_item:
+      case_study_vertical_tab:
         weight: 27
         enabled: false
-      image:
-        enabled: true
-        weight: 28
-      list_with_sublist:
+      dos_donts:
         weight: 28
         enabled: false
-      case_study_slice:
-        weight: 28
-        enabled: false
-      team_list:
+      faq_dropdowns:
         weight: 29
         enabled: false
-      hero_header_slice:
+      faq_referenced_questions:
         weight: 30
+        enabled: false
+      file_download:
+        weight: 31
+        enabled: false
+      funding:
+        weight: 32
+        enabled: false
+      grid_items:
+        weight: 33
+        enabled: false
+      hero_header_slice:
+        weight: 34
+        enabled: false
+      image:
+        weight: 35
+        enabled: false
+      list_item:
+        weight: 36
+        enabled: false
+      list_with_sublist:
+        weight: 37
+        enabled: false
+      referenced_link:
+        weight: 38
+        enabled: false
+      resource_links_block:
+        weight: 39
+        enabled: false
+      team_list:
+        weight: 40
         enabled: false
       testimonial:
-        weight: 30
+        weight: 41
         enabled: false
       tile_paragraph:
-        enabled: true
-        weight: 31
-      faq_referenced_questions:
-        weight: 32
+        weight: 42
         enabled: false
       video_slice:
         enabled: true
-        weight: 32
+        weight: 43
       video_text_block:
-        enabled: true
-        weight: 38
-      referenced_link:
-        weight: 40
-        enabled: false
-      resource_links_block:
-        weight: 41
+        weight: 44
         enabled: false
 field_type: entity_reference_revisions
