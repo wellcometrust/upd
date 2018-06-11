@@ -1,0 +1,31 @@
+uuid: 59002c1b-8bb2-4dcd-bddb-77f2d3e6c2cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.article_browser
+  module:
+    - views
+name: article_browser_news
+label: 'Article Browser (News)'
+display: modal
+display_configuration:
+  width: ''
+  height: ''
+  link_text: 'Select entities'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: tabs
+widget_selector_configuration: {  }
+widgets:
+  dbe52ed9-974c-4454-9104-f7df06c09cd9:
+    settings:
+      view: article_browser
+      view_display: entity_browser_2
+      submit_text: 'Select articles'
+      auto_select: false
+    uuid: dbe52ed9-974c-4454-9104-f7df06c09cd9
+    weight: 1
+    label: Articles
+    id: view

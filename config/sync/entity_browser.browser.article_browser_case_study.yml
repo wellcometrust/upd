@@ -1,0 +1,31 @@
+uuid: 6233eb36-6ad5-4080-bff2-24836c431d69
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.article_browser
+  module:
+    - views
+name: article_browser_case_study
+label: 'Article Browser (Case Study)'
+display: modal
+display_configuration:
+  width: ''
+  height: ''
+  link_text: 'Select entities'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: tabs
+widget_selector_configuration: {  }
+widgets:
+  494e270a-578b-44dc-9b6d-14ccfa04ee0e:
+    settings:
+      view: article_browser
+      view_display: entity_browser_3
+      submit_text: 'Select articles'
+      auto_select: false
+    uuid: 494e270a-578b-44dc-9b6d-14ccfa04ee0e
+    weight: 1
+    label: Articles
+    id: view
