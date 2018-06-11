@@ -142,7 +142,7 @@ function upd_theme_suggestions_user_alter(array &$suggestions, array $variables)
  * Implements hook_preprocess_image()
  */
 function upd_preprocess_image(&$variables) {
-  // Remove width/height, this should be CSS driven.
+// Remove width/height, this should be CSS driven.
   if (isset($variables['attributes']['width'])) {
     unset($variables['attributes']['width']);
   }
@@ -165,7 +165,7 @@ function upd_preprocess_media__video(&$variables) {
 
   $media = $variables['media'];
 
-  // Each view mode requires different preprocessed variables.
+// Each view mode requires different preprocessed variables.
 
   switch ($variables['elements']['#view_mode']) {
 
@@ -195,11 +195,11 @@ function upd_preprocess_paragraph__tile_paragraph(&$variables) {
 
   $parent_field_name = $paragraph->get('parent_field_name')->getValue();
 
-  // Rather than create a new tile component, augmenting display here to match phase 2
-  // designs.
+// Rather than create a new tile component, augmenting display here to match phase 2
+// designs.
 
-  // Add a class to template to provide a max width tile.
-  // Class should be: resource-tile--max-width if it's associated with our new content.
+// Add a class to template to provide a max width tile.
+// Class should be: resource-tile--max-width if it's associated with our new content.
 
   if (in_array($parent_field_name[0]['value'], array('field_content_area'))) {
     $variables['attributes']['class'] = ['resource-tile', 'resource-tile--max-width'];
@@ -224,8 +224,8 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
 
   $media_id = $paragraph->get('field_video')->getValue();
 
-  // Add a class to template to provide a max width video, if selected.
-  // Class should be: watch-video--full-width if it's associated with our new content.
+// Add a class to template to provide a max width video, if selected.
+// Class should be: watch-video--full-width if it's associated with our new content.
 
   if ($full_width[0]['value'] == '1') {
     $variables['video_wrapper_class'] = 'watch-video--full-width';
@@ -263,13 +263,13 @@ function _upd_create_media_link($id, $classes, $title = '') {
 
   if (!empty($field_video_embed[0]['value'])) {
 
-    // Create Url object from route created using custom module upd_video, and provide media ID as parameter.
+// Create Url object from route created using custom module upd_video, and provide media ID as parameter.
 
     $url = Url::fromRoute('upd_video.content', ['media' => $id]);
     $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
     $link = $link->toRenderable();
 
-    // Populate render array with class / data attribute.
+// Populate render array with class / data attribute.
 
     $link['#attributes'] = array(
       'class' => $classes,
@@ -294,7 +294,7 @@ function _upd_create_media_link($id, $classes, $title = '') {
  */
 function _upd_create_media_cta_link($id, $classes, $title) {
 
-  // Load media entity.
+// Load media entity.
 
   $media = Media::load($id);
 
@@ -317,7 +317,7 @@ function _upd_create_media_cta_link($id, $classes, $title) {
       'class' => $classes,
     );
 
-    // Populate render array with class / data attribute.
+// Populate render array with class / data attribute.
     return render($link);
 
   }
@@ -333,13 +333,13 @@ function _upd_create_media_cta_link($id, $classes, $title) {
  */
 function _generate_related_news_block(&$variables) {
   $node = $variables['node'];
-  // If we are looking at the full view of asf news article node.
+// If we are looking at the full view of asf news article node.
   if ($node->getType() == 'art' && $variables['view_mode'] == 'full') {
-    // If the related news article taxonomy term is populated.
+// If the related news article taxonomy term is populated.
     if (isset($node->field_news_category) && !empty($node->field_news_category->getValue())) {
-      // Then build and render the related_news_articles views block.
+// Then build and render the related_news_articles views block.
       $term = $node->field_news_category->getValue();
-      // Supply taxonomy term to search for and NID of current node to exclude.
+// Supply taxonomy term to search for and NID of current node to exclude.
       $args = [$term[0]['target_id'], $node->id()];
       $view = \Drupal\views\Views::getView('related_news_articles');
       if (is_object($view)) {
@@ -389,7 +389,7 @@ function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'views-exposed-form-news-news') {
 
-    // Obtain parameter from URL so we can work out which is active.
+// Obtain parameter from URL so we can work out which is active.
     $field_news_category_target_id = \Drupal::request()->get('field_news_category_target_id');
 
     $html = '<div class="wrapper  wrapper--gutter news-filter-container"><h4>Filter by</h4>';
@@ -449,7 +449,7 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
 function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'views-exposed-form-faqs-faqs') {
 
-    // Obtain parameter from URL so we can work out which is active.
+// Obtain parameter from URL so we can work out which is active.
     $field_faq_category_target_id = \Drupal::request()->get('field_faq_category_target_id');
 
     $html = '<div class="wrapper  wrapper--gutter faq-filter-container"><h4>Filter by</h4>';
@@ -549,7 +549,7 @@ function upd_preprocess_form_element__mailchimp(&$variables) {
 function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'mailchimp-signup-subscribe-block-subscribe-to-the-newsletter-form') {
 
-    // Add placeholders, hide titles and add specific classes to form items.
+// Add placeholders, hide titles and add specific classes to form items.
 
     $form['actions']['submit']['#attributes']['class'][] = 'site-footer__submit';
 
@@ -571,19 +571,23 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['mergevars']['LNAME']['#attributes']['class'][] = 'visually-hidden';
     $form['mergevars']['LNAME']['#title_display'] = 'invisible';
 
-    $form['mergevars']['MMERGE3']['#attributes']['placeholder'] = $form['mergevars']['MMERGE3']['#title'];
-    $form['mergevars']['MMERGE3']['#attributes']['id'] = 'mce-MMERGE3';
-    $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'site-footer__input';
-    $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'visually-hidden';
-    $form['mergevars']['MMERGE3']['#title_display'] = 'invisible';
+    if (isset($form['mergevars']['MMERGE3'])) {
+      $form['mergevars']['MMERGE3']['#attributes']['placeholder'] = $form['mergevars']['MMERGE3']['#title'];
+      $form['mergevars']['MMERGE3']['#attributes']['id'] = 'mce-MMERGE3';
+      $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'site-footer__input';
+      $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'visually-hidden';
+      $form['mergevars']['MMERGE3']['#title_display'] = 'invisible';
+    }
 
-    $form['mergevars']['MMERGE4']['#attributes']['placeholder'] = $form['mergevars']['MMERGE4']['#title'];
-    $form['mergevars']['MMERGE4']['#attributes']['id'] = 'mce-MMERGE4';
-    $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'site-footer__input';
-    $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'visually-hidden';
-    $form['mergevars']['MMERGE4']['#title_display'] = 'invisible';
+    if (isset($form['mergevars']['MMERGE4'])) {
+      $form['mergevars']['MMERGE4']['#attributes']['placeholder'] = $form['mergevars']['MMERGE4']['#title'];
+      $form['mergevars']['MMERGE4']['#attributes']['id'] = 'mce-MMERGE4';
+      $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'site-footer__input';
+      $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'visually-hidden';
+      $form['mergevars']['MMERGE4']['#title_display'] = 'invisible';
+    }
 
-    // Alter order of form elements to form styling.
+// Alter order of form elements to form styling.
 
     $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#title_display'] = 'invisible';
     $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'visually-hidden';
@@ -596,7 +600,7 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['statement'] = [
       '#prefix' => '<div class="privacy-statement visually-hidden">',
       '#suffix' => '</div>',
-      '#markup' => '<p>' . t('We use a third party provider, MailChimp, to deliver our newsletter. For more information about how we handle your data, please read our ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new">privacy notice</a>. ' . t('You can unsubscribe at any time using links in the emails you receive.') . '</p>',
+      '#markup' => '<p>' . t('By signing up you accept Wellcome’s ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new">' . t('Terms of Use') . '</a>. ' . t('Click here for our ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new"> ' . t('privacy statement') . '</a>. ' . t('You can unsubscribe from UPD newsletters at any time using the links in the emails you receive. We use a third party provider, MailChimp, to deliver our newsletter.') . '</p>',
       '#weight' => 20,
     ];
   }
