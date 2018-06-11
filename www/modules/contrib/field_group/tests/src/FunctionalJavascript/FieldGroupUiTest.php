@@ -22,7 +22,7 @@ class FieldGroupUiTest extends JavascriptTestBase {
    *
    * @var array
    */
-  public static $modules = array('node', 'field_ui', 'field_group');
+  public static $modules = ['node', 'field_ui', 'field_group'];
 
   /**
    * @var string
@@ -58,11 +58,11 @@ class FieldGroupUiTest extends JavascriptTestBase {
    */
   public function testCreateAndEdit() {
     foreach (['test_1', 'test_2'] as $name) {
-      $group = array(
+      $group = [
         'group_formatter' => 'details',
         'label' => 'Test 1',
         'group_name' => $name,
-      );
+      ];
 
       // Add new group on the 'Manage form display' page.
       $this->drupalPostForm('admin/structure/types/manage/' . $this->nodeType . '/form-display/add-group', $group, 'Save and continue');

@@ -22,7 +22,7 @@ function field_group_field_formatter_options($type) {
   $options = &drupal_static(__FUNCTION__);
 
   if (!isset($options)) {
-    $options = array();
+    $options = [];
 
     $manager = Drupal::service('plugin.manager.field_group.formatters');
     $formatters = $manager->getDefinitions();
