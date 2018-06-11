@@ -74,7 +74,10 @@ display:
               basic_page: search_result
               case_study: search_result
               faq: search_result
+              highlight_page: search_result
+              hub_page: default
               landing_page: search_result
+              question_content: default
               tile: search_result
       fields:
         rendered_item:
@@ -190,11 +193,12 @@ display:
           admin_label: ''
           operator: or
           value:
+            all: all
             art: art
             basic_page: basic_page
             case_study: case_study
             faq: faq
-            tile: tile
+            highlight_page: highlight_page
           group: 1
           exposed: false
           expose:
@@ -229,18 +233,6 @@ display:
           id: search_api_relevance
           table: search_api_index_main_solr
           field: search_api_relevance
-          relationship: none
-          group_type: group
-          admin_label: ''
-          order: DESC
-          exposed: false
-          expose:
-            label: ''
-          plugin_id: search_api
-        nid:
-          id: nid
-          table: search_api_index_main_solr
-          field: nid
           relationship: none
           group_type: group
           admin_label: ''
@@ -287,7 +279,8 @@ display:
     display_title: Page
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender: {  }
       path: site-search
     cache_metadata:
       max-age: -1
