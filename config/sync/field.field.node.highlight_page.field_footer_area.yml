@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_footer_area
     - node.type.highlight_page
+    - paragraphs.paragraphs_type.case_study_slice
     - paragraphs.paragraphs_type.video_text_block
   module:
     - entity_reference_revisions
@@ -23,6 +24,7 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
+      case_study_slice: case_study_slice
       video_text_block: video_text_block
     target_bundles_drag_drop:
       basic_title_link:
@@ -49,6 +51,9 @@ settings:
       file_download:
         weight: 27
         enabled: false
+      case_study_slice:
+        enabled: true
+        weight: 28
       funding:
         weight: 28
         enabled: false
@@ -62,6 +67,9 @@ settings:
         weight: 31
         enabled: false
       list_item:
+        weight: 32
+        enabled: false
+      faq_referenced_questions:
         weight: 32
         enabled: false
       list_with_sublist:
@@ -82,4 +90,10 @@ settings:
       video_text_block:
         enabled: true
         weight: 38
+      referenced_link:
+        weight: 40
+        enabled: false
+      resource_links_block:
+        weight: 41
+        enabled: false
 field_type: entity_reference_revisions
