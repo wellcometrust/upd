@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.landing_page.field_case_studies
     - field.field.node.landing_page.field_content_area
     - field.field.node.landing_page.field_featured_articles
+    - field.field.node.landing_page.field_footer_area
     - field.field.node.landing_page.field_hero_intro
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
@@ -80,6 +81,7 @@ third_party_settings:
     group_main_content:
       children:
         - field_content_area
+        - field_footer_area
       parent_name: group_content_landing
       weight: 24
       format_type: tab
@@ -173,6 +175,24 @@ content:
       field_widget_display_settings: {  }
     third_party_settings: {  }
     type: entity_browser_entity_reference
+    region: content
+  field_footer_area:
+    weight: 27
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
+        add_above: '0'
+    third_party_settings: {  }
+    type: paragraphs
     region: content
   field_hero_intro:
     weight: 2

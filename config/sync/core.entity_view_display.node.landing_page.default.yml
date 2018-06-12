@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.landing_page.field_case_studies
     - field.field.node.landing_page.field_content_area
     - field.field.node.landing_page.field_featured_articles
+    - field.field.node.landing_page.field_footer_area
     - field.field.node.landing_page.field_hero_intro
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
@@ -53,6 +54,15 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
+    region: content
+  field_footer_area:
+    weight: 7
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
     region: content
   field_hero_intro:
     weight: 2
