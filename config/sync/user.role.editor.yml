@@ -8,6 +8,9 @@ weight: 3
 is_admin: null
 permissions:
   - 'access administration pages'
+  - 'access article_browser entity browser pages'
+  - 'access article_browser_case_study entity browser pages'
+  - 'access article_browser_news entity browser pages'
   - 'access content'
   - 'access content overview'
   - 'access files overview'
