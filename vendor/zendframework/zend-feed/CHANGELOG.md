@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.10.1 - 2018-06-05
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#79](https://github.com/zendframework/zend-feed/pull/79) fixes an issue in the `setType()` method of the iTunes feed renderer whereby it was setting
+  the DOM content with an uninitialized variable.
+
 ## 2.10.0 - 2018-05-24
 
 ### Added
