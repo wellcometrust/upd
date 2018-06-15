@@ -35,7 +35,7 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
   /**
    * {@inheritdoc}
    */
-  public function createInstance($plugin_id, array $configuration = array()) {
+  public function createInstance($plugin_id, array $configuration = []) {
     $plugin_definition = $this->getDefinition($plugin_id);
     $plugin_class = DefaultFactory::getPluginClass($plugin_id, $plugin_definition);
 
@@ -86,9 +86,9 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
       return NULL;
     }
 
-    $configuration += array(
+    $configuration += [
       'group' => $options['group'],
-    );
+    ];
 
     return $this->createInstance($plugin_id, $configuration);
   }
@@ -108,10 +108,10 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
    */
   public function prepareConfiguration($format_type, $context, array $configuration) {
     // Fill in defaults for missing properties.
-    $configuration += array(
+    $configuration += [
       'label' => '',
-      'settings' => array(),
-    );
+      'settings' => [],
+    ];
 
     // Fill in default settings values for the formatter.
     $configuration['settings'] += $this->getDefaultSettings($format_type, $context);
@@ -137,7 +137,7 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
       $plugin_class = DefaultFactory::getPluginClass($type, $plugin_definition);
       return $plugin_class::defaultContextSettings($context);
     }
-    return array();
+    return [];
   }
 
 }

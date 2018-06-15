@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.basic_page.body
+    - field.field.node.basic_page.field_content_area
     - field.field.node.basic_page.field_list_text
     - field.field.node.basic_page.field_pdf
     - field.field.node.basic_page.field_sections
@@ -26,6 +27,15 @@ content:
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_content_area:
+    weight: 7
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
     region: content
   field_pdf:
     weight: 2

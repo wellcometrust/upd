@@ -29,4 +29,7 @@ content:
     region: content
 hidden:
   field_content_area: true
+  field_faq_area: true
+  field_footer_area: true
   field_hero_area: true
+  field_tiled_content: true

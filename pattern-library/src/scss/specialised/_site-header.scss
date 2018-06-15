@@ -73,7 +73,6 @@
   @include mq($upd-site-header-breakpoint-navigation) {
     display: inline-block; //flexbox fallback
     position: relative;
-    flex-basis: 70px;
     flex-grow: 0;
     top: 0;
   }

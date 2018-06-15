@@ -11,7 +11,6 @@ class PanelsIPEBlockContentForm extends BlockContentForm {
    * {@inheritdoc}
    */
   protected function actions(array $form, FormStateInterface $form_state) {
-
     $button_value = $this->t('Create and Place');
     if (!$this->entity->isNew()) {
       $button_value = $this->t('Update');
@@ -20,11 +19,11 @@ class PanelsIPEBlockContentForm extends BlockContentForm {
     // Override normal BlockContentForm actions as we need to be AJAX
     // compatible, and also need to communicate with our App.
     $actions['submit'] = [
-      '#type' => 'button',
+      '#type' => 'submit',
       '#value' => $button_value,
       '#name' => 'panels_ipe_submit',
       '#ajax' => [
-        'callback' => '::submitForm',
+        'callback' => '::submitAjax',
         'wrapper' => 'panels-ipe-block-type-form-wrapper',
         'method' => 'replace',
         'progress' => [
@@ -71,6 +70,29 @@ class PanelsIPEBlockContentForm extends BlockContentForm {
     // submit element in our parent form(s).
     parent::submitForm($form, $form_state);
     $this->save($form, $form_state);
+
+    return $form;
+  }
+
+  /**
+   * Returns JSON in drupalSettings for our app to consume.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array
+   *   An associative array containing the structure of the form.
+   */
+  public function submitAjax($form, FormStateInterface $form_state) {
+    $triggering_element = $form_state->getTriggeringElement();
+
+    // Return early if there are any errors or if a button we're not aware of
+    // submitted the form.
+    if ($form_state->hasAnyErrors() || $triggering_element['#name'] !== 'panels_ipe_submit') {
+      return $form;
+    }
 
     // Inform the App that we've created a new Block Content entity.
     if ($form_state->getValue('is_new')) {

@@ -32,12 +32,31 @@ function hook_panels_ipe_panels_display_presave(PanelsDisplayVariant $panels_dis
  *
  * @param array $blocks
  *   The blocks that are currently available.
+ * @param \Drupal\panels\Plugin\DisplayVariant\PanelsDisplayVariant $panels_display
+ *   The current Panels display.
  */
-function hook_panels_ipe_blocks_alter(array &$blocks = array()) {
+function hook_panels_ipe_blocks_alter(array &$blocks, PanelsDisplayVariant $panels_display) {
   // Only show blocks that were provided by the 'mymodule' module.
   foreach ($blocks as $key => $block) {
     if ($block['provider'] !== 'mymodule') {
       unset($blocks[$key]);
+    }
+  }
+}
+
+/**
+ * Modify the list of layouts available through the IPE interface.
+ *
+ * @param array $layouts
+ *   The layouts that are currently available.
+ * @param \Drupal\panels\Plugin\DisplayVariant\PanelsDisplayVariant $panels_display
+ *   The current Panels display.
+ */
+function hook_panels_ipe_layouts_alter(array &$layouts, PanelsDisplayVariant $panels_display) {
+  // Only show layouts that are in the 'threecol' category.
+  foreach ($layouts as $key => $layout) {
+    if ($layout['category'] !== 'threecol') {
+      unset($layout[$key]);
     }
   }
 }

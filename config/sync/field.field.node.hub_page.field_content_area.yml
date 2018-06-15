@@ -9,6 +9,7 @@ dependencies:
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.tile_paragraph
     - paragraphs.paragraphs_type.video_slice
+    - paragraphs.paragraphs_type.video_text_block
   module:
     - entity_reference_revisions
 id: node.hub_page.field_content_area
@@ -30,6 +31,7 @@ settings:
       image: image
       tile_paragraph: tile_paragraph
       video_slice: video_slice
+      video_text_block: video_text_block
     target_bundles_drag_drop:
       basic_title_link:
         weight: 17
@@ -70,22 +72,34 @@ settings:
       list_with_sublist:
         weight: 28
         enabled: false
+      case_study_slice:
+        weight: 28
+        enabled: false
       team_list:
         weight: 29
         enabled: false
-      testimonial:
+      hero_header_slice:
         weight: 30
         enabled: false
-      hero_header_slice:
+      testimonial:
         weight: 30
         enabled: false
       tile_paragraph:
         enabled: true
         weight: 31
+      faq_referenced_questions:
+        weight: 32
+        enabled: false
       video_slice:
         enabled: true
         weight: 32
       video_text_block:
+        enabled: true
         weight: 38
+      referenced_link:
+        weight: 40
+        enabled: false
+      resource_links_block:
+        weight: 41
         enabled: false
 field_type: entity_reference_revisions

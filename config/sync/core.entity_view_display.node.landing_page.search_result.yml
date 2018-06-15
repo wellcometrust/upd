@@ -6,7 +6,9 @@ dependencies:
     - core.entity_view_mode.node.search_result
     - field.field.node.landing_page.field_3_items_grid
     - field.field.node.landing_page.field_case_studies
+    - field.field.node.landing_page.field_content_area
     - field.field.node.landing_page.field_featured_articles
+    - field.field.node.landing_page.field_footer_area
     - field.field.node.landing_page.field_hero_intro
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
@@ -63,7 +65,9 @@ content:
     region: content
   links:
     weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
-hidden: {  }
+hidden:
+  field_content_area: true
+  field_footer_area: true

@@ -272,6 +272,8 @@ display:
           text: 'Read more ->'
           entity_type: node
           plugin_id: entity_link
+          output_url_as_text: false
+          absolute: false
       filters:
         status:
           value: '1'
@@ -615,6 +617,8 @@ display:
           text: 'Read more'
           entity_type: node
           plugin_id: entity_link
+          output_url_as_text: false
+          absolute: false
         view_node_1:
           id: view_node_1
           table: node
@@ -666,6 +670,8 @@ display:
           text: ''
           entity_type: node
           plugin_id: entity_link
+          output_url_as_text: false
+          absolute: false
         nothing:
           id: nothing
           table: views

@@ -126,8 +126,8 @@ class PageManagerRoutesTest extends UnitTestCase {
     $this->routeSubscriber->onAlterRoutes($route_event);
 
     // Only the valid page should be in the collection.
-    $this->assertSame(['page_manager.page_view_page1_variant1'], array_keys($collection->all()));
-    $route = $collection->get('page_manager.page_view_page1_variant1');
+    $this->assertSame(1, $collection->count());
+    $route = $collection->get('page_manager.page_view_page1');
     $expected_defaults = [
       '_entity_view' => 'page_manager_page_variant',
       '_title' => 'Page label',
@@ -158,7 +158,7 @@ class PageManagerRoutesTest extends UnitTestCase {
    * Tests overriding an existing route.
    *
    * @covers ::alterRoutes
-   * @covers ::findOverriddenRouteName
+   * @covers ::findPageRouteName
    *
    * @dataProvider providerTestAlterRoutesOverrideExisting
    */
@@ -191,29 +191,23 @@ class PageManagerRoutesTest extends UnitTestCase {
     $this->cacheTagsInvalidator->invalidateTags(["page_manager_route_name:$route_name"])->shouldBeCalledTimes(1);
 
     $collection = new RouteCollection();
-    $collection->add("$route_name.POST", new Route($existing_route_path, ['default_exists' => 'default_value'], $requirements, ['parameters' => ['foo' => ['type' => 'bar']]], '', [], ['POST']));
-    $collection->add("$route_name.POST_with_format", new Route($existing_route_path, ['default_exists' => 'default_value'], $requirements + ['_format' => 'json'], ['parameters' => ['foo' => ['type' => 'bar']]], '', [], ['GET', 'POST']));
     $collection->add($route_name, new Route($existing_route_path, ['default_exists' => 'default_value'], $requirements, ['parameters' => ['foo' => ['type' => 'bar']]]));
     $route_event = new RouteBuildEvent($collection);
     $this->routeSubscriber->onAlterRoutes($route_event);
 
-    // The existing route name is not overridden.
-    $this->assertSame([
-      'test_route.POST',
-      'test_route.POST_with_format',
-      'test_route',
-      'page_manager.page_view_page1_variant1',
-      ], array_keys($collection->all()));
+    // The normal route name is not used, the existing route name is instead.
+    $this->assertSame(1, $collection->count());
+    $this->assertNull($collection->get('page_manager.page_view_page1'));
+    $this->assertNull($collection->get('page_manager.page_view_page1_variant1'));
 
-    $route = $collection->get('page_manager.page_view_page1_variant1');
+    $route = $collection->get($route_name);
     $expected_defaults = [
       '_entity_view' => 'page_manager_page_variant',
       '_title' => NULL,
       'page_manager_page_variant' => 'variant1',
       'page_manager_page' => 'page1',
       'page_manager_page_variant_weight' => 0,
-      'overridden_route_name' => 'test_route',
-      'base_route_name' => 'test_route',
+      'base_route_name' => $route_name,
     ];
     $expected_requirements = $requirements + ['_page_access' => 'page_manager_page.view'];
     $expected_options = [
@@ -276,24 +270,9 @@ class PageManagerRoutesTest extends UnitTestCase {
     $route_event = new RouteBuildEvent($collection);
     $this->routeSubscriber->onAlterRoutes($route_event);
 
-    $this->assertSame([
-      'test_route',
-      'page_manager.page_view_page1_variant1',
-      'page_manager.page_view_page2_variant2',
-      ], array_keys($collection->all()));
+    $this->assertSame(2, $collection->count());
     $expected = [
       'test_route' => [
-        'path' => '/test_route1',
-        'defaults' => [
-        ],
-        'requirements' => [
-          '_access' => 'TRUE',
-        ],
-        'options' => [
-          'compiler_class' => 'Symfony\Component\Routing\RouteCompiler',
-        ],
-      ],
-      'page_manager.page_view_page1_variant1' => [
         'path' => '/test_route1',
         'defaults' => [
           '_entity_view' => 'page_manager_page_variant',
@@ -301,7 +280,6 @@ class PageManagerRoutesTest extends UnitTestCase {
           'page_manager_page_variant' => 'variant1',
           'page_manager_page' => 'page1',
           'page_manager_page_variant_weight' => 0,
-          'overridden_route_name' => 'test_route',
           'base_route_name' => 'test_route',
         ],
         'requirements' => [
@@ -321,7 +299,7 @@ class PageManagerRoutesTest extends UnitTestCase {
           '_admin_route' => FALSE,
         ],
       ],
-      'page_manager.page_view_page2_variant2' => [
+      'page_manager.page_view_page2' => [
         'path' => '/test_route2',
         'defaults' => [
           '_entity_view' => 'page_manager_page_variant',
@@ -357,7 +335,7 @@ class PageManagerRoutesTest extends UnitTestCase {
    * Tests overriding an existing route with configured parameters.
    *
    * @covers ::alterRoutes
-   * @covers ::findOverriddenRouteName
+   * @covers ::findPageRouteName
    *
    * @dataProvider providerTestAlterRoutesOverrideExisting
    */
@@ -390,8 +368,7 @@ class PageManagerRoutesTest extends UnitTestCase {
       'page_manager_page_variant' => 'variant1',
       'page_manager_page' => 'page1',
       'page_manager_page_variant_weight' => 0,
-      'overridden_route_name' => $route_name,
-      'base_route_name' => 'test_route',
+      'base_route_name' => $route_name,
     ];
     $expected_requirements = $requirements + ['_page_access' => 'page_manager_page.view'];
     $expected_options = [
@@ -410,11 +387,7 @@ class PageManagerRoutesTest extends UnitTestCase {
       ],
       '_admin_route' => FALSE,
     ];
-    $this->assertSame([
-      'test_route',
-      'page_manager.page_view_page1_variant1',
-    ], array_keys($collection->all()));
-    $this->assertMatchingRoute($collection->get('page_manager.page_view_page1_variant1'), $existing_route_path, $expected_defaults, $expected_requirements, $expected_options);
+    $this->assertMatchingRoute($collection->get($route_name), $existing_route_path, $expected_defaults, $expected_requirements, $expected_options);
   }
 
   /**

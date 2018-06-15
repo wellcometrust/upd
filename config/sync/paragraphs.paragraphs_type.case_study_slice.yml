@@ -1,0 +1,9 @@
+uuid: 117ac48c-a2e1-445b-9faf-412e834f50f2
+langcode: en
+status: true
+dependencies: {  }
+id: case_study_slice
+label: 'Case Study Slice'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

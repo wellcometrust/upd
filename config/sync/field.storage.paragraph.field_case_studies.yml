@@ -1,0 +1,20 @@
+uuid: 192a7be3-c64d-4717-b7a1-d877f223d2ce
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - paragraphs
+id: paragraph.field_case_studies
+field_name: field_case_studies
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 4
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

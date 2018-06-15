@@ -1,0 +1,28 @@
+uuid: 3979753c-fa31-4260-bded-210ea1e8cdb4
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.hub_page.body
+    - field.field.node.hub_page.field_content_area
+    - field.field.node.hub_page.field_faq_area
+    - field.field.node.hub_page.field_footer_area
+    - field.field.node.hub_page.field_hero_area
+    - field.field.node.hub_page.field_tiled_content
+    - node.type.hub_page
+  module:
+    - user
+id: node.hub_page.search_result
+targetEntityType: node
+bundle: hub_page
+mode: search_result
+content: {  }
+hidden:
+  body: true
+  field_content_area: true
+  field_faq_area: true
+  field_footer_area: true
+  field_hero_area: true
+  field_tiled_content: true
+  links: true

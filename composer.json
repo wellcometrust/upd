@@ -70,7 +70,7 @@
     "colorbox/colorbox.js": "1.6.4",
     "drupal-composer/drupal-scaffold": "2.*",
     "drupal/config_ignore": "2.x",
-    "drupal/core": "~8. ",
+    "drupal/core": "~8.5",
     "drupal/ctools": "3.*",
     "drupal/facets": "1.*",
     "drupal/jquery_colorpicker": "1.*",
@@ -89,7 +89,7 @@
     "drupal/config_filter": "1.x",
     "drupal/mailchimp": "1.x-dev",
     "drupal/admin_toolbar": "1.x",
-    "drupal/field_group": "3.x",
+    "drupal/field_group": "3.x-dev",
     "drupal/console": "~1.0",
     "drupal/media_entity_browser": "2.x",
     "drupal/media_entity_video": "2.x",
@@ -110,6 +110,8 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "extra": {
+    "patches-file": "composer.patches.json",
+    "enable-patching": true,
     "installer-paths": {
       "www/core": ["type:drupal-core"],
       "www/modules/contrib/{$name}": ["type:drupal-module"],

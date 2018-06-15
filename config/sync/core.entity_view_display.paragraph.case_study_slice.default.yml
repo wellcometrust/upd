@@ -1,0 +1,22 @@
+uuid: 04e5cbb2-d3b4-403a-b7d4-f34d7c5d2a43
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.case_study_slice.field_case_studies
+    - paragraphs.paragraphs_type.case_study_slice
+id: paragraph.case_study_slice.default
+targetEntityType: paragraph
+bundle: case_study_slice
+mode: default
+content:
+  field_case_studies:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: home_teaser
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

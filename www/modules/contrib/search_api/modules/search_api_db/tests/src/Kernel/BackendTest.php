@@ -4,7 +4,10 @@ namespace Drupal\Tests\search_api_db\Kernel;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Database\Database as CoreDatabase;
+use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Entity\Server;
+use Drupal\search_api\IndexInterface;
+use Drupal\search_api\Item\ItemInterface;
 use Drupal\search_api\Plugin\search_api\data_type\value\TextToken;
 use Drupal\search_api\Plugin\search_api\data_type\value\TextValue;
 use Drupal\search_api\Query\QueryInterface;
@@ -86,6 +89,8 @@ class BackendTest extends BackendTestBase {
     $this->regressionTest2511860();
     $this->regressionTest2846932();
     $this->regressionTest2926733();
+    $this->regressionTest2938646();
+    $this->regressionTest2925464();
   }
 
   /**
@@ -515,6 +520,62 @@ class BackendTest extends BackendTestBase {
   }
 
   /**
+   * Tests indexing of items with boost.
+   *
+   * @see https://www.drupal.org/node/2938646
+   */
+  protected function regressionTest2938646() {
+    $db_info = $this->getIndexDbInfo();
+    $text_table = $db_info['field_tables']['body']['table'];
+    $item_id = $this->getItemIds([1])[0];
+    $select = \Drupal::database()->select($text_table, 't');
+    $select
+      ->fields('t', ['score'])
+      ->condition('item_id', $item_id)
+      ->condition('word', 'test');
+    $select2 = clone $select;
+
+    // Check old score.
+    $old_score = $select
+      ->execute()
+      ->fetchField();
+    $this->assertNotSame(FALSE, $old_score);
+    $this->assertGreaterThan(0, $old_score);
+
+    // Re-index item with higher boost.
+    $index = $this->getIndex();
+    $item = $this->container->get('search_api.fields_helper')
+      ->createItem($index, $item_id);
+    $item->setBoost(2);
+    $indexed_ids = $this->indexItemDirectly($index, $item);
+    $this->assertEquals([$item_id], $indexed_ids);
+
+    // Verify the field scores changed accordingly.
+    $new_score = $select2
+      ->execute()
+      ->fetchField();
+    $this->assertNotSame(FALSE, $new_score);
+    $this->assertEquals(2 * $old_score, $new_score);
+  }
+
+  /**
+   * Tests changing of field types.
+   *
+   * @see https://www.drupal.org/node/2925464
+   */
+  protected function regressionTest2925464() {
+    $index = $this->getIndex();
+
+    $index->getField('category')->setType('integer');
+    $index->save();
+
+    $index->getField('category')->setType('string');
+    $index->save();
+
+    $this->indexItems($index->id());
+  }
+
+  /**
    * {@inheritdoc}
    */
   protected function checkIndexWithoutFields() {
@@ -620,6 +681,41 @@ class BackendTest extends BackendTestBase {
   }
 
   /**
+   * Indexes an item directly.
+   *
+   * @param \Drupal\search_api\IndexInterface $index
+   *   The search index to index the item on.
+   * @param \Drupal\search_api\Item\ItemInterface $item
+   *   The item.
+   *
+   * @return string[]
+   *   The successfully indexed IDs.
+   *
+   * @throws \Drupal\search_api\SearchApiException
+   *   Thrown if indexing failed.
+   */
+  protected function indexItemDirectly(IndexInterface $index, ItemInterface $item) {
+    $items = [$item->getId() => $item];
+
+    // Minimalistic version of code copied from
+    // \Drupal\search_api\Entity\Index::indexSpecificItems().
+    $index->alterIndexedItems($items);
+    \Drupal::moduleHandler()->alter('search_api_index_items', $index, $items);
+    foreach ($items as $item) {
+      // This will cache the extracted fields so processors, etc., can retrieve
+      // them directly.
+      $item->getFields();
+    }
+    $index->preprocessIndexItems($items);
+
+    $indexed_ids = [];
+    if ($items) {
+      $indexed_ids = $index->getServerInstance()->indexItems($index, $items);
+    }
+    return $indexed_ids;
+  }
+
+  /**
    * Tests whether a server on a non-default database is handled correctly.
    */
   public function testNonDefaultDatabase() {
@@ -671,6 +767,61 @@ class BackendTest extends BackendTestBase {
     $this->assertNotEquals(GenericDatabase::class, $class);
     $this->assertSame($dbms_comp1, $service);
     $this->assertEquals($class, get_class($dbms_comp2));
+  }
+
+  /**
+   * Tests whether indexing of dates works correctly.
+   */
+  public function testDateIndexing() {
+    // Load all existing entities.
+    $storage = \Drupal::entityTypeManager()
+      ->getStorage('entity_test_mulrev_changed');
+    $storage->delete($storage->loadMultiple());
+
+    $index = Index::load('database_search_index');
+    $index->getField('name')->setType('date');
+    $index->save();
+
+    // Simulate date field creation in one timezone and indexing in another.
+    date_default_timezone_set('America/Chicago');
+
+    // Test different input values, similar to @dataProvider (but with less
+    // overhead).
+    $t = 1400000000;
+    $f = 'Y-m-d H:i:s';
+    $test_values = [
+      'null' => [NULL, NULL],
+      'timestamp' => [$t, $t],
+      'string timestamp' => ["$t", $t],
+      'float timestamp' => [$t + 0.12, $t],
+      'date string' => [gmdate($f, $t), $t],
+      'date string with timezone' => [date($f . 'P', $t), $t],
+    ];
+
+    // Get storage information for quickly checking the indexed value.
+    $db_info = $this->getIndexDbInfo();
+    $table = $db_info['index_table'];
+    $column = $db_info['field_tables']['name']['column'];
+    $sql = "SELECT $column FROM {{$table}} WHERE item_id = :id";
+
+    $id = 0;
+    date_default_timezone_set('Asia/Seoul');
+    foreach ($test_values as $label => list($field_value, $expected)) {
+      $entity = $this->addTestEntity(++$id, [
+        'name' => $field_value,
+        'type' => 'item',
+      ]);
+      $item_id = $this->getItemIds([$id])[0];
+      $index->indexSpecificItems([$item_id => $entity->getTypedData()]);
+      $args[':id'] = $item_id;
+      $indexed_value = \Drupal::database()->query($sql, $args)->fetchField();
+      if ($expected === NULL) {
+        $this->assertSame($expected, $indexed_value, "Indexing of date field with $label value.");
+      }
+      else {
+        $this->assertEquals($expected, $indexed_value, "Indexing of date field with $label value.");
+      }
+    }
   }
 
 }

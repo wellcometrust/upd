@@ -543,6 +543,7 @@ display:
               anonymous: '0'
               administrator: '0'
               editor: '0'
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -735,7 +736,7 @@ display:
         groups:
           1: AND
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1145,7 +1146,7 @@ display:
             format: basic_html
           plugin_id: text
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1171,7 +1172,7 @@ display:
         context: '0'
         menu_name: admin
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'

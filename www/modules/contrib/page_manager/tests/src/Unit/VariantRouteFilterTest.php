@@ -16,7 +16,6 @@ use Drupal\page_manager\Routing\VariantRouteFilter;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -55,13 +54,6 @@ class VariantRouteFilterTest extends UnitTestCase {
   protected $routeFilter;
 
   /**
-   * The request stack.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  protected $requestStack;
-
-  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -71,18 +63,26 @@ class VariantRouteFilterTest extends UnitTestCase {
     $this->entityTypeManager->getStorage('page_variant')
       ->willReturn($this->pageVariantStorage);
     $this->currentPath = $this->prophesize(CurrentPathStack::class);
-    $this->requestStack = new RequestStack();
 
-    $this->routeFilter = new VariantRouteFilter($this->entityTypeManager->reveal(), $this->currentPath->reveal(), $this->requestStack);
+    $this->routeFilter = new VariantRouteFilter($this->entityTypeManager->reveal(), $this->currentPath->reveal());
   }
 
   /**
-   * {@inheritdoc}
+   * @covers ::applies
+   *
+   * @dataProvider providerTestApplies
    */
-  protected function tearDown() {
-    // The request stack begins empty, ensure it is empty after filtering.
-    $this->assertNull($this->requestStack->getCurrentRequest());
-    parent::tearDown();
+  public function testApplies($options, $expected) {
+    $route = new Route('/path/with/{slug}', [], [], $options);
+    $result = $this->routeFilter->applies($route);
+    $this->assertSame($expected, $result);
+  }
+
+  public function providerTestApplies() {
+    $data = [];
+    $data['no_options'] = [[], FALSE];
+    $data['with_options'] = [['parameters' => ['page_manager_page_variant' => TRUE]], TRUE];
+    return $data;
   }
 
   /**
@@ -102,7 +102,6 @@ class VariantRouteFilterTest extends UnitTestCase {
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
    * @covers ::checkPageVariantAccess
    */
   public function testFilterContextException() {
@@ -126,7 +125,6 @@ class VariantRouteFilterTest extends UnitTestCase {
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
    */
   public function testFilterNonMatchingRoute() {
     $route_collection = new RouteCollection();
@@ -145,7 +143,6 @@ class VariantRouteFilterTest extends UnitTestCase {
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
    * @covers ::checkPageVariantAccess
    */
   public function testFilterDeniedAccess() {
@@ -169,7 +166,6 @@ class VariantRouteFilterTest extends UnitTestCase {
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
    * @covers ::checkPageVariantAccess
    */
   public function testFilterAllowedAccess() {
@@ -198,15 +194,14 @@ class VariantRouteFilterTest extends UnitTestCase {
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
    */
   public function testFilterAllowedAccessTwoRoutes() {
     $route_collection = new RouteCollection();
     $request = new Request();
 
-    $route1 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant_1', 'page_manager_page_variant_weight' => 0]);
+    // Add route2 first to ensure that the routes are sorted by weight.
+    $route1 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant_1', 'page_manager_page_variant_weight' => 1]);
     $route2 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant_2', 'page_manager_page_variant_weight' => 2]);
-    // Add route2 first to ensure that the routes get sorted by weight.
     $route_collection->add('route_2', $route2);
     $route_collection->add('route_1', $route1);
 
@@ -222,7 +217,7 @@ class VariantRouteFilterTest extends UnitTestCase {
     $this->assertSame($expected, $result->all());
     $expected_attributes = [
       'page_manager_page_variant' => 'variant_1',
-      'page_manager_page_variant_weight' => 0,
+      'page_manager_page_variant_weight' => 1,
       '_route_object' => $route1,
       '_route' => 'route_1',
     ];
@@ -231,20 +226,14 @@ class VariantRouteFilterTest extends UnitTestCase {
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
    */
   public function testFilterAllowedAccessSecondRoute() {
     $route_collection = new RouteCollection();
     $request = new Request();
 
+    // Add route2 first to ensure that the routes are sorted by weight.
     $route1 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant_1', 'page_manager_page_variant_weight' => 1]);
-    $defaults = [
-      'page_manager_page_variant' => 'variant_2',
-      'page_manager_page_variant_weight' => 2,
-      'overridden_route_name' => 'overridden_route_name_for_selected_route',
-    ];
-    $route2 = new Route('/path/with/{slug}', $defaults);
-    // Add route2 first to ensure that the routes get sorted by weight.
+    $route2 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant_2', 'page_manager_page_variant_weight' => 2]);
     $route_collection->add('route_2', $route2);
     $route_collection->add('route_1', $route1);
 
@@ -258,19 +247,20 @@ class VariantRouteFilterTest extends UnitTestCase {
     $this->pageVariantStorage->load('variant_2')->willReturn($page_variant2->reveal())->shouldBeCalled();
 
     $result = $this->routeFilter->filter($route_collection, $request);
-    $expected = ['overridden_route_name_for_selected_route' => $route2];
+    $expected = ['route_2' => $route2];
     $this->assertSame($expected, $result->all());
-    $expected_attributes = $defaults + [
+    $expected_attributes = [
+      'page_manager_page_variant' => 'variant_2',
+      'page_manager_page_variant_weight' => 2,
       '_route_object' => $route2,
-      '_route' => 'overridden_route_name_for_selected_route',
+      '_route' => 'route_2',
     ];
     $this->assertSame($expected_attributes, $request->attributes->all());
   }
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
-   * @covers ::sortRoutes
+   * @covers ::routeWeightSort
    *
    * Tests when the first page_manager route is allowed, but other
    * non-page_manager routes are also present.
@@ -279,17 +269,11 @@ class VariantRouteFilterTest extends UnitTestCase {
     $route_collection = new RouteCollection();
     $request = new Request();
 
-    // The selected route specifies a different base route.
-    $defaults = [
-      'page_manager_page_variant' => 'variant1',
-      'page_manager_page_variant_weight' => -2,
-      'overridden_route_name' => 'route_1',
-    ];
-    $route1 = new Route('/path/with/{slug}');
-    $route2 = new Route('/path/with/{slug}', $defaults);
-    $route3 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant2', 'page_manager_page_variant_weight' => -1]);
-    $route4 = new Route('/path/with/{slug}');
     // Add routes in different order to test sorting.
+    $route1 = new Route('/path/with/{slug}');
+    $route2 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant1', 'page_manager_page_variant_weight' => 1]);
+    $route3 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant2', 'page_manager_page_variant_weight' => 2]);
+    $route4 = new Route('/path/with/{slug}');
     $route_collection->add('route_3', $route3);
     $route_collection->add('route_2', $route2);
     $route_collection->add('route_1', $route1);
@@ -304,19 +288,19 @@ class VariantRouteFilterTest extends UnitTestCase {
     $this->pageVariantStorage->load('variant1')->willReturn($page_variant1->reveal())->shouldBeCalled();
 
     $result = $this->routeFilter->filter($route_collection, $request);
-    $expected = ['route_1' => $route2, 'route_4' => $route4];
+    $expected = ['route_2' => $route2, 'route_1' => $route1, 'route_4' => $route4];
     $this->assertSame($expected, $result->all());
-    $expected_attributes = $defaults + [
+    $expected_attributes = [
+      'page_manager_page_variant' => 'variant1',
+      'page_manager_page_variant_weight' => 1,
       '_route_object' => $route2,
-      '_route' => 'route_1',
+      '_route' => 'route_2',
     ];
     $this->assertSame($expected_attributes, $request->attributes->all());
   }
 
   /**
    * @covers ::filter
-   * @covers ::getVariantRouteName
-   * @covers ::getRequestAttributes
    */
   public function testFilterRequestAttributes() {
     $route_collection = new RouteCollection();
@@ -354,74 +338,6 @@ class VariantRouteFilterTest extends UnitTestCase {
       '_route' => 'a_route',
     ];
     $this->assertSame($expected_attributes, $request->attributes->all());
-  }
-
-  /**
-   * @covers ::filter
-   * @covers ::getVariantRouteName
-   * @covers ::getRequestAttributes
-   */
-  public function testFilterRequestAttributesException() {
-    $route_collection = new RouteCollection();
-    $original_attributes = ['foo' => 'bar', 'slug' => 2];
-    $request = new Request([], [], $original_attributes);
-
-    $route = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'a_variant']);
-    $route_collection->add('a_route', $route);
-
-    $page_variant = $this->prophesize(PageVariantInterface::class);
-    $page_variant->access('view')->willReturn(TRUE);
-
-    $this->currentPath->getPath($request)->willReturn('/path/with/1');
-    $this->pageVariantStorage->load('a_variant')->willReturn($page_variant->reveal());
-
-    $route_enhancer = $this->prophesize(RouteEnhancerInterface::class);
-    $this->routeFilter->addRouteEnhancer($route_enhancer->reveal());
-    $expected_enhance_attributes = [
-      'foo' => 'bar',
-      'slug' => '1',
-      'page_manager_page_variant' => 'a_variant',
-      '_route_object' => $route,
-      '_route' => 'a_route',
-    ];
-    $route_enhancer->enhance($expected_enhance_attributes, $request)->willThrow(new \Exception('A route enhancer failed'));
-
-    $result = $this->routeFilter->filter($route_collection, $request);
-    $this->assertEmpty($result->all());
-    $this->assertSame($original_attributes, $request->attributes->all());
-  }
-
-  /**
-   * @covers ::filter
-   * @covers ::sortRoutes
-   */
-  public function testFilterPreservingBaseRouteName() {
-    $route_collection = new RouteCollection();
-    $request = new Request();
-
-    // Add routes in different order to also test order preserving.
-    $route1 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant1', 'page_manager_page_variant_weight' => -10, 'overridden_route_name' => 'preserved_route_name']);
-    $route2 = new Route('/path/with/{slug}', ['page_manager_page_variant' => 'variant2', 'page_manager_page_variant_weight' => -5]);
-    $route3 = new Route('/path/with/{slug}', []);
-    $route4 = new Route('/path/with/{slug}', []);
-    $route_collection->add('route_4', $route4);
-    $route_collection->add('route_3', $route3);
-    $route_collection->add('route_1', $route1);
-    $route_collection->add('route_2', $route2);
-
-    $page_variant1 = $this->prophesize(PageVariantInterface::class);
-    $page_variant1->access('view')->willReturn(TRUE);
-    $page_variant2 = $this->prophesize(PageVariantInterface::class);
-    $page_variant2->access('view')->willReturn(FALSE);
-
-    $this->currentPath->getPath($request)->willReturn('');
-    $this->pageVariantStorage->load('variant1')->willReturn($page_variant1->reveal())->shouldBeCalled();
-    $this->pageVariantStorage->load('variant2')->shouldNotBeCalled();
-
-    $result = $this->routeFilter->filter($route_collection, $request);
-
-    $expected = ['preserved_route_name' => $route1, 'route_4' => $route4, 'route_3' => $route3];
-    $this->assertSame($expected, $result->all());
   }
 
   /**

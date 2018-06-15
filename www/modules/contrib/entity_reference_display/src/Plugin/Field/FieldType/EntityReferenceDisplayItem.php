@@ -55,6 +55,7 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
   public static function defaultFieldSettings() {
     return [
       'exclude' => [],
+      'negate' => FALSE,
     ] + parent::defaultFieldSettings();
   }
 
@@ -71,6 +72,12 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
       '#options' => $this->getAllDisplayModes(),
       '#default_value' => $this->getSetting('exclude'),
       '#multiple' => TRUE,
+    ];
+    $element['negate'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Include selected display modes instead of excluding'),
+      '#description' => $this->t('If checked, only display modes selected above will be offered.'),
+      '#default_value' => $this->getSetting('negate'),
     ];
     return $element;
   }
@@ -99,11 +106,13 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
     $display_modes = $this->getAllDisplayModes();
     // Get displays to exclude from options.
     $exclude = $this->getSetting('exclude');
+    // Check if display modes should be negated.
+    $negate = !empty($this->getSetting('negate'));
     // Get options array.
     $options = [];
     foreach ($display_modes as $key => $display_mode) {
-      // Only if display is not excluded.
-      if (!isset($exclude[$key])) {
+      // Only if display is not excluded or it's negated and included.
+      if ((!$negate && !isset($exclude[$key])) || ($negate && isset($exclude[$key]))) {
         // Add display between options.
         $options[$key] = $display_mode;
       }

@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_testimonial
     - node.type.landing_page
     - paragraphs.paragraphs_type.testimonial
+    - paragraphs.paragraphs_type.video_slice
   module:
     - entity_reference_revisions
 id: node.landing_page.field_testimonial
@@ -21,8 +22,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
+    negate: 0
     target_bundles:
       testimonial: testimonial
+      video_slice: video_slice
     target_bundles_drag_drop:
       case_study_vertical_tab:
         weight: 6
@@ -33,10 +36,61 @@ settings:
       grid_items:
         weight: 8
         enabled: false
-      resource_vertical_tab:
-        weight: 9
-        enabled: false
       testimonial:
         enabled: true
         weight: 10
+      basic_title_link:
+        weight: 23
+        enabled: false
+      basic_user_list_item:
+        weight: 24
+        enabled: false
+      basic_vertical_tab:
+        weight: 25
+        enabled: false
+      box_list:
+        weight: 26
+        enabled: false
+      dos_donts:
+        weight: 28
+        enabled: false
+      faq_referenced_questions:
+        weight: 30
+        enabled: false
+      file_download:
+        weight: 31
+        enabled: false
+      funding:
+        weight: 32
+        enabled: false
+      hero_header_slice:
+        weight: 34
+        enabled: false
+      image:
+        weight: 35
+        enabled: false
+      list_item:
+        weight: 36
+        enabled: false
+      list_with_sublist:
+        weight: 37
+        enabled: false
+      referenced_link:
+        weight: 38
+        enabled: false
+      resource_links_block:
+        weight: 39
+        enabled: false
+      team_list:
+        weight: 40
+        enabled: false
+      tile_paragraph:
+        weight: 42
+        enabled: false
+      video_slice:
+        enabled: true
+        weight: 43
+      video_text_block:
+        weight: 44
+        enabled: false
 field_type: entity_reference_revisions

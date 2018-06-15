@@ -30,24 +30,24 @@ class Tab extends FieldGroupFormatterBase {
   public function preRender(&$element, $rendering_object) {
     parent::preRender($element, $rendering_object);
 
-    $add = array(
+    $add = [
       '#type' => 'details',
       '#title' => Html::escape($this->t($this->getLabel())),
       '#description' => $this->getSetting('description'),
-    );
+    ];
 
     if ($this->getSetting('id')) {
-      $add['#id'] = Html::getId($this->getSetting('id'));
+      $add['#id'] = Html::getUniqueId($this->getSetting('id'));
     }
     else {
-      $add['#id'] = Html::getId('edit-' . $this->group->group_name);
+      $add['#id'] = Html::getUniqueId('edit-' . $this->group->group_name);
     }
 
     $classes = $this->getClasses();
     if (!empty($classes)) {
-      $element += array(
-        '#attributes' => array('class' => $classes),
-      );
+      $element += [
+        '#attributes' => ['class' => $classes],
+      ];
     }
 
     if ($this->getSetting('formatter') == 'open') {
@@ -58,7 +58,7 @@ class Tab extends FieldGroupFormatterBase {
     // to vertical tabs nested in a separate vertical group.
     if (!empty($this->group->parent_name)) {
       $add['#group'] = $this->group->parent_name;
-      $add['#parents'] = array($add['#group']);
+      $add['#parents'] = [$add['#group']];
     }
 
     if ($this->getSetting('required_fields')) {
@@ -77,28 +77,28 @@ class Tab extends FieldGroupFormatterBase {
 
     $form = parent::settingsForm();
 
-    $form['formatter'] = array(
+    $form['formatter'] = [
       '#title' => $this->t('Default state'),
       '#type' => 'select',
       '#options' => array_combine($this->pluginDefinition['format_types'], $this->pluginDefinition['format_types']),
       '#default_value' => $this->getSetting('formatter'),
       '#weight' => -4,
-    );
+    ];
 
-    $form['description'] = array(
+    $form['description'] = [
       '#title' => $this->t('Description'),
       '#type' => 'textarea',
       '#default_value' => $this->getSetting('description'),
       '#weight' => -4,
-    );
+    ];
 
     if ($this->context == 'form') {
-      $form['required_fields'] = array(
+      $form['required_fields'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Mark group as required if it contains required fields.'),
         '#default_value' => $this->getSetting('required_fields'),
         '#weight' => 2,
-      );
+      ];
     }
 
     return $form;
@@ -108,10 +108,10 @@ class Tab extends FieldGroupFormatterBase {
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    $defaults = array(
+    $defaults = [
       'formatter' => 'closed',
       'description' => '',
-    ) + parent::defaultSettings($context);
+    ] + parent::defaultSettings($context);
 
     if ($context == 'form') {
       $defaults['required_fields'] = 1;

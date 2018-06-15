@@ -1,7 +1,7 @@
 name: ImageWidgetCrop examples
 type: module
 description: Provides an out of box example implementation of ImageWidgetCrop.
-core: 8.x
+# core: 8.x
 package: Media
 dependencies:
   - node
@@ -16,3 +16,9 @@ dependencies:
   - ctools
 theme:
   - bartik
+
+# Information added by Drupal.org packaging script on 2017-11-08
+version: '8.x-2.1'
+core: '8.x'
+project: 'image_widget_crop'
+datestamp: 1510138593

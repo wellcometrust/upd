@@ -1,0 +1,35 @@
+uuid: bf434105-c913-48c6-b95b-795a34060185
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.highlight_page.body
+    - field.field.node.highlight_page.field_content_area
+    - field.field.node.highlight_page.field_footer_area
+    - field.field.node.highlight_page.field_hero_area
+    - field.field.node.highlight_page.field_sections
+    - field.field.node.highlight_page.field_standfirst
+    - node.type.highlight_page
+  module:
+    - text
+    - user
+id: node.highlight_page.search_result
+targetEntityType: node
+bundle: highlight_page
+mode: search_result
+content:
+  field_standfirst:
+    type: text_default
+    weight: 0
+    region: content
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_content_area: true
+  field_footer_area: true
+  field_hero_area: true
+  field_sections: true
+  links: true

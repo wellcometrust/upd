@@ -25,4 +25,9 @@ content:
   links:
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_content_area: true
+  field_footer_area: true
+  field_hero_area: true
+  field_sections: true
+  field_standfirst: true

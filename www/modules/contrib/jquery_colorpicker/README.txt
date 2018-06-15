@@ -19,6 +19,7 @@ Installation guide
 Manual installation:
  1.- Navigate to the /libraries folder in the Drupal webroot. Create this directory if it does not exist.
  2.- Go to www.eyecon.ro/colorpicker/ and download colorpicker.zip.
+      The library can also be found at https://github.com/jaypan/jquery_colorpicker
  3.- Extract the the zip file content to the
       /libraries/jquery_colorpicker folder.
  4.- If you have extracted the contents correctly, the following file should
