@@ -85,8 +85,8 @@ class ProcessorIntegrationTest extends FacetsTestBase {
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->checkboxChecked('edit-facet-settings-count-limit-status');
     $this->assertSession()->checkboxChecked('edit-facet-settings-hide-non-narrowing-result-processor-status');
-    $this->assertOptionSelected('edit-processors-count-limit-weights-build', -10);
-    $this->assertOptionSelected('edit-processors-hide-non-narrowing-result-processor-weights-build', -10);
+    $this->assertOptionSelected('edit-processors-count-limit-weights-build', 50);
+    $this->assertOptionSelected('edit-processors-hide-non-narrowing-result-processor-weights-build', 40);
 
     // Change the weight of one of the processors and test that the weight
     // change persisted.
@@ -98,7 +98,7 @@ class ProcessorIntegrationTest extends FacetsTestBase {
     $this->drupalPostForm(NULL, $form, 'Save');
     $this->assertSession()->checkboxChecked('edit-facet-settings-count-limit-status');
     $this->assertSession()->checkboxChecked('edit-facet-settings-hide-non-narrowing-result-processor-status');
-    $this->assertOptionSelected('edit-processors-count-limit-weights-build', -10);
+    $this->assertOptionSelected('edit-processors-count-limit-weights-build', 50);
     $this->assertOptionSelected('edit-processors-hide-non-narrowing-result-processor-weights-build', 5);
   }
 
@@ -768,6 +768,12 @@ class ProcessorIntegrationTest extends FacetsTestBase {
   public function testHideOnlyOneItemProcessor() {
     $entity_test_storage = \Drupal::entityTypeManager()
       ->getStorage('entity_test_mulrev_changed');
+
+    // Load all items and delete them.
+    $all = $entity_test_storage->loadMultiple();
+    foreach ($all as $item) {
+      $item->delete();
+    }
     $entity_test_storage->create([
       'name' => 'baz baz',
       'body' => 'foo test',
@@ -775,7 +781,6 @@ class ProcessorIntegrationTest extends FacetsTestBase {
       'keywords' => ['kiwi'],
       'category' => 'article_category',
     ])->save();
-
     $this->indexItems($this->indexId);
 
     $facet_name = 'Drupalcon Vienna';
@@ -790,8 +795,7 @@ class ProcessorIntegrationTest extends FacetsTestBase {
     $this->drupalPostForm($this->editForm, $form, 'Save');
     $this->drupalGet('search-api-test-fulltext');
 
-    $this->assertFacetBlocksAppear();
-    $this->clickLink('kiwi');
+    $this->assertSession()->pageTextContains('Displaying 1 search results');
     $this->assertNoFacetBlocksAppear();
   }
 

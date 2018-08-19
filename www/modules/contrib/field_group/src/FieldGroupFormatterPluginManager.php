@@ -20,8 +20,6 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
    *   keyed by the corresponding namespace to look for plugin implementations.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *   Cache backend instance to use.
-   * @param \Drupal\Core\Language\LanguageManager $language_manager
-   *   The language manager.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler to invoke the alter hook with.
    */
@@ -97,12 +95,11 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
    * Merges default values for formatter configuration.
    *
    * @param string $format_type
-   *   The format type
+   *   The format type.
    * @param string $context
    *   The context to prepare configuration for.
-   * @param array $properties
-   *   An array of formatter configuration.
-   *
+   * @param array $configuration
+   *   The configuration of the group.
    * @return array
    *   The display properties with defaults added.
    */

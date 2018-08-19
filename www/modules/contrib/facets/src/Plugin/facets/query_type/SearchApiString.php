@@ -4,6 +4,7 @@ namespace Drupal\facets\Plugin\facets\query_type;
 
 use Drupal\facets\QueryType\QueryTypePluginBase;
 use Drupal\facets\Result\Result;
+use Drupal\search_api\Query\QueryInterface;
 
 /**
  * Provides support for string facets within the Search API scope.
@@ -34,9 +35,11 @@ class SearchApiString extends QueryTypePluginBase {
       $field_identifier = $this->facet->getFieldIdentifier();
       $exclude = $this->facet->getExclude();
 
-      // Set the options for the actual query.
-      $options = &$query->getOptions();
-      $options['search_api_facets'][$field_identifier] = $this->getFacetOptions();
+      if ($query->getProcessingLevel() === QueryInterface::PROCESSING_FULL) {
+        // Set the options for the actual query.
+        $options = &$query->getOptions();
+        $options['search_api_facets'][$field_identifier] = $this->getFacetOptions();
+      }
 
       // Add the filter to the query if there are active values.
       $active_items = $this->facet->getActiveItems();
@@ -61,8 +64,14 @@ class SearchApiString extends QueryTypePluginBase {
       $facet_results = [];
       foreach ($this->results as $result) {
         if ($result['count'] || $query_operator == 'or') {
+          $result_filter = $result['filter'];
+          if ($result_filter[0] === '"') {
+            $result_filter = substr($result_filter, 1);
+          }
+          if ($result_filter[strlen($result_filter) - 1] === '"') {
+            $result_filter = substr($result_filter, 0, -1);
+          }
           $count = $result['count'];
-          $result_filter = trim($result['filter'], '"');
           $result = new Result($this->facet, $result_filter, $result_filter, $count);
           $facet_results[] = $result;
         }

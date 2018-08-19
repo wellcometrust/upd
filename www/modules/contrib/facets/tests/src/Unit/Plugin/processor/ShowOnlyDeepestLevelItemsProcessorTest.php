@@ -16,6 +16,8 @@ use Drupal\Tests\UnitTestCase;
 class ShowOnlyDeepestLevelItemsProcessorTest extends UnitTestCase {
 
   /**
+   * The processor under test.
+   *
    * @var \Drupal\facets\Plugin\facets\processor\ShowOnlyDeepestLevelItemsProcessor
    */
   protected $processor;

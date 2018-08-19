@@ -24,7 +24,7 @@ class HideOnlyOneItemProcessor extends ProcessorPluginBase implements BuildProce
    * {@inheritdoc}
    */
   public function build(FacetInterface $facet, array $results) {
-    if (count($results) === 1) {
+    if (count($results) === 1 && !$results[0]->isActive()) {
       return [];
     }
 

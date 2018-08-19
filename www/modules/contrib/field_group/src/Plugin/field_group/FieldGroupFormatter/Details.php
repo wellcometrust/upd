@@ -23,17 +23,16 @@ class Details extends FieldGroupFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function preRender(&$element, $rendering_object) {
-    parent::preRender($element, $rendering_object);
+  public function process(&$element, $processed_object) {
 
     $element += [
       '#type' => 'details',
       '#title' => Html::escape($this->t($this->getLabel())),
-      '#open' => $this->getSetting('open')
+      '#open' => $this->getSetting('open'),
     ];
 
     if ($this->getSetting('id')) {
-      $element['#id'] = Html::getId($this->getSetting('id'));
+      $element['#id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     $classes = $this->getClasses();
@@ -53,6 +52,15 @@ class Details extends FieldGroupFormatterBase {
       $element['#attached']['library'][] = 'field_group/formatter.details';
       $element['#attached']['library'][] = 'field_group/core';
     }
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preRender(&$element, $rendering_object) {
+    parent::preRender($element, $rendering_object);
+    $this->process($element, $rendering_object);
   }
 
   /**

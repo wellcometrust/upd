@@ -138,4 +138,53 @@ class SearchApiStringTest extends UnitTestCase {
     $this->assertEquals(['owl' => 'Long-eared owl'], $query_type->getConfiguration());
   }
 
+  /**
+   * Tests trimming in ::build.
+   *
+   * @dataProvider provideTrimValues
+   */
+  public function testTrim($expected_value, $input_value) {
+    $query = new SearchApiQuery([], 'search_api_query', []);
+    $facet = new Facet([], 'facets_facet');
+
+    $original_results = [['count' => 1, 'filter' => $input_value]];
+
+    $query_type = new SearchApiString(
+      [
+        'facet' => $facet,
+        'query' => $query,
+        'results' => $original_results,
+      ],
+      'search_api_string',
+      []
+    );
+
+    $built_facet = $query_type->build();
+    $this->assertInstanceOf(FacetInterface::class, $built_facet);
+
+    $results = $built_facet->getResults();
+    $this->assertInternalType('array', $results);
+
+    $this->assertInstanceOf(ResultInterface::class, $results[0]);
+    $this->assertEquals(1, $results[0]->getCount());
+    $this->assertEquals($expected_value, $results[0]->getDisplayValue());
+  }
+
+  /**
+   * Data provider for ::provideTrimValues.
+   *
+   * @return array
+   *   An array of expected and input values.
+   */
+  public function provideTrimValues() {
+    return [
+      ['owl', '"owl"'],
+      ['owl', 'owl'],
+      ['owl', '"owl'],
+      ['owl', 'owl"'],
+      ['"owl', '""owl"'],
+      ['owl"', '"owl""'],
+    ];
+  }
+
 }

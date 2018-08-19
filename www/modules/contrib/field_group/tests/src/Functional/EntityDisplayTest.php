@@ -53,7 +53,7 @@ class EntityDisplayTest extends BrowserTestBase {
       'administer node fields',
       'administer node form display',
       'administer node display',
-      'bypass node access'
+      'bypass node access',
     ]);
     $this->drupalLogin($admin_user);
 
@@ -64,7 +64,7 @@ class EntityDisplayTest extends BrowserTestBase {
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
     $display = \Drupal::entityTypeManager()
       ->getStorage('entity_view_display')
-      ->load('node' . '.' . $type_name . '.' . 'default');
+      ->load('node.' . $type_name . '.default');
 
     // Create a node.
     $node_values = ['type' => $type_name];
@@ -148,7 +148,7 @@ class EntityDisplayTest extends BrowserTestBase {
     ];
     $group = $this->createGroup('node', $this->type, 'view', 'default', $data);
 
-    //$groups = field_group_info_groups('node', 'article', 'view', 'default', TRUE);
+    // $groups = field_group_info_groups('node', 'article', 'view', 'default', TRUE);.
     $this->drupalGet('node/' . $this->node->id());
 
     // Test group ids and classes.
@@ -161,10 +161,11 @@ class EntityDisplayTest extends BrowserTestBase {
     // Set show label to true.
     $group->format_settings['show_label'] = TRUE;
     $group->format_settings['label_element'] = 'h3';
+    $group->format_settings['label_element_classes'] = 'my-label-class';
     field_group_group_save($group);
 
     $this->drupalGet('node/' . $this->node->id());
-    $this->assertRaw('<h3>' . $data['label'] . '</h3>');
+    $this->assertRaw('<h3 class="my-label-class">' . $data['label'] . '</h3>');
 
     // Change to collapsible with blink effect.
     $group->format_settings['effect'] = 'blink';
@@ -269,7 +270,7 @@ class EntityDisplayTest extends BrowserTestBase {
     // Test if it's a vertical tab.
     $this->assertFieldByXPath('//div[@data-vertical-tabs-panes=""]', NULL, 'Tabs are shown vertical.');
 
-    // Switch to horizontal
+    // Switch to horizontal.
     $tabs_group->format_settings['direction'] = 'horizontal';
     field_group_group_save($tabs_group);
 
@@ -324,7 +325,7 @@ class EntityDisplayTest extends BrowserTestBase {
       'format_settings' => [
         'label' => 'Tab 1',
         'classes' => 'test-class-wrapper',
-        'effect' => 'bounceslide'
+        'effect' => 'bounceslide',
       ],
     ];
     $this->createGroup('node', $this->type, 'view', 'default', $data);
@@ -338,7 +339,7 @@ class EntityDisplayTest extends BrowserTestBase {
     $this->assertFieldByXPath("//div[contains(@class, 'test-class-2')]", NULL, 'Accordion item with test-class-2 is shown');
     $this->assertFieldByXPath("//h3[contains(@class, 'field-group-accordion-active')]", NULL, 'Accordion item 2 was set active');
 
-    // Test if correctly nested
+    // Test if correctly nested.
     $this->assertFieldByXPath("//div[contains(@class, 'test-class-wrapper')]//div[contains(@class, 'test-class')]", NULL, 'First item is displayed as child of the wrapper.');
     $this->assertFieldByXPath("//div[contains(@class, 'test-class-wrapper')]//div[contains(@class, 'test-class-2')]", NULL, 'Second item is displayed as child of the wrapper.');
   }

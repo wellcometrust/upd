@@ -6,10 +6,15 @@
  * needed on the Fields UI Manage forms (display and fields).
  */
 
+use Drupal\field_group\FieldgroupUi;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Entity\EntityDisplayBase;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Element;
+use Drupal\field_group\FormatterHelper;
 use Drupal\field_ui\Form\EntityDisplayFormBase;
 
 /**
@@ -22,7 +27,7 @@ use Drupal\field_ui\Form\EntityDisplayFormBase;
  *
  * @return \stdClass
  */
-function field_group_field_ui_form_params($form, \Drupal\Core\Entity\EntityDisplayBase $display) {
+function field_group_field_ui_form_params($form, EntityDisplayBase $display) {
 
   $params = new stdClass();
   $params->entity_type = $display->getTargetEntityTypeId();
@@ -66,11 +71,11 @@ function field_group_field_ui_form_params($form, \Drupal\Core\Entity\EntityDispl
  *
  * @return string
  */
-function field_group_get_context_from_display(\Drupal\Core\Entity\EntityDisplayBase $display) {
-  if ($display instanceof \Drupal\Core\Entity\Display\EntityFormDisplayInterface) {
+function field_group_get_context_from_display(EntityDisplayBase $display) {
+  if ($display instanceof EntityFormDisplayInterface) {
     return 'form';
   }
-  elseif ($display instanceof \Drupal\Core\Entity\Display\EntityViewDisplayInterface) {
+  elseif ($display instanceof EntityViewDisplayInterface) {
     return 'view';
   }
 
@@ -121,7 +126,7 @@ function field_group_field_ui_display_form_alter(&$form, FormStateInterface $for
     }
   }
 
-  $formatter_options = field_group_field_formatter_options($params->context);
+  $formatter_options = FormatterHelper::formatterOptions($params->context);
 
   $refresh_rows = isset($form_state_values['refresh_rows']) ? $form_state_values['refresh_rows'] : (isset($form_state->getUserInput()['refresh_rows']) ? $form_state->getUserInput()['refresh_rows'] : NULL);
 
@@ -174,7 +179,7 @@ function field_group_field_ui_display_form_alter(&$form, FormStateInterface $for
       'parent_wrapper' => [
         'parent' => [
           '#type' => 'select',
-          '#options' =>  $parent_options,
+          '#options' => $parent_options,
           '#empty_value' => '',
           '#default_value' => isset($params->parents[$name]) ? $params->parents[$name] : '',
           '#attributes' => ['class' => ['field-parent']],
@@ -198,8 +203,8 @@ function field_group_field_ui_display_form_alter(&$form, FormStateInterface $for
     if ($params->context == 'view') {
       $table[$name] += [
         'spacer' => [
-          '#markup' => '&nbsp;'
-        ]
+          '#markup' => '&nbsp;',
+        ],
       ];
     }
 
@@ -216,7 +221,7 @@ function field_group_field_ui_display_form_alter(&$form, FormStateInterface $for
 
     $base_button = [
       '#submit' => [
-        [$form_state->getBuildInfo()['callback_object'], 'multistepSubmit']
+        [$form_state->getBuildInfo()['callback_object'], 'multistepSubmit'],
       ],
       '#ajax' => [
         'callback' => [$form_state->getBuildInfo()['callback_object'], 'multistepAjax'],
@@ -280,7 +285,7 @@ function field_group_field_ui_display_form_alter(&$form, FormStateInterface $for
         '#suffix' => '</div>',
       ];
 
-      $delete_route = \Drupal\field_group\FieldgroupUi::getDeleteRoute($group);
+      $delete_route = FieldgroupUi::getDeleteRoute($group);
 
       $table[$name]['settings_edit']['#suffix'] .= Link::fromTextAndUrl(t('delete'), $delete_route)->toString();
     }
@@ -299,7 +304,7 @@ function field_group_field_ui_display_form_alter(&$form, FormStateInterface $for
   // Create the settings for fieldgroup as vertical tabs (merged with DS).
   field_group_field_ui_create_vertical_tabs($form, $form_state, $params);
 
-  // Show a warning if the user has not set up required containers
+  // Show a warning if the user has not set up required containers.
   if ($form['#fieldgroups']) {
 
     $parent_requirements = [
@@ -375,20 +380,23 @@ function field_group_field_ui_create_vertical_tabs(&$form, &$form_state, $params
     '#description' => t('Clone fieldgroups from selected display to the current display'),
     '#type' => 'select',
     '#options' => $displays,
-    '#default_value' => 'none'
+    '#default_value' => 'none',
   ];
   $form['field_group']['fieldgroup_submit'] = [
     '#type' => 'submit',
     '#value' => t('Clone'),
     '#validate' => ['field_group_field_ui_clone_field_groups_validate'],
-    '#submit' => ['field_group_field_ui_clone_field_groups']
+    '#submit' => ['field_group_field_ui_clone_field_groups'],
   ];
 
 }
 
 /**
  * Returns the region to which a row in the 'Manage display' screen belongs.
- * @param Array $row A field or field_group row
+ *
+ * @param array $row
+ *   A field or field_group row.
+ *
  * @return String the current region.
  */
 function field_group_display_overview_row_region($row) {
@@ -398,18 +406,20 @@ function field_group_display_overview_row_region($row) {
 
 /**
  * Submit handler for the overview screens.
- * @param Array $form The complete form.
- * @param FormStateInterface $form_state The state of the form.
+ *
+ * @param array $form
+ *   The complete form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The state of the form.
  */
 function field_group_field_overview_submit($form, FormStateInterface $form_state) {
   $form_values = $form_state->getValue('fields');
-  $fields_added = $form_state->getValue('fields_added');
-  $layout_id = $form_state->getValue('field_layout');
 
   /**
    * @var \Drupal\Core\Entity\EntityDisplayBase $display
    */
   $display = $form['#context'];
+  $manager = Drupal::service('plugin.manager.field_group.formatters');
 
   $entity_type = $display->get('targetEntityType');
   $bundle = $display->get('bundle');
@@ -430,7 +440,7 @@ function field_group_field_overview_submit($form, FormStateInterface $form_state
   }
 
   // Update existing groups.
-  $groups = field_group_info_groups($entity_type, $bundle, $context, $mode, TRUE);
+  $groups = field_group_info_groups($entity_type, $bundle, $context, $mode);
   $field_group_form_state = $form_state->get('field_group');
   if (!empty($field_group_form_state)) {
     foreach ($form['#fieldgroups'] as $group_name) {
@@ -445,8 +455,7 @@ function field_group_field_overview_submit($form, FormStateInterface $form_state
 
       // Sometimes field UI does a fuckup if people drag to fast when switching nested values.
       // This results in an endless loop => Cleanup before saving.
-      //unset($children[$group_name][$form_values[$group_name]['parent']]);
-
+      // unset($children[$group_name][$form_values[$group_name]['parent']]);.
       $group->children = array_keys($children[$group_name]);
       $group->parent_name = $form_values[$group_name]['parent'];
       $group->weight = $form_values[$group_name]['weight'];
@@ -462,8 +471,7 @@ function field_group_field_overview_submit($form, FormStateInterface $form_state
 
       // If the format type is changed, make sure we have all required format settings.
       if ($group->format_type != $old_format_type) {
-        $default_formatter_settings = _field_group_get_default_formatter_settings($group->format_type, $context);
-        $group->format_settings += $default_formatter_settings;
+        $group->format_settings += $manager->getDefaultSettings($group->format_type, $context);
       }
 
       /** @var EntityFormInterface $entity_form */
@@ -481,7 +489,9 @@ function field_group_field_overview_submit($form, FormStateInterface $form_state
 
 /**
  * Creates a form for field_group formatters.
- * @param Object $group The FieldGroup object.
+ *
+ * @param Object $group
+ *   The FieldGroup object.
  */
 function field_group_format_settings_form(&$group, $form, $form_state) {
   $manager = \Drupal::service('plugin.manager.field_group.formatters');
@@ -497,11 +507,12 @@ function field_group_format_settings_form(&$group, $form, $form_state) {
 /**
  * Update the row so that the group variables are updated.
  * The rendering of the elements needs the updated defaults.
+ *
  * @param Object $group
  * @param array $settings
  */
 function field_group_formatter_row_update(& $group, $settings) {
-  // if the row has changed formatter type, update the group object
+  // If the row has changed formatter type, update the group object.
   if (!empty($settings['format']['type']) && $settings['format']['type'] != $group->format_type) {
     $group->format_type = $settings['format']['type'];
     field_group_formatter_settings_update($group, $settings);
@@ -510,14 +521,17 @@ function field_group_formatter_row_update(& $group, $settings) {
 
 /**
  * Update handler for field_group configuration settings.
- * @param Object $group The group object
- * @param Array $settings Configuration settings
+ *
+ * @param Object $group
+ *   The group object.
+ * @param array $settings
+ *   Configuration settings.
  */
 function field_group_formatter_settings_update(& $group, $settings) {
 
-  // for format changes we load the defaults.
+  // For format changes we load the defaults.
   if (empty($settings['settings_edit_form']['settings'])) {
-    $group->format_settings = _field_group_get_default_formatter_settings($group->format_type, $group->context);
+    $group->format_settings = Drupal::service('plugin.manager.field_group.formatters')->getDefaultSettings($group->format_type, $group->context);
   }
   else {
     $group->format_type = $settings['format']['type'];
@@ -528,8 +542,12 @@ function field_group_formatter_settings_update(& $group, $settings) {
 
 /**
  * Creates a summary for the field format configuration summary.
- * @param String $group_name The name of the group
- * @param Object $group The group object
+ *
+ * @param string $group_name
+ *   The name of the group.
+ * @param Object $group
+ *   The group object.
+ *
  * @return Array ready to be rendered.
  */
 function field_group_format_settings_summary($group_name, $group) {

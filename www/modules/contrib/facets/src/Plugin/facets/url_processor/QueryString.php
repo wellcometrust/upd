@@ -59,13 +59,14 @@ class QueryString extends UrlProcessorPluginBase {
     $request = $this->request;
     if ($facet->getFacetSource()->getPath()) {
       $request = Request::create($facet->getFacetSource()->getPath());
+      $request->attributes->set('_format', $this->request->get('_format'));
     }
 
     // Grab any route params from the original request.
     $routeParameters = Url::createFromRequest($this->request)
       ->getRouteParameters();
 
-    // Get request Url.
+    // Create a request url.
     $requestUrl = Url::createFromRequest($request);
     $requestUrl->setOption('attributes', ['rel' => 'nofollow']);
 

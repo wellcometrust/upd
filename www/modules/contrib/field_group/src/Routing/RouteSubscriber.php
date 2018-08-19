@@ -14,7 +14,7 @@ use Symfony\Component\Routing\RouteCollection;
 class RouteSubscriber extends RouteSubscriberBase {
 
   /**
-   * The entity type manager
+   * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
@@ -152,7 +152,7 @@ class RouteSubscriber extends RouteSubscriberBase {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    //$events = parent::getSubscribedEvents();
+    // $events = parent::getSubscribedEvents();
     // Come after field_ui, config_translation.
     $events[RoutingEvents::ALTER] = ['onAlterRoutes', -210];
     return $events;

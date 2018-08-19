@@ -195,7 +195,7 @@ class FacetFacetSourceTest extends EntityKernelTestBase {
   /**
    * Test the data definitions.
    *
-   * @covers \Drupal\facets\FacetSource\FacetSourcePluginInterface::getDataDefinition
+   * @covers \Drupal\facets\Plugin\facets\facet_source\SearchApiDisplay::getDataDefinition
    */
   public function testDataDefinitions() {
     // Create and configure facet.

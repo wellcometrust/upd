@@ -2,6 +2,7 @@
 
 namespace Drupal\field_group\Plugin\field_group\FieldGroupFormatter;
 
+use Drupal\field_group\Element\HtmlElement as HtmlElementRenderElement;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Template\Attribute;
@@ -25,8 +26,10 @@ class HtmlElement extends FieldGroupFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function preRender(&$element, $rendering_object) {
-    parent::preRender($element, $rendering_object);
+  public function process(&$element, $processed_object) {
+
+    // Keep using preRender parent for BC.
+    parent::preRender($element, $processed_object);
 
     $element_attributes = new Attribute();
 
@@ -45,7 +48,7 @@ class HtmlElement extends FieldGroupFormatterBase {
 
     // Add the id to the attributes array.
     if ($this->getSetting('id')) {
-      $element_attributes['id'] = Html::getId($this->getSetting('id'));
+      $element_attributes['id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     // Add the classes to the attributes array.
@@ -69,16 +72,32 @@ class HtmlElement extends FieldGroupFormatterBase {
     if ($this->getSetting('show_label')) {
       $element['#title_element'] = $this->getSetting('label_element');
       $element['#title'] = Html::escape($this->t($this->getLabel()));
-    }
+      $element['#title_attributes'] = new Attribute();
 
-    $form_state = new FormState();
-    \Drupal\field_group\Element\HtmlElement::processHtmlElement($element, $form_state);
+      if (!empty($this->getSetting('label_element_classes'))) {
+        $element['#title_attributes']->addClass(explode(' ', $this->getSetting('label_element_classes')));
+      }
+
+      if (!empty($this->getSetting('effect')) && $this->getSetting('effect') !== 'none') {
+        $element['#title_attributes']->addClass('field-group-toggler');
+      }
+    }
 
     if ($this->getSetting('required_fields')) {
       $element['#attributes']['class'][] = 'field-group-html-element';
       $element['#attached']['library'][] = 'field_group/formatter.html_element';
       $element['#attached']['library'][] = 'field_group/core';
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preRender(&$element, $rendering_object) {
+    $this->process($element, $rendering_object);
+
+    $form_state = new FormState();
+    HtmlElementRenderElement::processHtmlElement($element, $form_state);
   }
 
   /**
@@ -103,7 +122,7 @@ class HtmlElement extends FieldGroupFormatterBase {
       '#default_value' => $this->getSetting('show_label'),
       '#weight' => 2,
       '#attributes' => [
-        'data-fieldgroup-selector' => 'show_label'
+        'data-fieldgroup-selector' => 'show_label',
       ],
     ];
 
@@ -111,6 +130,18 @@ class HtmlElement extends FieldGroupFormatterBase {
       '#title' => $this->t('Label element'),
       '#type' => 'textfield',
       '#default_value' => $this->getSetting('label_element'),
+      '#weight' => 3,
+      '#states' => [
+        'visible' => [
+          ':input[data-fieldgroup-selector="show_label"]' => ['value' => 1],
+        ],
+      ],
+    ];
+
+    $form['label_element_classes'] = [
+      '#title' => $this->t('Label element HTML classes'),
+      '#type' => 'textfield',
+      '#default_value' => $this->getSetting('label_element_classes'),
       '#weight' => 3,
       '#states' => [
         'visible' => [
@@ -142,12 +173,12 @@ class HtmlElement extends FieldGroupFormatterBase {
       '#options' => [
         'none' => $this->t('None'),
         'collapsible' => $this->t('Collapsible'),
-        'blind' => $this->t('Blind')
+        'blind' => $this->t('Blind'),
       ],
       '#default_value' => $this->getSetting('effect'),
       '#weight' => 6,
       '#attributes' => [
-        'data-fieldgroup-selector' => 'effect'
+        'data-fieldgroup-selector' => 'effect',
       ],
     ];
 
@@ -181,6 +212,11 @@ class HtmlElement extends FieldGroupFormatterBase {
       $summary[] = $this->t('Label element: @element',
         ['@element' => $this->getSetting('label_element')]
       );
+      if (!empty($this->getSetting('label_element_classes'))) {
+        $summary[] = $this->t('Label element HTML classes: @label_classes', [
+          '@label_classes' => $this->getSetting('label_element_classes'),
+        ]);
+      }
     }
 
     if ($this->getSetting('attributes')) {
@@ -204,6 +240,7 @@ class HtmlElement extends FieldGroupFormatterBase {
       'element' => 'div',
       'show_label' => 0,
       'label_element' => 'h3',
+      'label_element_classes' => '',
       'effect' => 'none',
       'speed' => 'fast',
       'attributes' => '',

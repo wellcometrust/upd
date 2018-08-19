@@ -19,7 +19,7 @@ class LinksWidgetTest extends WidgetTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $this->widget = new LinksWidget();
+    $this->widget = new LinksWidget([], 'links_widget', []);
   }
 
   /**

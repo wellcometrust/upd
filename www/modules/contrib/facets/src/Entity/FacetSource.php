@@ -36,8 +36,7 @@ use Drupal\facets\FacetSourceInterface;
  *     "breadcrumb"
  *   },
  *   links = {
- *     "canonical" = "/admin/config/search/facets/facet-sources/",
- *     "edit-form" = "/admin/config/search/facets/facet-sources/{facets_facet_source}/edit"
+ *     "edit-form" = "/admin/config/search/facets/facet-sources/{facets_facet_source}/edit",
  *   }
  * )
  */

@@ -7,6 +7,7 @@
 
 use Drupal\facets\Entity\Facet;
 use Drupal\facets\Entity\FacetSource;
+use Drupal\block\Entity\Block;
 
 /**
  * Convert facets on Search Api facet sources to use the display plugin.
@@ -147,5 +148,22 @@ function facets_update_8005() {
       ]);
       $facet->save();
     }
+  }
+}
+
+/**
+ * Update facet blocks configuration with a block id used for AJAX support.
+ */
+function facets_update_8006() {
+  $query = \Drupal::entityQuery('block')
+    ->condition('plugin', 'facet_block', 'STARTS_WITH')
+    ->execute();
+
+  foreach ($query as $block_id) {
+    $block = Block::load($block_id);
+    $configuration = $block->get('settings');
+    $configuration['block_id'] = $block_id;
+    $block->set('settings', $configuration);
+    $block->save();
   }
 }

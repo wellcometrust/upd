@@ -14,7 +14,7 @@ class FieldGroupDeleteForm extends ConfirmFormBase {
   /**
    * The fieldgroup to delete.
    *
-   * @var stdClass
+   * @var object
    */
   protected $fieldGroup;
 
@@ -25,6 +25,9 @@ class FieldGroupDeleteForm extends ConfirmFormBase {
     return 'field_group_delete_form';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state, $field_group_name = NULL, $entity_type_id = NULL, $bundle = NULL, $context = NULL) {
 
     if ($context == 'form') {

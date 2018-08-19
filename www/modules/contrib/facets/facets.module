@@ -11,6 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 use Drupal\facets\Entity\Facet;
 use Drupal\facets\Entity\FacetSource;
 use Drupal\facets\FacetInterface;
@@ -217,6 +218,9 @@ function facets_entity_predelete(EntityInterface $entity) {
  * @see https://www.drupal.org/node/1842756
  */
 function facets_preprocess_facets_item_list(array &$variables) {
+  if ($variables['facet'] !== NULL && $variables['facet']->get('show_title') === TRUE) {
+    $variables['title'] = $variables['facet']->label();
+  }
   template_preprocess_item_list($variables);
 }
 
@@ -237,6 +241,8 @@ function facets_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInter
   $facet_source_storage = $entity_type_manager->getStorage('facets_facet_source');
 
   $facet_sources_definitions = $facet_source_manager->getDefinitions();
+
+  $facets_url_generator = \Drupal::service('facets.utility.url_generator');
 
   // No facet sources found, so don't do anything.
   if (empty($facet_sources_definitions)) {
@@ -300,13 +306,13 @@ function facets_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInter
             // url parameters when calling buildUrls.
             $cloned_result = clone $result;
             $cloned_result->setActiveState(FALSE);
-            $active_results[$facet->getUrlAlias()][] = $cloned_result;
+            $active_results[$facet->id()][] = $cloned_result;
           }
         }
         if (!empty($active_results[$facet->getUrlAlias()])) {
           $url_processor->buildUrls($facet, $active_results[$facet->getUrlAlias()]);
         }
-        $active_facets[$facet->getUrlAlias()] = $facet;
+        $active_facets[$facet->id()] = $facet;
       }
     }
 
@@ -316,34 +322,23 @@ function facets_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInter
     // @see https://www.drupal.org/node/2861586
     // TODO handle not grouped facets.
     /** @var \Drupal\facets\Result\ResultInterface[] $facet_results */
-    foreach ($active_results as $facet_alias => $facet_results) {
-      $facet_used_result[] = $facet_alias;
+    foreach ($active_results as $facet_id => $facet_results) {
+      $facet_used_result[$facet_id] = [];
       $facet_crumb_items = [];
-      reset($facet_results);
-      $facet_url = clone current($facet_results)->getUrl();
 
-      // Because we can't get the desired url trough a url processor method
-      // we iterate each result url and remove the facet params that haven't
-      // been used on previous crumbs.
+      // Because we can't get the desired display value trough a url processor
+      // method we iterate each result url and remove the facet params that
+      // haven't been used on previous crumbs.
       foreach ($facet_results as $res) {
-        $facet_url = $res->getUrl();
-        /** @var \Drupal\Core\Url $facet_url */
-        $query = $facet_url->getOption('query');
-        $filter_key = $facet_source->getFilterKey() ?: 'f';
-        $source_filter = $query[$filter_key];
-        $source_filter = array_unique($source_filter);
-        $source_filter = array_filter($source_filter);
-        $matches = preg_grep('/^' . implode('|^', $facet_used_result) . '/', $source_filter);
-        $query[$filter_key] = $matches;
+        $facet_used_result[$facet_id][] = $res->getRawValue();
         $facet_crumb_items[] = $res->getDisplayValue();
       }
 
       sort($facet_crumb_items);
 
-      // Set the new query and create the link.
-      $facet_url->setOption('query', $query);
+      $facet_url = $facets_url_generator->getUrl($facet_used_result, FALSE);
       if (!empty($facet_source->getBreadcrumbSettings()['before'])) {
-        $crumb_text = $active_facets[$facet_alias]->label() . ': ' . implode(', ', $facet_crumb_items);
+        $crumb_text = $active_facets[$facet_id]->label() . ': ' . implode(', ', $facet_crumb_items);
       }
       else {
         $crumb_text = implode(', ', $facet_crumb_items);
@@ -355,9 +350,9 @@ function facets_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInter
 }
 
 /**
- * Implements hook_language_switch_links_alter
+ * Implements hook_language_switch_links_alter().
  */
-function facets_language_switch_links_alter(array &$links, $type, \Drupal\Core\Url $url) {
+function facets_language_switch_links_alter(array &$links, $type, Url $url) {
   /** @var \Drupal\Core\Language\LanguageManagerInterface $languageManager */
   $languageManager = \Drupal::languageManager();
   $language_interface = $languageManager->getCurrentLanguage();
@@ -368,9 +363,8 @@ function facets_language_switch_links_alter(array &$links, $type, \Drupal\Core\U
 
   /** @var \Drupal\facets\UrlProcessor\UrlProcessorPluginManager $urlProcessorManager */
   $urlProcessorManager = \Drupal::service('plugin.manager.facets.url_processor');
-
   foreach ($links as &$link) {
-    if ($link['language']->getId() === $language_interface->getId()) {
+    if (empty($link['language']) || !($link['language'] instanceof LanguageInterface) || $link['language']->getId() === $language_interface->getId()) {
       continue;
     }
 

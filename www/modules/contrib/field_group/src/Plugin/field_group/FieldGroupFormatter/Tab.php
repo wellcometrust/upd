@@ -27,13 +27,16 @@ class Tab extends FieldGroupFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function preRender(&$element, $rendering_object) {
-    parent::preRender($element, $rendering_object);
+  public function process(&$element, $processed_object) {
+
+    // Keep using preRender parent for BC.
+    parent::preRender($element, $processed_object);
 
     $add = [
       '#type' => 'details',
       '#title' => Html::escape($this->t($this->getLabel())),
       '#description' => $this->getSetting('description'),
+      '#group' => $this->group->parent_name,
     ];
 
     if ($this->getSetting('id')) {
@@ -54,13 +57,6 @@ class Tab extends FieldGroupFormatterBase {
       $element['#open'] = TRUE;
     }
 
-    // Front-end and back-end on configuration will lead
-    // to vertical tabs nested in a separate vertical group.
-    if (!empty($this->group->parent_name)) {
-      $add['#group'] = $this->group->parent_name;
-      $add['#parents'] = [$add['#group']];
-    }
-
     if ($this->getSetting('required_fields')) {
       $element['#attached']['library'][] = 'field_group/formatter.tabs';
       $element['#attached']['library'][] = 'field_group/core';
@@ -68,6 +64,14 @@ class Tab extends FieldGroupFormatterBase {
 
     $element += $add;
 
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preRender(&$element, $rendering_object) {
+    parent::preRender($element, $rendering_object);
+    $this->process($element, $rendering_object);
   }
 
   /**

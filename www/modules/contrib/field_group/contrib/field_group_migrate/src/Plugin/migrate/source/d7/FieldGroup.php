@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_group_migrate\Plugin\migrate\source\d7\FieldGroup.
- */
-
 namespace Drupal\field_group_migrate\Plugin\migrate\source\d7;
 
 use Drupal\migrate\Row;
@@ -14,7 +9,9 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  * Drupal 7 field_group source.
  *
  * @MigrateSource(
- *   id = "d7_field_group"
+ *   id = "d7_field_group",
+ *   source_module = "field_group",
+ *   destination_module = "field_group"
  * )
  */
 class FieldGroup extends DrupalSqlBase {
@@ -67,7 +64,7 @@ class FieldGroup extends DrupalSqlBase {
         break;
 
       case 'multipage':
-      // @todo Check if there is a better way to deal with this format type.
+        // @todo Check if there is a better way to deal with this format type.
         $settings['format_type'] = 'tab';
         break;
 

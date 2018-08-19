@@ -46,6 +46,8 @@ class FacetsFacetSource extends Plugin {
    *
    * @var string
    */
+  // @codingStandardsIgnoreStart
   public $display_id;
+  // @codingStandardsIgnoreEnd
 
 }

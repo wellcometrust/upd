@@ -5,7 +5,10 @@ namespace Drupal\field_group\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field_group\FieldGroupFormatterPluginManager;
 use Drupal\field_group\FieldgroupUi;
+use Drupal\field_group\FormatterHelper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a form for adding a fieldgroup to a bundle.
@@ -55,6 +58,30 @@ class FieldGroupAddForm extends FormBase {
   protected $currentStep;
 
   /**
+   * The field group formatter plugin manager.
+   *
+   * @var \Drupal\field_group\FieldGroupFormatterPluginManager
+   */
+  protected $fieldGroupFormatterPluginManager;
+
+  /**
+   * FieldGroupAddForm constructor.
+   *
+   * @param \Drupal\field_group\FieldGroupFormatterPluginManager $fieldGroupFormatterPluginManager
+   *   The field group formatter plugin manager.
+   */
+  public function __construct(FieldGroupFormatterPluginManager $fieldGroupFormatterPluginManager) {
+    $this->fieldGroupFormatterPluginManager = $fieldGroupFormatterPluginManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static($container->get('plugin.manager.field_group.formatters'));
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -99,10 +126,10 @@ class FieldGroupAddForm extends FormBase {
   /**
    * Build the formatter selection step.
    */
-  function buildFormatterSelectionForm(array &$form, FormStateInterface $form_state) {
+  public function buildFormatterSelectionForm(array &$form, FormStateInterface $form_state) {
 
     // Gather group formatters.
-    $formatter_options = \field_group_field_formatter_options($this->context);
+    $formatter_options = FormatterHelper::formatterOptions($this->context);
     $form['add'] = [
       '#type' => 'container',
       '#attributes' => ['class' => ['form--inline', 'clearfix']],
@@ -153,7 +180,7 @@ class FieldGroupAddForm extends FormBase {
       '#value' => $this->t('Save and continue'),
       '#button_type' => 'primary',
       '#validate' => [
-        [$this, 'validateFormatterSelection']
+        [$this, 'validateFormatterSelection'],
       ],
     ];
 
@@ -163,7 +190,7 @@ class FieldGroupAddForm extends FormBase {
   /**
    * Build the formatter configuration form.
    */
-  function buildConfigurationForm(array &$form, FormStateInterface $form_state) {
+  public function buildConfigurationForm(array &$form, FormStateInterface $form_state) {
 
     $group = new \stdClass();
     $group->context = $this->context;
@@ -227,7 +254,7 @@ class FieldGroupAddForm extends FormBase {
         'bundle' => $this->bundle,
         'mode' => $this->mode,
         'context' => $this->context,
-        'children' =>[],
+        'children' => [],
         'parent_name' => '',
         'weight' => 20,
         'format_type' => $form_state->get('group_formatter'),
@@ -236,7 +263,7 @@ class FieldGroupAddForm extends FormBase {
       $new_group->format_settings = $form_state->getValue('format_settings');
       $new_group->label = $new_group->format_settings['label'];
       unset($new_group->format_settings['label']);
-      $new_group->format_settings += _field_group_get_default_formatter_settings($form_state->get('group_formatter'), $this->context);
+      $new_group->format_settings += $this->fieldGroupFormatterPluginManager->getDefaultSettings($form_state->get('group_formatter'), $this->context);
 
       field_group_group_save($new_group);
 
@@ -259,13 +286,13 @@ class FieldGroupAddForm extends FormBase {
    *   The machine name, not prefixed.
    * @param array $element
    *   An array containing the structure of the 'group_name' element.
-   * @param FormStateInterface $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    *
    * @return bool
    *   Whether or not the group machine name is taken.
    */
-  public function groupNameExists($value, $element, FormStateInterface $form_state) {
+  public function groupNameExists($value, array $element, FormStateInterface $form_state) {
 
     // Add the prefix.
     $group_name = self::GROUP_PREFIX . $value;

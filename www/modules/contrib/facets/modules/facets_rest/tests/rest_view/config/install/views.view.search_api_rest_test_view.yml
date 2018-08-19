@@ -320,6 +320,13 @@ display:
         type: facets_serializer
       row:
         type: data_field
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+      tags: {  }
   page_1:
     display_plugin: page
     id: page_1
@@ -333,6 +340,8 @@ id: search_api_rest_test_view
 tag: ''
 langcode: en
 dependencies:
+  config:
+    - search_api.index.database_search_index
   module:
     - search_api
     - rest_view

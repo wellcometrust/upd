@@ -2,7 +2,6 @@
 
 namespace Drupal\field_group\Plugin\field_group\FieldGroupFormatter;
 
-use Drupal;
 use Drupal\Component\Utility\Html;
 use Drupal\field_group\FieldGroupFormatterBase;
 
@@ -28,18 +27,19 @@ class AccordionItem extends FieldGroupFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function preRender(&$element, $rendering_object) {
-    parent::preRender($element, $rendering_object);
+  public function process(&$element, $processed_object) {
+
+    // Keep using preRender parent for BC.
+    parent::preRender($element, $processed_object);
 
     $element += [
       '#type' => 'field_group_accordion_item',
-      '#open' => $this->getSetting('formatter') == 'open' ? TRUE : FALSE,
-      '#description' => $this->getSetting('description'),
-      '#title' => Drupal::translation()->translate($this->getLabel()),
+      '#effect' => $this->getSetting('effect'),
+      '#title' => Html::escape($this->t($this->getLabel())),
     ];
 
     if ($this->getSetting('id')) {
-      $element['#id'] = Html::getId($this->getSetting('id'));
+      $element['#id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     $classes = $this->getClasses();
@@ -57,6 +57,14 @@ class AccordionItem extends FieldGroupFormatterBase {
       }
     }
 
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preRender(&$element, $rendering_object) {
+    parent::preRender($element, $rendering_object);
+    $this->process($element, $rendering_object);
   }
 
   /**

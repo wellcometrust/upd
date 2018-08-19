@@ -10,14 +10,14 @@ use Drupal\facets_summary\Processor\BuildProcessorInterface;
 use Drupal\facets_summary\Processor\ProcessorPluginBase;
 
 /**
- * Provides a processor that allows to reset facet filters.
+ * Provides a processor that adds a link to reset facet filters.
  *
  * @SummaryProcessor(
  *   id = "reset_facets",
  *   label = @Translation("Adds reset facets link."),
  *   description = @Translation("When checked, this facet will add a link to reset enabled facets."),
  *   stages = {
- *     "build" = 50
+ *     "build" = 30
  *   }
  * )
  */
@@ -28,6 +28,7 @@ class ResetFacetsProcessor extends ProcessorPluginBase implements BuildProcessor
    */
   public function build(FacetsSummaryInterface $facets_summary, array $build, array $facets) {
     $configuration = $facets_summary->getProcessorConfigs()[$this->getPluginId()];
+    $hasReset = FALSE;
 
     // Do nothing if there are no selected facets or reset text is empty.
     if (empty($build['#items']) || empty($configuration['settings']['link_text'])) {
@@ -46,16 +47,22 @@ class ResetFacetsProcessor extends ProcessorPluginBase implements BuildProcessor
         foreach ($query_params[$filter_key] as $delta => $param) {
           if (strpos($param, $url_alias . ':') !== FALSE) {
             unset($query_params[$filter_key][$delta]);
+            $hasReset = TRUE;
           }
         }
 
         if (!$query_params[$filter_key]) {
           unset($query_params[$filter_key]);
+          $hasReset = TRUE;
         }
       }
     }
 
-    $url = Url::fromUserInput($request->getRequestUri());
+    if (!$hasReset) {
+      return $build;
+    }
+
+    $url = Url::createFromRequest($request);
     $url->setOptions(['query' => $query_params]);
 
     $item = (new Link($configuration['settings']['link_text'], $url))->toRenderable();

@@ -161,7 +161,7 @@ class FacetsSummarySettingsForm extends EntityForm {
     $form['name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
-      '#description' => $this->t('The administrative name used for this facet.'),
+      '#description' => $this->t('The administrative name used for this summary.'),
       '#default_value' => $facets_summary->label(),
       '#required' => TRUE,
     ];

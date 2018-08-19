@@ -31,18 +31,18 @@ class FieldGroupFormatter extends Plugin {
   /**
    * The human-readable name of the formatter type.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
    */
   public $label;
 
   /**
    * A short description of the formatter type.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
    */
   public $description;
 
@@ -73,7 +73,7 @@ class FieldGroupFormatter extends Plugin {
    * An integer to determine the weight of this formatter relative to other
    * formatter in the Field UI when selecting a formatter for a given group.
    *
-   * @var int optional
+   * @var intoptional
    */
   public $weight = NULL;
 

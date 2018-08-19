@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_group_migrate\Plugin\migrate\destination\d7\FieldGroup.
- */
-
 namespace Drupal\field_group_migrate\Plugin\migrate\destination\d7;
 
 use Drupal\migrate\Plugin\migrate\destination\DestinationBase;

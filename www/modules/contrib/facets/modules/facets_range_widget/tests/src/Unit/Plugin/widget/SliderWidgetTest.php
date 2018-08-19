@@ -23,7 +23,7 @@ class SliderWidgetTest extends WidgetTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->widget = new SliderWidget();
+    $this->widget = new SliderWidget([], 'slider_widget', []);
   }
 
   /**

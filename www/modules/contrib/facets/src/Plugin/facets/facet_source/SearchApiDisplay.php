@@ -5,6 +5,7 @@ namespace Drupal\facets\Plugin\facets\facet_source;
 use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\facets\Exception\Exception;
 use Drupal\facets\Exception\InvalidQueryTypeException;
 use Drupal\facets\FacetInterface;
@@ -370,6 +371,41 @@ class SearchApiDisplay extends FacetSourcePluginBase implements SearchApiFacetSo
       return $field->getDataDefinition();
     }
     throw new Exception("Field with name {$field_name} does not have a definition");
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildFacet() {
+    $build = parent::buildFacet();
+    $view = $this->getViewsDisplay();
+    if ($view === NULL) {
+      return $build;
+    }
+
+    // Add JS for Views with Ajax Enabled.
+    if ($view->display_handler->ajaxEnabled()) {
+      $js_settings = [
+        'view_id' => $view->id(),
+        'current_display_id' => $view->current_display,
+        'view_base_path' => ltrim($view->getPath(), '/'),
+        'ajax_path' => Url::fromRoute('views.ajax')->toString(),
+      ];
+      $build['#attached']['library'][] = 'facets/drupal.facets.views-ajax';
+      $build['#attached']['drupalSettings']['facets_views_ajax'] = [
+        $this->facet->id() => $js_settings,
+      ];
+      $build['#use_ajax'] = TRUE;
+    }
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCount() {
+    $search_id = $this->getDisplay()->getPluginId();
+    return $this->searchApiQueryHelper->getResults($search_id)->getResultCount();
   }
 
 }

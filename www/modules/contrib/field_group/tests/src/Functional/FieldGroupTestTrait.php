@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\field_group\Functional;
 
+use Drupal;
 use Drupal\Component\Utility\Unicode;
 
 /**
@@ -15,7 +16,7 @@ trait FieldGroupTestTrait {
    * @param string $entity_type
    *   The entity type as string.
    * @param string $bundle
-   *   The bundle of the enity type
+   *   The bundle of the enity type.
    * @param string $context
    *   The context for the group.
    * @param string $mode
@@ -32,7 +33,7 @@ trait FieldGroupTestTrait {
       $data['format_settings'] = [];
     }
 
-    $data['format_settings'] += _field_group_get_default_formatter_settings($data['format_type'], $context);
+    $data['format_settings'] += Drupal::service('plugin.manager.field_group.formatters')->getDefaultSettings($data['format_type'], $context);
 
     $group_name = 'group_' . Unicode::strtolower($this->randomMachineName());
 

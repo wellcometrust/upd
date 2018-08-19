@@ -58,6 +58,8 @@ class SummaryProcessor extends Plugin {
    *
    * @var bool
    */
+  // @codingStandardsIgnoreStart
   public $default_enabled;
+  // @codingStandardsIgnoreEnd
 
 }

@@ -12,7 +12,7 @@ use Drupal\facets\Widget\WidgetPluginBase;
  * @FacetsWidget(
  *   id = "array",
  *   label = @Translation("Array with raw results"),
- *   description = @Translation("A configurable widget that builds an array with results."),
+ *   description = @Translation("A widget that builds an array with results. This widget is not supposed to display any results, but it is needed for rest integration."),
  * )
  */
 class ArrayWidget extends WidgetPluginBase {

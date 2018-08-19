@@ -25,10 +25,15 @@ class FieldGroupUiTest extends JavascriptTestBase {
   public static $modules = ['node', 'field_ui', 'field_group'];
 
   /**
+   * The current tested node type
+   *
    * @var string
    */
   protected $nodeType;
 
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
     parent::setUp();
 
@@ -44,7 +49,7 @@ class FieldGroupUiTest extends JavascriptTestBase {
     $this->drupalLogin($admin_user);
 
     // Create content type, with underscores.
-    $type_name =  Unicode::strtolower($this->randomMachineName(8)) . '_test';
+    $type_name = Unicode::strtolower($this->randomMachineName(8)) . '_test';
     $type = NodeType::create([
       'name' => $type_name,
       'type' => $type_name,
@@ -69,7 +74,7 @@ class FieldGroupUiTest extends JavascriptTestBase {
       $this->drupalPostForm(NULL, [], 'Create group');
     }
 
-    // Update title in group 1
+    // Update title in group 1.
     $page = $this->getSession()->getPage();
     $page->pressButton('group_test_1_group_settings_edit');
     $this->assertSession()->assertWaitOnAjaxRequest();
@@ -77,14 +82,14 @@ class FieldGroupUiTest extends JavascriptTestBase {
     $page->pressButton('Update');
     $this->assertSession()->assertWaitOnAjaxRequest();
 
-    // Update title in group 2
+    // Update title in group 2.
     $page->pressButton('group_test_2_group_settings_edit');
     $this->assertSession()->assertWaitOnAjaxRequest();
     $page->fillField('fields[group_test_2][settings_edit_form][settings][label]', 'Test 2 - Update');
     $page->pressButton('Update');
     $this->assertSession()->assertWaitOnAjaxRequest();
 
-    // Open group 1 again
+    // Open group 1 again.
     $page->pressButton('group_test_1_group_settings_edit');
     $this->assertSession()->assertWaitOnAjaxRequest();
     $this->assertSession()->fieldValueEquals('fields[group_test_1][settings_edit_form][settings][label]', 'Test 1 - Update');

@@ -2,6 +2,7 @@
 
 namespace Drupal\field_group\Plugin\field_group\FieldGroupFormatter;
 
+use Drupal\field_group\Element\Accordion as AccordionElement;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormState;
 use Drupal\field_group\FieldGroupFormatterBase;
@@ -24,10 +25,10 @@ class Accordion extends FieldGroupFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function preRender(&$element, $rendering_object) {
-    parent::preRender($element, $rendering_object);
+  public function process(&$element, $processed_object) {
 
-    $form_state = new FormState();
+    // Keep using preRender parent for BC.
+    parent::preRender($element, $processed_object);
 
     $element += [
       '#type' => 'field_group_accordion',
@@ -35,7 +36,7 @@ class Accordion extends FieldGroupFormatterBase {
     ];
 
     if ($this->getSetting('id')) {
-      $element['#id'] = Html::getId($this->getSetting('id'));
+      $element['#id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     $classes = $this->getClasses();
@@ -43,7 +44,16 @@ class Accordion extends FieldGroupFormatterBase {
       $element += ['#attributes' => ['class' => $classes]];
     }
 
-    \Drupal\field_group\Element\Accordion::processAccordion($element, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preRender(&$element, $rendering_object) {
+    $this->process($element, $rendering_object);
+
+    $form_state = new FormState();
+    AccordionElement::processAccordion($element, $form_state);
   }
 
   /**

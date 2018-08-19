@@ -2,6 +2,7 @@
 
 namespace Drupal\facets_rest\Plugin\views\style;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\facets\FacetManager\DefaultFacetManager;
 use Drupal\rest\Plugin\views\style\Serializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,10 +57,22 @@ class FacetsSerializer extends Serializer {
    */
   protected function defineOptions() {
     $options = parent::defineOptions();
-    // Facets are served by json by default.
-    $options['formats'] = ['default' => ['json']];
+    $options['show_facets'] = ['default' => TRUE];
 
     return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildOptionsForm(&$form, FormStateInterface $form_state) {
+    parent::buildOptionsForm($form, $form_state);
+
+    $form['show_facets'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show facets in the output'),
+      '#default_value' => $this->options['show_facets'],
+    ];
   }
 
   /**
@@ -101,7 +114,9 @@ class FacetsSerializer extends Serializer {
     }
 
     $rows['facets'] = array_values($processed_facets);
-
+    if (!$this->options['show_facets']) {
+      $rows = $rows['search_results'];
+    }
     return $this->serializer->serialize($rows, $content_type, ['views_style_plugin' => $this]);
   }
 

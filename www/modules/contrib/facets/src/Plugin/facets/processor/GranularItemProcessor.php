@@ -34,6 +34,8 @@ class GranularItemProcessor extends ProcessorPluginBase implements BuildProcesso
   public function defaultConfiguration() {
     return [
       'granularity' => 1,
+      'min_value' => '',
+      'max_value' => '',
     ] + parent::defaultConfiguration();
   }
 
@@ -49,6 +51,22 @@ class GranularItemProcessor extends ProcessorPluginBase implements BuildProcesso
       '#title' => $this->t('Granularity'),
       '#default_value' => $configuration['granularity'],
       '#description' => $this->t('The numeric size of the steps to group the result facets in.'),
+    ];
+
+    $build['min_value'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Minimum value'),
+      '#default_value' => $configuration['min_value'],
+      '#description' => $this->t('If the minimum value is left empty it will be calculated by the search result'),
+      '#size' => 10,
+    ];
+
+    $build['max_value'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Maximum value'),
+      '#default_value' => $configuration['max_value'],
+      '#description' => $this->t('If the maximum value is left empty it will be calculated by the search result'),
+      '#size' => 10,
     ];
 
     return $build;

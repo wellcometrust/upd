@@ -14,9 +14,9 @@ use Drupal\facets\Processor\PreQueryProcessorInterface;
  *   label = @Translation("Range slider"),
  *   description = @Translation("Add range results for all the steps between min and max range."),
  *   stages = {
- *     "pre_query" = 5,
- *     "post_query" = 5,
- *     "build" = 5
+ *     "pre_query" =60,
+ *     "post_query" = 60,
+ *     "build" = 20
  *   }
  * )
  */
@@ -46,25 +46,15 @@ class RangeSliderProcessor extends SliderProcessor implements PreQueryProcessorI
     /** @var \Drupal\facets\Plugin\facets\processor\UrlProcessorHandler $url_processor_handler */
     $url_processor_handler = $facet->getProcessors()['url_processor_handler'];
     $url_processor = $url_processor_handler->getProcessor();
-    $filter_key = $url_processor->getFilterKey();
+    $active_filters = $url_processor->getActiveFilters();
 
     /** @var \Drupal\facets\Result\ResultInterface[] $results */
     foreach ($results as &$result) {
-      $url = $result->getUrl();
-      $query = $url->getOption('query');
-
-      // Remove all the query filters for the field of the facet.
-      if ($query !== NULL) {
-        foreach ($query[$filter_key] as $id => $filter) {
-          if (strpos($filter . $url_processor->getSeparator(), $facet->getUrlAlias()) === 0) {
-            unset($query[$filter_key][$id]);
-          }
-        }
-      }
-
+      $new_active_filters = $active_filters;
+      unset($new_active_filters[$facet->getUrlAlias()]);
       // Add one generic query filter with the min and max placeholder.
-      $query[$filter_key][] = $facet->getUrlAlias() . $url_processor->getSeparator() . '(min:__range_slider_min__,max:__range_slider_max__)';
-      $url->setOption('query', $query);
+      $new_active_filters[$facet->getUrlAlias()][] = '(min:__range_slider_min__,max:__range_slider_max__)';
+      $url = \Drupal::service('facets.utility.url_generator')->getUrl($new_active_filters, FALSE);
       $result->setUrl($url);
     }
 

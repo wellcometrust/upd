@@ -6,10 +6,10 @@ jquery.ui.slider.pips:
     url: https://github.com/simeydotme/jQuery-ui-Slider-Pips/blob/v1.11.3/README.md
     gpl-compatible: true
   js:
-    /libraries/jquery-ui-slider-pips/jquery-ui-slider-pips.min.js: { minified: true }
+    /libraries/jquery-ui-slider-pips/dist/jquery-ui-slider-pips.min.js: { minified: true }
   css:
     component:
-      /libraries/jquery-ui-slider-pips/jquery-ui-slider-pips.min.css: { minified: true }
+      /libraries/jquery-ui-slider-pips/dist/jquery-ui-slider-pips.min.css: { minified: true }
   dependencies:
     - core/jquery.ui.slider
 

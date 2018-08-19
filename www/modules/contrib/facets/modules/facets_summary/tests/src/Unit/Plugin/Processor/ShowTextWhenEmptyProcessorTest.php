@@ -3,6 +3,7 @@
 namespace Drupal\Tests\facets_summary\Unit\Plugin\Processor;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\facets_summary\Entity\FacetsSummary;
 use Drupal\facets_summary\Plugin\facets_summary\processor\ShowTextWhenEmptyProcessor;
@@ -86,13 +87,37 @@ class ShowTextWhenEmptyProcessorTest extends UnitTestCase {
    *
    * @covers ::build
    */
-  public function testBuildWithItems() {
+  public function testBuildWithEmptyItems() {
     $summary = new FacetsSummary([], 'facets_summary');
     $summary->setFacetSourceId('foo');
 
     $build = ['#items' => []];
     $result = $this->processor->build($summary, $build, []);
-    $this->assertEquals($build, $result);
+    $this->assertInternalType('array', $result);
+    $this->assertArrayHasKey('#theme', $result);
+    $this->assertEquals('facets_summary_empty', $result['#theme']);
+    $this->assertArrayHasKey('#message', $result);
+    $this->assertArrayHasKey('#text', $result['#message']);
+    $this->assertEquals(new TranslatableMarkup('No results found.'), (string) $result['#message']['#text']);
+    $this->assertEquals('plain_text', $result['#message']['#format']);
+  }
+
+  /**
+   * Tests build with config changes.
+   *
+   * @covers ::build
+   */
+  public function testBuildWithConfigChange() {
+    $summary = new FacetsSummary([], 'facets_summary');
+    $summary->setFacetSourceId('foo');
+
+    $build = ['#items' => []];
+    $this->processor->setConfiguration(['text' => ['value' => 'Owl', 'format' => 'llama']]);
+    $result = $this->processor->build($summary, $build, []);
+    $this->assertInternalType('array', $result);
+    $this->assertArrayHasKey('#text', $result['#message']);
+    $this->assertEquals('Owl', (string) $result['#message']['#text']);
+    $this->assertEquals('llama', $result['#message']['#format']);
   }
 
 }

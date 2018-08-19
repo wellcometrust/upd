@@ -33,4 +33,5 @@ class InvalidQT extends ProcessorPluginBase implements PreQueryProcessorInterfac
   public function preQuery(FacetInterface $facet) {
     // This can be empty for this test implementation.
   }
+
 }
