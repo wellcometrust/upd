@@ -54,7 +54,11 @@ class PrestissimoFileFetcher extends FileFetcher {
     }
 
     $successCnt = $failureCnt = 0;
+    $errors = [];
     $totalCnt = count($requests);
+    if ($totalCnt == 0) {
+      return;
+    }
 
     $multi = new CurlMulti();
     $multi->setRequests($requests);
@@ -64,12 +68,20 @@ class PrestissimoFileFetcher extends FileFetcher {
       $result = $multi->getFinishedResults();
       $successCnt += $result['successCnt'];
       $failureCnt += $result['failureCnt'];
+      if (isset($result['errors'])) {
+        $errors += $result['errors'];
+      }
       if ($this->progress) {
         foreach ($result['urls'] as $url) {
           $this->io->writeError("  - Downloading <comment>$successCnt</comment>/<comment>$totalCnt</comment>: <info>$url</info>", TRUE);
         }
       }
     } while ($multi->remain());
+
+    $urls = array_keys($errors);
+    if ($urls) {
+      throw new \Exception('Failed to download ' . implode(", ", $urls));
+    }
   }
 
 }
