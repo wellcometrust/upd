@@ -29,6 +29,14 @@ third_party_settings:
         direction: horizontal
         id: ''
         classes: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
+        required_fields: true
       label: Content
       region: content
     group_video_content_video_block:
@@ -44,6 +52,13 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Video Content'
       region: content
     group_text_content_video_slice:
@@ -55,11 +70,19 @@ third_party_settings:
       weight: 5
       format_type: tab
       format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
+        label: 'Text Content'
+        formatter: open
         description: ''
         required_fields: true
+        id: ''
+        classes: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Text Content'
       region: content
 id: paragraph.video_text_block.default
@@ -109,6 +132,7 @@ content:
       open: true
       selection_mode: selection_append
       field_widget_display_settings: {  }
+      field_widget_replace: false
     third_party_settings: {  }
     type: entity_browser_entity_reference
     region: content

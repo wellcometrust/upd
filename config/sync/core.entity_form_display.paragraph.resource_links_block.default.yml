@@ -14,6 +14,7 @@ third_party_settings:
     group_content_resource_link:
       children:
         - group_main_content_resource_link
+        - group_links
       parent_name: ''
       weight: 0
       format_type: tabs
@@ -27,7 +28,6 @@ third_party_settings:
     group_main_content_resource_link:
       children:
         - field_title
-        - field_resource_link
       parent_name: group_content_resource_link
       weight: 22
       format_type: tab
@@ -38,6 +38,20 @@ third_party_settings:
         description: ''
         required_fields: true
       label: 'Main Content'
+      region: content
+    group_links:
+      children:
+        - field_referenced_links
+      parent_name: group_content_resource_link
+      weight: 23
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Links
       region: content
 id: paragraph.resource_links_block.default
 targetEntityType: paragraph
