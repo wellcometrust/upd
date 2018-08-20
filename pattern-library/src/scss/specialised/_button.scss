@@ -89,3 +89,5 @@
   height: $upd-button-height-tiny;  /* 1 */
   padding: $padding-horizontal $padding-vertical; /* 2 */
 }
+
+a.button.watch-video__cta + a.button.watch-video__cta { margin-top: $upd-spacing-gutter-medium; }
