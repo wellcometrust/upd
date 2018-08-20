@@ -20,6 +20,7 @@ third_party_settings:
     group_content_video_block:
       children:
         - group_text_content_video_slice
+        - group_ca
         - group_video_content_video_block
       parent_name: ''
       weight: 0
@@ -44,7 +45,7 @@ third_party_settings:
         - field_video
         - field_link
       parent_name: group_content_video_block
-      weight: 6
+      weight: 7
       format_type: tab
       format_settings:
         id: ''
@@ -65,7 +66,6 @@ third_party_settings:
       children:
         - field_title
         - field_standfirst
-        - field_call_to_action
       parent_name: group_content_video_block
       weight: 5
       format_type: tab
@@ -85,13 +85,27 @@ third_party_settings:
         attributes: ''
       label: 'Text Content'
       region: content
+    group_ca:
+      children:
+        - field_call_to_action
+      parent_name: group_content_video_block
+      weight: 6
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Call to action'
+      region: hidden
 id: paragraph.video_text_block.default
 targetEntityType: paragraph
 bundle: video_text_block
 mode: default
 content:
   field_call_to_action:
-    weight: 5
+    weight: 6
     settings:
       placeholder_url: ''
       placeholder_title: ''
