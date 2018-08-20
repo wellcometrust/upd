@@ -20,6 +20,8 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
    *   keyed by the corresponding namespace to look for plugin implementations.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *   Cache backend instance to use.
+   * @param \Drupal\Core\Language\LanguageManager $language_manager
+   *   The language manager.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler to invoke the alter hook with.
    */
@@ -33,7 +35,7 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
   /**
    * {@inheritdoc}
    */
-  public function createInstance($plugin_id, array $configuration = []) {
+  public function createInstance($plugin_id, array $configuration = array()) {
     $plugin_definition = $this->getDefinition($plugin_id);
     $plugin_class = DefaultFactory::getPluginClass($plugin_id, $plugin_definition);
 
@@ -84,9 +86,9 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
       return NULL;
     }
 
-    $configuration += [
+    $configuration += array(
       'group' => $options['group'],
-    ];
+    );
 
     return $this->createInstance($plugin_id, $configuration);
   }
@@ -95,20 +97,21 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
    * Merges default values for formatter configuration.
    *
    * @param string $format_type
-   *   The format type.
+   *   The format type
    * @param string $context
    *   The context to prepare configuration for.
-   * @param array $configuration
-   *   The configuration of the group.
+   * @param array $properties
+   *   An array of formatter configuration.
+   *
    * @return array
    *   The display properties with defaults added.
    */
   public function prepareConfiguration($format_type, $context, array $configuration) {
     // Fill in defaults for missing properties.
-    $configuration += [
+    $configuration += array(
       'label' => '',
-      'settings' => [],
-    ];
+      'settings' => array(),
+    );
 
     // Fill in default settings values for the formatter.
     $configuration['settings'] += $this->getDefaultSettings($format_type, $context);
@@ -134,7 +137,7 @@ class FieldGroupFormatterPluginManager extends DefaultPluginManager {
       $plugin_class = DefaultFactory::getPluginClass($type, $plugin_definition);
       return $plugin_class::defaultContextSettings($context);
     }
-    return [];
+    return array();
   }
 
 }

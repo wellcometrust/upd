@@ -9,9 +9,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  * Drupal 6 field_group source.
  *
  * @MigrateSource(
- *   id = "d6_field_group",
- *   source_module = "field_group",
- *   destination_module = "field_group"
+ *   id = "d6_field_group"
  * )
  */
 class FieldGroup extends DrupalSqlBase {
@@ -21,14 +19,14 @@ class FieldGroup extends DrupalSqlBase {
    */
   public function query() {
     $query = $this->select('content_group', 'g')
-      ->fields('g', [
-        'group_type',
-        'type_name',
-        'group_name',
-        'label',
-        'settings',
-        'weight',
-      ]);
+    ->fields('g', [
+      'group_type',
+      'type_name',
+      'group_name',
+      'label',
+      'settings',
+      'weight',
+    ]);
     return $query;
   }
 
@@ -57,9 +55,6 @@ class FieldGroup extends DrupalSqlBase {
     return parent::prepareRow($row);
   }
 
-  /**
-   *
-   */
   protected function transformEntityFormDisplaySettings(Row $row) {
     $row->setSourceProperty('extracted_settings', $row->getSourceProperty('settings/form'));
     $source_settings = $row->getSourceProperty('extracted_settings');
@@ -101,9 +96,6 @@ class FieldGroup extends DrupalSqlBase {
     $row->setSourceProperty('converted_settings', $settings);
   }
 
-  /**
-   *
-   */
   protected function transformEntityViewDisplaySettings(Row $row) {
     $row->setSourceProperty('extracted_settings', $row->getSourceProperty('settings/display'));
     $view_modes = array_diff(array_keys($row->getSourceProperty('extracted_settings')), ['label', 'description', 'weight']);
@@ -158,7 +150,7 @@ class FieldGroup extends DrupalSqlBase {
         $view_mode = 'default';
       }
 
-      // $row->setSourceProperty('view_modes/' . $view_mode, $settings);.
+      // $row->setSourceProperty('view_modes/' . $view_mode, $settings);
       $view_modes[$view_mode] = $settings;
     }
 
@@ -188,7 +180,7 @@ class FieldGroup extends DrupalSqlBase {
       'group_name',
       'label',
       'settings',
-      'weight',
+      'weight'
     ];
     return array_combine($fields, $fields);
   }

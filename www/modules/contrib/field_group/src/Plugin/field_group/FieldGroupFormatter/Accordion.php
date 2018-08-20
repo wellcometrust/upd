@@ -2,7 +2,6 @@
 
 namespace Drupal\field_group\Plugin\field_group\FieldGroupFormatter;
 
-use Drupal\field_group\Element\Accordion as AccordionElement;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormState;
 use Drupal\field_group\FieldGroupFormatterBase;
@@ -25,15 +24,15 @@ class Accordion extends FieldGroupFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function process(&$element, $processed_object) {
+  public function preRender(&$element, $rendering_object) {
+    parent::preRender($element, $rendering_object);
 
-    // Keep using preRender parent for BC.
-    parent::preRender($element, $processed_object);
+    $form_state = new FormState();
 
-    $element += [
+    $element += array(
       '#type' => 'field_group_accordion',
       '#effect' => $this->getSetting('effect'),
-    ];
+    );
 
     if ($this->getSetting('id')) {
       $element['#id'] = Html::getUniqueId($this->getSetting('id'));
@@ -41,19 +40,10 @@ class Accordion extends FieldGroupFormatterBase {
 
     $classes = $this->getClasses();
     if (!empty($classes)) {
-      $element += ['#attributes' => ['class' => $classes]];
+      $element += array('#attributes' => array('class' => $classes));
     }
 
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function preRender(&$element, $rendering_object) {
-    $this->process($element, $rendering_object);
-
-    $form_state = new FormState();
-    AccordionElement::processAccordion($element, $form_state);
+    \Drupal\field_group\Element\Accordion::processAccordion($element, $form_state);
   }
 
   /**
@@ -63,13 +53,13 @@ class Accordion extends FieldGroupFormatterBase {
 
     $form = parent::settingsForm();
 
-    $form['effect'] = [
+    $form['effect'] = array(
       '#title' => $this->t('Effect'),
       '#type' => 'select',
-      '#options' => ['none' => $this->t('None'), 'bounceslide' => $this->t('Bounce slide')],
+      '#options' => array('none' => $this->t('None'), 'bounceslide' => $this->t('Bounce slide')),
       '#default_value' => $this->getSetting('effect'),
       '#weight' => 2,
-    ];
+    );
 
     return $form;
   }
@@ -79,9 +69,9 @@ class Accordion extends FieldGroupFormatterBase {
    */
   public function settingsSummary() {
 
-    $summary = [];
+    $summary = array();
     $summary[] = $this->t('Effect : @effect',
-      ['@effect' => $this->getSetting('effect')]
+      array('@effect' => $this->getSetting('effect'))
     );
 
     return $summary;
@@ -91,9 +81,9 @@ class Accordion extends FieldGroupFormatterBase {
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    return [
+    return array(
       'effect' => 'none',
-    ] + parent::defaultSettings($context);
+    ) + parent::defaultSettings($context);
   }
 
 }

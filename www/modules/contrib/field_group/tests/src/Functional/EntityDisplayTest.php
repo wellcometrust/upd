@@ -53,21 +53,21 @@ class EntityDisplayTest extends BrowserTestBase {
       'administer node fields',
       'administer node form display',
       'administer node display',
-      'bypass node access',
+      'bypass node access'
     ]);
     $this->drupalLogin($admin_user);
 
     // Create content type, with underscores.
     $type_name = strtolower($this->randomMachineName(8)) . '_test';
-    $type = $this->drupalCreateContentType(['name' => $type_name, 'type' => $type_name]);
+    $type = $this->drupalCreateContentType(array('name' => $type_name, 'type' => $type_name));
     $this->type = $type->id();
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
     $display = \Drupal::entityTypeManager()
       ->getStorage('entity_view_display')
-      ->load('node.' . $type_name . '.default');
+      ->load('node' . '.' . $type_name . '.' . 'default');
 
     // Create a node.
-    $node_values = ['type' => $type_name];
+    $node_values = array('type' => $type_name);
 
     // Create test fields.
     foreach (['field_test', 'field_test_2', 'field_no_access'] as $field_name) {
@@ -89,13 +89,13 @@ class EntityDisplayTest extends BrowserTestBase {
       $node_values[$field_name][0]['value'] = mt_rand(1, 127);
 
       // Set the field visible on the display object.
-      $display_options = [
+      $display_options = array(
         'label' => 'above',
         'type' => 'field_test_default',
-        'settings' => [
+        'settings' => array(
           'test_formatter_setting' => $this->randomMachineName(),
-        ],
-      ];
+        ),
+      );
       $display->setComponent($field_name, $display_options);
     }
 
@@ -108,17 +108,17 @@ class EntityDisplayTest extends BrowserTestBase {
    * Test field access for field groups.
    */
   public function testFieldAccess() {
-    $data = [
+    $data = array(
       'label' => 'Wrapper',
-      'children' => [
+      'children' => array(
         0 => 'field_no_access',
-      ],
+      ),
       'format_type' => 'html_element',
-      'format_settings' => [
+      'format_settings' => array(
         'element' => 'div',
         'id' => 'wrapper-id',
-      ],
-    ];
+      ),
+    );
 
     $this->createGroup('node', $this->type, 'view', 'default', $data);
     $this->drupalGet('node/' . $this->node->id());
@@ -131,24 +131,24 @@ class EntityDisplayTest extends BrowserTestBase {
    * Test the html element formatter.
    */
   public function testHtmlElement() {
-    $data = [
+    $data = array(
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => 'field_test',
         1 => 'body',
-      ],
+      ),
       'label' => 'Link',
       'format_type' => 'html_element',
-      'format_settings' => [
+      'format_settings' => array(
         'label' => 'Link',
         'element' => 'div',
         'id' => 'wrapper-id',
         'classes' => 'test-class',
-      ],
-    ];
+      ),
+    );
     $group = $this->createGroup('node', $this->type, 'view', 'default', $data);
 
-    // $groups = field_group_info_groups('node', 'article', 'view', 'default', TRUE);.
+    //$groups = field_group_info_groups('node', 'article', 'view', 'default', TRUE);
     $this->drupalGet('node/' . $this->node->id());
 
     // Test group ids and classes.
@@ -161,11 +161,10 @@ class EntityDisplayTest extends BrowserTestBase {
     // Set show label to true.
     $group->format_settings['show_label'] = TRUE;
     $group->format_settings['label_element'] = 'h3';
-    $group->format_settings['label_element_classes'] = 'my-label-class';
     field_group_group_save($group);
 
     $this->drupalGet('node/' . $this->node->id());
-    $this->assertRaw('<h3 class="my-label-class">' . $data['label'] . '</h3>');
+    $this->assertRaw('<h3>' . $data['label'] . '</h3>');
 
     // Change to collapsible with blink effect.
     $group->format_settings['effect'] = 'blink';
@@ -181,20 +180,20 @@ class EntityDisplayTest extends BrowserTestBase {
    * Test the fieldset formatter.
    */
   public function testFieldset() {
-    $data = [
+    $data = array(
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => 'field_test',
         1 => 'body',
-      ],
+      ),
       'label' => 'Test Fieldset',
       'format_type' => 'fieldset',
-      'format_settings' => [
+      'format_settings' => array(
         'id' => 'fieldset-id',
         'classes' => 'test-class',
         'description' => 'test description',
-      ],
-    ];
+      ),
+    );
     $this->createGroup('node', $this->type, 'view', 'default', $data);
 
     $this->drupalGet('node/' . $this->node->id());
@@ -208,52 +207,52 @@ class EntityDisplayTest extends BrowserTestBase {
    * Test the tabs formatter.
    */
   public function testTabs() {
-    $data = [
+    $data = array(
       'label' => 'Tab 1',
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => 'field_test',
-      ],
+      ),
       'format_type' => 'tab',
-      'format_settings' => [
+      'format_settings' => array(
         'label' => 'Tab 1',
         'classes' => 'test-class',
         'description' => '',
         'formatter' => 'open',
-      ],
-    ];
+      ),
+    );
     $first_tab = $this->createGroup('node', $this->type, 'view', 'default', $data);
 
-    $data = [
+    $data = array(
       'label' => 'Tab 2',
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => 'field_test_2',
-      ],
+      ),
       'format_type' => 'tab',
-      'format_settings' => [
+      'format_settings' => array(
         'label' => 'Tab 1',
         'classes' => 'test-class-2',
         'description' => 'description of second tab',
         'formatter' => 'closed',
-      ],
-    ];
+      ),
+    );
     $second_tab = $this->createGroup('node', $this->type, 'view', 'default', $data);
 
-    $data = [
+    $data = array(
       'label' => 'Tabs',
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => $first_tab->group_name,
         1 => $second_tab->group_name,
-      ],
+      ),
       'format_type' => 'tabs',
-      'format_settings' => [
+      'format_settings' => array(
         'direction' => 'vertical',
         'label' => 'Tab 1',
         'classes' => 'test-class-wrapper',
-      ],
-    ];
+      ),
+    );
     $tabs_group = $this->createGroup('node', $this->type, 'view', 'default', $data);
 
     $this->drupalGet('node/' . $this->node->id());
@@ -270,7 +269,7 @@ class EntityDisplayTest extends BrowserTestBase {
     // Test if it's a vertical tab.
     $this->assertFieldByXPath('//div[@data-vertical-tabs-panes=""]', NULL, 'Tabs are shown vertical.');
 
-    // Switch to horizontal.
+    // Switch to horizontal
     $tabs_group->format_settings['direction'] = 'horizontal';
     field_group_group_save($tabs_group);
 
@@ -284,50 +283,50 @@ class EntityDisplayTest extends BrowserTestBase {
    * Test the accordion formatter.
    */
   public function testAccordion() {
-    $data = [
+    $data = array(
       'label' => 'Accordion item 1',
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => 'field_test',
-      ],
+      ),
       'format_type' => 'accordion_item',
-      'format_settings' => [
+      'format_settings' => array(
         'label' => 'Accordion item 1',
         'classes' => 'test-class',
         'formatter' => 'closed',
-      ],
-    ];
+      ),
+    );
     $first_item = $this->createGroup('node', $this->type, 'view', 'default', $data);
 
-    $data = [
+    $data = array(
       'label' => 'Accordion item 2',
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => 'field_test_2',
-      ],
+      ),
       'format_type' => 'accordion_item',
-      'format_settings' => [
+      'format_settings' => array(
         'label' => 'Tab 2',
         'classes' => 'test-class-2',
         'formatter' => 'open',
-      ],
-    ];
+      ),
+    );
     $second_item = $this->createGroup('node', $this->type, 'view', 'default', $data);
 
-    $data = [
+    $data = array(
       'label' => 'Accordion',
       'weight' => '1',
-      'children' => [
+      'children' => array(
         0 => $first_item->group_name,
         1 => $second_item->group_name,
-      ],
+      ),
       'format_type' => 'accordion',
-      'format_settings' => [
+      'format_settings' => array(
         'label' => 'Tab 1',
         'classes' => 'test-class-wrapper',
-        'effect' => 'bounceslide',
-      ],
-    ];
+        'effect' => 'bounceslide'
+      ),
+    );
     $this->createGroup('node', $this->type, 'view', 'default', $data);
 
     $this->drupalGet('node/' . $this->node->id());
@@ -339,7 +338,7 @@ class EntityDisplayTest extends BrowserTestBase {
     $this->assertFieldByXPath("//div[contains(@class, 'test-class-2')]", NULL, 'Accordion item with test-class-2 is shown');
     $this->assertFieldByXPath("//h3[contains(@class, 'field-group-accordion-active')]", NULL, 'Accordion item 2 was set active');
 
-    // Test if correctly nested.
+    // Test if correctly nested
     $this->assertFieldByXPath("//div[contains(@class, 'test-class-wrapper')]//div[contains(@class, 'test-class')]", NULL, 'First item is displayed as child of the wrapper.');
     $this->assertFieldByXPath("//div[contains(@class, 'test-class-wrapper')]//div[contains(@class, 'test-class-2')]", NULL, 'Second item is displayed as child of the wrapper.');
   }

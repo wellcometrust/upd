@@ -2,6 +2,7 @@
 
 namespace Drupal\field_group\Plugin\field_group\FieldGroupFormatter;
 
+use Drupal;
 use Drupal\Component\Utility\Html;
 use Drupal\field_group\FieldGroupFormatterBase;
 
@@ -27,16 +28,15 @@ class AccordionItem extends FieldGroupFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function process(&$element, $processed_object) {
+  public function preRender(&$element, $rendering_object) {
+    parent::preRender($element, $rendering_object);
 
-    // Keep using preRender parent for BC.
-    parent::preRender($element, $processed_object);
-
-    $element += [
+    $element += array(
       '#type' => 'field_group_accordion_item',
-      '#effect' => $this->getSetting('effect'),
-      '#title' => Html::escape($this->t($this->getLabel())),
-    ];
+      '#open' => $this->getSetting('formatter') == 'open' ? TRUE : FALSE,
+      '#description' => $this->getSetting('description'),
+      '#title' => Drupal::translation()->translate($this->getLabel()),
+    );
 
     if ($this->getSetting('id')) {
       $element['#id'] = Html::getUniqueId($this->getSetting('id'));
@@ -44,27 +44,13 @@ class AccordionItem extends FieldGroupFormatterBase {
 
     $classes = $this->getClasses();
     if (!empty($classes)) {
-      $element += ['#attributes' => ['class' => $classes]];
+      $element += array('#attributes' => array('class' => $classes));
     }
 
     if ($this->getSetting('required_fields')) {
       $element['#attached']['library'][] = 'field_group/formatter.details';
     }
 
-    foreach ($element as $key => $value) {
-      if (is_array($value) && !empty($value['#children_errors'])) {
-        $element['#open'] = TRUE;
-      }
-    }
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function preRender(&$element, $rendering_object) {
-    parent::preRender($element, $rendering_object);
-    $this->process($element, $rendering_object);
   }
 
   /**
@@ -74,21 +60,21 @@ class AccordionItem extends FieldGroupFormatterBase {
 
     $form = parent::settingsForm();
 
-    $form['formatter'] = [
+    $form['formatter'] = array(
       '#title' => $this->t('Default state'),
       '#type' => 'select',
       '#options' => array_combine($this->pluginDefinition['format_types'], $this->pluginDefinition['format_types']),
       '#default_value' => $this->getSetting('formatter'),
       '#weight' => -4,
-    ];
+    );
 
     if ($this->context == 'form') {
-      $form['required_fields'] = [
+      $form['required_fields'] = array(
         '#type' => 'checkbox',
         '#title' => $this->t('Mark group as required if it contains required fields.'),
         '#default_value' => $this->getSetting('required_fields'),
         '#weight' => 2,
-      ];
+      );
     }
 
     return $form;
@@ -99,7 +85,7 @@ class AccordionItem extends FieldGroupFormatterBase {
    */
   public function settingsSummary() {
 
-    $summary = [];
+    $summary = array();
 
     if ($this->getSetting('required_fields')) {
       $summary[] = $this->t('Mark as required');
@@ -107,7 +93,7 @@ class AccordionItem extends FieldGroupFormatterBase {
 
     if ($this->getSetting('description')) {
       $summary[] = $this->t('Description : @description',
-        ['@description' => $this->getSetting('description')]
+        array('@description' => $this->getSetting('description'))
       );
     }
 
@@ -118,10 +104,10 @@ class AccordionItem extends FieldGroupFormatterBase {
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    $defaults = [
+    $defaults = array(
       'formatter' => 'closed',
       'description' => '',
-    ] + parent::defaultSettings($context);
+    ) + parent::defaultSettings($context);
 
     if ($context == 'form') {
       $defaults['required_fields'] = 1;
