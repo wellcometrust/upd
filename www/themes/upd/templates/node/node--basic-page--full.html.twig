@@ -131,7 +131,16 @@
                         {% endif %}
                     </ul>
                 </div>
+
             </div>
         </article>
     </main>
 </div>
+
+{% if content.field_content_area|render %}
+<footer class="page-footer">
+
+    {{ content.field_content_area }}
+
+</footer>
+{% endif %}
