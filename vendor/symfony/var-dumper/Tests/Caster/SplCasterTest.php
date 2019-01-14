@@ -35,7 +35,7 @@ SplFileInfo {
   aTime: %s-%s-%d %d:%d:%d
   mTime: %s-%s-%d %d:%d:%d
   cTime: %s-%s-%d %d:%d:%d
-  inode: %d
+  inode: %i
   size: %d
   perms: 0%d
   owner: %d
@@ -85,7 +85,7 @@ SplFileObject {
   aTime: %s-%s-%d %d:%d:%d
   mTime: %s-%s-%d %d:%d:%d
   cTime: %s-%s-%d %d:%d:%d
-  inode: %d
+  inode: %i
   size: %d
   perms: 0%d
   owner: %d
@@ -105,7 +105,7 @@ SplFileObject {
   maxLineLen: 0
   fstat: array:26 [
     "dev" => %d
-    "ino" => %d
+    "ino" => %i
     "nlink" => %d
     "rdev" => 0
     "blksize" => %i
@@ -166,9 +166,6 @@ EOTXT;
 
     public function testCastArrayObject()
     {
-        if (\defined('HHVM_VERSION')) {
-            $this->markTestSkipped('HHVM as different internal details.');
-        }
         $var = new \ArrayObject(array(123));
         $var->foo = 234;
 
@@ -188,9 +185,6 @@ EOTXT;
 
     public function testArrayIterator()
     {
-        if (\defined('HHVM_VERSION')) {
-            $this->markTestSkipped('HHVM as different internal details.');
-        }
         $var = new MyArrayIterator(array(234));
 
         $expected = <<<EOTXT

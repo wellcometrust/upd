@@ -81,6 +81,7 @@ abstract class AbstractCloner implements ClonerInterface
         'Symfony\Component\VarDumper\Caster\FrameStub' => array('Symfony\Component\VarDumper\Caster\ExceptionCaster', 'castFrameStub'),
         'Symfony\Component\Debug\Exception\SilencedErrorContext' => array('Symfony\Component\VarDumper\Caster\ExceptionCaster', 'castSilencedErrorContext'),
 
+        'ProxyManager\Proxy\ProxyInterface' => array('Symfony\Component\VarDumper\Caster\ProxyManagerCaster', 'castProxy'),
         'PHPUnit_Framework_MockObject_MockObject' => array('Symfony\Component\VarDumper\Caster\StubCaster', 'cutInternals'),
         'Prophecy\Prophecy\ProphecySubjectInterface' => array('Symfony\Component\VarDumper\Caster\StubCaster', 'cutInternals'),
         'Mockery\MockInterface' => array('Symfony\Component\VarDumper\Caster\StubCaster', 'cutInternals'),
@@ -105,15 +106,24 @@ abstract class AbstractCloner implements ClonerInterface
         'SplPriorityQueue' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castHeap'),
         'OuterIterator' => array('Symfony\Component\VarDumper\Caster\SplCaster', 'castOuterIterator'),
 
-        'MongoCursorInterface' => array('Symfony\Component\VarDumper\Caster\MongoCaster', 'castCursor'),
-
         'Redis' => array('Symfony\Component\VarDumper\Caster\RedisCaster', 'castRedis'),
         'RedisArray' => array('Symfony\Component\VarDumper\Caster\RedisCaster', 'castRedisArray'),
+        'RedisCluster' => array('Symfony\Component\VarDumper\Caster\RedisCaster', 'castRedisCluster'),
 
         'DateTimeInterface' => array('Symfony\Component\VarDumper\Caster\DateCaster', 'castDateTime'),
         'DateInterval' => array('Symfony\Component\VarDumper\Caster\DateCaster', 'castInterval'),
         'DateTimeZone' => array('Symfony\Component\VarDumper\Caster\DateCaster', 'castTimeZone'),
         'DatePeriod' => array('Symfony\Component\VarDumper\Caster\DateCaster', 'castPeriod'),
+
+        'GMP' => array('Symfony\Component\VarDumper\Caster\GmpCaster', 'castGmp'),
+
+        'MessageFormatter' => array('Symfony\Component\VarDumper\Caster\IntlCaster', 'castMessageFormatter'),
+        'NumberFormatter' => array('Symfony\Component\VarDumper\Caster\IntlCaster', 'castNumberFormatter'),
+        'IntlTimeZone' => array('Symfony\Component\VarDumper\Caster\IntlCaster', 'castIntlTimeZone'),
+        'IntlCalendar' => array('Symfony\Component\VarDumper\Caster\IntlCaster', 'castIntlCalendar'),
+        'IntlDateFormatter' => array('Symfony\Component\VarDumper\Caster\IntlCaster', 'castIntlDateFormatter'),
+
+        'Memcached' => array('Symfony\Component\VarDumper\Caster\MemcachedCaster', 'castMemcached'),
 
         ':curl' => array('Symfony\Component\VarDumper\Caster\ResourceCaster', 'castCurl'),
         ':dba' => array('Symfony\Component\VarDumper\Caster\ResourceCaster', 'castDba'),
@@ -134,7 +144,6 @@ abstract class AbstractCloner implements ClonerInterface
     protected $maxItems = 2500;
     protected $maxString = -1;
     protected $minDepth = 1;
-    protected $useExt;
 
     private $casters = array();
     private $prevErrorHandler;
@@ -152,7 +161,6 @@ abstract class AbstractCloner implements ClonerInterface
             $casters = static::$defaultCasters;
         }
         $this->addCasters($casters);
-        $this->useExt = \extension_loaded('symfony_debug');
     }
 
     /**
@@ -220,7 +228,7 @@ abstract class AbstractCloner implements ClonerInterface
             }
 
             if ($this->prevErrorHandler) {
-                return \call_user_func($this->prevErrorHandler, $type, $msg, $file, $line, $context);
+                return ($this->prevErrorHandler)($type, $msg, $file, $line, $context);
             }
 
             return false;
