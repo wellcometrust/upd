@@ -59,6 +59,16 @@ class FormHelper {
    */
   protected $instanceId;
 
+  /**
+   * @var string
+   */
+  protected $variant;
+
+  /**
+   * @var array
+   */
+  protected $bundleSettings;
+
   protected static $allowedFormOperations = [
     'default',
     'edit',
@@ -77,6 +87,7 @@ class FormHelper {
   ];
 
   protected static $valuesToCheck = [
+    'simple_sitemap_variant',
     'simple_sitemap_index_content',
     'simple_sitemap_priority',
     'simple_sitemap_changefreq',
@@ -108,6 +119,7 @@ class FormHelper {
     $this->formState = $form_state;
     $this->cleanUpFormInfo();
     $this->getEntityDataFromFormEntity();
+    $this->negotiateVariant();
     return $this->supports();
   }
 
@@ -197,9 +209,12 @@ class FormHelper {
 
     // Do not alter the form, if sitemap is disabled for the entity type of this
     // entity instance.
-    elseif ($this->getEntityCategory() === 'instance'
-      && !$this->generator->bundleIsIndexed($this->getEntityTypeId(), $this->getBundleName())) {
-      return FALSE;
+    elseif ($this->getEntityCategory() === 'instance') {
+      if (NULL === $this->variant || !$this->generator
+          ->setVariants($this->variant)
+          ->bundleIsIndexed($this->getEntityTypeId(), $this->getBundleName())) {
+        return FALSE;
+      }
     }
 
     return TRUE;
@@ -212,12 +227,21 @@ class FormHelper {
     $form_fragment['simple_sitemap_regenerate_now'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Regenerate sitemap after hitting <em>Save</em>'),
-      '#description' => $this->t('This setting will regenerate the whole sitemap including the above changes.'),
+      '#description' => $this->t('This setting will regenerate all sitemaps including the above changes.'),
       '#default_value' => FALSE,
     ];
     if ($this->generator->getSetting('cron_generate')) {
       $form_fragment['simple_sitemap_regenerate_now']['#description'] .= '</br>' . $this->t('Otherwise the sitemap will be regenerated during a future cron run.');
     }
+  }
+
+  protected function negotiateVariant() {
+    $all_bundle_settings = $this->generator->setVariants(TRUE)
+      ->getBundleSettings($this->getEntityTypeId(), $this->getBundleName(), FALSE, TRUE);
+    $this->bundleSettings = NULL !== ($variant = key($all_bundle_settings))
+      ? $all_bundle_settings[$variant]
+      : [];
+    $this->variant = $variant;
   }
 
   /**
@@ -228,16 +252,10 @@ class FormHelper {
   public function displayEntitySettings(&$form_fragment, $multiple = FALSE) {
     $prefix = $multiple ? $this->getEntityTypeId() . '_' : '';
 
-    if ($this->getEntityCategory() === 'instance') {
-      $bundle_settings = $this->generator->getBundleSettings($this->getEntityTypeId(), $this->getBundleName());
-      $settings = NULL !== $this->getInstanceId()
-        ? $this->generator->getEntityInstanceSettings($this->getEntityTypeId(), $this->getInstanceId())
-        : $bundle_settings;
-    }
-    else {
-      $settings = $this->generator->getBundleSettings($this->getEntityTypeId(), $this->getBundleName());
-    }
-    Simplesitemap::supplementDefaultSettings('entity', $settings, ['index' => 0]);
+    $settings = $this->getEntityCategory() === 'instance' && NULL !== $this->variant && NULL !== $this->getInstanceId()
+      ? $this->generator->setVariants($this->variant)->getEntityInstanceSettings($this->getEntityTypeId(), $this->getInstanceId())
+      : $this->bundleSettings;
+    Simplesitemap::supplementDefaultSettings('entity', $settings);
 
     $bundle_name = !empty($this->getBundleName()) ? $this->getBundleName() : $this->t('undefined');
 
@@ -245,7 +263,7 @@ class FormHelper {
     if (!$multiple) {
       $form_fragment[$prefix . 'simple_sitemap_index_content'] = [
         '#type' => 'radios',
-        '#default_value' => $settings['index'],
+        '#default_value' => (int) $settings['index'],
         '#options' => [
           0 => $this->getEntityCategory() === 'instance'
             ? $this->t('Do not index this @bundle entity', ['@bundle' => $bundle_name])
@@ -256,10 +274,31 @@ class FormHelper {
         ],
       ];
 
-      if ($this->getEntityCategory() === 'instance' && isset($bundle_settings['index'])) {
-        $form_fragment[$prefix . 'simple_sitemap_index_content']['#options'][$bundle_settings['index']] .= ' <em>(' . $this->t('default') . ')</em>';
+      if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings['index'])) {
+        $form_fragment[$prefix . 'simple_sitemap_index_content']['#options'][(int) $this->bundleSettings['index']] .= ' <em>(' . $this->t('default') . ')</em>';
       }
     }
+
+    // Variant
+    $form_fragment[$prefix . 'simple_sitemap_variant'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Sitemap variant'),
+      '#description' => $this->t('The sitemap variant entities of this type are to be indexed in.'),
+      '#options' => array_map(
+        function($variant) { return $this->t($variant['label']); },
+        $this->generator->getSitemapManager()->getSitemapVariants(NULL, FALSE)
+      ),
+      '#default_value' => $this->variant,
+      '#states' => [
+        'visible' => !$multiple
+          ? [':input[name="' . $prefix . 'simple_sitemap_index_content"]' => ['value' => 1]]
+          : [':input[name="' . $prefix . 'enabled"]' => ['checked' => TRUE]],
+        'required' => !$multiple // todo Should implement server side validation on top of this.
+          ? [':input[name="' . $prefix . 'simple_sitemap_index_content"]' => ['value' => 1]]
+          : [':input[name="' . $prefix . 'enabled"]' => ['checked' => TRUE]],
+      ],
+      '#disabled' => $this->getEntityCategory() === 'instance'
+    ];
 
     // Priority
     $form_fragment[$prefix . 'simple_sitemap_priority'] = [
@@ -270,10 +309,15 @@ class FormHelper {
         : $this->t('The priority entities of this type will have in the eyes of search engine bots.'),
       '#default_value' => $settings['priority'],
       '#options' => $this->getPrioritySelectValues(),
+      '#states' => [
+        'visible' => !$multiple
+          ? [':input[name="' . $prefix . 'simple_sitemap_index_content"]' => ['value' => 1]]
+          : [':input[name="' . $prefix . 'enabled"]' => ['checked' => TRUE]],
+      ],
     ];
 
-    if ($this->getEntityCategory() === 'instance' && isset($bundle_settings['priority'])) {
-      $form_fragment[$prefix . 'simple_sitemap_priority']['#options'][$this->formatPriority($bundle_settings['priority'])] .= ' (' . $this->t('default') . ')';
+    if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings['priority'])) {
+      $form_fragment[$prefix . 'simple_sitemap_priority']['#options'][$this->formatPriority($this->bundleSettings['priority'])] .= ' (' . $this->t('default') . ')';
     }
 
     // Changefreq
@@ -285,10 +329,15 @@ class FormHelper {
       : $this->t('The frequency with which entities of this type change. Search engine bots may take this as an indication of how often to index them.'),
       '#default_value' => $settings['changefreq'],
       '#options' => $this->getChangefreqSelectValues(),
+      '#states' => [
+        'visible' => !$multiple
+          ? [':input[name="' . $prefix . 'simple_sitemap_index_content"]' => ['value' => 1]]
+          : [':input[name="' . $prefix . 'enabled"]' => ['checked' => TRUE]],
+      ],
     ];
 
-    if ($this->getEntityCategory() === 'instance' && isset($bundle_settings['changefreq'])) {
-      $form_fragment[$prefix . 'simple_sitemap_changefreq']['#options'][$bundle_settings['changefreq']] .= ' (' . $this->t('default') . ')';
+    if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings['changefreq'])) {
+      $form_fragment[$prefix . 'simple_sitemap_changefreq']['#options'][$this->bundleSettings['changefreq']] .= ' (' . $this->t('default') . ')';
     }
 
     // Images
@@ -298,12 +347,17 @@ class FormHelper {
       '#description' => $this->getEntityCategory() === 'instance'
         ? $this->t('Determines if images referenced by this @bundle entity should be included in the sitemap.', ['@bundle' => $bundle_name])
         : $this->t('Determines if images referenced by entities of this type should be included in the sitemap.'),
-      '#default_value' => $settings['include_images'],
+      '#default_value' => (int) $settings['include_images'],
       '#options' => [0 => $this->t('No'), 1 => $this->t('Yes')],
+      '#states' => [
+        'visible' => !$multiple
+          ? [':input[name="' . $prefix . 'simple_sitemap_index_content"]' => ['value' => 1]]
+          : [':input[name="' . $prefix . 'enabled"]' => ['checked' => TRUE]],
+      ],
     ];
 
-    if ($this->getEntityCategory() === 'instance' && isset($bundle_settings['include_images'])) {
-      $form_fragment[$prefix . 'simple_sitemap_include_images']['#options'][$bundle_settings['include_images']] .= ' (' . $this->t('default') . ')';
+    if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings['include_images'])) {
+      $form_fragment[$prefix . 'simple_sitemap_include_images']['#options'][(int) $this->bundleSettings['include_images']] .= ' (' . $this->t('default') . ')';
     }
 
     return $this;
@@ -327,9 +381,7 @@ class FormHelper {
       $this->setEntityCategory('instance');
     }
     else {
-      /**
-       * @var \Drupal\Core\Entity\EntityType $sitemap_entity_type
-       */
+      /** @var \Drupal\Core\Entity\EntityType $sitemap_entity_type */
       foreach ($sitemap_entity_types as $sitemap_entity_type) {
         if ($sitemap_entity_type->getBundleEntityType() === $entity_type_id) {
           $this->setEntityCategory('bundle');
@@ -390,6 +442,8 @@ class FormHelper {
     $this->entityTypeId = NULL;
     $this->bundleName = NULL;
     $this->instanceId = NULL;
+    $this->variant = NULL;
+    $this->bundleSettings = NULL;
   }
 
   /**
@@ -415,7 +469,8 @@ class FormHelper {
    */
   public function valuesChanged($form, array $values) {
     foreach (self::$valuesToCheck as $field_name) {
-      if (isset($values[$field_name]) && $values[$field_name] != $form['simple_sitemap'][$field_name]['#default_value']) {
+      if (!isset($form['simple_sitemap'][$field_name]['#default_value'])
+        || (isset($values[$field_name]) && $values[$field_name] != $form['simple_sitemap'][$field_name]['#default_value'])) {
         return TRUE;
       }
     }

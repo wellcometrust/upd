@@ -36,6 +36,12 @@ drupal.facets.hierarchical:
     theme:
       css/hierarchical.css: {}
 
+drupal.facets.general:
+  version: VERSION
+  css:
+    theme:
+      css/general.css: {}
+
 drupal.facets.dropdown-widget:
   version: VERSION
   js:

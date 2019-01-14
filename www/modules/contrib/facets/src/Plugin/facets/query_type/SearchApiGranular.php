@@ -51,9 +51,8 @@ class SearchApiGranular extends QueryTypeRangeBase {
    * {@inheritdoc}
    */
   protected function getFacetOptions() {
-    return parent::getFacetOptions() + [
-      'granularity' => $this->getGranularity(),
-    ];
+    return $this->facet->getProcessors()['granularity_item']->getConfiguration()
+      + parent::getFacetOptions();
   }
 
   /**

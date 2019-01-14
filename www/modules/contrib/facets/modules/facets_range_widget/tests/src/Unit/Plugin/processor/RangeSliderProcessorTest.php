@@ -79,6 +79,7 @@ class RangeSliderProcessorTest extends UnitTestCase {
     $facet = $this->prophesize(Facet::class);
     $facet->getProcessors()->willReturn(['url_processor_handler' => $urlHandler->reveal()]);
     $facet->getUrlAlias()->willReturn('animals');
+    $facet->id()->willReturn('animals');
 
     /** @var \Drupal\facets\Result\ResultInterface[] $results */
     $results = [

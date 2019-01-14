@@ -128,7 +128,7 @@ class FacetsDateHandler {
    *   A string containing the gap, see FACETS_DATE_* constants for valid
    *   values.
    * @param string $min_gap
-   *   A string containing the the minimum gap that can be returned, defaults to
+   *   A string containing the minimum gap that can be returned, defaults to
    *   FACETS_DATE_SECOND. This is useful for defining the smallest increment
    *   that can be used in a date drilldown.
    *

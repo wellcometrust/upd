@@ -198,7 +198,7 @@ abstract class WidgetPluginBase extends PluginBase implements WidgetPluginInterf
     }
 
     if ($result->isActive()) {
-      $items['#attributes'] = ['class' => ['is-active']];
+      $items['#attributes']['class'][] = 'is-active';
     }
 
     $items['#wrapper_attributes'] = ['class' => $classes];

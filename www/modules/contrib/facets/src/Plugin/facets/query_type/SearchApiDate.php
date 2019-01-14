@@ -116,8 +116,8 @@ class SearchApiDate extends QueryTypeRangeBase {
         break;
 
       case static::FACETAPI_DATE_HOUR:
-        $startDate = $dateTime::createFromFormat('Y-m-d\TH:i:s', $value . '00:00');
-        $stopDate = $dateTime::createFromFormat('Y-m-d\TH:i:s', $value . '59:59');
+        $startDate = $dateTime::createFromFormat('Y-m-d\TH:i:s', $value . ':00:00');
+        $stopDate = $dateTime::createFromFormat('Y-m-d\TH:i:s', $value . ':59:59');
         break;
 
       case static::FACETAPI_DATE_MINUTE:

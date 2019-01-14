@@ -98,16 +98,16 @@ class FacetsSummaryBlock extends BlockBase implements FacetsSummaryBlockInterfac
     }
 
     /** @var \Drupal\views\ViewExecutable $view */
-    $view = $facets_summary->getFacetSource()->getViewsDisplay();
-
-    $build['#attached']['drupalSettings']['facets_views_ajax'] = [
-      'facets_summary_ajax' => [
-        'facets_summary_id' => $facets_summary->id(),
-        'view_id' => $view->id(),
-        'current_display_id' => $view->current_display,
-        'ajax_path' => Url::fromRoute('views.ajax')->toString(),
-      ],
-    ];
+    if ($view = $facets_summary->getFacetSource()->getViewsDisplay()) {
+      $build['#attached']['drupalSettings']['facets_views_ajax'] = [
+        'facets_summary_ajax' => [
+          'facets_summary_id' => $facets_summary->id(),
+          'view_id' => $view->id(),
+          'current_display_id' => $view->current_display,
+          'ajax_path' => Url::fromRoute('views.ajax')->toString(),
+        ],
+      ];
+    }
 
     return $build;
 

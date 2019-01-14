@@ -12,7 +12,7 @@ use \Drupal\mailchimp_campaign\Entity\MailchimpCampaign;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * MailChimp Campaign controller.
+ * Mailchimp Campaign controller.
  */
 class MailchimpCampaignController extends ControllerBase {
 
@@ -24,7 +24,7 @@ class MailchimpCampaignController extends ControllerBase {
 
     $content['campaigns_table'] = array(
       '#type' => 'table',
-      '#header' => array(t('Title'), t('Subject'), t('Status'), t('MailChimp List'), t('MailChimp Template'), t('Created'), t('Actions')),
+      '#header' => array(t('Title'), t('Subject'), t('Status'), t('Mailchimp List'), t('Mailchimp Template'), t('Created'), t('Actions')),
       '#empty' => '',
     );
 
@@ -36,6 +36,11 @@ class MailchimpCampaignController extends ControllerBase {
       if (!$campaign->isInitialized()) {
         continue;
       }
+      // Ensure the associated list still exists.
+      if (!isset($campaign->list) || !$campaign->list) {
+        continue;
+      }
+
       $campaign_id = $campaign->getMcCampaignId();
 
       $archive_url = Url::fromUri($campaign->mc_data->archive_url);
@@ -120,14 +125,22 @@ class MailchimpCampaignController extends ControllerBase {
       );
     }
 
+    $mailchimp_campaigns_url = Url::fromUri('https://admin.mailchimp.com/campaigns', array('attributes' => array('target' => '_blank')));
+
+    $content['mailchimp_list_link'] = array(
+      '#title' => t('Go to Mailchimp Campaigns'),
+      '#type' => 'link',
+      '#url' => $mailchimp_campaigns_url,
+    );
+
     return $content;
   }
 
   /**
-   * View a MailChimp campaign
+   * View a Mailchimp campaign
    *
    * @param MailchimpCampaign $mailchimp_campaign
-   *   The MailChimp campaign to view.
+   *   The Mailchimp campaign to view.
    *
    * @return array
    *   Renderable array of page content.
@@ -141,10 +154,10 @@ class MailchimpCampaignController extends ControllerBase {
   }
 
   /**
-   * View a MailChimp campaign stats.
+   * View a Mailchimp campaign stats.
    *
    * @param MailchimpCampaign $mailchimp_campaign
-   *   The MailChimp campaign to view stats for.
+   *   The Mailchimp campaign to view stats for.
    *
    * @return array
    *   Renderable array of page content.
@@ -157,14 +170,14 @@ class MailchimpCampaignController extends ControllerBase {
 
     try {
       if (!$mc_reports) {
-        throw new MailchimpAPIException('Cannot get campaign stats without MailChimp API. Check API key has been entered.');
+        throw new MailchimpAPIException('Cannot get campaign stats without Mailchimp API. Check API key has been entered.');
       }
 
       $response = $mc_reports->getCampaignSummary($mailchimp_campaign->getMcCampaignId());
-    } catch (Exception $e) {
-      drupal_set_message($e->getMessage(), 'error');
+    } catch (\Exception $e) {
+      \Drupal::messenger()->addMessage(t($e->getMessage()), 'error');
       \Drupal::logger('mailchimp_campaign')
-        ->error('An error occurred getting report data from MailChimp: {message}', array(
+        ->error('An error occurred getting report data from Mailchimp: {message}', array(
         'message' => $e->getMessage()
       ));
     }
@@ -184,7 +197,7 @@ class MailchimpCampaignController extends ControllerBase {
           'timestamp' => $series->timestamp,
           'emails_sent' => isset($series->emails_sent) ? $series->emails_sent : 0,
           'unique_opens' => $series->unique_opens,
-          'recipients_click' => $series->recipients_click,
+          'recipients_click' => isset($series->recipients_click) ? $series->recipients_click : 0,
         );
       }
 

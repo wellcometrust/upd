@@ -4,6 +4,7 @@ namespace Drupal\Tests\search_api_db\Kernel;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Database\Database as CoreDatabase;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Entity\Server;
 use Drupal\search_api\IndexInterface;
@@ -93,6 +94,7 @@ class BackendTest extends BackendTestBase {
     $this->regressionTest2926733();
     $this->regressionTest2938646();
     $this->regressionTest2925464();
+    $this->regressionTest2994022();
   }
 
   /**
@@ -638,6 +640,54 @@ class BackendTest extends BackendTestBase {
   }
 
   /**
+   * Tests changing of field types.
+   *
+   * @see https://www.drupal.org/project/search_api/issues/2994022
+   */
+  protected function regressionTest2994022() {
+    $query = $this->buildSearch('nonexistent_search_term');
+    $facets['category'] = [
+      'field' => 'category',
+      'limit' => 0,
+      'min_count' => 0,
+      'missing' => FALSE,
+      'operator' => 'and',
+    ];
+    $query->setOption('search_api_facets', $facets);
+    $results = $query->execute();
+    $this->assertResults([], $results, 'Non-existent keyword');
+    $expected = [
+      ['count' => 0, 'filter' => '"article_category"'],
+      ['count' => 0, 'filter' => '"item_category"'],
+    ];
+    $category_facets = $results->getExtraData('search_api_facets')['category'];
+    usort($category_facets, [$this, 'facetCompare']);
+    $this->assertEquals($expected, $category_facets, 'Correct facets were returned for minimum count 0');
+
+    $query = $this->buildSearch('nonexistent_search_term');
+    $conditions = $query->createConditionGroup('AND', ['facet:category']);
+    $conditions->addCondition('category', 'article_category');
+    $query->addConditionGroup($conditions);
+    $facets['category'] = [
+      'field' => 'category',
+      'limit' => 0,
+      'min_count' => 0,
+      'missing' => FALSE,
+      'operator' => 'and',
+    ];
+    $query->setOption('search_api_facets', $facets);
+    $results = $query->execute();
+    $this->assertResults([], $results, 'Non-existent keyword with filter');
+    $expected = [
+      ['count' => 0, 'filter' => '"article_category"'],
+      ['count' => 0, 'filter' => '"item_category"'],
+    ];
+    $category_facets = $results->getExtraData('search_api_facets')['category'];
+    usort($category_facets, [$this, 'facetCompare']);
+    $this->assertEquals($expected, $category_facets, 'Correct facets were returned for minimum count 0');
+  }
+
+  /**
    * {@inheritdoc}
    */
   protected function checkIndexWithoutFields() {
@@ -723,7 +773,7 @@ class BackendTest extends BackendTestBase {
     $expected = [
       'search_api_db_database_search_index' => 'search_api_db_database_search_index',
     ];
-    $this->assertEquals($expected, $tables, 'All the tables of the the Database Search module have been removed.');
+    $this->assertEquals($expected, $tables, 'All the tables of the Database Search module have been removed.');
   }
 
   /**
@@ -850,14 +900,20 @@ class BackendTest extends BackendTestBase {
     // Test different input values, similar to @dataProvider (but with less
     // overhead).
     $t = 1400000000;
-    $f = 'Y-m-d H:i:s';
+    $date_time_format = DateTimeItemInterface::DATETIME_STORAGE_FORMAT;
+    $date_format = DateTimeItemInterface::DATE_STORAGE_FORMAT;
     $test_values = [
       'null' => [NULL, NULL],
       'timestamp' => [$t, $t],
       'string timestamp' => ["$t", $t],
       'float timestamp' => [$t + 0.12, $t],
-      'date string' => [gmdate($f, $t), $t],
-      'date string with timezone' => [date($f . 'P', $t), $t],
+      'date string' => [gmdate($date_time_format, $t), $t],
+      'date string with timezone' => [date($date_time_format . 'P', $t), $t],
+      'date only' => [
+        date($date_format, $t),
+        // Date-only fields are stored with the default time (12:00:00).
+        strtotime(date($date_format, $t) . 'T12:00:00+00:00'),
+      ],
     ];
 
     // Get storage information for quickly checking the indexed value.

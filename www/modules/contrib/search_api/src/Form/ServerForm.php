@@ -2,6 +2,7 @@
 
 namespace Drupal\search_api\Form;
 
+use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormStateInterface;
@@ -12,6 +13,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Utility\Error;
 use Drupal\search_api\Backend\BackendPluginManager;
 use Drupal\search_api\ServerInterface;
+use Drupal\search_api\Utility\Utility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -140,10 +142,19 @@ class ServerForm extends EntityForm {
     foreach ($backends as $backend_id => $definition) {
       $config = $backend_id === $server->getBackendId() ? $server->getBackendConfig() : [];
       $config['#server'] = $server;
-      $backend = $this->backendPluginManager
-        ->createInstance($backend_id, $config);
-      $backend_options[$backend_id] = $backend->label();
-      $descriptions[$backend_id]['#description'] = $backend->getDescription();
+      try {
+        /** @var \Drupal\search_api\Backend\BackendInterface $backend */
+        $backend = $this->backendPluginManager
+          ->createInstance($backend_id, $config);
+      }
+      catch (PluginException $e) {
+        continue;
+      }
+      if ($backend->isHidden()) {
+        continue;
+      }
+      $backend_options[$backend_id] = Utility::escapeHtml($backend->label());
+      $descriptions[$backend_id]['#description'] = Utility::escapeHtml($backend->getDescription());
     }
     asort($backend_options, SORT_NATURAL | SORT_FLAG_CASE);
     if ($backend_options) {

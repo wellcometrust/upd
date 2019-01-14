@@ -130,7 +130,7 @@ class FacetBlockAjaxController extends ControllerBase {
     $request_stack = new RequestStack();
     $processed = $this->pathProcessor->processInbound($path, $new_request);
 
-    $this->currentPath->setPath($processed, $new_request);
+    $this->currentPath->setPath($processed);
     $request->attributes->add($this->router->matchRequest($new_request));
     $request_stack->push($new_request);
 

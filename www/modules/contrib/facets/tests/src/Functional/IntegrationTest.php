@@ -283,7 +283,7 @@ class IntegrationTest extends FacetsTestBase {
     ];
     $this->drupalPostForm(NULL, $edit, 'Save');
 
-    // Go the the view and test only the type facet is shown.
+    // Go to the view and test only the type facet is shown.
     $this->drupalGet('search-api-test-fulltext');
     $this->assertFacetLabel('item');
     $this->assertFacetLabel('article');

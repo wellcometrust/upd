@@ -16,22 +16,30 @@
     ],
     "support": {
         "issues": "https://www.drupal.org/project/issues/search_api_solr",
-        "irc": "irc://irc.freenode.org/drupal-search-api",
+        "irc": "https://drupalchat.me/channel/search",
         "source": "http://git.drupal.org/project/search_api_solr.git"
     },
     "require": {
-        "solarium/solarium": "3.8.*",
-        "drupal/search_api": "~1.3"
+        "php": "^7.0",
+        "ext-json": "*",
+        "maennchen/zipstream-php": "0.4.*",
+        "solarium/solarium": "~4.2.0",
+        "drupal/search_api": "~1.11"
     },
     "require-dev": {
-        "phayes/geophp": "dev-master",
+        "phayes/geophp": "^1.2",
         "drupal/facets": "1.x-dev",
         "drupal/geofield": "1.x-dev",
         "drupal/search_api_autocomplete": "1.x-dev",
         "drupal/search_api_location": "1.x-dev"
     },
+    "conflict": {
+        "drupal/search_api_solr_multilingual": "*",
+        "drupal/core": "<8.5"
+    },
     "suggest": {
         "drupal/facets": "Provides facetted search.",
-        "drupal/search_api_solr_multilingual": "Highly recommended if installation is multilingual or uses a language different than English."
+        "drupal/search_api_autocomplete": "Provides auto complete for search boxes.",
+        "drupal/search_api_location": "Provides location searches."
     }
 }

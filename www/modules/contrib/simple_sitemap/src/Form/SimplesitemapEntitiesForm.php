@@ -2,13 +2,50 @@
 
 namespace Drupal\simple_sitemap\Form;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\simple_sitemap\Simplesitemap;
+use Drupal\simple_sitemap\EntityHelper;
 
 /**
  * Class SimplesitemapEntitiesForm
  * @package Drupal\simple_sitemap\Form
  */
 class SimplesitemapEntitiesForm extends SimplesitemapFormBase {
+
+  /**
+   * @var \Drupal\simple_sitemap\EntityHelper
+   */
+  protected $entityHelper;
+
+  /**
+   * SimplesitemapEntitiesForm constructor.
+   * @param \Drupal\simple_sitemap\Simplesitemap $generator
+   * @param \Drupal\simple_sitemap\Form\FormHelper $form_helper
+   * @param \Drupal\simple_sitemap\EntityHelper $entity_helper
+   */
+  public function __construct(
+    Simplesitemap $generator,
+    FormHelper $form_helper,
+    EntityHelper $entity_helper
+  ) {
+    parent::__construct(
+      $generator,
+      $form_helper
+    );
+    $this->entityHelper = $entity_helper;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('simple_sitemap.generator'),
+      $container->get('simple_sitemap.form_helper'),
+      $container->get('simple_sitemap.entity_helper')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -27,7 +64,7 @@ class SimplesitemapEntitiesForm extends SimplesitemapFormBase {
     $form['simple_sitemap_entities']['entities'] = [
       '#title' => $this->t('Sitemap entities'),
       '#type' => 'fieldset',
-      '#markup' => '<p>' . $this->t('Simple XML sitemap settings will be added only to entity forms of entity types enabled here. For all entity types featuring bundles (e.g. <em>node</em>) sitemap settings have to be set on their bundle pages (e.g. <em>page</em>).') . '</p>',
+      '#markup' => '<div class="description">' . $this->t('Simple XML sitemap settings will be added only to entity forms of entity types enabled here. For all entity types featuring bundles (e.g. <em>node</em>) sitemap settings have to be set on their bundle pages (e.g. <em>page</em>).') . '</div>',
     ];
 
     $form['#attached']['library'][] = 'simple_sitemap/sitemapEntities';
@@ -68,8 +105,8 @@ class SimplesitemapEntitiesForm extends SimplesitemapFormBase {
 
         $bundle_info = '';
         $indexed_bundles = isset($bundle_settings[$entity_type_id])
-          ? implode(array_keys(array_filter($bundle_settings[$entity_type_id], function ($val) {return $val['index'];})), ', ') :
-          '';
+          ? implode(array_keys(array_filter($bundle_settings[$entity_type_id], function ($val) {return $val['index'];})), ', ')
+          : '';
 
         if (!$atomic_entity_type) {
           $bundle_info .= '<div id="indexed-bundles-' . $css_entity_type_id . '">'
@@ -118,11 +155,24 @@ class SimplesitemapEntitiesForm extends SimplesitemapFormBase {
         if ($value) {
           $this->generator->enableEntityType($entity_type_id);
           if ($this->entityHelper->entityTypeIsAtomic($entity_type_id)) {
-            $this->generator->setBundleSettings($entity_type_id, $entity_type_id, [
-              'index' => TRUE,
-              'priority' => $values[$entity_type_id . '_simple_sitemap_priority'],
-              'changefreq' => $values[$entity_type_id . '_simple_sitemap_changefreq'],
-              'include_images' => $values[$entity_type_id . '_simple_sitemap_include_images'],
+
+            // Deleting bundle settings for old bundle.
+            // See simple_sitemap.module::simple_sitemap_entity_form_submit().
+            // todo: This will not be necessary if "multiple variants pro bundle" is implemented.
+            if (isset($form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings'][$entity_type_id . '_simple_sitemap_variant']['#default_value'])) {
+              $old_variant = $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings'][$entity_type_id . '_simple_sitemap_variant']['#default_value'];
+              if ($old_variant !== $values[$entity_type_id . '_simple_sitemap_variant']) {
+                $this->generator->setVariants($old_variant)->removeBundleSettings($entity_type_id);
+              }
+            }
+
+            $this->generator
+              ->setVariants($values[$entity_type_id . '_simple_sitemap_variant'])
+              ->setBundleSettings($entity_type_id, $entity_type_id, [
+                'index' => TRUE,
+                'priority' => $values[$entity_type_id . '_simple_sitemap_priority'],
+                'changefreq' => $values[$entity_type_id . '_simple_sitemap_changefreq'],
+                'include_images' => (bool) $values[$entity_type_id . '_simple_sitemap_include_images'],
             ]);
           }
         }

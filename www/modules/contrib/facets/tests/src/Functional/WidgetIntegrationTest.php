@@ -159,7 +159,7 @@ class WidgetIntegrationTest extends FacetsTestBase {
     $id = 'masked_owl';
     $this->createFacet('Australian masked owl', $id);
 
-    // Go the the facet edit page and check to see if the custom widget shows
+    // Go to the facet edit page and check to see if the custom widget shows
     // up.
     $this->drupalGet('admin/config/search/facets/' . $id . '/edit');
     $this->assertSession()->pageTextContains('Custom widget');

@@ -228,7 +228,7 @@ class RestIntegrationTest extends FacetsTestBase {
           $base_url,
           '/facets-rest',
           '_format=json',
-          'f%5B0%5D=type%3Aitem&f%5B1%5D=type%3Aarticle',
+          'f%5B0%5D=type%3Aarticle&f%5B1%5D=type%3Aitem',
         ],
         'count' => 2,
       ],
@@ -241,7 +241,7 @@ class RestIntegrationTest extends FacetsTestBase {
           $base_url,
           '/facets-rest',
           '_format=json',
-          'f%5B0%5D=type%3Aitem&f%5B1%5D=keywords%3Abanana',
+          'f%5B0%5D=keywords%3Abanana&f%5B1%5D=type%3Aitem',
         ],
         'count' => 0,
       ],
@@ -250,7 +250,7 @@ class RestIntegrationTest extends FacetsTestBase {
           $base_url,
           '/facets-rest',
           '_format=json',
-          'f%5B0%5D=type%3Aitem&f%5B1%5D=keywords%3Astrawberry',
+          'f%5B0%5D=keywords%3Astrawberry&f%5B1%5D=type%3Aitem',
         ],
         'count' => 0,
       ],
@@ -259,7 +259,7 @@ class RestIntegrationTest extends FacetsTestBase {
           $base_url,
           '/facets-rest',
           '_format=json',
-          'f%5B0%5D=type%3Aitem&f%5B1%5D=keywords%3Aapple',
+          'f%5B0%5D=keywords%3Aapple&f%5B1%5D=type%3Aitem',
         ],
         'count' => 1,
       ],
@@ -268,7 +268,7 @@ class RestIntegrationTest extends FacetsTestBase {
           $base_url,
           '/facets-rest',
           '_format=json',
-          'f%5B0%5D=type%3Aitem&f%5B1%5D=keywords%3Aorange',
+          'f%5B0%5D=keywords%3Aorange&f%5B1%5D=type%3Aitem',
         ],
         'count' => 2,
       ],
@@ -277,7 +277,7 @@ class RestIntegrationTest extends FacetsTestBase {
           $base_url,
           '/facets-rest',
           '_format=json',
-          'f%5B0%5D=type%3Aitem&f%5B1%5D=keywords%3Agrape',
+          'f%5B0%5D=keywords%3Agrape&f%5B1%5D=type%3Aitem',
         ],
         'count' => 1,
       ],
@@ -287,7 +287,7 @@ class RestIntegrationTest extends FacetsTestBase {
       $value = $result->values->value;
       $this->assertEquals($results[$value]['count'], $result->values->count);
       foreach ($results[$value]['url'] as $url_part) {
-        $this->assertNotFalse(strpos($result->url, $url_part));
+        $this->assertContains($url_part, $result->url);
       }
     }
 
@@ -295,7 +295,7 @@ class RestIntegrationTest extends FacetsTestBase {
       $value = $result->values->value;
       $this->assertEquals($results[$value]['count'], $result->values->count);
       foreach ($results[$value]['url'] as $url_part) {
-        $this->assertNotFalse(strpos($result->url, $url_part));
+        $this->assertContains($url_part, $result->url);
       }
     }
   }

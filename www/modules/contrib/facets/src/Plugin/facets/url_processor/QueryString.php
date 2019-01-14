@@ -53,7 +53,7 @@ class QueryString extends UrlProcessorPluginBase {
       $get_params->remove('page');
     }
 
-    // Set the url alias from the the facet object.
+    // Set the url alias from the facet object.
     $this->urlAlias = $facet->getUrlAlias();
 
     $request = $this->request;
@@ -149,7 +149,7 @@ class QueryString extends UrlProcessorPluginBase {
           }
         }
       }
-
+      asort($filter_params, \SORT_NATURAL);
       $result_get_params->set($this->filterKey, array_values($filter_params));
       if (!empty($routeParameters)) {
         $url->setRouteParameters($routeParameters);

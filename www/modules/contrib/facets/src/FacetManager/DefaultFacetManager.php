@@ -170,9 +170,9 @@ class DefaultFacetManager {
       }
     }
 
-    $unprocessedFacets = array_filter($this->facets, function ($item) {
+    $unprocessedFacets = array_filter($this->facets, function ($item) use ($facetsource_id) {
       /* @var \Drupal\facets\FacetInterface $item */
-      return !isset($this->processedFacets[$item->id()]);
+      return !isset($this->processedFacets[$facetsource_id][$item->id()]);
     });
 
     // All facets were already processed on a previous run, so no need to do so
@@ -192,7 +192,7 @@ class DefaultFacetManager {
         }
         $post_query_processor->postQuery($facet);
       }
-      $this->processedFacets[$facet->id()] = $facet;
+      $this->processedFacets[$facetsource_id][$facet->id()] = $facet;
     }
   }
 

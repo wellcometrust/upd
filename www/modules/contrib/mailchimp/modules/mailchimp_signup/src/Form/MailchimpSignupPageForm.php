@@ -8,7 +8,7 @@ use Drupal\Core\Url;
 use Drupal\mailchimp_signup\Entity\MailchimpSignup;
 
 /**
- * Subscribe to a MailChimp list.
+ * Subscribe to a Mailchimp list.
  */
 class MailchimpSignupPageForm extends FormBase {
 
@@ -68,7 +68,9 @@ class MailchimpSignupPageForm extends FormBase {
     $lists_count = (!empty($lists)) ? count($lists) : 0;
 
     if (empty($lists)) {
-      drupal_set_message($this->t('The subscription service is currently unavailable. Please try again later.'), 'warning');
+      return ['message' => [
+        '#markup' => $this->t('The subscription service is currently unavailable. Please check again later.'),
+      ]];
     }
 
     $list = array();

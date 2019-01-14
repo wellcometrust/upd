@@ -7,9 +7,11 @@ CONTENTS OF THIS FILE
  * Extension modules
  * FAQ
 
+
 INTRODUCTION
 ------------
 Todo
+
 
 REQUIREMENTS
 ------------
@@ -17,11 +19,13 @@ No other modules required, we're supporting drupal core's search as a source for
 creating facets. Though we recommend using Search API, as that integration is
 better tested.
 
+
 INSTALLATION
 ------------
  * Install as you would normally install a contributed drupal module. See:
    https://drupal.org/documentation/install/modules-themes/modules-7
    for further information.
+
 
 CONFIGURATION
 -------------
@@ -125,6 +129,7 @@ A filter is a string with one of the following forms:
 - `!`: Filter for items without a value for this field (i.e., the "missing"
   facet).
 
+
 EXTENSION MODULES
 -----------------
 
@@ -132,6 +137,13 @@ EXTENSION MODULES
  Provides a link the a facet trough an entity reference field.
 - https://www.drupal.org/project/facets_prefix_suffix
  Provides a plugin to configure a prefix/suffix per result.
+- https://www.drupal.org/project/facets_block
+ Provide the facets as drupal block.
+- https://www.drupal.org/project/facets_taxonomy_path_processor
+ Sets taxonomy facet items active if present in route.
+- https://www.drupal.org/project/facets_view_mode_processor
+ Provides a processor to render facet entity reference items as view modes.
+
 
 FAQ
 ---

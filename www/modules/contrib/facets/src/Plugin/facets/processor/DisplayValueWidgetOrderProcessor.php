@@ -64,12 +64,19 @@ class DisplayValueWidgetOrderProcessor extends SortProcessorPluginBase implement
    * {@inheritdoc}
    */
   public function sortResults(Result $a, Result $b) {
-    $a = $this->transliteration->removeDiacritics($a->getDisplayValue());
-    $b = $this->transliteration->removeDiacritics($b->getDisplayValue());
-    if ($a == $b) {
+    // Get the transliterate values only once.
+    if (!isset($a->transliterateDisplayValue)) {
+      $a->transliterateDisplayValue = $this->transliteration->removeDiacritics($a->getDisplayValue());
+    }
+    if (!isset($b->transliterateDisplayValue)) {
+      $b->transliterateDisplayValue = $this->transliteration->removeDiacritics($b->getDisplayValue());
+    }
+
+    // Return the sort value.
+    if ($a->transliterateDisplayValue == $b->transliterateDisplayValue) {
       return 0;
     }
-    return strnatcasecmp($a, $b);
+    return strnatcasecmp($a->transliterateDisplayValue, $b->transliterateDisplayValue);
   }
 
 }

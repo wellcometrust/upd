@@ -47,7 +47,6 @@ function facets_help($route_name, RouteMatchInterface $route_match) {
 function facets_theme($existing, $type, $theme, $path) {
   return [
     'facets_result_item' => [
-      'base hook' => 'facets_result_item',
       'variables' => [
         'facet' => NULL,
         'raw_value' => '',
@@ -419,4 +418,15 @@ function facets_form_facets_facet_form_alter(&$form, FormStateInterface $form_st
   if (count($facet_sources) == 0) {
     unset($form['actions']);
   }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function facets_theme_suggestions_facets_result_item(array $variables) {
+  $suggestions = [];
+  $facet = $variables['facet'];
+  $suggestions[] = 'facets_result_item__' . $facet->getWidget()['type'];
+  $suggestions[] = 'facets_result_item__' . $facet->getWidget()['type'] . '__' . $facet->id();
+  return $suggestions;
 }

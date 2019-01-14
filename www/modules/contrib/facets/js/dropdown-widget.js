@@ -41,7 +41,10 @@
       $dropdown.addClass('js-facets-dropdown');
 
       var id = $(this).data('drupal-facet-id');
+      // Add aria-labelledby attribute to reference label.
+      $dropdown.attr('aria-labelledby', "facet_"+id+"_label");
       var default_option_label = settings.facets.dropdown_widget[id]['facet-default-option-label'];
+
       // Add empty text option first.
       var $default_option = $('<option />')
         .attr('value', '')

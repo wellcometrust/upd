@@ -137,3 +137,12 @@ plugin.plugin_configuration.facets_processor.granularity_item:
     max_value:
       type: integer
       label: 'Maximum value'
+    include_lower:
+      type: boolean
+      label: 'Include lower bounds'
+    include_upper:
+      type: boolean
+      label: 'Include upper bounds'
+    include_edges:
+      type: boolean
+      label: 'Include first lower and last upper bound'

@@ -93,6 +93,7 @@ abstract class QueryTypePluginBase extends PluginBase implements QueryTypeInterf
       'operator' => $this->facet->getQueryOperator(),
       'min_count' => $this->facet->getMinCount(),
       'missing' => FALSE,
+      'query_type' => $this->getPluginId(),
     ];
   }
 
