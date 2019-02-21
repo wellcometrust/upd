@@ -30,16 +30,16 @@ class Tabs extends FieldGroupFormatterBase {
   public function preRender(&$element, $rendering_object) {
     parent::preRender($element, $rendering_object);
 
-    $element += [
+    $element += array(
       '#prefix' => '<div class=" ' . implode(' ' , $this->getClasses()) . '">',
       '#suffix' => '</div>',
       '#tree' => TRUE,
-      '#parents' => [$this->group->group_name],
+      '#parents' => array($this->group->group_name),
       '#default_tab' => '',
-    ];
+    );
 
     if ($this->getSetting('id')) {
-      $element['#id'] = Html::getId($this->getSetting('id'));
+      $element['#id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     // By default tabs don't have titles but you can override it in the theme.
@@ -51,25 +51,25 @@ class Tabs extends FieldGroupFormatterBase {
 
     if ($this->getSetting('direction') == 'vertical') {
 
-      $element += [
+      $element += array(
         '#type' => 'vertical_tabs',
-        '#theme_wrappers' => ['vertical_tabs'],
-      ];
-      $complete_form = [];
+        '#theme_wrappers' => array('vertical_tabs'),
+      );
+      $complete_form = array();
       $element = VerticalTabs::processVerticalTabs($element, $form_state, $complete_form);
     }
     else {
-      $element += [
+      $element += array(
         '#type' => 'horizontal_tabs',
-        '#theme_wrappers' => ['horizontal_tabs'],
-      ];
+        '#theme_wrappers' => array('horizontal_tabs'),
+      );
       $on_form = $this->context == 'form';
       $element = HorizontalTabs::processHorizontalTabs($element, $form_state, $on_form);
     }
 
     // Make sure the group has 1 child. This is needed to succeed at form_pre_render_vertical_tabs().
     // Skipping this would force us to move all child groups to this array, making it an un-nestable.
-    $element['group']['#groups'][$this->group->group_name] = [0 => []];
+    $element['group']['#groups'][$this->group->group_name] = array(0 => array());
     $element['group']['#groups'][$this->group->group_name]['#group_exists'] = TRUE;
 
     // Search for a tab that was marked as open. First one wins.
@@ -89,16 +89,16 @@ class Tabs extends FieldGroupFormatterBase {
 
     $form = parent::settingsForm();
 
-    $form['direction'] = [
+    $form['direction'] = array(
       '#title' => $this->t('Direction'),
       '#type' => 'select',
-      '#options' => [
+      '#options' => array(
         'vertical' => $this->t('Vertical'),
         'horizontal' => $this->t('Horizontal'),
-      ],
+      ),
       '#default_value' => $this->getSetting('direction'),
       '#weight' => 1,
-    ];
+    );
 
     return $form;
   }
@@ -110,7 +110,7 @@ class Tabs extends FieldGroupFormatterBase {
 
     $summary = parent::settingsSummary();
     $summary[] = $this->t('Direction: @direction',
-      ['@direction' => $this->getSetting('direction')]
+      array('@direction' => $this->getSetting('direction'))
     );
 
     return $summary;
@@ -120,9 +120,9 @@ class Tabs extends FieldGroupFormatterBase {
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    return [
+    return array(
       'direction' => 'vertical',
-    ] + parent::defaultContextSettings($context);
+    ) + parent::defaultContextSettings($context);
   }
 
   /**

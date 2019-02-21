@@ -95,14 +95,15 @@ abstract class QueryTypeRangeBase extends QueryTypePluginBase {
       // defined by self::calculateResultFilter().
       if ($result['count'] || $query_operator == 'or') {
         $count = $result['count'];
-        $result_filter = $this->calculateResultFilter(trim($result['filter'], '"'));
-        if (isset($facet_results[$result_filter['raw']])) {
-          $facet_results[$result_filter['raw']]->setCount(
-            $facet_results[$result_filter['raw']]->getCount() + $count
-          );
-        }
-        else {
-          $facet_results[$result_filter['raw']] = new Result($this->facet, $result_filter['raw'], $result_filter['display'], $count);
+        if ($result_filter = $this->calculateResultFilter(trim($result['filter'], '"'))) {
+          if (isset($facet_results[$result_filter['raw']])) {
+            $facet_results[$result_filter['raw']]->setCount(
+              $facet_results[$result_filter['raw']]->getCount() + $count
+            );
+          }
+          else {
+            $facet_results[$result_filter['raw']] = new Result($this->facet, $result_filter['raw'], $result_filter['display'], $count);
+          }
         }
       }
     }

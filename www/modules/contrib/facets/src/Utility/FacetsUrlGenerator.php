@@ -2,7 +2,7 @@
 
 namespace Drupal\facets\Utility;
 
-use Drupal\facets\Entity\Facet;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\facets\Result\Result;
 use Drupal\facets\UrlProcessor\UrlProcessorPluginManager;
 
@@ -19,13 +19,23 @@ class FacetsUrlGenerator {
   protected $urlProcessorPluginManager;
 
   /**
+   * The entity storage for facets.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $facetStorage;
+
+  /**
    * Constructs a new instance of the FacetsUrlGenerator.
    *
    * @param \Drupal\facets\UrlProcessor\UrlProcessorPluginManager $urlProcessorPluginManager
    *   The url processor plugin manager.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
    */
-  public function __construct(UrlProcessorPluginManager $urlProcessorPluginManager) {
+  public function __construct(UrlProcessorPluginManager $urlProcessorPluginManager, EntityTypeManagerInterface $entityTypeManager) {
     $this->urlProcessorPluginManager = $urlProcessorPluginManager;
+    $this->facetStorage = $entityTypeManager->getStorage('facets_facet');
   }
 
   /**
@@ -58,13 +68,18 @@ class FacetsUrlGenerator {
     // should be from the same facet source, this is fine.
     // This is because we don't support generating a url over multiple facet
     // sources.
-    $facet_id = key($active_filters);
-    $facet = Facet::load($facet_id);
-    if ($facet === NULL) {
-      throw new \InvalidArgumentException("The Facet $facet_id could not be loaded.");
+    if (empty($active_filters)) {
+      throw new \InvalidArgumentException("The active filters passed in are invalid. They should look like: ['facet_id' => ['value1', 'value2']]");
     }
+
+    $facet_id = key($active_filters);
     if (!is_array($active_filters[$facet_id])) {
       throw new \InvalidArgumentException("The active filters passed in are invalid. They should look like: [$facet_id => ['value1', 'value2']]");
+    }
+
+    $facet = $this->facetStorage->load($facet_id);
+    if ($facet === NULL) {
+      throw new \InvalidArgumentException("The Facet $facet_id could not be loaded.");
     }
 
     // We need one raw value to build a Result. If we have the raw value in the

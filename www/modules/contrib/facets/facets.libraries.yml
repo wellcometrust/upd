@@ -36,6 +36,12 @@ drupal.facets.hierarchical:
     theme:
       css/hierarchical.css: {}
 
+drupal.facets.general:
+  version: VERSION
+  css:
+    theme:
+      css/general.css: {}
+
 drupal.facets.dropdown-widget:
   version: VERSION
   js:
@@ -53,3 +59,12 @@ soft-limit:
     - core/jquery.once
     - core/drupal
     - core/drupalSettings
+drupal.facets.views-ajax:
+  js:
+    js/facets-views-ajax.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.ajax

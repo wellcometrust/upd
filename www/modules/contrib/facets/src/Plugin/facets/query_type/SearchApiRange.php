@@ -4,6 +4,7 @@ namespace Drupal\facets\Plugin\facets\query_type;
 
 use Drupal\facets\QueryType\QueryTypePluginBase;
 use Drupal\facets\Result\Result;
+use Drupal\search_api\Query\QueryInterface;
 
 /**
  * Provides support for range facets within the Search API scope.
@@ -29,9 +30,11 @@ class SearchApiRange extends QueryTypePluginBase {
       $field_identifier = $this->facet->getFieldIdentifier();
       $exclude = $this->facet->getExclude();
 
-      // Set the options for the actual query.
-      $options = &$query->getOptions();
-      $options['search_api_facets'][$field_identifier] = $this->getFacetOptions();
+      if ($query->getProcessingLevel() === QueryInterface::PROCESSING_FULL) {
+        // Set the options for the actual query.
+        $options = &$query->getOptions();
+        $options['search_api_facets'][$field_identifier] = $this->getFacetOptions();
+      }
 
       // Add the filter to the query if there are active values.
       $active_items = $this->facet->getActiveItems();

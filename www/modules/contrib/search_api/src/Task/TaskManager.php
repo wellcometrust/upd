@@ -5,6 +5,7 @@ namespace Drupal\search_api\Task;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\search_api\IndexInterface;
@@ -59,6 +60,13 @@ class TaskManager implements TaskManagerInterface {
   protected $eventDispatcher;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Constructs a TaskManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -67,11 +75,14 @@ class TaskManager implements TaskManagerInterface {
    *   The event dispatcher.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $translation
    *   The string translation service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, EventDispatcherInterface $event_dispatcher, TranslationInterface $translation) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, EventDispatcherInterface $event_dispatcher, TranslationInterface $translation, MessengerInterface $messenger) {
     $this->entityTypeManager = $entity_type_manager;
     $this->eventDispatcher = $event_dispatcher;
     $this->setStringTranslation($translation);
+    $this->messenger = $messenger;
   }
 
   /**
@@ -268,7 +279,16 @@ class TaskManager implements TaskManagerInterface {
     // Schedule the batch.
     batch_set($batch_definition);
     if (function_exists('drush_backend_batch_process')) {
-      drush_backend_batch_process();
+      $result = drush_backend_batch_process();
+      // Drush performs batch processing in a separate PHP request. When the
+      // last batch is processed the batch list is cleared, but this only takes
+      // effect in the other request. Take the same action here to ensure that
+      // we are not requeueing stale batches when there are multiple tasks being
+      // handled in a single request.
+      if ($result['context']['drush_batch_process_finished'] === TRUE) {
+        $batch = &batch_get();
+        $batch = NULL;
+      }
     }
   }
 
@@ -338,11 +358,11 @@ class TaskManager implements TaskManagerInterface {
         'Successfully executed @count pending task.',
         'Successfully executed @count pending tasks.'
       );
-      drupal_set_message($message);
+      $this->messenger->addStatus($message);
     }
     else {
       // Notify the user about the batch job failure.
-      drupal_set_message($this->t('An error occurred while trying to execute tasks. Check the logs for details.'), 'error');
+      $this->messenger->addError($this->t('An error occurred while trying to execute tasks. Check the logs for details.'));
     }
   }
 

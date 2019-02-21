@@ -2,9 +2,6 @@ facets.facet_source.*:
   type: config_entity
   label : 'Facet Source'
   mapping:
-    uuid:
-      type: string
-      label: 'UUID'
     id:
       type: string
       label: 'ID'

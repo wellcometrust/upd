@@ -51,7 +51,7 @@ class FieldGroupDeleteForm extends ConfirmFormBase {
 
     field_group_group_delete($this->fieldGroup);
 
-    drupal_set_message(t('The group %group has been deleted from the %type content type.', ['%group' => t($this->fieldGroup->label), '%type' => $bundle_label]));
+    drupal_set_message(t('The group %group has been deleted from the %type content type.', array('%group' => t($this->fieldGroup->label), '%type' => $bundle_label)));
 
     // Redirect.
     $form_state->setRedirectUrl($this->getCancelUrl());
@@ -62,7 +62,7 @@ class FieldGroupDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return $this->t('Are you sure you want to delete the group %group?', ['%group' => t($this->fieldGroup->label)]);
+    return $this->t('Are you sure you want to delete the group %group?', array('%group' => t($this->fieldGroup->label)));
   }
 
   /**

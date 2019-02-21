@@ -26,27 +26,27 @@ class Details extends FieldGroupFormatterBase {
   public function preRender(&$element, $rendering_object) {
     parent::preRender($element, $rendering_object);
 
-    $element += [
+    $element += array(
       '#type' => 'details',
       '#title' => Html::escape($this->t($this->getLabel())),
       '#open' => $this->getSetting('open')
-    ];
+    );
 
     if ($this->getSetting('id')) {
-      $element['#id'] = Html::getId($this->getSetting('id'));
+      $element['#id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     $classes = $this->getClasses();
     if (!empty($classes)) {
-      $element += [
-        '#attributes' => ['class' => $classes],
-      ];
+      $element += array(
+        '#attributes' => array('class' => $classes),
+      );
     }
 
     if ($this->getSetting('description')) {
-      $element += [
+      $element += array(
         '#description' => $this->getSetting('description'),
-      ];
+      );
     }
 
     if ($this->getSetting('required_fields')) {
@@ -61,19 +61,19 @@ class Details extends FieldGroupFormatterBase {
   public function settingsForm() {
     $form = parent::settingsForm();
 
-    $form['open'] = [
+    $form['open'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Display element open by default.'),
       '#default_value' => $this->getSetting('open'),
-    ];
+    );
 
     if ($this->context == 'form') {
-      $form['required_fields'] = [
+      $form['required_fields'] = array(
         '#type' => 'checkbox',
         '#title' => $this->t('Mark group as required if it contains required fields.'),
         '#default_value' => $this->getSetting('required_fields'),
         '#weight' => 2,
-      ];
+      );
     }
 
     return $form;
@@ -84,7 +84,7 @@ class Details extends FieldGroupFormatterBase {
    */
   public function settingsSummary() {
 
-    $summary = [];
+    $summary = array();
     if ($this->getSetting('open')) {
       $summary[] = $this->t('Default state open');
     }
@@ -103,10 +103,10 @@ class Details extends FieldGroupFormatterBase {
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    $defaults = [
+    $defaults = array(
       'open' => FALSE,
       'required_fields' => $context == 'form',
-    ] + parent::defaultSettings($context);
+    ) + parent::defaultSettings($context);
 
     if ($context == 'form') {
       $defaults['required_fields'] = 1;

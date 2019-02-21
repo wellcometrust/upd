@@ -23,7 +23,7 @@ function field_group_theme_registry_alter(&$theme_registry) {
 
   // Inject field_group_build_entity_groups in all entity theming functions.
   $entity_info = Drupal::entityTypeManager()->getDefinitions();
-  $entity_types = [];
+  $entity_types = array();
   foreach ($entity_info as $entity_type_id => $entity_type) {
     if ($route_name = $entity_type->get('field_ui_base_route')) {
       $entity_types[] = $entity_type_id;
@@ -47,28 +47,28 @@ function field_group_theme_registry_alter(&$theme_registry) {
  * Implements hook_theme().
  */
 function field_group_theme() {
-  return [
-    'horizontal_tabs' => [
+  return array(
+    'horizontal_tabs' => array(
       'render element' => 'element',
       'template' => 'horizontal-tabs',
       'file' => 'templates/theme.inc',
-    ],
-    'field_group_accordion_item' => [
+    ),
+    'field_group_accordion_item' => array(
       'render element' => 'element',
       'template' => 'field-group-accordion-item',
       'file' => 'templates/theme.inc',
-    ],
-    'field_group_accordion' => [
+    ),
+    'field_group_accordion' => array(
       'render element' => 'element',
       'template' => 'field-group-accordion',
       'file' => 'templates/theme.inc',
-    ],
-    'field_group_html_element' => [
+    ),
+    'field_group_html_element' => array(
       'render element' => 'element',
       'template' => 'field-group-html-element',
       'file' => 'templates/theme.inc',
-    ],
-  ];
+    ),
+  );
 }
 
 /**
@@ -141,7 +141,7 @@ function field_group_field_info_max_weight($entity_type, $bundle, $context, $con
 
   $groups = field_group_info_groups($entity_type, $bundle, $context, $context_mode);
 
-  $weights = [];
+  $weights = array();
   foreach ($groups as $group) {
     $weights[] = $group->weight;
   }
@@ -164,14 +164,14 @@ function field_group_form_alter(array &$form, FormStateInterface $form_state) {
       $form_display = $storage['form_display'];
       $entity = $form_object->getEntity();
 
-      $context = [
+      $context = array(
         'entity_type' => $entity->getEntityTypeId(),
         'bundle' => $entity->bundle(),
         'entity' => $entity,
         'context' => 'form',
         'display_context' => 'form',
         'mode' => $form_display->getMode(),
-      ];
+      );
 
       field_group_attach_groups($form, $context);
       $form['#pre_render'][] = 'field_group_form_pre_render';
@@ -203,13 +203,13 @@ function field_group_inline_entity_form_entity_form_alter(&$entity_form, FormSta
  */
 function field_group_entity_view_alter(&$build, EntityInterface $entity, EntityDisplayInterface $display) {
 
-  $context = [
+  $context = array(
     'entity_type' => $display->getTargetEntityTypeId(),
     'bundle' => $entity->bundle(),
     'entity' => $entity,
     'display_context' => 'view',
     'mode' => $display->getMode(),
-  ];
+  );
 
   field_group_attach_groups($build, $context);
 
@@ -268,23 +268,23 @@ function field_group_entity_view_pre_render($element) {
 function field_group_field_group_pre_render(&$element, &$group, &$rendering_object) {
 
   // Add all field_group format types to the js settings.
-  $element['#attached']['drupalSettings']['field_group'] = [
+  $element['#attached']['drupalSettings']['field_group'] = array(
     $group->format_type => [
       'mode' => $group->mode,
       'context' => $group->context,
       'settings' => $group->format_settings,
     ],
-  ];
+  );
 
   $element['#weight'] = $group->weight;
 
   // Call the pre render function for the format type.
   $manager = Drupal::service('plugin.manager.field_group.formatters');
-  $plugin = $manager->getInstance([
+  $plugin = $manager->getInstance(array(
     'format_type' => $group->format_type,
-    'configuration' => ['label' => $group->label, 'settings' => $group->format_settings],
+    'configuration' => array('label' => $group->label, 'settings' => $group->format_settings),
     'group' => $group,
-  ]);
+  ));
   $plugin->preRender($element, $rendering_object);
 
 }
@@ -297,7 +297,7 @@ function field_group_field_group_build_pre_render_alter(& $element) {
 
   // Someone is doing a node view, in a node view. Reset content.
   if (isset($element['#node']->content) && count($element['#node']->content) > 0) {
-    $element['#node']->content = [];
+    $element['#node']->content = array();
   }
 
   $display = isset($element['#view_mode']);
@@ -332,7 +332,7 @@ function field_group_attach_groups(&$element, $context) {
   $element['#fieldgroups'] = field_group_info_groups($entity_type, $bundle, $display_context, $mode);
 
   // Create a lookup array.
-  $group_children = [];
+  $group_children = array();
   foreach ($element['#fieldgroups'] as $group_name => $group) {
     foreach ($group->children as $child) {
       $group_children[$child] = $group_name;
@@ -428,22 +428,22 @@ function field_group_build_entity_groups(&$vars, $context = 'view') {
 function field_group_fields_nest(&$element, &$vars = NULL, $context = NULL) {
 
   // Create all groups and keep a flat list of references to these groups.
-  $group_references = [];
+  $group_references = array();
   foreach ($element['#fieldgroups'] as $group_name => $group) {
     // Construct own weight, as some fields (for example preprocess fields) don't have weight set.
-    $element[$group_name] = [];
+    $element[$group_name] = array();
     $group_references[$group_name] = &$element[$group_name];
   }
 
   // Loop through all form children looking for those that are supposed to be
   // in groups, and insert placeholder element for the new group field in the
   // correct location within the form structure.
-  $element_clone = [];
+  $element_clone = array();
   foreach (Element::children($element) as $child_name) {
     $element_clone[$child_name] = $element[$child_name];
     // If this element is in a group, create the placeholder element.
     if (isset($element['#group_children'][$child_name])) {
-      $element_clone[$element['#group_children'][$child_name]] = [];
+      $element_clone[$element['#group_children'][$child_name]] = array();
     }
   }
   $element = array_merge($element_clone, $element);
@@ -510,7 +510,7 @@ function field_group_pre_render(& $element, $group, & $rendering_object) {
 
   // Only run the pre_render function if the group has elements.
   // $group->group_name
-  if ($element == []) {
+  if ($element == array()) {
     return;
   }
 
@@ -583,18 +583,18 @@ function field_group_group_save($group, $display = NULL) {
   // If no display was found. It doesn't exist yet, create it.
   if (!isset($display)) {
     if ($group->context == 'form') {
-      $display = EntityFormDisplay::create([
+      $display = EntityFormDisplay::create(array(
         'targetEntityType' => $group->entity_type,
         'bundle' => $group->bundle,
         'mode' => $group->mode,
-      ])->setStatus(TRUE);
+      ))->setStatus(TRUE);
     }
     elseif ($group->context == 'view') {
-      $display = EntityViewDisplay::create([
+      $display = EntityViewDisplay::create(array(
         'targetEntityType' => $group->entity_type,
         'bundle' => $group->bundle,
         'mode' => $group->mode,
-      ])->setStatus(TRUE);
+      ))->setStatus(TRUE);
     }
 
   }
@@ -631,7 +631,7 @@ function field_group_group_delete($group) {
     $display->save();
   }
 
-  Drupal::moduleHandler()->invokeAll('field_group_delete_field_group', [$group]);
+  Drupal::moduleHandler()->invokeAll('field_group_delete_field_group', array($group));
 }
 
 /**
@@ -650,27 +650,27 @@ function field_group_info_groups($entity_type, $bundle, $context, $mode) {
   if ($context == 'form') {
     $display = EntityFormDisplay::load($entity_type . '.' . $bundle . '.' . $mode);
     if (!$display) {
-      return [];
+      return array();
     }
     $data = $display->getThirdPartySettings('field_group');
   }
   if ($context == 'view') {
     $display = EntityViewDisplay::load($entity_type . '.' . $bundle . '.' . $mode);
     if (!$display) {
-      return [];
+      return array();
     }
     $data = $display->getThirdPartySettings('field_group');
   }
-  $groups = [];
+  $groups = array();
   if (isset($data) && is_array($data)) {
     foreach ($data as $group_name => $definition) {
-      $definition += [
+      $definition += array(
         'group_name' => $group_name,
         'entity_type' => $entity_type,
         'bundle' => $bundle,
         'context' => $context,
         'mode' => $mode,
-      ];
+      );
       $groups[$group_name] = (object) $definition;
     }
   }
@@ -728,7 +728,7 @@ function field_group_exists($group_name, $entity_type, $bundle, $context, $mode)
  */
 function field_group_remove_empty_form_groups($name, & $element, $groups, &$form_groups, $entity) {
 
-  $exceptions = ['user__account', 'comment__author'];
+  $exceptions = array('user__account', 'comment__author');
 
   $children = Element::children($element);
 

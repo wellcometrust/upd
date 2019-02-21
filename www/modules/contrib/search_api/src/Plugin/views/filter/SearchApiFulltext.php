@@ -2,7 +2,6 @@
 
 namespace Drupal\search_api\Plugin\views\filter;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\search_api\Entity\Index;
@@ -142,10 +141,14 @@ class SearchApiFulltext extends FilterPluginBase {
       '#type' => 'select',
       '#title' => $this->t('Parse mode'),
       '#description' => $this->t('Choose how the search keys will be parsed.'),
-      '#options' => $this->getParseModeManager()->getInstancesOptions(),
+      '#options' => [],
       '#default_value' => $this->options['parse_mode'],
     ];
     foreach ($this->getParseModeManager()->getInstances() as $key => $mode) {
+      if ($mode->isHidden()) {
+        continue;
+      }
+      $form['parse_mode']['#options'][$key] = $mode->label();
       if ($mode->getDescription()) {
         $states['visible'][':input[name="options[parse_mode]"]']['value'] = $key;
         $form["parse_mode_{$key}_description"] = [
@@ -272,7 +275,7 @@ class SearchApiFulltext extends FilterPluginBase {
 
     $words = preg_split('/\s+/', $input);
     foreach ($words as $i => $word) {
-      if (Unicode::strlen($word) < $this->options['min_length']) {
+      if (mb_strlen($word) < $this->options['min_length']) {
         unset($words[$i]);
       }
     }

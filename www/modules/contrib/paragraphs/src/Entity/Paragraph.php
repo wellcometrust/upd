@@ -84,6 +84,11 @@ use Drupal\user\UserInterface;
  *     "entity_view_display" = {
  *       "type" = "entity_reference_revisions_entity_view"
  *     }
+ *   },
+ *   serialized_field_property_names = {
+ *     "behavior_settings" = {
+ *       "value"
+ *     }
  *   }
  * )
  */
@@ -465,7 +470,10 @@ class Paragraph extends ContentEntityBase implements ParagraphInterface {
 
       if ($field_type = $field_definition->getType() == 'entity_reference') {
         if ($this->get($field_name)->entity && $this->get($field_name)->entity->access('view label')) {
-          $summary[] = $this->get($field_name)->entity->label();
+          $entity = $this->get($field_name)->entity;
+          // Switch to the entity translation in the current context if exists.
+          $entity = \Drupal::service('entity.repository')->getTranslationFromContext($entity, $this->activeLangcode);
+          $summary[] = $entity->label();
         }
       }
 
@@ -658,6 +666,8 @@ class Paragraph extends ContentEntityBase implements ParagraphInterface {
       foreach ($this->get($field_name) as $item) {
         $entity = $item->entity;
         if ($entity instanceof ParagraphInterface) {
+          // Switch to the entity translation in the current context if exists.
+          $entity = \Drupal::service('entity.repository')->getTranslationFromContext($entity, $this->activeLangcode);
           $summary[] = $entity->getSummary($options);
           $this->summaryCount++;
         }
@@ -703,7 +713,7 @@ class Paragraph extends ContentEntityBase implements ParagraphInterface {
     $summary = '';
     if (in_array($field_definition->getType(), $text_types)) {
       if (in_array($field_name, $excluded_text_types)) {
-        return $summary;
+        return '';
       }
 
       $text = $this->get($field_name)->value;
@@ -711,10 +721,14 @@ class Paragraph extends ContentEntityBase implements ParagraphInterface {
         $text = Unicode::truncate($text, 150);
       }
 
-      $summary = $text;
+      $summary = trim(strip_tags($text));
+      if (empty($summary)) {
+        // Tease raw HTML to have at least some summary.
+        $summary = htmlspecialchars(trim($text));
+      }
     }
 
-    return trim($summary);
+    return $summary;
   }
 
 }

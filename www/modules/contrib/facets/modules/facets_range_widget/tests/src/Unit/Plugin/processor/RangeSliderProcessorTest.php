@@ -10,8 +10,10 @@ use Drupal\facets\Entity\Facet;
 use Drupal\facets\Plugin\facets\processor\UrlProcessorHandler;
 use Drupal\facets\Plugin\facets\url_processor\QueryString;
 use Drupal\facets\Result\Result;
+use Drupal\facets\Utility\FacetsUrlGenerator;
 use Drupal\facets_range_widget\Plugin\facets\processor\RangeSliderProcessor;
 use Drupal\Tests\UnitTestCase;
+use Prophecy\Argument;
 
 /**
  * Unit test for processor.
@@ -35,9 +37,13 @@ class RangeSliderProcessorTest extends UnitTestCase {
     parent::setUp();
     $this->processor = new RangeSliderProcessor([], 'range_slider', []);
 
+    $facets_url_generator = $this->prophesize(FacetsUrlGenerator::class);
+    $facets_url_generator->getUrl(Argument::any(), Argument::any())->willReturn(new Url('test', [], ['query' => ['f' => ['animals::(min:__range_slider_min__,max:__range_slider_max__)']]]));
     $url_generator = $this->prophesize(UrlGeneratorInterface::class);
+
     $container = new ContainerBuilder();
     $container->set('url_generator', $url_generator->reveal());
+    $container->set('facets.utility.url_generator', $facets_url_generator->reveal());
     \Drupal::setContainer($container);
   }
 
@@ -66,12 +72,14 @@ class RangeSliderProcessorTest extends UnitTestCase {
     $queryString = $this->prophesize(QueryString::class);
     $queryString->getFilterKey()->willReturn('f');
     $queryString->getSeparator()->willReturn('::');
+    $queryString->getActiveFilters()->willReturn([]);
     $urlHandler = $this->prophesize(UrlProcessorHandler::class);
     $urlHandler->getProcessor()->willReturn($queryString->reveal());
 
     $facet = $this->prophesize(Facet::class);
     $facet->getProcessors()->willReturn(['url_processor_handler' => $urlHandler->reveal()]);
     $facet->getUrlAlias()->willReturn('animals');
+    $facet->id()->willReturn('animals');
 
     /** @var \Drupal\facets\Result\ResultInterface[] $results */
     $results = [

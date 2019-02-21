@@ -24,9 +24,9 @@
  * @ingroup themeable
  */
 #}
-<div class="facets-widget- {{- context.list_style -}} ">
-  {% if context.list_style %}
-    {%- set attributes = attributes.addClass('item-list__' ~ context.list_style) %}
+<div class="facets-widget- {{- facet.widget.type -}} ">
+  {% if facet.widget.type %}
+    {%- set attributes = attributes.addClass('item-list__' ~ facet.widget.type) %}
   {% endif %}
   {% if items or empty %}
     {%- if title is not empty -%}
@@ -43,4 +43,8 @@
       {{- empty -}}
     {%- endif -%}
   {%- endif %}
+
+{% if facet.widget.type == "dropdown" %}
+  <label id="facet_{{ facet.id }}_label">Facet {{ facet.label }}</label>
+{%- endif %}
 </div>

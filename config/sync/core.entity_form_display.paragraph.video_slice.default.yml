@@ -17,38 +17,43 @@ dependencies:
 third_party_settings:
   field_group:
     group_content_video_slice:
-      children:
-        - group_overlay_content_video_slic
-        - group_video_content_video_slice
-        - group_settings
+      children: {  }
       parent_name: ''
-      weight: 0
-      format_type: fieldset
+      weight: 2
+      format_type: tabs
       format_settings:
         label: Content
-        direction: horizontal
+        direction: vertical
         id: ''
         classes: ''
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
         required_fields: true
       label: Content
-      region: content
+      region: hidden
     group_overlay_content_video_slic:
       children:
         - field_title
         - field_standfirst
-      parent_name: group_content_video_slice
-      weight: 7
-      format_type: html_element
+      parent_name: group_new_content
+      weight: 21
+      format_type: tab
       format_settings:
-        id: ''
-        classes: ''
+        label: 'Overlay Content'
         formatter: closed
         description: ''
         required_fields: true
+        id: ''
+        classes: ''
         element: div
         show_label: false
         label_element: h3
+        label_element_classes: ''
         effect: none
         speed: fast
         attributes: ''
@@ -57,18 +62,20 @@ third_party_settings:
     group_video_content_video_slice:
       children:
         - field_video
-      parent_name: group_content_video_slice
-      weight: 8
-      format_type: html_element
+      parent_name: group_new_content
+      weight: 22
+      format_type: tab
       format_settings:
-        id: ''
-        classes: ''
+        label: 'Video Content'
         formatter: closed
         description: ''
         required_fields: true
+        id: ''
+        classes: ''
         element: div
         show_label: false
         label_element: h3
+        label_element_classes: ''
         effect: none
         speed: fast
         attributes: ''
@@ -77,22 +84,39 @@ third_party_settings:
     group_settings:
       children:
         - field_full_width
-      parent_name: group_content_video_slice
-      weight: 9
-      format_type: html_element
+      parent_name: group_new_content
+      weight: 23
+      format_type: tab
       format_settings:
-        id: ''
-        classes: ''
+        label: Settings
         formatter: closed
         description: ''
         required_fields: true
+        id: ''
+        classes: ''
         element: div
         show_label: false
         label_element: h3
+        label_element_classes: ''
         effect: none
         speed: fast
         attributes: ''
       label: Settings
+      region: content
+    group_new_content:
+      children:
+        - group_overlay_content_video_slic
+        - group_video_content_video_slice
+        - group_settings
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        label: 'New content'
+        direction: horizontal
+        id: ''
+        classes: ''
+      label: 'New content'
       region: content
 id: paragraph.video_slice.default
 targetEntityType: paragraph
@@ -135,6 +159,7 @@ content:
       selection_mode: selection_append
       field_widget_display_settings:
         view_mode: default
+      field_widget_replace: false
     third_party_settings: {  }
 hidden:
   created: true

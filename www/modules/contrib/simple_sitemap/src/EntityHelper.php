@@ -65,8 +65,9 @@ class EntityHelper {
    *   Objects of entity types that can be indexed by the sitemap.
    */
   public function getSupportedEntityTypes() {
-    $entity_types = $this->entityTypeManager->getDefinitions();
 
+    /** @var \Drupal\Core\Entity\ContentEntityTypeInterface[] $entity_types */
+    $entity_types = $this->entityTypeManager->getDefinitions();
     foreach ($entity_types as $entity_type_id => $entity_type) {
       if (!$entity_type instanceof ContentEntityTypeInterface
         || !method_exists($entity_type, 'getBundleEntityType')
@@ -100,8 +101,10 @@ class EntityHelper {
   }
 
   /**
-   * @param $url_object
-   * @return object|null
+   * @param \Drupal\Core\Url $url_object
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function getEntityFromUrlObject(Url $url_object) {
     return $url_object->isRouted()
@@ -113,8 +116,34 @@ class EntityHelper {
   }
 
   /**
-   * @param $entity_type_name
-   * @param $entity_id
+   * @param string $entity_type_id
+   * @param string|null $bundle_name
+   * @return array|int
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getEntityInstanceIds($entity_type_id, $bundle_name = NULL) {
+    $sitemap_entity_types = $this->getSupportedEntityTypes();
+    if (!isset($sitemap_entity_types[$entity_type_id])) {
+      return [];
+    }
+
+    $entity_query = $this->entityTypeManager->getStorage($entity_type_id)->getQuery();
+    if (!$this->entityTypeIsAtomic($entity_type_id) && NULL !== $bundle_name) {
+      $keys = $sitemap_entity_types[$entity_type_id]->getKeys();
+
+      // Menu fix.
+      $keys['bundle'] = $entity_type_id === 'menu_link_content' ? 'menu_name' : $keys['bundle'];
+
+      $entity_query->condition($keys['bundle'], $bundle_name);
+    }
+
+    return $entity_query->execute();
+  }
+
+  /**
+   * @param string $entity_type_name
+   * @param string $entity_id
    * @return array
    */
   public function getEntityImageUrls($entity_type_name, $entity_id) {

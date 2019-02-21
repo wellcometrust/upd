@@ -5,6 +5,7 @@ namespace Drupal\facets_summary\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\UncacheableDependencyTrait;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Drupal\facets_summary\Entity\FacetsSummary;
 use Drupal\facets_summary\FacetsSummaryBlockInterface;
 use Drupal\facets_summary\FacetsSummaryManager\DefaultFacetsSummaryManager;
@@ -93,6 +94,18 @@ class FacetsSummaryBlock extends BlockBase implements FacetsSummaryBlockInterfac
     if (!empty($build)) {
       $build['#contextual_links']['facets_summary'] = [
         'route_parameters' => ['facets_summary' => $facets_summary->id()],
+      ];
+    }
+
+    /** @var \Drupal\views\ViewExecutable $view */
+    if ($view = $facets_summary->getFacetSource()->getViewsDisplay()) {
+      $build['#attached']['drupalSettings']['facets_views_ajax'] = [
+        'facets_summary_ajax' => [
+          'facets_summary_id' => $facets_summary->id(),
+          'view_id' => $view->id(),
+          'current_display_id' => $view->current_display,
+          'ajax_path' => Url::fromRoute('views.ajax')->toString(),
+        ],
       ];
     }
 

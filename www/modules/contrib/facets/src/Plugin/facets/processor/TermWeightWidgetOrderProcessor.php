@@ -66,27 +66,39 @@ class TermWeightWidgetOrderProcessor extends SortProcessorPluginBase implements 
    * {@inheritdoc}
    */
   public function sortResults(Result $a, Result $b) {
-    $ids = [$a->getRawValue(), $b->getRawValue()];
-
-    $entities = $this->entityTypeManager
-      ->getStorage('taxonomy_term')
-      ->loadMultiple($ids);
-
-    // Bail out if we could not load the term (eg. if the result is not
-    // referring to a term).
-    if (empty($entities[$a->getRawValue()]) || empty($entities[$b->getRawValue()])) {
-      return 0;
+    // Get the term weight once.
+    if (!isset($a->termWeight) || !isset($b->termWeight)) {
+      $ids = [];
+      if (!isset($a->termWeight)) {
+        $a_raw = $a->getRawValue();
+        $ids[] = $a_raw;
+      }
+      if (!isset($b->termWeight)) {
+        $b_raw = $b->getRawValue();
+        $ids[] = $b_raw;
+      }
+      $entities = $this->entityTypeManager
+        ->getStorage('taxonomy_term')
+        ->loadMultiple($ids);
+      if (!isset($a->termWeight)) {
+        if (empty($entities[$a_raw])) {
+          return 0;
+        }
+        $a->termWeight = $entities[$a_raw]->getWeight();
+      }
+      if (!isset($b->termWeight)) {
+        if (empty($entities[$b_raw])) {
+          return 0;
+        }
+        $b->termWeight = $entities[$b_raw]->getWeight();
+      }
     }
 
-    /** @var \Drupal\taxonomy\Entity\Term $term_a */
-    $term_a = $entities[$a->getRawValue()];
-    /** @var \Drupal\taxonomy\Entity\Term $term_b */
-    $term_b = $entities[$b->getRawValue()];
-
-    if ($term_a->getWeight() === $term_b->getWeight()) {
+    // Return the sort value.
+    if ($a->termWeight === $b->termWeight) {
       return 0;
     }
-    return ($term_a->getWeight() < $term_b->getWeight()) ? -1 : 1;
+    return ($a->termWeight < $b->termWeight) ? -1 : 1;
   }
 
   /**

@@ -18,7 +18,7 @@ class CheckboxWidgetTest extends WidgetTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $this->widget = new CheckboxWidget(['show_numbers' => TRUE]);
+    $this->widget = new CheckboxWidget(['show_numbers' => TRUE], 'checkbox_widget', []);
   }
 
   /**

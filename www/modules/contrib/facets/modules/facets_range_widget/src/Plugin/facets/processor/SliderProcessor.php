@@ -15,7 +15,7 @@ use Drupal\facets\Result\Result;
  *   label = @Translation("Slider"),
  *   description = @Translation("Add results for all the steps between min and max range."),
  *   stages = {
- *     "post_query" = 5
+ *     "post_query" = 60
  *   }
  * )
  */

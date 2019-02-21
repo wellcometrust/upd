@@ -53,19 +53,20 @@ class QueryString extends UrlProcessorPluginBase {
       $get_params->remove('page');
     }
 
-    // Set the url alias from the the facet object.
+    // Set the url alias from the facet object.
     $this->urlAlias = $facet->getUrlAlias();
 
     $request = $this->request;
     if ($facet->getFacetSource()->getPath()) {
       $request = Request::create($facet->getFacetSource()->getPath());
+      $request->attributes->set('_format', $this->request->get('_format'));
     }
 
     // Grab any route params from the original request.
     $routeParameters = Url::createFromRequest($this->request)
       ->getRouteParameters();
 
-    // Get request Url.
+    // Create a request url.
     $requestUrl = Url::createFromRequest($request);
     $requestUrl->setOption('attributes', ['rel' => 'nofollow']);
 
@@ -148,7 +149,7 @@ class QueryString extends UrlProcessorPluginBase {
           }
         }
       }
-
+      asort($filter_params, \SORT_NATURAL);
       $result_get_params->set($this->filterKey, array_values($filter_params));
       if (!empty($routeParameters)) {
         $url->setRouteParameters($routeParameters);

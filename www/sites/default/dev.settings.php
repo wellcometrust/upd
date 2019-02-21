@@ -6,3 +6,4 @@ $config['config_ignore.settings']['ignored_config_entities'] = array(
   'webprofiler.*',
   'devel_generate.*',
 );
+

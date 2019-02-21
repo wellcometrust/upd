@@ -45,18 +45,18 @@ class HtmlElement extends FieldGroupFormatterBase {
 
     // Add the id to the attributes array.
     if ($this->getSetting('id')) {
-      $element_attributes['id'] = Html::getId($this->getSetting('id'));
+      $element_attributes['id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     // Add the classes to the attributes array.
     $classes = $this->getClasses();
     if (!empty($classes)) {
       if (!isset($element_attributes['class'])) {
-        $element_attributes['class'] = [];
+        $element_attributes['class'] = array();
       }
       // If user also entered class in the attributes textfield, force it to an array.
       else {
-        $element_attributes['class'] = [$element_attributes['class']];
+        $element_attributes['class'] = array($element_attributes['class']);
       }
       $element_attributes['class'] = array_merge($classes, $element_attributes['class']->value());
     }
@@ -88,81 +88,81 @@ class HtmlElement extends FieldGroupFormatterBase {
 
     $form = parent::settingsForm();
 
-    $form['element'] = [
+    $form['element'] = array(
       '#title' => $this->t('Element'),
       '#type' => 'textfield',
       '#default_value' => $this->getSetting('element'),
       '#description' => $this->t('E.g. div, section, aside etc.'),
       '#weight' => 1,
-    ];
+    );
 
-    $form['show_label'] = [
+    $form['show_label'] = array(
       '#title' => $this->t('Show label'),
       '#type' => 'select',
-      '#options' => [0 => $this->t('No'), 1 => $this->t('Yes')],
+      '#options' => array(0 => $this->t('No'), 1 => $this->t('Yes')),
       '#default_value' => $this->getSetting('show_label'),
       '#weight' => 2,
-      '#attributes' => [
+      '#attributes' => array(
         'data-fieldgroup-selector' => 'show_label'
-      ],
-    ];
+      ),
+    );
 
-    $form['label_element'] = [
+    $form['label_element'] = array(
       '#title' => $this->t('Label element'),
       '#type' => 'textfield',
       '#default_value' => $this->getSetting('label_element'),
       '#weight' => 3,
-      '#states' => [
-        'visible' => [
-          ':input[data-fieldgroup-selector="show_label"]' => ['value' => 1],
-        ],
-      ],
-    ];
+      '#states' => array(
+        'visible' => array(
+          ':input[data-fieldgroup-selector="show_label"]' => array('value' => 1),
+        ),
+      ),
+    );
 
     if ($this->context == 'form') {
-      $form['required_fields'] = [
+      $form['required_fields'] = array(
         '#title' => $this->t('Mark group as required if it contains required fields.'),
         '#type' => 'checkbox',
         '#default_value' => $this->getSetting('required_fields'),
         '#weight' => 4,
-      ];
+      );
     }
 
-    $form['attributes'] = [
+    $form['attributes'] = array(
       '#title' => $this->t('Attributes'),
       '#type' => 'textfield',
       '#default_value' => $this->getSetting('attributes'),
       '#description' => $this->t('E.g. name="anchor"'),
       '#weight' => 5,
-    ];
+    );
 
-    $form['effect'] = [
+    $form['effect'] = array(
       '#title' => $this->t('Effect'),
       '#type' => 'select',
-      '#options' => [
+      '#options' => array(
         'none' => $this->t('None'),
         'collapsible' => $this->t('Collapsible'),
         'blind' => $this->t('Blind')
-      ],
+      ),
       '#default_value' => $this->getSetting('effect'),
       '#weight' => 6,
-      '#attributes' => [
+      '#attributes' => array(
         'data-fieldgroup-selector' => 'effect'
-      ],
-    ];
+      ),
+    );
 
-    $form['speed'] = [
+    $form['speed'] = array(
       '#title' => $this->t('Speed'),
       '#type' => 'select',
-      '#options' => ['slow' => $this->t('Slow'), 'fast' => $this->t('Fast')],
+      '#options' => array('slow' => $this->t('Slow'), 'fast' => $this->t('Fast')),
       '#default_value' => $this->getSetting('speed'),
       '#weight' => 7,
-      '#states' => [
-        '!visible' => [
-          ':input[data-fieldgroup-selector="effect"]' => ['value' => 'none'],
-        ],
-      ],
-    ];
+      '#states' => array(
+        '!visible' => array(
+          ':input[data-fieldgroup-selector="effect"]' => array('value' => 'none'),
+        ),
+      ),
+    );
 
     return $form;
   }
@@ -174,18 +174,18 @@ class HtmlElement extends FieldGroupFormatterBase {
 
     $summary = parent::settingsSummary();
     $summary[] = $this->t('Element: @element',
-      ['@element' => $this->getSetting('element')]
+      array('@element' => $this->getSetting('element'))
     );
 
     if ($this->getSetting('show_label')) {
       $summary[] = $this->t('Label element: @element',
-        ['@element' => $this->getSetting('label_element')]
+        array('@element' => $this->getSetting('label_element'))
       );
     }
 
     if ($this->getSetting('attributes')) {
       $summary[] = $this->t('Attributes: @attributes',
-        ['@attributes' => $this->getSetting('attributes')]
+        array('@attributes' => $this->getSetting('attributes'))
       );
     }
 
@@ -200,14 +200,14 @@ class HtmlElement extends FieldGroupFormatterBase {
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    $defaults = [
+    $defaults = array(
       'element' => 'div',
       'show_label' => 0,
       'label_element' => 'h3',
       'effect' => 'none',
       'speed' => 'fast',
       'attributes' => '',
-    ] + parent::defaultSettings($context);
+    ) + parent::defaultSettings($context);
 
     if ($context == 'form') {
       $defaults['required_fields'] = 1;

@@ -34,6 +34,25 @@ class HideOnlyOneItemProcessorTest extends UnitTestCase {
   }
 
   /**
+   * Tests with one result that is already active.
+   *
+   * @covers ::build
+   */
+  public function testWithOneActiveResult() {
+    $processor = new HideOnlyOneItemProcessor([], 'hide_only_one_item', []);
+    $facet = new Facet([], 'facets_facet');
+    $results = [
+      new Result($facet, '1', 1, 1),
+    ];
+    $results[0]->setActiveState(TRUE);
+    $facet = $this->getMockBuilder(Facet::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $processed_results = $processor->build($facet, $results);
+    $this->assertCount(1, $processed_results);
+  }
+
+  /**
    * Tests with one result.
    *
    * @covers ::build

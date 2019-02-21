@@ -105,4 +105,14 @@ interface FacetSourcePluginInterface extends PluginFormInterface, DependentPlugi
    */
   public function getDataDefinition($field_name);
 
+  /**
+   * Builds and returns an extra renderable array for this facet block plugin.
+   *
+   * @return array
+   *   A renderable array representing the content of the block.
+   *
+   * @see \Drupal\facets\Plugin\facets\facet_source\SearchApiDisplay
+   */
+  public function buildFacet();
+
 }

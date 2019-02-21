@@ -150,6 +150,7 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
     // Image filename should not be present.
     $this->assertSession()->pageTextNotContains('example.jpg');
     $this->assertSession()->linkExists('Select entities');
+
     // Test the Replace functionality.
     file_unmanaged_copy(\Drupal::root() . '/core/modules/simpletest/files/image-test.jpg', 'public://example2.jpg');
     $image2 = File::create(['uri' => 'public://example2.jpg']);
@@ -190,8 +191,14 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
     // expect the field to override the widget.
     $this->getSession()->getPage()->attachFileToField('files[upload][]', $file_wrong_type);
     $this->waitForAjaxToFinish();
-    $this->assertSession()->pageTextContains('Only files with the following extensions are allowed: jpg');
-    $this->assertSession()->pageTextContains('The specified file druplicon.png could not be uploaded');
+    if (version_compare(\Drupal::VERSION, '8.7', '>=')) {
+      $this->assertSession()->responseContains('Only files with the following extensions are allowed: <em class="placeholder">jpg</em>.');
+      $this->assertSession()->responseContains('The selected file <em class="placeholder">druplicon.png</em> cannot be uploaded.');
+    }
+    else {
+      $this->assertSession()->pageTextContains('Only files with the following extensions are allowed: jpg');
+      $this->assertSession()->pageTextContains('The specified file druplicon.png could not be uploaded');
+    }
     // Upload an image bigger than the field widget's configured max size.
     $this->getSession()->getPage()->attachFileToField('files[upload][]', $file_too_big);
     $this->waitForAjaxToFinish();

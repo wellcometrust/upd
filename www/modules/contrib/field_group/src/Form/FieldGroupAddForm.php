@@ -103,36 +103,36 @@ class FieldGroupAddForm extends FormBase {
 
     // Gather group formatters.
     $formatter_options = \field_group_field_formatter_options($this->context);
-    $form['add'] = [
+    $form['add'] = array(
       '#type' => 'container',
-      '#attributes' => ['class' => ['form--inline', 'clearfix']],
-    ];
+      '#attributes' => array('class' => array('form--inline', 'clearfix')),
+    );
 
-    $form['add']['group_formatter'] = [
+    $form['add']['group_formatter'] = array(
       '#type' => 'select',
       '#title' => $this->t('Add a new group'),
       '#options' => $formatter_options,
       '#empty_option' => $this->t('- Select a group type -'),
       '#required' => TRUE,
-    ];
+    );
 
     // Field label and field_name.
-    $form['new_group_wrapper'] = [
+    $form['new_group_wrapper'] = array(
       '#type' => 'container',
-      '#states' => [
-        '!visible' => [
-          ':input[name="group_formatter"]' => ['value' => ''],
-        ],
-      ],
-    ];
-    $form['new_group_wrapper']['label'] = [
+      '#states' => array(
+        '!visible' => array(
+          ':input[name="group_formatter"]' => array('value' => ''),
+        ),
+      ),
+    );
+    $form['new_group_wrapper']['label'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Label'),
       '#size' => 15,
       '#required' => TRUE,
-    ];
+    );
 
-    $form['new_group_wrapper']['group_name'] = [
+    $form['new_group_wrapper']['group_name'] = array(
       '#type' => 'machine_name',
       '#size' => 15,
       // This field should stay LTR even for RTL languages.
@@ -140,22 +140,22 @@ class FieldGroupAddForm extends FormBase {
       '#field_suffix' => '</span>&lrm;',
       '#description' => $this->t('A unique machine-readable name containing letters, numbers, and underscores.'),
       '#maxlength' => FieldStorageConfig::NAME_MAX_LENGTH - strlen(self::GROUP_PREFIX),
-      '#machine_name' => [
-        'source' => ['new_group_wrapper', 'label'],
-        'exists' => [$this, 'groupNameExists'],
-      ],
+      '#machine_name' => array(
+        'source' => array('new_group_wrapper', 'label'),
+        'exists' => array($this, 'groupNameExists'),
+      ),
       '#required' => TRUE,
-    ];
+    );
 
-    $form['actions'] = ['#type' => 'actions'];
-    $form['actions']['submit'] = [
+    $form['actions'] = array('#type' => 'actions');
+    $form['actions']['submit'] = array(
       '#type' => 'submit',
       '#value' => $this->t('Save and continue'),
       '#button_type' => 'primary',
-      '#validate' => [
-        [$this, 'validateFormatterSelection']
-      ],
-    ];
+      '#validate' => array(
+        array($this, 'validateFormatterSelection')
+      ),
+    );
 
     $form['#attached']['library'][] = 'field_ui/drupal.field_ui';
   }
@@ -172,27 +172,27 @@ class FieldGroupAddForm extends FormBase {
     $group->mode = $this->mode;
 
     $manager = \Drupal::service('plugin.manager.field_group.formatters');
-    $plugin = $manager->getInstance([
+    $plugin = $manager->getInstance(array(
       'format_type' => $form_state->getValue('group_formatter'),
       'configuration' => [
         'label' => $form_state->getValue('label'),
       ],
       'group' => $group,
-    ]);
+    ));
 
-    $form['format_settings'] = [
+    $form['format_settings'] = array(
       '#type' => 'container',
       '#tree' => TRUE,
-    ];
+    );
 
     $form['format_settings'] += $plugin->settingsForm();
 
-    $form['actions'] = ['#type' => 'actions'];
-    $form['actions']['submit'] = [
+    $form['actions'] = array('#type' => 'actions');
+    $form['actions']['submit'] = array(
       '#type' => 'submit',
       '#value' => $this->t('Create group'),
       '#button_type' => 'primary',
-    ];
+    );
 
   }
 
@@ -221,7 +221,7 @@ class FieldGroupAddForm extends FormBase {
     }
     else {
 
-      $new_group = (object) [
+      $new_group = (object) array(
         'group_name' => $form_state->get('group_name'),
         'entity_type' => $this->entityTypeId,
         'bundle' => $this->bundle,
@@ -231,7 +231,7 @@ class FieldGroupAddForm extends FormBase {
         'parent_name' => '',
         'weight' => 20,
         'format_type' => $form_state->get('group_formatter'),
-      ];
+      );
 
       $new_group->format_settings = $form_state->getValue('format_settings');
       $new_group->label = $new_group->format_settings['label'];
@@ -243,7 +243,7 @@ class FieldGroupAddForm extends FormBase {
       // Store new group information for any additional submit handlers.
       $groups_added = $form_state->get('groups_added');
       $groups_added['_add_new_group'] = $new_group->group_name;
-      drupal_set_message(t('New group %label successfully created.', ['%label' => $new_group->label]));
+      drupal_set_message(t('New group %label successfully created.', array('%label' => $new_group->label)));
 
       $form_state->setRedirectUrl(FieldgroupUi::getFieldUiRoute($new_group));
       \Drupal::cache()->invalidate('field_groups');

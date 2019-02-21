@@ -5,10 +5,10 @@ namespace Drupal\simple_sitemap\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Drupal\Core\Cache\CacheableResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Drupal\simple_sitemap\Simplesitemap;
-use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\simple_sitemap\SimplesitemapManager;
 
 /**
  * Class SimplesitemapController
@@ -22,18 +22,11 @@ class SimplesitemapController extends ControllerBase {
   protected $generator;
 
   /**
-   * @var \Drupal\Core\PageCache\ResponsePolicy\KillSwitch
-   */
-  protected $cacheKillSwitch;
-
-  /**
    * SimplesitemapController constructor.
    * @param \Drupal\simple_sitemap\Simplesitemap $generator
-   * @param \Drupal\Core\PageCache\ResponsePolicy\KillSwitch $cache_kill_switch
    */
-  public function __construct(Simplesitemap $generator, KillSwitch $cache_kill_switch) {
+  public function __construct(Simplesitemap $generator) {
     $this->generator = $generator;
-    $this->cacheKillSwitch = $cache_kill_switch;
   }
 
   /**
@@ -41,41 +34,37 @@ class SimplesitemapController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('simple_sitemap.generator'),
-      $container->get('page_cache_kill_switch')
+      $container->get('simple_sitemap.generator')
     );
   }
 
   /**
-   * Returns the whole sitemap, a requested sitemap chunk, or the sitemap index file.
+   * Returns the whole sitemap variant, its requested chunk,
+   * or its sitemap index file.
    * Caches the response in case of expected output, prevents caching otherwise.
    *
-   * @param int $chunk_id
-   *   Optional ID of the sitemap chunk. If none provided, the first chunk or
-   *   the sitemap index is fetched.
+   * @param string $variant
+   *  Optional name of sitemap variant.
+   *  @see \hook_simple_sitemap_variants_alter()
+   *  @see SimplesitemapManager::getSitemapVariants()
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *  The request object.
    *
    * @throws NotFoundHttpException
    *
    * @return object
-   *   Returns an XML response.
+   *  Returns an XML response.
    */
-  public function getSitemap($chunk_id = NULL) {
-    $output = $this->generator->getSitemap($chunk_id);
+  public function getSitemap(Request $request, $variant = NULL) {
+    $output = $this->generator->setVariants($variant)->getSitemap($request->query->getInt('page'));
     if (!$output) {
-      $this->cacheKillSwitch->trigger();
       throw new NotFoundHttpException();
     }
 
-    // Display sitemap with correct XML header.
-    $response = new CacheableResponse($output, Response::HTTP_OK, [
+    return new Response($output, Response::HTTP_OK, [
       'content-type' => 'application/xml',
-      'X-Robots-Tag' => 'noindex', // Do not index the sitemap itself.
+      'X-Robots-Tag' => 'noindex', // Tell search engines not to index the sitemap itself.
     ]);
-
-    // Cache output.
-    $meta_data = $response->getCacheableMetadata();
-    $meta_data->addCacheTags(['simple_sitemap']);
-
-    return $response;
   }
 }

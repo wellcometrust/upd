@@ -236,9 +236,33 @@ interface SolrConnectorInterface extends ConfigurablePluginInterface {
    * Creates a new Solarium terms query.
    *
    * @return \Solarium\QueryType\Terms\Query
-   *   The Select query.
+   *   The Terms query.
    */
   public function getTermsQuery();
+
+  /**
+   * Creates a new Solarium suggester query.
+   *
+   * @return \Solarium\QueryType\Spellcheck\Query
+   *   The Spellcheck query.
+   */
+  public function getSpellcheckQuery();
+
+  /**
+   * Creates a new Solarium suggester query.
+   *
+   * @return \Solarium\QueryType\Suggester\Query
+   *   The Suggester query.
+   */
+  public function getSuggesterQuery();
+
+  /**
+   * Creates a new Solarium autocomplete query.
+   *
+   * @return \Drupal\search_api_solr\Solarium\Autocomplete\Query
+   *   The Autocomplete query.
+   */
+  public function getAutocompleteQuery();
 
   /**
    * Creates a new Solarium extract query.
@@ -272,12 +296,12 @@ interface SolrConnectorInterface extends ConfigurablePluginInterface {
   /**
    * Creates a result from a response.
    *
-   * @param \Solarium\QueryType\Select\Query\Query $query
+   * @param QueryInterface $query
    * @param \Solarium\Core\Client\Response $response
    *
    * @return \Solarium\Core\Query\Result\ResultInterface
    */
-  public function createSearchResult(Query $query, Response $response);
+  public function createSearchResult(QueryInterface $query, Response $response);
 
   /**
    * Executes an update query and applies some tweaks.
@@ -311,7 +335,7 @@ interface SolrConnectorInterface extends ConfigurablePluginInterface {
    *
    * @throws \Drupal\search_api_solr\SearchApiSolrException
    */
-  public function executeRequest(Request $request, Endpoint $endpoint = null);
+  public function executeRequest(Request $request, Endpoint $endpoint = NULL);
 
   /**
    * Optimizes the Solr index.
@@ -324,10 +348,11 @@ interface SolrConnectorInterface extends ConfigurablePluginInterface {
    * Executes an extract query.
    *
    * @param \Solarium\Core\Query\QueryInterface|\Solarium\QueryType\Extract\Query $query
+   * @param \Solarium\Core\Client\Endpoint|null $endpoint
    *
    * @return \Solarium\QueryType\Extract\Result
    */
-  public function extract(QueryInterface $query);
+  public function extract(QueryInterface $query, Endpoint $endpoint = NULL);
 
   /**
    * Gets the content from an extract query result.
@@ -337,6 +362,9 @@ interface SolrConnectorInterface extends ConfigurablePluginInterface {
    * @param string $filepath
    *
    * @return string
+   *   The extracted content as string.
+   *
+   * @throws \Drupal\search_api_solr\SearchApiSolrException
    */
   public function getContentFromExtractResult(ExtractResult $result, $filepath);
 
@@ -381,5 +409,69 @@ interface SolrConnectorInterface extends ConfigurablePluginInterface {
    *     "info", "ok", "warning" or "error". Defaults to "info".
    */
   public function viewSettings();
+
+  /**
+   * Reloads the Solr core.
+   *
+   * @return bool
+   */
+  public function reloadCore();
+
+  /**
+   * Sets a new timeout for queries, but not for indexing or optimization.
+   *
+   * The timeout will not be saved in the configuration of the connector. It
+   * will be overwritten for the current request only.
+   *
+   * @param int $timeout
+   * @param \Solarium\Core\Client\Endpoint|NULL $endpoint
+   *
+   * @return int
+   *   The previous timeout value.
+   */
+  public function adjustTimeout(int $timeout, Endpoint $endpoint = NULL);
+
+  /**
+   * Get the query timeout.
+   *
+   * @param \Solarium\Core\Client\Endpoint|NULL $endpoint
+   *
+   * @return int
+   */
+  public function getTimeout(Endpoint $endpoint = NULL);
+
+  /**
+   * Get the index timeout.
+   *
+   * @return int
+   */
+  public function getIndexTimeout();
+
+  /**
+   * Get the optimize timeout.
+   *
+   * @return int
+   */
+  public function getOptimizeTimeout();
+
+  /**
+   * Get the finalize timeout.
+   *
+   * @return int
+   */
+  public function getFinalizeTimeout();
+
+  /**
+   * Alter the newly assembled Solr configuration files.
+   *
+   * @param string[] $files
+   *   Array of config files keyed by file names.
+   * @param string $lucene_match_version
+   *   Lucene (Solr) minor version string.
+   * @param string $server_id
+   *   Optional Search API server id. Will be set in most cases but might be
+   *   empty when the config generation is triggered via UI or drush.
+   */
+  public function alterConfigFiles(array &$files, string $lucene_match_version, string $server_id = '');
 
 }

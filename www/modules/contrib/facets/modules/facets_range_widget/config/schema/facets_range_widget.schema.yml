@@ -51,4 +51,3 @@ facet.widget.config.range_slider:
     step:
       type: float
       label: 'Step'
-

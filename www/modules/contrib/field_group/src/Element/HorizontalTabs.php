@@ -21,13 +21,13 @@ class HorizontalTabs extends RenderElement {
   public function getInfo() {
     $class = get_class($this);
 
-    return [
+    return array(
       '#default_tab' => '',
-      '#process' => [
-        [$class, 'processHorizontalTabs'],
-      ],
-      '#theme_wrappers' => ['horizontal_tabs'],
-    ];
+      '#process' => array(
+        array($class, 'processHorizontalTabs'),
+      ),
+      '#theme_wrappers' => array('horizontal_tabs'),
+    );
   }
 
   /**
@@ -48,11 +48,11 @@ class HorizontalTabs extends RenderElement {
 
     // Inject a new details as child, so that form_process_details() processes
     // this details element like any other details.
-    $element['group'] = [
+    $element['group'] = array(
       '#type' => 'details',
-      '#theme_wrappers' => [],
+      '#theme_wrappers' => array(),
       '#parents' => $element['#parents'],
-    ];
+    );
 
     // Add an invisible label for accessibility.
     if (!isset($element['#title'])) {
@@ -76,11 +76,11 @@ class HorizontalTabs extends RenderElement {
     if ($form_state->hasValue($name . '__active_tab')){
       $element['#default_tab'] = $form_state->getValue($name . '__active_tab');
     }
-    $element[$name . '__active_tab'] = [
+    $element[$name . '__active_tab'] = array(
       '#type' => 'hidden',
       '#default_value' => $element['#default_tab'],
-      '#attributes' => ['class' => ['horizontal-tabs-active-tab']],
-    ];
+      '#attributes' => array('class' => array('horizontal-tabs-active-tab')),
+    );
 
     return $element;
   }

@@ -8,7 +8,7 @@ use Drupal\facets_summary\Processor\BuildProcessorInterface;
 use Drupal\facets_summary\Processor\ProcessorPluginBase;
 
 /**
- * Provides a processor that hides the facet when the facets were not rendered.
+ * Provides a processor that shows a text when there are no results.
  *
  * @SummaryProcessor(
  *   id = "show_text_when_empty",
@@ -16,7 +16,7 @@ use Drupal\facets_summary\Processor\ProcessorPluginBase;
  *   description = @Translation("Show a text when there are no results, otherwise it will hide the block."),
  *   default_enabled = TRUE,
  *   stages = {
- *     "build" = 30
+ *     "build" = 10
  *   }
  * )
  */
@@ -28,7 +28,13 @@ class ShowTextWhenEmptyProcessor extends ProcessorPluginBase implements BuildPro
   public function build(FacetsSummaryInterface $facets_summary, array $build, array $facets) {
     $config = $this->getConfiguration();
 
-    if (!isset($build['#items'])) {
+    $results_count = array_sum(array_map(function ($it) {
+      /** @var \Drupal\facets\FacetInterface $it */
+      return count($it->getResults());
+    }, $facets));
+
+    // No items are found, so we should return the empty summary.
+    if (!isset($build['#items']) || $results_count === 0) {
       return [
         '#theme' => 'facets_summary_empty',
         '#message' => [
@@ -38,6 +44,8 @@ class ShowTextWhenEmptyProcessor extends ProcessorPluginBase implements BuildPro
         ],
       ];
     }
+
+    // Return the actual items.
     return $build;
   }
 
@@ -66,7 +74,7 @@ class ShowTextWhenEmptyProcessor extends ProcessorPluginBase implements BuildPro
     return [
       'text' => [
         'format' => 'plain_text',
-        'value' => $this->t('There is no current search in progress.'),
+        'value' => $this->t('No results found.'),
       ],
     ];
   }

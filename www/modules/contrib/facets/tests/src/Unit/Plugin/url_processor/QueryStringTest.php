@@ -418,6 +418,8 @@ class QueryStringTest extends UnitTestCase {
 namespace Drupal\facets\Plugin\facets\url_processor;
 
 /**
+ * Mocks the usage of drupal static.
+ *
  * @see \drupal_static
  */
 function &drupal_static($name, $default_value = NULL, $reset = FALSE) {

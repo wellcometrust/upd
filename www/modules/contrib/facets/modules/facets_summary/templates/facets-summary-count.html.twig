@@ -8,9 +8,5 @@
  */
 #}
 <span class="source-summary-count">
-{% if count == 1 %}
-    {% trans %}1 result found{% endtrans %}
-{% else %}
-    {% trans %}{{ count|drupal_escape }} results found{% endtrans %}
-{% endif %}
+  {% trans %}1 result found{% plural count %}{{ count }} results found{% endtrans %}
 </span>

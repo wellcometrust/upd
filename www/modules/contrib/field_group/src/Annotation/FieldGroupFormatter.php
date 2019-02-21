@@ -60,14 +60,14 @@ class FieldGroupFormatter extends Plugin {
    *
    * @var array
    */
-  public $supported_contexts = [];
+  public $supported_contexts = array();
 
   /**
    * The different format types available for this formatter.
    *
    * @var array
    */
-  public $format_types = [];
+  public $format_types = array();
 
   /**
    * An integer to determine the weight of this formatter relative to other

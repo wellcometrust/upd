@@ -8,7 +8,6 @@ use Drupal\facets\Entity\Facet;
  * Class FacetsUrlGeneratorTest.
  *
  * @group facets
- * @coversDefaultClass \Drupal\facets\Utility\FacetsUrlGenerator
  */
 class FacetsUrlGeneratorTest extends FacetsTestBase {
 
@@ -48,7 +47,7 @@ class FacetsUrlGeneratorTest extends FacetsTestBase {
   }
 
   /**
-   * @covers ::getUrl
+   * Create url.
    */
   public function testCreateUrl() {
     /** @var \Drupal\facets\FacetInterface $entity */
@@ -68,34 +67,7 @@ class FacetsUrlGeneratorTest extends FacetsTestBase {
   }
 
   /**
-   * Tests that passing an invalid facet ID throws an InvalidArgumentException.
-   *
-   * @covers ::getUrl
-   */
-  public function testInvalidFacet() {
-    $this->setExpectedException(\InvalidArgumentException::class, 'The Facet imaginary could not be loaded.');
-    $this->urlGenerator->getUrl(['imaginary' => ['unicorn']]);
-  }
-
-  /**
-   * Tests that passing an invalid facet ID throws an InvalidArgumentException.
-   *
-   * @covers ::getUrl
-   */
-  public function testInvalidArguments() {
-    $entity = Facet::create([
-      'id' => 'test_facet',
-      'name' => 'Test facet',
-    ]);
-    $entity->setWidget('links');
-    $entity->setEmptyBehavior(['behavior' => 'none']);
-    $entity->save();
-    $this->setExpectedException(\InvalidArgumentException::class, 'The active filters passed in are invalid. They should look like: [test_facet => [\'value1\', \'value2\']]');
-    $this->urlGenerator->getUrl(['test_facet' => 'unicorn']);
-  }
-
-  /**
-   * @covers ::getUrl
+   * Create url with already set facet.
    */
   public function testWithAlreadySetFacet() {
     $this->drupalPlaceBlock('display_generated_link');

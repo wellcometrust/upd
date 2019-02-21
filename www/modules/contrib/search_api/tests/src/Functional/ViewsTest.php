@@ -252,6 +252,9 @@ class ViewsTest extends SearchApiBrowserTestBase {
     // have any effect.
     $this->checkResults([], [2, 4, 5], 'Search with arguments', 'all/item+article/strawberry+apple');
 
+    // Check "OR" contextual filters (using commas).
+    $this->checkResults([], [4], 'Search with OR arguments', 'all/item,article/strawberry,apple');
+
     $this->checkResults([], [], 'Search with unknown datasource argument', 'entity:foobar/all/all');
 
     $query = [
@@ -663,6 +666,19 @@ class ViewsTest extends SearchApiBrowserTestBase {
     $this->submitForm($edit, 'Expose filter');
     $this->submitPluginForm([]);
 
+    // Add a "Search: Fulltext search" filter.
+    $this->clickLink('Add filter criteria');
+    $edit = [
+      'name[search_api_index_database_search_index.search_api_fulltext]' => 'search_api_index_database_search_index.search_api_fulltext',
+    ];
+    $this->submitForm($edit, 'Add and configure filter criteria');
+    $this->assertSession()->pageTextNotContains('No UI parse mode');
+    $edit = [
+      'options[expose_button][checkbox][checkbox]' => 1,
+    ];
+    $this->submitForm($edit, 'Expose filter');
+    $this->submitPluginForm([]);
+
     // Save the view.
     $this->submitForm([], 'Save');
     $this->assertSession()->statusCodeEquals(200);
@@ -723,21 +739,18 @@ class ViewsTest extends SearchApiBrowserTestBase {
       }
     }
 
-    // Check whether the expected retrieved properties were listed on the page.
-    // Since the fields with the "field_rendering" option enabled will need the
-    // complete loaded entity, these are only present as "_object" here.
+    // Check whether the expected retrieved fields were listed on the page.
+    // These are only "keywords" and "rendered_item", since only fields that
+    // correspond to an indexed field are included (not when a field is added
+    // via the datasource table), and only if "Use entity field rendering" is
+    // disabled.
     // @see search_api_test_views_search_api_query_alter()
-    $retrieved_properties = [
-      Utility::createCombinedId($datasource_id, 'id'),
-      Utility::createCombinedId($datasource_id, '_object'),
-      Utility::createCombinedId($datasource_id, 'keywords'),
-      Utility::createCombinedId($datasource_id, 'user_id'),
-      Utility::createCombinedId($datasource_id, 'user_id:entity:_object'),
-      Utility::createCombinedId($datasource_id, 'user_id:entity:roles'),
-      Utility::createCombinedId(NULL, 'rendered_item'),
+    $retrieved_fields = [
+      'keywords',
+      'rendered_item',
     ];
-    foreach ($retrieved_properties as $combined_property_path) {
-      $this->assertSession()->pageTextContains("'$combined_property_path'");
+    foreach ($retrieved_fields as $field_id) {
+      $this->assertSession()->pageTextContains("'$field_id'");
     }
 
     // Check that click-sorting works correctly.

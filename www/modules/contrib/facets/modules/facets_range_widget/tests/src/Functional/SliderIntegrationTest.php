@@ -59,23 +59,13 @@ class SliderIntegrationTest extends FacetsTestBase {
 
     $this->assertSession()->checkboxChecked('edit-facet-settings-slider-status');
 
-    $startTime = \Drupal::time()->getCurrentMicroTime();
     $this->drupalGet('search-api-test-fulltext');
     $this->assertFacetBlocksAppear();
     $this->assertSession()->pageTextContains('Displaying 12 search results');
-    $stopTime = \Drupal::time()->getCurrentMicroTime();
-    if (($stopTime - $startTime) > 1) {
-      $this->fail('Filtering takes too long');
-    }
 
     // Change the facet block.
-    $startTime = \Drupal::time()->getCurrentMicroTime();
     $url = Url::fromUserInput('/search-api-test-fulltext', ['query' => ['f[0]' => 'owl:2']]);
     $this->drupalGet($url->setAbsolute()->toString());
-    $stopTime = \Drupal::time()->getCurrentMicroTime();
-    if (($stopTime - $startTime) > 1) {
-      $this->fail('Filtering takes too long');
-    }
 
     // Check that the results have changed to the correct amount of results.
     $this->assertSession()->pageTextContains('Displaying 1 search results');

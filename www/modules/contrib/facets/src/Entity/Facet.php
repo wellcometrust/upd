@@ -53,7 +53,8 @@ use Drupal\facets\FacetInterface;
  *     "exclude",
  *     "only_visible_when_facet_source_is_visible",
  *     "processor_configs",
- *     "empty_behavior"
+ *     "empty_behavior",
+ *     "show_title"
  *   },
  *   links = {
  *     "collection" = "/admin/config/search/facets",

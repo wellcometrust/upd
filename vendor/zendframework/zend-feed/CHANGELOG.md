@@ -2,6 +2,117 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.11.0 - 2019-01-29
+
+### Added
+
+- [#94](https://github.com/zendframework/zend-feed/pull/94) adds support for PHP 7.3.
+
+- [#91](https://github.com/zendframework/zend-feed/pull/91) adds explicit requirements for both ext-dom and ext-libxml to the package.
+
+### Changed
+
+- [#93](https://github.com/zendframework/zend-feed/pull/93) `Writer\Feed`, `Writer\Entry` and `Writer\Deleted` all now accept
+  `DateTimeImmutable` instances as an arguments to methods that previously only
+  accepted `DateTime` or Unix Timestamps, such as `Writer\Feed::setDateModified()`.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#94](https://github.com/zendframework/zend-feed/pull/94) removes support for zend-stdlib v2 releases.
+
+### Fixed
+
+- Nothing.
+
+## 2.10.3 - 2018-08-01
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- This release modifies how `Zend\Feed\Pubsubhubbub\AbstractCallback::_detectCallbackUrl()`
+  marshals the request URI. In prior releases, we would attempt to inspect the
+  `X-Rewrite-Url` and `X-Original-Url` headers, using their values, if present.
+  These headers are issued by the ISAPI_Rewrite module for IIS (developed by
+  HeliconTech). However, we have no way of guaranteeing that the module is what
+  issued the headers, making it an unreliable source for discovering the URI. As
+  such, we have removed this feature in this release.
+
+  The method is not called internally. If you are calling the method from your
+  own extension and need support for ISAPI_Rewrite, you will need to override
+  the method as follows:
+
+  ```php
+  protected function _detectCallbackUrl()
+  {
+      $callbackUrl = null;
+      if (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
+          $callbackUrl = $_SERVER['HTTP_X_REWRITE_URL'];
+      }
+      if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
+          $callbackUrl = $_SERVER['HTTP_X_ORIGINAL_URL'];
+      }
+
+      return $callbackUrl ?: parent::__detectCallbackUrl();
+  }
+  ```
+
+  If you use an approach such as the above, make sure you also instruct your web
+  server to strip any incoming headers of the same name so that you can
+  guarantee they are issued by the ISAPI_Rewrite module.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.10.2 - 2018-06-18
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#81](https://github.com/zendframework/zend-feed/pull/81) updates the `Zend\Feed\Reader\Reader` and `Zend\Feed\Writer\Writer` classes to
+  conditionally register their respective "GooglePlayPodcast" extensions only if
+  their extension managers are aware of it. This is done due to the fact that
+  existing `ExtensionManagerInterface` implementations may not register it by
+  default as the extension did not exist in releases prior to 2.10.0. By having
+  the registration conditional, we prevent an exception from being raised; users
+  are not impacted by its absence, as the extension features were not exposed
+  previously.
+  
+  Both `Reader` and `Writer` emit an `E_USER_NOTICE` when the extension is not
+  found in the extension manager, indicating that the
+  `ExtensionManagerInterface` implementation should be updated to add entries
+  for the "GooglePlayPodcast" entry, feed, and/or renderer classes.
+
 ## 2.10.1 - 2018-06-05
 
 ### Added

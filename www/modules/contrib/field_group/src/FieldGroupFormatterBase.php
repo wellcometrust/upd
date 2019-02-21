@@ -60,7 +60,7 @@ abstract class FieldGroupFormatterBase extends PluginSettingsBase implements Fie
    *   The formatter label.
    */
   public function __construct($plugin_id, $plugin_definition, $group, array $settings, $label) {
-    parent::__construct([], $plugin_id, $plugin_definition);
+    parent::__construct(array(), $plugin_id, $plugin_definition);
 
     $this->group = $group;
     $this->settings = $settings;
@@ -81,29 +81,29 @@ abstract class FieldGroupFormatterBase extends PluginSettingsBase implements Fie
    */
   public function settingsForm() {
 
-    $form = [];
-    $form['label'] = [
+    $form = array();
+    $form['label'] = array(
       '#type' => 'textfield',
       '#title' => t('Field group label'),
       '#default_value' => $this->label,
       '#weight' => -5,
-    ];
+    );
 
-    $form['id'] = [
+    $form['id'] = array(
       '#title' => t('ID'),
       '#type' => 'textfield',
       '#default_value' => $this->getSetting('id'),
       '#weight' => 10,
-      '#element_validate' => ['field_group_validate_id'],
-    ];
+      '#element_validate' => array('field_group_validate_id'),
+    );
 
-    $form['classes'] = [
+    $form['classes'] = array(
       '#title' => t('Extra CSS classes'),
       '#type' => 'textfield',
       '#default_value' => $this->getSetting('classes'),
       '#weight' => 11,
-      '#element_validate' => ['field_group_validate_css_class'],
-    ];
+      '#element_validate' => array('field_group_validate_css_class'),
+    );
 
     return $form;
 
@@ -114,18 +114,18 @@ abstract class FieldGroupFormatterBase extends PluginSettingsBase implements Fie
    */
   public function settingsSummary() {
 
-    $summary = [];
+    $summary = array();
 
     if ($this->getSetting('formatter')) {
       $summary[] = $this->pluginDefinition['label'] . ': ' . $this->getSetting('formatter');
     }
 
     if ($this->getSetting('id')) {
-      $summary[] = $this->t('Id: @id', ['@id' => $this->getSetting('id')]);
+      $summary[] = $this->t('Id: @id', array('@id' => $this->getSetting('id')));
     }
 
     if ($this->getSetting('classes')) {
-      $summary[] = \Drupal::translation()->translate('Extra CSS classes: @classes', ['@classes' => $this->getSetting('classes')]);
+      $summary[] = \Drupal::translation()->translate('Extra CSS classes: @classes', array('@classes' => $this->getSetting('classes')));
     }
 
     return $summary;
@@ -142,10 +142,10 @@ abstract class FieldGroupFormatterBase extends PluginSettingsBase implements Fie
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    return [
+    return array(
       'classes' => '',
       'id' => '',
-    ];
+    );
   }
 
   /**
@@ -153,7 +153,7 @@ abstract class FieldGroupFormatterBase extends PluginSettingsBase implements Fie
    */
   protected function getClasses() {
 
-    $classes = [];
+    $classes = array();
     // Add a required-fields class to trigger the js.
     if ($this->getSetting('required_fields')) {
       $classes[] = 'required-fields';

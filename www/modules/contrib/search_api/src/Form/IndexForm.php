@@ -2,16 +2,17 @@
 
 namespace Drupal\search_api\Form;
 
-use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\EntityForm;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\Core\Form\SubformState;
 use Drupal\Core\Utility\Error;
 use Drupal\search_api\IndexInterface;
-use Drupal\search_api\SearchApiException;
 use Drupal\search_api\Utility\PluginHelperInterface;
+use Drupal\search_api\Utility\Utility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -25,6 +26,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * the hook's body.
  */
 class IndexForm extends EntityForm {
+
+  /**
+   * The messenger.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
 
   /**
    * The entity type manager.
@@ -54,10 +62,13 @@ class IndexForm extends EntityForm {
    *   The entity type manager.
    * @param \Drupal\search_api\Utility\PluginHelperInterface $plugin_helper
    *   The plugin helper.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, PluginHelperInterface $plugin_helper) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, PluginHelperInterface $plugin_helper, MessengerInterface $messenger) {
     $this->entityTypeManager = $entity_type_manager;
     $this->pluginHelper = $plugin_helper;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -66,7 +77,9 @@ class IndexForm extends EntityForm {
   public static function create(ContainerInterface $container) {
     $entity_type_manager = $container->get('entity_type.manager');
     $plugin_helper = $container->get('search_api.plugin_helper');
-    return new static($entity_type_manager, $plugin_helper);
+    $messenger = $container->get('messenger');
+
+    return new static($entity_type_manager, $plugin_helper, $messenger);
   }
 
   /**
@@ -83,7 +96,7 @@ class IndexForm extends EntityForm {
       ->loadMultiple();
     foreach ($servers as $server_id => $server) {
       // @todo Special formatting for disabled servers.
-      $options[$server_id] = Html::escape($server->label());
+      $options[$server_id] = Utility::escapeHtml($server->label());
     }
     return $options;
   }
@@ -172,8 +185,11 @@ class IndexForm extends EntityForm {
     ];
     $datasource_options = [];
     foreach ($this->pluginHelper->createDatasourcePlugins($index) as $datasource_id => $datasource) {
-      $datasource_options[$datasource_id] = $datasource->label();
-      $form['datasources'][$datasource_id]['#description'] = $datasource->getDescription();
+      if ($datasource->isHidden()) {
+        continue;
+      }
+      $datasource_options[$datasource_id] = Utility::escapeHtml($datasource->label());
+      $form['datasources'][$datasource_id]['#description'] = Utility::escapeHtml($datasource->getDescription());
     }
     asort($datasource_options, SORT_NATURAL | SORT_FLAG_CASE);
     $form['datasources']['#options'] = $datasource_options;
@@ -217,8 +233,11 @@ class IndexForm extends EntityForm {
     ];
     $tracker_options = [];
     foreach ($this->pluginHelper->createTrackerPlugins($index) as $tracker_id => $tracker) {
-      $tracker_options[$tracker_id] = $tracker->label();
-      $form['tracker'][$tracker_id]['#description'] = $tracker->getDescription();
+      if ($tracker->isHidden()) {
+        continue;
+      }
+      $tracker_options[$tracker_id] = Utility::escapeHtml($tracker->label());
+      $form['tracker'][$tracker_id]['#description'] = Utility::escapeHtml($tracker->getDescription());
     }
     asort($tracker_options, SORT_NATURAL | SORT_FLAG_CASE);
     $form['tracker']['#options'] = $tracker_options;
@@ -358,7 +377,7 @@ class IndexForm extends EntityForm {
     // If the user changed the datasources and there is at least one datasource
     // config form, show a message telling the user to configure it.
     if ($selected_datasources && $show_message) {
-      drupal_set_message($this->t('Please configure the used datasources.'), 'warning');
+      $this->messenger->addWarning($this->t('Please configure the used datasources.'));
     }
   }
 
@@ -382,7 +401,7 @@ class IndexForm extends EntityForm {
       // Only notify the user of a missing tracker plugin if we're editing an
       // existing index.
       elseif (!$index->isNew()) {
-        drupal_set_message($this->t('The tracker plugin is missing or invalid.'), 'error');
+        $this->messenger->addError($this->t('The tracker plugin is missing or invalid.'));
       }
     }
     else {
@@ -406,13 +425,13 @@ class IndexForm extends EntityForm {
 
       $form['tracker_config']['#type'] = 'details';
       $form['tracker_config']['#title'] = $this->t('Configure the %plugin tracker', ['%plugin' => $tracker->label()]);
-      $form['tracker_config']['#description'] = Html::escape($tracker->getDescription());
+      $form['tracker_config']['#description'] = Utility::escapeHtml($tracker->getDescription());
       $form['tracker_config']['#open'] = $index->isNew();
 
       // If the user changed the tracker and the new one has a config form, show
       // a message telling the user to configure it.
       if ($selected_tracker && $selected_tracker != $tracker->getPluginId()) {
-        drupal_set_message($this->t('Please configure the used tracker.'), 'warning');
+        $this->messenger->addWarning($this->t('Please configure the used tracker.'));
       }
     }
   }
@@ -598,7 +617,7 @@ class IndexForm extends EntityForm {
         /** @var \Drupal\search_api\IndexInterface $index */
         $index = $this->getEntity();
         $index->save();
-        drupal_set_message($this->t('The index was successfully saved.'));
+        $this->messenger->addStatus($this->t('The index was successfully saved.'));
         $button = $form_state->getTriggeringElement();
         if (!empty($button['#redirect_to_url'])) {
           $form_state->setRedirectUrl($index->toUrl($button['#redirect_to_url']));
@@ -607,14 +626,14 @@ class IndexForm extends EntityForm {
           $form_state->setRedirect('entity.search_api_index.canonical', ['search_api_index' => $index->id()]);
         }
       }
-      catch (SearchApiException $e) {
+      catch (EntityStorageException $e) {
         $form_state->setRebuild();
 
         $message = '%type: @message in %function (line %line of %file).';
         $variables = Error::decodeException($e);
         $this->getLogger('search_api')->error($message, $variables);
 
-        drupal_set_message($this->t('The index could not be saved.'), 'error');
+        $this->messenger->addError($this->t('The index could not be saved.'));
       }
     }
   }

@@ -8,9 +8,6 @@ facets.facet.*:
     name:
       type: label
       label: Name
-    uuid:
-      type: string
-      label: 'UUID'
     weight:
       type: integer
       label: 'Weight'
@@ -73,6 +70,9 @@ facets.facet.*:
     show_only_one_result:
       type: boolean
       label: 'Show only one result'
+    show_title:
+      type: boolean
+      label: 'Show title'
     processor_configs:
       type: sequence
       label: 'Processor settings'

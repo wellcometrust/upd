@@ -17,6 +17,16 @@ targetEntityType: paragraph
 bundle: video_slice
 mode: default
 content:
+  field_full_width:
+    type: boolean
+    weight: 4
+    region: content
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
   field_link:
     weight: 2
     label: hidden
@@ -53,5 +63,4 @@ content:
     third_party_settings: {  }
     type: entity_reference_entity_view
     region: content
-hidden:
-  field_full_width: true
+hidden: {  }

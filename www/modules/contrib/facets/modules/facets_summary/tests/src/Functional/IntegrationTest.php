@@ -488,6 +488,7 @@ class IntegrationTest extends FacetsTestBase {
     ];
     $this->drupalPlaceBlock('facets_summary_block:reset_facets', $blockConfig);
     $this->drupalGet('search-api-test-fulltext');
+    $this->assertSession()->addressEquals('/search-api-test-fulltext');
 
     $this->assertSession()->pageTextContains('Displaying 5 search results');
     $this->assertSession()->pageTextNotContains('Reset facets');
@@ -497,6 +498,8 @@ class IntegrationTest extends FacetsTestBase {
     $this->assertSession()->pageTextContains('Reset facets');
 
     $this->clickLink('Reset facets');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('/search-api-test-fulltext');
     $this->assertSession()->pageTextContains('Displaying 5 search results');
     $this->assertSession()->pageTextNotContains('Reset facets');
   }
@@ -563,6 +566,54 @@ class IntegrationTest extends FacetsTestBase {
     // Filter on the item type.
     $this->clickLink('rotten orange');
     $web_assert->pageTextContains('Test with no category');
+  }
+
+  /**
+   * Tests the reset facet link.
+   *
+   * @see https://www.drupal.org/project/facets/issues/2960137
+   */
+  public function testResetFacetLink() {
+    $this->createFacet('Brasserie d\'Orval', 'orval', 'category');
+    $this->resetAll();
+    // Add a facets summary entity.
+    $values = [
+      'name' => 'Trappist beers',
+      'id' => 'trappist',
+      'facet_source_id' => 'search_api:views_page__search_api_test_view__page_1',
+    ];
+    $this->drupalPostForm('admin/config/search/facets/add-facet-summary', $values, 'Save');
+
+    // Place the block.
+    $block = [
+      'region' => 'footer',
+      'id' => 'trappist',
+      'weight' => -10,
+    ];
+    $summary_block = $this->drupalPlaceBlock('facets_summary_block:trappist', $block);
+
+    // Enable the facets for the summary.
+    $summaries = [
+      'facets[orval][checked]' => TRUE,
+      'facets[orval][weight]' => 0,
+      'facets_summary_settings[reset_facets][status]' => 1,
+      'facets_summary_settings[reset_facets][settings][link_text]' => 'Reset',
+    ];
+    $this->drupalPostForm('admin/config/search/facets/facet-summary/trappist/edit', $summaries, 'Save');
+
+    // Go to the search view, and check that the summary, as well as the facets
+    // are shown on the page.
+    $this->drupalGet('search-api-test-fulltext');
+    $web_assert = $this->assertSession();
+    $web_assert->pageTextContains('Displaying 5 search results');
+    $this->assertFacetBlocksAppear();
+    $web_assert->pageTextContains($summary_block->label());
+
+    $links = $this->xpath('//a[normalize-space(text())=:label]', [':label' => 'Reset']);
+    $this->assertEmpty($links);
+    $this->clickLink('article_category');
+    $links = $this->xpath('//a[normalize-space(text())=:label]', [':label' => 'Reset']);
+    $this->assertNotEmpty($links);
   }
 
 }

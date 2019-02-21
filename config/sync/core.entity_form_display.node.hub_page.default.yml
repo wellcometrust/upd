@@ -31,6 +31,14 @@ third_party_settings:
         id: ''
         classes: ''
         direction: vertical
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
+        required_fields: true
       label: Content
       region: content
     group_header_content_hub:
@@ -46,6 +54,13 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Header Content'
       region: content
     group_main_content_hub:
@@ -60,6 +75,13 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Main Content'
       region: content
     group_settings:
@@ -79,6 +101,13 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: Settings
       region: content
     group_tiled_content:
@@ -94,6 +123,13 @@ third_party_settings:
         required_fields: true
         id: ''
         classes: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Tiled Content'
       region: content
     group_faq_content:
@@ -108,6 +144,13 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'FAQ Content'
       region: content
     group_footer_content:
@@ -122,6 +165,13 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        effect: none
+        speed: fast
+        attributes: ''
       label: 'Footer content'
       region: content
 id: node.hub_page.default
@@ -147,18 +197,27 @@ content:
       add_mode: dropdown
       form_display_mode: default
       default_paragraph_type: _none
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
+        add_above: '0'
     third_party_settings: {  }
     region: content
   field_faq_area:
-    type: entity_reference_paragraphs
+    type: paragraphs
     weight: 3
     settings:
       title: Paragraph
       title_plural: Paragraphs
-      edit_mode: open
+      edit_mode: closed
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
+      closed_mode: summary
+      autocollapse: none
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
     third_party_settings: {  }
     region: content
   field_footer_area:
@@ -166,12 +225,16 @@ content:
     settings:
       title: Paragraph
       title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
+      edit_mode: closed
       closed_mode: summary
       autocollapse: none
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
+        add_above: '0'
     third_party_settings: {  }
     type: paragraphs
     region: content
@@ -181,12 +244,16 @@ content:
     settings:
       title: Paragraph
       title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
+      edit_mode: closed
       closed_mode: summary
       autocollapse: none
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: video_slice
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
+        add_above: '0'
     third_party_settings: {  }
     region: content
   field_tiled_content:
@@ -195,12 +262,16 @@ content:
     settings:
       title: Paragraph
       title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
+      edit_mode: closed
       closed_mode: summary
       autocollapse: none
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: tile_paragraph
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
+        add_above: '0'
     third_party_settings: {  }
     region: content
   path:

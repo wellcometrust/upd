@@ -6,6 +6,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Plugin\PluginBase;
+use Drupal\Core\Url;
 use Drupal\facets\FacetInterface;
 use Drupal\facets\Result\Result;
 use Drupal\facets\Result\ResultInterface;
@@ -30,15 +31,9 @@ abstract class WidgetPluginBase extends PluginBase implements WidgetPluginInterf
   protected $facet;
 
   /**
-   * Constructs a plugin object.
-   *
-   * @param array $configuration
-   *   (optional) An optional configuration to be passed to the plugin. If
-   *   empty, the plugin is initialized with its default plugin configuration.
+   * {@inheritdoc}
    */
-  public function __construct(array $configuration = []) {
-    $plugin_id = $this->getPluginId();
-    $plugin_definition = $this->getPluginDefinition();
+  public function __construct(array $configuration, $plugin_id, $plugin_definition) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->setConfiguration($configuration);
   }
@@ -54,6 +49,21 @@ abstract class WidgetPluginBase extends PluginBase implements WidgetPluginInterf
         return $this->buildResultItem($result);
       }
       else {
+        // When the facet is being build in an AJAX request, and the facetsource
+        // is a block, we need to update the url to use the current request url.
+        if ($result->getUrl()->isRouted() && $result->getUrl()->getRouteName() === 'facets.block.ajax') {
+          $request = \Drupal::request();
+          $url_object = \Drupal::service('path.validator')
+            ->getUrlIfValid($request->getPathInfo());
+          if ($url_object) {
+            $url = $result->getUrl();
+            $options = $url->getOptions();
+            $route_params = $url_object->getRouteParameters();
+            $route_name = $url_object->getRouteName();
+            $result->setUrl(new Url($route_name, $route_params, $options));
+          }
+        }
+
         return $this->buildListItems($facet, $result);
       }
     }, $facet->getResults());
@@ -188,7 +198,7 @@ abstract class WidgetPluginBase extends PluginBase implements WidgetPluginInterf
     }
 
     if ($result->isActive()) {
-      $items['#attributes'] = ['class' => ['is-active']];
+      $items['#attributes']['class'][] = 'is-active';
     }
 
     $items['#wrapper_attributes'] = ['class' => $classes];

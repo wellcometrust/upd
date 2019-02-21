@@ -133,4 +133,53 @@ class SearchApiGranularTest extends UnitTestCase {
     $this->assertEmpty($results);
   }
 
+  /**
+   * Tests the calculateResultFilter method.
+   *
+   * @dataProvider provideDataForCalculateResultFilter
+   */
+  public function testCalculateResultFilter($input, $expected_result) {
+    $query = new SearchApiQuery([], 'search_api_query', []);
+    $facet = new Facet(
+      ['query_operator' => 'AND', 'widget' => 'links'],
+      'facets_facet'
+    );
+    $facet->addProcessor([
+      'processor_id' => 'granularity_item',
+      'weights' => [],
+      'settings' => [],
+    ]);
+    $facet->getProcessors()['granularity_item']->setConfiguration([
+      'granularity' => 3,
+      'min_value' => 5,
+      'max_value' => 15,
+    ]);
+
+    $query_type = new SearchApiGranular(
+      [
+        'facet' => $facet,
+        'query' => $query,
+      ],
+      'search_api_string',
+      []
+    );
+
+    $result = $query_type->calculateResultFilter($input);
+    $this->assertSame($expected_result, $result);
+  }
+
+  /**
+   * Provides testdata.
+   *
+   * @return array
+   *   Test data.
+   */
+  public function provideDataForCalculateResultFilter() {
+    return [
+      'normal' => [10, ['display' => 8.0, 'raw' => 8.0]],
+      'under_min' => [4, FALSE],
+      'over_max' => [20, FALSE],
+    ];
+  }
+
 }

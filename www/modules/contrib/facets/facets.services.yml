@@ -32,6 +32,7 @@ services:
     class: Drupal\facets\Utility\FacetsUrlGenerator
     arguments:
       - '@plugin.manager.facets.url_processor'
+      - '@entity_type.manager'
   facets.event_subscriber:
     class: Drupal\facets\EventSubscriber
     arguments: ['@plugin.manager.block']

@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for taking the time to help us develop the MailChimp library!
+Thank you for taking the time to help us develop the Mailchimp library!
 
 We do all our work on GitHub. If you'd like to help, you can create a
 [free GitHub account here](https://github.com/join).
@@ -66,7 +66,7 @@ Then run PHPUnit:
 
 Tests are located in the *tests* directory and are grouped into PHP files named
 after the library component they are testing. For example,
-*MailchimpCampaignsTest.php* contains tests for MailChimp Campaigns.
+*MailchimpCampaignsTest.php* contains tests for Mailchimp Campaigns.
 
 New tests should contain at least the functionality in this simple test:
 
@@ -86,9 +86,9 @@ More advanced examples can be found in the *tests* directory.
 
 ## Additional resources
 
-* [MailChimp API documentation](http://developer.mailchimp.com/documentation/mailchimp/)
-* [MailChimp Drupal module](https://www.drupal.org/project/mailchimp), MailChimp integration for Drupal using this library.
-* [MailChimp E-Commerce Drupal module](https://www.drupal.org/project/mailchimp_ecommerce), MailChimp integration for Drupal Commerce using this library.
+* [Mailchimp API documentation](http://developer.mailchimp.com/documentation/mailchimp/)
+* [Mailchimp Drupal module](https://www.drupal.org/project/mailchimp), Mailchimp integration for Drupal using this library.
+* [Mailchimp E-Commerce Drupal module](https://www.drupal.org/project/mailchimp_ecommerce), Mailchimp integration for Drupal Commerce using this library.
 * [ThinkShout](https://thinkshout.com), the library maintainer.
 
 ## Want to help build this and other open source projects?

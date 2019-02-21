@@ -25,32 +25,32 @@ class Fieldset extends FieldGroupFormatterBase {
    */
   public function preRender(&$element, $rendering_object) {
 
-    $element += [
+    $element += array(
       '#type' => 'fieldset',
       '#title' => Html::escape($this->t($this->getLabel())),
-      '#pre_render' => [],
-      '#attributes' => [],
-    ];
+      '#pre_render' => array(),
+      '#attributes' => array(),
+    );
 
     if ($this->getSetting('description')) {
-      $element += [
+      $element += array(
         '#description' => $this->getSetting('description'),
-      ];
+      );
 
       // When a fieldset has a description, an id is required.
       if (!$this->getSetting('id')) {
-        $element['#id'] = Html::getId($this->group->group_name);
+        $element['#id'] = Html::getUniqueId($this->group->group_name);
       }
 
     }
 
     if ($this->getSetting('id')) {
-      $element['#id'] = Html::getId($this->getSetting('id'));
+      $element['#id'] = Html::getUniqueId($this->getSetting('id'));
     }
 
     $classes = $this->getClasses();
     if (!empty($classes)) {
-      $element['#attributes'] += ['class' => $classes];
+      $element['#attributes'] += array('class' => $classes);
     }
 
     if ($this->getSetting('required_fields')) {
@@ -66,20 +66,20 @@ class Fieldset extends FieldGroupFormatterBase {
 
     $form = parent::settingsForm();
 
-    $form['description'] = [
+    $form['description'] = array(
       '#title' => $this->t('Description'),
       '#type' => 'textarea',
       '#default_value' => $this->getSetting('description'),
       '#weight' => -4,
-    ];
+    );
 
     if ($this->context == 'form') {
-      $form['required_fields'] = [
+      $form['required_fields'] = array(
         '#type' => 'checkbox',
         '#title' => $this->t('Mark group as required if it contains required fields.'),
         '#default_value' => $this->getSetting('required_fields'),
         '#weight' => 2,
-      ];
+      );
     }
 
     return $form;
@@ -98,7 +98,7 @@ class Fieldset extends FieldGroupFormatterBase {
 
     if ($this->getSetting('description')) {
       $summary[] = $this->t('Description : @description',
-        ['@description' => $this->getSetting('description')]
+        array('@description' => $this->getSetting('description'))
       );
     }
 
@@ -109,9 +109,9 @@ class Fieldset extends FieldGroupFormatterBase {
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    $defaults = [
+    $defaults = array(
       'description' => '',
-    ] + parent::defaultSettings($context);
+    ) + parent::defaultSettings($context);
 
     if ($context == 'form') {
       $defaults['required_fields'] = 1;

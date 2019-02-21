@@ -25,6 +25,7 @@ class UrlProcessorPluginManager extends DefaultPluginManager {
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
     parent::__construct('Plugin/facets/url_processor', $namespaces, $module_handler, UrlProcessorInterface::class, FacetsUrlProcessor::class);
+    $this->alterInfo('facets_url_processors_info');
     $this->setCacheBackend($cache_backend, 'facets_url_processors');
   }
 

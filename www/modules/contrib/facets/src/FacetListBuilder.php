@@ -91,6 +91,7 @@ class FacetListBuilder extends DraggableListBuilder {
   public function buildHeader() {
     $header = [
       'type' => $this->t('Type'),
+      'machine_name' => $this->t('Machine name'),
       'title' => [
         'data' => $this->t('Title'),
       ],
@@ -103,10 +104,9 @@ class FacetListBuilder extends DraggableListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /** @var \Drupal\facets\FacetInterface $entity */
-    $facet = $entity;
     $facet_configs = \Drupal::entityTypeManager()
       ->getStorage('facets_facet')
-      ->load($facet->getConfigTarget());
+      ->load($entity->getConfigTarget());
     $row = [
       'type' => [
         '#theme_wrappers' => [
@@ -117,16 +117,17 @@ class FacetListBuilder extends DraggableListBuilder {
         '#type' => 'markup',
         '#markup' => 'Facet',
       ],
+      'machine_name' => ['#markup' => $entity->id()],
       'title' => [
         '#type' => 'link',
         '#title' => $facet_configs->get('name'),
-        '#suffix' => '<div>' . $entity->getFieldAlias() . ' - ' . $facet->getWidget()['type'] . '</div>',
+        '#suffix' => '<div>' . $entity->getFieldAlias() . ' - ' . $entity->getWidget()['type'] . '</div>',
         '#attributes' => [
           'class' => ['search-api-title'],
         ],
-      ] + $facet->toUrl('edit-form')->toRenderArray(),
+      ] + $entity->toUrl('edit-form')->toRenderArray(),
       '#attributes' => [
-        'title' => $this->t('ID: @name', ['@name' => $facet->id()]),
+        'title' => $this->t('ID: @name', ['@name' => $entity->id()]),
         'class' => [
           'facet',
         ],
@@ -139,8 +140,6 @@ class FacetListBuilder extends DraggableListBuilder {
    * Builds an array of facet summary for display in the overview.
    */
   public function buildFacetSummaryRow(FacetsSummaryInterface $entity) {
-    /** @var \Drupal\facets\FacetInterface $entity */
-    $facet = $entity;
     $row = parent::buildRow($entity);
     return [
       'type' => [
@@ -152,6 +151,7 @@ class FacetListBuilder extends DraggableListBuilder {
         '#type' => 'markup',
         '#markup' => 'Facets Summary',
       ],
+      'machine_name' => ['#markup' => $entity->id()],
       'title' => [
         '#theme_wrappers' => [
           'container' => [
@@ -159,17 +159,17 @@ class FacetListBuilder extends DraggableListBuilder {
           ],
         ],
         '#type' => 'link',
-        '#title' => $facet->label(),
+        '#title' => $entity->label(),
         '#attributes' => [
           'class' => ['search-api-title'],
         ],
         '#wrapper_attributes' => [
           'colspan' => 2,
         ],
-      ] + $facet->toUrl('edit-form')->toRenderArray(),
+      ] + $entity->toUrl('edit-form')->toRenderArray(),
       'operations' => $row['operations'],
       '#attributes' => [
-        'title' => $this->t('ID: @name', ['@name' => $facet->id()]),
+        'title' => $this->t('ID: @name', ['@name' => $entity->id()]),
         'class' => [
           'facet',
         ],
@@ -200,7 +200,7 @@ class FacetListBuilder extends DraggableListBuilder {
         '#type' => 'markup',
         '#markup' => $facet_source['id'],
         '#wrapper_attributes' => [
-          'colspan' => 2,
+          'colspan' => 3,
         ],
       ],
       'operations' => [

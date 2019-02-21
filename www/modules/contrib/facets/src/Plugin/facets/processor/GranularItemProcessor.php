@@ -25,6 +25,14 @@ class GranularItemProcessor extends ProcessorPluginBase implements BuildProcesso
    * {@inheritdoc}
    */
   public function build(FacetInterface $facet, array $results) {
+    /** @var \Drupal\facets\Result\ResultInterface $result */
+    foreach ($results as $result) {
+      $value = $result->getRawValue();
+      if (is_numeric($value)) {
+        $result->setDisplayValue(((int) $value) . ' - ' . ((int) $value + $this->getConfiguration()['granularity']));
+      }
+    }
+
     return $results;
   }
 
@@ -34,7 +42,12 @@ class GranularItemProcessor extends ProcessorPluginBase implements BuildProcesso
   public function defaultConfiguration() {
     return [
       'granularity' => 1,
-    ] + parent::defaultConfiguration();
+      'min_value' => '',
+      'max_value' => '',
+      'include_lower' => TRUE,
+      'include_upper' => FALSE,
+      'include_edges' => TRUE,
+      ] + parent::defaultConfiguration();
   }
 
   /**
@@ -49,6 +62,40 @@ class GranularItemProcessor extends ProcessorPluginBase implements BuildProcesso
       '#title' => $this->t('Granularity'),
       '#default_value' => $configuration['granularity'],
       '#description' => $this->t('The numeric size of the steps to group the result facets in.'),
+    ];
+
+    $build['min_value'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Minimum value'),
+      '#default_value' => $configuration['min_value'],
+      '#description' => $this->t('If the minimum value is left empty it will be calculated by the search result'),
+      '#size' => 10,
+    ];
+
+    $build['max_value'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Maximum value'),
+      '#default_value' => $configuration['max_value'],
+      '#description' => $this->t('If the maximum value is left empty it will be calculated by the search result'),
+      '#size' => 10,
+    ];
+
+    $build['include_lower'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Include lower bounds'),
+      '#default_value' => $configuration['include_lower'],
+    ];
+
+    $build['include_upper'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Include upper bounds'),
+      '#default_value' => $configuration['include_upper'],
+    ];
+
+    $build['include_edges'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Include first lower and last upper bound'),
+      '#default_value' => $configuration['include_edges'],
     ];
 
     return $build;

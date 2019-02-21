@@ -1,7 +1,7 @@
 {
   "patches": {
     "drupal/field_group": {
-      "Markup ID of each tab is not unique": "https://www.drupal.org/files/issues/2018-04-08/unique_id_for_tab_elements-2941010-%236.patch"
+      "Markup ID of each tab is not unique": "https://www.drupal.org/files/issues/2018-08-19/unique_id_for_tab_elements-2941010-18.patch"
     }
   }
 }

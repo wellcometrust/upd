@@ -282,9 +282,13 @@ class FacetsSummary extends ConfigEntityBase implements FacetsSummaryInterface {
    */
   public function calculateDependencies() {
     parent::calculateDependencies();
-    $facet_dependencies = $this->getFacetSource()->calculateDependencies();
-    if (!empty($facet_dependencies)) {
-      $this->addDependencies($facet_dependencies);
+    if ($this->getFacetSource() === NULL) {
+      return $this;
+    }
+
+    $facet_source_dependencies = $this->getFacetSource()->calculateDependencies();
+    if (!empty($facet_source_dependencies)) {
+      $this->addDependencies($facet_source_dependencies);
     }
 
     return $this;

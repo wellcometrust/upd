@@ -115,6 +115,21 @@ class FilteredStorageTest extends CachedStorageTest {
   }
 
   /**
+   * Test collection names from FilteredStorage::getAllCollectionNames().
+   */
+  public function testGetAllCollectionNamesFilter() {
+    $source = $this->prophesize(StorageInterface::class);
+    $source->getAllCollectionNames()->willReturn(['a', 'b']);
+
+    $filter = $this->prophesizeFilter();
+    $filter->filterGetAllCollectionNames(['a', 'b'])->willReturn(['b', 'b', 'c']);
+
+    $storage = new FilteredStorage($source->reveal(), [$filter->reveal()]);
+
+    $this->assertEquals(['b', 'c'], $storage->getAllCollectionNames());
+  }
+
+  /**
    * Test the read methods invokes the correct filter methods.
    *
    * @dataProvider readFilterProvider
@@ -172,6 +187,27 @@ class FilteredStorageTest extends CachedStorageTest {
       ],
     ];
     // @codingStandardsIgnoreEnd
+  }
+
+  /**
+   * Test that when a filter removes config on a readMultiple it is not set.
+   */
+  public function testReadMultipleWithEmptyResults() {
+    $names = [$this->randomString(), $this->randomString()];
+    $source = $this->prophesize(StorageInterface::class);
+    $data = [$this->randomArray(), $this->randomArray()];
+    $source->readMultiple($names)->willReturn($data);
+    $source = $source->reveal();
+
+    foreach ([0, [], NULL] as $none) {
+      $filtered = $data;
+      $filtered[1] = $none;
+      $filter = $this->prophesizeFilter();
+      $filter->filterReadMultiple($names, $data)->willReturn($filtered);
+
+      $storage = new FilteredStorage($source, [$filter->reveal()]);
+      $this->assertEquals([$data[0]], $storage->readMultiple($names));
+    }
   }
 
   /**

@@ -34,6 +34,7 @@ class DropdownWidget extends WidgetPluginBase {
     $build['#attributes']['class'][] = 'js-facets-dropdown-links';
     $build['#attached']['drupalSettings']['facets']['dropdown_widget'][$facet->id()]['facet-default-option-label'] = $this->getConfiguration()['default_option_label'];
     $build['#attached']['library'][] = 'facets/drupal.facets.dropdown-widget';
+    $build['#attached']['library'][] = 'facets/drupal.facets.general';
     return $build;
   }
 

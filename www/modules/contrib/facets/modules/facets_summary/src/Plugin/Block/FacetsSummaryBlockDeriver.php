@@ -51,8 +51,8 @@ class FacetsSummaryBlockDeriver implements ContainerDeriverInterface {
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
     $base_plugin_id = $base_plugin_definition['id'];
-    $plugin_derivatives = [];
     if (!isset($this->derivatives[$base_plugin_id])) {
+      $plugin_derivatives = [];
       /** @var \Drupal\facets_summary\FacetsSummaryInterface[] $all_facets_summaries */
       $all_facets_summaries = $this->facetsSummaryStorage->loadMultiple();
       foreach ($all_facets_summaries as $facets_summary) {
@@ -65,8 +65,8 @@ class FacetsSummaryBlockDeriver implements ContainerDeriverInterface {
           'description' => $this->t('Facets Summary'),
         ] + $base_plugin_definition;
       }
+      $this->derivatives[$base_plugin_id] = $plugin_derivatives;
     }
-    $this->derivatives[$base_plugin_id] = $plugin_derivatives;
     return $this->derivatives[$base_plugin_id];
   }
 

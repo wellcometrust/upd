@@ -7,14 +7,14 @@ use Drupal\facets_summary\Processor\BuildProcessorInterface;
 use Drupal\facets_summary\Processor\ProcessorPluginBase;
 
 /**
- * Provides a processor that hides the facet when the facets were not rendered.
+ * Provides a processor that shows a summary of how many results were found.
  *
  * @SummaryProcessor(
  *   id = "show_count",
  *   label = @Translation("Show a summary of how many results were found"),
- *   description = @Translation("When checked, this facet will show the amount of results found."),
+ *   description = @Translation("When checked, this will show the amount of results found."),
  *   stages = {
- *     "build" = 50
+ *     "build" = 5
  *   }
  * )
  */
@@ -24,7 +24,6 @@ class ShowCountProcessor extends ProcessorPluginBase implements BuildProcessorIn
    * {@inheritdoc}
    */
   public function build(FacetsSummaryInterface $facets_summary, array $build, array $facets) {
-    // Do nothing if there are no selected facets.
     if (!isset($build['#items'])) {
       return $build;
     }

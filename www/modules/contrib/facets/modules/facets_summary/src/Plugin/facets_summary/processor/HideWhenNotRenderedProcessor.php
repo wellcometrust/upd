@@ -7,7 +7,7 @@ use Drupal\facets_summary\Processor\BuildProcessorInterface;
 use Drupal\facets_summary\Processor\ProcessorPluginBase;
 
 /**
- * Provides a processor that hides the facet when the facets were not rendered.
+ * Provides a processor that hides the summary when the source was not rendered.
  *
  * @SummaryProcessor(
  *   id = "hide_when_not_rendered",
@@ -15,7 +15,7 @@ use Drupal\facets_summary\Processor\ProcessorPluginBase;
  *   description = @Translation("When checked, this facet will only be rendered when the facet source is rendered. If you want to show facets on other pages too, you need to uncheck this setting."),
  *   default_enabled = TRUE,
  *   stages = {
- *     "build" = 10
+ *     "build" = 45
  *   }
  * )
  */

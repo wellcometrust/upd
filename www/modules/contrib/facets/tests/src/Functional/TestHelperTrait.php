@@ -63,8 +63,13 @@ trait TestHelperTrait {
    */
   protected function assertNoFacetBlocksAppear() {
     foreach ($this->blocks as $block) {
-      $this->assertFalse($this->xpath('//div[@id = :id]', [':id' => 'block-' . $block->id()]));
-      $this->assertSession()->pageTextNotContains($block->label());
+      $xpath = $this->xpath('//div[@id = :id]/div[@class="facet-empty"]', [':id' => 'block-' . $block->id()]);
+      if (!$xpath) {
+        $this->assertFalse($xpath);
+      }
+      else {
+        $this->assertTrue($this->xpath('//div[@id = :id]/div[@class="facet-empty"]', [':id' => 'block-' . $block->id()]));
+      }
     }
   }
 
