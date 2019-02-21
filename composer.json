@@ -94,7 +94,7 @@
     "drupal/media_entity_video": "2.x",
     "drupal/media_upload": "2.x",
     "drupal/dropzonejs": "2.x",
-    "drupal/Inline_entity_form": "1.x",
+    "drupal/inline_entity_form": "1.x",
     "drupal/image_widget_crop": "2.x",
     "drupal/colorbox": "1.x",
     "drupal/colorbox_load": "1.x",
@@ -102,7 +102,8 @@
     "drupal/field_group": "3.0-beta1"
   },
   "require-dev": {
-    "drupal/devel": "1.*"
+    "drupal/devel": "1.*",
+    "geerlingguy/drupal-vm": "4.*"
   },
   "replace": {
     "drupal/drupal": "*"
