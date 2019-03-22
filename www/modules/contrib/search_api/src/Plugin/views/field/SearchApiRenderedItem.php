@@ -1,32 +1,29 @@
 <?php
 
-namespace Drupal\search_api\Plugin\views\row;
+namespace Drupal\search_api\Plugin\views\field;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\search_api\LoggerTrait;
 use Drupal\Core\TypedData\ComplexDataInterface;
+use Drupal\search_api\LoggerTrait;
 use Drupal\search_api\Plugin\views\query\SearchApiQuery;
 use Drupal\search_api\SearchApiException;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
-use Drupal\views\Plugin\views\row\RowPluginBase;
+use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Drupal\views\ResultRow;
 use Drupal\views\ViewExecutable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a row plugin for displaying a result as a rendered item.
+ * Handles rendering an entity in a certain view mode in Search API Views.
  *
- * @ViewsRow(
- *   id = "search_api",
- *   title = @Translation("Rendered entity"),
- *   help = @Translation("Displays entity of the matching search API item"),
- * )
+ * @ingroup views_field_handlers
  *
- * @see search_api_views_plugins_row_alter()
+ * @ViewsField("search_api_rendered_item")
  */
-class SearchApiRow extends RowPluginBase {
+class SearchApiRenderedItem extends FieldPluginBase {
 
   use LoggerTrait;
+  use SearchApiFieldTrait;
 
   /**
    * The search index.
@@ -36,46 +33,16 @@ class SearchApiRow extends RowPluginBase {
   protected $index;
 
   /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    /** @var static $row */
-    $row = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    /** @var static $plugin */
+    $plugin = parent::create($container, $configuration, $plugin_id, $plugin_definition);
 
-    $row->setEntityTypeManager($container->get('entity_type.manager'));
-    $row->setLogger($container->get('logger.channel.search_api'));
+    $plugin->setEntityTypeManager($container->get('entity_type.manager'));
+    $plugin->setLogger($container->get('logger.channel.search_api'));
 
-    return $row;
-  }
-
-  /**
-   * Retrieves the entity type manager.
-   *
-   * @return \Drupal\Core\Entity\EntityTypeManagerInterface
-   *   The entity type manager.
-   */
-  public function getEntityTypeManager() {
-    return $this->entityTypeManager ?: \Drupal::entityTypeManager();
-  }
-
-  /**
-   * Sets the entity type manager.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The new entity type manager.
-   *
-   * @return $this
-   */
-  public function setEntityTypeManager(EntityTypeManagerInterface $entity_type_manager) {
-    $this->entityTypeManager = $entity_type_manager;
-    return $this;
+    return $plugin;
   }
 
   /**
@@ -108,7 +75,6 @@ class SearchApiRow extends RowPluginBase {
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
 
-    /** @var \Drupal\search_api\Datasource\DatasourceInterface $datasource */
     foreach ($this->index->getDatasources() as $datasource_id => $datasource) {
       $datasource_label = $datasource->label();
       $bundles = $datasource->getBundles();
@@ -116,7 +82,7 @@ class SearchApiRow extends RowPluginBase {
         $form['view_modes'][$datasource_id] = [
           '#type' => 'item',
           '#title' => $this->t('View mode for datasource %name', ['%name' => $datasource_label]),
-          '#description' => $this->t("This datasource doesn't have any view modes available. It is therefore not possible to display results of this datasource using this row plugin."),
+          '#description' => $this->t("This datasource doesn't have any view modes available. It is therefore not possible to display results of this datasource in this field."),
         ];
         continue;
       }
@@ -148,31 +114,15 @@ class SearchApiRow extends RowPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function preRender($result) {
-    // Load all result objects at once, before rendering.
-    $items_to_load = [];
-    foreach ($result as $i => $row) {
-      if (empty($row->_object)) {
-        $items_to_load[$i] = $row->search_api_id;
-      }
-    }
-
-    $items = $this->index->loadItemsMultiple($items_to_load);
-    foreach ($items_to_load as $i => $item_id) {
-      if (isset($items[$item_id])) {
-        $result[$i]->_object = $items[$item_id];
-        $result[$i]->_item->setOriginalObject($items[$item_id]);
-      }
-    }
+  public function query() {
+    $this->addRetrievedProperty('_object');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function render($row) {
-    $datasource_id = $row->search_api_datasource;
-
-    if (!($row->_object instanceof ComplexDataInterface)) {
+  public function render(ResultRow $row) {
+    if (!(isset($row->_object) && $row->_object instanceof ComplexDataInterface)) {
       $context = [
         '%item_id' => $row->search_api_id,
         '%view' => $this->view->storage->label(),
@@ -181,6 +131,7 @@ class SearchApiRow extends RowPluginBase {
       return '';
     }
 
+    $datasource_id = $row->search_api_datasource;
     if (!$this->index->isValidDatasource($datasource_id)) {
       $context = [
         '%datasource' => $datasource_id,
@@ -205,10 +156,5 @@ class SearchApiRow extends RowPluginBase {
       return '';
     }
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function query() {}
 
 }
