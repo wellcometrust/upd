@@ -25,6 +25,10 @@ settings:
             - DrupalLink
             - DrupalUnlink
         -
+          name: Tables
+          items:
+            - Table
+        -
           name: Lists
           items:
             - BulletedList
@@ -42,10 +46,10 @@ settings:
             - tooltip
             - Source
   plugins:
-    language:
-      language_list: un
     stylescombo:
       styles: ''
+    language:
+      language_list: un
     video_embed:
       defaults:
         children:
