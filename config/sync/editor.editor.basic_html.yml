@@ -1,0 +1,63 @@
+uuid: 4557918b-c21e-424d-915b-d0570fd38114
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+  module:
+    - ckeditor
+format: basic_html
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+            - Superscript
+            - Subscript
+        -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Lists
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Media
+          items:
+            - DrupalImage
+            - Blockquote
+            - video_embed
+        -
+          name: Tools
+          items:
+            - RemoveFormat
+            - tooltip
+            - Source
+  plugins:
+    stylescombo:
+      styles: ''
+    language:
+      language_list: un
+    video_embed:
+      defaults:
+        children:
+          autoplay: true
+          responsive: true
+          width: '854'
+          height: '480'
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

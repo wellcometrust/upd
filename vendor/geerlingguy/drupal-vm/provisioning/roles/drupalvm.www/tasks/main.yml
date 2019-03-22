@@ -1,0 +1,53 @@
+---
+- name: Define drupalvm_webserver_user (Debian).
+  set_fact:
+    drupalvm_webserver_user: www-data
+  when: ansible_os_family == 'Debian' and drupalvm_webserver_user is undefined
+
+- name: Define drupalvm_webserver_user (RedHat).
+  set_fact:
+    drupalvm_webserver_user: "{{ (drupalvm_webserver == 'apache') | ternary('httpd', 'nginx') }}"
+  when: ansible_os_family == 'RedHat' and drupalvm_webserver_user is undefined
+
+- name: Register information about the /vagrant directory.
+  stat:
+    path: /vagrant
+  register: vagrant_directory
+
+# When using NFS the group id of a folder will be identical to that of the host
+# machine, but the groupname will differ or not exist. For the latter case
+# we create a group called `vagrant_group`.
+#
+# The gr_name will be set if the GID is mapped to an existing group. If the GID
+# doesn't exist, gr_name will be undefined.
+- name: Ensure a group with the same GID as used to sync directories exist.
+  group:
+    gid: "{{ vagrant_directory.stat.gid }}"
+    name: vagrant_group
+    state: present
+  when:
+    - vagrant_directory.stat.exists
+    - vagrant_directory.stat.gr_name is undefined
+
+- name: Ensure the webserver user is in the same group as the owner of synced directories.
+  user:
+    name: "{{ drupalvm_webserver_user }}"
+    append: yes
+    groups: "{{ vagrant_directory.stat.gr_name|default('vagrant_group') }}"
+  when:
+    - vagrant_directory.stat.exists
+    - not (vagrant_directory.stat.gr_name is defined and vagrant_directory.stat.gr_name == 'root')
+
+- name: Ensure admin group exist.
+  group: "name=admin state=present"
+
+- name: Ensure vagrant user is in admin group.
+  user: "name={{ vagrant_user }} append=yes groups=admin"
+
+- name: Set nicer permissions on Apache log directory.
+  file:
+    path: "/var/log/{{ apache_daemon }}"
+    state: directory
+    mode: 0755
+    recurse: true
+  when: drupalvm_webserver == 'apache'

@@ -7,7 +7,7 @@ dependencies:
     - field.field.paragraph.file_download.field_title
     - paragraphs.paragraphs_type.file_download
   module:
-    - file
+    - pdfpreview
 id: paragraph.file_download.default
 targetEntityType: paragraph
 bundle: file_download
@@ -16,9 +16,14 @@ content:
   field_download_files:
     weight: 1
     label: hidden
-    settings: {  }
+    settings:
+      image_style: ''
+      image_link: file
+      tag: span
+      fallback_formatter: file_default
+      show_description: 0
     third_party_settings: {  }
-    type: file_url_plain
+    type: pdfpreview
     region: content
   field_title:
     weight: 0

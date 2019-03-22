@@ -111,6 +111,7 @@ permissions:
   - 'update any media'
   - 'update media'
   - 'upload media'
+  - 'use text format basic_html'
   - 'use text format full_html'
   - 'view all media revisions'
   - 'view all revisions'

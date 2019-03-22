@@ -1,0 +1,24 @@
+# OS-specific files.
+.DS_Store
+
+# Editor and language files.
+.idea/
+.project/
+.bundle/
+
+# Ansible files.
+*.retry
+.galaxy_install_info
+
+# Vagrant files.
+.vagrant/
+vagrant_ansible_inventory_default
+
+# Drupal VM specific files.
+local.config.yml
+Vagrantfile.local
+/config.yml
+/docker-compose.yml
+/drupal.make.yml
+/scripts/
+/drupal/
