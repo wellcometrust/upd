@@ -726,11 +726,11 @@ $config['config_ignore.settings']['ignored_config_entities'] = array(
 );
 
 $databases['default']['default'] = array(
-  'database' => 'ce_upd',
+  'database' => 'drupal',
   'username' => 'dev',
-  'password' => '1234qwerASDF$',
+  'password' => 'dev',
   'prefix' => '',
-  'host' => 'localhost',
+  'host' => '192.168.56.3',
   'port' => '3306',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
