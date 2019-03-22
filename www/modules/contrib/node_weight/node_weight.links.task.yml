@@ -1,0 +1,5 @@
+node_weight.order_tab:
+  title: 'Manage Order'
+  route_name: node_weight.order
+  base_route: 'entity.node_type.edit_form'
+  weight: 0

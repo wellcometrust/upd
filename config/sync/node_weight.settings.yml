@@ -1,0 +1,5 @@
+node_weight:
+  checked_node_types:
+    - question_content
+_core:
+  default_config_hash: cYU1RD4JLkqhPsH9LZBq1B3sGtSQPPz3Y98DR763WrY
