@@ -99,8 +99,14 @@ class DefaultSitemapGenerator extends SitemapGeneratorBase {
   protected function getXml(array $links) {
     $this->writer->openMemory();
     $this->writer->setIndent(TRUE);
-    $this->writer->startDocument(self::XML_VERSION, self::ENCODING);
-    $this->writer->writeComment(self::GENERATED_BY);
+    $this->writer->startSitemapDocument();
+
+    // Add the XML stylesheet to document if enabled.
+    if ($this->settings['xsl']) {
+      $this->writer->writeXsl();
+    }
+
+    $this->writer->writeGeneratedBy();
     $this->writer->startElement('urlset');
 
     // Add attributes to document.
