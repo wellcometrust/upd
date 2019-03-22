@@ -101,10 +101,10 @@
     "drupal/menu_link_attributes": "1.x",
     "drupal/field_group": "3.0-beta1",
     "drupal/stage_file_proxy": "^1.0@alpha",
-    "drupal/pdfpreview": "^1.0@RC"
+    "drupal/pdfpreview": "^1.0@RC",
+    "drupal/devel": "^2.0"
   },
   "require-dev": {
-    "drupal/devel": "1.*",
     "geerlingguy/drupal-vm": "4.*"
   },
   "replace": {

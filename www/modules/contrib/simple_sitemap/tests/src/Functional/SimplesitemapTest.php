@@ -5,7 +5,7 @@ namespace Drupal\Tests\simple_sitemap\Functional;
 use Drupal\Core\Url;
 
 /**
- * Tests Simple XML sitemap functional integration.
+ * Tests Simple XML Sitemap functional integration.
  *
  * @group simple_sitemap
  */
@@ -418,7 +418,7 @@ class SimplesitemapTest extends SimplesitemapTestBase {
 
     $this->drupalLogin($this->privilegedUser);
     $this->drupalGet('admin/structure/types/manage/page');
-    $this->assertSession()->pageTextNotContains('Simple XML sitemap');
+    $this->assertSession()->pageTextNotContains('Simple XML Sitemap');
 
     $this->generator->generateSitemap('backend');
 
@@ -443,7 +443,7 @@ class SimplesitemapTest extends SimplesitemapTestBase {
 
     $this->drupalLogin($this->privilegedUser);
     $this->drupalGet('admin/structure/types/manage/page');
-    $this->assertSession()->pageTextContains('Simple XML sitemap');
+    $this->assertSession()->pageTextContains('Simple XML Sitemap');
 
     $this->generator->generateSitemap('backend');
 

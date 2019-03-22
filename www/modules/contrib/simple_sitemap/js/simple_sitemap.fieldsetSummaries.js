@@ -20,7 +20,7 @@
         else {
           vals.push(Drupal.t('Excluded from sitemap'));
         }
-        return vals.join('<br />');
+        return vals.join('<br>');
       });
     }
   };
