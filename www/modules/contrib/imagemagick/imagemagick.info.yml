@@ -1,0 +1,16 @@
+type: module
+# core: 8.x
+name: ImageMagick
+description: 'Provides ImageMagick integration.'
+package: Media
+configure: system.image_toolkit_settings
+dependencies:
+  - file_mdm:file_mdm
+  - file_mdm:file_mdm_exif
+  - drupal:system (>=8.3.0)
+
+# Information added by Drupal.org packaging script on 2019-02-18
+version: '8.x-2.4'
+core: '8.x'
+project: 'imagemagick'
+datestamp: 1550494988

@@ -1,0 +1,5 @@
+{
+  "name": "drupal/pdfpreview",
+  "description": "PDFPreview lets you show a preview of PDF files.",
+  "type": "drupal-module"
+}

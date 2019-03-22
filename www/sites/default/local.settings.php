@@ -709,17 +709,6 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
 # if (file_exists(__DIR__ . '/settings.local.php')) {
 #   include __DIR__ . '/settings.local.php';
 # }
-$databases['default']['default'] = array(
-  'database' => 'drupal',
-  'username' => 'dev',
-  'password' => 'dev',
-  'prefix' => '',
-  'host' => '192.168.56.3',
-  'port' => '3306',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'driver' => 'mysql',
-);
-
 $config['system.performance']['css']['preprocess'] = FALSE;
 $config['system.performance']['js']['preprocess'] = FALSE;
 $settings['cache']['bins']['render'] = 'cache.backend.null';
@@ -737,11 +726,11 @@ $config['config_ignore.settings']['ignored_config_entities'] = array(
 );
 
 $databases['default']['default'] = array(
-  'database' => 'drupal',
+  'database' => 'ce_upd',
   'username' => 'dev',
-  'password' => 'dev',
+  'password' => '1234qwerASDF$',
   'prefix' => '',
-  'host' => '192.168.56.3',
+  'host' => 'localhost',
   'port' => '3306',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
