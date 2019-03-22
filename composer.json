@@ -99,7 +99,8 @@
     "drupal/colorbox": "1.x",
     "drupal/colorbox_load": "1.x",
     "drupal/menu_link_attributes": "1.x",
-    "drupal/field_group": "3.0-beta1"
+    "drupal/field_group": "3.0-beta1",
+    "drupal/node_weight": "2.x-dev"
   },
   "require-dev": {
     "drupal/devel": "1.*",
