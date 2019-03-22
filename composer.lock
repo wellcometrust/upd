@@ -7817,7 +7817,7 @@
     "stability-flags": {
         "drupal/mailchimp": 20,
         "drupal/stage_file_proxy": 15,
-        "drupal/pdfpreview": 5
+        "drupal/pdfpreview": 5,
         "drupal/node_weight": 20
     },
     "prefer-stable": true,
