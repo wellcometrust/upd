@@ -25,6 +25,10 @@ settings:
             - DrupalLink
             - DrupalUnlink
         -
+          name: Tables
+          items:
+            - Table
+        -
           name: Lists
           items:
             - BulletedList
