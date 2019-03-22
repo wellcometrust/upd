@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - node_weight
+  config:
+    - field.storage.node.field_node_weight
+id: node.field_node_weight
+field_name: field_node_weight
+entity_type: node
+type: integer
+required: false
+translatable: false
+module: node_weight
+locked: true
+cardinality: 1
+persist_with_no_fields: true
+custom_storage: false
+settings: { }
