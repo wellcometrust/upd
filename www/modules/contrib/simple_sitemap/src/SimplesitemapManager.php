@@ -163,14 +163,6 @@ class SimplesitemapManager {
   }
 
   /**
-   * @param array $variants
-   * @return array
-   */
-  protected function detachSitemapTypeFromVariants(array $variants) {
-    return array_map(function($variant) { unset($variant['type']); return $variant; }, $variants);
-  }
-
-  /**
    * @param string $name
    * @param array $definition
    * @return $this

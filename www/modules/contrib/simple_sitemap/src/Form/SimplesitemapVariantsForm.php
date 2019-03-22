@@ -26,7 +26,7 @@ class SimplesitemapVariantsForm extends SimplesitemapFormBase {
     $form['simple_sitemap_variants'] = [
       '#title' => $this->t('Sitemap variants'),
       '#type' => 'fieldset',
-      '#markup' => '<div class="description">' . $this->t('Define sitemap variants. A sitemap variant is a sitemap instance of a certain type (specific sitemap generator and URL generators) accessible under a certain URL.<br/>Each variant can have its own entity bundle settings (to be defined on bundle edit pages).') . '</div>',
+      '#markup' => '<div class="description">' . $this->t('Define sitemap variants. A sitemap variant is a sitemap instance of a certain type (specific sitemap generator and URL generators) accessible under a certain URL.<br>Each variant can have its own entity bundle settings (to be defined on bundle edit pages).') . '</div>',
       '#prefix' => $this->getDonationText(),
     ];
 
@@ -34,11 +34,11 @@ class SimplesitemapVariantsForm extends SimplesitemapFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Variants'),
       '#default_value' => $this->variantsToString($this->generator->getSitemapManager()->getSitemapVariants(NULL, TRUE)),
-      '#description' => $this->t("Please specify sitemap variants, one per line. <strong>Caution: </strong>Removing variants here will delete their bundle settings, custom links and corresponding sitemap instances.<br/><br/>A variant definition consists of the variant name (used as the variant's path), the sitemap type it belongs to (optional) and the variant label (optional). These three values have to be separated by the | pipe | symbol.<br/><br/><strong>Examples:</strong><br/><em>default | default_hreflang | Default</em> -> variant of the <em>default_hreflang</em> sitemap type and <em>Default</em> as label; accessible under <em>/default/sitemap.xml</em><br/><em>test</em> -> variant of the <em>@default_sitemap_type</em> sitemap type and <em>test</em> as label; accessible under <em>/test/sitemap.xml</em><br/><br/><strong>Available sitemap types:</strong>", ['@default_sitemap_type' => SimplesitemapManager::DEFAULT_SITEMAP_TYPE]),
+      '#description' => $this->t("Please specify sitemap variants, one per line. <strong>Caution: </strong>Removing variants here will delete their bundle settings, custom links and corresponding sitemap instances.<br><br>A variant definition consists of the variant name (used as the variant's path), the sitemap type it belongs to (optional) and the variant label (optional). These three values have to be separated by the | pipe | symbol.<br><br><strong>Examples:</strong><br><em>default | default_hreflang | Default</em> -> variant of the <em>default_hreflang</em> sitemap type and <em>Default</em> as label; accessible under <em>/default/sitemap.xml</em><br><em>test</em> -> variant of the <em>@default_sitemap_type</em> sitemap type and <em>test</em> as label; accessible under <em>/test/sitemap.xml</em><br><br><strong>Available sitemap types:</strong>", ['@default_sitemap_type' => SimplesitemapManager::DEFAULT_SITEMAP_TYPE]),
     ];
 
     foreach ($this->generator->getSitemapManager()->getSitemapTypes() as $sitemap_type => $definition) {
-      $form['simple_sitemap_variants']['variants']['#description'] .= '<br/>' . '<em>' . $sitemap_type . '</em>' . (!empty($definition['description']) ? (': ' . $definition['description']) : '');
+      $form['simple_sitemap_variants']['variants']['#description'] .= '<br>' . '<em>' . $sitemap_type . '</em>' . (!empty($definition['description']) ? (': ' . $definition['description']) : '');
     }
 
     $this->formHelper->displayRegenerateNow($form['simple_sitemap_custom']);

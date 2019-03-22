@@ -25,7 +25,7 @@ content entity types including:
  * ...
 
 Contributed entity types like commerce products or media entities can be indexed
-as well. On top of that custom links can be added to the sitemap.
+as well. On top of that custom links and view pages can be added to the sitemap.
 
 To learn about XML sitemaps, see https://en.wikipedia.org/wiki/Sitemaps.
 
@@ -70,13 +70,20 @@ If you wish for the sitemap to reflect the new configuration instantly, check
 'Regenerate sitemaps after clicking save'. This setting only appears if a change
 in the settings has been detected.
 
-As the sitemap is accessible to anonymous users, bear in mind that only links
+As the sitemaps are accessible to anonymous users, bear in mind that only links
 will be included which are accessible to anonymous users. There are no access
 checks for links added through the module's hooks (see below).
 
+### VIEWS ###
+
+To index views, enable the included, optional module Simple XML Sitemap (Views)
+(simple_sitemap_views). Simple views as well as views with arguments can be
+indexed on the view edit page. For views with arguments, links to all view
+variants will be included in the sitemap.
+
 ### CUSTOM LINKS ###
 
-To include custom links into the sitemap, visit
+To include custom links into a sitemap, visit
 /admin/config/search/simplesitemap/custom.
 
 ### SETTINGS ###
@@ -93,7 +100,8 @@ configured under admin/config/search/simplesitemap/variants.
 ## USAGE ## 
 
 The sitemaps are accessible to the whole world under [variant name]/sitemap.xml.
-In addition to that, the default sitemap is accessible under /sitemap.xml.
+In addition to that, the default sitemap is accessible under /sitemap.xml. To
+view the XML source, press ctrl+u.
 
 If the cron generation is turned on, the sitemaps will be regenerated according
 to the 'Sitemap generation interval' setting.
@@ -128,7 +136,6 @@ programmatic sitemap generation. These include:
  * setBundleSettings
  * getBundleSettings
  * removeBundleSettings
- * supplementDefaultSettings
  * setEntityInstanceSettings
  * getEntityInstanceSettings
  * removeEntityInstanceSettings
@@ -164,9 +171,9 @@ $generator
   ->saveSetting('remove_duplicates', TRUE)
   ->enableEntityType('node')
   ->setVariants(['default', 'test'])
-  ->setBundleSettings('node', 'page', ['index' => TRUE, 'priority' = 0.5])
+  ->setBundleSettings('node', 'page', ['index' => TRUE, 'priority' => 0.5])
   ->removeCustomLinks()
-  ->addCustomLink('/some/view/page', ['priority' = 0.5])
+  ->addCustomLink('/some/view/page', ['priority' => 0.5])
   ->generateSitemap();
 ```
 
@@ -176,26 +183,26 @@ Drupal\simple_sitemap\Simplesitemap for further details.
 ### API HOOKS ###
 
 It is possible to hook into link generation by implementing
-`hook_simple_sitemap_links_alter(&$links){}` in a custom module and altering the
+`hook_simple_sitemap_links_alter(&$links, $sitemap_variant){}` in a custom module and altering the
 link array shortly before it is transformed to XML.
 
 Adding arbitrary links is possible through the use of
-`hook_simple_sitemap_arbitrary_links_alter(&$arbitrary_links){}`. There are no
+`hook_simple_sitemap_arbitrary_links_alter(&$arbitrary_links, $sitemap_variant){}`. There are no
 checks performed on these links (i.e. if they are internal/valid/accessible)
 and parameters like priority/lastmod/changefreq have to be added manually.
 
 Altering sitemap attributes and sitemap index attributes is possible through the
-use of `hook_simple_sitemap_attributes_alter(&$attributes){}` and
-`hook_simple_sitemap_index_attributes_alter(&$index_attributes){}`.
+use of `hook_simple_sitemap_attributes_alter(&$attributes, $sitemap_variant){}` and
+`hook_simple_sitemap_index_attributes_alter(&$index_attributes, $sitemap_variant){}`.
 
 Altering URL generators is possible through
-the use of `hook_simple_sitemap_url_generators_alter(&$generators){}`.
+the use of `hook_simple_sitemap_url_generators_alter(&$url_generators){}`.
 
 Altering sitemap generators is possible through
-the use of `hook_simple_sitemap_sitemap_generators_alter(&$generators){}`.
+the use of `hook_simple_sitemap_sitemap_generators_alter(&$sitemap_generators){}`.
 
 Altering sitemap types is possible through
-the use of `hook_simple_sitemap_sitemap_types_alter(&$generators){}`.
+the use of `hook_simple_sitemap_sitemap_types_alter(&$sitemap_types){}`.
 
 ### WRITING PLUGINS ###
 
