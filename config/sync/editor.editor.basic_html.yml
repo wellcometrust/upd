@@ -1,12 +1,12 @@
-uuid: b50b4b2d-f9a8-4491-ace4-4306391cf737
+uuid: 4557918b-c21e-424d-915b-d0570fd38114
 langcode: en
 status: true
 dependencies:
   config:
-    - filter.format.full_html
+    - filter.format.basic_html
   module:
     - ckeditor
-format: full_html
+format: basic_html
 editor: ckeditor
 settings:
   toolbar:
@@ -51,12 +51,12 @@ settings:
     video_embed:
       defaults:
         children:
-          autoplay: false
+          autoplay: true
           responsive: true
           width: '854'
           height: '480'
 image_upload:
-  status: true
+  status: false
   scheme: public
   directory: inline-images
   max_size: ''
