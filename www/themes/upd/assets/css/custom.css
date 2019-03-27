@@ -2,3 +2,9 @@
 .resource-box__title:before {
   height: auto;
 }
+
+.resource-box .pdfpreview img {
+  max-height: 140px;
+  display: block;
+  margin: 0 auto;
+}

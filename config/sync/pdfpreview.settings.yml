@@ -1,5 +1,5 @@
 quality: 75
-size: 1024x1024
+size: 480x480
 path: pdfpreview
 filenames: human
 show_description: false
