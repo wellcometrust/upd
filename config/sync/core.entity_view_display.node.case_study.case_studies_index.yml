@@ -90,4 +90,7 @@ content:
     region: content
 hidden:
   field_featured: true
+  field_geographical_area: true
+  field_key_words: true
   field_thumbnail: true
+  field_type_of_user: true

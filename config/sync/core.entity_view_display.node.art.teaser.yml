@@ -28,5 +28,7 @@ content:
     weight: 100
     region: content
 hidden:
+  field_list_text: true
+  field_news_category: true
   field_publish_date: true
   field_related_news: true

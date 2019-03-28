@@ -19,4 +19,6 @@ content:
     region: content
 hidden:
   field_faq_dropdown: true
+  field_list_text: true
+  field_pdf: true
   field_standfirst: true
