@@ -32,4 +32,5 @@ hidden:
   field_footer_area: true
   field_hero_area: true
   field_sections: true
+  langcode: true
   links: true
