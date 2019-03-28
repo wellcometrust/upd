@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.case_study.field_disease_type
     - field.field.node.case_study.field_featured
     - field.field.node.case_study.field_geographical_area
+    - field.field.node.case_study.field_has_media
     - field.field.node.case_study.field_impact_of_work
     - field.field.node.case_study.field_key_words
     - field.field.node.case_study.field_list_text
@@ -119,6 +120,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_has_media:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
   field_impact_of_work:
     type: entity_reference_autocomplete
     weight: 12
@@ -199,6 +206,10 @@ content:
       default_paragraph_type: ''
       closed_mode: summary
       autocollapse: none
+      closed_mode_threshold: 0
+      features:
+        duplicate: duplicate
+        collapse_edit_all: collapse_edit_all
     third_party_settings: {  }
   path:
     type: path

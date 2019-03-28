@@ -31,6 +31,7 @@ content:
     weight: 100
     region: content
 hidden:
+  field_content_area: true
   field_list_text: true
   field_pdf: true
   field_sections: true
