@@ -5,6 +5,11 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.highlight_page.body
+    - field.field.node.highlight_page.field_content_area
+    - field.field.node.highlight_page.field_footer_area
+    - field.field.node.highlight_page.field_hero_area
+    - field.field.node.highlight_page.field_sections
+    - field.field.node.highlight_page.field_standfirst
     - node.type.highlight_page
   module:
     - text
@@ -31,3 +36,4 @@ hidden:
   field_hero_area: true
   field_sections: true
   field_standfirst: true
+  langcode: true

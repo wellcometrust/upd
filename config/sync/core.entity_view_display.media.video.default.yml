@@ -19,6 +19,7 @@ hidden:
   field_media_file: true
   field_video_embed: true
   field_video_poster: true
+  langcode: true
   name: true
   thumbnail: true
   uid: true

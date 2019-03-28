@@ -118,3 +118,4 @@ hidden:
   field_featured: true
   field_key_words: true
   field_thumbnail: true
+  langcode: true
