@@ -3,33 +3,338 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_impact_of_work
-    - field.storage.node.field_disease_type
-    - field.storage.node.field_standfirst
-    - field.storage.node.field_sources_of_data
-    - field.storage.node.field_geographical_area
-    - field.storage.node.field_type_of_user
-    - field.storage.node.field_key_words
     - field.storage.node.body
+    - field.storage.node.field_disease_type
     - field.storage.node.field_content_area
+    - field.storage.paragraph.field_link
+    - field.storage.node.field_has_media
+    - field.storage.node.field_impact_of_work
+    - field.storage.node.field_key_words
+    - field.storage.node.field_geographical_area
     - field.storage.paragraph.field_body
     - field.storage.paragraph.field_call_to_action
     - field.storage.paragraph.field_dos_and_donts
     - field.storage.paragraph.field_referenced_links
     - field.storage.paragraph.field_title
-    - field.storage.paragraph.field_link
+    - field.storage.node.field_sources_of_data
+    - field.storage.node.field_standfirst
+    - field.storage.node.field_type_of_user
     - search_api.server.local_solr
     - core.entity_view_mode.node.full
   module:
+    - node
     - taxonomy
     - paragraphs
     - search_api
-    - node
+    - search_api_solr
 id: main_solr
 name: 'Main solr'
 description: ''
 read_only: false
 field_settings:
+  aggregated_field:
+    label: 'Aggregated field'
+    property_path: aggregated_field
+    type: string
+    configuration:
+      type: union
+      fields:
+        - rendered_item
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_disease_type:
+    label: 'Disease type or population group'
+    datasource_id: 'entity:node'
+    property_path: field_disease_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_disease_type
+  field_geographical_area:
+    label: Location
+    datasource_id: 'entity:node'
+    property_path: field_geographical_area
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_geographical_area
+  field_has_media:
+    label: 'Has Media'
+    datasource_id: 'entity:node'
+    property_path: field_has_media
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_has_media
+  field_impact_of_work:
+    label: 'Impact of work'
+    datasource_id: 'entity:node'
+    property_path: field_impact_of_work
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+  field_key_words:
+    label: 'Key words'
+    datasource_id: 'entity:node'
+    property_path: field_key_words
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_key_words
+  field_sources_of_data:
+    label: 'Sources of data'
+    datasource_id: 'entity:node'
+    property_path: field_sources_of_data
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_sources_of_data
+  field_standfirst:
+    label: Standfirst
+    datasource_id: 'entity:node'
+    property_path: field_standfirst
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_standfirst
+  field_title:
+    label: 'Paragraph » Referenced Links » Paragraph » Title'
+    datasource_id: 'entity:node'
+    property_path: 'field_content_area:entity:field_referenced_links:entity:field_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_content_area
+        - field.storage.paragraph.field_referenced_links
+        - field.storage.paragraph.field_title
+      module:
+        - paragraphs
+        - paragraphs
+  field_type_of_user:
+    label: 'Type of organisation using the data'
+    datasource_id: 'entity:node'
+    property_path: field_type_of_user
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_type_of_user
+  name:
+    label: 'Impact of work » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_impact_of_work:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+      module:
+        - taxonomy
+        - taxonomy
+  name_1:
+    label: 'Disease type or population group » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_disease_type:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_disease_type
+      module:
+        - taxonomy
+        - taxonomy
+  name_10:
+    label: 'Location » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_geographical_area:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_geographical_area
+      module:
+        - taxonomy
+        - taxonomy
+  name_11:
+    label: 'Disease type or population group » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_disease_type:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_disease_type
+      module:
+        - taxonomy
+        - taxonomy
+  name_12:
+    label: 'Sources of data » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_sources_of_data:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_sources_of_data
+      module:
+        - taxonomy
+        - taxonomy
+  name_13:
+    label: 'Has Media » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_has_media:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_has_media
+      module:
+        - taxonomy
+        - taxonomy
+  name_14:
+    label: 'Has Media » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_has_media:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_has_media
+      module:
+        - taxonomy
+        - taxonomy
+  name_2:
+    label: 'Impact of work » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_impact_of_work:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+      module:
+        - taxonomy
+        - taxonomy
+  name_3:
+    label: 'Sources of data » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_sources_of_data:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_sources_of_data
+      module:
+        - taxonomy
+        - taxonomy
+  name_4:
+    label: 'Location » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_geographical_area:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_geographical_area
+      module:
+        - taxonomy
+        - taxonomy
+  name_5:
+    label: 'Type of organisation » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_type_of_user:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_type_of_user
+      module:
+        - taxonomy
+        - taxonomy
+  name_6:
+    label: 'Key words » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_key_words:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_key_words
+      module:
+        - taxonomy
+        - taxonomy
+  name_7:
+    label: 'Impact of work » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_impact_of_work:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+      module:
+        - taxonomy
+        - taxonomy
+  name_8:
+    label: 'Type of organisation using the data » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_type_of_user:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_type_of_user
+      module:
+        - taxonomy
+        - taxonomy
+  name_9:
+    label: 'Impact of work » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_impact_of_work:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+      module:
+        - taxonomy
+        - taxonomy
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  processed:
+    label: 'Body » Processed text'
+    datasource_id: 'entity:node'
+    property_path: 'body:processed'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  processed_1:
+    label: 'Paragraph » Body » Processed text'
+    datasource_id: 'entity:node'
+    property_path: 'field_content_area:entity:field_body:processed'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_content_area
+        - field.storage.paragraph.field_body
+      module:
+        - paragraphs
+  processed_2:
+    label: 'Paragraph » Dos and don''ts » Processed text'
+    datasource_id: 'entity:node'
+    property_path: 'field_content_area:entity:field_dos_and_donts:processed'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_content_area
+        - field.storage.paragraph.field_dos_and_donts
+      module:
+        - paragraphs
   rendered_item:
     label: 'Rendered HTML output'
     property_path: rendered_item
@@ -48,75 +353,6 @@ field_settings:
           landing_page: default
           question_content: default
           tile: default
-  node_grants:
-    label: 'Node access information'
-    property_path: search_api_node_grants
-    type: string
-    indexed_locked: true
-    type_locked: true
-    hidden: true
-  aggregated_field:
-    label: 'Aggregated field'
-    property_path: aggregated_field
-    type: string
-    configuration:
-      type: union
-      fields:
-        - rendered_item
-  title:
-    label: Title
-    datasource_id: 'entity:node'
-    property_path: title
-    type: text
-    boost: !!float 8
-  name:
-    label: 'Impact of work » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_impact_of_work:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_impact_of_work
-      module:
-        - taxonomy
-  name_1:
-    label: 'Disease type or population group » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_disease_type:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_disease_type
-      module:
-        - taxonomy
-  name_2:
-    label: 'Impact of work » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_impact_of_work:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_impact_of_work
-      module:
-        - taxonomy
-  field_standfirst:
-    label: Standfirst
-    datasource_id: 'entity:node'
-    property_path: field_standfirst
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_standfirst
-  name_3:
-    label: 'Sources of data » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_sources_of_data:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_sources_of_data
-      module:
-        - taxonomy
   status:
     label: status
     datasource_id: 'entity:node'
@@ -124,180 +360,18 @@ field_settings:
     type: boolean
     indexed_locked: true
     type_locked: true
-  uid:
-    label: uid
+    dependencies:
+      module:
+        - node
+  title:
+    label: Title
     datasource_id: 'entity:node'
-    property_path: uid
-    type: integer
-    indexed_locked: true
-    type_locked: true
-  nid:
-    label: ID
-    datasource_id: 'entity:node'
-    property_path: nid
-    type: integer
-  type:
-    label: 'Content type'
-    datasource_id: 'entity:node'
-    property_path: type
-    type: string
-  name_4:
-    label: 'Location » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_geographical_area:entity:name'
+    property_path: title
     type: text
+    boost: !!float 8
     dependencies:
-      config:
-        - field.storage.node.field_geographical_area
       module:
-        - taxonomy
-  name_5:
-    label: 'Type of organisation » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_type_of_user:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_type_of_user
-      module:
-        - taxonomy
-  name_6:
-    label: 'Key words » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_key_words:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_key_words
-      module:
-        - taxonomy
-  processed:
-    label: 'Body » Processed text'
-    datasource_id: 'entity:node'
-    property_path: 'body:processed'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.body
-  name_7:
-    label: 'Impact of work » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_impact_of_work:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_impact_of_work
-      module:
-        - taxonomy
-  name_8:
-    label: 'Type of organisation using the data » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_type_of_user:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_type_of_user
-      module:
-        - taxonomy
-  name_9:
-    label: 'Impact of work » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_impact_of_work:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_impact_of_work
-      module:
-        - taxonomy
-  name_10:
-    label: 'Location » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_geographical_area:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_geographical_area
-      module:
-        - taxonomy
-  name_11:
-    label: 'Disease type or population group » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_disease_type:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_disease_type
-      module:
-        - taxonomy
-  name_12:
-    label: 'Sources of data » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_sources_of_data:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_sources_of_data
-      module:
-        - taxonomy
-  field_disease_type:
-    label: 'Disease type or population group'
-    datasource_id: 'entity:node'
-    property_path: field_disease_type
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_disease_type
-  field_impact_of_work:
-    label: 'Impact of work'
-    datasource_id: 'entity:node'
-    property_path: field_impact_of_work
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_impact_of_work
-  field_key_words:
-    label: 'Key words'
-    datasource_id: 'entity:node'
-    property_path: field_key_words
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_key_words
-  field_geographical_area:
-    label: Location
-    datasource_id: 'entity:node'
-    property_path: field_geographical_area
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_geographical_area
-  field_type_of_user:
-    label: 'Type of organisation using the data'
-    datasource_id: 'entity:node'
-    property_path: field_type_of_user
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_type_of_user
-  field_sources_of_data:
-    label: 'Sources of data'
-    datasource_id: 'entity:node'
-    property_path: field_sources_of_data
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_sources_of_data
-  processed_1:
-    label: 'Paragraph » Body » Processed text'
-    datasource_id: 'entity:node'
-    property_path: 'field_content_area:entity:field_body:processed'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_content_area
-        - field.storage.paragraph.field_body
-      module:
-        - paragraphs
+        - node
   title_1:
     label: 'Paragraph » Call to Action » Link text'
     datasource_id: 'entity:node'
@@ -308,30 +382,6 @@ field_settings:
         - field.storage.node.field_content_area
         - field.storage.paragraph.field_call_to_action
       module:
-        - paragraphs
-  processed_2:
-    label: 'Paragraph » Dos and don''ts » Processed text'
-    datasource_id: 'entity:node'
-    property_path: 'field_content_area:entity:field_dos_and_donts:processed'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_content_area
-        - field.storage.paragraph.field_dos_and_donts
-      module:
-        - paragraphs
-  field_title:
-    label: 'Paragraph » Referenced Links » Paragraph » Title'
-    datasource_id: 'entity:node'
-    property_path: 'field_content_area:entity:field_referenced_links:entity:field_title'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_content_area
-        - field.storage.paragraph.field_referenced_links
-        - field.storage.paragraph.field_title
-      module:
-        - paragraphs
         - paragraphs
   title_2:
     label: 'Paragraph » Referenced Links » Paragraph » Link » Link text'
@@ -346,14 +396,6 @@ field_settings:
       module:
         - paragraphs
         - paragraphs
-  body:
-    label: Body
-    datasource_id: 'entity:node'
-    property_path: body
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.body
   title_3:
     label: 'Footer area » Paragraph » Link » Link text'
     datasource_id: 'entity:node'
@@ -365,6 +407,24 @@ field_settings:
         - field.storage.paragraph.field_link
       module:
         - paragraphs
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  uid:
+    label: uid
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
 datasource_settings:
   'entity:node':
     bundles:
@@ -376,6 +436,10 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  content_access:
+    weights:
+      preprocess_query: -30
+  entity_status: {  }
   highlight:
     highlight: always
     highlight_partial: true
@@ -387,51 +451,50 @@ processor_settings:
     suffix: '</strong>'
     weights:
       postprocess_query: 0
-  rendered_item: {  }
-  entity_status: {  }
-  content_access:
-    weights:
-      preprocess_query: -30
   html_filter:
     all_fields: true
     fields:
-      - rendered_item
       - aggregated_field
-      - title
+      - body
+      - field_standfirst
+      - field_title
       - name
       - name_1
-      - name_2
-      - field_standfirst
-      - name_3
-      - type
-      - name_4
-      - name_5
-      - name_6
-      - processed
-      - name_7
-      - name_8
-      - name_9
       - name_10
       - name_11
       - name_12
+      - name_13
+      - name_14
+      - name_2
+      - name_3
+      - name_4
+      - name_5
+      - name_6
+      - name_7
+      - name_8
+      - name_9
+      - processed
       - processed_1
-      - title_1
       - processed_2
-      - field_title
+      - rendered_item
+      - title
+      - title_1
       - title_2
-      - body
       - title_3
+      - type
     title: true
     alt: true
     tags:
+      b: 2
       h1: 5
       h2: 3
       h3: 2
       strong: 2
-      b: 2
     weights:
       preprocess_index: -15
       preprocess_query: -15
+  rendered_item: {  }
+  solr_date_range: {  }
 tracker_settings:
   default:
     indexing_order: fifo

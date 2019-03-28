@@ -23,6 +23,8 @@ content:
 hidden:
   field_3_items_grid: true
   field_case_studies: true
+  field_content_area: true
   field_featured_articles: true
+  field_footer_area: true
   field_hero_intro: true
   field_testimonial: true
