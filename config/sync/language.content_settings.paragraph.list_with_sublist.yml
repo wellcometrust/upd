@@ -1,0 +1,11 @@
+uuid: b9eeb0c2-aaf9-4c08-a846-b4249efc4b2a
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.list_with_sublist
+id: paragraph.list_with_sublist
+target_entity_type_id: paragraph
+target_bundle: list_with_sublist
+default_langcode: site_default
+language_alterable: false

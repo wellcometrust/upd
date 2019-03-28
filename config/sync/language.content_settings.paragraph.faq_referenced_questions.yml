@@ -1,0 +1,11 @@
+uuid: 3afba8c1-cd33-49ef-b043-bcba3e009f25
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.faq_referenced_questions
+id: paragraph.faq_referenced_questions
+target_entity_type_id: paragraph
+target_bundle: faq_referenced_questions
+default_langcode: site_default
+language_alterable: false

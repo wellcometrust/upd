@@ -1,0 +1,11 @@
+uuid: 1ca2a69c-442e-498a-a38b-9529004f2415
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.basic_title_link
+id: paragraph.basic_title_link
+target_entity_type_id: paragraph
+target_bundle: basic_title_link
+default_langcode: site_default
+language_alterable: false

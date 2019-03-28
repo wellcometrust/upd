@@ -1,0 +1,11 @@
+uuid: cd130335-0e48-4ef3-b5f3-e6ef172684d1
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.dos_donts
+id: paragraph.dos_donts
+target_entity_type_id: paragraph
+target_bundle: dos_donts
+default_langcode: site_default
+language_alterable: false

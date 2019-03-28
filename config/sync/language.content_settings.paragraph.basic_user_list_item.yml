@@ -1,0 +1,11 @@
+uuid: a2566b60-6e6d-41af-9822-384684aae6f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.basic_user_list_item
+id: paragraph.basic_user_list_item
+target_entity_type_id: paragraph
+target_bundle: basic_user_list_item
+default_langcode: site_default
+language_alterable: false

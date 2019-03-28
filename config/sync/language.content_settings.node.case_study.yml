@@ -1,0 +1,11 @@
+uuid: f447b4c0-daf3-4530-887b-0b4eb037e244
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.case_study
+id: node.case_study
+target_entity_type_id: node
+target_bundle: case_study
+default_langcode: site_default
+language_alterable: false
