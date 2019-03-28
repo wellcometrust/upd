@@ -5,6 +5,8 @@ dependencies:
   config:
     - core.entity_view_mode.node.search_result
     - field.field.node.art.body
+    - field.field.node.art.field_list_text
+    - field.field.node.art.field_news_category
     - field.field.node.art.field_publish_date
     - field.field.node.art.field_related_news
     - node.type.art
@@ -25,6 +27,9 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_list_text: true
+  field_news_category: true
   field_publish_date: true
   field_related_news: true
+  langcode: true
   links: true

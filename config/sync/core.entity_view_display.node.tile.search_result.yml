@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.search_result
+    - field.field.node.tile.field_list_text
     - field.field.node.tile.field_standfirst
     - field.field.node.tile.field_tile_paragraph
     - node.type.tile
@@ -24,4 +25,5 @@ content:
 hidden:
   field_list_text: true
   field_tile_paragraph: true
+  langcode: true
   links: true
