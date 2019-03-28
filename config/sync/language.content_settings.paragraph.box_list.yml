@@ -1,0 +1,11 @@
+uuid: 5dec7a1b-09a2-41f1-a70d-2600eae12217
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.box_list
+id: paragraph.box_list
+target_entity_type_id: paragraph
+target_bundle: box_list
+default_langcode: site_default
+language_alterable: false

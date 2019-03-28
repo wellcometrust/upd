@@ -1,0 +1,11 @@
+uuid: 558c601f-d9f9-4b21-84a8-16f868379bac
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.tile
+id: node.tile
+target_entity_type_id: node
+target_bundle: tile
+default_langcode: site_default
+language_alterable: false

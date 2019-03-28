@@ -1,0 +1,11 @@
+uuid: 690a71be-2149-4140-8ed9-99355fbb1d27
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.basic_vertical_tab
+id: paragraph.basic_vertical_tab
+target_entity_type_id: paragraph
+target_bundle: basic_vertical_tab
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,11 @@
+uuid: 41dc4bdd-3f12-4341-9c8b-afe25c296883
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.grid_items
+id: paragraph.grid_items
+target_entity_type_id: paragraph
+target_bundle: grid_items
+default_langcode: site_default
+language_alterable: false

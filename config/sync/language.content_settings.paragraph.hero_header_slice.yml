@@ -1,0 +1,11 @@
+uuid: 14d06842-6487-428b-8420-5be98e0f0b9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.hero_header_slice
+id: paragraph.hero_header_slice
+target_entity_type_id: paragraph
+target_bundle: hero_header_slice
+default_langcode: site_default
+language_alterable: false

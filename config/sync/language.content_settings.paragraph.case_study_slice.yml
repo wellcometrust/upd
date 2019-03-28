@@ -1,0 +1,11 @@
+uuid: b0100fae-90c8-4002-bd45-bd7d0ad60bd5
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.case_study_slice
+id: paragraph.case_study_slice
+target_entity_type_id: paragraph
+target_bundle: case_study_slice
+default_langcode: site_default
+language_alterable: false
