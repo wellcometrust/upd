@@ -1,0 +1,11 @@
+uuid: cde0d69b-b756-462d-8a2a-3d5b750c7490
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.team_list
+id: paragraph.team_list
+target_entity_type_id: paragraph
+target_bundle: team_list
+default_langcode: site_default
+language_alterable: false

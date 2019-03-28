@@ -1,0 +1,11 @@
+uuid: 7907f558-8337-49c8-8da0-a8851f09bcae
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.disease
+id: taxonomy_term.disease
+target_entity_type_id: taxonomy_term
+target_bundle: disease
+default_langcode: site_default
+language_alterable: false

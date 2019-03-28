@@ -1,0 +1,11 @@
+uuid: 9ce2a572-c537-48c9-905d-d80420387fd8
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.faq_dropdowns
+id: paragraph.faq_dropdowns
+target_entity_type_id: paragraph
+target_bundle: faq_dropdowns
+default_langcode: site_default
+language_alterable: false
