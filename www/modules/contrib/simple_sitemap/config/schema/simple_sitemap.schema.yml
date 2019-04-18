@@ -19,6 +19,9 @@ simple_sitemap.settings:
     skip_untranslated:
       label: 'Skip untranslated'
       type: boolean
+    xsl:
+      label: 'Include a stylesheet in the sitemaps for humans'
+      type: boolean
     base_url:
       label: 'Base URL'
       type: string

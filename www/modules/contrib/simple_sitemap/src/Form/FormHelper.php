@@ -120,6 +120,7 @@ class FormHelper {
     $this->cleanUpFormInfo();
     $this->getEntityDataFromFormEntity();
     $this->negotiateVariant();
+
     return $this->supports();
   }
 
@@ -222,6 +223,7 @@ class FormHelper {
 
   /**
    * @param array $form_fragment
+   * @return $this
    */
   public function displayRegenerateNow(&$form_fragment) {
     $form_fragment['simple_sitemap_regenerate_now'] = [
@@ -231,23 +233,32 @@ class FormHelper {
       '#default_value' => FALSE,
     ];
     if ($this->generator->getSetting('cron_generate')) {
-      $form_fragment['simple_sitemap_regenerate_now']['#description'] .= '</br>' . $this->t('Otherwise the sitemap will be regenerated during a future cron run.');
+      $form_fragment['simple_sitemap_regenerate_now']['#description'] .= '<br>' . $this->t('Otherwise the sitemap will be regenerated during a future cron run.');
     }
+
+    return $this;
   }
 
-  protected function negotiateVariant() {
+  /**
+   * @return $this
+   */
+  public function negotiateVariant() {
     $all_bundle_settings = $this->generator->setVariants(TRUE)
       ->getBundleSettings($this->getEntityTypeId(), $this->getBundleName(), FALSE, TRUE);
     $this->bundleSettings = NULL !== ($variant = key($all_bundle_settings))
       ? $all_bundle_settings[$variant]
       : [];
     $this->variant = $variant;
+
+    return $this;
   }
 
   /**
    * @param array $form_fragment
    * @param bool $multiple
    * @return $this
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function displayEntitySettings(&$form_fragment, $multiple = FALSE) {
     $prefix = $multiple ? $this->getEntityTypeId() . '_' : '';
@@ -284,11 +295,8 @@ class FormHelper {
       '#type' => 'select',
       '#title' => $this->t('Sitemap variant'),
       '#description' => $this->t('The sitemap variant entities of this type are to be indexed in.'),
-      '#options' => array_map(
-        function($variant) { return $this->t($variant['label']); },
-        $this->generator->getSitemapManager()->getSitemapVariants(NULL, FALSE)
-      ),
-      '#default_value' => $this->variant,
+      '#options' => $this->getVariantSelectValues(),
+      '#default_value' => $this->getVariantSelectValuesDefault($this->variant),
       '#states' => [
         'visible' => !$multiple
           ? [':input[name="' . $prefix . 'simple_sitemap_index_content"]' => ['value' => 1]]
@@ -297,7 +305,7 @@ class FormHelper {
           ? [':input[name="' . $prefix . 'simple_sitemap_index_content"]' => ['value' => 1]]
           : [':input[name="' . $prefix . 'enabled"]' => ['checked' => TRUE]],
       ],
-      '#disabled' => $this->getEntityCategory() === 'instance'
+      '#disabled' => $this->getEntityCategory() === 'instance',
     ];
 
     // Priority
@@ -436,14 +444,18 @@ class FormHelper {
    *
    * Needed because this service may contain form info from the previous
    * operation when revived from the container.
+   *
+   * @return $this
    */
-  protected function cleanUpFormInfo() {
+  public function cleanUpFormInfo() {
     $this->entityCategory = NULL;
     $this->entityTypeId = NULL;
     $this->bundleName = NULL;
     $this->instanceId = NULL;
     $this->variant = NULL;
     $this->bundleSettings = NULL;
+
+    return $this;
   }
 
   /**
@@ -474,14 +486,51 @@ class FormHelper {
         return TRUE;
       }
     }
+
     return FALSE;
+  }
+
+  /**
+   * Gets the values needed to display the variant dropdown setting.
+   *
+   * @return array
+   */
+  public function getVariantSelectValues() {
+    return array_map(
+      function($variant) { return $this->t($variant['label']); },
+      $this->generator->getSitemapManager()->getSitemapVariants(NULL, FALSE)
+    );
+  }
+
+  /**
+   * Returns correct default value for variant select list.
+   *
+   * If only one variant is available, return it, otherwise check if a default
+   * variant is provided and return it.
+   *
+   * @param string|null $default_value
+   *  Actual default value from the database.
+   *
+   * @return string|null
+   *  Value to be set on form.
+   */
+  public function getVariantSelectValuesDefault($default_value) {
+    $options = $this->getVariantSelectValues();
+    return NULL === $default_value
+      ? (1 === count($options)
+        ? array_keys($options)[0]
+        : (!empty($default = $this->generator->getSetting('default_variant'))
+          ? $default
+          : $default_value
+        )
+      )
+      : $default_value;
   }
 
   /**
    * Gets the values needed to display the priority dropdown setting.
    *
    * @return array
-   *   Select options.
    */
   public function getPrioritySelectValues() {
     $options = [];
@@ -489,6 +538,7 @@ class FormHelper {
       $value = $this->formatPriority($value / self::PRIORITY_DIVIDER);
       $options[$value] = $value;
     }
+
     return $options;
   }
 
@@ -496,13 +546,13 @@ class FormHelper {
    * Gets the values needed to display the changefreq dropdown setting.
    *
    * @return array
-   *   Select options.
    */
   public function getChangefreqSelectValues() {
     $options = ['' => $this->t('- Not specified -')];
-    foreach (self::$changefreqValues as $setting) {
+    foreach (self::getChangefreqOptions() as $setting) {
       $options[$setting] = $this->t($setting);
     }
+
     return $options;
   }
 

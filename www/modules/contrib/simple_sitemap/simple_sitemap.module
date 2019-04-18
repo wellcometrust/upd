@@ -43,7 +43,7 @@ function simple_sitemap_form_alter(&$form, FormStateInterface $form_state, $form
   $form['simple_sitemap'] = [
     '#type' => 'details',
     '#group' => isset($form['additional_settings']) ? 'additional_settings' : 'advanced',
-    '#title' => t('Simple XML sitemap'),
+    '#title' => t('Simple XML Sitemap'),
     '#description' => $f->getEntityCategory() === 'instance' ? t('Settings for this entity can be overridden here.') : '',
     '#weight' => 10,
   ];
@@ -103,16 +103,16 @@ function simple_sitemap_entity_form_submit($form, FormStateInterface &$form_stat
     /** @var \Drupal\simple_sitemap\Simplesitemap $generator */
     $generator = \Drupal::service('simple_sitemap.generator');
 
-    $settings = [
-      'index' => (bool) $values['simple_sitemap_index_content'],
-      'priority' => $values['simple_sitemap_priority'],
-      'changefreq' => $values['simple_sitemap_changefreq'],
-      'include_images' => (bool) $values['simple_sitemap_include_images'],
-    ];
+    // Only save other values if indexing is enabled.
+    if ($settings['index'] = (bool) $values['simple_sitemap_index_content']) {
+      $settings['priority'] = $values['simple_sitemap_priority'];
+      $settings['changefreq'] = $values['simple_sitemap_changefreq'];
+      $settings['include_images'] = (bool) $values['simple_sitemap_include_images'];
+    }
 
     // Deleting bundle settings for old bundle.
     // See SimplesitemapEntitiesForm::submitForm().
-    // todo: This will not be necessary if "multiple variants pro bundle" is implemented.
+    // todo: Not necessary once https://www.drupal.org/project/simple_sitemap/issues/3014649 is implemented.
     if (isset($form['simple_sitemap']['simple_sitemap_variant']['#default_value'])) {
       $old_variant = $form['simple_sitemap']['simple_sitemap_variant']['#default_value'];
       if ($old_variant !== $values['simple_sitemap_variant']) {
