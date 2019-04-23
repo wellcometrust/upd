@@ -9,6 +9,7 @@ global-styling:
     base:
       assets/css/main.css: {}
       assets/css/custom.css: {}
+      assets/css/tables.css: {}
 
 news-cat:
   version: VERSION
