@@ -1,3 +1,14 @@
+/* r41983 Custom styles for new image in PDF */
+.resource-box__title:before {
+  height: auto;
+}
+
+.resource-box .pdfpreview img {
+  max-height: 140px;
+  display: block;
+  margin: 0 auto;
+}
+
 /* r41970 Fixing CSS issue with related news block in sidebar */
 @media screen and (min-width: 55rem) {
   .layout__item--secondary .u-width-1-of-2-from-medium {
