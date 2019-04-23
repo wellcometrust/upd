@@ -5,6 +5,8 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.faq.field_faq_dropdown
+    - field.field.node.faq.field_list_text
+    - field.field.node.faq.field_pdf
     - field.field.node.faq.field_standfirst
     - node.type.faq
   module:
@@ -19,4 +21,7 @@ content:
     region: content
 hidden:
   field_faq_dropdown: true
+  field_list_text: true
+  field_pdf: true
   field_standfirst: true
+  langcode: true

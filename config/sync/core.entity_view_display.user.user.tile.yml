@@ -56,4 +56,5 @@ content:
     type: link
     region: content
 hidden:
+  langcode: true
   member_for: true

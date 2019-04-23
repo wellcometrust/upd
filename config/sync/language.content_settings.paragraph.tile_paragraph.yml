@@ -1,0 +1,11 @@
+uuid: 6af6fe4d-c4ff-481d-a7aa-a0ec3b7f081e
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.tile_paragraph
+id: paragraph.tile_paragraph
+target_entity_type_id: paragraph
+target_bundle: tile_paragraph
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,11 @@
+uuid: 2cbdd6f7-0d4b-4db3-b8c7-ac1ee67725b8
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.impact_of_work
+id: taxonomy_term.impact_of_work
+target_entity_type_id: taxonomy_term
+target_bundle: impact_of_work
+default_langcode: site_default
+language_alterable: false

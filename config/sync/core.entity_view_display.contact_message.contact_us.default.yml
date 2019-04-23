@@ -26,4 +26,5 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  langcode: true

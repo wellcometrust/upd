@@ -38,3 +38,4 @@ content:
     third_party_settings: {  }
 hidden:
   field_list_text: true
+  langcode: true

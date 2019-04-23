@@ -6,12 +6,16 @@ dependencies:
     - core.entity_view_mode.node.home_teaser
     - field.field.node.case_study.field_disease_type
     - field.field.node.case_study.field_featured
+    - field.field.node.case_study.field_geographical_area
+    - field.field.node.case_study.field_has_media
     - field.field.node.case_study.field_impact_of_work
+    - field.field.node.case_study.field_key_words
     - field.field.node.case_study.field_list_text
     - field.field.node.case_study.field_pdf
     - field.field.node.case_study.field_sources_of_data
     - field.field.node.case_study.field_standfirst
     - field.field.node.case_study.field_thumbnail
+    - field.field.node.case_study.field_type_of_user
     - field.field.node.case_study.field_vertical_tab
     - image.style.thumbnail_list
     - node.type.case_study
@@ -100,3 +104,8 @@ content:
     region: content
 hidden:
   field_featured: true
+  field_geographical_area: true
+  field_has_media: true
+  field_key_words: true
+  field_type_of_user: true
+  langcode: true

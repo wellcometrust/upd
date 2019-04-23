@@ -27,4 +27,5 @@ content:
     third_party_settings: {  }
     type: jquery_colorpicker_color_display
     region: content
-hidden: {  }
+hidden:
+  langcode: true
