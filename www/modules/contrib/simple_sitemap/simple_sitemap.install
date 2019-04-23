@@ -16,9 +16,9 @@ function simple_sitemap_requirements($phase) {
 
   if (!extension_loaded('xmlwriter')) {
     $requirements['simple_sitemap_php_extensions'] = [
-      'title' => t('Simple XML sitemap PHP extensions'),
+      'title' => t('Simple XML Sitemap PHP extensions'),
       'value' => t('Missing PHP xmlwriter extension'),
-      'description' => t('In order to be able to generate sitemaps, the Simple XML sitemap module requires the <em>xmlwriter</em> PHP extension to be enabled.'),
+      'description' => t('In order to be able to generate sitemaps, the Simple XML Sitemap module requires the <em>xmlwriter</em> PHP extension to be enabled.'),
       'severity' => REQUIREMENT_ERROR,
     ];
   }
@@ -57,7 +57,7 @@ function simple_sitemap_requirements($phase) {
 //      }
 //
 //      $requirements['simple_sitemap_generated'] = [
-//        'title' => 'Simple XML sitemap',
+//        'title' => 'Simple XML Sitemap',
 //        'value' => $value,
 //        'description' => $description,
 //        'severity' => $severity,

@@ -17,3 +17,8 @@ sitemapEntities:
   dependencies:
     - core/jquery
     - core/drupalSettings
+sitemapSettings:
+  version: VERSION
+  css:
+    theme:
+      css/simple_sitemap.settings.css: {}

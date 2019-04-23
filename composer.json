@@ -99,10 +99,10 @@
     "drupal/colorbox": "1.x",
     "drupal/colorbox_load": "1.x",
     "drupal/menu_link_attributes": "1.x",
-    "drupal/field_group": "3.0-beta1"
+    "drupal/field_group": "3.0-beta1",
+    "drupal/devel": "^2.0"
   },
   "require-dev": {
-    "drupal/devel": "1.*",
     "geerlingguy/drupal-vm": "4.*"
   },
   "replace": {

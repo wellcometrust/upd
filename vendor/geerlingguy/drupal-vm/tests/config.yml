@@ -1,0 +1,7 @@
+---
+# Update the composer_home_path for global installs.
+composer_home_path: "/{{ drupalvm_user }}/.composer"
+
+# Don't run the 'disable firewall' tasks in tests.
+firewall_disable_firewalld: false
+firewall_disable_ufw: false
