@@ -1,0 +1,11 @@
+uuid: 15003576-9d72-40a3-93f6-db908908cbe9
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.geographical_area
+id: taxonomy_term.geographical_area
+target_entity_type_id: taxonomy_term
+target_bundle: geographical_area
+default_langcode: site_default
+language_alterable: false

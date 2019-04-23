@@ -71,3 +71,4 @@ content:
 hidden:
   field_content_area: true
   field_footer_area: true
+  langcode: true

@@ -6,7 +6,10 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.hub_page.body
     - field.field.node.hub_page.field_content_area
+    - field.field.node.hub_page.field_faq_area
+    - field.field.node.hub_page.field_footer_area
     - field.field.node.hub_page.field_hero_area
+    - field.field.node.hub_page.field_tiled_content
     - node.type.hub_page
   module:
     - text
@@ -33,3 +36,4 @@ hidden:
   field_footer_area: true
   field_hero_area: true
   field_tiled_content: true
+  langcode: true
