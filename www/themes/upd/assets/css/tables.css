@@ -1,6 +1,6 @@
 /**
  * r41976: Applying styles to HTML tables in content.
  */
-.content table { border: 1px solid #004160; }
-.content table thead tr th { border: 1px solid #004160; background-color: #d8e2e7; padding: 2px 4px; }
-.content table tbody tr td { border: 1px solid #004160; padding: 2px 4px; }
+.layout table { border: 1px solid #004160; }
+.layout table thead tr th { border: 1px solid #004160; background-color: #d8e2e7; padding: 2px 4px; }
+.layout table tbody tr td { border: 1px solid #004160; padding: 2px 4px; }
