@@ -1,0 +1,5 @@
+name: Node Weight
+description: Adds a weight field to the node Add/Edit form.
+package: Kolab Europe
+type: module
+core: 8.x

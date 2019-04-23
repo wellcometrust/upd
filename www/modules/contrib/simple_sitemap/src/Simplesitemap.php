@@ -17,6 +17,7 @@ use Drupal\simple_sitemap\Plugin\simple_sitemap\SitemapGenerator\SitemapGenerato
  * @package Drupal\simple_sitemap
  */
 class Simplesitemap {
+
   /**
    * @var \Drupal\simple_sitemap\EntityHelper
    */
@@ -165,6 +166,7 @@ class Simplesitemap {
    */
   public function saveSetting($name, $setting) {
     $this->settings->saveSetting($name, $setting);
+
     return $this;
   }
 
@@ -193,7 +195,9 @@ class Simplesitemap {
    */
   public function setVariants($variants = NULL) {
     if (NULL === $variants) {
-      $this->variants = FALSE !== ($default_variant = $this->getSetting('default_variant')) ? [$default_variant] : [];
+      $this->variants = !empty($default_variant = $this->getSetting('default_variant', ''))
+        ? [$default_variant]
+        : [];
     }
     elseif ($variants === TRUE) {
       $this->variants = array_keys(
@@ -224,16 +228,16 @@ class Simplesitemap {
   }
 
   /**
-   * Returns the whole sitemap, a requested sitemap chunk,
-   * or the sitemap index file.
+   * Returns a sitemap variant, its index, or its requested chunk.
    *
-   * @param int $delta
+   * @param int|null $delta
+   *  Optional delta of the chunk.
    *
    * @return string|false
-   *  If no sitemap delta is provided, either a sitemap index is returned, or the
-   *  whole sitemap variant, if the amount of links does not exceed the max
-   *  links setting. If a sitemap delta is provided, a sitemap chunk is returned.
-   *  Returns false if the sitemap is not retrievable from the database.
+   *  If no chunk delta is provided, either the sitemap variant is returned,
+   *  or its index in case of a chunked sitemap.
+   *  If a chunk delta is provided, the relevant chunk is returned.
+   *  Returns false if the sitemap variant is not retrievable from the database.
    */
   public function getSitemap($delta = NULL) {
     $chunk_info = $this->fetchSitemapVariantInfo();
@@ -268,15 +272,20 @@ class Simplesitemap {
    *  variant set the above keyed by sitemap delta.
    */
   protected function fetchSitemapVariantInfo() {
-    $result = $this->db->select('simple_sitemap', 's')
-      ->fields('s', ['id', 'delta', 'sitemap_created', 'type'])
-      ->condition('s.status', 1)
-      ->condition('s.type', $this->getVariants(), 'IN')
-      ->execute();
+    if (!empty($this->getVariants())) {
+      $result = $this->db->select('simple_sitemap', 's')
+        ->fields('s', ['id', 'delta', 'sitemap_created', 'type'])
+        ->condition('s.status', 1)
+        ->condition('s.type', $this->getVariants(), 'IN')
+        ->execute();
 
-    return count($this->getVariants()) > 1
-      ? $result->fetchAllAssoc('type')
-      : $result->fetchAllAssoc('delta');
+      return count($this->getVariants()) > 1
+        ? $result->fetchAllAssoc('type')
+        : $result->fetchAllAssoc('delta');
+    }
+    else {
+      return [];
+    }
   }
 
   /**
@@ -380,6 +389,7 @@ class Simplesitemap {
       $enabled_entity_types[] = $entity_type_id;
       $this->saveSetting('enabled_entity_types', $enabled_entity_types);
     }
+
     return $this;
   }
 
@@ -429,7 +439,6 @@ class Simplesitemap {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    *
-   * @todo: enableEntityType automatically
    * @todo multiple variants
    */
   public function setBundleSettings($entity_type_id, $bundle_name = NULL, $settings = ['index' => TRUE]) {
@@ -703,7 +712,7 @@ class Simplesitemap {
    *
    * @return array|false
    *  Array of entity instance settings or the settings of its bundle. False if
-   *  entity type does not exist.
+   *  entity type or variant does not exist.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -727,11 +736,11 @@ class Simplesitemap {
       return unserialize($results);
     }
     else {
-      $entity = $this->entityTypeManager->getStorage($entity_type_id)
-        ->load($id);
       return $this->getBundleSettings(
         $entity_type_id,
-        $this->entityHelper->getEntityInstanceBundleName($entity)
+        $this->entityHelper->getEntityInstanceBundleName(
+          $this->entityTypeManager->getStorage($entity_type_id)->load($id)
+        )
       );
     }
   }
@@ -778,10 +787,11 @@ class Simplesitemap {
    *
    * @return bool
    *
-   * @todo multiple variants?
+   * @todo multiple variants
    */
   public function bundleIsIndexed($entity_type_id, $bundle_name = NULL) {
     $settings = $this->getBundleSettings($entity_type_id, $bundle_name);
+
     return !empty($settings['index']);
   }
 

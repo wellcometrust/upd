@@ -1,0 +1,7 @@
+'assign node weight':
+  title: 'Assign node weights'
+  description: 'Allow modification of node weights.'
+
+'administer node weight':
+  title: 'Administer weight'
+  description: 'Administer configuration of the weight module.'

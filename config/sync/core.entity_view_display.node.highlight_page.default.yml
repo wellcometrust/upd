@@ -24,4 +24,5 @@ hidden:
   field_hero_area: true
   field_sections: true
   field_standfirst: true
+  langcode: true
   links: true

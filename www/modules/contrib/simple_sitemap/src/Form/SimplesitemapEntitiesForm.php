@@ -64,7 +64,7 @@ class SimplesitemapEntitiesForm extends SimplesitemapFormBase {
     $form['simple_sitemap_entities']['entities'] = [
       '#title' => $this->t('Sitemap entities'),
       '#type' => 'fieldset',
-      '#markup' => '<div class="description">' . $this->t('Simple XML sitemap settings will be added only to entity forms of entity types enabled here. For all entity types featuring bundles (e.g. <em>node</em>) sitemap settings have to be set on their bundle pages (e.g. <em>page</em>).') . '</div>',
+      '#markup' => '<div class="description">' . $this->t('Simple XML Sitemap settings will be added only to entity forms of entity types enabled here. For all entity types featuring bundles (e.g. <em>node</em>) sitemap settings have to be set on their bundle pages (e.g. <em>page</em>).') . '</div>',
     ];
 
     $form['#attached']['library'][] = 'simple_sitemap/sitemapEntities';
@@ -131,10 +131,17 @@ class SimplesitemapEntitiesForm extends SimplesitemapFormBase {
       $form['#attached']['drupalSettings']['simple_sitemap']['all_entities'][] = $css_entity_type_id;
 
       if ($atomic_entity_type) {
-        $this->formHelper->setEntityCategory('bundle')
+        $this->formHelper
+          ->cleanUpFormInfo()
+          ->setEntityCategory('bundle')
           ->setEntityTypeId($entity_type_id)
           ->setBundleName($entity_type_id)
-          ->displayEntitySettings($form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings'], TRUE);
+          ->negotiateVariant()
+          ->displayEntitySettings(
+            $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings'],
+            TRUE
+          );
+
         $form['#attached']['drupalSettings']['simple_sitemap']['atomic_entities'][] = $css_entity_type_id;
       }
     }
@@ -158,7 +165,7 @@ class SimplesitemapEntitiesForm extends SimplesitemapFormBase {
 
             // Deleting bundle settings for old bundle.
             // See simple_sitemap.module::simple_sitemap_entity_form_submit().
-            // todo: This will not be necessary if "multiple variants pro bundle" is implemented.
+            // todo: Not necessary once https://www.drupal.org/project/simple_sitemap/issues/3014649 is implemented.
             if (isset($form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings'][$entity_type_id . '_simple_sitemap_variant']['#default_value'])) {
               $old_variant = $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings'][$entity_type_id . '_simple_sitemap_variant']['#default_value'];
               if ($old_variant !== $values[$entity_type_id . '_simple_sitemap_variant']) {

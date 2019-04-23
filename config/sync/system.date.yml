@@ -1,8 +1,8 @@
 country:
-  default: ''
+  default: GB
 first_day: 0
 timezone:
-  default: UTC
+  default: Europe/London
   user:
     configurable: true
     warn: false

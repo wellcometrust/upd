@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.search_result
     - field.field.node.basic_page.body
+    - field.field.node.basic_page.field_content_area
     - field.field.node.basic_page.field_list_text
     - field.field.node.basic_page.field_pdf
     - field.field.node.basic_page.field_sections
@@ -35,7 +36,9 @@ content:
     region: content
 hidden:
   body: true
+  field_content_area: true
   field_pdf: true
   field_sections: true
   field_side_menu: true
+  langcode: true
   links: true

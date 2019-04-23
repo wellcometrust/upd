@@ -25,7 +25,7 @@ trait BatchTrait {
       'title' => $this->t('Generating XML sitemaps'),
       'init_message' => $this->t('Initializing...'),
       'error_message' => $this->t(self::$batchErrorMessage),
-      'progress_message' => $this->t('Processing items from queue. Each sitemap variant is published as soon as its items have been processed.'),
+      'progress_message' => $this->t('Processing items from the queue.<br>Each sitemap variant is published after all of its items have been processed.'),
       'operations' => [[ __CLASS__ . '::' . 'doBatchGenerateSitemap', []]],
       'finished' => [__CLASS__, 'finishGeneration'],
     ];
@@ -55,7 +55,6 @@ trait BatchTrait {
    * @param $context
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    *
-   * @todo Make sure batch does not run at the same time as cron.
    * @todo Variants into generateSitemap().
    */
   public static function doBatchGenerateSitemap(&$context) {

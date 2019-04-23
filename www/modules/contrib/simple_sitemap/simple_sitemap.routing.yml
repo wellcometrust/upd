@@ -49,3 +49,11 @@ simple_sitemap.settings_variants:
     _title: 'Simple XML Sitemap Settings'
   requirements:
     _permission: 'administer sitemap settings'
+
+simple_sitemap.sitemap_xsl:
+  path: '/sitemap.xsl'
+  defaults:
+    _controller: '\Drupal\simple_sitemap\Controller\SimplesitemapController::getSitemapXsl'
+    _title: 'Sitemap XSL'
+  requirements:
+    _access: 'TRUE'

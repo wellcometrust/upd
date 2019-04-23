@@ -14,12 +14,10 @@ simple_sitemap.variants:
   route_name: simple_sitemap.settings_variants
   title: 'Sitemap variants'
   base_route: simple_sitemap.settings
-  weight: 1
+  weight: 2
 
 simple_sitemap.settings_custom:
   route_name: simple_sitemap.settings_custom
   title: 'Custom links'
   base_route: simple_sitemap.settings
-  weight: 2
-
-
+  weight: 3

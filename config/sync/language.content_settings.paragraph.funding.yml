@@ -1,0 +1,11 @@
+uuid: 29a98597-4daf-4869-b696-544419f8612b
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.funding
+id: paragraph.funding
+target_entity_type_id: paragraph
+target_bundle: funding
+default_langcode: site_default
+language_alterable: false

@@ -29,6 +29,8 @@ settings:
           items:
             - BulletedList
             - NumberedList
+            - Outdent
+            - Indent
         -
           name: Media
           items:
@@ -42,10 +44,10 @@ settings:
             - tooltip
             - Source
   plugins:
-    language:
-      language_list: un
     stylescombo:
       styles: ''
+    language:
+      language_list: un
     video_embed:
       defaults:
         children:

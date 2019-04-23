@@ -40,6 +40,7 @@ module:
   inline_entity_form: 0
   inline_form_errors: 0
   jquery_colorpicker: 0
+  language: 0
   layout_discovery: 0
   link: 0
   mailchimp: 0
@@ -58,6 +59,7 @@ module:
   metatag_views: 0
   ng_lightbox: 0
   node: 0
+  node_weight: 0
   options: 0
   page_cache: 0
   page_manager: 0

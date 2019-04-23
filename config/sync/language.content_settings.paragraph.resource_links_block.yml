@@ -1,0 +1,11 @@
+uuid: 23bf80de-b71d-4ad8-80af-450bcf028fc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.resource_links_block
+id: paragraph.resource_links_block
+target_entity_type_id: paragraph
+target_bundle: resource_links_block
+default_langcode: site_default
+language_alterable: false
