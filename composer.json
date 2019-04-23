@@ -62,6 +62,18 @@
           "reference": "8.x-1.x"
         }
       }
+    },
+    "ckeditor_tabletoolstoolbar": {
+      "type": "package",
+      "package": {
+        "name": "ckeditor/tabletoolstoolbar",
+        "version": "0.0.1",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://download.ckeditor.com/tabletoolstoolbar/releases/tabletoolstoolbar_0.0.1.zip",
+          "type": "zip"
+        }
+      }
     }
   },
   "require": {
@@ -103,7 +115,9 @@
     "drupal/stage_file_proxy": "^1.0@alpha",
     "drupal/pdfpreview": "^1.0@RC",
     "drupal/devel": "^2.0",
-    "drupal/node_weight": "2.x-dev"
+    "drupal/node_weight": "2.x-dev",
+    "ckeditor/tabletoolstoolbar": "^0.0.1",
+    "drupal/ckeditor_tabletoolstoolbar": "^1.0"
   },
   "require-dev": {
     "geerlingguy/drupal-vm": "4.*"
