@@ -8,7 +8,7 @@ global-styling:
   css:
     base:
       assets/css/main.css: {}
-
+      assets/css/tables.css: {}
 news-cat:
   version: VERSION
   js:

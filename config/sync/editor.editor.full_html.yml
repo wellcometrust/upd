@@ -25,10 +25,6 @@ settings:
             - DrupalLink
             - DrupalUnlink
         -
-          name: Tables
-          items:
-            - Table
-        -
           name: Lists
           items:
             - BulletedList
@@ -45,6 +41,28 @@ settings:
             - RemoveFormat
             - tooltip
             - Source
+      -
+        -
+          name: Tables
+          items:
+            - tableinsert
+            - tabledelete
+            - tableproperties
+            - tablerowinsertbefore
+            - tablerowinsertafter
+            - tablerowdelete
+            - tablecolumninsertbefore
+            - tablecolumninsertafter
+            - tablecolumndelete
+            - tablecellinsertbefore
+            - tablecellinsertafter
+            - tablecelldelete
+            - tablecellproperties
+            - tablecellsmerge
+            - tablecellmergeright
+            - tablecellmergedown
+            - tablecellsplithorizontal
+            - tablecellsplitvertical
   plugins:
     stylescombo:
       styles: ''
