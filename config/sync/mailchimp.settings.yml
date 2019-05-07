@@ -1,4 +1,4 @@
-api_key: DUMMY_KEY
+api_key: DUMMY-KEY
 cron: false
 batch_limit: 100
 api_classname: Mailchimp\Mailchimp
