@@ -47,7 +47,7 @@
         {{ content.field_body }}
     </div>
     {% if content.field_link|render  %}
-        <a class="cta cta--arrow" href="{{ content.field_link[0]['#url_title'] }}">{{ content.field_link[0]['#title'] }}</a>
+        <a class="cta cta--arrow" href="{{ content.field_link[0]['#url'] }}">{{ content.field_link[0]['#title'] }}</a>
     {%  endif %}
 
 </div>
