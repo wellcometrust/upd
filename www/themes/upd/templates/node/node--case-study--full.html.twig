@@ -153,23 +153,33 @@
                                 {{ content.field_standfirst }}
                             {% endif %}
 
+                            {% if node.field_video_position.value == 'top' and content.field_video %}
+                              <div class="case-study-video top">
+                                {{ content.field_video }}
+                              </div>
+                            {% endif %}
+
                             {% if content.field_vertical_tab|render %}
                                 <div class="content u-font-body-copy">
-                                    {{ content.field_vertical_tab }}
-                                    <ul class="content__actions">
-                                      <li>
-                                        <span class="resource-box__list-item">Page updated: {{ updatedDate }}</span>
-                                      </li>
-                                      <li class="content__action">
-                                            <a class="button button--tertiary" href="#" onClick="window.print();return false">Print page</a>
-                                        </li>
-                                        {% if content.field_pdf|render %}
-                                            <li class="content__action">
-                                                <a class="button  button--tertiary" href="{{ content.field_pdf[0]['#markup'] }}">Download PDF</a>
-                                            </li>
-                                        {% endif %}
-                                    </ul>
-
+                                  {{ content.field_vertical_tab }}
+                                  {% if node.field_video_position.value == 'bottom' and content.field_video %}
+                                  <div class="case-study-video top">
+                                    {{ content.field_video }}
+                                  </div>
+                                  {% endif %}
+                                  <ul class="content__actions">
+                                    <li>
+                                      <span class="resource-box__list-item">Page updated: {{ updatedDate }}</span>
+                                    </li>
+                                    <li class="content__action">
+                                      <a class="button button--tertiary" href="#" onClick="window.print();return false">Print page</a>
+                                    </li>
+                                    {% if content.field_pdf|render %}
+                                    <li class="content__action">
+                                      <a class="button  button--tertiary" href="{{ content.field_pdf[0]['#markup'] }}">Download PDF</a>
+                                    </li>
+                                    {% endif %}
+                                  </ul>
                                 </div>
                             {% endif %}
                             {#{{ content.nextpreviousblock }}#}
