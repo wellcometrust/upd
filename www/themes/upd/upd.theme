@@ -562,20 +562,20 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['mergevars']['FNAME']['#attributes']['placeholder'] = $form['mergevars']['FNAME']['#title'];
     $form['mergevars']['FNAME']['#attributes']['id'] = 'mce-FNAME';
     $form['mergevars']['FNAME']['#attributes']['class'][] = 'site-footer__input';
-    $form['mergevars']['FNAME']['#attributes']['class'][] = 'visually-hidden';
+    //$form['mergevars']['FNAME']['#attributes']['class'][] = 'visually-hidden';
     $form['mergevars']['FNAME']['#title_display'] = 'invisible';
 
     $form['mergevars']['LNAME']['#attributes']['placeholder'] = $form['mergevars']['LNAME']['#title'];
     $form['mergevars']['LNAME']['#attributes']['id'] = 'mce-LNAME';
     $form['mergevars']['LNAME']['#attributes']['class'][] = 'site-footer__input';
-    $form['mergevars']['LNAME']['#attributes']['class'][] = 'visually-hidden';
+    //$form['mergevars']['LNAME']['#attributes']['class'][] = 'visually-hidden';
     $form['mergevars']['LNAME']['#title_display'] = 'invisible';
 
     if (isset($form['mergevars']['MMERGE3'])) {
       $form['mergevars']['MMERGE3']['#attributes']['placeholder'] = $form['mergevars']['MMERGE3']['#title'];
       $form['mergevars']['MMERGE3']['#attributes']['id'] = 'mce-MMERGE3';
       $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'site-footer__input';
-      $form['mergevars']['MMERGE3']['#attributes']['class'][] = 'visually-hidden';
+      //$form['mergevars']['MMERGE3']['#attributes']['class'][] = 'visually-hidden';
       $form['mergevars']['MMERGE3']['#title_display'] = 'invisible';
     }
 
@@ -583,14 +583,14 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
       $form['mergevars']['MMERGE4']['#attributes']['placeholder'] = $form['mergevars']['MMERGE4']['#title'];
       $form['mergevars']['MMERGE4']['#attributes']['id'] = 'mce-MMERGE4';
       $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'site-footer__input';
-      $form['mergevars']['MMERGE4']['#attributes']['class'][] = 'visually-hidden';
+      //$form['mergevars']['MMERGE4']['#attributes']['class'][] = 'visually-hidden';
       $form['mergevars']['MMERGE4']['#title_display'] = 'invisible';
     }
 
 // Alter order of form elements to form styling.
 
     $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#title_display'] = 'invisible';
-    $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'visually-hidden';
+    //$form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'visually-hidden';
     $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'site-footer__fieldset';
     $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['f37abcec0e']['#required'] = true;
 
@@ -598,7 +598,7 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['actions']['#weight'] = 1;
 
     $form['statement'] = [
-      '#prefix' => '<div class="privacy-statement visually-hidden">',
+      '#prefix' => '<div class="privacy-statement">',
       '#suffix' => '</div>',
       '#markup' => '<p>' . t('By signing up you accept Wellcome’s ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new">' . t('Terms of Use') . '</a>. ' . t('Click here for our ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new"> ' . t('privacy statement') . '</a>. ' . t('You can unsubscribe from UPD newsletters at any time using the links in the emails you receive. We use a third party provider, MailChimp, to deliver our newsletter.') . '</p>',
       '#weight' => 20,
