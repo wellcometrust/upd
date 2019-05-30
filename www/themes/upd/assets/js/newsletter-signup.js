@@ -11,6 +11,12 @@
           $('#mc_embed_signup').find('input, div, fieldset, .form-checkbox+label').removeClass('visually-hidden');
         });
       }
+
+      $(window).on('load', function() {
+        $('#mc_embed_signup').find('input, div, fieldset, .form-checkbox+label').addClass('visually-hidden');
+        $('#mce-EMAIL').removeClass('visually-hidden').parents('div').removeClass('visually-hidden');
+        $('#mc_embed_signup .form-submit').removeClass('visually-hidden').parents('div').removeClass('visually-hidden');
+      });
     }
   };
 
