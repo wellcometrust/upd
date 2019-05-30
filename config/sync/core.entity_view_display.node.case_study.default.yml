@@ -16,11 +16,15 @@ dependencies:
     - field.field.node.case_study.field_thumbnail
     - field.field.node.case_study.field_type_of_user
     - field.field.node.case_study.field_vertical_tab
+    - field.field.node.case_study.field_video
+    - field.field.node.case_study.field_video_position
     - node.type.case_study
   module:
     - entity_reference_revisions
     - file
+    - options
     - user
+    - video_embed_field
 id: node.case_study.default
 targetEntityType: node
 bundle: case_study
@@ -108,6 +112,24 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_video:
+    weight: 11
+    label: hidden
+    settings:
+      responsive: true
+      width: 854
+      height: 480
+      autoplay: false
+    third_party_settings: {  }
+    type: video_embed_field_video
+    region: content
+  field_video_position:
+    weight: 12
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
     region: content
   links:
     weight: 3

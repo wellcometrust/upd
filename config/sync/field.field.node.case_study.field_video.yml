@@ -1,0 +1,25 @@
+uuid: 488fe49c-f17d-4f91-b109-3ae4a2971843
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_video
+    - node.type.case_study
+  module:
+    - video_embed_field
+id: node.case_study.field_video
+field_name: field_video
+entity_type: node
+bundle: case_study
+label: Video
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_providers:
+    vimeo: vimeo
+    youtube_playlist: youtube_playlist
+    youtube: youtube
+field_type: video_embed_field
