@@ -13,5 +13,5 @@ type: basic_page
 description: 'A page with multiple variations to deal with pages that aren''t case studies, News, Faqs or landing pages.'
 help: ''
 new_revision: true
-preview_mode: 1
+preview_mode: 0
 display_submitted: false
