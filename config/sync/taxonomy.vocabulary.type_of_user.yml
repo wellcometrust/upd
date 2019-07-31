@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Type of organisation using the data'
 vid: type_of_user
 description: ''
-hierarchy: 0
 weight: 0

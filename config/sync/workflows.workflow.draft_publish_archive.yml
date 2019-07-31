@@ -39,3 +39,4 @@ type_settings:
   entity_types:
     node:
       - basic_page
+  default_moderation_state: draft

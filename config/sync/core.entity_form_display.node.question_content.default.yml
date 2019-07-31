@@ -5,8 +5,10 @@ dependencies:
   config:
     - field.field.node.question_content.body
     - field.field.node.question_content.field_faq_category
+    - field.field.node.question_content.field_node_weight
     - node.type.question_content
   module:
+    - content_moderation
     - field_group
     - path
     - text
@@ -105,6 +107,12 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    settings: {  }
+    region: content
+    third_party_settings: {  }
   path:
     type: path
     weight: 6
@@ -149,4 +157,5 @@ content:
       placeholder: ''
     region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_node_weight: true

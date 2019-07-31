@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Key words'
 vid: key_words
 description: 'Words used to describe case studies that do not appear in the body text.'
-hierarchy: 0
 weight: 0
