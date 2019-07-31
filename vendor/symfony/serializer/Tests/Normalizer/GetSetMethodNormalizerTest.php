@@ -63,7 +63,7 @@ class GetSetMethodNormalizerTest extends TestCase
             ->expects($this->once())
             ->method('normalize')
             ->with($object, 'any')
-            ->will($this->returnValue('string_object'))
+            ->willReturn('string_object')
         ;
 
         $this->assertEquals(
@@ -753,43 +753,6 @@ class GetConstructorArgsWithDefaultValueDummy
     public function otherMethod()
     {
         throw new \RuntimeException('Dummy::otherMethod() should not be called');
-    }
-}
-
-class GetCamelizedDummy
-{
-    private $kevinDunglas;
-    private $fooBar;
-    private $bar_foo;
-
-    public function __construct($kevinDunglas = null)
-    {
-        $this->kevinDunglas = $kevinDunglas;
-    }
-
-    public function getKevinDunglas()
-    {
-        return $this->kevinDunglas;
-    }
-
-    public function setFooBar($fooBar)
-    {
-        $this->fooBar = $fooBar;
-    }
-
-    public function getFooBar()
-    {
-        return $this->fooBar;
-    }
-
-    public function setBar_foo($bar_foo)
-    {
-        $this->bar_foo = $bar_foo;
-    }
-
-    public function getBar_foo()
-    {
-        return $this->bar_foo;
     }
 }
 
