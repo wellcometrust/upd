@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - node.type.art
     - node.type.basic_page
   module:
     - content_moderation
@@ -38,5 +39,6 @@ type_settings:
         - published
   entity_types:
     node:
+      - art
       - basic_page
   default_moderation_state: draft

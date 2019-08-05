@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.art.field_news_category
     - field.field.node.art.field_publish_date
     - field.field.node.art.field_related_news
+    - field.field.node.art.field_scheduled_publish
     - node.type.art
   module:
     - datetime
@@ -58,4 +59,5 @@ content:
     third_party_settings: {  }
 hidden:
   field_list_text: true
+  field_scheduled_publish: true
   langcode: true

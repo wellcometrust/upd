@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b1378bc1f9e7b49b22e2d73a778b888",
+    "content-hash": "1ef0ea80107be501f733357ef8b89357",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4186,6 +4186,62 @@
             "homepage": "https://www.drupal.org/project/pdfpreview",
             "support": {
                 "source": "http://cgit.drupalcode.org/pdfpreview"
+            }
+        },
+        {
+            "name": "drupal/scheduled_publish",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/scheduled_publish.git",
+                "reference": "8.x-3.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/scheduled_publish-8.x-3.1.zip",
+                "reference": "8.x-3.1",
+                "shasum": "2a8daa8b8dee310b13f3b3103e72fac2223cbaf2"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.1",
+                    "datestamp": "1561207385",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Majmesku",
+                    "homepage": "https://www.drupal.org/user/786132"
+                },
+                {
+                    "name": "SaschaHannes",
+                    "homepage": "https://www.drupal.org/user/3536189"
+                }
+            ],
+            "description": "A simple module for scheduled content moderation",
+            "homepage": "https://www.drupal.org/project/scheduled_publish",
+            "support": {
+                "source": "https://git.drupalcode.org/project/scheduled_publish"
             }
         },
         {

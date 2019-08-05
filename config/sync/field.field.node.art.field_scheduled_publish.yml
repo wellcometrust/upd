@@ -1,0 +1,21 @@
+uuid: 9a2cc64d-764e-4db1-a7db-737f465a282d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_scheduled_publish
+    - node.type.art
+  module:
+    - scheduled_publish
+id: node.art.field_scheduled_publish
+field_name: field_scheduled_publish
+entity_type: node
+bundle: art
+label: 'Scheduled publish'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: scheduled_publish

@@ -8,12 +8,14 @@ dependencies:
     - field.field.node.art.field_news_category
     - field.field.node.art.field_publish_date
     - field.field.node.art.field_related_news
+    - field.field.node.art.field_scheduled_publish
     - node.type.art
   module:
     - content_moderation
     - datetime
     - field_group
     - path
+    - scheduled_publish
     - text
 third_party_settings:
   field_group:
@@ -92,7 +94,7 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 6
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     region: content
@@ -128,22 +130,28 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_scheduled_publish:
+    weight: 7
+    settings: {  }
+    third_party_settings: {  }
+    type: scheduled_publish
+    region: content
   langcode:
     type: language_select
-    weight: 2
+    weight: 1
     region: content
     settings:
       include_locked: true
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 100
+    weight: 9
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 9
+    weight: 6
     settings: {  }
     third_party_settings: {  }
     region: content
@@ -151,21 +159,21 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 4
     third_party_settings: {  }
     region: content
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 13
+    weight: 8
     third_party_settings: {  }
     region: content
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 8
+    weight: 5
     third_party_settings: {  }
     region: content
   title:
@@ -178,7 +186,7 @@ content:
     region: content
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 2
     settings:
       match_operator: CONTAINS
       size: 60
