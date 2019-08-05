@@ -99,4 +99,6 @@ hidden:
   field_key_words: true
   field_thumbnail: true
   field_type_of_user: true
+  field_video: true
+  field_video_position: true
   langcode: true
