@@ -1,0 +1,4 @@
+---
+
+db_dumps:
+  - { name: 'drupal', source: 'ce-vm/var/upd.sql' }

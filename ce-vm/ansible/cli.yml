@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure Drupal "files" permissions
+      file:
+        path: '/vagrant/www/sites/default/files'
+        state: directory
+        recurse: yes
+        owner: www-data
+        group: www-data
+        mode: 0777
+
+    - name: Enable stage file proxy
+      shell: drush en -y stage_file_proxy
+      args:
+        chdir: /vagrant/www/sites/default
+      become: yes
+      become_user: vagrant

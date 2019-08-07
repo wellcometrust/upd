@@ -1,83 +1,55 @@
 ---
 
-# Edit these settings to your needs. 
-# Keep in mind they will be shared with others working on the project.
+############# Project settings. ################################################
+# These are typically shared amongst your team for a given project.
+# See https://github.com/codeenigma/ce-vm/wiki/en/latest/config/config/ on where to store
+# other variables.
+# Only "basic" settings are configured here, to access and override more
+# advanced ones, refer to the main default config file at
+# https://github.com/codeenigma/ce-vm/blob/master/config.yml.
+################################################################################
 
-############# Project settings.
+####### Base settings.
+
 # Project name. Only use lower alphanumeric chars, no underscore or hyphen.
 project_name: upd
-
-# PHP version. Can be one of 5.5, 5.6, 7.0.
-php_version: 5.6
-# Enable xdebug for PHP-FPM
-php_xdebug: yes
-# Enable blackfire for PHP
-php_blackfire: no
-# Agent server id and token. You typically would not set it here,
-# but use ~/.CodeEnigma/ce-vm/ce-vm-custom/config.yml instead.
-# You can find those at https://blackfire.io/account.
-php_blackfire_agent_server_id: XXXX-XXXX-XXXX-XXXX-XXX
-php_blackfire_agent_server_token: XXXXXXXXXXXXXXXXXXXXXXXXXXX
-php_blackfire_agent_client_id: XXXX-XXXX-XXXX-XXXX-XXX
-php_blackfire_agent_client_token: XXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-# Database engine. Can be one of mysql, mariadb or percona-server (recommended)
-mysql_engine: percona-server
-
-# NodeJS version. Either 4.x or 6.x.
-nodejs_version: ''
-
-# Project type, only 'drupal' is supported for now.
+# Project type, can be either drupal, symfony, wordpress pr php_generic.
 project_type: drupal
-
-# Webroot, relative to project.
+# Webroot, relative to project folder.
 webroot: www
+#webroot: web
+#webroot: public
 
-# Mail delivery.
-# All outgoing mail is aliased to the local "vagrant" user.
-# The delivery can adopt one of 3 behaviors:
-# - local: email is kept locally on the guest vm, using the standard mbox.
-#   Use vagrant ssh and the "mail" command to read emails.
-# - discard: email is sent to /dev/null and not accessible at all.
-#   Use this if your app generates a large amount of mail you don't need,
-#   to prevent the virtual disk to grow quickly.
-# - host: emails are rerouted to the shared var/Maildir folder, as .eml files.
-#   You can then read emails on your host using the mail client of your choice.
-mail_delivery: host
+# Symfony local dev environment.
+symfony_local_env: dev
+#symfony_local_env: local
 
-# If set to yes, runs the default ansible provisioning
-# before the one from this project.
-# Requires both "git" and the vagrant triggers plugin on your host.
-# It will create a clone of the repo:
-# git clone -b 2.x git@github.com:codeenigma/ce-vm.git ~/.CodeEnigma/ce-vm-upstream
-ce_vm_upstream: yes
-# Whether to automatically pull changes from the upstream repo.
-ce_vm_upstream_auto_pull: yes
+####### Services/containers.
+# Each of these service supports its own configuration.
+# See service.$NAME.yml for each.
+services: 
+  - log
+  - dashboard
+  - fpm
+  - nginx
+  - mysql
+  - memcached
+  - cli
+  #- fpm
+  #- memcached
+  #- mkdocs
+  #- mysql
+  #- nginx
+  #- nodejs
+  #- redis
+  #- solr
+  #- haproxy
+  #- nightwatch
+  #- base
+  #- cli
 
+####### Common settings.
 
-# Composer token for github. You typically would not set it here,
-# but use ~/.CodeEnigma/ce-vm/ce-vm-custom/config.yml instead.
-composer_github_oauth_token: ''
-
-############# Provider settings.
-
-# Provider. Only virtualbox is currently supported.
-vagrant_provider: virtualbox
-
-####### VirtualBox specific settings.
-
-# Shared folder mode.
-# NFS offers better performance, but is not supported on Windows hosts.
-# In doubt, leave blank to use virtualbox, which offers poor performances,
-# but is less likely to fail.
-vbox_synced_folder_type: ''
-#vbox_synced_folder_type: nfs
-
-# Memory and CPU to use for the app VM.
-vbox_app_memory: 2048
-vbox_app_cpus: 1
-
-# Memory and CPU to use for the db VM.
-vbox_db_memory: 1024
-vbox_db_cpus: 1
-
+# This could be set at the 'service level', in service.fpm.yml or service.cli.yml.
+# Setting it here ensure fpm and cli use the same version.
+php_version: 7.1
