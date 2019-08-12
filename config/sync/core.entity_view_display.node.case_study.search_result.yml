@@ -17,6 +17,8 @@ dependencies:
     - field.field.node.case_study.field_thumbnail
     - field.field.node.case_study.field_type_of_user
     - field.field.node.case_study.field_vertical_tab
+    - field.field.node.case_study.field_video
+    - field.field.node.case_study.field_video_position
     - node.type.case_study
   module:
     - text
@@ -48,5 +50,7 @@ hidden:
   field_thumbnail: true
   field_type_of_user: true
   field_vertical_tab: true
+  field_video: true
+  field_video_position: true
   langcode: true
   links: true

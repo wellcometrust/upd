@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Disease type or population group'
 vid: disease
 description: ''
-hierarchy: 0
 weight: -9

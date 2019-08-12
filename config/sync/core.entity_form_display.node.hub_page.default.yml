@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.hub_page.field_tiled_content
     - node.type.hub_page
   module:
+    - content_moderation
     - field_group
     - paragraphs
     - path
@@ -280,6 +281,12 @@ content:
     region: content
     settings:
       include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    settings: {  }
+    region: content
     third_party_settings: {  }
   path:
     type: path

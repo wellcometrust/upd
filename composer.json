@@ -82,7 +82,7 @@
     "colorbox/colorbox.js": "1.6.4",
     "drupal-composer/drupal-scaffold": "2.*",
     "drupal/config_ignore": "2.x",
-    "drupal/core": "8.6.*",
+    "drupal/core": "8.7.*",
     "drupal/ctools": "3.*",
     "drupal/facets": "1.*",
     "drupal/jquery_colorpicker": "1.*",
@@ -118,7 +118,8 @@
     "drupal/node_weight": "2.x-dev",
     "ckeditor/tabletoolstoolbar": "^0.0.1",
     "drupal/ckeditor_tabletoolstoolbar": "^1.0",
-    "drupal/dropguard": "^1.2"
+    "drupal/dropguard": "^1.2",
+    "drupal/scheduled_publish": "^3.1"
   },
   "require-dev": {
     "geerlingguy/drupal-vm": "4.*"

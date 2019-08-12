@@ -1,0 +1,19 @@
+uuid: 3e87bcf4-60b7-4887-8d8c-31eb64609c16
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - scheduled_publish
+id: node.field_scheduled_publish
+field_name: field_scheduled_publish
+entity_type: node
+type: scheduled_publish
+settings: {  }
+module: scheduled_publish
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

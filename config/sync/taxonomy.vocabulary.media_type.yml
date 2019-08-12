@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Media type'
 vid: media_type
 description: ''
-hierarchy: 0
 weight: 0
