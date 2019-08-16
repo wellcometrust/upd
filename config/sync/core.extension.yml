@@ -20,6 +20,7 @@ module:
   ctools_views: 0
   datetime: 0
   dblog: 0
+  dropguard: 0
   dropzonejs: 0
   dropzonejs_eb_widget: 0
   dynamic_page_cache: 0
