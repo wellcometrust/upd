@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.art.body
     - field.field.node.art.field_list_text
+    - field.field.node.art.field_metatags
     - field.field.node.art.field_news_category
     - field.field.node.art.field_publish_date
     - field.field.node.art.field_related_news
@@ -12,6 +13,7 @@ dependencies:
     - node.type.art
   module:
     - datetime
+    - metatag
     - text
     - user
 id: node.art.default
@@ -25,6 +27,18 @@ content:
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
+  content_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_metatags:
+    weight: 5
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_news_category:
     weight: 4

@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.basic_page.body
     - field.field.node.basic_page.field_content_area
     - field.field.node.basic_page.field_list_text
+    - field.field.node.basic_page.field_metatags
     - field.field.node.basic_page.field_pdf
     - field.field.node.basic_page.field_sections
     - field.field.node.basic_page.field_side_menu
@@ -14,6 +15,7 @@ dependencies:
   module:
     - entity_reference_revisions
     - file
+    - metatag
     - text
     - user
 id: node.basic_page.default
@@ -28,6 +30,11 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
+  content_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   field_content_area:
     weight: 7
     label: above
@@ -36,6 +43,13 @@ content:
       link: ''
     third_party_settings: {  }
     type: entity_reference_revisions_entity_view
+    region: content
+  field_metatags:
+    weight: 8
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_pdf:
     weight: 2
