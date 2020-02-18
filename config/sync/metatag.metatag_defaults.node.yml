@@ -7,5 +7,6 @@ _core:
 id: node
 label: Content
 tags:
-  title: '[node:title] | [site:name]'
   description: '[node:summary]'
+  title: '[node:title] | [site:name]'
+  twitter_cards_type: summary_large_image

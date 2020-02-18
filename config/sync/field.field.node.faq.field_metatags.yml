@@ -1,0 +1,21 @@
+uuid: ab604df2-bc6f-4ef6-bcbc-e0b277b67e67
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_metatags
+    - node.type.faq
+  module:
+    - metatag
+id: node.faq.field_metatags
+field_name: field_metatags
+entity_type: node
+bundle: faq
+label: Metatags
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: metatag
