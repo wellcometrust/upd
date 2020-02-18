@@ -7,12 +7,14 @@ dependencies:
     - field.field.node.highlight_page.field_content_area
     - field.field.node.highlight_page.field_footer_area
     - field.field.node.highlight_page.field_hero_area
+    - field.field.node.highlight_page.field_metatags
     - field.field.node.highlight_page.field_sections
     - field.field.node.highlight_page.field_standfirst
     - node.type.highlight_page
   module:
     - content_moderation
     - field_group
+    - metatag
     - paragraphs
     - path
     - text
@@ -56,6 +58,7 @@ third_party_settings:
         - promote
         - sticky
         - path
+        - field_metatags
         - status
       parent_name: group_content
       weight: 19
@@ -150,6 +153,7 @@ content:
       features:
         duplicate: duplicate
         collapse_edit_all: collapse_edit_all
+      closed_mode_threshold: 0
     third_party_settings: {  }
     type: paragraphs
     region: content
@@ -169,6 +173,7 @@ content:
         duplicate: duplicate
         collapse_edit_all: collapse_edit_all
         add_above: '0'
+      closed_mode_threshold: 0
     third_party_settings: {  }
     region: content
   field_hero_area:
@@ -186,9 +191,16 @@ content:
         duplicate: duplicate
         collapse_edit_all: collapse_edit_all
         add_above: '0'
+      closed_mode_threshold: 0
     third_party_settings: {  }
     type: paragraphs
     region: content
+  field_metatags:
+    type: metatag_firehose
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_sections:
     weight: 29
     settings:
@@ -204,6 +216,7 @@ content:
         duplicate: duplicate
         collapse_edit_all: collapse_edit_all
         add_above: '0'
+      closed_mode_threshold: 0
     third_party_settings: {  }
     type: paragraphs
     region: content
@@ -230,7 +243,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 8
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -252,7 +265,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 6
     region: content
     third_party_settings: {  }
   title:
