@@ -7,15 +7,16 @@ _core:
 id: global
 label: Global
 tags:
-  abstract: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
-  description: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
-  image_src: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
   keywords: 'Patient data,Health information,Opt-out,Data sharing,New digital technologies,Data Guardian,Anonymisation,Data protection,Privacy,Confidentiality'
+  image_src: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
   title: '[current-page:title] | [site:name]'
-  og_description: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
+  description: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
+  abstract: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
   og_image: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
   og_site_name: 'Understanding Patient Data'
-  twitter_cards_description: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
-  twitter_cards_image: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
+  og_description: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
+  twitter_cards_title: '[current-page:title]'
   twitter_cards_site: '@Patient_Data'
+  twitter_cards_image: 'https://understandingpatientdata.org.uk/themes/upd/assets/images/upd_share_image.jpg'
+  twitter_cards_description: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
   twitter_cards_type: summary

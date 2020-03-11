@@ -7,6 +7,8 @@ _core:
 id: node
 label: Content
 tags:
-  description: '[node:summary]'
   title: '[node:title] | [site:name]'
+  description: '[node:summary]'
+  twitter_cards_title: '[node:title]'
+  twitter_cards_description: 'Understanding Patient Data supports conversations with the public, patients and healthcare professionals about the uses of health information for care and research.'
   twitter_cards_type: summary_large_image
