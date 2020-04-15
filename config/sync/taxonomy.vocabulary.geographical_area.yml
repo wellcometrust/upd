@@ -5,5 +5,4 @@ dependencies: {  }
 name: Location
 vid: geographical_area
 description: ''
-hierarchy: 0
 weight: 0

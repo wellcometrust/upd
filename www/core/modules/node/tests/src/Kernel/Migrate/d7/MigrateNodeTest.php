@@ -24,9 +24,6 @@ class MigrateNodeTest extends MigrateDrupal7TestBase {
     'content_translation',
     'comment',
     'datetime',
-    'file',
-    'filter',
-    'forum',
     'image',
     'language',
     'link',
@@ -47,27 +44,18 @@ class MigrateNodeTest extends MigrateDrupal7TestBase {
 
     $this->fileMigrationSetup();
 
-    $this->installEntitySchema('node');
     $this->installEntitySchema('comment');
     $this->installEntitySchema('taxonomy_term');
-    $this->installConfig(static::$modules);
     $this->installSchema('comment', ['comment_entity_statistics']);
-    $this->installSchema('forum', ['forum', 'forum_index']);
     $this->installSchema('node', ['node_access']);
-    $this->installSchema('system', ['sequences']);
 
+    $this->migrateUsers();
+    $this->migrateFields();
     $this->executeMigrations([
       'language',
-      'd7_user_role',
-      'd7_user',
-      'd7_node_type',
       'd7_language_content_settings',
-      'd7_comment_type',
       'd7_comment_field',
       'd7_comment_field_instance',
-      'd7_taxonomy_vocabulary',
-      'd7_field',
-      'd7_field_instance',
       'd7_node',
       'd7_node_translation',
       'd7_entity_translation_settings',
@@ -161,6 +149,9 @@ class MigrateNodeTest extends MigrateDrupal7TestBase {
     $node = Node::load(1);
     $this->assertTrue($node->field_boolean->value);
     $this->assertEquals('99-99-99-99', $node->field_phone->value);
+    $this->assertSame('2015-01-20T04:15:00', $node->field_date->value);
+    $this->assertSame('2015-01-20', $node->field_date_without_time->value);
+    $this->assertSame('2015-01-20', $node->field_datetime_without_time->value);
     $this->assertEquals('1', $node->field_float->value);
     $this->assertEquals('5', $node->field_integer->value);
     $this->assertEquals('Some more text', $node->field_text_list[0]->value);

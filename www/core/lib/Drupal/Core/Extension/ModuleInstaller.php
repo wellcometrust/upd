@@ -81,9 +81,14 @@ class ModuleInstaller implements ModuleInstallerInterface {
    */
   public function install(array $module_list, $enable_dependencies = TRUE) {
     $extension_config = \Drupal::configFactory()->getEditable('core.extension');
+    // Get all module data so we can find dependencies and sort.
+    $module_data = system_rebuild_module_data();
+    foreach ($module_list as $module) {
+      if (!empty($module_data[$module]->info['core_incompatible'])) {
+        throw new MissingDependencyException("Unable to install modules: module '$module' is incompatible with this version of Drupal core.");
+      }
+    }
     if ($enable_dependencies) {
-      // Get all module data so we can find dependencies and sort.
-      $module_data = system_rebuild_module_data();
       $module_list = $module_list ? array_combine($module_list, $module_list) : [];
       if ($missing_modules = array_diff_key($module_list, $module_data)) {
         // One or more of the given modules doesn't exist.
@@ -108,6 +113,9 @@ class ModuleInstaller implements ModuleInstallerInterface {
 
           // Skip already installed modules.
           if (!isset($module_list[$dependency]) && !isset($installed_modules[$dependency])) {
+            if ($module_data[$dependency]->info['core_incompatible']) {
+              throw new MissingDependencyException("Unable to install modules: module '$module'. Its dependency module '$dependency' is incompatible with this version of Drupal core.");
+            }
             $module_list[$dependency] = $dependency;
           }
         }
@@ -391,10 +399,11 @@ class ModuleInstaller implements ModuleInstallerInterface {
       // provided by the module that is being uninstalled.
       // @todo Clean this up in https://www.drupal.org/node/2350111.
       $entity_manager = \Drupal::entityManager();
+      $entity_type_bundle_info = \Drupal::service('entity_type.bundle.info');
       foreach ($entity_manager->getDefinitions() as $entity_type_id => $entity_type) {
         if ($entity_type->getProvider() == $module) {
-          foreach (array_keys($entity_manager->getBundleInfo($entity_type_id)) as $bundle) {
-            $entity_manager->onBundleDelete($bundle, $entity_type_id);
+          foreach (array_keys($entity_type_bundle_info->getBundleInfo($entity_type_id)) as $bundle) {
+            \Drupal::service('entity_bundle.listener')->onBundleDelete($bundle, $entity_type_id);
           }
         }
       }

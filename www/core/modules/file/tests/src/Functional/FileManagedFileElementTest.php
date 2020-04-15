@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\file\Functional;
 
+use Drupal\file\Entity\File;
+
 /**
  * Tests the 'managed_file' element type.
  *
@@ -152,6 +154,21 @@ class FileManagedFileElementTest extends FileFieldTestBase {
   }
 
   /**
+   * Tests file names have leading . removed.
+   */
+  public function testFileNameTrim() {
+    file_put_contents('public://.leading-period.txt', $this->randomString(32));
+    $last_fid_prior = $this->getLastFileId();
+    $this->drupalPostForm('file/test/0/0/0', [
+      'files[file]' => \Drupal::service('file_system')->realpath('public://.leading-period.txt'),
+    ], t('Save'));
+    $next_fid = $this->getLastFileId();
+    $this->assertGreaterThan($last_fid_prior, $next_fid);
+    $file = File::load($next_fid);
+    $this->assertEquals('leading-period.txt', $file->getFilename());
+  }
+
+  /**
    * Ensure a file entity can be saved when the file does not exist on disk.
    */
   public function testFileRemovedFromDisk() {
@@ -168,7 +185,7 @@ class FileManagedFileElementTest extends FileFieldTestBase {
     $file = $this->container->get('entity_type.manager')->getStorage('file')->load($fid);
     $file->setPermanent();
     $file->save();
-    $this->assertTrue(file_unmanaged_delete($file->getFileUri()));
+    $this->assertTrue(\Drupal::service('file_system')->delete($file->getFileUri()));
     $file->save();
     $this->assertTrue($file->isPermanent());
     $file->delete();

@@ -48,7 +48,7 @@ class WorkspaceListBuilder extends EntityListBuilder {
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static(
       $entity_type,
-      $container->get('entity.manager')->getStorage($entity_type->id()),
+      $container->get('entity_type.manager')->getStorage($entity_type->id()),
       $container->get('workspaces.manager')
     );
   }
@@ -208,7 +208,7 @@ class WorkspaceListBuilder extends EntityListBuilder {
     $rows = array_slice($build['table']['#rows'], 0, 5, TRUE);
     foreach ($rows as $id => $row) {
       if ($active_workspace->id() !== $id) {
-        $url = Url::fromRoute('entity.workspace.activate_form', ['workspace' => $id]);
+        $url = Url::fromRoute('entity.workspace.activate_form', ['workspace' => $id], ['query' => $this->getDestinationArray()]);
         $default_class = $id === WorkspaceInterface::DEFAULT_WORKSPACE ? 'workspaces__item--default' : 'workspaces__item--not-default';
         $items[] = [
           '#type' => 'link',

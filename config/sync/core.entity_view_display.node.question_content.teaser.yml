@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.question_content.body
     - field.field.node.question_content.field_faq_category
+    - field.field.node.question_content.field_node_weight
     - node.type.question_content
   module:
     - text
@@ -28,4 +29,5 @@ content:
     region: content
 hidden:
   field_faq_category: true
+  field_node_weight: true
   langcode: true

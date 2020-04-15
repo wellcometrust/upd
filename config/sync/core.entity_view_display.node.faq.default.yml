@@ -5,12 +5,14 @@ dependencies:
   config:
     - field.field.node.faq.field_faq_dropdown
     - field.field.node.faq.field_list_text
+    - field.field.node.faq.field_metatags
     - field.field.node.faq.field_pdf
     - field.field.node.faq.field_standfirst
     - node.type.faq
   module:
     - entity_reference_revisions
     - file
+    - metatag
     - user
 id: node.faq.default
 targetEntityType: node
@@ -32,6 +34,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_metatags:
+    weight: 106
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_pdf:
     weight: 105

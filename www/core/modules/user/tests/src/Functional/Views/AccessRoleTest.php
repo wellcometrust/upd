@@ -3,7 +3,7 @@
 namespace Drupal\Tests\user\Functional\Views;
 
 use Drupal\Core\Cache\Cache;
-use Drupal\system\Tests\Cache\AssertPageCacheContextsAndTagsTrait;
+use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
 use Drupal\user\Plugin\views\access\Role;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\Views;
@@ -50,8 +50,8 @@ class AccessRoleTest extends AccessTestBase {
     $this->assertTrue($access_plugin instanceof Role, 'Make sure the right class got instantiated.');
 
     // Test the access() method on the access plugin.
-    $this->assertFalse($executable->display_handler->access($this->webUser));
-    $this->assertTrue($executable->display_handler->access($this->normalUser));
+    $this->assertSame(FALSE, $executable->display_handler->access($this->webUser));
+    $this->assertSame(TRUE, $executable->display_handler->access($this->normalUser));
 
     $this->drupalLogin($this->webUser);
     $this->drupalGet('test-role');

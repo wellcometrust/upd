@@ -58,8 +58,7 @@ function update_check_incompatibility($name, $type = 'module') {
     $file = $themes[$name];
   }
   if (!isset($file)
-      || !isset($file->info['core'])
-      || $file->info['core'] != \Drupal::CORE_COMPATIBILITY
+      || $file->info['core_incompatible']
       || version_compare(phpversion(), $file->info['php']) < 0) {
     return TRUE;
   }
@@ -117,10 +116,11 @@ function update_check_requirements() {
  */
 function update_set_schema($module, $schema_version) {
   \Drupal::keyValue('system.schema')->set($module, $schema_version);
-  // system_list_reset() is in module.inc but that would only be available
-  // once the variable bootstrap is done.
-  require_once __DIR__ . '/module.inc';
-  system_list_reset();
+  \Drupal::service('extension.list.profile')->reset();
+  \Drupal::service('extension.list.module')->reset();
+  \Drupal::service('extension.list.theme_engine')->reset();
+  \Drupal::service('extension.list.theme')->reset();
+  drupal_static_reset('drupal_get_installed_schema_version');
 }
 
 /**

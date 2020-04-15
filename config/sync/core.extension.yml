@@ -20,6 +20,7 @@ module:
   ctools_views: 0
   datetime: 0
   dblog: 0
+  dropguard: 0
   dropzonejs: 0
   dropzonejs_eb_widget: 0
   dynamic_page_cache: 0
@@ -71,6 +72,7 @@ module:
   path: 0
   pdfpreview: 0
   responsive_image: 0
+  scheduled_publish: 0
   search_api: 0
   search_api_db: 0
   search_api_solr: 0
