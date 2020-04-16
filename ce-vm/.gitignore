@@ -1,5 +1,4 @@
 .vagrant
-.local.config.yml
-.local.ansible
+local
 var/*
 !var/.gitkeep

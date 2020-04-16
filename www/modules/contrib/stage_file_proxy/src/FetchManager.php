@@ -6,7 +6,8 @@ use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\StreamWrapper\PublicStream;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Fetch manager.
@@ -28,11 +29,19 @@ class FetchManager implements FetchManagerInterface {
   protected $fileSystem;
 
   /**
+   * The logger.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(Client $client, FileSystemInterface $file_system) {
+  public function __construct(Client $client, FileSystemInterface $file_system, LoggerInterface $logger) {
     $this->client = $client;
     $this->fileSystem = $file_system;
+    $this->logger = $logger;
   }
 
   /**
@@ -47,7 +56,7 @@ class FetchManager implements FetchManagerInterface {
 
       $result = $response->getStatusCode();
       if ($result != 200) {
-        \Drupal::logger('stage_file_proxy')->error('HTTP error @errorcode occurred when trying to fetch @remote.', [
+        $this->logger->warning('HTTP error @errorcode occurred when trying to fetch @remote.', [
           '@errorcode' => $result,
           '@remote' => $url,
         ]);
@@ -57,8 +66,8 @@ class FetchManager implements FetchManagerInterface {
       // Prepare local target directory and save downloaded file.
       $file_dir = $this->filePublicPath();
       $destination = $file_dir . '/' . dirname($relative_path);
-      if (!file_prepare_directory($destination, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
-        \Drupal::logger('stage_file_proxy')->error('Unable to prepare local directory @path.', ['@path' => $destination]);
+      if (!$this->fileSystem->prepareDirectory($destination, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
+        $this->logger->error('Unable to prepare local directory @path.', ['@path' => $destination]);
         return FALSE;
       }
 
@@ -68,7 +77,7 @@ class FetchManager implements FetchManagerInterface {
       $content_length = array_shift($response_headers['Content-Length']);
       $response_data = $response->getBody()->getContents();
       if (isset($content_length) && strlen($response_data) != $content_length) {
-        \Drupal::logger('stage_file_proxy')->error('Incomplete download. Was expecting @content-length bytes, actually got @data-length.', [
+        $this->logger->error('Incomplete download. Was expecting @content-length bytes, actually got @data-length.', [
           '@content-length' => $content_length,
           '@data-length' => $content_length,
         ]);
@@ -78,12 +87,13 @@ class FetchManager implements FetchManagerInterface {
       if ($this->writeFile($destination, $response_data)) {
         return TRUE;
       }
-      \Drupal::logger('stage_file_proxy')->error('@remote could not be saved to @path.', ['@remote' => $url, '@path' => $destination]);
+      $this->logger->error('@remote could not be saved to @path.', ['@remote' => $url, '@path' => $destination]);
       return FALSE;
     }
-    catch (ClientException $e) {
+    catch (GuzzleException $e) {
       // Do nothing.
     }
+    $this->logger->error('Stage File Proxy encountered an unknown error by retrieving file @file', ['@file' => $server . '/' . UrlHelper::encodePath($remote_file_dir . '/' . $relative_path)]);
     return FALSE;
   }
 
@@ -165,7 +175,7 @@ class FetchManager implements FetchManagerInterface {
     }
 
     // Save to temporary filename in the destination directory.
-    $filepath = file_unmanaged_save_data($data, $temporary_file, FILE_EXISTS_REPLACE);
+    $filepath = $this->fileSystem->saveData($data, $temporary_file, FileSystemInterface::EXISTS_REPLACE);
 
     // Perform the rename operation if the write succeeded.
     if ($filepath) {

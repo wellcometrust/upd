@@ -1,0 +1,35 @@
+---
+
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure Drupal "files" permissions
+      file:
+        path: '/vagrant/www/sites/default/files'
+        state: directory
+        recurse: yes
+        owner: www-data
+        group: www-data
+        mode: 0777
+
+    - name: Enable stage file proxy
+      shell: drush en -y stage_file_proxy
+      args:
+        chdir: /vagrant/www/sites/default
+      become: yes
+      become_user: vagrant
+
+    - name: Set Origin for stage file proxy
+      shell: drush config-set stage_file_proxy.settings origin https://understandingpatientdata.org.uk -y
+      args:
+        chdir: /vagrant/www/sites/default
+      become: yes
+      become_user: vagrant
+
+    - name: Clear caches
+      shell: drush cr
+      args:
+        chdir: /vagrant/www/sites/default
+      become: yes
+      become_user: vagrant
