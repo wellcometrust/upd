@@ -19,3 +19,17 @@
         chdir: /vagrant/www/sites/default
       become: yes
       become_user: vagrant
+
+    - name: Set Origin for stage file proxy
+      shell: drush config-set stage_file_proxy.settings origin https://understandingpatientdata.org.uk -y
+      args:
+        chdir: /vagrant/www/sites/default
+      become: yes
+      become_user: vagrant
+
+    - name: Clear caches
+      shell: drush cr
+      args:
+        chdir: /vagrant/www/sites/default
+      become: yes
+      become_user: vagrant
