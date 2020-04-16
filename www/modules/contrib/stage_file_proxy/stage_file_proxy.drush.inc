@@ -5,7 +5,6 @@
  * Contains drush commands.
  */
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Database\Database;
 use GuzzleHttp\Exception\ClientException;
@@ -26,10 +25,12 @@ function stage_file_proxy_drush_command() {
  */
 function drush_stage_file_proxy_dl() {
   $server = Drupal::config('stage_file_proxy.settings')->get('origin');
+  $options = [
+    'verify' => \Drupal::config('stage_file_proxy.settings')->get('verify'),
+  ];
   if (empty($server)) {
-    drupal_set_message(
-      dt('Configure stage_file_proxy.settings.origin in your settings.php (see INSTALL.txt).'),
-      'error'
+    \Drupal::messenger()->addError(
+      dt('Configure stage_file_proxy.settings.origin in your settings.php (see INSTALL.txt).')
     );
 
     return;
@@ -60,14 +61,14 @@ function drush_stage_file_proxy_dl() {
       continue;
     }
 
-    $relative_path = Unicode::substr($uri, Unicode::strlen('public://'));
+    $relative_path = mb_substr($uri, mb_strlen('public://'));
 
     if (file_exists(DRUPAL_ROOT . '/' . $file_dir . '/' . $relative_path)) {
       continue;
     }
 
     try {
-      if ($fetch_manager->fetch($server, $remote_file_dir, $relative_path)) {
+      if ($fetch_manager->fetch($server, $remote_file_dir, $relative_path, $options)) {
         $got_files_number++;
       }
       else {
@@ -84,7 +85,7 @@ function drush_stage_file_proxy_dl() {
     }
   }
 
-  drupal_set_message(
+  \Drupal::messenger()->addMessage(
     $translation->translate(
       '@got_files_number downladed files.',
       ['@got_files_number' => $got_files_number]
@@ -92,24 +93,22 @@ function drush_stage_file_proxy_dl() {
   );
 
   if ($error_files_number) {
-    drupal_set_message(
+    \Drupal::messenger()->addError(
       $translation->formatPlural(
         $error_files_number,
         '@count file having an error, see log.',
         '@count files having an error, see log.'
-      ),
-      'error'
+      )
     );
   }
 
   if ($not_public_files_number) {
-    drupal_set_message(
+    \Drupal::messenger()->addError(
       $translation->formatPlural(
         $not_public_files_number,
         '@count file not in public directory.',
         '@count files not in public directory.'
-      ),
-      'error'
+      )
     );
   }
 }
