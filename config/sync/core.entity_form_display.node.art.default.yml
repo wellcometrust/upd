@@ -11,7 +11,6 @@ dependencies:
     - field.field.node.art.field_related_news
     - field.field.node.art.field_scheduled_publish
     - node.type.art
-    - workflows.workflow.draft_publish_archive
   module:
     - content_moderation
     - datetime
@@ -93,6 +92,7 @@ content:
       rows: 9
       summary_rows: 3
       placeholder: ''
+      show_summary: false
     third_party_settings: {  }
     region: content
   created:
@@ -123,6 +123,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
   field_publish_date:
     weight: 3
@@ -136,6 +137,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
@@ -200,6 +202,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
     region: content
 hidden: {  }
