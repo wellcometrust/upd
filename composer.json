@@ -119,7 +119,8 @@
     "ckeditor/tabletoolstoolbar": "^0.0.1",
     "drupal/ckeditor_tabletoolstoolbar": "^1.0",
     "drupal/dropguard": "^1.2",
-    "drupal/scheduled_publish": "^3.1"
+    "drupal/scheduled_publish": "^3.1",
+    "drupal/redirect": "^1.5"
   },
   "require-dev": {
     "geerlingguy/drupal-vm": "4.*"
