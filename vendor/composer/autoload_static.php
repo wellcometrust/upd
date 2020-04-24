@@ -156,10 +156,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Composer\\Semver\\' => 16,
             'Composer\\Installers\\' => 20,
         ),
-        'B' => 
-        array (
-            'Brumann\\Polyfill\\' => 17,
-        ),
         'A' => 
         array (
             'Asm89\\Stack\\' => 12,
@@ -498,10 +494,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
-        ),
-        'Brumann\\Polyfill\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src',
         ),
         'Asm89\\Stack\\' => 
         array (
