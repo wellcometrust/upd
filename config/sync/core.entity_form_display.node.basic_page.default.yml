@@ -12,7 +12,6 @@ dependencies:
     - field.field.node.basic_page.field_side_menu
     - field.field.node.basic_page.field_standfirst
     - node.type.basic_page
-    - workflows.workflow.draft_publish_archive
   module:
     - content_moderation
     - field_group
@@ -126,6 +125,7 @@ content:
       rows: 9
       summary_rows: 3
       placeholder: ''
+      show_summary: false
     third_party_settings: {  }
     region: content
   created:
@@ -249,6 +249,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
     region: content
 hidden: {  }
