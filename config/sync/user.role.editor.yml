@@ -20,6 +20,7 @@ permissions:
   - 'access video_browser entity browser pages'
   - 'administer node weight'
   - 'administer nodes'
+  - 'administer redirects'
   - 'administer taxonomy'
   - 'administer url aliases'
   - 'administer users'

@@ -2549,7 +2549,7 @@
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/devel.git",
-            "reference": "c158263fe05688202f657c970c787df1e1c99a26"
+            "reference": "e676489f627c8754bfcebbab513eaea8855de832"
         },
         "require": {
             "drupal/core": "~8.0",
@@ -2561,8 +2561,8 @@
                 "dev-2.x": "2.x-dev"
             },
             "drupal": {
-                "version": "8.x-2.0+3-dev",
-                "datestamp": "1550441885",
+                "version": "8.x-2.1+13-dev",
+                "datestamp": "1583855700",
                 "security-coverage": {
                     "status": "not-covered",
                     "message": "Dev releases are not covered by Drupal security advisories."
@@ -2605,6 +2605,10 @@
             {
                 "name": "See contributors",
                 "homepage": "https://www.drupal.org/node/3236/committers"
+            },
+            {
+                "name": "pcambra",
+                "homepage": "https://www.drupal.org/user/122101"
             },
             {
                 "name": "salvis",
@@ -4462,6 +4466,63 @@
         "homepage": "https://www.drupal.org/project/pdfpreview",
         "support": {
             "source": "http://cgit.drupalcode.org/pdfpreview"
+        }
+    },
+    {
+        "name": "drupal/redirect",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/redirect.git",
+            "reference": "8.x-1.5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/redirect-8.x-1.5.zip",
+            "reference": "8.x-1.5",
+            "shasum": "7940acfb28bd802235d159f1c7a9a58e89dd3d15"
+        },
+        "require": {
+            "drupal/core": "^8.7.7 || ^9"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.5",
+                "datestamp": "1576656784",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Berdir",
+                "homepage": "https://www.drupal.org/user/214652"
+            },
+            {
+                "name": "Dave Reid",
+                "homepage": "https://www.drupal.org/user/53892"
+            },
+            {
+                "name": "pifagor",
+                "homepage": "https://www.drupal.org/user/2375692"
+            }
+        ],
+        "description": "Allows users to redirect from old URLs to new URLs.",
+        "homepage": "https://www.drupal.org/project/redirect",
+        "support": {
+            "source": "https://git.drupalcode.org/project/redirect"
         }
     },
     {
