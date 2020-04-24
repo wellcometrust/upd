@@ -11,6 +11,5 @@ is_admin: false
 permissions:
   - 'access content'
   - 'access mailchimp signup pages'
-  - 'access site-wide contact form'
   - 'access user profiles'
   - 'view media'

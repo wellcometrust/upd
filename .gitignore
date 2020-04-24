@@ -20,3 +20,4 @@ config/sync/webprofiler.*
 www/modules/contrib/devel/*
 mariadb-init/*
 .docker-sync
+*.code-workspace
