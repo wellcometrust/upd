@@ -23,6 +23,11 @@ class AdminToolbarAlterTest extends BrowserTestBase {
   ];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * A test user with permission to access the administrative toolbar.
    *
    * @var \Drupal\user\UserInterface
@@ -48,7 +53,7 @@ class AdminToolbarAlterTest extends BrowserTestBase {
    */
   public function testAdminToolbar() {
     // Assert that expanded links are present in the HTML.
-    $this->assertRaw('class="toolbar-icon toolbar-icon-user-admin-index"');
+    $this->assertSession()->responseContains('class="toolbar-icon toolbar-icon-user-admin-index"');
   }
 
 }
