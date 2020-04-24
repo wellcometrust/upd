@@ -7,6 +7,11 @@ use Drupal\search_api\Entity\Server;
 use Drupal\search_api_solr_test\Logger\InMemoryLogger;
 use Drupal\Tests\search_api\Kernel\BackendTestBase;
 use Drupal\search_api_solr\Utility\SolrCommitTrait;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+
+defined('TRAVIS_BUILD_DIR') || define('TRAVIS_BUILD_DIR', getenv('TRAVIS_BUILD_DIR') ?: '.');
+defined('SOLR_CLOUD') || define('SOLR_CLOUD', getenv('SOLR_CLOUD') ?: 'false');
 
 /**
  * Tests location searches and distance facets using the Solr search backend.
@@ -23,7 +28,10 @@ abstract class SolrBackendTestBase extends BackendTestBase {
    * @var string[]
    */
   public static $modules = [
+    'devel',
     'search_api_solr',
+    'search_api_solr_devel',
+    'search_api_solr_test',
   ];
 
   /**
@@ -41,14 +49,26 @@ abstract class SolrBackendTestBase extends BackendTestBase {
   protected $indexId = 'solr_search_index';
 
   /**
-   * @var \Drupal\search_api_solr_test\Logger\InMemoryLogger
+   * The in-memory logger.
+   *
+   * @var \Psr\Log\LoggerInterface
    */
   protected $logger;
+
+  /**
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $travisLogger;
 
   /**
    * {@inheritdoc}
    */
   public function setUp() {
+    if ('true' === SOLR_CLOUD) {
+      $this->serverId .= '_cloud';
+      $this->indexId .= '_cloud';
+    }
+
     parent::setUp();
 
     $this->installConfigs();
@@ -56,6 +76,10 @@ abstract class SolrBackendTestBase extends BackendTestBase {
 
     $this->logger = new InMemoryLogger();
     \Drupal::service('logger.factory')->addLogger($this->logger);
+
+    $this->travisLogger = new Logger('search_api_solr');
+    $this->travisLogger->pushHandler(new StreamHandler(TRAVIS_BUILD_DIR . '/solr_query.log', Logger::DEBUG));
+    \Drupal::service('search_api_solr_devel.solarium_request_logger')->setLogger($this->travisLogger);
   }
 
   /**
@@ -63,7 +87,9 @@ abstract class SolrBackendTestBase extends BackendTestBase {
    */
   protected function installConfigs() {
     $this->installConfig([
+      'devel',
       'search_api_solr',
+      'search_api_solr_test',
     ]);
   }
 
@@ -81,7 +107,7 @@ abstract class SolrBackendTestBase extends BackendTestBase {
   }
 
   /**
-   *
+   * Tests the last logged level and message.
    */
   protected function assertLogMessage($level, $message) {
     $last_message = $this->logger->getLastMessage();
@@ -95,7 +121,7 @@ abstract class SolrBackendTestBase extends BackendTestBase {
   protected function indexItems($index_id) {
     $index_status = parent::indexItems($index_id);
     $index = Index::load($index_id);
-    $this->ensureCommit($index->getServerInstance());
+    $this->ensureCommit($index);
     return $index_status;
   }
 
@@ -105,7 +131,7 @@ abstract class SolrBackendTestBase extends BackendTestBase {
   protected function clearIndex() {
     $index = Index::load($this->indexId);
     $index->clear();
-    $this->ensureCommit($index->getServerInstance());
+    $this->ensureCommit($index);
   }
 
   /**
@@ -120,6 +146,7 @@ abstract class SolrBackendTestBase extends BackendTestBase {
    *   The query to be executed.
    *
    * @return \Drupal\search_api\Query\ResultSetInterface
+   *   The results of the search.
    */
   protected function executeQueryWithoutPostProcessing(QueryInterface $query) {
     /** @var \Drupal\search_api\IndexInterface $index */
@@ -135,7 +162,7 @@ abstract class SolrBackendTestBase extends BackendTestBase {
   protected function checkIndexWithoutFields() {
     $index = parent::checkIndexWithoutFields();
     $index->clear();
-    $this->ensureCommit($index->getServerInstance());
+    $this->ensureCommit($index);
   }
 
   /**
@@ -159,6 +186,8 @@ abstract class SolrBackendTestBase extends BackendTestBase {
   protected function checkModuleUninstall() {}
 
   /**
+   * Gets the Solr version.
+   *
    * @throws \Drupal\search_api\SearchApiException
    */
   protected function getSolrVersion() {
@@ -173,4 +202,5 @@ abstract class SolrBackendTestBase extends BackendTestBase {
 
     return $solr_version;
   }
+
 }

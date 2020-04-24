@@ -2,31 +2,36 @@ uuid: 2f1f0973-01b6-4420-8efa-16276af3ca00
 langcode: en
 status: true
 dependencies:
+  module:
+    - search_api_solr
+    - paragraphs
+    - taxonomy
+    - node
+    - search_api
   config:
     - field.storage.node.body
     - field.storage.node.field_disease_type
-    - field.storage.node.field_content_area
-    - field.storage.paragraph.field_link
+    - field.storage.node.field_geographical_area
     - field.storage.node.field_has_media
     - field.storage.node.field_impact_of_work
     - field.storage.node.field_key_words
-    - field.storage.node.field_geographical_area
-    - field.storage.paragraph.field_body
-    - field.storage.paragraph.field_call_to_action
-    - field.storage.paragraph.field_dos_and_donts
-    - field.storage.paragraph.field_referenced_links
-    - field.storage.paragraph.field_title
     - field.storage.node.field_sources_of_data
     - field.storage.node.field_standfirst
+    - field.storage.node.field_content_area
+    - field.storage.paragraph.field_referenced_links
+    - field.storage.paragraph.field_title
     - field.storage.node.field_type_of_user
+    - field.storage.paragraph.field_body
+    - field.storage.paragraph.field_dos_and_donts
+    - field.storage.paragraph.field_call_to_action
+    - field.storage.paragraph.field_link
     - search_api.server.local_solr
     - core.entity_view_mode.node.full
-  module:
-    - node
-    - taxonomy
-    - paragraphs
-    - search_api
-    - search_api_solr
+third_party_settings:
+  search_api_solr:
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: true
 id: main_solr
 name: 'Main solr'
 description: ''
@@ -116,7 +121,6 @@ field_settings:
         - field.storage.paragraph.field_title
       module:
         - paragraphs
-        - paragraphs
   field_type_of_user:
     label: 'Type of organisation using the data'
     datasource_id: 'entity:node'
@@ -135,7 +139,6 @@ field_settings:
         - field.storage.node.field_impact_of_work
       module:
         - taxonomy
-        - taxonomy
   name_1:
     label: 'Disease type or population group » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -145,7 +148,6 @@ field_settings:
       config:
         - field.storage.node.field_disease_type
       module:
-        - taxonomy
         - taxonomy
   name_10:
     label: 'Location » Taxonomy term » Name'
@@ -157,7 +159,6 @@ field_settings:
         - field.storage.node.field_geographical_area
       module:
         - taxonomy
-        - taxonomy
   name_11:
     label: 'Disease type or population group » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -167,7 +168,6 @@ field_settings:
       config:
         - field.storage.node.field_disease_type
       module:
-        - taxonomy
         - taxonomy
   name_12:
     label: 'Sources of data » Taxonomy term » Name'
@@ -179,7 +179,6 @@ field_settings:
         - field.storage.node.field_sources_of_data
       module:
         - taxonomy
-        - taxonomy
   name_13:
     label: 'Has Media » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -189,7 +188,6 @@ field_settings:
       config:
         - field.storage.node.field_has_media
       module:
-        - taxonomy
         - taxonomy
   name_14:
     label: 'Has Media » Taxonomy term » Name'
@@ -201,7 +199,6 @@ field_settings:
         - field.storage.node.field_has_media
       module:
         - taxonomy
-        - taxonomy
   name_2:
     label: 'Impact of work » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -211,7 +208,6 @@ field_settings:
       config:
         - field.storage.node.field_impact_of_work
       module:
-        - taxonomy
         - taxonomy
   name_3:
     label: 'Sources of data » Taxonomy term » Name'
@@ -223,7 +219,6 @@ field_settings:
         - field.storage.node.field_sources_of_data
       module:
         - taxonomy
-        - taxonomy
   name_4:
     label: 'Location » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -233,7 +228,6 @@ field_settings:
       config:
         - field.storage.node.field_geographical_area
       module:
-        - taxonomy
         - taxonomy
   name_5:
     label: 'Type of organisation » Taxonomy term » Name'
@@ -245,7 +239,6 @@ field_settings:
         - field.storage.node.field_type_of_user
       module:
         - taxonomy
-        - taxonomy
   name_6:
     label: 'Key words » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -255,7 +248,6 @@ field_settings:
       config:
         - field.storage.node.field_key_words
       module:
-        - taxonomy
         - taxonomy
   name_7:
     label: 'Impact of work » Taxonomy term » Name'
@@ -267,7 +259,6 @@ field_settings:
         - field.storage.node.field_impact_of_work
       module:
         - taxonomy
-        - taxonomy
   name_8:
     label: 'Type of organisation using the data » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -278,7 +269,6 @@ field_settings:
         - field.storage.node.field_type_of_user
       module:
         - taxonomy
-        - taxonomy
   name_9:
     label: 'Impact of work » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -288,7 +278,6 @@ field_settings:
       config:
         - field.storage.node.field_impact_of_work
       module:
-        - taxonomy
         - taxonomy
   nid:
     label: ID
@@ -391,10 +380,9 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_content_area
-        - field.storage.paragraph.field_referenced_links
         - field.storage.paragraph.field_link
+        - field.storage.paragraph.field_referenced_links
       module:
-        - paragraphs
         - paragraphs
   title_3:
     label: 'Footer area » Paragraph » Link » Link text'
@@ -434,23 +422,13 @@ datasource_settings:
       default: true
       selected: {  }
 processor_settings:
+  rendered_item: {  }
+  entity_status: {  }
   add_url: {  }
-  aggregated_field: {  }
   content_access:
     weights:
       preprocess_query: -30
-  entity_status: {  }
-  highlight:
-    highlight: always
-    highlight_partial: true
-    excerpt: true
-    excerpt_length: 256
-    exclude_fields:
-      - title
-    prefix: '<strong>'
-    suffix: '</strong>'
-    weights:
-      postprocess_query: 0
+  language_with_fallback: {  }
   html_filter:
     all_fields: true
     fields:
@@ -493,7 +471,18 @@ processor_settings:
     weights:
       preprocess_index: -15
       preprocess_query: -15
-  rendered_item: {  }
+  aggregated_field: {  }
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields:
+      - title
+    prefix: '<strong>'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
   solr_date_range: {  }
 tracker_settings:
   default:

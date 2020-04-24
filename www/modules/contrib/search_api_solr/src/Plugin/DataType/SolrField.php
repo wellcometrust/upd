@@ -16,10 +16,17 @@ use Drupal\search_api\Item\FieldInterface;
  *   id = "solr_field",
  *   label = @Translation("Solr field"),
  *   description = @Translation("Fields from a Solr document."),
- *   definition_class = "\Drupal\search_api_solr\SolrFieldDefinition"
+ *   definition_class = "\Drupal\search_api_solr\TypedData\SolrFieldDefinition"
  * )
  */
-class SolrField extends TypedData implements \IteratorAggregate, TypedDataInterface {
+class SolrField extends TypedData implements \IteratorAggregate {
+
+  /**
+   * Field name.
+   *
+   * @var string
+   */
+  protected static $solrField = 'solr_field';
 
   /**
    * The field value(s).
@@ -43,10 +50,9 @@ class SolrField extends TypedData implements \IteratorAggregate, TypedDataInterf
   public static function createFromField(FieldInterface $field, $name, TypedDataInterface $parent) {
     // Get the Solr field definition from the SolrFieldManager.
     /** @var \Drupal\search_api_solr\SolrFieldManagerInterface $field_manager */
-    $field_manager = \Drupal::getContainer()->get('solr_field.manager');
-    $server_id = $field->getIndex()->getServerInstance()->id();
+    $field_manager = \Drupal::getContainer()->get(static::$solrField . 'solr_field.manager');
     $field_id = $field->getPropertyPath();
-    $definition = $field_manager->getFieldDefinitions($server_id)[$field_id];
+    $definition = $field_manager->getFieldDefinitions($field->getIndex())[$field_id];
     $instance = new static($definition, $name, $parent);
     $instance->setValue($field->getValues());
     return $instance;
