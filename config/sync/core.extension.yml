@@ -71,7 +71,6 @@ module:
   paragraphs: 0
   path: 0
   pdfpreview: 0
-  redirect: 0
   responsive_image: 0
   scheduled_publish: 0
   search_api: 0
