@@ -70,6 +70,7 @@ module:
   panels: 0
   paragraphs: 0
   path: 0
+  path_alias: 0
   pdfpreview: 0
   responsive_image: 0
   scheduled_publish: 0

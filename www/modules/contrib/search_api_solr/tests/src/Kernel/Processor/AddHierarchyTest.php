@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\search_api_solr\Kernel\Processor;
 
+use Drupal\Tests\search_api\Kernel\Processor\AddHierarchyTest as SearchApiAddHierarchyTest;
+
 /**
  * Tests the "Hierarchy" processor.
  *
@@ -11,7 +13,7 @@ namespace Drupal\Tests\search_api_solr\Kernel\Processor;
  *
  * @coversDefaultClass \Drupal\search_api\Plugin\search_api\processor\AddHierarchy
  */
-class AddHierarchyTest extends \Drupal\Tests\search_api\Kernel\Processor\AddHierarchyTest {
+class AddHierarchyTest extends SearchApiAddHierarchyTest {
 
   use SolrBackendTrait;
 
@@ -19,7 +21,9 @@ class AddHierarchyTest extends \Drupal\Tests\search_api\Kernel\Processor\AddHier
    * {@inheritdoc}
    */
   public static $modules = [
+    'devel',
     'search_api_solr',
+    'search_api_solr_devel',
     'search_api_solr_test',
   ];
 
@@ -28,7 +32,10 @@ class AddHierarchyTest extends \Drupal\Tests\search_api\Kernel\Processor\AddHier
    */
   public function setUp($processor = NULL) {
     parent::setUp();
-    $this->enableSolrServer('search_api_solr_test', '/config/install/search_api.server.solr_search_server.yml');
+    $this->enableSolrServer();
   }
 
+  public function testRegression3059312() {
+    $this->markTestSkipped('This test makes no sense on Solr.');
+  }
 }
