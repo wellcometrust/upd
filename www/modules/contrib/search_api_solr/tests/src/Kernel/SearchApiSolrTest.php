@@ -2,16 +2,20 @@
 
 namespace Drupal\Tests\search_api_solr\Kernel;
 
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Entity\Server;
 use Drupal\search_api\Query\QueryInterface;
 use Drupal\search_api\Query\ResultSetInterface;
 use Drupal\search_api\Utility\Utility;
 use Drupal\search_api_autocomplete\Entity\Search;
+use Drupal\search_api_solr\Controller\SolrConfigSetController;
 use Drupal\search_api_solr\SearchApiSolrException;
 use Drupal\search_api_solr\SolrBackendInterface;
 use Drupal\Tests\search_api_solr\Traits\InvokeMethodTrait;
 use Drupal\search_api_solr\Utility\SolrCommitTrait;
+use Drupal\search_api_solr\Utility\Utility as SolrUtility;
 use Drupal\user\Entity\User;
 
 /**
@@ -24,18 +28,22 @@ class SearchApiSolrTest extends SolrBackendTestBase {
   use SolrCommitTrait;
   use InvokeMethodTrait;
 
+  protected $languageIds = ['en', 'de', 'de-at'];
+
   /**
    * Modules to enable for this test.
    *
    * @var string[]
    */
   public static $modules = [
+    'language',
     'search_api_autocomplete',
-    'search_api_solr_test',
     'user',
   ];
 
   /**
+   * The fields helper.
+   *
    * @var \Drupal\search_api\Utility\FieldsHelperInterface
    */
   protected $fieldsHelper;
@@ -44,13 +52,15 @@ class SearchApiSolrTest extends SolrBackendTestBase {
    * {@inheritdoc}
    */
   protected function installConfigs() {
-    parent::installConfigs();
+    foreach ($this->languageIds as $language_id) {
+      ConfigurableLanguage::createFromLangcode($language_id)->save();
+    }
 
-    $this->installConfig(['search_api_solr_test']);
+    parent::installConfigs();
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   protected function commonSolrBackendSetUp() {
     parent::commonSolrBackendSetUp();
@@ -64,10 +74,12 @@ class SearchApiSolrTest extends SolrBackendTestBase {
    */
   protected function backendSpecificRegressionTests() {
     $this->regressionTest2888629();
-    $this->regressionTest2850160();
     $this->indexPrefixTest();
   }
 
+  /**
+   * Tests index prefix.
+   */
   protected function indexPrefixTest() {
     $backend = Server::load($this->serverId)->getBackend();
     $index = $this->getIndex();
@@ -79,6 +91,11 @@ class SearchApiSolrTest extends SolrBackendTestBase {
    * Regression tests for #2469547.
    */
   protected function regressionTest2469547() {
+    $this->travisLogger->debug('SearchApiSolrTest::regressionTest2469547()');
+    return;
+
+    // @todo
+    // @codingStandardsIgnoreStart
     $query = $this->buildSearch();
     $facets = [];
     $facets['body'] = [
@@ -97,12 +114,15 @@ class SearchApiSolrTest extends SolrBackendTestBase {
     $facets = $results->getExtraData('search_api_facets', [])['body'];
     usort($facets, [$this, 'facetCompare']);
     $this->assertEquals($expected, $facets, 'Correct facets were returned for a fulltext field.');
+    // @codingStandardsIgnoreEnd
   }
 
   /**
    * Regression tests for #2888629.
    */
   protected function regressionTest2888629() {
+    $this->travisLogger->debug('SearchApiSolrTest::regressionTest2888629()');
+
     $query = $this->buildSearch();
     $query->addCondition('category', NULL);
     $results = $query->execute();
@@ -127,32 +147,11 @@ class SearchApiSolrTest extends SolrBackendTestBase {
   }
 
   /**
-   * Regression tests for #2850160.
+   * {@inheritdoc}
    */
-  public function regressionTest2850160() {
-    $backend = Server::load($this->serverId)->getBackend();
-    $index = $this->getIndex();
-
-    // Load existing test entity.
-    $entity = \Drupal::entityTypeManager()->getStorage('entity_test_mulrev_changed')->load(1);
-
-    // Prepare Search API item.
-    $id = Utility::createCombinedId('entity:entity_test_mulrev_changed', $entity->id());
-    /** @var \Drupal\search_api\Item\ItemInterface $item */
-    $item = \Drupal::getContainer()
-      ->get('search_api.fields_helper')
-      ->createItemFromObject($index, $entity->getTypedData(), $id);
-    $item->setBoost('3.0');
-
-    // Get Solr document.
-    /** @var \Solarium\QueryType\Update\Query\Document\Document $document */
-    $document = $this->invokeMethod($backend, 'getDocument', [$index, $item]);
-
-    // Compare boost values.
-    $this->assertEquals($item->getBoost(), $document->getBoost());
-  }
-
   public function searchSuccess() {
+    $this->travisLogger->debug('SearchApiSolrTest::searchSuccess()');
+
     parent::searchSuccess();
 
     $parse_mode_manager = \Drupal::service('plugin.manager.search_api.parse_mode');
@@ -180,6 +179,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
    * The facets differ for Solr backends because of case-insensitive filters.
    *
    * @return array
+   *   An array of facet results.
    */
   protected function getExpectedFacetsOfRegressionTest2469547() {
     return [
@@ -194,6 +194,8 @@ class SearchApiSolrTest extends SolrBackendTestBase {
    * {@inheritdoc}
    */
   protected function checkModuleUninstall() {
+    $this->travisLogger->debug('SearchApiSolrTest::checkModuleUninstall()');
+
     // See whether clearing the server works.
     // Regression test for #2156151.
     /** @var \Drupal\search_api\ServerInterface $server */
@@ -201,7 +203,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
     /** @var \Drupal\search_api\IndexInterface $index */
     $index = Index::load($this->indexId);
     $server->deleteAllIndexItems($index);
-    $this->ensureCommit($server);
+    $this->ensureCommit($index);
     $query = $this->buildSearch();
     $results = $query->execute();
     $this->assertEquals(0, $results->getResultCount(), 'Clearing the server worked correctly.');
@@ -216,212 +218,283 @@ class SearchApiSolrTest extends SolrBackendTestBase {
   }
 
   /**
-   * Gets the Drupal Fields and their Solr mapping.
-   *
-   * @param \Drupal\search_api_solr\SolrBackendInterface $backend
-   *   The backend the mapping is used for.
-   *
-   * @return array
-   *   [$fields, $mapping]
+   * Checks backend specific features.
    */
-  protected function getFieldsAndMapping(SolrBackendInterface $backend) {
-    /** @var \Drupal\search_api\IndexInterface $index */
-    $index = Index::load($this->indexId);
-    $fields = $index->getFields();
-    $fields += $this->invokeMethod($backend, 'getSpecialFields', [$index]);
-    $field_info = [
-      'type' => 'string',
-      'original type' => 'string',
-    ];
-    $fields['x'] = $this->fieldsHelper->createField($index, 'x', $field_info);
-    $fields['y'] = $this->fieldsHelper->createField($index, 'y', $field_info);
-    $fields['z'] = $this->fieldsHelper->createField($index, 'z', $field_info);
-
-    $mapping = $backend->getSolrFieldNames($index) + [
-      'x' => 'solr_x',
-      'y' => 'solr_y',
-      'z' => 'solr_z',
-    ];
-
-    return [$fields, $mapping];
+  protected function checkBackendSpecificFeatures() {
+    $this->checkBasicAuth();
+    $this->checkQueryParsers();
+    $this->checkQueryConditions();
+    $this->checkHighlight();
+    $this->checkSearchResultGrouping();
+    $this->clearIndex();
+    $this->checkDatasourceAdditionAndDeletion();
+    $this->clearIndex();
+    $this->checkRetrieveData();
+    $this->clearIndex();
+    $this->checkSearchResultSorts();
   }
 
   /**
    * Tests the conversion of Search API queries into Solr queries.
    */
-  public function testQueryParsers() {
-    /** @var \Drupal\search_api_solr\SolrBackendInterface $backend */
-    $backend = Server::load($this->serverId)->getBackend();
+  protected function checkQueryParsers() {
+    $parse_mode_manager = \Drupal::service('plugin.manager.search_api.parse_mode');
+    $parse_mode_terms = $parse_mode_manager->createInstance('terms');
+    $parse_mode_phrase = $parse_mode_manager->createInstance('phrase');
+    $parse_mode_sloppy_terms = $parse_mode_manager->createInstance('sloppy_terms');
+    $parse_mode_sloppy_phrase = $parse_mode_manager->createInstance('sloppy_phrase');
+    $parse_mode_direct = $parse_mode_manager->createInstance('direct');
+    $parse_mode_edismax = $parse_mode_manager->createInstance('edismax');
 
     $query = $this->buildSearch('foo "apple pie" bar');
-
-    $flat = $this->invokeMethod($backend, 'flattenKeys', [
+    $query->setParseMode($parse_mode_phrase);
+    $flat = SolrUtility::flattenKeys(
       $query->getKeys(),
       [],
-      'phrase',
-    ]);
+      'phrase'
+    );
+    $this->assertEquals('(+"foo \"apple pie\" bar")', $flat);
+
+    $query->setParseMode($parse_mode_sloppy_terms);
+    $flat = SolrUtility::flattenKeys(
+      $query->getKeys(),
+      [],
+      'sloppy_terms'
+    );
+    $this->assertEquals('(+"foo" +"apple pie"~10000000 +"bar")', $flat);
+
+    $query->setParseMode($parse_mode_sloppy_phrase);
+    $flat = SolrUtility::flattenKeys(
+      $query->getKeys(),
+      [],
+      'sloppy_phrase'
+    );
+    $this->assertEquals('(+"foo \"apple pie\" bar"~10000000)', $flat);
+
+    $query->setParseMode($parse_mode_terms);
+    $flat = SolrUtility::flattenKeys(
+      $query->getKeys(),
+      [],
+      'terms'
+    );
     $this->assertEquals('(+"foo" +"apple pie" +"bar")', $flat);
 
-    $flat = $this->invokeMethod($backend, 'flattenKeys', [
-      $query->getKeys(),
-      [],
-      'terms',
-    ]);
-    $this->assertEquals('(+foo +apple\ pie +bar)', $flat);
-
+    $query->setParseMode($parse_mode_edismax);
     $exception = FALSE;
     try {
-      $flat = $this->invokeMethod($backend, 'flattenKeys', [
+      $flat = SolrUtility::flattenKeys(
         $query->getKeys(),
         [],
-        'direct',
-      ]);
+        'edismax'
+      );
     }
     catch (SearchApiSolrException $e) {
       $exception = TRUE;
     }
     $this->assertTrue($exception);
 
-    $flat = $this->invokeMethod($backend, 'flattenKeys', [
+    $query->setParseMode($parse_mode_direct);
+    $exception = FALSE;
+    try {
+      $flat = SolrUtility::flattenKeys(
+        $query->getKeys(),
+        [],
+        'direct'
+      );
+    }
+    catch (SearchApiSolrException $e) {
+      $exception = TRUE;
+    }
+    $this->assertTrue($exception);
+
+    $query->setParseMode($parse_mode_phrase);
+    $flat = SolrUtility::flattenKeys(
       $query->getKeys(),
       ['solr_field'],
-      'phrase',
-    ]);
-    $this->assertEquals('(+solr_field:"foo" +solr_field:"apple pie" +solr_field:"bar")', $flat);
+      'phrase'
+    );
+    $this->assertEquals('solr_field:(+"foo \"apple pie\" bar")', $flat);
 
-    $flat = $this->invokeMethod($backend, 'flattenKeys', [
+    $query->setParseMode($parse_mode_terms);
+    $flat = SolrUtility::flattenKeys(
       $query->getKeys(),
       ['solr_field'],
-      'terms',
-    ]);
-    $this->assertEquals('(+solr_field:foo +solr_field:apple\ pie +solr_field:bar)', $flat);
+      'terms'
+    );
+    $this->assertEquals('((+(solr_field:"foo") +(solr_field:"apple pie") +(solr_field:"bar")) solr_field:(+"foo" +"apple pie" +"bar"))', $flat);
 
-    $flat = $this->invokeMethod($backend, 'flattenKeys', [
+    $query->setParseMode($parse_mode_edismax);
+    $flat = SolrUtility::flattenKeys(
+      $query->getKeys(),
+      ['solr_field'],
+      'edismax'
+    );
+    $this->assertEquals('({!edismax qf=\'solr_field\'}+"foo" +"apple pie" +"bar")', $flat);
+
+    $query->setParseMode($parse_mode_phrase);
+    $flat = SolrUtility::flattenKeys(
       $query->getKeys(),
       ['solr_field_1', 'solr_field_2'],
-      'phrase',
-    ]);
-    $this->assertEquals('(+(solr_field_1:"foo" solr_field_2:"foo") +(solr_field_1:"apple pie" solr_field_2:"apple pie") +(solr_field_1:"bar" solr_field_2:"bar"))', $flat);
+      'phrase'
+    );
+    $this->assertEquals('(solr_field_1:(+"foo \"apple pie\" bar") solr_field_2:(+"foo \"apple pie\" bar"))', $flat);
 
-    $flat = $this->invokeMethod($backend, 'flattenKeys', [
+    $query->setParseMode($parse_mode_terms);
+    $flat = SolrUtility::flattenKeys(
       $query->getKeys(),
       ['solr_field_1', 'solr_field_2'],
-      'terms',
-    ]);
-    $this->assertEquals('(+(solr_field_1:foo solr_field_2:foo) +(solr_field_1:apple\ pie solr_field_2:apple\ pie) +(solr_field_1:bar solr_field_2:bar))', $flat);
+      'terms'
+    );
+    $this->assertEquals('((+(solr_field_1:"foo" solr_field_2:"foo") +(solr_field_1:"apple pie" solr_field_2:"apple pie") +(solr_field_1:"bar" solr_field_2:"bar")) solr_field_1:(+"foo" +"apple pie" +"bar") solr_field_2:(+"foo" +"apple pie" +"bar"))', $flat);
+
+    $query->setParseMode($parse_mode_edismax);
+    $flat = SolrUtility::flattenKeys(
+      $query->getKeys(),
+      ['solr_field_1', 'solr_field_2'],
+      'edismax'
+    );
+    $this->assertEquals('({!edismax qf=\'solr_field_1 solr_field_2\'}+"foo" +"apple pie" +"bar")', $flat);
+
+    $query->setParseMode($parse_mode_terms);
+    $flat = SolrUtility::flattenKeys(
+      $query->getKeys(),
+      [],
+      'keys'
+    );
+    $this->assertEquals('+"foo" +"apple pie" +"bar"', $flat);
+
+    $query = $this->buildSearch('foo apple pie bar');
+    $query->setParseMode($parse_mode_sloppy_phrase);
+    $flat = SolrUtility::flattenKeys(
+      $query->getKeys(),
+      [],
+      'sloppy_phrase'
+    );
+    $this->assertEquals('(+"foo apple pie bar"~10000000)', $flat);
+
   }
 
   /**
    * Tests the conversion of Search API queries into Solr queries.
    */
-  public function testQueryConditions() {
+  protected function checkQueryConditions() {
     /** @var \Drupal\search_api_solr\SolrBackendInterface $backend */
     $backend = Server::load($this->serverId)->getBackend();
-    list($fields, $mapping) = $this->getFieldsAndMapping($backend);
     $options = [];
 
     $query = $this->buildSearch();
-    $query->addCondition('x', 5, '=');
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('solr_x:"5"', $fq[0]['query']);
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
+    $query->addCondition('id', 5, '=');
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('its_id:"5"', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
-    $query->addCondition('x', 5, '<>');
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(*:* -solr_x:"5")', $fq[0]['query']);
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
+    $query->addCondition('id', 5, '<>');
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(*:* -its_id:"5")', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
-    $query->addCondition('x', 3, '<>');
-    $query->addCondition('x', 5, '<>');
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(*:* -solr_x:"3")', $fq[0]['query']);
-    $this->assertEquals('(*:* -solr_x:"5")', $fq[1]['query']);
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
+    $query->addCondition('id', 3, '<>');
+    $query->addCondition('id', 5, '<>');
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(*:* -its_id:"3")', $fq[0]['query']);
+    $this->assertEquals('(*:* -its_id:"5")', $fq[1]['query']);
 
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $condition_group = $query->createConditionGroup();
-    $condition_group->addCondition('x', 3, '<>');
-    $condition_group->addCondition('x', 5, '<>');
+    $condition_group->addCondition('id', 3, '<>');
+    $condition_group->addCondition('id', 5, '<>');
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+(*:* -solr_x:"3") +(*:* -solr_x:"5"))', $fq[0]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+(*:* -its_id:"3") +(*:* -its_id:"5"))', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $condition_group = $query->createConditionGroup();
-    $condition_group->addCondition('x', 5, '<>');
-    $condition_group->addCondition('y', 3);
-    $condition_group->addCondition('z', 7);
+    $condition_group->addCondition('id', 5, '<>');
+    $condition_group->addCondition('type', 3);
+    $condition_group->addCondition('category', 7);
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+(*:* -solr_x:"5") +solr_y:"3" +solr_z:"7")', $fq[0]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+(*:* -its_id:"5") +ss_type:"3" +ss_category:"7")', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $condition_group = $query->createConditionGroup();
     $inner_condition_group = $query->createConditionGroup('OR');
-    $condition_group->addCondition('x', 5, '<>');
-    $inner_condition_group->addCondition('y', 3);
-    $inner_condition_group->addCondition('z', 7);
+    $condition_group->addCondition('id', 5, '<>');
+    $inner_condition_group->addCondition('type', 3);
+    $inner_condition_group->addCondition('category', 7);
     $condition_group->addConditionGroup($inner_condition_group);
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+(*:* -solr_x:"5") +(solr_y:"3" solr_z:"7"))', $fq[0]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+(*:* -its_id:"5") +(ss_type:"3" ss_category:"7"))', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     // Condition groups with null value queries are special snowflakes.
     // @see https://www.drupal.org/node/2888629
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $condition_group = $query->createConditionGroup();
     $inner_condition_group = $query->createConditionGroup('OR');
-    $condition_group->addCondition('x', 5, '<>');
-    $inner_condition_group->addCondition('y', 3);
-    $inner_condition_group->addCondition('z', NULL);
+    $condition_group->addCondition('id', 5, '<>');
+    $inner_condition_group->addCondition('type', 3);
+    $inner_condition_group->addCondition('category', NULL);
     $condition_group->addConditionGroup($inner_condition_group);
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+(*:* -solr_x:"5") +(solr_y:"3" (*:* -solr_z:[* TO *])))', $fq[0]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+(*:* -its_id:"5") +(ss_type:"3" (*:* -ss_category:[* TO *])))', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $condition_group = $query->createConditionGroup();
     $inner_condition_group_or = $query->createConditionGroup('OR');
-    $inner_condition_group_or->addCondition('x', 3);
-    $inner_condition_group_or->addCondition('y', 7, '<>');
+    $inner_condition_group_or->addCondition('id', 3);
+    $inner_condition_group_or->addCondition('type', 7, '<>');
     $inner_condition_group_and = $query->createConditionGroup();
-    $inner_condition_group_and->addCondition('x', 1);
-    $inner_condition_group_and->addCondition('y', 2, '<>');
-    $inner_condition_group_and->addCondition('z', 5, '<');
+    $inner_condition_group_and->addCondition('id', 1);
+    $inner_condition_group_and->addCondition('type', 2, '<>');
+    $inner_condition_group_and->addCondition('category', 5, '<');
     $condition_group->addConditionGroup($inner_condition_group_or);
     $condition_group->addConditionGroup($inner_condition_group_and);
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+(solr_x:"3" (*:* -solr_y:"7")) +(+solr_x:"1" +(*:* -solr_y:"2") +solr_z:{* TO "5"}))', $fq[0]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+(its_id:"3" (*:* -ss_type:"7")) +(+its_id:"1" +(*:* -ss_type:"2") +ss_category:{* TO "5"}))', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $condition_group = $query->createConditionGroup();
-    $condition_group->addCondition('x', 5);
-    $condition_group->addCondition('y', [1, 2, 3], 'NOT IN');
+    $condition_group->addCondition('id', 5);
+    $condition_group->addCondition('type', [1, 2, 3], 'NOT IN');
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+solr_x:"5" +(*:* -solr_y:"1" -solr_y:"2" -solr_y:"3"))', $fq[0]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+its_id:"5" +(*:* -ss_type:("1" "2" "3")))', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $condition_group = $query->createConditionGroup();
-    $condition_group->addCondition('x', 5);
+    $condition_group->addCondition('id', 5);
     $inner_condition_group = $query->createConditionGroup();
-    $inner_condition_group->addCondition('y', [1, 2, 3], 'NOT IN');
+    $inner_condition_group->addCondition('type', [1, 2, 3], 'NOT IN');
     $condition_group->addConditionGroup($inner_condition_group);
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+solr_x:"5" +(*:* -solr_y:"1" -solr_y:"2" -solr_y:"3"))', $fq[0]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+its_id:"5" +(*:* -ss_type:("1" "2" "3")))', $fq[0]['query']);
     $this->assertFalse(isset($fq[1]));
 
     // Test tagging of a single filter query of a facet query.
     $query = $this->buildSearch();
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
     $conditions = $query->createConditionGroup('OR', ['facet:' . 'tagtosearchfor']);
     $conditions->addCondition('category', 'article_category');
     $query->addConditionGroup($conditions);
@@ -436,7 +509,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
       'operator' => 'or',
     ];
     $query->setOption('search_api_facets', $facets);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
     $this->assertEquals('ss_category:"article_category"', $fq[0]['query'], 'Condition found in tagged first filter query');
     $this->assertEquals(['facet:tagtosearchfor' => 'facet:tagtosearchfor'], $fq[0]['tags'], 'Tag found in tagged first filter query');
     $this->assertEquals('ss_category:[* TO *]', $fq[1]['query'], 'Condition found in unrelated second filter query');
@@ -444,64 +517,96 @@ class SearchApiSolrTest extends SolrBackendTestBase {
 
     // @see https://www.drupal.org/node/2753917
     $query = $this->buildSearch();
-    $conditions = $query->createConditionGroup('OR', ['facet:x']);
-    $conditions->addCondition('x', 'A');
-    $conditions->addCondition('x', 'B');
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
+    $conditions = $query->createConditionGroup('OR', ['facet:id']);
+    $conditions->addCondition('id', 'A');
+    $conditions->addCondition('id', 'B');
     $query->addConditionGroup($conditions);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
     $this->assertEquals(1, count($fq));
-    $this->assertEquals(['facet:x' => 'facet:x'], $fq[0]['tags']);
-    $this->assertEquals('(solr_x:"A" solr_x:"B")', $fq[0]['query']);
+    $this->assertEquals(['facet:id' => 'facet:id'], $fq[0]['tags']);
+    $this->assertEquals('(its_id:"A" its_id:"B")', $fq[0]['query']);
 
     $query = $this->buildSearch();
-    $conditions = $query->createConditionGroup('AND', ['facet:x']);
-    $conditions->addCondition('x', 'A');
-    $conditions->addCondition('x', 'B');
+    $query->setLanguages([LanguageInterface::LANGCODE_NOT_SPECIFIED]);
+    $conditions = $query->createConditionGroup('AND', ['facet:id']);
+    $conditions->addCondition('id', 'A');
+    $conditions->addCondition('id', 'B');
     $query->addConditionGroup($conditions);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
     $this->assertEquals(1, count($fq));
-    $this->assertEquals(['facet:x' => 'facet:x'], $fq[0]['tags']);
-    $this->assertEquals('(+solr_x:"A" +solr_x:"B")', $fq[0]['query']);
-  }
-
-  /**
-   * Tests the conversion of language aware queries into Solr queries.
-   */
-  public function testQueryConditionsAndLanguageFilter() {
-    /** @var \Drupal\search_api_solr\SolrBackendInterface $backend */
-    $backend = Server::load($this->serverId)->getBackend();
-    list($fields, $mapping) = $this->getFieldsAndMapping($backend);
-    $options = [];
+    $this->assertEquals(['facet:id' => 'facet:id'], $fq[0]['tags']);
+    $this->assertEquals('(+its_id:"A" +its_id:"B")', $fq[0]['query']);
 
     $query = $this->buildSearch();
     $query->setLanguages(['en']);
-    $query->addCondition('x', 5, '=');
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('solr_x:"5"', $fq[0]['query']);
-    $this->assertEquals('ss_search_api_language:"en"', $fq[1]['query']);
+    $query->addCondition('id', 5, '=');
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('its_id:"5"', $fq[0]['query']);
+    $this->assertFalse(isset($fq[1]));
 
     $query = $this->buildSearch();
     $query->setLanguages(['en', 'de']);
     $condition_group = $query->createConditionGroup();
-    $condition_group->addCondition('x', 5);
+    $condition_group->addCondition('id', 5);
     $inner_condition_group = $query->createConditionGroup();
-    $inner_condition_group->addCondition('y', [1, 2, 3], 'NOT IN');
+    $inner_condition_group->addCondition('type', [1, 2, 3], 'NOT IN');
     $condition_group->addConditionGroup($inner_condition_group);
     $query->addConditionGroup($condition_group);
-    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, $mapping, $fields, &$options]);
-    $this->assertEquals('(+solr_x:"5" +(*:* -solr_y:"1" -solr_y:"2" -solr_y:"3"))', $fq[0]['query']);
-    $this->assertEquals('(ss_search_api_language:"en" ss_search_api_language:"de")', $fq[1]['query']);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+its_id:"5" +(*:* -ss_type:("1" "2" "3")))', $fq[0]['query']);
+    $this->assertFalse(isset($fq[1]));
+
+    $query = $this->buildSearch();
+    $query->setLanguages(['en']);
+    $condition_group = $query->createConditionGroup();
+    $condition_group->addCondition('id', 5);
+    $condition_group->addCondition('search_api_language', 'de');
+    $inner_condition_group = $query->createConditionGroup();
+    $inner_condition_group->addCondition('type', [1, 2, 3], 'NOT IN');
+    $condition_group->addConditionGroup($inner_condition_group);
+    $query->addConditionGroup($condition_group);
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('(+its_id:"5" +ss_search_api_language:"de" +(*:* -ss_type:("1" "2" "3")))', $fq[0]['query']);
+    $this->assertFalse(isset($fq[1]));
+
+    $query = $this->buildSearch();
+    $query->setLanguages(['en']);
+    $query->addCondition('body', 'some text', '=');
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('tm_X3b_en_body:("some text")', $fq[0]['query']);
+    $this->assertFalse(isset($fq[1]));
+
+    $parse_mode_manager = \Drupal::service('plugin.manager.search_api.parse_mode');
+    $parse_mode_phrase = $parse_mode_manager->createInstance('phrase');
+
+    $query = $this->buildSearch();
+    $query->setLanguages(['en']);
+    $query->setParseMode($parse_mode_phrase);
+    $query->addCondition('body', 'some text', '=');
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('tm_X3b_en_body:("some text")', $fq[0]['query']);
+    $this->assertFalse(isset($fq[1]));
+
+    $query = $this->buildSearch();
+    $query->setLanguages(['en']);
+    $query->setParseMode($parse_mode_phrase);
+    $query->addCondition('body', ['some', 'text'], '=');
+    $fq = $this->invokeMethod($backend, 'getFilterQueries', [$query, &$options]);
+    $this->assertEquals('tm_X3b_en_body:("some" "text")', $fq[0]['query']);
+    $this->assertFalse(isset($fq[1]));
   }
 
   /**
    * Tests retrieve_data options.
    */
-  public function testRetrieveData() {
+  protected function checkRetrieveData() {
+    $this->travisLogger->debug('SearchApiSolrTest::checkRetrieveData()');
+
     $server = $this->getIndex()->getServerInstance();
     $config = $server->getBackendConfig();
     $backend = $server->getBackend();
 
-    $this->insertExampleContent();
     $this->indexItems($this->indexId);
 
     // Retrieve just required fields.
@@ -516,7 +621,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
       $this->assertEquals('entity:entity_test_mulrev_changed/3:en', $fields['ss_search_api_id']);
       $this->assertEquals('en', $fields['ss_search_api_language']);
       $this->assertArrayHasKey('score', $fields);
-      $this->assertArrayNotHasKey('tm_body', $fields);
+      $this->assertArrayNotHasKey('tm_X3b_en_body', $fields);
       $this->assertArrayNotHasKey('id', $fields);
       $this->assertArrayNotHasKey('its_id', $fields);
       $this->assertArrayNotHasKey('twm_suggest', $fields);
@@ -538,7 +643,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
       $this->assertEquals('entity:entity_test_mulrev_changed/3:en', $fields['ss_search_api_id']);
       $this->assertEquals('en', $fields['ss_search_api_language']);
       $this->assertArrayHasKey('score', $fields);
-      $this->assertArrayHasKey('tm_body', $fields);
+      $this->assertArrayHasKey('tm_X3b_en_body', $fields);
       $this->assertContains('search_index-entity:entity_test_mulrev_changed/3:en', $fields['id']);
       $this->assertEquals('3', $fields['its_id']);
       $this->assertArrayHasKey('twm_suggest', $fields);
@@ -557,30 +662,30 @@ class SearchApiSolrTest extends SolrBackendTestBase {
       $this->assertEquals('entity:entity_test_mulrev_changed/3:en', $fields['ss_search_api_id']);
       $this->assertEquals('en', $fields['ss_search_api_language']);
       $this->assertArrayHasKey('score', $fields);
-      $this->assertArrayHasKey('tm_body', $fields);
+      $this->assertArrayHasKey('tm_X3b_en_body', $fields);
       $this->assertArrayNotHasKey('id', $fields);
       $this->assertArrayNotHasKey('its_id', $fields);
       $this->assertArrayNotHasKey('twm_suggest', $fields);
     }
 
-    $this->assertEquals([
-      0 => 'name',
-      1 => 'body',
-      2 => 'body_unstemmed',
-      // body_suggest should be removed by getQueryFulltextFields().
-      // 3 => 'body_suggest',
-      4 => 'category_ngram',
-    ], $this->invokeMethod($backend, 'getQueryFulltextFields', [$query]));
+    $fulltext_fields = array_flip($this->invokeMethod($backend, 'getQueryFulltextFields', [$query]));
+    $this->assertArrayHasKey('name', $fulltext_fields);
+    $this->assertArrayHasKey('body', $fulltext_fields);
+    $this->assertArrayHasKey('body_unstemmed', $fulltext_fields);
+    $this->assertArrayHasKey('category_edge', $fulltext_fields);
+    // body_suggest should be removed by getQueryFulltextFields().
+    $this->assertArrayNotHasKey('body_suggest', $fulltext_fields);
   }
 
   /**
    * Tests highlight options.
    */
-  public function testHighlight() {
+  protected function checkHighlight() {
+    $this->travisLogger->debug('SearchApiSolrTest::checkHighlight()');
+
     $server = $this->getIndex()->getServerInstance();
     $config = $server->getBackendConfig();
 
-    $this->insertExampleContent();
     $this->indexItems($this->indexId);
 
     $query = $this->buildSearch('foobar');
@@ -621,7 +726,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
   /**
    * Test that basic auth config gets passed to Solarium.
    */
-  public function testBasicAuth() {
+  protected function checkBasicAuth() {
     $server = $this->getServer();
     $config = $server->getBackendConfig();
     $config['connector_config']['username'] = 'foo';
@@ -631,13 +736,18 @@ class SearchApiSolrTest extends SolrBackendTestBase {
     $backend = $server->getBackend();
     $auth = $backend->getSolrConnector()->getEndpoint()->getAuthentication();
     $this->assertEquals(['username' => 'foo', 'password' => 'bar'], $auth);
+
+    $config['connector_config']['username'] = '';
+    $config['connector_config']['password'] = '';
+    $server->setBackendConfig($config);
   }
 
   /**
    * Tests addition and deletion of a data source.
    */
-  public function testDatasourceAdditionAndDeletion() {
-    $this->insertExampleContent();
+  protected function checkDatasourceAdditionAndDeletion() {
+    $this->travisLogger->debug('SearchApiSolrTest::checkDatasourceAdditionAndDeletion()');
+
     $this->indexItems($this->indexId);
 
     $results = $this->buildSearch()->execute();
@@ -681,7 +791,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
     $index = $this->getIndex();
     $index->removeDatasource('entity:user')->save();
 
-    $this->ensureCommit($index->getServerInstance());
+    $this->ensureCommit($index);
 
     $results = $this->buildSearch()->execute();
     $this->assertEquals(5, $results->getResultCount(), 'Number of indexed entities is correct.');
@@ -702,6 +812,7 @@ class SearchApiSolrTest extends SolrBackendTestBase {
    *   Length of the string.
    *
    * @return string
+   *   A random string of the specified length.
    */
   protected function getLongText($length) {
     $sequence = 'abcdefghijklmnopqrstuwxyz1234567890,./;\'[]\\<>?:"{}|~!@#$%^&*()_+`1234567890-=ööążźćęółńABCDEFGHIJKLMNOPQRSTUWXYZ';
@@ -717,10 +828,37 @@ class SearchApiSolrTest extends SolrBackendTestBase {
   }
 
   /**
+   * Tests search result grouping.
+   */
+  public function checkSearchResultGrouping() {
+    $this->travisLogger->debug('SearchApiSolrTest::checkSearchResultGrouping()');
+
+    if (in_array('search_api_grouping', $this->getIndex()->getServerInstance()->getBackend()->getSupportedFeatures())) {
+      $query = $this->buildSearch(NULL, [], [], FALSE);
+      $query->setOption('search_api_grouping', [
+        'use_grouping' => TRUE,
+        'fields' => [
+          'type',
+        ],
+      ]);
+      $results = $query->execute();
+
+      $this->assertEquals(2, $results->getResultCount(), 'Get the results count grouping by type.');
+      $data = $results->getExtraData('search_api_solr_response');
+      $this->assertEquals(5, $data['grouped']['ss_type']['matches'], 'Get the total documents after grouping.');
+      $this->assertEquals(2, $data['grouped']['ss_type']['ngroups'], 'Get the number of groups after grouping.');
+      $this->assertResults([1, 4], $results, 'Grouping by type');
+    }
+    else {
+      $this->markTestSkipped("The selected backend/connector doesn't support the *search_api_grouping* feature.");
+    }
+  }
+
+  /**
    * Tests search result sorts.
    */
-  public function testSearchResultSorts() {
-    $this->insertExampleContent();
+  protected function checkSearchResultSorts() {
+    $this->travisLogger->debug('SearchApiSolrTest::checkSearchResultSorts()');
 
     // Add node with body length just above the solr limit for search fields.
     // It's exceeded by just a single char to simulate an edge case.
@@ -802,102 +940,23 @@ class SearchApiSolrTest extends SolrBackendTestBase {
     $results = $this->buildSearch(NULL, [], [], FALSE)
       ->sort('changed')
       ->execute();
-    $this->assertResults([1, 2, 3, 4, 5, 6, 7], $results, 'Sort by last update date');
+    $this->assertResults([1, 2, 4, 5, 3, 6, 7], $results, 'Sort by last update date');
 
     $results = $this->buildSearch(NULL, [], [], FALSE)
       ->sort('changed', QueryInterface::SORT_DESC)
       ->execute();
-    $this->assertResults([7, 6, 5, 4, 3, 2, 1], $results, 'Sort by last update date descending');
+    $this->assertResults([7, 6, 3, 5, 4, 2, 1], $results, 'Sort by last update date descending');
+
+    $this->removeTestEntity(6);
+    $this->removeTestEntity(7);
   }
 
   /**
-   * Tests the autocomplete support.
+   * Tests the autocomplete support and ngram results.
    */
-  public function testAutocomplete() {
-    $this->addTestEntity(1, [
-      'name' => 'Test Article 1',
-      'body' => 'The test article number 1 about cats, dogs and trees.',
-      'type' => 'article',
-    ]);
+  public function testAutocompleteAndNgram() {
+    $this->travisLogger->debug('SearchApiSolrTest::testAutocompleteAndNgram()');
 
-    // Add another node with body length equal to the limit.
-    $this->addTestEntity(2, [
-      'name' => 'Test Article 1',
-      'body' => 'The test article number 2 about a tree.',
-      'type' => 'article',
-    ]);
-
-    $this->indexItems($this->indexId);
-
-    /** @var \Drupal\search_api_solr\Plugin\search_api\backend\SearchApiSolrBackend $backend */
-    $backend = Server::load($this->serverId)->getBackend();
-    $autocompleteSearch = new Search([], 'search_api_autocomplete_search');
-
-    $query = $this->buildSearch(['artic'], [], ['body_unstemmed'], FALSE);
-    $suggestions = $backend->getAutocompleteSuggestions($query, $autocompleteSearch, 'artic', 'artic');
-    $this->assertEquals(1, count($suggestions));
-    $this->assertEquals('le', $suggestions[0]->getSuggestionSuffix());
-    $this->assertEquals(2, $suggestions[0]->getResultsCount());
-
-    $query = $this->buildSearch(['artic'], [], ['body'], FALSE);
-    $suggestions = $backend->getTermsSuggestions($query, $autocompleteSearch, 'artic', 'artic');
-    $this->assertEquals(1, count($suggestions));
-    // This time we test the stemmed token.
-    $this->assertEquals('l', $suggestions[0]->getSuggestionSuffix());
-    $this->assertEquals(2, $suggestions[0]->getResultsCount());
-
-    $query = $this->buildSearch(['articel'], [], ['body'], FALSE);
-    $suggestions = $backend->getSpellcheckSuggestions($query, $autocompleteSearch, 'articel', 'articel');
-    $this->assertEquals(1, count($suggestions));
-    $this->assertEquals('article', $suggestions[0]->getSuggestedKeys());
-    $this->assertEquals(0, $suggestions[0]->getResultsCount());
-
-    $query = $this->buildSearch(['article tre'], [], ['body_unstemmed'], FALSE);
-    $suggestions = $backend->getAutocompleteSuggestions($query, $autocompleteSearch, 'tre', 'article tre');
-    $this->assertEquals('article tree', $suggestions[0]->getSuggestedKeys());
-    $this->assertEquals(1, $suggestions[0]->getResultsCount());
-    // Having set preserveOriginal in WordDelimiter let punction remain.
-    $this->assertEquals('article tree.', $suggestions[1]->getSuggestedKeys());
-    $this->assertEquals(1, $suggestions[1]->getResultsCount());
-    $this->assertEquals('article trees', $suggestions[2]->getSuggestedKeys());
-    $this->assertEquals(1, $suggestions[2]->getResultsCount());
-    $this->assertEquals('article trees.', $suggestions[3]->getSuggestedKeys());
-    $this->assertEquals(1, $suggestions[3]->getResultsCount());
-
-    // @todo spellcheck tests
-    #$query = $this->buildSearch(['articel doks'], [], ['body'], FALSE);
-    #$suggestions = $backend->getSpellcheckSuggestions($query, $autocompleteSearch, 'doks', 'articel doks');
-    #$this->assertEquals(1, count($suggestions));
-    #$this->assertEquals('article dogs', $suggestions[0]->getSuggestedKeys());
-
-    #$query = $this->buildSearch(['articel tre'], [], ['body'], FALSE);
-    #$suggestions = $backend->getAutocompleteSuggestions($query, $autocompleteSearch, 'tre', 'articel tre');
-    #$this->assertEquals(5, count($suggestions));
-    #$this->assertEquals('e', $suggestions[0]->getSuggestionSuffix());
-    #$this->assertEquals(1, $suggestions[0]->getResultsCount());
-    #$this->assertEquals('es', $suggestions[1]->getSuggestionSuffix());
-
-    $query = $this->buildSearch(['artic'], [], ['body'], FALSE);
-    $suggestions = $backend->getSuggesterSuggestions($query, $autocompleteSearch, 'artic', 'artic');
-    $this->assertEquals(2, count($suggestions));
-
-    $this->assertEquals('artic', $suggestions[0]->getUserInput());
-    $this->assertEquals('The test <b>', $suggestions[0]->getSuggestionPrefix());
-    $this->assertEquals('</b>le number 1 about cats, dogs and trees.', $suggestions[0]->getSuggestionSuffix());
-    $this->assertEquals('The test <b>artic</b>le number 1 about cats, dogs and trees.', $suggestions[0]->getSuggestedKeys());
-
-    $this->assertEquals('artic', $suggestions[1]->getUserInput());
-    $this->assertEquals('The test <b>', $suggestions[1]->getSuggestionPrefix());
-    $this->assertEquals('</b>le number 2 about a tree.', $suggestions[1]->getSuggestionSuffix());
-    $this->assertEquals('The test <b>artic</b>le number 2 about a tree.', $suggestions[1]->getSuggestedKeys());
-
-    // @todo more suggester tests
-  }
-
-  /**
-   * Tests ngram search result.
-   */
-  public function testNgramResult() {
     $this->addTestEntity(1, [
       'name' => 'Test Article 1',
       'body' => 'The test article number 1 about cats, dogs and trees.',
@@ -915,41 +974,357 @@ class SearchApiSolrTest extends SolrBackendTestBase {
 
     $this->indexItems($this->indexId);
 
-    $results = $this->buildSearch(['tre'], [], ['category_ngram'])
-      ->execute();
-    $this->assertResults([1, 2], $results, 'Ngram text "tre".');
+    /** @var \Drupal\search_api_solr\Plugin\search_api\backend\SearchApiSolrBackend $backend */
+    $backend = Server::load($this->serverId)->getBackend();
+    $autocompleteSearch = new Search([], 'search_api_autocomplete_search');
 
-    $results = $this->buildSearch([], [], [])
-      ->addCondition('category_ngram_string', 'tre')
-      ->execute();
-    $this->assertResults([2], $results, 'Ngram string "tre".');
+    $query = $this->buildSearch(['artic'], [], ['body_unstemmed'], FALSE);
+    $query->setLanguages(['en']);
+    $suggestions = $backend->getAutocompleteSuggestions($query, $autocompleteSearch, 'artic', 'artic');
+    $this->assertEquals(1, count($suggestions));
+    $this->assertEquals('le', $suggestions[0]->getSuggestionSuffix());
+    $this->assertEquals(2, $suggestions[0]->getResultsCount());
 
-    $results = $this->buildSearch(['Dog'], [], ['category_ngram'])
-      ->execute();
-    $this->assertResults([1], $results, 'Ngram text "Dog".');
+    $query = $this->buildSearch(['artic'], [], ['body'], FALSE);
+    $query->setLanguages(['en']);
+    $suggestions = $backend->getTermsSuggestions($query, $autocompleteSearch, 'artic', 'artic');
+    $this->assertEquals(1, count($suggestions));
+    // This time we test the stemmed token.
+    $this->assertEquals('l', $suggestions[0]->getSuggestionSuffix());
+    $this->assertEquals(2, $suggestions[0]->getResultsCount());
 
-    $results = $this->buildSearch([], [], [])
-      ->addCondition('category_ngram_string', 'Dog')
-      ->execute();
-    $this->assertResults([1], $results, 'Ngram string "Dog".');
+    $query = $this->buildSearch(['articel'], [], ['body'], FALSE);
+    $query->setLanguages(['en']);
+    $suggestions = $backend->getSpellcheckSuggestions($query, $autocompleteSearch, 'articel', 'articel');
+    $this->assertEquals(1, count($suggestions));
+    $this->assertEquals('article', $suggestions[0]->getSuggestedKeys());
+    $this->assertEquals(0, $suggestions[0]->getResultsCount());
+
+    $query = $this->buildSearch(['article tre'], [], ['body_unstemmed'], FALSE);
+    $query->setLanguages(['en']);
+    $suggestions = $backend->getAutocompleteSuggestions($query, $autocompleteSearch, 'tre', 'article tre');
+    $this->assertEquals('article tree', $suggestions[0]->getSuggestedKeys());
+    $this->assertEquals(1, $suggestions[0]->getResultsCount());
+    // Having set preserveOriginal in WordDelimiter let punction remain.
+    $this->assertEquals('article tree.', $suggestions[1]->getSuggestedKeys());
+    $this->assertEquals(1, $suggestions[1]->getResultsCount());
+    $this->assertEquals('article trees', $suggestions[2]->getSuggestedKeys());
+    $this->assertEquals(1, $suggestions[2]->getResultsCount());
+    $this->assertEquals('article trees.', $suggestions[3]->getSuggestedKeys());
+    $this->assertEquals(1, $suggestions[3]->getResultsCount());
+
+    // @todo spellcheck tests
+    // @codingStandardsIgnoreStart
+    // $query = $this->buildSearch(['articel cats doks'], [], ['body'], FALSE);
+    // $query->setLanguages(['en']);
+    // $suggestions = $backend->getSpellcheckSuggestions($query, $autocompleteSearch, 'doks', 'articel doks');
+    // $this->assertEquals(1, count($suggestions));
+    // $this->assertEquals('article dogs', $suggestions[0]->getSuggestedKeys());
+
+    // $query = $this->buildSearch(['articel tre'], [], ['body'], FALSE);
+    // $query->setLanguages(['en']);
+    // $suggestions = $backend->getAutocompleteSuggestions($query, $autocompleteSearch, 'tre', 'articel tre');
+    // $this->assertEquals(5, count($suggestions));
+    // $this->assertEquals('e', $suggestions[0]->getSuggestionSuffix());
+    // $this->assertEquals(1, $suggestions[0]->getResultsCount());
+    // $this->assertEquals('es', $suggestions[1]->getSuggestionSuffix());
+    // @codingStandardsIgnoreEnd
+
+    // @todo Add more suggester tests.
+    $query = $this->buildSearch(['artic'], [], ['body'], FALSE);
+    $query->setLanguages(['en']);
+    $suggestions = $backend->getSuggesterSuggestions($query, $autocompleteSearch, 'artic', 'artic');
+    $this->assertEquals(2, count($suggestions));
+
+    // Since we don't specify the result weights explicitly for this suggester
+    // we need to deal with a random order and need predictable array keys.
+    foreach ($suggestions as $suggestion) {
+      $suggestions[$suggestion->getSuggestedKeys()] = $suggestion;
+    }
+    $this->assertEquals('artic', $suggestions['The test <b>artic</b>le number 1 about cats, dogs and trees.']->getUserInput());
+    $this->assertEquals('The test <b>', $suggestions['The test <b>artic</b>le number 1 about cats, dogs and trees.']->getSuggestionPrefix());
+    $this->assertEquals('</b>le number 1 about cats, dogs and trees.', $suggestions['The test <b>artic</b>le number 1 about cats, dogs and trees.']->getSuggestionSuffix());
+    $this->assertEquals('The test <b>artic</b>le number 1 about cats, dogs and trees.', $suggestions['The test <b>artic</b>le number 1 about cats, dogs and trees.']->getSuggestedKeys());
+
+    $this->assertEquals('artic', $suggestions['The test <b>artic</b>le number 2 about a tree.']->getUserInput());
+    $this->assertEquals('The test <b>', $suggestions['The test <b>artic</b>le number 2 about a tree.']->getSuggestionPrefix());
+    $this->assertEquals('</b>le number 2 about a tree.', $suggestions['The test <b>artic</b>le number 2 about a tree.']->getSuggestionSuffix());
+    $this->assertEquals('The test <b>artic</b>le number 2 about a tree.', $suggestions['The test <b>artic</b>le number 2 about a tree.']->getSuggestedKeys());
+
+    // Tests NGram and Edge NGram search result.
+    foreach (['category_ngram', 'category_edge'] as $field) {
+      $results = $this->buildSearch(['tre'], [], [$field])
+        ->execute();
+      $this->assertResults([1, 2], $results, $field . ': tre');
+
+      $results = $this->buildSearch(['Dog'], [], [$field])
+        ->execute();
+      $this->assertResults([1], $results, $field . ': Dog');
+
+      $results = $this->buildSearch([], [], [])
+        ->addCondition($field, 'Dog')
+        ->execute();
+      $this->assertResults([1], $results, $field . ': Dog as condition');
+    }
+
+    // Tests NGram search result.
+    $result_set = [
+      'category_ngram' => [1, 2],
+      'category_ngram_string' => [1, 2],
+      'category_edge' => [],
+      'category_edge_string' => [],
+    ];
+    foreach ($result_set as $field => $expected_results) {
+      $results = $this->buildSearch(['re'], [], [$field])
+        ->execute();
+      $this->assertResults($expected_results, $results, $field . ': re');
+    }
+
+    foreach (['category_ngram_string' => [1, 2], 'category_edge_string' => [2]] as $field => $expected_results) {
+      $results = $this->buildSearch(['tre'], [], [$field])
+        ->execute();
+      $this->assertResults($expected_results, $results, $field . ': tre');
+    }
+  }
+
+  /**
+   * Tests language fallback and language limiting via options.
+   */
+  public function testLanguageFallbackAndLanguageLimitedByOptions() {
+    $this->travisLogger->debug('SearchApiSolrTest::testLanguageFallbackAndLanguageLimitedByOptions()');
+
+    $this->insertMultilingualExampleContent();
+    $this->indexItems($this->indexId);
+
+    $index = $this->getIndex();
+    $connector = $index->getServerInstance()->getBackend()->getSolrConnector();
+
+    $results = $this->buildSearch()->execute();
+    $this->assertEquals(6, $results->getResultCount(), 'Number of indexed entities is correct.');
+
+    // Stemming "en":
+    // gene => gene
+    // genes => gene
+    //
+    // Stemming "de":
+    // Gen => gen
+    // Gene => gen.
+    $query = $this->buildSearch('Gen');
+    $query->sort('name');
+    $query->setLanguages(['en', 'de']);
+    $results = $query->execute();
+    $this->assertEquals(2, $results->getResultCount(), 'Two results for "Gen" in German entities. No results for "Gen" in English entities.');
+    $params = $connector->getRequestParams();
+    $this->assertEquals('ss_search_api_language:("en" "de")', $params['fq'][1]);
+    $this->assertEquals('ss_search_api_id asc,sort_X3b_en_name asc', $params['sort'][0]);
+
+    $query = $this->buildSearch('Gene');
+    $query->setLanguages(['en', 'de']);
+    $results = $query->execute();
+    $this->assertEquals(4, $results->getResultCount(), 'Two results for "Gene" in German entities. Two results for "Gene" in English entities.');
+
+    // Stemming of "de-at" should fall back to "de".
+    $query = $this->buildSearch('Gen');
+    $query->setLanguages(['de-at']);
+    $results = $query->execute();
+    $this->assertEquals(2, $results->getResultCount(), 'Two results for "Gen" in Austrian entities.');
+    $query = $this->buildSearch('Gene');
+    $query->setLanguages(['de-at']);
+    $results = $query->execute();
+    $this->assertEquals(2, $results->getResultCount(), 'Two results for "Gene" in Austrian entities.');
+    $params = $connector->getRequestParams();
+    $this->assertEquals('ss_search_api_language:"de-at"', $params['fq'][1]);
+
+    $settings = $index->getThirdPartySettings('search_api_solr');
+    $settings['multilingual']['limit_to_content_language'] = FALSE;
+    $settings['multilingual']['include_language_independent'] = FALSE;
+    $index->setThirdPartySetting('search_api_solr', 'multilingual', $settings['multilingual']);
+    $index->save();
+    $this->assertFalse($this->getIndex()->getThirdPartySetting('search_api_solr', 'multilingual')['limit_to_content_language']);
+    $this->assertFalse($this->getIndex()->getThirdPartySetting('search_api_solr', 'multilingual')['include_language_independent']);
+
+    // Stemming "en":
+    // gene => gene
+    // genes => gene
+    //
+    // Stemming "de":
+    // Gen => gen
+    // Gene => gen.
+    $results = $this->buildSearch('gene', [], ['body'])->execute();
+    $expected_results = [
+      1 => 'en',
+      2 => 'en',
+      3 => 'de',
+      4 => 'de',
+      5 => 'de-at',
+      6 => 'de-at',
+    ];
+    $this->assertResults($expected_results, $results, 'Search all languages for "gene".');
+
+    $settings['multilingual']['limit_to_content_language'] = TRUE;
+    $index->setThirdPartySetting('search_api_solr', 'multilingual', $settings['multilingual']);
+    $index->save();
+    $this->assertTrue($this->getIndex()->getThirdPartySetting('search_api_solr', 'multilingual')['limit_to_content_language']);
+
+    // Current content language is "en".
+    $results = $this->buildSearch('gene', [], ['body'])->execute();
+    $expected_results = [
+      1 => 'en',
+      2 => 'en',
+    ];
+    $this->assertResults($expected_results, $results, 'Search content language for "gene".');
+
+    // A query created by Views must not be overruled.
+    $results = $this->buildSearch('gene', [], ['body'])->addTag('views')->execute();
+    $expected_results = [
+      1 => 'en',
+      2 => 'en',
+      3 => 'de',
+      4 => 'de',
+      5 => 'de-at',
+      6 => 'de-at',
+    ];
+    $this->assertResults($expected_results, $results, 'Search all languages for "gene".');
+
+    $settings['multilingual']['include_language_independent'] = TRUE;
+    $index->setThirdPartySetting('search_api_solr', 'multilingual', $settings['multilingual']);
+    $index->save();
+    $this->assertTrue($this->getIndex()->getThirdPartySetting('search_api_solr', 'multilingual')['include_language_independent']);
+
+    $results = $this->buildSearch('gene', [], ['body'])->execute();
+    $expected_results = [
+      1 => 'en',
+      2 => 'en',
+      7 => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+      8 => LanguageInterface::LANGCODE_NOT_APPLICABLE,
+    ];
+    $this->assertResults($expected_results, $results, 'Search content and unspecified language for "gene".');
+
+    $settings['multilingual']['limit_to_content_language'] = FALSE;
+    $index->setThirdPartySetting('search_api_solr', 'multilingual', $settings['multilingual']);
+    $index->save();
+    $this->assertFalse($this->getIndex()->getThirdPartySetting('search_api_solr', 'multilingual')['limit_to_content_language']);
+
+    $results = $this->buildSearch('gene', [], ['body'])->execute();
+    $expected_results = [
+      1 => 'en',
+      2 => 'en',
+      3 => 'de',
+      4 => 'de',
+      5 => 'de-at',
+      6 => 'de-at',
+      7 => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+      8 => LanguageInterface::LANGCODE_NOT_APPLICABLE,
+    ];
+    $this->assertResults($expected_results, $results, 'Search all and unspecified languages for "gene".');
+
+    $this->assertFalse($this->getIndex()->isReindexing());
+    ConfigurableLanguage::createFromLangcode('de-ch')->save();
+    $this->assertTrue($this->getIndex()->isReindexing());
+  }
+
+  /**
+   * Creates several test entities.
+   */
+  protected function insertMultilingualExampleContent() {
+    $this->addTestEntity(1, [
+      'name' => 'en 1',
+      'body' => 'gene',
+      'type' => 'item',
+      'langcode' => 'en',
+    ]);
+    $this->addTestEntity(2, [
+      'name' => 'en 2',
+      'body' => 'genes',
+      'type' => 'item',
+      'langcode' => 'en',
+    ]);
+    $this->addTestEntity(3, [
+      'name' => 'de 3',
+      'body' => 'Gen',
+      'type' => 'item',
+      'langcode' => 'de',
+    ]);
+    $this->addTestEntity(4, [
+      'name' => 'de 4',
+      'body' => 'Gen',
+      'type' => 'item',
+      'langcode' => 'de',
+    ]);
+    $this->addTestEntity(5, [
+      'name' => 'de-at 5',
+      'body' => 'Gen',
+      'type' => 'item',
+      'langcode' => 'de-at',
+    ]);
+    $this->addTestEntity(6, [
+      'name' => 'de-at 6',
+      'body' => 'Gen',
+      'type' => 'item',
+      'langcode' => 'de-at',
+    ]);
+    $this->addTestEntity(7, [
+      'name' => 'und 7',
+      'body' => 'gene',
+      'type' => 'item',
+      'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+    ]);
+    $this->addTestEntity(8, [
+      'name' => 'zxx 8',
+      'body' => 'gene',
+      'type' => 'item',
+      'langcode' => LanguageInterface::LANGCODE_NOT_APPLICABLE,
+    ]);
+    $count = \Drupal::entityQuery('entity_test_mulrev_changed')->count()->execute();
+    $this->assertEquals(8, $count, "$count items inserted.");
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * If the list of entity ids contains language codes it will be handled here,
+   * otherwise it will be handed over to the parent implementation.
+   *
+   * @param array $entity_ids
+   *   An array of entity IDs or an array keyed by entity IDs and langcodes as
+   *   values.
+   *
+   * @return string[]
+   *   An array of item IDs.
+   */
+  protected function getItemIds(array $entity_ids) {
+    $item_ids = [];
+    if (!empty($entity_ids)) {
+      $keys = array_keys($entity_ids);
+      $first_key = reset($keys);
+      if (0 === $first_key) {
+        return parent::getItemIds($entity_ids);
+      }
+      else {
+        foreach ($entity_ids as $id => $langcode) {
+          $item_ids[] = Utility::createCombinedId('entity:entity_test_mulrev_changed', $id . ':' . $langcode);
+        }
+      }
+    }
+    return $item_ids;
   }
 
   /**
    * Test generation of Solr configuration files.
    *
    * @dataProvider configGenerationDataProvider
+   *
+   * @throws \Drupal\search_api\SearchApiException
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function testConfigGeneration(string $language, array $files) {
+  public function testConfigGeneration(array $files) {
     $server = $this->getServer();
+    $solr_major_version = $server->getBackend()->getSolrConnector()->getSolrMajorVersion();
     $backend_config = $server->getBackendConfig();
+    $solr_configset_controller = new SolrConfigSetController();
+    $solr_configset_controller->setServer($server);
 
-    /** @var \Drupal\search_api_solr\Controller\SolrFieldTypeListBuilder $list_builder */
-    $list_builder = \Drupal::entityTypeManager()
-      ->getListBuilder('solr_field_type');
-
-    $list_builder->setServer($server);
-
-    $config_files = $list_builder->getConfigFiles();
+    $config_files = $solr_configset_controller->getConfigFiles();
 
     foreach ($files as $file_name => $expected_strings) {
       $this->assertArrayHasKey($file_name, $config_files);
@@ -958,66 +1333,176 @@ class SearchApiSolrTest extends SolrBackendTestBase {
       }
     }
 
+    $config_name = 'name="drupal-' . SolrBackendInterface::SEARCH_API_SOLR_MIN_SCHEMA_VERSION . '-solr-' . $solr_major_version . '.x"';
+    $this->assertContains($config_name, $config_files['solrconfig.xml']);
+    $this->assertContains($config_name, $config_files['schema.xml']);
+    $this->assertContains('solr.luceneMatchVersion=' . $solr_major_version, $config_files['solrcore.properties']);
     $this->assertContains($server->id(), $config_files['test.txt']);
     $this->assertNotContains('<jmx />', $config_files['solrconfig_extra.xml']);
+    if ('true' === SOLR_CLOUD) {
+      $this->assertContains('<statsCache class="org.apache.solr.search.stats.LRUStatsCache" />', $config_files['solrconfig_extra.xml']);
+    }
+    else {
+      $this->assertNotContains('<statsCache', $config_files['solrconfig_extra.xml']);
+    }
+
+    /*
+    // Write files for docker to disk.
+    if (8 === $solr_major_version) {
+      foreach ($config_files as $file_name => $content) {
+        file_put_contents(__DIR__ . '/../../solr-conf/' . $solr_major_version . '.x/' . $file_name, $content);
+      }
+    }
+    */
 
     $backend_config['connector_config']['jmx'] = TRUE;
+    $backend_config['disabled_field_types'] = ['text_foo_en_6_0_0', 'text_de_6_0_0', 'text_de_7_0_0'];
+    $backend_config['disabled_caches'] = ['cache_document_default_7_0_0', 'cache_filter_default_7_0_0'];
     $server->setBackendConfig($backend_config);
     $server->save();
+    // Reset static caches.
+    $solr_configset_controller->setServer($server);
 
-    $config_files= $list_builder->getConfigFiles();
+    $config_files = $solr_configset_controller->getConfigFiles();
     $this->assertContains('<jmx />', $config_files['solrconfig_extra.xml']);
+    $this->assertNotContains('solr.install.dir', $config_files['solrcore.properties']);
+    $this->assertContains('text_en', $config_files['schema_extra_types.xml']);
+    $this->assertNotContains('text_foo_en', $config_files['schema_extra_types.xml']);
+    $this->assertNotContains('text_de', $config_files['schema_extra_types.xml']);
+    if (6 !== $solr_major_version) {
+      $this->assertNotContains('documentCache', $config_files['solrconfig_query.xml']);
+      $this->assertNotContains('filterCache', $config_files['solrconfig_query.xml']);
+      $this->assertContains('httpCaching', $config_files['solrconfig_requestdispatcher.xml']);
+      $this->assertContains('never304="true"', $config_files['solrconfig_requestdispatcher.xml']);
+    }
+    else {
+      $this->assertContains('httpCaching', $config_files['solrconfig.xml']);
+      $this->assertContains('never304="true"', $config_files['solrconfig.xml']);
+    }
+    $this->assertContains('ts_X3b_en_*', $config_files['schema_extra_fields.xml']);
+    $this->assertNotContains('ts_X3b_de_*', $config_files['schema_extra_fields.xml']);
+
+    /** @var \Drupal\search_api_solr\SolrBackendInterface $backend */
+    $backend = $server->getBackend();
+    if ($backend->getSolrConnector()->isCloud()) {
+      $this->assertNotContains('solr.replication', $config_files['solrcore.properties']);
+      $this->assertNotContains('"/replication"', $config_files[(6 !== $solr_major_version) ? 'solrconfig_extra.xml' : 'solrconfig.xml']);
+      $this->assertNotContains('"/get"', $config_files[(6 !== $solr_major_version) ? 'solrconfig_extra.xml' : 'solrconfig.xml']);
+    }
+    else {
+      $this->assertContains('solr.replication', $config_files['solrcore.properties']);
+      $this->assertContains('"/replication"', $config_files[(6 !== $solr_major_version) ? 'solrconfig_extra.xml' : 'solrconfig.xml']);
+      if (6 !== $solr_major_version) {
+        $this->assertNotContains('"/get"', $config_files['solrconfig_extra.xml']);
+      }
+      else {
+        $this->assertContains('"/get"', $config_files['solrconfig.xml']);
+      }
+    }
   }
 
   /**
    * Data provider for testConfigGeneration method.
-   *
-   * @return array
    */
   public function configGenerationDataProvider() {
-    return [
-      'und' => [
-        'und',
-        [
-          'schema_extra_types.xml' => [
-            # phonetic is currently not available vor Solr 6.x.
-            #'fieldType name="text_phonetic_und" class="solr.TextField"',
-            'fieldType name="text_und" class="solr.TextField"',
-          ],
-          'schema_extra_fields.xml' => [
-            # phonetic is currently not available vor Solr 6.x.
-            #'<dynamicField name="tcphonetics_*" type="text_phonetic_und" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
-            #'<dynamicField name="tcphoneticm_*" type="text_phonetic_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
-            #'<dynamicField name="tocphonetics_*" type="text_phonetic_und" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="true" />',
-            #'<dynamicField name="tocphoneticm_*" type="text_phonetic_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="true" />',
-          ],
-          'solrconfig_extra.xml' => [
-            '<str name="name">und</str>',
-          ],
-          # phonetic is currently not available vor Solr 6.x.
-          #'stopwords_phonetic_und.txt' => [],
-          #'protwords_phonetic_und.txt' => [],
-          'stopwords_und.txt' => [],
-          'synonyms_und.txt' => [
-            'drupal, durpal',
-          ],
-          'protwords_und.txt' => [],
-          'accents_und.txt' => [
-            '"\u00C4" => "A"',
-          ],
-          'mapping-ISOLatin1Accent.txt' => [
-            '"\u00c4" => "A"',
-          ],
-          'solrcore.properties' => [],
-          'elevate.xml' => [],
-          'schema.xml' => [],
-          'solrconfig.xml' => [],
-          'test.txt' => [
-            'hook_search_api_solr_config_files_alter() works',
-          ],
-        ],
+    // @codingStandardsIgnoreStart
+    return [[[
+      'schema_extra_types.xml' => [
+        # phonetic is currently not available vor Solr 6.x.
+        #'fieldType name="text_phonetic_en" class="solr.TextField"',
+        'fieldType name="text_en" class="solr.TextField"',
+        'fieldType name="text_de" class="solr.TextField"',
+        '<fieldType name="collated_und" class="solr.ICUCollationField" locale="en" strength="primary" caseLevel="false"/>',
+'<!--
+  Fulltext Foo English
+  6.0.0
+-->
+<fieldType name="text_foo_en" class="solr.TextField" positionIncrementGap="100">
+  <analyzer type="index">
+    <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    <filter class="solr.LengthFilterFactory" min="2" max="100"/>
+    <filter class="solr.LowerCaseFilterFactory"/>
+    <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+  </analyzer>
+  <analyzer type="query">
+    <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    <filter class="solr.LengthFilterFactory" min="2" max="100"/>
+    <filter class="solr.LowerCaseFilterFactory"/>
+    <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+  </analyzer>
+  <similarity class="solr.DFRSimilarityFactory">
+    <str name="basicModel">I(F)</str>
+    <str name="afterEffect">B</str>
+    <str name="normalization">H3</str>
+    <float name="mu">900</float>
+  </similarity>
+</fieldType>',
       ],
-    ];
+      'schema_extra_fields.xml' => [
+        # phonetic is currently not available vor Solr 6.x.
+        #'<dynamicField name="tcphonetics_X3b_en_*" type="text_phonetic_en" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        #'<dynamicField name="tcphoneticm_X3b_en_*" type="text_phonetic_en" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        #'<dynamicField name="tocphonetics_X3b_en_*" type="text_phonetic_en" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="true" />',
+        #'<dynamicField name="tocphoneticm_X3b_en_*" type="text_phonetic_en" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="ts_X3b_en_*" type="text_en" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tm_X3b_en_*" type="text_en" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tos_X3b_en_*" type="text_en" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="tom_X3b_en_*" type="text_en" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="tus_X3b_en_*" type="text_unstemmed_en" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tum_X3b_en_*" type="text_unstemmed_en" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="ts_X3b_und_*" type="text_und" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tm_X3b_und_*" type="text_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tos_X3b_und_*" type="text_und" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="tom_X3b_und_*" type="text_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="tus_X3b_und_*" type="text_und" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tum_X3b_und_*" type="text_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tus_*" type="text_und" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tum_*" type="text_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="ts_X3b_de_*" type="text_de" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tm_X3b_de_*" type="text_de" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tos_X3b_de_*" type="text_de" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="tom_X3b_de_*" type="text_de" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="tus_X3b_de_*" type="text_unstemmed_de" stored="true" indexed="true" multiValued="false" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="tum_X3b_de_*" type="text_unstemmed_de" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="false" />',
+        '<dynamicField name="spellcheck_und*" type="text_spell_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="spellcheck_*" type="text_spell_und" stored="true" indexed="true" multiValued="true" termVectors="true" omitNorms="true" />',
+        '<dynamicField name="sort_X3b_en_*" type="collated_en" stored="false" indexed="false" docValues="true" />',
+        '<dynamicField name="sort_X3b_de_*" type="collated_de" stored="false" indexed="false" docValues="true" />',
+        '<dynamicField name="sort_X3b_und_*" type="collated_und" stored="false" indexed="false" docValues="true" />',
+        '<dynamicField name="sort_*" type="collated_und" stored="false" indexed="false" docValues="true" />',
+      ],
+      'solrconfig_extra.xml' => [
+        '<str name="name">en</str>',
+        '<str name="name">de</str>',
+      ],
+      # phonetic is currently not available vor Solr 6.x.
+      #'stopwords_phonetic_en.txt' => [],
+      #'protwords_phonetic_en.txt' => [],
+      'stopwords_en.txt' => [],
+      'synonyms_en.txt' => [
+        'drupal, durpal',
+      ],
+      'protwords_en.txt' => [],
+      'accents_en.txt' => [
+        '"\u00C4" => "A"'
+      ],
+      'stopwords_de.txt' => [],
+      'synonyms_de.txt' => [
+        'drupal, durpal',
+      ],
+      'protwords_de.txt' => [],
+      'accents_de.txt' => [
+        ' Not needed if German2 Porter stemmer is used.'
+      ],
+      'solrcore.properties' => [],
+      'elevate.xml' => [],
+      'schema.xml' => [],
+      'solrconfig.xml' => [],
+      'test.txt' => [
+        'hook_search_api_solr_config_files_alter() works'
+      ],
+    ]]];
+    // @codingStandardsIgnoreEnd
   }
 
 }

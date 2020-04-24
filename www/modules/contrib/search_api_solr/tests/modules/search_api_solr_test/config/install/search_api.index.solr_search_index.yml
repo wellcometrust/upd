@@ -34,6 +34,11 @@ field_settings:
     type: solr_text_unstemmed
     datasource_id: 'entity:entity_test_mulrev_changed'
     property_path: body
+  body_spellcheck:
+    label: Body
+    type: solr_text_spellcheck
+    datasource_id: 'entity:entity_test_mulrev_changed'
+    property_path: body
   body_suggest:
     label: Body
     type: solr_text_suggester
@@ -54,14 +59,24 @@ field_settings:
     type: string
     datasource_id: 'entity:entity_test_mulrev_changed'
     property_path: category
+  category_edge:
+    label: Category Edge Ngram
+    type: 'solr_text_custom:edge'
+    datasource_id: 'entity:entity_test_mulrev_changed'
+    property_path: category
+  category_edge_string:
+    label: Category Edge Ngram String
+    type: 'solr_text_custom:edgestring'
+    datasource_id: 'entity:entity_test_mulrev_changed'
+    property_path: category
   category_ngram:
     label: Category Ngram
-    type: solr_text_ngram
+    type: 'solr_text_custom:ngram'
     datasource_id: 'entity:entity_test_mulrev_changed'
     property_path: category
   category_ngram_string:
     label: Category Ngram String
-    type: solr_string_ngram
+    type: 'solr_text_custom:ngramstring'
     datasource_id: 'entity:entity_test_mulrev_changed'
     property_path: category
   width:
@@ -139,3 +154,6 @@ third_party_settings:
         fragsize: 0
     advanced:
       index_prefix: 'index_prefix'
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: false
