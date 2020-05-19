@@ -1083,6 +1083,7 @@
        http://wiki.apache.org/solr/TermVectorComponent
     -->
   <searchComponent name="tvComponent" class="solr.TermVectorComponent"/>
+  <searchComponent name="spellcheck" class="solr.SpellCheckComponent" /> 
 
   <!-- A request handler for demonstrating the term vector component
 
