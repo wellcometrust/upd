@@ -1,0 +1,52 @@
+{
+    "integrations": {
+        "project_management_system": {
+            "credential": "redmine.codeenigma.net",
+            "project": "understanding-patient-data-support",
+            "tracker": "Task",
+            "priority": "Normal",
+            "task_status_to_codario_mapping": {
+                "Closed": "closed",
+                "Closed (due to inactivity)": "closed"
+            },
+            "task_status_from_codario_mapping": {
+                "new_updates_available": "New",
+                "closed": "Closed"
+            }
+        }
+    },
+    "update_behavior": {
+        "source_branch": "prod",
+        "destination_branch": "updates/[task:id]",
+        "auto_start_updates": "no",
+        "skip_manual_testing": "yes",
+        "create_tasks_for": "contains_vulnerable_packages"
+    },
+    "events": {
+        "new_updates_available": [
+            {
+                "sendmail": {
+                    "emails": "dan.smith@codeenigma.com",
+                    "subject": "New updates are available for [project:name]",
+                    "message": "[snippet:workflow.event.new-updates-available]",
+                    "cc": "",
+                    "bcc": ""
+                }
+            }
+        ],
+        "failed": [
+            {
+                "sendmail": {
+                    "emails": "dan.smith@codeenigma.com",
+                    "subject": "A task error occurred in [project:name]",
+                    "message": "[snippet:workflow.event.failed]",
+                    "cc": "",
+                    "bcc": ""
+                }
+            }
+        ]
+    },
+    "extra": {
+        "min_security_level": "Not Critical"
+    }
+}
