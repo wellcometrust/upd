@@ -13,7 +13,7 @@ backend_config:
   connector_config:
     scheme: http
     host: localhost
-    port: '8983'
+    port: 8983
     path: /
     core: upd_core
     timeout: 5
@@ -34,3 +34,4 @@ backend_config:
   domain: generic
   optimize: false
   environment: default
+  rows: 10
