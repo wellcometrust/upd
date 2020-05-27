@@ -1,6 +1,6 @@
 uuid: ec147fa3-d6ff-48ec-87c7-ef8090a82c62
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - node
@@ -17,73 +17,6 @@ name: 'Search main'
 description: ''
 read_only: false
 field_settings:
-  node_grants:
-    label: 'Node access information'
-    property_path: search_api_node_grants
-    type: string
-    indexed_locked: true
-    type_locked: true
-    hidden: true
-  rendered_item:
-    label: 'Rendered HTML output'
-    property_path: rendered_item
-    type: text
-    configuration:
-      roles:
-        anonymous: anonymous
-      view_mode:
-        'entity:node':
-          art: default
-          basic_page: default
-          case_study: default
-          faq: default
-          landing_page: default
-          tile: default
-  nid:
-    label: ID
-    datasource_id: 'entity:node'
-    property_path: nid
-    type: integer
-    dependencies:
-      module:
-        - node
-  type:
-    label: 'Content type'
-    datasource_id: 'entity:node'
-    property_path: type
-    type: string
-    dependencies:
-      module:
-        - node
-  title:
-    label: Title
-    datasource_id: 'entity:node'
-    property_path: title
-    type: text
-    boost: !!float 13
-    dependencies:
-      module:
-        - node
-  status:
-    label: 'Publishing status'
-    datasource_id: 'entity:node'
-    property_path: status
-    type: boolean
-    indexed_locked: true
-    type_locked: true
-    dependencies:
-      module:
-        - node
-  uid:
-    label: uid
-    datasource_id: 'entity:node'
-    property_path: uid
-    type: integer
-    indexed_locked: true
-    type_locked: true
-    dependencies:
-      module:
-        - node
   field_disease_type:
     label: 'Disease type'
     datasource_id: 'entity:node'
@@ -116,6 +49,73 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_standfirst
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  rendered_item:
+    label: 'Rendered HTML output'
+    property_path: rendered_item
+    type: text
+    configuration:
+      roles:
+        anonymous: anonymous
+      view_mode:
+        'entity:node':
+          art: default
+          basic_page: default
+          case_study: default
+          faq: default
+          landing_page: default
+          tile: default
+  status:
+    label: 'Publishing status'
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 13
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  uid:
+    label: uid
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
 datasource_settings:
   'entity:node':
     bundles:
@@ -125,57 +125,59 @@ datasource_settings:
       default: true
       selected: {  }
 processor_settings:
-  rendered_item: {  }
   add_url: {  }
-  transliteration:
-    fields:
-      - type
-      - title
-    weights:
-      preprocess_index: -7
-      preprocess_query: -10
-    all_fields: false
+  aggregated_field: {  }
   content_access:
     weights:
       preprocess_query: -10
-  language_with_fallback: {  }
-  stemmer:
-    fields:
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields:
       - title
-    exceptions:
-      texan: texa
-      mexican: mexic
+    prefix: '<strong>'
+    suffix: '</strong>'
     weights:
-      preprocess_index: -5
-      preprocess_query: 0
-    all_fields: false
+      postprocess_query: 0
   html_filter:
     fields:
-      - type
       - title
+      - type
     title: true
     alt: true
     tags:
+      b: 2
       h1: 5
       h2: 3
       h3: 2
       strong: 2
-      b: 2
     weights:
       preprocess_index: -10
       preprocess_query: -10
     all_fields: false
-  tokenizer:
+  ignorecase:
     fields:
       - title
-    spaces: ''
-    overlap_cjk: 1
-    minimum_word_size: '3'
+      - type
     weights:
-      preprocess_index: -6
-      preprocess_query: -6
+      preprocess_index: -9
+      preprocess_query: -10
     all_fields: false
-  aggregated_field: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
+  solr_date_range: {  }
+  stemmer:
+    fields:
+      - title
+    exceptions:
+      mexican: mexic
+      texan: texa
+    weights:
+      preprocess_index: -5
+      preprocess_query: 0
+    all_fields: false
   stopwords:
     fields:
       - title
@@ -219,26 +221,24 @@ processor_settings:
       preprocess_index: -4
       preprocess_query: -2
     all_fields: false
-  ignorecase:
+  tokenizer:
     fields:
-      - type
       - title
+    spaces: ''
+    overlap_cjk: 1
+    minimum_word_size: '3'
     weights:
-      preprocess_index: -9
+      preprocess_index: -6
+      preprocess_query: -6
+    all_fields: false
+  transliteration:
+    fields:
+      - title
+      - type
+    weights:
+      preprocess_index: -7
       preprocess_query: -10
     all_fields: false
-  highlight:
-    highlight: always
-    highlight_partial: true
-    excerpt: true
-    excerpt_length: 256
-    exclude_fields:
-      - title
-    prefix: '<strong>'
-    suffix: '</strong>'
-    weights:
-      postprocess_query: 0
-  solr_date_range: {  }
 tracker_settings:
   default:
     indexing_order: fifo
