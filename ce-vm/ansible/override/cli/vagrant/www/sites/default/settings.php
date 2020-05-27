@@ -62,6 +62,18 @@ $config['search_api.server.local_solr'] = [
   ],
 ];
 
+// Solr Config
+$config['search_api.server.local_solr']= [
+  'backend_config' => [
+    'connector_config' => [
+      'host' => '192.168.57.130',
+      'path' => '/',
+      'core' => 'upd_core',
+      'port' => '8080',
+    ],
+  ],
+];
+
 /**
  * Include local dev settings if any (gitignored, normally).
  */
