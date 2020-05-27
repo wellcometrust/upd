@@ -74,7 +74,9 @@ function upd_search_block_view_alter(array &$build, BlockPluginInterface $block)
 function upd_search_preprocess_block(&$variables) {
   // Hide some content types in the facet.
   $content_type_to_hide = ['FAQ', 'Tile'];
-  if ($variables['elements']['#plugin_id'] == 'facet_block:content_type_solr') {
+  if (!empty($variables['elements']['#plugin_id']) &&
+      $variables['elements']['#plugin_id'] == 'facet_block:content_type_solr' &&
+      !empty($variables['content'][0]['#items'])) {
     foreach ($variables['content'][0]['#items'] as $i => $facet) {
       if (in_array($facet['#title']['#value'], $content_type_to_hide)) {
         unset($variables['content'][0]['#items'][$i]);
