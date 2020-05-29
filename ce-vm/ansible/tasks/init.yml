@@ -1,0 +1,52 @@
+---
+
+- set_fact: request_time="{{lookup('pipe','date +%Y%m%d%H%M%S')}}"
+- set_fact: local_var_dir="{{ project_dir }}/{{ vm_dir }}/var"
+- set_fact: local_var_www_dir="{{ local_var_dir }}/www"
+- set_fact: local_var_vm_dir="{{ local_var_dir }}/{{ inventory_hostname }}"
+- include_vars: "{{ item }}"
+  with_fileglob: "{{ config_files }}"
+
+- name: Create apt archive dir if needed.
+  file:
+    path: '{{ shared_cache_dir }}/apt/archives'
+    state: directory
+    recurse: yes
+
+- name: Move apt cache to shared dir.
+  template:
+    src: "apt-cache.j2"
+    dest: "/etc/apt/apt.conf.d/90ce-vm-aptcache"
+    owner: 'root'
+    group: 'root'
+    force: yes
+
+- name: Clean up startup scripts folder.
+  file:
+    path: '/opt/run-parts'
+    state: absent
+
+- name: (Re-)Create startup scripts folder.
+  file:
+    path: '/opt/run-parts'
+    state: directory
+
+- name: Set ce-vm webroot.
+  set_fact: ce_vm_webroot="{{ local_var_www_dir }}/ce-vm"
+
+- name: Create ce-vm webroot and includes directory.
+  file:
+    path: "{{ ce_vm_webroot }}/includes"
+    state: directory
+    recurse: yes
+
+- name: Update apt cache.
+  apt:
+    update_cache: yes
+  when: apt_extra_packages | length
+
+- name: Install additional extra packages.
+  apt:
+    pkg: "{{ apt_extra_packages | list }}"
+    state: present
+  when: apt_extra_packages | length
