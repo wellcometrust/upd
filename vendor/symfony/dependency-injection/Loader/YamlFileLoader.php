@@ -355,7 +355,7 @@ class YamlFileLoader extends FileLoader
 
         if (isset($service['alias'])) {
             $this->container->setAlias($id, $alias = new Alias($service['alias']));
-            if (\array_key_exists('public', $service)) {
+            if (isset($service['public'])) {
                 $alias->setPublic($service['public']);
             } elseif (isset($defaults['public'])) {
                 $alias->setPublic($defaults['public']);
@@ -660,7 +660,7 @@ class YamlFileLoader extends FileLoader
         try {
             $configuration = $this->yamlParser->parseFile($file, Yaml::PARSE_CONSTANT | Yaml::PARSE_CUSTOM_TAGS);
         } catch (ParseException $e) {
-            throw new InvalidArgumentException(sprintf('The file "%s" does not contain valid YAML: %s.', $file, $e->getMessage()), 0, $e);
+            throw new InvalidArgumentException(sprintf('The file "%s" does not contain valid YAML: '.$e->getMessage(), $file), 0, $e);
         } finally {
             restore_error_handler();
         }
