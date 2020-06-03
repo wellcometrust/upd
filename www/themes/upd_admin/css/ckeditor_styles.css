@@ -1,0 +1,16 @@
+/*  css that gets applied on top of seven theme css */
+/* The styles defined in this file are displayed in the WYSIWYG CKEditor */
+
+
+/* hide handles and their table cells on mobile */
+/*@media only screen and (max-width: 768px) {
+  .handle {
+    display: none;
+  }
+
+  td.field-multiple-drag {
+    display: none;
+  }
+
+}
+*/
