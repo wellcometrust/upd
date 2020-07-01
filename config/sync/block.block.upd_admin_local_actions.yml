@@ -8,8 +8,8 @@ _core:
   default_config_hash: PffmQ-ABSz5tFjWmVsR7NesunDnEivvopnJnBjl8KNE
 id: upd_admin_local_actions
 theme: upd_admin
-region: header
-weight: -3
+region: content
+weight: -2
 provider: null
 plugin: local_actions_block
 settings:

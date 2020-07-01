@@ -1,4 +1,4 @@
-uuid: c3b15173-4065-4d32-b6f8-5d85f5788a68
+uuid: af93ed93-c29e-4492-b3e7-c42edace36b5
 langcode: en
 status: true
 dependencies:
@@ -6,15 +6,16 @@ dependencies:
     - system
   theme:
     - upd_admin
-id: breadcrumbs
+id: mainpagecontent
 theme: upd_admin
-region: breadcrumb
-weight: -2
+region: content
+weight: -1
 provider: null
-plugin: system_breadcrumb_block
+plugin: system_main_block
 settings:
-  id: system_breadcrumb_block
-  label: Breadcrumbs
+  id: system_main_block
+  label: 'Main page content'
   provider: system
   label_display: '0'
 visibility: {  }
+

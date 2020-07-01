@@ -1,0 +1,21 @@
+uuid: 0ce55948-5250-4fda-9043-efb924836f57
+langcode: en
+status: true
+dependencies:
+  theme:
+    - upd_admin
+id: tabs
+theme: upd_admin
+region: pre_content
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  provider: core
+  label_display: '0'
+  primary: false
+  secondary: true
+visibility: {  }
+
