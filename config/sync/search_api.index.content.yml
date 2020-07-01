@@ -1,17 +1,17 @@
 uuid: ec147fa3-d6ff-48ec-87c7-ef8090a82c62
 langcode: en
-status: false
+status: true
 dependencies:
+  module:
+    - node
+    - search_api
+    - search_api_solr
   config:
     - field.storage.node.field_disease_type
     - field.storage.node.field_impact_of_work
     - field.storage.node.field_sources_of_data
     - field.storage.node.field_standfirst
     - search_api.server.local_db
-  module:
-    - node
-    - search_api
-    - search_api_solr
 id: content
 name: 'Search main'
 description: ''
