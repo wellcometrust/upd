@@ -1,0 +1,19 @@
+uuid: 4920e6ba-dcb7-459c-9266-2aa3adcfcdfc
+langcode: en
+status: true
+dependencies:
+  theme:
+    - upd_admin
+id: pagetitle
+theme: upd_admin
+region: header
+weight: -3
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility: {  }
+
