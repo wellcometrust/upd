@@ -8,35 +8,21 @@ dependencies:
     - field.field.paragraph.grid_items.field_item_info_text
     - field.field.paragraph.grid_items.field_svg_reference
     - paragraphs.paragraphs_type.grid_items
-  module:
-    - link
 id: paragraph.grid_items.default
 targetEntityType: paragraph
 bundle: grid_items
 mode: default
 content:
   field_item_info_button:
-    weight: 3
+    weight: 2
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
     region: content
-  field_item_info_link:
-    weight: 2
-    label: above
-    settings:
-      trim_length: 80
-      url_only: true
-      url_plain: true
-      rel: '0'
-      target: '0'
-    third_party_settings: {  }
-    type: link
-    region: content
   field_item_info_text:
-    weight: 1
+    weight: 0
     label: above
     settings:
       link_to_entity: false
@@ -44,11 +30,13 @@ content:
     type: string
     region: content
   field_svg_reference:
-    weight: 4
+    weight: 1
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
     region: content
-hidden: {  }
+hidden:
+  field_item_info_link: true
+  search_api_excerpt: true
