@@ -111,7 +111,7 @@
     "drupal/colorbox_load": "1.x",
     "drupal/menu_link_attributes": "1.x",
     "drupal/field_group": "3.0-beta1",
-    "drupal/stage_file_proxy": "^1.0@alpha",
+    "drupal/stage_file_proxy": "^1.0",
     "drupal/pdfpreview": "^1.0@RC",
     "drupal/devel": "^4.0",
     "drupal/node_weight": "2.x-dev",
