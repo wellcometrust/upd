@@ -118,7 +118,8 @@
     "ckeditor/tabletoolstoolbar": "^0.0.1",
     "drupal/ckeditor_tabletoolstoolbar": "^1.0",
     "drupal/scheduled_publish": "^3.1",
-    "drupal/redirect": "^1.5"
+    "drupal/redirect": "^1.5",
+    "drupal/devel_php": "^1.2"
   },
   "require-dev": {
     "geerlingguy/drupal-vm": "4.*"
