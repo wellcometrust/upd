@@ -36,12 +36,12 @@ $databases['default']['default'] = array (
 /**
  * @see https://www.drupal.org/project/config_ignore
  */
-$config['config_ignore.settings']['ignored_config_entities'] = array(
+/*$config['config_ignore.settings']['ignored_config_entities'] = array(
   'devel.*',
   'kint.*',
   'webprofiler.*',
   'devel_generate.*',
-);
+);*/
 $settings['hash_salt'] = 'ce-vm';
 $config['system.performance']['css']['preprocess'] = FALSE;
 $config['system.performance']['js']['preprocess'] = FALSE;
