@@ -1,0 +1,27 @@
+uuid: 016c2fe4-8766-44d7-942a-40ecc57e4a0f
+langcode: en
+status: true
+dependencies: {  }
+id: master
+label: Master
+description: 'Environment configuration for the *master* branch, used as the development testing site.'
+folder: ../config/master
+module:
+  stage_file_proxy: 0
+theme: {  }
+blacklist:
+  - dblog.settings
+  - system.logging
+  - views.view.watchdog
+  - google_analytics.settings
+  - search_api.index.content
+  - search_api.index.main_solr
+  - search_api.server.local_db
+  - search_api.server.local_solr
+  - system.site
+  - stage_file_proxy.settings
+graylist:
+  - system.performance
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0
