@@ -113,7 +113,7 @@
     "drupal/field_group": "3.0-beta1",
     "drupal/stage_file_proxy": "^1.0@alpha",
     "drupal/pdfpreview": "^1.0@RC",
-    "drupal/devel": "^2.0",
+    "drupal/devel": "^4.0",
     "drupal/node_weight": "2.x-dev",
     "ckeditor/tabletoolstoolbar": "^0.0.1",
     "drupal/ckeditor_tabletoolstoolbar": "^1.0",
