@@ -19,3 +19,20 @@
 .case-study-video.top {
   padding-top: 4rem;
 }
+
+/* r50240: Change homepage header text.*/
+.with-sub-title {
+  padding: 2rem 0;
+}
+
+.hero__sub-title {
+  /* Limit the max height and hide field's content if it goes over. */
+  max-height:250px;
+  overflow: hidden;
+}
+
+.hero__sub-title p {
+  color: #FFFFFF;
+  font-size: 2rem;
+  line-height: 2.7rem;
+}
