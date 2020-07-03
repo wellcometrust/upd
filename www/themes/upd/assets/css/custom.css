@@ -19,3 +19,18 @@
 .case-study-video.top {
   padding-top: 4rem;
 }
+
+/* #50240: Changes to buttons on the homepage. Overrides main.css. */
+.key-info-tile__icon {
+  margin-bottom: 20px;
+}
+
+.key-info-tile .cta{
+  font-size: 1.25rem;
+}
+
+@media screen and (min-width: 30rem) {
+  .key-info-tile {
+    padding: 1.9rem;
+  }
+}
