@@ -1,0 +1,64 @@
+uuid: 1f84c791-a06a-4be5-a78e-94b579da46cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type_solr
+    - page_manager.page.solr_site_search
+    - views.view.site_search
+  module:
+    - facets
+    - panels
+    - upd_search
+    - views
+id: solr_site_search-panels_variant-0
+label: Panels
+variant: panels_variant
+variant_settings:
+  blocks:
+    f007f03a-d62c-4be5-9e56-4dcfd5af7bd9:
+      id: upd_search_form
+      label: 'Search form'
+      provider: upd_search
+      label_display: visible
+      form_action: search
+      form_label: 'Search the entire Understanding Patient Data site'
+      region: header
+      weight: 0
+      uuid: f007f03a-d62c-4be5-9e56-4dcfd5af7bd9
+      context_mapping: {  }
+    09c5d48d-338a-4192-965d-c131a987508a:
+      id: 'views_block:site_search-block_1'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: main
+      weight: 0
+      uuid: 09c5d48d-338a-4192-965d-c131a987508a
+      context_mapping: {  }
+    03760580-e348-4a84-970b-8127ce12e032:
+      id: 'facet_block:content_type_solr'
+      label: 'Content type'
+      provider: facets
+      label_display: visible
+      region: filters
+      weight: 0
+      uuid: 03760580-e348-4a84-970b-8127ce12e032
+      context_mapping: {  }
+  id: panels_variant
+  uuid: 84cf6281-b8c9-4c57-8686-1cc0c9e63445
+  label: null
+  weight: 0
+  layout: search
+  layout_settings: {  }
+  page_title: 'Site search'
+  storage_type: page_manager
+  storage_id: solr_site_search-panels_variant-0
+  builder: standard
+page: solr_site_search
+weight: 0
+selection_criteria: {  }
+selection_logic: and
+static_context: {  }
