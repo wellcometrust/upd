@@ -10,11 +10,13 @@ dependencies:
     - field.field.node.landing_page.field_footer_area
     - field.field.node.landing_page.field_hero_intro
     - field.field.node.landing_page.field_metatags
+    - field.field.node.landing_page.field_standfirst
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
     - entity_reference_revisions
     - metatag
+    - text
     - user
 id: node.landing_page.default
 targetEntityType: node
@@ -80,6 +82,13 @@ content:
     third_party_settings: {  }
     type: metatag_empty_formatter
     region: content
+  field_standfirst:
+    weight: 10
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
   field_testimonial:
     type: entity_reference_revisions_entity_view
     weight: 3
@@ -96,3 +105,4 @@ content:
     third_party_settings: {  }
 hidden:
   langcode: true
+  search_api_excerpt: true

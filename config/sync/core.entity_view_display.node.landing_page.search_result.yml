@@ -10,6 +10,8 @@ dependencies:
     - field.field.node.landing_page.field_featured_articles
     - field.field.node.landing_page.field_footer_area
     - field.field.node.landing_page.field_hero_intro
+    - field.field.node.landing_page.field_metatags
+    - field.field.node.landing_page.field_standfirst
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
@@ -71,4 +73,7 @@ content:
 hidden:
   field_content_area: true
   field_footer_area: true
+  field_metatags: true
+  field_standfirst: true
   langcode: true
+  search_api_excerpt: true
