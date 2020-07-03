@@ -1,0 +1,248 @@
+uuid: ec147fa3-d6ff-48ec-87c7-ef8090a82c62
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - search_api
+    - search_api_solr
+  config:
+    - field.storage.node.field_disease_type
+    - field.storage.node.field_impact_of_work
+    - field.storage.node.field_sources_of_data
+    - field.storage.node.field_standfirst
+    - search_api.server.local_db
+id: content
+name: 'Search main'
+description: ''
+read_only: false
+field_settings:
+  field_disease_type:
+    label: 'Disease type'
+    datasource_id: 'entity:node'
+    property_path: field_disease_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_disease_type
+  field_impact_of_work:
+    label: 'Impact of work'
+    datasource_id: 'entity:node'
+    property_path: field_impact_of_work
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_impact_of_work
+  field_sources_of_data:
+    label: 'Sources of data'
+    datasource_id: 'entity:node'
+    property_path: field_sources_of_data
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_sources_of_data
+  field_standfirst:
+    label: Standfirst
+    datasource_id: 'entity:node'
+    property_path: field_standfirst
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_standfirst
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  rendered_item:
+    label: 'Rendered HTML output'
+    property_path: rendered_item
+    type: text
+    configuration:
+      roles:
+        anonymous: anonymous
+      view_mode:
+        'entity:node':
+          art: default
+          basic_page: default
+          case_study: default
+          faq: default
+          landing_page: default
+          tile: default
+  status:
+    label: 'Publishing status'
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 13
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  uid:
+    label: uid
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: true
+      selected: {  }
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  content_access:
+    weights:
+      preprocess_query: -10
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields:
+      - title
+    prefix: '<strong>'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
+  html_filter:
+    fields:
+      - title
+      - type
+    title: true
+    alt: true
+    tags:
+      b: 2
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
+    all_fields: false
+  ignorecase:
+    fields:
+      - title
+      - type
+    weights:
+      preprocess_index: -9
+      preprocess_query: -10
+    all_fields: false
+  language_with_fallback: {  }
+  rendered_item: {  }
+  solr_date_range: {  }
+  stemmer:
+    fields:
+      - title
+    exceptions:
+      mexican: mexic
+      texan: texa
+    weights:
+      preprocess_index: -5
+      preprocess_query: 0
+    all_fields: false
+  stopwords:
+    fields:
+      - title
+    stopwords:
+      - a
+      - an
+      - and
+      - are
+      - as
+      - at
+      - be
+      - but
+      - by
+      - for
+      - if
+      - in
+      - into
+      - is
+      - it
+      - 'no'
+      - not
+      - of
+      - 'on'
+      - or
+      - s
+      - such
+      - t
+      - that
+      - the
+      - their
+      - then
+      - there
+      - these
+      - they
+      - this
+      - to
+      - was
+      - will
+      - with
+    weights:
+      preprocess_index: -4
+      preprocess_query: -2
+    all_fields: false
+  tokenizer:
+    fields:
+      - title
+    spaces: ''
+    overlap_cjk: 1
+    minimum_word_size: '3'
+    weights:
+      preprocess_index: -6
+      preprocess_query: -6
+    all_fields: false
+  transliteration:
+    fields:
+      - title
+      - type
+    weights:
+      preprocess_index: -7
+      preprocess_query: -10
+    all_fields: false
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: local_db

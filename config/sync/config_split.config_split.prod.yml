@@ -1,0 +1,15 @@
+uuid: 106ca161-bb0e-4c24-aa0c-6346b7e7ff7c
+langcode: en
+status: true
+dependencies: {  }
+id: prod
+label: Prod
+description: '*Attention* Live site environment configuration for production.'
+folder: ../config/prod
+module: {  }
+theme: {  }
+blacklist: {  }
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0
