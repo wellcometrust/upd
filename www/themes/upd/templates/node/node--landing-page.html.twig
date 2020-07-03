@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="wrapper wrapper--gutter">
-{% if content.field_standfirst|render|trim %}
+    {% if content.field_standfirst|render|trim %}
       <h1 class="hero__title with-sub-title">{{ label }}</h1>
       <div class="hero__sub-title">{{ content.field_standfirst }}</div>
     {% else %}
