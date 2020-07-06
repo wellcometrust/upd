@@ -1,0 +1,5 @@
+origin: 'https://understandingpatientdata.org.uk'
+origin_dir: sites/default/files
+use_imagecache_root: true
+hotlink: false
+verify: false
