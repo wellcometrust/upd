@@ -35,6 +35,7 @@
   color: #FFFFFF;
   font-size: 2rem;
   line-height: 2.7rem;
+}
 /* #50240: Changes to buttons on the homepage. Overrides main.css. */
 .key-info-tile__icon {
   margin-bottom: 20px;
