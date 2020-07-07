@@ -718,14 +718,6 @@ $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml'
 
 $config_directories['sync'] = '../config/sync';
 
-$config['config_ignore.settings']['ignored_config_entities'] = array(
-  'devel.*',
-  'kint.*',
-  'webprofiler.*',
-  'devel_generate.*',
-  'system.menu.devel.*',
-);
-
 $databases['default']['default'] = array(
   'database' => 'upd',
   'username' => 'drupal',

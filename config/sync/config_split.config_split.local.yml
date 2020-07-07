@@ -1,0 +1,32 @@
+uuid: 4500ed57-18b5-436b-b076-fcde83902049
+langcode: en
+status: true
+dependencies: {  }
+id: local
+label: Local
+description: 'Local environment configuration for developers.'
+folder: ../config/local
+module:
+  devel: 0
+  devel_php: 0
+  stage_file_proxy: 0
+theme: {  }
+blacklist:
+  - dblog.settings
+  - devel.settings
+  - devel.toolbar.settings
+  - system.logging
+  - system.menu.devel
+  - views.view.watchdog
+  - google_analytics.settings
+  - search_api.index.content
+  - search_api.index.main_solr
+  - search_api.server.local_db
+  - search_api.server.local_solr
+  - system.site
+  - stage_file_proxy.settings
+graylist:
+  - system.performance
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0
