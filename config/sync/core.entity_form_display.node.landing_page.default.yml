@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.landing_page.field_footer_area
     - field.field.node.landing_page.field_hero_intro
     - field.field.node.landing_page.field_metatags
+    - field.field.node.landing_page.field_standfirst
     - field.field.node.landing_page.field_testimonial
     - node.type.landing_page
   module:
@@ -20,6 +21,7 @@ dependencies:
     - metatag
     - paragraphs
     - path
+    - text
 third_party_settings:
   field_group:
     group_content_landing:
@@ -99,6 +101,7 @@ third_party_settings:
     group_header_content:
       children:
         - title
+        - field_standfirst
         - field_hero_intro
       parent_name: group_content_landing
       weight: 20
@@ -136,7 +139,7 @@ content:
     region: content
   field_case_studies:
     type: entity_browser_entity_reference
-    weight: 11
+    weight: 12
     region: content
     settings:
       entity_browser: article_browser_case_study
@@ -181,7 +184,7 @@ content:
     type: entity_browser_entity_reference
     region: content
   field_footer_area:
-    weight: 27
+    weight: 28
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -200,7 +203,7 @@ content:
     type: paragraphs
     region: content
   field_hero_intro:
-    weight: 2
+    weight: 4
     settings:
       rows: 5
       placeholder: ''
@@ -213,9 +216,17 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_standfirst:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
   field_testimonial:
     type: entity_reference_paragraphs
-    weight: 4
+    weight: 12
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -283,4 +294,9 @@ content:
       match_limit: 10
     third_party_settings: {  }
     region: content
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden: {  }

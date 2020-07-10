@@ -13,7 +13,12 @@
       </div>
     </div>
     <div class="wrapper wrapper--gutter">
+    {% if content.field_standfirst|render|trim %}
+      <h1 class="hero__title with-sub-title">{{ label }}</h1>
+      <div class="hero__sub-title">{{ content.field_standfirst }}</div>
+    {% else %}
       <h1 class="hero__title">{{ label }}</h1>
+    {% endif %}
       {{ content.field_3_items_grid }}
       <p class="hero__intro">{{ content.field_hero_intro }}</p>
     </div>
