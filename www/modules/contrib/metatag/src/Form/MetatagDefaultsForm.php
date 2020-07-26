@@ -97,6 +97,17 @@ class MetatagDefaultsForm extends EntityForm {
       $form = $metatag_manager->form($values, $form);
     }
 
+    $form['status'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Active'),
+      '#default_value' => $metatag_defaults->status(),
+    ];
+    if ($metatag_defaults_id === 'global') {
+      // Disabling global prevents any metatags from working.
+      // Warn users about this.
+      $form['status']['#description'] = $this->t('Warning: disabling the Global default metatag will prevent any metatags from being used.');
+    }
+
     return $form;
   }
 
@@ -145,6 +156,8 @@ class MetatagDefaultsForm extends EntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $metatag_defaults = $this->entity;
 
+    $metatag_defaults->setStatus($form_state->getValue('status'));
+
     // Set the label on new defaults.
     if ($metatag_defaults->isNew()) {
       $metatag_defaults_id = $form_state->getValue('id');
@@ -154,8 +167,8 @@ class MetatagDefaultsForm extends EntityForm {
       $entity_bundle = isset($type_parts[1]) ? $type_parts[1] : NULL;
 
       // Get the entity label.
-      $entity_manager = \Drupal::service('entity_type.manager');
-      $entity_info = $entity_manager->getDefinitions();
+      $entity_type_manager = \Drupal::service('entity_type.manager');
+      $entity_info = $entity_type_manager->getDefinitions();
       $entity_label = (string) $entity_info[$entity_type]->get('label');
 
       if (!is_null($entity_bundle)) {
@@ -203,13 +216,13 @@ class MetatagDefaultsForm extends EntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Metatag defaults.', [
+        $this->messenger()->addMessage($this->t('Created the %label Metatag defaults.', [
           '%label' => $metatag_defaults->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label Metatag defaults.', [
+        $this->messenger()->addMessage($this->t('Saved the %label Metatag defaults.', [
           '%label' => $metatag_defaults->label(),
         ]));
     }
@@ -226,11 +239,11 @@ class MetatagDefaultsForm extends EntityForm {
   protected function getAvailableBundles() {
     $options = [];
     $entity_types = static::getSupportedEntityTypes();
-    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager */
-    $entity_manager = \Drupal::service('entity_type.manager');
+    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+    $entity_type_manager = \Drupal::service('entity_type.manager');
     /** @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface $bundle_info */
     $bundle_info = \Drupal::service('entity_type.bundle.info');
-    $metatags_defaults_manager = $entity_manager->getStorage('metatag_defaults');
+    $metatags_defaults_manager = $entity_type_manager->getStorage('metatag_defaults');
     foreach ($entity_types as $entity_type => $entity_label) {
       if (empty($metatags_defaults_manager->load($entity_type))) {
         $options[$entity_label][$entity_type] = "$entity_label (Default)";
@@ -257,8 +270,8 @@ class MetatagDefaultsForm extends EntityForm {
   public static function getSupportedEntityTypes() {
     $entity_types = [];
 
-    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager */
-    $entity_manager = \Drupal::service('entity_type.manager');
+    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+    $entity_type_manager = \Drupal::service('entity_type.manager');
 
     // A list of entity types that are not supported.
     $unsupported_types = [
@@ -276,7 +289,7 @@ class MetatagDefaultsForm extends EntityForm {
     ];
 
     // Make a list of supported content types.
-    foreach ($entity_manager->getDefinitions() as $entity_name => $definition) {
+    foreach ($entity_type_manager->getDefinitions() as $entity_name => $definition) {
       // Skip some entity types that we don't want to support.
       if (in_array($entity_name, $unsupported_types)) {
         continue;

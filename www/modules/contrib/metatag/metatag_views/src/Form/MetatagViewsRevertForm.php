@@ -37,8 +37,8 @@ class MetatagViewsRevertForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_manager) {
-    $this->viewsManager = $entity_manager->getStorage('view');
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->viewsManager = $entity_type_manager->getStorage('view');
   }
 
   /**
@@ -123,7 +123,7 @@ class MetatagViewsRevertForm extends ConfirmFormBase {
     // Redirect back to the views list.
     $form_state->setRedirect('metatag_views.metatags.list');
 
-    drupal_set_message($this->t('Reverted meta tags for @view_name : @display_name', [
+    $this->messenger()->addMessage($this->t('Reverted meta tags for @view_name : @display_name', [
       '@view_name' => $this->view->label(),
       '@display_name' => $this->view->getDisplay($this->displayId)['display_title'],
     ]));
