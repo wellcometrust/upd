@@ -109,6 +109,7 @@
     "drupal/media_upload": "2.x",
     "drupal/menu_link_attributes": "1.x",
     "drupal/metatag": "^1.2",
+    "drupal/module_filter": "^3.1",
     "drupal/node_weight": "2.x-dev",
     "drupal/page_manager": "4.x",
     "drupal/panels": "4.*",
