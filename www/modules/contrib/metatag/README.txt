@@ -61,7 +61,7 @@ The primary features include:
   APIs, but they are not needed by most sites and have no bearing on the
   Open Graph meta tags.
 
-* The Pinterest meta tags may be added by enabling the "Metatag: Pinterest" 
+* The Pinterest meta tags may be added by enabling the "Metatag: Pinterest"
   submodule.
 
 * Site verification meta tags can be added, e.g. as used by the Google search
@@ -91,6 +91,10 @@ The primary features include:
 * Integration with DrupalConsole [1] to provide a quick method of generating new
   meta tags.
 
+* A report page at /admin/reports/metatag-plugins which shows all of the meta
+  tag plugins provided on the site, and indication as to which module provides
+  them.
+
 
 Standard usage scenario
 --------------------------------------------------------------------------------
@@ -113,6 +117,8 @@ Standard usage scenario
    5.5 If the site supports multiple languages, and translations have been
        enabled for this entity, select "Users may translate this field" to use
        Drupal's translation system.
+
+Please note: no meta tags will be output while the site is in maintenance mode.
 
 
 Simplify the content administration experience
@@ -205,7 +211,7 @@ This will return an array with the following structure:
       '#tag' => 'link',
       '#attributes' => [
         'rel' => 'canonical',
-        'href' => 'http://example.com/what',
+        'href' => 'https://example.com/what',
       ],
     ],
     'description' => [
@@ -229,6 +235,61 @@ meta tag is then provided as arguments suitable for use in a render array with
 the type "html_tag". Extracting the value of the meta tag will depend upon the
 type of meta tag, e.g. the generator meta tag uses the "content" attribute while
 the link tag uses the "href" attribute.
+
+
+Migration / Upgrade from Drupal 6 or 7
+--------------------------------------------------------------------------------
+An upgrade path from Nodewords on Drupal 6 or Metatag on Drupal 7 is provided.
+
+Two migration processes are supported:
+
+ 1. A guided migration using either the Migrate Drupal UI from core or the
+    Migrate Upgrade [2] contributed module. This will automatically create a
+    field named "field_metatag" and import any meta tag data that existed in
+    Nodewords on D6 or Metatag on D7.
+
+    This migration configuration is all prepared in
+    metatag_migration_plugins_alter(), the data is loaded onto the migrated
+    entity in metatag_migrate_prepare_row(), and then the data is remapped in
+    either \Drupal\metatag\Plugin\migrate\process\d6\NodewordsEntities or
+    \Drupal\metatag\Plugin\migrate\process\d7\MetatagEntities depending upon
+    what the source is.
+
+ 2. A custom migration using Migrate Plus [3] and possibly Migrate Tools [4].
+    This will require manually creating the meta tag fields and assigning a
+    custom process plugin as the source for its data. For example, if the name
+    of the field is "field_meta_tags" the lines fron the "process" section of
+    the migration yml file would need to look line the following:
+
+    For migrating from Nodewords on D6:
+--------------------------------------------------------------------
+process:
+...
+  field_meta_tags:
+    plugin: d6_nodewords_entities
+    source: pseudo_metatag_entities
+...
+--------------------------------------------------------------------
+
+    For Migrating from Metatag on D7:
+--------------------------------------------------------------------
+process:
+...
+  field_meta_tags:
+    plugin: d7_metatag_entities
+    source: pseudo_metatag_entities
+...
+--------------------------------------------------------------------
+
+    The important items are the "plugin" and the "source" values, if these are
+    not present the migration will not work as expected.
+
+    The data will then be loaded into the migrating entity using
+    metatag_migrate_prepare_row().
+
+    See also:
+    * \Drupal\metatag\Plugin\migrate\process\d6\NodewordsEntities
+    * \Drupal\metatag\Plugin\migrate\process\d7\MetatagEntities
 
 
 DrupalConsole integration
@@ -295,14 +356,14 @@ Known issues
 
 Credits / contact
 --------------------------------------------------------------------------------
-Currently maintained by Damien McKenna [2] and Dave Reid [3]. Drupal 7 module
+Currently maintained by Damien McKenna [5] and Dave Reid [6]. Drupal 7 module
 originally written by Dave Reid. Early work on Drupal 8 port by Damien McKenna
-and Michelle Cox [4], and sponsored by Mediacurrent [5]; key improvements by
-Juampy Novillo Requena [6] with insights from Dave Reid and sponsorship by
-Lullabot [7] and Acquia [8]. Additional contributions to the 8.x-1.0 release
-from cilefen [9], Daniel Wehner [10], Jesus Manuel Olivas [11], Lee Rowlands
-[12], Michael Kandelaars [13], Ivo Van Geertruyen [14], Nikhilesh Gupta B [15],
-Rakesh James [16], and many others.
+and Michelle Cox [7], and sponsored by Mediacurrent [8]; key improvements by
+Juampy Novillo Requena [9] with insights from Dave Reid and sponsorship by
+Lullabot [10] and Acquia [11]. Additional contributions to the 8.x-1.0 release
+from cilefen [12], Daniel Wehner [13], Jesus Manuel Olivas [14], Lee Rowlands
+[15], Michael Kandelaars [16], Ivo Van Geertruyen [17], Nikhilesh Gupta B [18],
+Rakesh James [19], and many others.
 
 Ongoing development is sponsored by Mediacurrent.
 
@@ -314,18 +375,21 @@ request, a feature request or a bug report, in the project issue queue:
 References
 --------------------------------------------------------------------------------
 1: https://www.drupal.org/project/console
-2: https://www.drupal.org/u/damienmckenna
-3: https://www.drupal.org/u/dave-reid
-4: https://www.drupal.org/u/michelle
-5: https://www.mediacurrent.com/
-6: https://www.drupal.org/u/juampynr
-7: https://www.lullabot.com/
-8: https://www.acquia.com/
-9: https://www.drupal.org/u/cilefen
-10: https://www.drupal.org/u/dawehner
-11: https://www.drupal.org/u/jmolivas
-12: https://www.drupal.org/u/larowlan
-13: https://www.drupal.org/u/mikeyk
-14: https://www.drupal.org/u/mr.baileys
-15: https://www.drupal.org/u/nikhilesh-gupta
-16: https://www.drupal.org/u/rakeshgectcr
+2: https://www.drupal.org/project/migrate_upgrade
+3: https://www.drupal.org/project/migrate_plus
+4: https://www.drupal.org/project/migrate_tools
+5: https://www.drupal.org/u/damienmckenna
+6: https://www.drupal.org/u/dave-reid
+7: https://www.drupal.org/u/michelle
+8: https://www.mediacurrent.com/
+9: https://www.drupal.org/u/juampynr
+10: https://www.lullabot.com/
+11: https://www.acquia.com/
+12: https://www.drupal.org/u/cilefen
+13: https://www.drupal.org/u/dawehner
+14: https://www.drupal.org/u/jmolivas
+15: https://www.drupal.org/u/larowlan
+16: https://www.drupal.org/u/mikeyk
+17: https://www.drupal.org/u/mr.baileys
+18: https://www.drupal.org/u/nikhilesh-gupta
+19: https://www.drupal.org/u/rakeshgectcr
