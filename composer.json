@@ -89,6 +89,7 @@
     "drupal/config_filter": "1.x",
     "drupal/config_split": "^1.4",
     "drupal/console": "~1.0",
+    "drupal/core": "8.8.*",
     "drupal/core-composer-scaffold": "^8.8",
     "drupal/core-project-message": "^8.8",
     "drupal/ctools": "3.*",
