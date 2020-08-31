@@ -7,14 +7,23 @@ label: Local
 description: 'Local environment configuration for developers.'
 folder: ../config/local
 module:
+  admin_toolbar_tools: 0
+  config: 0
+  contextual: 0
   devel: 0
   devel_php: 0
+  field_ui: 0
+  module_filter: 0
+  page_manager_ui: 0
   stage_file_proxy: 0
+  update: 0
+  views_ui: 0
 theme: {  }
 blacklist:
   - dblog.settings
   - devel.settings
   - devel.toolbar.settings
+  - field_ui.settings
   - system.logging
   - system.menu.devel
   - views.view.watchdog
@@ -25,6 +34,7 @@ blacklist:
   - search_api.server.local_solr
   - system.site
   - stage_file_proxy.settings
+  - update.settings
 graylist:
   - system.performance
 graylist_dependents: true

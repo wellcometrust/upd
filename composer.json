@@ -1,12 +1,13 @@
 {
   "name": "ce/drupal",
-  "description": "",
+  "description": "Content website for the 'Understanding Patient Data' project.",
   "type": "project",
   "license": "GPL-2",
+  "homepage": "https://understandingpatientdata.org.uk/",
   "authors": [
     {
-      "name": "",
-      "role": ""
+      "name": "Code Enigma",
+      "role": "Maintainer"
     }
   ],
   "repositories": {
@@ -79,9 +80,8 @@
   "require": {
     "ckeditor/tabletoolstoolbar": "^0.0.1",
     "colorbox/colorbox.js": "1.6.4",
-    "composer/installers": "1.*",
+    "composer/installers": "^1.2",
     "dropzone/dropzone.js": "4.3.0",
-    "drupal-composer/drupal-scaffold": "2.*",
     "drupal/admin_toolbar": "2.*",
     "drupal/ckeditor_tabletoolstoolbar": "^1.0",
     "drupal/colorbox": "1.x",
@@ -90,6 +90,8 @@
     "drupal/config_split": "^1.4",
     "drupal/console": "~1.0",
     "drupal/core": "8.8.*",
+    "drupal/core-composer-scaffold": "^8.8",
+    "drupal/core-project-message": "^8.8",
     "drupal/ctools": "3.*",
     "drupal/devel": "^4.0",
     "drupal/devel_php": "^1.2",
@@ -108,6 +110,7 @@
     "drupal/media_upload": "2.x",
     "drupal/menu_link_attributes": "1.x",
     "drupal/metatag": "^1.2",
+    "drupal/module_filter": "^3.1",
     "drupal/node_weight": "2.x-dev",
     "drupal/page_manager": "4.x",
     "drupal/panels": "4.*",
@@ -125,26 +128,32 @@
   "require-dev": {
     "geerlingguy/drupal-vm": "4.*"
   },
-  "replace": {
+  "conflict": {
     "drupal/drupal": "*"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
+  "config": {
+    "process-timeout": 2200,
+    "sort-packages": true
+  },
   "extra": {
+    "drupal-scaffold": {
+      "locations": {
+        "web-root": "www/"
+      }
+    },
     "patches-file": "composer.patches.json",
     "enable-patching": true,
     "installer-paths": {
       "www/core": ["type:drupal-core"],
+      "www/libraries/{$name}": ["type:drupal-library"],
       "www/modules/contrib/{$name}": ["type:drupal-module"],
-      "www/modules/custom/{$name}": ["type:drupal-custom-module"],
       "www/profiles/contrib/{$name}": ["type:drupal-profile"],
       "www/themes/contrib/{$name}": ["type:drupal-theme"],
-      "www/themes/custom/{$name}": ["type:drupal-custom-theme"],
-      "www/contrib/{$name}": ["type:drupal-drush"],
-      "www/libraries/{$name}": ["type:drupal-library"]
+      "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
+      "www/modules/custom/{$name}": ["type:drupal-custom-module"],
+      "www/themes/custom/{$name}": ["type:drupal-custom-theme"]
     }
-  },
-  "config": {
-    "process-timeout": 2200
   }
 }
