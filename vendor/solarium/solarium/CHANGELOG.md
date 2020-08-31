@@ -4,6 +4,171 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.0.2]
+### Added
+- Support for the analytics component
+- Function builder
+- Solarium\Component\FacetSet::setMatches()
+- Solarium\Component\FacetSet::setExcludeTerms()
+- Solarium\Component\Facet\Field::setMatches()
+- Solarium\Component\Facet\Field::setExcludeTerms()
+- Solarium\Component\Highlighting\Highlighting::setMethod()
+
+### Changed
+- Refactored Managed Resources code: use `createCommand()` and `createInitArgs()` to issue commands
+
+
+## [6.0.1]
+### Added
+- Solarium\Component\Result\Facet\JsonRange::getBefore()
+- Solarium\Component\Result\Facet\JsonRange::getAfter()
+- Solarium\Component\Result\Facet\JsonRange::getBetween()
+
+### Changed
+ - Json range facet result now returns Solarium\Component\Result\Facet\JsonRange
+ 
+
+## [6.0.0]
+### Added
+- \Solarium\Component\Result\Facet\Buckets::getNumBuckets()
+
+### Changed
+- Thrown exceptions always implement Solarium\Exception\ExceptionInterface
+
+
+## [6.0.0-rc.1]
+### Added
+- \Solarium\Support\Utility::getXmlEncoding()
+
+### Fixed
+- MoreLikeThis result parsing fails on Solr Cloud
+- MinimumScoreFilter plugin might fail on Solr 7 in cloud mode
+
+
+## [6.0.0-beta.1]
+### Changed
+- PostBigRequest plugin now acts on PRE_EXECUTE_REQUEST event instead of POST_CREATE_REQUEST
+- CustomizeRequest plugin now acts on POST_CREATE_REQUEST event instead of PRE_EXECUTE_REQUEST
+
+### Removed
+- PHP 7.1 support
+
+
+## [6.0.0-alpha.1]
+### Added
+- Raw XML commands to update query
+- Raw XML from file in update query
+- Set input encoding for select and update queries
+- Create and configure Managed Resources
+
+### Changed
+- More strict types and type hinting
+- `AdapterInterface` does not extend `ConfigurableInterface` anymore
+- `Http` Adapter does not implement `ConfigurableInterface` anymore
+- `Psr18Adapter` does not implement `ConfigurableInterface` anymore
+- Solarium Client now accepts any PSR-15 compatible event dispatcher (previously it had to be symfony's event dispatcher)
+
+### Removed
+- Zend2HttpAdapter
+- GuzzleAdapter
+- Guzzle3Adapter
+- Endpoint::setTimeout and Endpoint::getTimeout
+- Passing local parameter options (e.g. ``key``, ``tag``, ``exclude``) without the ``local_`` prefix 
+- Support for Solr versions before 7.7
+
+
+## [5.2.0]
+### Added
+- PSR-18 http adapter
+
+### Fixed
+- PUT requests against Solr 8.5.0 using the Zend2Http and Http adapters
+
+### Deprecated
+- Zend2HttpAdapter, use PSR-18 http adapter instead
+- GuzzleAdapter, use PSR-18 http adapter instead
+- Guzzle3Adapter, use PSR-18 http adapter instead
+- Endpoint::setTimeout and Endpoint::getTimeout, configure the timeout on the http adapter instead
+
+
+## [5.1.6]
+### Added
+- Range facet pivot support
+- Support for useConfiguredElevatedOrder
+- FilterQuery::setCache and FilterQuery::setCost()
+
+### Fixed
+- Setting limit for pivot facets
+
+### Changed
+- Internal handling of Solr local parameters
+
+### Deprecated
+- Helper::cacheControl(). Use FilterQuery::setCache() and FilterQuery::setCost() instead
+
+
+## [5.1.5]
+### Security
+- Remove explicit requirements for symfony/cache because of CVE-2019-18889
+
+### Added
+- Symfony 5 support
+
+### Fixed
+- PHP 7.4 compatibility issue: deprecated parameter order of implode()
+- PHP 7.4 test coverage
+- Solarium\Component\Result\Stats\Result getters might return null
+
+
+## [5.1.4]
+### Added
+- Solarium\Component\Facet\Pivot::setLimit()
+- Solarium\Component\Facet\Pivot::getLimit()
+
+### Fixed
+-  Client::checkExact() checks against wrong version number
+
+
+## [5.1.3]
+### Fixed
+- Solarium\Component\ResponseParser\Debug fails on Solr Cloud 6.x during extracting timing phases
+
+
+## [5.1.2]
+### Fixed
+- BufferedAdd does not support Symfony event dispatcher
+- An empty array as value in combination with the `set` modifier should remove a field when performing Atomic Updates
+
+
+## [5.1.1]
+### Fixed
+- PHP 7.1 compatibility issue: date constants are not available as part of DateTimeInterface before PHP 7.2.0
+- Use Symfony\Contracts\EventDispatcher\Event instead of deprecated Symfony\Component\EventDispatcher\Event
+
+
+## [5.1.0]
+### Fixed
+- BufferedAdd::commit() type hints
+- Symfony >=4.3 event dispatcher deprecation warnings
+
+
+## [5.1.0-rc.1]
+### Added
+- Solarium\Core\Query\Helper::formatDate() now handles DateTimeImmutable
+
+### Changed
+- Try to capture complete response body as error message when using guzzle instead of using guzzle's truncated message
+- Adapted to Symfony >=4.3 event dispatching, backward compatible to >=3.4, <=4.2
+
+### Fixed
+- Complex ReRank queries should not cause Solr parse errors
+- Update request builders format \DateTimeImmutable correctly
+- Symfony >=4.3 event dispatcher deprecation warnings
+
+### Removed
+- Symfony <3.4 support
+
+
 ## [5.0.3]
 ### Fixed
 - Solarium\QueryType\MoreLikeThis\Query::setBoost()

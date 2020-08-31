@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Result\Stats;
 
 /**
@@ -37,6 +44,19 @@ class Stats implements \IteratorAggregate, \Countable
     }
 
     /**
+     * @param string                                  $key
+     * @param \Solarium\Component\Result\Stats\Result $result
+     *
+     * @return $this
+     */
+    public function setResult(string $key, Result $result): self
+    {
+        $this->results[$key] = $result;
+
+        return $this;
+    }
+
+    /**
      * Get all results.
      *
      * @return Result[]
@@ -63,6 +83,6 @@ class Stats implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        return count($this->results);
+        return \count($this->results);
     }
 }

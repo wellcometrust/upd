@@ -1,7 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
@@ -33,7 +41,6 @@ use Solarium\QueryType\Terms\Query as TermsQuery;
 use Solarium\QueryType\Terms\Result as TermsResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Main interface for interaction with Solr.
@@ -113,7 +120,7 @@ interface ClientInterface
     /**
      * Remove a single endpoint.
      *
-     * You can remove a endpoint by passing it's key, or by passing the endpoint instance
+     * You can remove a endpoint by passing its key, or by passing the endpoint instance
      *
      * @param string|Endpoint $endpoint
      *
@@ -155,37 +162,18 @@ interface ClientInterface
     /**
      * Set the adapter.
      *
-     * The adapter has to be a class that implements the AdapterInterface
-     *
-     * If a string is passed it is assumed to be the classname and it will be
-     * instantiated on first use. This requires the availability of the class
-     * through autoloading or a manual require before calling this method.
-     * Any existing adapter instance will be removed by this method, this way an
-     * instance of the new adapter type will be created upon the next usage of
-     * the adapter (lazy-loading)
-     *
-     * If an adapter instance is passed it will replace the current adapter
-     * immediately, bypassing the lazy loading.
-     *
-     * @param string|Adapter\AdapterInterface $adapter
-     *
-     * @throws InvalidArgumentException
+     * @param AdapterInterface $adapter
      *
      * @return self Provides fluent interface
      */
-    public function setAdapter($adapter): self;
+    public function setAdapter(AdapterInterface $adapter): self;
 
     /**
      * Get the adapter instance.
      *
-     * If {@see $adapter} doesn't hold an instance a new one will be created by
-     * calling {@see createAdapter()}
-     *
-     * @param bool $autoload
-     *
      * @return AdapterInterface
      */
-    public function getAdapter(bool $autoload = true): AdapterInterface;
+    public function getAdapter(): AdapterInterface;
 
     /**
      * Register a querytype.

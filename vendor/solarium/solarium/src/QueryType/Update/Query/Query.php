@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\InvalidArgumentException;
@@ -13,8 +21,8 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
+use Solarium\QueryType\Update\Query\Command\RawXml as RawXmlCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
 use Solarium\QueryType\Update\Result;
@@ -34,24 +42,29 @@ class Query extends BaseQuery
     const COMMAND_ADD = 'add';
 
     /**
-     * Update command delete.
-     */
-    const COMMAND_DELETE = 'delete';
-
-    /**
      * Update command commit.
      */
     const COMMAND_COMMIT = 'commit';
 
     /**
-     * Update command rollback.
+     * Update command delete.
      */
-    const COMMAND_ROLLBACK = 'rollback';
+    const COMMAND_DELETE = 'delete';
 
     /**
      * Update command optimize.
      */
     const COMMAND_OPTIMIZE = 'optimize';
+
+    /**
+     * Update command raw XML.
+     */
+    const COMMAND_RAWXML = 'rawxml';
+
+    /**
+     * Update command rollback.
+     */
+    const COMMAND_ROLLBACK = 'rollback';
 
     /**
      * Update command types.
@@ -60,9 +73,10 @@ class Query extends BaseQuery
      */
     protected $commandTypes = [
         self::COMMAND_ADD => AddCommand::class,
-        self::COMMAND_DELETE => DeleteCommand::class,
         self::COMMAND_COMMIT => CommitCommand::class,
+        self::COMMAND_DELETE => DeleteCommand::class,
         self::COMMAND_OPTIMIZE => OptimizeCommand::class,
+        self::COMMAND_RAWXML => RawXmlCommand::class,
         self::COMMAND_ROLLBACK => RollbackCommand::class,
     ];
 
@@ -121,7 +135,6 @@ class Query extends BaseQuery
     /**
      * Create a command instance.
      *
-     *
      * @param string $type
      * @param array  $options
      *
@@ -134,7 +147,7 @@ class Query extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new InvalidArgumentException('Update commandtype unknown: '.$type);
+            throw new InvalidArgumentException(sprintf('Update commandtype unknown: %s', $type));
         }
 
         $class = $this->commandTypes[$type];
@@ -185,7 +198,7 @@ class Query extends BaseQuery
      */
     public function remove($keyOrCommand): self
     {
-        if (is_object($keyOrCommand)) {
+        if (\is_object($keyOrCommand)) {
             foreach ($this->commands as $key => $instance) {
                 if ($instance === $keyOrCommand) {
                     unset($this->commands[$key]);
@@ -202,7 +215,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method for adding a rollback command.
+     * Convenience method to add a rollback command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
@@ -215,7 +228,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method for adding a delete query command.
+     * Convenience method to add a delete query command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
@@ -400,6 +413,63 @@ class Query extends BaseQuery
     }
 
     /**
+     * Convenience method for adding a raw XML command.
+     *
+     * If you need more control, like choosing a key for the command you need to
+     * create you own command instance and use the add method.
+     *
+     * @param string $command
+     *
+     * @return self Provides fluent interface
+     */
+    public function addRawXmlCommand(string $command): self
+    {
+        $raw = new RawXmlCommand();
+
+        $raw->addCommand($command);
+
+        return $this->add(null, $raw);
+    }
+
+    /**
+     * Convenience method for adding raw XML commands.
+     *
+     * If you need more control, like choosing a key for the command you need to
+     * create you own command instance and use the add method.
+     *
+     * @param array $commands
+     *
+     * @return self Provides fluent interface
+     */
+    public function addRawXmlCommands(array $commands): self
+    {
+        $raw = new RawXmlCommand();
+
+        $raw->addCommands($commands);
+
+        return $this->add(null, $raw);
+    }
+
+    /**
+     * Convenience method for adding a raw XML command from a file.
+     *
+     * If you need more control, like choosing a key for the command you need to
+     * create you own command instance and use the add method.
+     *
+     * @param string $filename
+     *
+     * @return self Provides fluent interface
+     */
+    public function addRawXmlFile(string $filename): self
+    {
+        $raw = new RawXmlCommand();
+
+        $raw->addCommandFromFile($filename);
+
+        return $this->add(null, $raw);
+    }
+
+    /**
      * Set a custom document class for use in the createDocument method.
      *
      * This class should implement the document interface
@@ -411,6 +481,7 @@ class Query extends BaseQuery
     public function setDocumentClass(string $value): self
     {
         $this->setOption('documentclass', $value);
+
         return $this;
     }
 
@@ -455,16 +526,16 @@ class Query extends BaseQuery
      *
      * @throws RuntimeException
      */
-    protected function init()
+    protected function init(): void
     {
+        parent::init();
+
         if (isset($this->options['command'])) {
             foreach ($this->options['command'] as $key => $value) {
                 $type = $value['type'];
 
-                if (self::COMMAND_ADD == $type) {
-                    throw new RuntimeException(
-                        'Adding documents is not supported in configuration, use the API for this'
-                    );
+                if (self::COMMAND_ADD === $type) {
+                    throw new RuntimeException('Adding documents is not supported in configuration, use the API for this');
                 }
 
                 $this->add($key, $this->createCommand($type, $value));
