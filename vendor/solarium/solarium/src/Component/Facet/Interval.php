@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
@@ -7,14 +14,10 @@ use Solarium\Component\FacetSetInterface;
 /**
  * Facet interval.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#Interval_Faceting
+ * @see https://lucene.apache.org/solr/guide/faceting.html#interval-faceting
  */
-class Interval extends AbstractFacet implements ExcludeTagsInterface
+class Interval extends AbstractFacet
 {
-    use ExcludeTagsTrait {
-        init as excludeTagsInit;
-    }
-
     /**
      * Get the facet type.
      *
@@ -35,6 +38,7 @@ class Interval extends AbstractFacet implements ExcludeTagsInterface
     public function setField(string $field): self
     {
         $this->setOption('field', $field);
+
         return $this;
     }
 
@@ -60,12 +64,13 @@ class Interval extends AbstractFacet implements ExcludeTagsInterface
      */
     public function setSet($set): self
     {
-        if (is_string($set)) {
+        if (\is_string($set)) {
             $set = explode(',', $set);
             $set = array_map('trim', $set);
         }
 
         $this->setOption('set', $set);
+
         return $this;
     }
 
@@ -92,8 +97,6 @@ class Interval extends AbstractFacet implements ExcludeTagsInterface
      */
     protected function init()
     {
-        $this->excludeTagsInit();
-
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'set':

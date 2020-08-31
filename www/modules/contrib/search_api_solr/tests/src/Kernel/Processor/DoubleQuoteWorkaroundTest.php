@@ -26,9 +26,7 @@ class DoubleQuoteWorkaroundTest extends ProcessorTestBase {
    * {@inheritdoc}
    */
   public static $modules = [
-    'devel',
     'search_api_solr',
-    'search_api_solr_devel',
     'search_api_solr_test',
   ];
 
@@ -79,7 +77,7 @@ class DoubleQuoteWorkaroundTest extends ProcessorTestBase {
       );
 
     $this->assertEquals(
-      'search(d8, q=ss_search_api_datasource:entity\:entity_test_mulrev_changed, fq="tm_X3b_und_title:\\"double ' . $replacement . 'quotes' . $replacement . ' within the text\\"", fl="tm_X3b_und_title", sort="ss_search_api_id DESC", qt="/export")',
+      'search(drupal, q=ss_search_api_datasource:entity\:entity_test_mulrev_changed, fq="tm_X3b_und_title:\\"double ' . $replacement . 'quotes' . $replacement . ' within the text\\"", fl="tm_X3b_und_title", sort="ss_search_api_id DESC", qt="/export")',
       $streaming_expression
     );
 

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query\Result;
 
 use Solarium\Core\Client\Response;
@@ -42,7 +49,6 @@ class Result implements ResultInterface
     /**
      * Constructor.
      *
-     *
      * @param AbstractQuery $query
      * @param Response      $response
      *
@@ -54,13 +60,8 @@ class Result implements ResultInterface
         $this->response = $response;
 
         // check status for error (range of 400 and 500)
-        $statusNum = floor($response->getStatusCode() / 100);
-        if (4 == $statusNum || 5 == $statusNum) {
-            throw new HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode(),
-                $response->getBody()
-            );
+        if ($response->getStatusCode() >= 400) {
+            throw new HttpException($response->getStatusMessage(), $response->getStatusCode(), $response->getBody());
         }
     }
 
@@ -107,13 +108,11 @@ class Result implements ResultInterface
                     $this->data = json_decode($this->response->getBody(), true);
                     break;
                 default:
-                    throw new RuntimeException('Responseparser cannot handle '.$this->query->getResponseWriter());
+                    throw new RuntimeException(sprintf('Responseparser cannot handle %s', $this->query->getResponseWriter()));
             }
 
             if (null === $this->data) {
-                throw new UnexpectedValueException(
-                    'Solr JSON response could not be decoded'
-                );
+                throw new UnexpectedValueException('Solr JSON response could not be decoded');
             }
         }
 

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\Core\Client\Client;
@@ -14,6 +21,8 @@ use Solarium\QueryType\Select\Result\Document;
  * Can be used to select documents and/or facets from Solr. This querytype has
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
+ *
+ * @see https://lucene.apache.org/solr/guide/other-parsers.html#more-like-this-query-parser
  */
 class Query extends SelectQuery
 {
@@ -72,7 +81,7 @@ class Query extends SelectQuery
      *
      * Set to true to post query content instead of using the URL param
      *
-     * @see http://wiki.apache.org/solr/ContentStream ContentStream
+     * @see https://lucene.apache.org/solr/guide/content-streams.html
      *
      * @param bool $stream
      *
@@ -81,6 +90,7 @@ class Query extends SelectQuery
     public function setQueryStream(bool $stream): self
     {
         $this->setOption('stream', $stream);
+
         return $this;
     }
 
@@ -95,9 +105,9 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set the interestingTerms parameter.  Must be one of: none, list, details.
+     * Set the interestingTerms parameter. Must be one of: none, list, details.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param string $term
      *
@@ -106,6 +116,7 @@ class Query extends SelectQuery
     public function setInterestingTerms(string $term): self
     {
         $this->setOption('interestingTerms', $term);
+
         return $this;
     }
 
@@ -122,7 +133,7 @@ class Query extends SelectQuery
     /**
      * Set the match.include parameter, which is either 'true' or 'false'.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param bool $include
      *
@@ -131,6 +142,7 @@ class Query extends SelectQuery
     public function setMatchInclude(bool $include): self
     {
         $this->setOption('matchinclude', $include);
+
         return $this;
     }
 
@@ -148,7 +160,7 @@ class Query extends SelectQuery
      * Set the mlt.match.offset parameter, which determines the which result from the query should be used for MLT
      * For paging of MLT use setStart / setRows.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param int $offset
      *
@@ -157,6 +169,7 @@ class Query extends SelectQuery
     public function setMatchOffset(int $offset): self
     {
         $this->setOption('matchoffset', $offset);
+
         return $this;
     }
 
@@ -178,18 +191,21 @@ class Query extends SelectQuery
      *
      * Separate multiple fields with commas if you use string input.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param string|array $fields
      *
      * @return self Provides fluent interface
      */
     public function setMltFields($fields): self
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
         $this->setOption('mltfields', $fields);
+
         return $this;
     }
 
@@ -214,6 +230,8 @@ class Query extends SelectQuery
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -221,6 +239,7 @@ class Query extends SelectQuery
     public function setMinimumTermFrequency(int $minimum): self
     {
         $this->setOption('minimumtermfrequency', $minimum);
+
         return $this;
     }
 
@@ -240,6 +259,8 @@ class Query extends SelectQuery
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -247,6 +268,7 @@ class Query extends SelectQuery
     public function setMinimumDocumentFrequency(int $minimum): self
     {
         $this->setOption('minimumdocumentfrequency', $minimum);
+
         return $this;
     }
 
@@ -265,6 +287,8 @@ class Query extends SelectQuery
      *
      * Minimum word length below which words will be ignored.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -272,6 +296,7 @@ class Query extends SelectQuery
     public function setMinimumWordLength(int $minimum): self
     {
         $this->setOption('minimumwordlength', $minimum);
+
         return $this;
     }
 
@@ -290,6 +315,8 @@ class Query extends SelectQuery
      *
      * Maximum word length above which words will be ignored.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $maximum
      *
      * @return self Provides fluent interface
@@ -297,6 +324,7 @@ class Query extends SelectQuery
     public function setMaximumWordLength(int $maximum): self
     {
         $this->setOption('maximumwordlength', $maximum);
+
         return $this;
     }
 
@@ -316,6 +344,8 @@ class Query extends SelectQuery
      * Maximum number of query terms that will be included in any generated
      * query.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $maximum
      *
      * @return self Provides fluent interface
@@ -323,6 +353,7 @@ class Query extends SelectQuery
     public function setMaximumQueryTerms(int $maximum): self
     {
         $this->setOption('maximumqueryterms', $maximum);
+
         return $this;
     }
 
@@ -342,6 +373,8 @@ class Query extends SelectQuery
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $maximum
      *
      * @return self Provides fluent interface
@@ -349,6 +382,7 @@ class Query extends SelectQuery
     public function setMaximumNumberOfTokens(int $maximum): self
     {
         $this->setOption('maximumnumberoftokens', $maximum);
+
         return $this;
     }
 
@@ -367,6 +401,8 @@ class Query extends SelectQuery
      *
      * If true the query will be boosted by the interesting term relevance.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param bool $boost
      *
      * @return self Provides fluent interface
@@ -374,6 +410,7 @@ class Query extends SelectQuery
     public function setBoost(bool $boost): self
     {
         $this->setOption('boost', $boost);
+
         return $this;
     }
 
@@ -395,18 +432,21 @@ class Query extends SelectQuery
      *
      * Separate multiple fields with commas if you use string input.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param string|array $queryFields
      *
      * @return self Provides fluent interface
      */
     public function setQueryFields($queryFields): self
     {
-        if (is_string($queryFields)) {
+        if (\is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
             $queryFields = array_map('trim', $queryFields);
         }
 
         $this->setOption('queryfields', $queryFields);
+
         return $this;
     }
 
