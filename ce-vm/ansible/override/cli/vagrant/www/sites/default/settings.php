@@ -51,7 +51,9 @@ $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml'
 $settings['trusted_host_patterns'] = ['.*'];
 
 // @TODO: #49093 Fix Solr configuration locally and search engine on website.
-$config['search_api.server.local_solr'] = [
+// Development: Uncomment the following code to override search API solr server
+// configuration, when using other config_split configurations.
+/*$config['search_api.server.local_solr'] = [
   'backend_config' => [
     'connector_config' => [
       'host' => '192.168.57.130',
@@ -60,7 +62,7 @@ $config['search_api.server.local_solr'] = [
       'port' => '8080',
     ],
   ],
-];
+];*/
 
 /**
  * Include local dev settings if any (gitignored, normally).

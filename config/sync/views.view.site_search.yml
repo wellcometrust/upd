@@ -177,13 +177,13 @@ display:
           parse_mode: terms
           min_length: null
           fields:
-            rendered_item: rendered_item
-            title: title
-            name: name
-            name_1: name_1
-            name_2: name_2
-            field_standfirst: field_standfirst
-            name_3: name_3
+            - field_standfirst
+            - name
+            - name_1
+            - name_2
+            - name_3
+            - rendered_item
+            - title
           plugin_id: search_api_fulltext
         type:
           id: type

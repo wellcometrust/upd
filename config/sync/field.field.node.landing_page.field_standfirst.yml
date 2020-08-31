@@ -11,7 +11,7 @@ id: node.landing_page.field_standfirst
 field_name: field_standfirst
 entity_type: node
 bundle: landing_page
-label: 'Sub-title'
+label: Sub-title
 description: ''
 required: false
 translatable: true
