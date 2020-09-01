@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
@@ -7,12 +14,10 @@ use Solarium\Component\FacetSetInterface;
 /**
  * Facet query.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
+ * @see https://lucene.apache.org/solr/guide/faceting.html#field-value-faceting-parameters
  */
-class Field extends AbstractField implements ExcludeTagsInterface
+class Field extends AbstractField
 {
-    use ExcludeTagsTrait;
-
     /**
      * Facet method enum.
      */
@@ -43,6 +48,7 @@ class Field extends AbstractField implements ExcludeTagsInterface
     public function setContains(string $contains): self
     {
         $this->setOption('contains', $contains);
+
         return $this;
     }
 
@@ -66,6 +72,7 @@ class Field extends AbstractField implements ExcludeTagsInterface
     public function setContainsIgnoreCase($containsIgnoreCase): self
     {
         $this->setOption('containsignorecase', $containsIgnoreCase);
+
         return $this;
     }
 
@@ -77,5 +84,53 @@ class Field extends AbstractField implements ExcludeTagsInterface
     public function getContainsIgnoreCase(): ?bool
     {
         return $this->getOption('containsignorecase');
+    }
+
+    /**
+     * Limit facet terms to those matching this regular expression. Since Solr 7.2.
+     *
+     * @param string $matches
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMatches(string $matches): self
+    {
+        $this->setOption('matches', $matches);
+
+        return $this;
+    }
+
+    /**
+     * Get the regular expression string that facets must match.
+     *
+     * @return string|null
+     */
+    public function getMatches(): ?string
+    {
+        return $this->getOption('matches');
+    }
+
+    /**
+     * Exclude these terms, comma separated list. Use \, for literal comma. Since Solr 6.5.
+     *
+     * @param string $exclude
+     *
+     * @return self Provides fluent interface
+     */
+    public function setExcludeTerms(string $exclude): self
+    {
+        $this->setOption('excludeTerms', $exclude);
+
+        return $this;
+    }
+
+    /**
+     * Get terms that should be excluded from the facet.
+     *
+     * @return string|null
+     */
+    public function getExcludeTerms(): ?string
+    {
+        return $this->getOption('excludeTerms');
     }
 }

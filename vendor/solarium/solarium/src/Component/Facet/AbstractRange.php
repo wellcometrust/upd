@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Facet;
+
+use Solarium\Core\Configurable;
 
 /**
  * Facet range.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
+ * @see https://lucene.apache.org/solr/guide/faceting.html#range-faceting
  */
 abstract class AbstractRange extends AbstractFacet
 {
@@ -69,6 +78,7 @@ abstract class AbstractRange extends AbstractFacet
     public function setField(string $field): self
     {
         $this->setOption('field', $field);
+
         return $this;
     }
 
@@ -92,6 +102,7 @@ abstract class AbstractRange extends AbstractFacet
     public function setStart($start): self
     {
         $this->setOption('start', (string) $start);
+
         return $this;
     }
 
@@ -115,6 +126,7 @@ abstract class AbstractRange extends AbstractFacet
     public function setEnd($end): self
     {
         $this->setOption('end', (string) $end);
+
         return $this;
     }
 
@@ -140,6 +152,7 @@ abstract class AbstractRange extends AbstractFacet
     public function setGap($gap): self
     {
         $this->setOption('gap', $gap);
+
         return $this;
     }
 
@@ -168,6 +181,7 @@ abstract class AbstractRange extends AbstractFacet
     public function setHardend(bool $hardend): self
     {
         $this->setOption('hardend', $hardend);
+
         return $this;
     }
 
@@ -193,12 +207,13 @@ abstract class AbstractRange extends AbstractFacet
      */
     public function setOther($other): self
     {
-        if (is_string($other)) {
+        if (\is_string($other)) {
             $other = explode(',', $other);
             $other = array_map('trim', $other);
         }
 
         $this->setOption('other', $other);
+
         return $this;
     }
 
@@ -229,12 +244,13 @@ abstract class AbstractRange extends AbstractFacet
      */
     public function setInclude($include): self
     {
-        if (is_string($include)) {
+        if (\is_string($include)) {
             $include = explode(',', $include);
             $include = array_map('trim', $include);
         }
 
         $this->setOption('include', $include);
+
         return $this;
     }
 
@@ -251,6 +267,24 @@ abstract class AbstractRange extends AbstractFacet
         }
 
         return $include;
+    }
+
+    /**
+     * @param \Solarium\Component\Facet\Pivot|array $pivot
+     *
+     * @return \Solarium\Core\Configurable
+     */
+    public function setPivot($pivot): Configurable
+    {
+        return $this->setOption('pivot', $pivot);
+    }
+
+    /**
+     * @return \Solarium\Component\Facet\Pivot|array|null
+     */
+    public function getPivot()
+    {
+        return $this->getOption('pivot');
     }
 
     /**

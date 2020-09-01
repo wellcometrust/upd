@@ -1,10 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Event;
 
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\ResultInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * PostExecute event, see Events for details.

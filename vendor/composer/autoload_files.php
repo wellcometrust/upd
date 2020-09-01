@@ -27,6 +27,8 @@ return array(
     'a0edc8309cc5e1d60e3047b5df6b7052' => $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     'def43f6c87e4f8dfd0c9e1b1bab14fe8' => $vendorDir . '/symfony/polyfill-iconv/bootstrap.php',
+    '7e9bd612cc444b3eed788ebbe46263a0' => $vendorDir . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+    '2324d0e5cadd603331d27de142371f0b' => $vendorDir . '/symfony/contracts/Deprecation/function.php',
     '5a12a5271c58108e0aa33355e6ac54ea' => $vendorDir . '/drupal/console-core/src/functions.php',
     '801c31d8ed748cfa537fa45402288c95' => $vendorDir . '/psy/psysh/src/functions.php',
 );
