@@ -70,7 +70,6 @@ module:
   responsive_image: 0
   scheduled_publish: 0
   search_api: 0
-  search_api_db: 0
   search_api_solr: 0
   simple_sitemap: 0
   system: 0
