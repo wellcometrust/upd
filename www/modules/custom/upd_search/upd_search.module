@@ -48,7 +48,7 @@ function upd_search_preprocess_views_view(&$variables) {
   // the template file for the listing/search view mode.
   $view = $variables['view'];
   $view_name = $view->id();
-  if (in_array($view_name, ['search', 'case_studies_index', 'site_search', 'case_studies_index_solr'])) {
+  if (in_array($view_name, ['site_search', 'case_studies_index_solr'])) {
     foreach ($variables['rows'] as $row) {
       foreach ($row['#rows'] as $item) {
         $item['#node']->excerpt = upd_search_node_generate_excerpt($item['#node']);

@@ -257,7 +257,9 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-      tags: {  }
+        - 'user.node_grants:view'
+      tags:
+        - 'config:search_api.index.main_solr'
   block_1:
     display_plugin: block
     id: block_1
@@ -275,20 +277,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-      tags: {  }
-  page_1:
-    display_plugin: page
-    id: page_1
-    display_title: Page
-    position: 1
-    display_options:
-      display_extenders:
-        metatag_display_extender: {  }
-      path: site-search
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_interface'
-        - url
-        - url.query_args
-      tags: {  }
+        - 'user.node_grants:view'
+      tags:
+        - 'config:search_api.index.main_solr'
