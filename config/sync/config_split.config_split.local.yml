@@ -28,9 +28,6 @@ blacklist:
   - system.menu.devel
   - views.view.watchdog
   - google_analytics.settings
-  - search_api.index.content
-  - search_api.index.main_solr
-  - search_api.server.local_db
   - search_api.server.local_solr
   - system.site
   - stage_file_proxy.settings
