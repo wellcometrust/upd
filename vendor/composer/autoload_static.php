@@ -28,6 +28,8 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
+        '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+        '2324d0e5cadd603331d27de142371f0b' => __DIR__ . '/..' . '/symfony/contracts/Deprecation/function.php',
         '5a12a5271c58108e0aa33355e6ac54ea' => __DIR__ . '/..' . '/drupal/console-core/src/functions.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
     );
@@ -40,7 +42,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'Z' => 
         array (
             'ZipStream\\' => 10,
-            'Zend\\Stdlib\\' => 12,
             'Zend\\Feed\\' => 10,
             'Zend\\Escaper\\' => 13,
             'Zend\\Diactoros\\' => 15,
@@ -70,10 +71,8 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
             'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Contracts\\Service\\' => 26,
-            'Symfony\\Contracts\\Cache\\' => 24,
+            'Symfony\\Contracts\\' => 18,
             'Symfony\\Component\\Yaml\\' => 23,
-            'Symfony\\Component\\VarExporter\\' => 30,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Validator\\' => 28,
             'Symfony\\Component\\Translation\\' => 30,
@@ -92,7 +91,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
             'Symfony\\Component\\ClassLoader\\' => 30,
-            'Symfony\\Component\\Cache\\' => 24,
             'Symfony\\Cmf\\Component\\Routing\\' => 30,
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
             'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
@@ -103,6 +101,8 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Psy\\' => 4,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
+            'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
@@ -113,6 +113,11 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Masterminds\\' => 12,
             'Mailchimp\\http\\' => 15,
             'Mailchimp\\' => 10,
+        ),
+        'L' => 
+        array (
+            'Laminas\\ZendFrameworkBridge\\' => 28,
+            'Laminas\\Stdlib\\' => 15,
         ),
         'J' => 
         array (
@@ -141,8 +146,9 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Drupal\\Console\\Core\\' => 20,
             'Drupal\\Console\\Composer\\Plugin\\' => 31,
             'Drupal\\Console\\' => 15,
+            'Drupal\\Composer\\Plugin\\Scaffold\\' => 32,
+            'Drupal\\Composer\\Plugin\\ProjectMessage\\' => 38,
             'Drupal\\Component\\' => 17,
-            'DrupalComposer\\DrupalScaffold\\' => 30,
             'Doctrine\\Persistence\\' => 21,
             'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Lexer\\' => 22,
@@ -174,10 +180,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
-        ),
-        'Zend\\Stdlib\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-stdlib/src',
         ),
         'Zend\\Feed\\' => 
         array (
@@ -247,21 +249,13 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Contracts\\Service\\' => 
+        'Symfony\\Contracts\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/service-contracts',
-        ),
-        'Symfony\\Contracts\\Cache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/cache-contracts',
+            0 => __DIR__ . '/..' . '/symfony/contracts',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
-        ),
-        'Symfony\\Component\\VarExporter\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/var-exporter',
         ),
         'Symfony\\Component\\VarDumper\\' => 
         array (
@@ -335,10 +329,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         array (
             0 => __DIR__ . '/..' . '/symfony/class-loader',
         ),
-        'Symfony\\Component\\Cache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/cache',
-        ),
         'Symfony\\Cmf\\Component\\Routing\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony-cmf/routing',
@@ -365,7 +355,16 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
+        'Psr\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
         ),
         'Psr\\Container\\' => 
         array (
@@ -394,6 +393,14 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'Mailchimp\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkshout/mailchimp-api-php/src',
+        ),
+        'Laminas\\ZendFrameworkBridge\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src',
+        ),
+        'Laminas\\Stdlib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-stdlib/src',
         ),
         'JakubOnderka\\PhpConsoleHighlighter\\' => 
         array (
@@ -447,13 +454,17 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         array (
             0 => __DIR__ . '/..' . '/drupal/console/src',
         ),
+        'Drupal\\Composer\\Plugin\\Scaffold\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/drupal/core-composer-scaffold',
+        ),
+        'Drupal\\Composer\\Plugin\\ProjectMessage\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/drupal/core-project-message',
+        ),
         'Drupal\\Component\\' => 
         array (
             0 => __DIR__ . '/../..' . '/www/core/lib/Drupal/Component',
-        ),
-        'DrupalComposer\\DrupalScaffold\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/drupal-composer/drupal-scaffold/src',
         ),
         'Doctrine\\Persistence\\' => 
         array (

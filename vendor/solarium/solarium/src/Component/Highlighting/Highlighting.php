@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Highlighting;
 
 use Solarium\Component\AbstractComponent;
@@ -15,7 +22,7 @@ use Solarium\Exception\InvalidArgumentException;
 /**
  * Highlighting component.
  *
- * @see http://wiki.apache.org/solr/HighlightingParameters
+ * @see https://lucene.apache.org/solr/guide/highlighting.html
  */
 class Highlighting extends AbstractComponent implements QueryInterface
 {
@@ -104,6 +111,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
 
         if ($autocreate) {
             $this->addField($name);
+
             return $this->fields[$name];
         }
 
@@ -112,7 +120,6 @@ class Highlighting extends AbstractComponent implements QueryInterface
 
     /**
      * Add a field for highlighting.
-     *
      *
      * @param string|array|Field $field
      *
@@ -123,17 +130,15 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function addField($field): self
     {
         // autocreate object for string input
-        if (is_string($field)) {
+        if (\is_string($field)) {
             $field = new Field(['name' => $field]);
-        } elseif (is_array($field)) {
+        } elseif (\is_array($field)) {
             $field = new Field($field);
         }
 
         // validate field
         if (null === $field->getName()) {
-            throw new InvalidArgumentException(
-                'To add a highlighting field it needs to have at least a "name" setting'
-            );
+            throw new InvalidArgumentException('To add a highlighting field it needs to have at least a "name" setting');
         }
 
         $this->fields[$field->getName()] = $field;
@@ -151,14 +156,14 @@ class Highlighting extends AbstractComponent implements QueryInterface
      */
     public function addFields($fields): self
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
         foreach ($fields as $key => $field) {
             // in case of a config array without key: add key to config
-            if (is_array($field) && !isset($field['name'])) {
+            if (\is_array($field) && !isset($field['name'])) {
                 $field['name'] = $key;
             }
 
@@ -236,6 +241,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setSnippets(int $maximum): self
     {
         $this->setOption('snippets', $maximum);
+
         return $this;
     }
 
@@ -261,6 +267,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setFragSize(int $size): self
     {
         $this->setOption('fragsize', $size);
+
         return $this;
     }
 
@@ -286,6 +293,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setMergeContiguous(bool $merge): self
     {
         $this->setOption('mergecontiguous', $merge);
+
         return $this;
     }
 
@@ -309,6 +317,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setRequireFieldMatch(bool $require): self
     {
         $this->setOption('requirefieldmatch', $require);
+
         return $this;
     }
 
@@ -334,6 +343,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setMaxAnalyzedChars(int $chars): self
     {
         $this->setOption('maxanalyzedchars', $chars);
+
         return $this;
     }
 
@@ -357,6 +367,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setAlternateField(string $field): self
     {
         $this->setOption('alternatefield', $field);
+
         return $this;
     }
 
@@ -380,6 +391,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setMaxAlternateFieldLength(int $length): self
     {
         $this->setOption('maxalternatefieldlength', $length);
+
         return $this;
     }
 
@@ -403,6 +415,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setPreserveMulti(bool $preservemulti): self
     {
         $this->setOption('preservemulti', $preservemulti);
+
         return $this;
     }
 
@@ -426,6 +439,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setFormatter(string $formatter = 'simple'): self
     {
         $this->setOption('formatter', $formatter);
+
         return $this;
     }
 
@@ -451,6 +465,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setSimplePrefix(string $prefix): self
     {
         $this->setOption('simpleprefix', $prefix);
+
         return $this;
     }
 
@@ -478,6 +493,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setSimplePostfix(string $postfix): self
     {
         $this->setOption('simplepostfix', $postfix);
+
         return $this;
     }
 
@@ -505,6 +521,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setTagPrefix(string $prefix): self
     {
         $this->setOption('tagprefix', $prefix);
+
         return $this;
     }
 
@@ -532,6 +549,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setTagPostfix(string $postfix): self
     {
         $this->setOption('tagpostfix', $postfix);
+
         return $this;
     }
 
@@ -559,6 +577,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setFragmenter(string $fragmenter): self
     {
         $this->setOption('fragmenter', $fragmenter);
+
         return $this;
     }
 
@@ -582,6 +601,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setFragListBuilder(string $builder): self
     {
         $this->setOption('fraglistbuilder', $builder);
+
         return $this;
     }
 
@@ -605,6 +625,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setFragmentsBuilder(string $builder): self
     {
         $this->setOption('fragmentsbuilder', $builder);
+
         return $this;
     }
 
@@ -628,6 +649,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setUseFastVectorHighlighter(bool $use): self
     {
         $this->setOption('usefastvectorhighlighter', $use);
+
         return $this;
     }
 
@@ -651,6 +673,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setUsePhraseHighlighter(bool $use): self
     {
         $this->setOption('usephrasehighlighter', $use);
+
         return $this;
     }
 
@@ -674,6 +697,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setHighlightMultiTerm(bool $highlight): self
     {
         $this->setOption('highlightmultiterm', $highlight);
+
         return $this;
     }
 
@@ -697,6 +721,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setRegexSlop(float $slop): self
     {
         $this->setOption('regexslop', $slop);
+
         return $this;
     }
 
@@ -720,6 +745,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setRegexPattern(string $pattern): self
     {
         $this->setOption('regexpattern', $pattern);
+
         return $this;
     }
 
@@ -743,6 +769,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setRegexMaxAnalyzedChars(int $chars): self
     {
         $this->setOption('regexmaxanalyzedchars', $chars);
+
         return $this;
     }
 
@@ -766,6 +793,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setPhraseLimit(int $maximum): self
     {
         $this->setOption('phraselimit', $maximum);
+
         return $this;
     }
 
@@ -789,6 +817,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setMultiValuedSeparatorChar(string $separator): self
     {
         $this->setOption('multivaluedseparatorchar', $separator);
+
         return $this;
     }
 
@@ -812,6 +841,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setBoundaryScannerMaxScan(int $maximum): self
     {
         $this->setOption('boundaryscannermaxscan', $maximum);
+
         return $this;
     }
 
@@ -835,6 +865,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setBoundaryScannerChars(string $chars): self
     {
         $this->setOption('boundaryscannerchars', $chars);
+
         return $this;
     }
 
@@ -858,6 +889,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setBoundaryScannerType(string $type): self
     {
         $this->setOption('boundaryscannertype', $type);
+
         return $this;
     }
 
@@ -881,6 +913,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setBoundaryScannerLanguage(string $language): self
     {
         $this->setOption('boundaryscannerlanguage', $language);
+
         return $this;
     }
 
@@ -904,6 +937,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function setBoundaryScannerCountry(string $country): self
     {
         $this->setOption('boundaryscannercountry', $country);
+
         return $this;
     }
 
@@ -915,6 +949,30 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function getBoundaryScannerCountry(): ?string
     {
         return $this->getOption('boundaryscannercountry');
+    }
+
+    /**
+     * Set method option.
+     *
+     * @param string $method
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMethod(string $method): self
+    {
+        $this->setOption('method', $method);
+
+        return $this;
+    }
+
+    /**
+     * Get method option.
+     *
+     * @return string|null
+     */
+    public function getMethod(): ?string
+    {
+        return $this->getOption('method');
     }
 
     /**

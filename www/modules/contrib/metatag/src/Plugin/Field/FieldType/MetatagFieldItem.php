@@ -13,6 +13,7 @@ use Drupal\Core\TypedData\DataDefinition;
  *   id = "metatag",
  *   label = @Translation("Meta tags"),
  *   description = @Translation("This field stores code meta tags."),
+ *   list_class = "\Drupal\metatag\Plugin\Field\FieldType\MetatagFieldItemList",
  *   default_widget = "metatag_firehose",
  *   default_formatter = "metatag_empty_formatter",
  *   serialized_property_names = {
@@ -63,7 +64,7 @@ class MetatagFieldItem extends FieldItemBase {
     parent::preSave();
 
     // Merge field defaults on top of global ones.
-    $default_tags = metatag_get_default_tags();
+    $default_tags = metatag_get_default_tags($this->getEntity());
 
     // Get the value about to be saved.
     $current_value = $this->value;

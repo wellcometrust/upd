@@ -69,11 +69,9 @@ class SearchFormBlock extends BlockBase implements BlockPluginInterface {
       '#label' => $this->t($config['form_label']),
     ];
     if (!empty($_GET['query'])) {
-      $terms_string = urldecode($_GET['query']);
-      $terms_string = urldecode($_GET['query']);
-      $terms = explode(' ', $terms_string);
+      $terms = urldecode($_GET['query']);
       $build['#search_terms'] = [
-        '#plain_text' => implode(' ', $terms),
+        '#plain_text' => $terms,
       ];
     }
     return $build;

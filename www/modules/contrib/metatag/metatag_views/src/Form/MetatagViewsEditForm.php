@@ -49,9 +49,9 @@ class MetatagViewsEditForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(MetatagManagerInterface $metatag_manager, EntityTypeManagerInterface $entity_manager) {
+  public function __construct(MetatagManagerInterface $metatag_manager, EntityTypeManagerInterface $entity_type_manager) {
     $this->metatagManager = $metatag_manager;
-    $this->viewsManager = $entity_manager->getStorage('view');
+    $this->viewsManager = $entity_type_manager->getStorage('view');
   }
 
   /**
@@ -185,7 +185,7 @@ class MetatagViewsEditForm extends FormBase {
     // Redirect back to the views list.
     $form_state->setRedirect('metatag_views.metatags.list');
 
-    drupal_set_message($this->t('Metatags for @view : @display have been saved.', [
+    $this->messenger()->addMessage($this->t('Metatags for @view : @display have been saved.', [
       '@view' => $view->label(),
       '@display' => $view->getDisplay($display_id)['display_title'],
     ]));

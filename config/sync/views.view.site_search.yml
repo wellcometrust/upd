@@ -151,6 +151,8 @@ display:
             description: ''
             use_operator: false
             operator: search_api_fulltext_op
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: query
             required: false
             remember: false
@@ -160,8 +162,7 @@ display:
               anonymous: '0'
               administrator: '0'
               editor: '0'
-            operator_limit_selection: false
-            operator_list: {  }
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -174,16 +175,16 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          parse_mode: terms
+          parse_mode: direct
           min_length: null
           fields:
-            rendered_item: rendered_item
-            title: title
-            name: name
-            name_1: name_1
-            name_2: name_2
-            field_standfirst: field_standfirst
-            name_3: name_3
+            - field_standfirst
+            - name
+            - name_1
+            - name_2
+            - name_3
+            - rendered_item
+            - title
           plugin_id: search_api_fulltext
         type:
           id: type
@@ -257,7 +258,9 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-      tags: {  }
+        - 'user.node_grants:view'
+      tags:
+        - 'config:search_api.index.main_solr'
   block_1:
     display_plugin: block
     id: block_1
@@ -275,20 +278,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-      tags: {  }
-  page_1:
-    display_plugin: page
-    id: page_1
-    display_title: Page
-    position: 1
-    display_options:
-      display_extenders:
-        metatag_display_extender: {  }
-      path: site-search
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_interface'
-        - url
-        - url.query_args
-      tags: {  }
+        - 'user.node_grants:view'
+      tags:
+        - 'config:search_api.index.main_solr'

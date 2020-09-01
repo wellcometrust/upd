@@ -1,16 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin\BufferedAdd;
 
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
-use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
 
@@ -55,6 +61,7 @@ class BufferedAdd extends AbstractPlugin
     public function setEndpoint(Endpoint $endpoint): self
     {
         $this->setOption('endpoint', $endpoint);
+
         return $this;
     }
 
@@ -78,6 +85,7 @@ class BufferedAdd extends AbstractPlugin
     public function setBufferSize(int $size): self
     {
         $this->setOption('buffersize', $size);
+
         return $this;
     }
 
@@ -101,6 +109,7 @@ class BufferedAdd extends AbstractPlugin
     public function setCommitWithin(int $time): self
     {
         $this->setOption('commitwithin', $time);
+
         return $this;
     }
 
@@ -124,6 +133,7 @@ class BufferedAdd extends AbstractPlugin
     public function setOverwrite(bool $value): self
     {
         $this->setOption('overwrite', $value);
+
         return $this;
     }
 
@@ -165,9 +175,9 @@ class BufferedAdd extends AbstractPlugin
         $this->buffer[] = $document;
 
         $event = new AddDocumentEvent($document);
-        $this->client->getEventDispatcher()->dispatch(Events::ADD_DOCUMENT, $event);
+        $this->client->getEventDispatcher()->dispatch($event);
 
-        if (count($this->buffer) == $this->options['buffersize']) {
+        if (\count($this->buffer) === $this->options['buffersize']) {
             $this->flush();
         }
 
@@ -225,23 +235,23 @@ class BufferedAdd extends AbstractPlugin
      */
     public function flush(?bool $overwrite = null, ?int $commitWithin = null)
     {
-        if (0 == count($this->buffer)) {
+        if (0 === \count($this->buffer)) {
             // nothing to do
             return false;
         }
 
-        $overwrite = null === $overwrite ? $this->getOverwrite() : $overwrite;
-        $commitWithin = null === $commitWithin ? $this->getCommitWithin() : $commitWithin;
+        $overwrite = $overwrite ?? $this->getOverwrite();
+        $commitWithin = $commitWithin ?? $this->getCommitWithin();
 
         $event = new PreFlushEvent($this->buffer, $overwrite, $commitWithin);
-        $this->client->getEventDispatcher()->dispatch(Events::PRE_FLUSH, $event);
+        $this->client->getEventDispatcher()->dispatch($event);
 
         $this->updateQuery->addDocuments($event->getBuffer(), $event->getOverwrite(), $event->getCommitWithin());
         $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
         $event = new PostFlushEvent($result);
-        $this->client->getEventDispatcher()->dispatch(Events::POST_FLUSH, $event);
+        $this->client->getEventDispatcher()->dispatch($event);
 
         return $result;
     }
@@ -251,25 +261,27 @@ class BufferedAdd extends AbstractPlugin
      *
      * Any remaining documents in the buffer will also be flushed
      *
-     * @param bool $overwrite
-     * @param bool $softCommit
-     * @param bool $waitSearcher
-     * @param bool $expungeDeletes
+     * @param bool|null $overwrite
+     * @param bool|null $softCommit
+     * @param bool|null $waitSearcher
+     * @param bool|null $expungeDeletes
      *
      * @return UpdateResult
      */
-    public function commit(bool $overwrite = null, bool $softCommit = null, bool $waitSearcher = null, bool $expungeDeletes = null)
+    public function commit(?bool $overwrite = null, ?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null): UpdateResult
     {
-        $event = new PreCommitEvent($this->buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
-        $this->client->getEventDispatcher()->dispatch(Events::PRE_COMMIT, $event);
+        $overwrite = $overwrite ?? $this->getOverwrite();
 
-        $this->updateQuery->addDocuments($this->buffer, $event->getOverwrite());
+        $event = new PreCommitEvent($this->buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
+        $this->client->getEventDispatcher()->dispatch($event);
+
+        $this->updateQuery->addDocuments($event->getBuffer(), $event->getOverwrite());
         $this->updateQuery->addCommit($event->getSoftCommit(), $event->getWaitSearcher(), $event->getExpungeDeletes());
         $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
         $event = new PostCommitEvent($result);
-        $this->client->getEventDispatcher()->dispatch(Events::POST_COMMIT, $event);
+        $this->client->getEventDispatcher()->dispatch($event);
 
         return $result;
     }
@@ -280,7 +292,7 @@ class BufferedAdd extends AbstractPlugin
      * This is an extension point for plugin implementations.
      * Will be called as soon as $this->client and options have been set.
      */
-    protected function initPluginType()
+    protected function initPluginType(): void
     {
         $this->updateQuery = $this->client->createUpdate();
     }

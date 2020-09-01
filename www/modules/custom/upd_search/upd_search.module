@@ -47,13 +47,12 @@ function upd_search_preprocess_views_view(&$variables) {
   // the list text/standfirst can just be dealy with in
   // the template file for the listing/search view mode.
   $view = $variables['view'];
-  if (!in_array($view->id(), ['search', 'case_studies_index', 'site_search', 'case_studies_index_solr'])) {
-    return;
-  }
-
-  foreach ($variables['rows'] as $row) {
-    foreach ($row['#rows'] as $item) {
-      $item['#node']->excerpt = upd_search_node_generate_excerpt($item['#node']);
+  $view_name = $view->id();
+  if (in_array($view_name, ['site_search', 'case_studies_index_solr'])) {
+    foreach ($variables['rows'] as $row) {
+      foreach ($row['#rows'] as $item) {
+        $item['#node']->excerpt = upd_search_node_generate_excerpt($item['#node']);
+      }
     }
   }
 }
@@ -74,7 +73,9 @@ function upd_search_block_view_alter(array &$build, BlockPluginInterface $block)
 function upd_search_preprocess_block(&$variables) {
   // Hide some content types in the facet.
   $content_type_to_hide = ['FAQ', 'Tile'];
-  if ($variables['elements']['#plugin_id'] == 'facet_block:content_type_solr') {
+  if (!empty($variables['elements']['#plugin_id']) &&
+      $variables['elements']['#plugin_id'] == 'facet_block:content_type_solr' &&
+      !empty($variables['content'][0]['#items'])) {
     foreach ($variables['content'][0]['#items'] as $i => $facet) {
       if (in_array($facet['#title']['#value'], $content_type_to_hide)) {
         unset($variables['content'][0]['#items'][$i]);

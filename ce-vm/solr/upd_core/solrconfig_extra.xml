@@ -1,80 +1,54 @@
-<!-- Spell Check
-
-    The spell check component can return a list of alternative spelling
-    suggestions.
-
-    http://wiki.apache.org/solr/SpellCheckComponent
- -->
 <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
-
-<str name="queryAnalyzerFieldType">textSpell</str>
-
-<!-- Multiple "Spell Checkers" can be declared and used by this
-     component
-  -->
-
-<!-- a spellchecker built from a field of the main index, and
-     written to disk
-  -->
-<lst name="spellchecker">
-  <str name="name">default</str>
-  <str name="field">spell</str>
-  <str name="spellcheckIndexDir">spellchecker</str>
-  <str name="buildOnOptimize">true</str>
-  <!-- uncomment this to require terms to occur in 1% of the documents in order to be included in the dictionary
-    <float name="thresholdTokenFrequency">.01</float>
-  -->
-</lst>
-
-<!--
-  Adding German spellhecker index to our Solr index
-  This also requires to enable the content in schema_extra_types.xml and schema_extra_fields.xml
--->
-<!--
-<lst name="spellchecker">
-  <str name="name">spellchecker_de</str>
-  <str name="field">spell_de</str>
-  <str name="spellcheckIndexDir">./spellchecker_de</str>
-  <str name="buildOnOptimize">true</str>
-</lst>
--->
-
-<!-- a spellchecker that uses a different distance measure -->
-<!--
-   <lst name="spellchecker">
-     <str name="name">jarowinkler</str>
-     <str name="field">spell</str>
-     <str name="distanceMeasure">
-       org.apache.lucene.search.spell.JaroWinklerDistance
-     </str>
-     <str name="spellcheckIndexDir">spellcheckerJaro</str>
-   </lst>
- -->
-
-<!-- a spellchecker that use an alternate comparator
-
-     comparatorClass be one of:
-      1. score (default)
-      2. freq (Frequency first, then score)
-      3. A fully qualified class name
-  -->
-<!--
-   <lst name="spellchecker">
-     <str name="name">freq</str>
-     <str name="field">lowerfilt</str>
-     <str name="spellcheckIndexDir">spellcheckerFreq</str>
-     <str name="comparatorClass">freq</str>
-     <str name="buildOnCommit">true</str>
-  -->
-
-<!-- A spellchecker that reads the list of words from a file -->
-<!--
-   <lst name="spellchecker">
-     <str name="classname">solr.FileBasedSpellChecker</str>
-     <str name="name">file</str>
-     <str name="sourceLocation">spellings.txt</str>
-     <str name="characterEncoding">UTF-8</str>
-     <str name="spellcheckIndexDir">spellcheckerFile</str>
-   </lst>
-  -->
-</searchComponent>
+    <lst name="spellchecker">
+      <str name="name">en</str>
+      <str name="field">spellcheck_en</str>
+      <str name="classname">solr.DirectSolrSpellChecker</str>
+      <str name="distanceMeasure">internal</str>
+      <str name="accuracy">0.5</str>
+      <str name="maxEdits">2</str>
+      <str name="minPrefix">1</str>
+      <str name="maxInspections">5</str>
+      <str name="minQueryLength">4</str>
+      <str name="maxQueryFrequency">0.01</str>
+      <str name="thresholdTokenFrequency">.01</str>
+      <str name="onlyMorePopular">true</str>
+    </lst>
+  
+    <lst name="spellchecker">
+      <str name="name">und</str>
+      <str name="field">spellcheck_und</str>
+      <str name="classname">solr.DirectSolrSpellChecker</str>
+      <str name="distanceMeasure">internal</str>
+      <str name="accuracy">0.5</str>
+      <str name="maxEdits">2</str>
+      <str name="minPrefix">1</str>
+      <str name="maxInspections">5</str>
+      <str name="minQueryLength">4</str>
+      <str name="maxQueryFrequency">0.01</str>
+      <str name="thresholdTokenFrequency">.01</str>
+      <str name="onlyMorePopular">true</str>
+    </lst>
+  </searchComponent>
+<searchComponent name="suggest" class="solr.SuggestComponent">
+    <lst name="suggester">
+      <str name="name">en</str>
+      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="field">twm_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_en</str>
+      <str name="contextField">sm_context_tags</str>
+      <str name="buildOnCommit">true</str>
+      <str name="buildOnStartup">false</str>
+    </lst>
+  
+    <lst name="suggester">
+      <str name="name">und</str>
+      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="field">twm_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_und</str>
+      <str name="contextField">sm_context_tags</str>
+      <str name="buildOnCommit">true</str>
+      <str name="buildOnStartup">false</str>
+    </lst>
+  </searchComponent>
