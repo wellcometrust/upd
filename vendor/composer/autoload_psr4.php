@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'lsolesen\\pel\\' => array($vendorDir . '/lsolesen/pel/src'),
+    'cweagans\\Composer\\' => array($vendorDir . '/cweagans/composer-patches/src'),
     'ZipStream\\' => array($vendorDir . '/maennchen/zipstream-php/src'),
     'Zend\\Feed\\' => array($vendorDir . '/zendframework/zend-feed/src'),
     'Zend\\Escaper\\' => array($vendorDir . '/zendframework/zend-escaper/src'),

@@ -1,0 +1,43 @@
+{
+  "name": "drupal/eu_cookie_compliance",
+  "description": "This module aims at making the website compliant with the new EU cookie regulation.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "homepage": "https://drupal.org/project/eu_cookie_compliance",
+  "keywords": [
+    "Drupal",
+    "Cookie",
+    "CookieCompliance",
+    "GDPR"
+  ],
+  "authors": [
+    {
+      "name": "Marcin Pajdzik",
+      "homepage": "https://www.drupal.org/u/marcin-pajdzik",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Sven Berg Ryen",
+      "homepage": "https://www.drupal.org/u/svenryen",
+      "role": "Maintainer"
+    },
+    {
+      "name": "See other contributors",
+      "homepage":"https://www.drupal.org/node/1538032/committers"
+    }
+  ],
+  "support": {
+    "docs": "https://www.drupal.org/project/eu_cookie_compliance",
+    "forum": "https://drupal.stackexchange.com/search?q=eu+cookie+compliance",
+    "issues": "https://www.drupal.org/project/issues/eu_cookie_compliance?version=8.x",
+    "irc": "irc://irc.freenode.org/drupal-contribute",
+    "source": "https://cgit.drupalcode.org/eu-cookie-compliance"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url":  "https://packages.drupal.org/8"
+    }
+  ]
+}
