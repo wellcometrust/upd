@@ -1,0 +1,402 @@
+<?php
+
+/**
+ * @file
+ * Update scripts for the EU Cookie Compliance module.
+ */
+
+use Drupal\user\Entity\Role;
+use Drupal\Core\Database\Database;
+use Drupal\filter\Entity\FilterFormat;
+
+/**
+ * Implements hook_schema().
+ */
+function eu_cookie_compliance_schema() {
+  $schema['eu_cookie_compliance_basic_consent'] = [
+    'description' => 'Basic consent storage for EU Cookie Compliance / GDPR.',
+    'fields' => [
+      'cid' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique consent storage ID.',
+      ],
+      'uid' => [
+        'description' => '{users}.uid for user.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'timestamp' => [
+        'description' => 'Time of consent.',
+        'type' => 'int',
+        'unsigned' => FALSE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'ip_address' => [
+        'description' => 'The IP address.',
+        'type' => 'varchar',
+        // Maximum length of an ipv6 IP address.
+        'length' => 45,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'consent_type' => [
+        'description' => 'The type of consent, such as "banner" for the banner and form_id for forms.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'revision_id' => [
+        'description' => 'Revision of the privacy policy at the time of consent.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['cid'],
+    'indexes' => [
+      'uid' => ['uid'],
+    ],
+    'foreign keys' => [
+      'uid' => ['users' => 'uid'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function eu_cookie_compliance_install() {
+  module_load_include('module', 'eu_cookie_compliance', 'eu_cookie_compliance');
+
+  $roles = Role::loadMultiple();
+  $permission = 'display eu cookie compliance popup';
+  foreach ($roles as $rid => $role) {
+    user_role_grant_permissions($rid, [$permission]);
+  }
+
+  $cookie_policy = _eu_cookie_compliance_find_privacy_policy();
+  if ($cookie_policy != FALSE) {
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->set('popup_link', $cookie_policy)
+      ->set('uuid', \Drupal::service('uuid')->generate())
+      ->save();
+  }
+
+  eu_cookie_compliance_module_set_weight();
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function eu_cookie_compliance_requirements($phase) {
+  $requirements = [];
+
+  if ($phase == 'runtime') {
+    $popup_link = Drupal::config('eu_cookie_compliance.settings')->get('popup_link');
+    $show_policy = Drupal::config('eu_cookie_compliance.settings')->get('show_disagree_button');
+
+    if ($popup_link == '<front>' && $show_policy) {
+      $requirements['eu_cookie_compliance'] = [
+        'title' => t('EU Cookie Compliance'),
+        'severity' => REQUIREMENT_WARNING,
+        'description' => t('Your privacy policy link is pointing at the front page. This is the default value after installation, and unless your privacy policy is actually posted at the front page, you will need to create a separate page for the privacy policy and link to that page.'),
+        'value' => t('Privacy policy link not provided'),
+      ];
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Force default value for "cookie_lifetime" item.
+ */
+function eu_cookie_compliance_update_8101() {
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('cookie_lifetime', 100)->save();
+}
+
+/**
+ * Reverse the setting for "Consent by clicking" (solving a module beta bug).
+ */
+function eu_cookie_compliance_update_8102() {
+  $consent_by_clicking_value = \Drupal::configFactory()
+    ->get('eu_cookie_compliance.settings')
+    ->get('popup_clicking_confirmation');
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('popup_clicking_confirmation', !$consent_by_clicking_value)->save();
+}
+
+/**
+ * Fix bug with mobile banner message from beta 9.
+ */
+function eu_cookie_compliance_update_8103() {
+  $mobile_popup_info = \Drupal::configFactory()
+    ->get('eu_cookie_compliance.settings')
+    ->get('mobile_popup_info');
+  if (!is_array($mobile_popup_info) && $mobile_popup_info == '') {
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->set('mobile_popup_info', [
+        'value' => '',
+        'format' => filter_default_format(),
+      ])->save();
+  }
+}
+
+/**
+ * Change seconds to milliseconds for animation duration.
+ */
+function eu_cookie_compliance_update_8104() {
+  $popup_delay = \Drupal::configFactory()
+    ->get('eu_cookie_compliance.settings')
+    ->get('popup_delay');
+  if ($popup_delay < 10) {
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->set('popup_delay', $popup_delay * 1000)->save();
+  }
+}
+
+/**
+ * Create new config value for show or hide the cookie policy button.
+ */
+function eu_cookie_compliance_update_8105() {
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('show_disagree_button', TRUE)
+    ->save();
+}
+
+/**
+ * Create new config value to handle consent options.
+ */
+function eu_cookie_compliance_update_8106() {
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('method', 'default')
+    ->set('disagree_button_label', 'No, thanks')
+    ->set('disabled_javascripts', '')
+    ->set('whitelisted_cookies', '')
+    ->save();
+}
+
+/**
+ * Add table to handle basic consent.
+ */
+function eu_cookie_compliance_update_8107() {
+  $schema['eu_cookie_compliance_basic_consent'] = [
+    'description' => 'Basic consent storage for EU Cookie Compliance / GDPR.',
+    'fields' => [
+      'cid' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique consent storage ID.',
+      ],
+      'uid' => [
+        'description' => '{users}.uid for user.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'timestamp' => [
+        'description' => 'Time of consent.',
+        'type' => 'int',
+        'unsigned' => FALSE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'ip_address' => [
+        'description' => 'The IP address.',
+        'type' => 'varchar',
+        // Maximum length of an ipv6 IP address.
+        'length' => 45,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'consent_type' => [
+        'description' => 'The type of consent, such as "banner" for the banner and form_id for forms.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'revision_id' => [
+        'description' => 'Revision of the privacy policy at the time of consent.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['cid'],
+    'indexes' => [
+      'uid' => ['uid'],
+    ],
+    'foreign keys' => [
+      'uid' => ['users' => 'uid'],
+    ],
+  ];
+  if (!Database::getConnection()->schema()->tableExists('eu_cookie_compliance_basic_consent')) {
+    Database::getConnection()->schema()->createTable('eu_cookie_compliance_basic_consent', $schema['eu_cookie_compliance_basic_consent']);
+  }
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('consent_storage_method', 'do_not_store')
+    ->save();
+}
+
+/**
+ * Change module weight to load after other modules, ensure all JSs are handled.
+ */
+function eu_cookie_compliance_update_8108() {
+  module_load_include('module', 'eu_cookie_compliance', 'eu_cookie_compliance');
+  eu_cookie_compliance_module_set_weight();
+}
+
+/**
+ * Add config variables for the withdraw banner.
+ */
+function eu_cookie_compliance_update_8109() {
+  $default_filter_format = filter_default_format();
+  $full_html_format = FilterFormat::load('full_html');
+  if ($default_filter_format == 'restricted_html' && !empty($full_html_format) && $full_html_format->get('status')) {
+    $default_filter_format = 'full_html';
+  }
+
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('withdraw_message', [
+      'value' => '<h2>We use cookies on this site to enhance your user experience</h2><p>You have given your consent for us to set cookies.</p>',
+      'format' => $default_filter_format,
+    ])
+    ->set('withdraw_action_button_label', 'Withdraw consent')
+    ->set('withdraw_tab_button_label', 'Privacy settings')
+    ->set('withdraw_enabled', FALSE)
+    ->set('popup_info_template', 'legacy')
+    ->save();
+}
+
+/**
+ * Disable withdraw tab and banner in the consent method "Consent by default".
+ */
+function eu_cookie_compliance_update_8110() {
+  $withdraw_enabled = \Drupal::configFactory()
+    ->get('eu_cookie_compliance.settings')
+    ->get('withdraw_enabled');
+  $method = \Drupal::configFactory()
+    ->get('eu_cookie_compliance.settings')
+    ->get('method');
+
+  if ($method == 'default' && $withdraw_enabled == 1) {
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->set('withdraw_enabled', FALSE)
+      ->save();
+  }
+}
+
+/**
+ * Adding config variable for the popup info template.
+ */
+function eu_cookie_compliance_update_8111() {
+  $popup_info_template = \Drupal::configFactory()
+    ->get('eu_cookie_compliance.settings')
+    ->get('popup_info_template');
+
+  if ($popup_info_template === NULL) {
+    $method = \Drupal::configFactory()
+      ->get('eu_cookie_compliance.settings')
+      ->get('method');
+    // Set popup_info_template value to 'new' if method is not 'consent by
+    // default'.
+    $popup_info_template = $method == 'default' ? 'legacy' : 'new';
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->set('popup_info_template', $popup_info_template)
+      ->save();
+  }
+}
+
+/**
+ * Renaming variables show_disagree_button and popup_disagree_button_message.
+ */
+function eu_cookie_compliance_update_8115() {
+  $show_disagree_button = \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->get('show_disagree_button');
+  $popup_disagree_button_message = \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->get('popup_disagree_button_message');
+
+  if (!empty($show_disagree_button)) {
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->set('show_more_info', $show_disagree_button)
+      ->save();
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->clear('show_disagree_button')
+      ->save();
+
+  }
+
+  if (!empty($popup_disagree_button_message)) {
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->set('popup_more_info_button_message', $popup_disagree_button_message)
+      ->save();
+    \Drupal::configFactory()
+      ->getEditable('eu_cookie_compliance.settings')
+      ->clear('popup_disagree_button_message')
+      ->save();
+  }
+}
+
+/**
+ * Add config variables for the "Opt-in with categories" feature.
+ */
+function eu_cookie_compliance_update_8112() {
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('cookie_categories', '')
+    ->set('enable_save_preferences_button', TRUE)
+    ->set('save_preferences_button_label', 'Save preferences')
+    ->set('accept_all_categories_button_label', 'Accept all cookies')
+    ->set('fix_first_cookie_category', TRUE)
+    ->set('select_all_categories_by_default', FALSE)
+    ->set('withdraw_button_on_info_popup', FALSE)
+    ->save();
+}
+
+/**
+ * Add config variables for the "Allow cookie for all sites on same domain" feature.
+ */
+function eu_cookie_compliance_update_8113() {
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('domain_all_sites', FALSE)
+    ->save();
+}
+
+/**
+ * Add uuid to the config.
+ */
+function eu_cookie_compliance_update_8114() {
+  \Drupal::configFactory()
+    ->getEditable('eu_cookie_compliance.settings')
+    ->set('uuid', \Drupal::service('uuid')->generate())
+    ->save();
+}
