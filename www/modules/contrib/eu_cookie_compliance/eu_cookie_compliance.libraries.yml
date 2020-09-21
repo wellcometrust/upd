@@ -1,0 +1,31 @@
+eu_cookie_compliance:
+  version: 1.0
+  js:
+    js/eu_cookie_compliance.js: {}
+  css:
+    state:
+      css/eu_cookie_compliance.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+    - core/jquery.cookie
+eu_cookie_compliance_bare:
+  version: 1.0
+  js:
+    js/eu_cookie_compliance.js: {}
+  css:
+    state:
+      css/eu_cookie_compliance.bare.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+    - core/jquery.cookie
+admin:
+  version: 1.0
+  css:
+    state:
+      css/eu_cookie_compliance_admin.css: {}

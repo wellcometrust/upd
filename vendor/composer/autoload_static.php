@@ -39,6 +39,10 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         array (
             'lsolesen\\pel\\' => 13,
         ),
+        'c' => 
+        array (
+            'cweagans\\Composer\\' => 18,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -176,6 +180,10 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'lsolesen\\pel\\' => 
         array (
             0 => __DIR__ . '/..' . '/lsolesen/pel/src',
+        ),
+        'cweagans\\Composer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cweagans/composer-patches/src',
         ),
         'ZipStream\\' => 
         array (

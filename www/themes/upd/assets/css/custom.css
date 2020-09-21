@@ -63,3 +63,28 @@
     padding: 1.9rem;
   }
 }
+
+/* #51649: Correcting the EU cookie banner styles. */
+.eu-cookie-compliance-buttons .eu-cookie-compliance-secondary-button {
+  margin-top: 1em;
+  padding: 0 8px;
+}
+
+.eu-cookie-compliance-buttons .eu-cookie-compliance-default-button, .eu-cookie-compliance-buttons .eu-cookie-withdraw-button {
+  margin-top: 1em;
+  padding: 0 8px;
+  color: #000;
+  background-color: #ededed;
+}
+
+.eu-cookie-withdraw-tab {
+  padding: 4px 7px;
+  margin: 0;
+  background: #004260;
+  color: #ffffff;
+  border-color: #ffffff;
+  transform: translate(-50%, -100%);
+  left: 50%;
+  border-width: 2px 2px 0;
+  border-radius: 5px 5px 0 0;
+}
