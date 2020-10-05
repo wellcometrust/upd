@@ -10,7 +10,7 @@ exclude_admin_theme: false
 langcode: en
 popup_agreed:
   value: "<h2>Thank you for accepting cookies</h2>\r\n\r\n<p>You can now hide this message or find out more about cookies.</p>\r\n"
-  format: basic_html
+  format: full_html
 popup_agree_button_message: Accept
 popup_agreed_enabled: false
 popup_bg_hex: '004260'
@@ -25,8 +25,8 @@ popup_height: null
 popup_hide_agreed: false
 popup_hide_button_message: Hide
 popup_info:
-  value: "<h2>We use cookies on this site to enhance your user experience</h2>\r\n\r\n<p>By clicking the Accept button, you agree to us doing so.</p>\r\n"
-  format: basic_html
+  value: "<h2>Understanding Patient Data is based at the Wellcome Trust and comply with their <a href=\"https://wellcome.org/about-us/governance/privacy-and-terms\" target=\"_blank\" rel=\"noopener noreferrer\">privacy and terms</a>.</h2>\r\n\r\n<p>&nbsp;</p>\r\n"
+  format: full_html
 mobile_popup_info:
   value: ''
   format: basic_html
@@ -52,7 +52,7 @@ whitelisted_cookies: ''
 consent_storage_method: do_not_store
 withdraw_message:
   value: "<h2>We use cookies on this site to enhance your user experience</h2>\r\n\r\n<p>You have given your consent for us to set cookies.</p>\r\n"
-  format: basic_html
+  format: full_html
 withdraw_action_button_label: 'Withdraw consent'
 withdraw_tab_button_label: 'Privacy settings'
 withdraw_enabled: true
