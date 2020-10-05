@@ -12,4 +12,5 @@ permissions:
   - 'access content'
   - 'access mailchimp signup pages'
   - 'access user profiles'
+  - 'display eu cookie compliance popup'
   - 'view media'
