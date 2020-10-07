@@ -25,7 +25,7 @@ popup_height: null
 popup_hide_agreed: false
 popup_hide_button_message: Hide
 popup_info:
-  value: "<h2>Understanding Patient Data is based at the Wellcome Trust and comply with their <a href=\"https://wellcome.org/about-us/governance/privacy-and-terms\" target=\"_blank\" rel=\"noopener noreferrer\">privacy and terms</a>.</h2>\r\n\r\n<p>&nbsp;</p>\r\n"
+  value: "<h2>We use cookies to improve your experience.</h2>\r\n\r\n<p>Understanding Patient Data is based at the Wellcome Trust and comply with their <a href=\"https://wellcome.org/about-us/governance/privacy-and-terms\" rel=\"noopener noreferrer\" target=\"_blank\">privacy and terms</a>. <a href=\"https://wellcome.org/about-us/governance/privacy-and-terms#cookies\" rel=\"noopener noreferrer\" target=\"_blank\">Find out more about cookies.</a></p>\r\n\r\n<p>&nbsp;</p>\r\n"
   format: full_html
 mobile_popup_info:
   value: ''
