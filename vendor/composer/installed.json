@@ -541,6 +541,52 @@
         "description": "Format text by applying transformations provided by plug-in formatters."
     },
     {
+        "name": "cweagans/composer-patches",
+        "version": "1.6.7",
+        "version_normalized": "1.6.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/cweagans/composer-patches.git",
+            "reference": "2e6f72a2ad8d59cd7e2b729f218bf42adb14f590"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/2e6f72a2ad8d59cd7e2b729f218bf42adb14f590",
+            "reference": "2e6f72a2ad8d59cd7e2b729f218bf42adb14f590",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "composer/composer": "~1.0",
+            "phpunit/phpunit": "~4.6"
+        },
+        "time": "2019-08-29T20:11:49+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "cweagans\\Composer\\Patches"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "cweagans\\Composer\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Cameron Eagans",
+                "email": "me@cweagans.net"
+            }
+        ],
+        "description": "Provides a way to patch Composer packages."
+    },
+    {
         "name": "dflydev/dot-access-configuration",
         "version": "v1.0.3",
         "version_normalized": "1.0.3.0",
@@ -3096,6 +3142,76 @@
         "homepage": "https://www.drupal.org/project/entity_reference_revisions",
         "support": {
             "source": "http://cgit.drupalcode.org/entity_reference_revisions"
+        }
+    },
+    {
+        "name": "drupal/eu_cookie_compliance",
+        "version": "1.9.0",
+        "version_normalized": "1.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/eu-cookie-compliance.git",
+            "reference": "8.x-1.9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/eu_cookie_compliance-8.x-1.9.zip",
+            "reference": "8.x-1.9",
+            "shasum": "1dd57c3fe517d907c0a44bee4ef73f30e98993d3"
+        },
+        "require": {
+            "drupal/core": "^8.8 || ^9"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "drupal": {
+                "version": "8.x-1.9",
+                "datestamp": "1588751057",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Marcin Pajdzik",
+                "homepage": "https://www.drupal.org/u/marcin-pajdzik",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Sven Berg Ryen",
+                "homepage": "https://www.drupal.org/u/svenryen",
+                "role": "Maintainer"
+            },
+            {
+                "name": "See other contributors",
+                "homepage": "https://www.drupal.org/node/1538032/committers"
+            },
+            {
+                "name": "svenryen",
+                "homepage": "https://www.drupal.org/user/667244"
+            }
+        ],
+        "description": "This module aims at making the website compliant with the new EU cookie regulation.",
+        "homepage": "https://drupal.org/project/eu_cookie_compliance",
+        "keywords": [
+            "Cookie",
+            "CookieCompliance",
+            "Drupal",
+            "GDPR"
+        ],
+        "support": {
+            "source": "https://cgit.drupalcode.org/eu-cookie-compliance",
+            "docs": "https://www.drupal.org/project/eu_cookie_compliance",
+            "forum": "https://drupal.stackexchange.com/search?q=eu+cookie+compliance",
+            "issues": "https://www.drupal.org/project/issues/eu_cookie_compliance?version=8.x",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
         }
     },
     {
