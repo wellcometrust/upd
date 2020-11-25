@@ -10,14 +10,6 @@ namespace Laminas\Stdlib;
 
 use Traversable;
 
-use function array_key_exists;
-use function get_class;
-use function gettype;
-use function is_array;
-use function is_object;
-use function is_scalar;
-use function sprintf;
-
 class Message implements MessageInterface
 {
     /**

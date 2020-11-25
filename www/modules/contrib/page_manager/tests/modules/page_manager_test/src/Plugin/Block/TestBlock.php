@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_test\Plugin\Block\TestBlock.
- */
-
 namespace Drupal\page_manager_test\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
@@ -37,7 +32,7 @@ class TestBlock extends BlockBase {
       '#title' => $this->t('Example'),
       '#ajax' => [
         'callback' => [$this, 'exampleAjaxCallback'],
-      ]
+      ],
     ];
     return $form;
   }

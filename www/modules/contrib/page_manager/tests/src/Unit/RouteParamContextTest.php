@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\page_manager\Unit\RouteParamContextTest.
- */
-
 namespace Drupal\Tests\page_manager\Unit;
 
 use Drupal\Core\Plugin\Context\Context;
@@ -77,7 +72,7 @@ class RouteParamContextTest extends PageContextTestBase {
       'parameters' => [
         'foo' => ['type' => 'bar'],
         'baz' => ['type' => 'bop'],
-        'page' => ['type' => 'entity:page']
+        'page' => ['type' => 'entity:page'],
       ],
     ]));
 

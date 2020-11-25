@@ -15,9 +15,15 @@
     "irc": "irc://irc.freenode.org/drupal-contribute",
     "source": "https://git.drupal.org/project/page_manager.git"
   },
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "require": {
-    "drupal/ctools": "~3"
+    "drupal/core": "^8.8 || ^9",
+    "drupal/ctools": "^3.1"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-8.x-4.x": "4.x-dev"
+    }
   }
 }

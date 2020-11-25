@@ -5,16 +5,104 @@ namespace Drupal\mailchimp_campaign\Controller;
 use Behat\Mink\Exception\Exception;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Link;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
-use \Drupal\mailchimp_campaign\Entity\MailchimpCampaign;
-
+use Drupal\mailchimp_campaign\Entity\MailchimpCampaign;
+use Mailchimp\MailchimpAPIException;
+use Drupal\Core\Entity\Query\QueryFactory;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Mailchimp Campaign controller.
  */
 class MailchimpCampaignController extends ControllerBase {
+
+  /**
+   * The current request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected $request;
+
+  /**
+   * The entity query.
+   *
+   * @var \Drupal\Core\Entity\Query\QueryFactory
+   */
+  protected $entityQuery;
+
+  /**
+   * The date formatter service.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * A logger instance.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
+   * Initializes a MailchimpCampaignController.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The current request.
+   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
+   *   The entity query object.
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   *   The date formatter service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
+   */
+  public function __construct(Request $request, QueryFactory $entity_query, DateFormatterInterface $date_formatter, EntityTypeManagerInterface $entityTypeManager, MessengerInterface $messenger, LoggerInterface $logger) {
+      $this->request = $request;
+      $this->entityQuery = $entity_query;
+      $this->dateFormatter = $date_formatter;
+      $this->entityTypeManager = $entityTypeManager;
+      $this->messenger = $messenger;
+      $this->logger = $logger;
+    }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+      return new static(
+          $container->get('request_stack')->getCurrentRequest(),
+          $container->get('entity.query'),
+          $container->get('date.formatter'),
+          $container->get('entity_type.manager'),
+          $container->get('messenger'),
+          $container->get('logger.factory')->get('mailchimp_campaign')
+        );
+  }
 
   /**
    * {@inheritdoc}
@@ -24,19 +112,27 @@ class MailchimpCampaignController extends ControllerBase {
 
     $content['campaigns_table'] = array(
       '#type' => 'table',
-      '#header' => array(t('Title'), t('Subject'), t('Status'), t('Mailchimp List'), t('Mailchimp Template'), t('Created'), t('Actions')),
+      '#header' => array($this->t('Title'), $this->t('Subject'), $this->t('Status'), $this->t('Mailchimp Audience'), $this->t('Mailchimp Template'), $this->t('Created'), $this->t('Actions')),
       '#empty' => '',
     );
 
-    $campaigns = mailchimp_campaign_load_multiple();
-    $templates = mailchimp_campaign_list_templates();
+    try {
+      $campaigns = mailchimp_campaign_load_multiple();
+      $templates = mailchimp_campaign_list_templates();
+    }
+    catch (MailchimpAPIException $e) {
+      $this->messenger()->addError(t('Unable to fetch Mailchimp campaign data, caught API exception: @error', [
+        '@error' => $e->getMessage(),
+      ]));
+      return $content;
+    }
 
     /* @var $campaign \Drupal\mailchimp_campaign\Entity\MailchimpCampaign */
     foreach ($campaigns as $campaign) {
       if (!$campaign->isInitialized()) {
         continue;
       }
-      // Ensure the associated list still exists.
+      // Ensure the associated list/audience still exists.
       if (!isset($campaign->list) || !$campaign->list) {
         continue;
       }
@@ -49,17 +145,17 @@ class MailchimpCampaignController extends ControllerBase {
       $send_url = Url::fromRoute('entity.mailchimp_campaign.send', array('mailchimp_campaign' => $campaign_id));
 
       if ($campaign->mc_data->status === "save") {
-        $send_link = Link::fromTextAndUrl(t("Send"), $send_url)->toString();
+        $send_link = Link::fromTextAndUrl($this->t("Send"), $send_url)->toString();
       }
       // "Sent" campaigns were not being cached, so we needed to reload to get
       // the latest status.
       elseif ($campaign->mc_data->status === "sending") {
         $campaigns = mailchimp_campaign_load_multiple(array($campaign_id), TRUE);
         $campaign = $campaigns[$campaign_id];
-        $send_link = t("Sent");
+        $send_link = $this->t("Sent");
       }
       else {
-        $send_link = t("Sent");
+        $send_link = $this->t("Sent");
       }
 
 
@@ -117,7 +213,7 @@ class MailchimpCampaignController extends ControllerBase {
         }
       }
       $content['campaigns_table'][$campaign_id]['created'] = array(
-        '#markup' => \Drupal::service('date.formatter')->format(strtotime($campaign->mc_data->create_time), 'custom', 'F j, Y - g:ia'),
+        '#markup' => $this->dateFormatter->format(strtotime($campaign->mc_data->create_time), 'custom', 'F j, Y - g:ia'),
       );
 
       $content['campaigns_table'][$campaign_id]['actions'] = array(
@@ -128,7 +224,7 @@ class MailchimpCampaignController extends ControllerBase {
     $mailchimp_campaigns_url = Url::fromUri('https://admin.mailchimp.com/campaigns', array('attributes' => array('target' => '_blank')));
 
     $content['mailchimp_list_link'] = array(
-      '#title' => t('Go to Mailchimp Campaigns'),
+      '#title' => $this->t('Go to Mailchimp Campaigns'),
       '#type' => 'link',
       '#url' => $mailchimp_campaigns_url,
     );
@@ -146,7 +242,7 @@ class MailchimpCampaignController extends ControllerBase {
    *   Renderable array of page content.
    */
   public function view(MailchimpCampaign $mailchimp_campaign) {
-    $view_builder = \Drupal::entityTypeManager()->getViewBuilder('mailchimp_campaign');
+    $view_builder = $this->entityTypeManager->getViewBuilder('mailchimp_campaign');
 
     $content = $view_builder->view($mailchimp_campaign);
 
@@ -175,11 +271,11 @@ class MailchimpCampaignController extends ControllerBase {
 
       $response = $mc_reports->getCampaignSummary($mailchimp_campaign->getMcCampaignId());
     } catch (\Exception $e) {
-      \Drupal::messenger()->addMessage(t($e->getMessage()), 'error');
-      \Drupal::logger('mailchimp_campaign')
+      $this->messenger->addError($this->t($e->getMessage()));
+      $this->logger
         ->error('An error occurred getting report data from Mailchimp: {message}', array(
-        'message' => $e->getMessage()
-      ));
+          'message' => $e->getMessage()
+        ));
     }
 
     if (!empty($response)) {
@@ -202,15 +298,15 @@ class MailchimpCampaignController extends ControllerBase {
       }
 
       $content['charts'] = array(
-        '#prefix' => '<h2>' . t('Hourly stats for the first 24 hours of the campaign') . '</h2>',
+        '#prefix' => '<h2>' . $this->t('Hourly stats for the first 24 hours of the campaign') . '</h2>',
         '#markup' => '<div id="mailchimp-campaign-chart"></div>',
       );
 
       $content['metrics_table'] = array(
         '#type' => 'table',
-        '#header' => array(t('Key'), t('Value')),
+        '#header' => array($this->t('Key'), $this->t('Value')),
         '#empty' => '',
-        '#prefix' => '<h2>' . t('Other campaign metrics') . '</h2>',
+        '#prefix' => '<h2>' . $this->t('Other campaign metrics') . '</h2>',
       );
 
       $stat_groups = array(
@@ -234,7 +330,7 @@ class MailchimpCampaignController extends ControllerBase {
 
         foreach ($response->{$group} as $key => $value) {
           if ($key == "last_open" && !empty($value)) {
-            $value = \Drupal::service('date.formatter')->format(strtotime($value) ,'custom','F j, Y - g:ia') ;
+            $value = $this->dateFormatter->format(strtotime($value) ,'custom','F j, Y - g:ia') ;
           }
 
           $content['metrics_table'][] = array(
@@ -267,9 +363,9 @@ class MailchimpCampaignController extends ControllerBase {
    *   A JSON response containing matched entity data.
    */
   public function entityAutocomplete($entity_type) {
-    $q = \Drupal::request()->get('q');
+    $q = $this->request->get('q');
 
-    $query = \Drupal::entityQuery($entity_type)
+    $query = $this->entityQuery->get($entity_type)
       ->condition('title', $q, 'CONTAINS')
       ->range(0, 10);
 

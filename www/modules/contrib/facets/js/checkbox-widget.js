@@ -3,24 +3,44 @@
  * Transforms links into checkboxes.
  */
 
-(function ($) {
+(function ($, Drupal) {
 
   'use strict';
 
   Drupal.facets = Drupal.facets || {};
   Drupal.behaviors.facetsCheckboxWidget = {
-    attach: function (context, settings) {
-      Drupal.facets.makeCheckboxes();
+    attach: function (context) {
+      Drupal.facets.makeCheckboxes(context);
     }
   };
 
   /**
    * Turns all facet links into checkboxes.
    */
-  Drupal.facets.makeCheckboxes = function () {
+  Drupal.facets.makeCheckboxes = function (context) {
     // Find all checkbox facet links and give them a checkbox.
-    var $links = $('.js-facets-checkbox-links .facet-item a');
-    $links.once('facets-checkbox-transform').each(Drupal.facets.makeCheckbox);
+    var $checkboxWidgets = $('.js-facets-checkbox-links', context)
+      .once('facets-checkbox-transform');
+
+    if ($checkboxWidgets.length > 0) {
+      $checkboxWidgets.each(function (index, widget) {
+        var $widget = $(widget);
+        var $widgetLinks = $widget.find('.facet-item > a');
+
+        // Add correct CSS selector for the widget. The Facets JS API will
+        // register handlers on that element.
+        $widget.addClass('js-facets-widget');
+
+        // Transform links to checkboxes.
+        $widgetLinks.each(Drupal.facets.makeCheckbox);
+
+        // We have to trigger attaching of behaviours, so that Facets JS API can
+        // register handlers on checkbox widgets.
+        Drupal.attachBehaviors(this.parentNode, Drupal.settings);
+      });
+
+    }
+
     // Set indeterminate value on parents having an active trail.
     $('.facet-item--expanded.facet-item--active-trail > input').prop('indeterminate', true);
   };
@@ -42,8 +62,12 @@
     var label = $('<label for="' + id + '">' + description + '</label>');
 
     checkbox.on('change.facets', function (e) {
-      Drupal.facets.disableFacet($link.parents('.js-facets-checkbox-links'));
-      $(this).siblings('a')[0].click();
+      e.preventDefault();
+
+      var $widget = $(this).closest('.js-facets-widget');
+
+      Drupal.facets.disableFacet($widget);
+      $widget.trigger('facets_filter', [ href ]);
     });
 
     if (active) {
@@ -77,4 +101,4 @@
     e.preventDefault();
   };
 
-})(jQuery);
+})(jQuery, Drupal);

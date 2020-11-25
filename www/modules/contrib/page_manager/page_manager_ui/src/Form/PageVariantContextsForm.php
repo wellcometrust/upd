@@ -1,16 +1,12 @@
 <?php
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\PageVariantContextForm.
- */
 
 namespace Drupal\page_manager_ui\Form;
-
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\ctools\Form\ManageContext;
 
 class PageVariantContextsForm extends ManageContext {
@@ -32,12 +28,16 @@ class PageVariantContextsForm extends ManageContext {
     /** @var $page_variant \Drupal\page_manager\Entity\PageVariant */
     $page_variant = $cached_values['page_variant'];
     $context = $form_state->getValue('context');
-    $content = $this->formBuilder->getForm($this->getContextClass(), $context, $this->getTempstoreId(), $this->machine_name, $page_variant->id());
+    $content = $this->formBuilder->getForm($this->getContextClass($cached_values), $context, $this->getTempstoreId(), $this->machine_name, $page_variant->id());
     $content['#attached']['library'][] = 'core/drupal.dialog.ajax';
     list(, $route_parameters) = $this->getContextOperationsRouteInfo($cached_values, $this->machine_name, $context);
-    $content['submit']['#attached']['drupalSettings']['ajax'][$content['submit']['#id']]['url'] = $this->url($this->getContextAddRoute($cached_values), $route_parameters, ['query' => [FormBuilderInterface::AJAX_FORM_REQUEST => TRUE]]);
+    $content['submit']['#attached']['drupalSettings']['ajax'][$content['submit']['#id']]['url'] = Url::fromRoute(
+      $this->getContextAddRoute($cached_values),
+      $route_parameters,
+      ['query' => [FormBuilderInterface::AJAX_FORM_REQUEST => TRUE]]
+    )->toString();
     $response = new AjaxResponse();
-    $response->addCommand(new OpenModalDialogCommand($this->t('Add new context'), $content, array('width' => '700')));
+    $response->addCommand(new OpenModalDialogCommand($this->t('Add new context'), $content, ['width' => '700']));
     return $response;
   }
 
@@ -59,7 +59,7 @@ class PageVariantContextsForm extends ManageContext {
    * {@inheritdoc}
    */
   protected function getRelationshipClass($cached_values) {
-    //return VariantRelationshipConfigure::class;
+    // Return VariantRelationshipConfigure::class;.
   }
 
   /**
@@ -101,8 +101,9 @@ class PageVariantContextsForm extends ManageContext {
     return ['entity.page_variant.context', [
       'machine_name' => $machine_name,
       'variant_machine_name' => $page_variant->id(),
-      'context_id' => $row
-    ]];
+      'context_id' => $row,
+    ],
+    ];
   }
 
   /**
@@ -114,9 +115,11 @@ class PageVariantContextsForm extends ManageContext {
     return ['entity.page_variant.relationship', [
       'machine_name' => $machine_name,
       'variant_machine_name' => $page_variant->id(),
-      'relationship' => $row
-    ]];
+      'relationship' => $row,
+    ],
+    ];
   }
+
 
   protected function isEditableContext($cached_values, $row) {
     /** @var \Drupal\page_manager\PageInterface $page */
@@ -125,6 +128,5 @@ class PageVariantContextsForm extends ManageContext {
     $page_variant = $cached_values['page_variant'];
     return empty($page->getContexts()[$row]) && !empty($page_variant->getContexts()[$row]);
   }
-
 
 }

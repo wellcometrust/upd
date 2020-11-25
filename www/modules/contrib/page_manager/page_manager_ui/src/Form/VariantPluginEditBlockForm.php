@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\VariantPluginEditBlockForm.
- */
-
 namespace Drupal\page_manager_ui\Form;
 
 /**

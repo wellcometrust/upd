@@ -10,7 +10,7 @@ use Drupal\Core\Condition\ConditionPluginBase;
  * @Condition(
  *   id = "page_manager_routing_test__entity_test",
  *   label = @Translation("Entity Test"),
- *   context = {
+ *   context_definitions = {
  *     "entity_test" = @ContextDefinition("entity:entity_test")
  *   }
  * )

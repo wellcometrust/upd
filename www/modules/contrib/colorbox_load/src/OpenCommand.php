@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\colorbox_load\OpenCommand.
- */
-
 namespace Drupal\colorbox_load;
 
 use Drupal\Core\Ajax\CommandInterface;
@@ -32,7 +27,9 @@ class OpenCommand implements CommandInterface {
   }
 
   /**
-   * {@inheritdoc{
+   * Render.
+   *
+   * {@inheritdoc}.
    */
   public function render() {
     return [

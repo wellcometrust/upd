@@ -39,6 +39,9 @@ class SliderWidget extends WidgetPluginBase {
     $build = parent::build($facet);
 
     $results = $facet->getResults();
+    if (empty($results)) {
+      return $build;
+    }
     ksort($results);
 
     $show_numbers = $facet->getWidgetInstance()->getConfiguration()['show_numbers'];
@@ -55,14 +58,16 @@ class SliderWidget extends WidgetPluginBase {
     $min = (float) reset($results)->getRawValue();
     $max = (float) end($results)->getRawValue();
 
-    $build['#items'] = [[
-      '#type' => 'html_tag',
-      '#tag' => 'div',
-      '#attributes' => [
-        'class' => ['facet-slider'],
-        'id' => $facet->id(),
+    $build['#items'] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#attributes' => [
+          'class' => ['facet-slider'],
+          'id' => $facet->id(),
+        ],
       ],
-    ]];
+    ];
 
     $active = $facet->getActiveItems();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\styage_file_proxy\Functional;
+namespace Drupal\Tests\stage_file_proxy\Functional;
 
 use Drupal\Core\Url;
 use Drupal\Tests\BrowserTestBase;
@@ -48,13 +48,14 @@ class SettingsFormTest extends BrowserTestBase {
       // Test with adding a slash.
       'origin' => $testOrigin . '/',
     ];
-    $this->drupalPostForm($settings_path, $edit, t('Save configuration'));
+    $this->drupalPostForm($settings_path, $edit, 'Save configuration');
 
     // Test if the form was saved without error.
     $this->assertText('Your settings have been saved.');
 
     // Test if the stored value has the trailing slash removed.
     $newOrigin = $this->config('stage_file_proxy.settings')->get('origin');
-    $this->assertIdentical($newOrigin,  $testOrigin);
+    $this->assertIdentical($newOrigin, $testOrigin);
   }
+
 }

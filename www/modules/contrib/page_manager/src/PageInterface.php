@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\PageInterface.
- */
-
 namespace Drupal\page_manager;
 
 use Drupal\Component\Plugin\Context\ContextInterface;

@@ -10,6 +10,7 @@ use Drupal\entity_browser\WidgetManager;
 use Drupal\entity_browser\WidgetSelectorManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\SubformState;
+use Drupal\Core\Messenger\MessengerInterface;
 
 /**
  * Class EntityBrowserEditForm.
@@ -55,12 +56,15 @@ class EntityBrowserEditForm extends EntityForm {
    *   Entity browser selection display plugin manager.
    * @param \Drupal\entity_browser\WidgetManager $widget_manager
    *   Entity browser widget plugin manager.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger.
    */
-  public function __construct(DisplayManager $display_manager, WidgetSelectorManager $widget_selector_manager, SelectionDisplayManager $selection_display_manager, WidgetManager $widget_manager) {
+  public function __construct(DisplayManager $display_manager, WidgetSelectorManager $widget_selector_manager, SelectionDisplayManager $selection_display_manager, WidgetManager $widget_manager, MessengerInterface $messenger) {
     $this->displayManager = $display_manager;
     $this->selectionDisplayManager = $selection_display_manager;
     $this->widgetSelectorManager = $widget_selector_manager;
     $this->widgetManager = $widget_manager;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -71,7 +75,8 @@ class EntityBrowserEditForm extends EntityForm {
       $container->get('plugin.manager.entity_browser.display'),
       $container->get('plugin.manager.entity_browser.widget_selector'),
       $container->get('plugin.manager.entity_browser.selection_display'),
-      $container->get('plugin.manager.entity_browser.widget')
+      $container->get('plugin.manager.entity_browser.widget'),
+      $container->get('messenger')
     );
   }
 
@@ -104,7 +109,7 @@ class EntityBrowserEditForm extends EntityForm {
 
     if ($entity_browser->isNew()) {
       $help_text = '<div class="clearfix eb-help-text"><h2>' . $this->t('Entity Browser creation instructions') . '</h2>';
-      $help_text .= '<p>' . $this->t('When you save this form, you will be taken to another form to configure widgets for the entiry browser.') . '</p>';
+      $help_text .= '<p>' . $this->t('When you save this form, you will be taken to another form to configure widgets for the entity browser.') . '</p>';
       $help_text .= '<p>' . $this->t('You can find more detailed information about creating and configuring Entity Browsers at the <a href="@guide_href" target="_blank">official documentation</a>.', ['@guide_href' => 'https://drupal-media.gitbooks.io/drupal8-guide/content/modules/entity_browser/intro.html']) . '</p>';
       $help_text .= '</div>';
       $form['help_text'] = [
@@ -447,6 +452,20 @@ class EntityBrowserEditForm extends EntityForm {
         'entity_browser' => $this->entity->id(),
       ];
       $form_state->setRedirect('entity.entity_browser.edit_widgets', $params);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function save(array $form, FormStateInterface $form_state) {
+    $status = $this->entity->save();
+
+    if ($status == SAVED_UPDATED) {
+      $this->messenger->addMessage($this->t('The entity browser %name has been updated.', ['%name' => $this->entity->label()]));
+    }
+    elseif ($status == SAVED_NEW) {
+      $this->messenger->addMessage($this->t('The entity browser %name has been added. Now you may configure the widgets you would like to use.', ['%name' => $this->entity->label()]));
     }
   }
 

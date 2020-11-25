@@ -1,12 +1,6 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\AddVariantSelectionConfigure.
- */
-
 namespace Drupal\page_manager_ui\Form;
-
 
 use Drupal\ctools\Form\ConditionConfigure;
 
@@ -33,7 +27,8 @@ class AddVariantSelectionConfigure extends ConditionConfigure {
       'page' => $page_variant->getPage()->id(),
       'machine_name' => $this->machine_name,
       'step' => 'selection',
-    ]];
+    ],
+    ];
   }
 
   /**

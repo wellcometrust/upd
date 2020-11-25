@@ -20,13 +20,19 @@ class PageManagerRoutingTest extends EntityKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['page_manager', 'page_manager_routing_test'];
+  public static $modules = ['page_manager', 'page_manager_routing_test', 'path_alias'];
 
   /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
+
+    // If we are on Drupal 8.8 or later, we need to install the path_alias
+    // module in order to properly resolve the routes.
+    if (version_compare(\Drupal::VERSION, '8.8.0', '>=')) {
+      $this->installEntitySchema('path_alias');
+    }
 
     $this->container->get('current_user')->setAccount($this->createUser([], ['view test entity']));
     EntityTest::create()->save();

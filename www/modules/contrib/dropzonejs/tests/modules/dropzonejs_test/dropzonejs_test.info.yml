@@ -1,14 +1,15 @@
-name: 'DropzoneJs Test'
+name: 'DropzoneJS Test'
 type: module
-description: 'Support module for DropzoneJs tests.'
+description: 'Support module for DropzoneJS tests.'
+core_version_requirement: ^8.8 || ^9
 package: Testing
 # version: VERSION
-# core: 8.x
 dependencies:
- - dropzonejs
+ - drupal:media
+ - dropzonejs:dropzonejs
+ - dropzonejs:dropzonejs_eb_widget
 
-# Information added by Drupal.org packaging script on 2017-12-14
-version: '8.x-2.0-alpha3'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-09-17
+version: '8.x-2.3'
 project: 'dropzonejs'
-datestamp: 1513265289
+datestamp: 1600310563

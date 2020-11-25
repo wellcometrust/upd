@@ -63,7 +63,7 @@ class SimplesitemapCustomLinksForm extends SimplesitemapFormBase {
       '#title' => $this->t('Custom links'),
       '#type' => 'fieldset',
       '#markup' => '<div class="description">' . $this->t('Add custom internal drupal paths to the XML sitemap.') . '</div>',
-      '#prefix' => $this->getDonationText(),
+      '#prefix' => FormHelper::getDonationText(),
     ];
 
     $form['simple_sitemap_custom']['custom_links'] = [
@@ -163,7 +163,9 @@ class SimplesitemapCustomLinksForm extends SimplesitemapFormBase {
 
     // Regenerate sitemaps according to user setting.
     if ($form_state->getValue('simple_sitemap_regenerate_now')) {
-      $this->generator->rebuildQueue()->generateSitemap();
+      $this->generator->setVariants(TRUE)
+        ->rebuildQueue()
+        ->generateSitemap();
     }
   }
 

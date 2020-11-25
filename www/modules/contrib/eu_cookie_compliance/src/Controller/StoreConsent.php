@@ -11,7 +11,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class StoreConsent extends ControllerBase {
 
   /**
-   * {@inheritdoc}
+   * Store consent.
+   *
+   * @param string $target
+   *   The target.
+   *
+   * @return JsonResponse
+   *   Result of action.
    */
   public function store($target) {
     // Get list of all plugins.
@@ -21,7 +27,7 @@ class StoreConsent extends ControllerBase {
       ->get('eu_cookie_compliance.settings')
       ->get('consent_storage_method');
     // If we're not going to log consent, return NULL.
-    if (!$consent_storage_method || $consent_storage_method == 'do_not_store') {
+    if (!$consent_storage_method || $consent_storage_method === 'do_not_store') {
       return new JsonResponse(NULL);
     }
 

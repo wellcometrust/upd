@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\Plugin\DisplayVariant\PageBlockDisplayVariant.
- */
-
 namespace Drupal\page_manager\Plugin\DisplayVariant;
 
 use Drupal\Component\Render\HtmlEscapedText;
@@ -20,6 +15,7 @@ use Drupal\Core\Plugin\Context\ContextHandlerInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Security\TrustedCallbackInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Utility\Token;
 use Drupal\ctools\Plugin\DisplayVariant\BlockDisplayVariant;
@@ -35,7 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   admin_label = @Translation("Block page")
  * )
  */
-class PageBlockDisplayVariant extends BlockDisplayVariant implements PluginWizardInterface {
+class PageBlockDisplayVariant extends BlockDisplayVariant implements PluginWizardInterface, TrustedCallbackInterface {
 
   /**
    * The module handler.
@@ -90,6 +86,13 @@ class PageBlockDisplayVariant extends BlockDisplayVariant implements PluginWizar
       $container->get('plugin.manager.condition'),
       $container->get('module_handler')
     );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    return ['buildRegions', 'buildBlock'];
   }
 
   /**
@@ -186,6 +189,11 @@ class PageBlockDisplayVariant extends BlockDisplayVariant implements PluginWizar
     unset($build['#block_plugin']);
     if ($content !== NULL && !Element::isEmpty($content)) {
       $build['content'] = $content;
+
+      // Add contextual links but prevent duplicating the Views block displays
+      // contextual links.
+      $add_contextual_links = !empty($content['#contextual_links']) && empty($content['#views_contextual_links']);
+      $build['#contextual_links'] = $add_contextual_links ? $content['#contextual_links'] : [];
     }
     else {
       // Abort rendering: render as the empty string and ensure this block is
@@ -197,6 +205,7 @@ class PageBlockDisplayVariant extends BlockDisplayVariant implements PluginWizar
         '#cache' => $build['#cache'],
       ];
     }
+
     // If $content is not empty, then it contains cacheability metadata, and
     // we must merge it with the existing cacheability metadata. This allows
     // blocks to be empty, yet still bubble cacheability metadata, to indicate
@@ -206,6 +215,7 @@ class PageBlockDisplayVariant extends BlockDisplayVariant implements PluginWizar
         ->merge(CacheableMetadata::createFromRenderArray($content))
         ->applyTo($build);
     }
+
     return $build;
   }
 
@@ -216,8 +226,7 @@ class PageBlockDisplayVariant extends BlockDisplayVariant implements PluginWizar
     // Don't call VariantBase::buildConfigurationForm() on purpose, because it
     // adds a 'Label' field that we don't actually want to use - we store the
     // label on the page variant entity.
-    //$form = parent::buildConfigurationForm($form, $form_state);
-
+    // $form = parent::buildConfigurationForm($form, $form_state);
     // Allow to configure the page title, even when adding a new display.
     // Default to the page label in that case.
     $form['page_title'] = [

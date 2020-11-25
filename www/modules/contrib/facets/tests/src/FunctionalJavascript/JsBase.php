@@ -25,6 +25,11 @@ abstract class JsBase extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
+  protected $defaultTheme = 'stark';
+
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
     parent::setUp();
 
@@ -134,8 +139,16 @@ abstract class JsBase extends WebDriverTestBase {
    *   The id of the facet.
    * @param string $field
    *   The field name.
+   * @param string $widget_type
+   *   The type of the facet widget. links by default.
+   * @param array $widget_settings
+   *   The widget config.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function createFacet($id, $field = 'type') {
+  protected function createFacet($id, $field = 'type', $widget_type = 'links', array $widget_settings = ['show_numbers' => TRUE, 'soft_limit' => 0]) {
     $facet_storage = \Drupal::entityTypeManager()->getStorage('facets_facet');
     // Create and save a facet with a checkbox widget.
     $facet_storage->create([
@@ -147,11 +160,8 @@ abstract class JsBase extends WebDriverTestBase {
       'empty_behavior' => ['behavior' => 'none'],
       'weight' => 1,
       'widget' => [
-        'type' => 'links',
-        'config' => [
-          'show_numbers' => TRUE,
-          'soft_limit' => 0,
-        ],
+        'type' => $widget_type,
+        'config' => $widget_settings,
       ],
       'processor_configs' => [
         'url_processor_handler' => [

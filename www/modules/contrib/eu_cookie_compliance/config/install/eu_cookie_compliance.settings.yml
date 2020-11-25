@@ -1,5 +1,6 @@
 uuid: ''
 cookie_lifetime: 100
+containing_element: 'body'
 domain: ''
 domains_option: 1
 domains_list: ''
@@ -48,7 +49,8 @@ use_mobile_message: false
 method: 'opt_in'
 disagree_button_label: 'No, thanks'
 disabled_javascripts: ''
-whitelisted_cookies: ''
+automatic_cookies_removal: true
+allowed_cookies: ''
 consent_storage_method: 'do_not_store'
 withdraw_message:
   value: '<h2>We use cookies on this site to enhance your user experience</h2><p>You have given your consent for us to set cookies.</p>'
@@ -56,11 +58,12 @@ withdraw_message:
 withdraw_action_button_label: 'Withdraw consent'
 withdraw_tab_button_label: 'Privacy settings'
 withdraw_enabled: false
-cookie_categories: ''
 enable_save_preferences_button: true
 save_preferences_button_label: 'Save preferences'
 accept_all_categories_button_label: 'Accept all cookies'
-fix_first_cookie_category: true
-select_all_categories_by_default: false
 withdraw_button_on_info_popup: false
 domain_all_sites: false
+settings_tab_enabled: false
+reload_options: 0
+reload_routes_list: ''
+cookie_policy_version: '1.0.0'

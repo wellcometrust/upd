@@ -5,6 +5,7 @@
  * Provides a UI for Page Manager.
  */
 
+use Drupal\Core\Url;
 use Drupal\page_manager_ui\Entity\PageListBuilder;
 use Drupal\page_manager_ui\Form\PageDeleteForm;
 use Drupal\page_manager_ui\ConfigTranslation\PageConfigMapper;
@@ -18,26 +19,30 @@ use Drupal\page_manager_ui\Wizard\PageVariantAddWizard;
  */
 function page_manager_ui_entity_type_build(array &$entity_types) {
   /** @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[] */
-  $entity_types['page']
-    ->setListBuilderClass(PageListBuilder::class)
-    ->setFormClass('delete', PageDeleteForm::class)
-    ->setLinkTemplate('collection', '/admin/structure/page_manager')
-    ->setLinkTemplate('add-form', '/admin/structure/page_manager/add')
-    ->setLinkTemplate('edit-form', '/admin/structure/page_manager/manage/{machine_name}/{step}')
-    ->setLinkTemplate('delete-form', '/admin/structure/page_manager/manage/{page}/delete')
-    ->setLinkTemplate('enable', '/admin/structure/page_manager/manage/{page}/enable')
-    ->setLinkTemplate('disable', '/admin/structure/page_manager/manage/{page}/disable')
-    ->setHandlerClass('wizard', [
-      'add' => PageAddWizard::class,
-      'edit' => PageEditWizard::class,
-    ]);
+  if (isset($entity_types['page'])) {
+    $entity_types['page']
+      ->setListBuilderClass(PageListBuilder::class)
+      ->setFormClass('delete', PageDeleteForm::class)
+      ->setLinkTemplate('collection', '/admin/structure/page_manager')
+      ->setLinkTemplate('add-form', '/admin/structure/page_manager/add')
+      ->setLinkTemplate('edit-form', '/admin/structure/page_manager/manage/{machine_name}/{step}')
+      ->setLinkTemplate('delete-form', '/admin/structure/page_manager/manage/{page}/delete')
+      ->setLinkTemplate('enable', '/admin/structure/page_manager/manage/{page}/enable')
+      ->setLinkTemplate('disable', '/admin/structure/page_manager/manage/{page}/disable')
+      ->setHandlerClass('wizard', [
+        'add' => PageAddWizard::class,
+        'edit' => PageEditWizard::class,
+      ]);
+  }
 
-   $entity_types['page_variant']
-     // The edit-form template is required by config_translation.
-     ->setLinkTemplate('edit-form', '/admin/structure/page_manager/manage/{machine_name}/{step}')
-     ->setHandlerClass('wizard', [
-       'add_variant' => PageVariantAddWizard::class,
-     ]);
+  if (isset($entity_types['page_variant'])) {
+    $entity_types['page_variant']
+      // The edit-form template is required by config_translation.
+      ->setLinkTemplate('edit-form', '/admin/structure/page_manager/manage/{machine_name}/{step}')
+      ->setHandlerClass('wizard', [
+        'add_variant' => PageVariantAddWizard::class,
+      ]);
+  }
 }
 
 /**
@@ -108,7 +113,7 @@ function template_preprocess_page_manager_wizard_tree(&$variables) {
 
     $parent[$step] = [
       'title' => !empty($operation['title']) ? $operation['title'] : '',
-      'url' => new \Drupal\Core\Url($wizard->getRouteName(), $parameters),
+      'url' => new Url($wizard->getRouteName(), $parameters),
       'step' => $step,
     ];
   }
@@ -134,4 +139,41 @@ function page_manager_ui_local_tasks_alter(&$local_tasks) {
   // routes.
   unset($local_tasks['config_translation.local_tasks:entity.page.config_translation_overview']);
   unset($local_tasks['config_translation.local_tasks:entity.page_variant.config_translation_overview']);
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * @todo Refactor/remove if https://www.drupal.org/project/drupal/issues/3005403 lands.
+ */
+function page_manager_ui_theme_registry_alter(&$theme_registry) {
+  // Seven removes all block contextual links via a preprocess.
+  // Layout builder variants require contextual links to configure blocks.
+  // @see https://www.drupal.org/project/drupal/issues/2487025
+  if (!empty($theme_registry['block']['preprocess functions'])) {
+    $preprocess_functions = &$theme_registry['block']['preprocess functions'];
+
+    // Remove seven's implementation.
+    if ($index = array_search('seven_preprocess_block', $preprocess_functions)) {
+      unset($preprocess_functions[$index]);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * @todo Refactor/remove if https://www.drupal.org/project/drupal/issues/3005403 lands.
+ */
+function page_manager_ui_preprocess_block(&$variables) {
+  if (Drupal::theme()->getActiveTheme()->getName() === 'seven') {
+    // If active theme is seven and the block has layout_builder contextual
+    // links, do nothing.
+    if (isset($variables['elements']['#contextual_links']['layout_builder_block'])) {
+      return;
+    }
+
+    // Fallback to seven.
+    seven_preprocess_block($variables);
+  }
 }

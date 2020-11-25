@@ -32,6 +32,15 @@ facet.widget.config.links:
     soft_limit:
       type: integer
       label: 'Soft limit'
+    show_reset_link:
+      type: boolean
+      label: 'Show reset link'
+    reset_text:
+      type: label
+      label: 'Reset link text'
+    hide_reset_when_no_selection:
+      type: boolean
+      label: 'Hide reset link when no facet item is selected'
     soft_limit_settings:
       type: mapping
       label: 'Soft limit settings'

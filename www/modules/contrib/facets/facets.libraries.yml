@@ -21,14 +21,28 @@ drupal.facets.admin_css:
     theme:
       css/facets.admin.css: {}
 
+widget:
+  version: VERSION
+  js:
+    js/base-widget.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+
+drupal.facets.link-widget:
+  version: VERSION
+  js:
+    js/link-widget.js: {}
+  dependencies:
+    - facets/widget
+
 drupal.facets.checkbox-widget:
   version: VERSION
   js:
     js/checkbox-widget.js: {}
   dependencies:
-    - core/jquery
-    - core/drupal
-    - core/jquery.once
+    - facets/widget
 
 drupal.facets.hierarchical:
   version: VERSION
@@ -47,9 +61,8 @@ drupal.facets.dropdown-widget:
   js:
     js/dropdown-widget.js: {}
   dependencies:
-    - core/jquery
-    - core/drupal
-    - core/jquery.once
+    - facets/widget
+
 soft-limit:
   version: VERSION
   js:
@@ -59,12 +72,11 @@ soft-limit:
     - core/jquery.once
     - core/drupal
     - core/drupalSettings
+
 drupal.facets.views-ajax:
   js:
     js/facets-views-ajax.js: {}
   dependencies:
-    - core/jquery
-    - core/jquery.once
-    - core/drupal
+    - facets/widget
     - core/drupalSettings
     - core/drupal.ajax

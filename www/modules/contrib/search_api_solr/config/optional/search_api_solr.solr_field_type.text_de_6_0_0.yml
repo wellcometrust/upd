@@ -889,8 +889,6 @@ text_files:
     zweites
     zwischen
     zwölf
-  synonyms: |
-    drupal, durpal
   nouns: |
     ähren
     ältesten
@@ -4763,6 +4761,38 @@ text_files:
     zwölf
     zylinder
   protwords: |
+    dufte
+    glas
+    gläser
+    glaser
+    küche
+    küchen
+    kuchen
+    loch
+    löcher
+    locher
+    pläne
+    pläne
+    plane
+    planen
+    schloss
+    schlösser
+    schlosser
+    schrank
+    schränke
+    schranke
+    schranken
+    volker
+  synonyms: |
+    drupal, durpal
+    glas, gläser
+    küche, küchen
+    loch, löcher
+    plan, pläne
+    plane, planen
+    schloss, schlösser
+    schrank, schränke
+    schranke, schranken
   accents: |
     # À => A
     "\u00C0" => "A"

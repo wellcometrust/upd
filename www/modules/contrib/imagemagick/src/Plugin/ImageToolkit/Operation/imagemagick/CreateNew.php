@@ -74,17 +74,12 @@ class CreateNew extends ImagemagickImageToolkitOperationBase {
    * {@inheritdoc}
    */
   protected function execute(array $arguments) {
-    $this->getToolkit()
-      ->setWidth($arguments['width'])
-      ->setHeight($arguments['height'])
-      ->setExifOrientation(NULL)
-      ->setColorspace($this->getToolkit()->getExecManager()->getPackage() === 'imagemagick' ? 'sRGB' : NULL)
-      ->setProfiles([])
-      ->setFrames(1);
-    $this->getToolkit()->arguments()
-      ->setSourceFormatFromExtension($arguments['extension'])
-      ->setSourceLocalPath('')
-      ->reset();
+    // Reset the image properties and any processing argument.
+    $format = $this->getToolkit()->getExecManager()->getFormatMapper()->getFormatFromExtension($arguments['extension']) ?: '';
+    $this->getToolkit()->reset($arguments['width'], $arguments['height'], $format);
+
+    // Add the required arguments to allow Imagemagick to create an image
+    // from scratch.
     $arg = '-size ' . $arguments['width'] . 'x' . $arguments['height'];
 
     // Transparent color syntax for GIF files differs by package.

@@ -11,4 +11,4 @@ page_variants:
   js:
     js/page-manager-ui-page-variants.js: {}
   dependencies:
-    - core/jquery
+    - core/jquery.once

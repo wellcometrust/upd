@@ -2,8 +2,6 @@
 
 namespace Drupal\facets\Plugin\facets\widget;
 
-use Drupal\facets\FacetInterface;
-
 /**
  * The checkbox / radios widget.
  *
@@ -18,11 +16,9 @@ class CheckboxWidget extends LinksWidget {
   /**
    * {@inheritdoc}
    */
-  public function build(FacetInterface $facet) {
-    $build = parent::build($facet);
+  protected function appendWidgetLibrary(array &$build) {
     $build['#attributes']['class'][] = 'js-facets-checkbox-links';
     $build['#attached']['library'][] = 'facets/drupal.facets.checkbox-widget';
-    return $build;
   }
 
 }

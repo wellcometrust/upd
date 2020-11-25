@@ -1,5 +1,5 @@
 mailchimp_lists.overview:
-  title: 'Lists'
+  title: 'Audiences'
   route_name: mailchimp_lists.overview
   base_route: mailchimp.admin
 mailchimp_lists.fields:

@@ -19,7 +19,6 @@ class FileMetadataFontTest extends FileMetadataManagerTestBase {
    */
   public static $modules = [
     'system',
-    'simpletest',
     'file_mdm',
     'file_mdm_font',
     'file_test',
@@ -29,7 +28,7 @@ class FileMetadataFontTest extends FileMetadataManagerTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->installConfig(['file_mdm_font']);
   }
@@ -70,10 +69,10 @@ class FileMetadataFontTest extends FileMetadataManagerTestBase {
         $this->fail("File not found: {$font_file['uri']}");
         continue;
       }
-      $this->assertEqual($font_file['count_keys'], $this->countMetadataKeys($file_metadata, 'font'));
-      $this->assertIdentical(FileMetadataInterface::LOADED_FROM_FILE, $file_metadata->isMetadataLoaded('font'));
+      $this->assertEquals($font_file['count_keys'], $this->countMetadataKeys($file_metadata, 'font'));
+      $this->assertSame(FileMetadataInterface::LOADED_FROM_FILE, $file_metadata->isMetadataLoaded('font'));
       foreach ($font_file['test_keys'] as $test) {
-        $this->assertEqual($test[1], $file_metadata->getMetadata('font', $test[0]));
+        $this->assertEquals($test[1], $file_metadata->getMetadata('font', $test[0]));
       }
     }
   }
@@ -108,7 +107,7 @@ class FileMetadataFontTest extends FileMetadataManagerTestBase {
 
     $fmdm = $this->container->get('file_metadata_manager');
     $file_md = $fmdm->uri(drupal_get_path('module', 'image_effects') . '/tests/fonts/LinLibertineTTF_5.3.0_2012_07_02/LinLibertine_Rah.ttf');
-    $this->assertEqual($expected_keys, $file_md->getSupportedKeys('font'));
+    $this->assertEquals($expected_keys, $file_md->getSupportedKeys('font'));
   }
 
 }

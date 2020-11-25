@@ -36,27 +36,36 @@ function imagemagick_requirements($phase) {
 }
 
 /**
- * Enable file_mdm module.
+ * Minimum 2.x schema version to allow upgrading from.
  */
-function imagemagick_update_8201() {
-  \Drupal::service('module_installer')->install([
-    'file_mdm',
-  ]);
+function imagemagick_update_last_removed() {
+  return 8203;
 }
 
 /**
- * Adds the 'prepend_pre_source' config setting.
+ * Adds the 'advanced.coalesce' config setting.
  */
-function imagemagick_update_8202() {
+function imagemagick_update_8301() {
   $config_factory = \Drupal::configFactory();
   $setting = $config_factory->getEditable('imagemagick.settings')
-    ->set('prepend_pre_source', FALSE)
+    ->set('advanced.coalesce', FALSE)
     ->save(TRUE);
 }
 
 /**
- * Clear caches to discover service changes.
+ * Remove the 'prepend_pre_source' and 'use_identify' config settings.
  */
-function imagemagick_update_8203() {
-  // Empty function.
+function imagemagick_update_8302() {
+  $config_factory = \Drupal::configFactory();
+  $setting = $config_factory->getEditable('imagemagick.settings')
+    ->clear('prepend_pre_source')
+    ->clear('use_identify')
+    ->save(TRUE);
+}
+
+/**
+ * Enable the Sophron module.
+ */
+function imagemagick_update_8303() {
+  \Drupal::service('module_installer')->install(['sophron']);
 }

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\Event\PageManagerEvents.
- */
-
 namespace Drupal\page_manager\Event;
 
 /**

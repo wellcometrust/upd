@@ -66,6 +66,7 @@ class NodeTest extends FieldKernelTestBase {
       'field_name' => 'field_scheduled_publish',
       'type' => 'scheduled_publish',
       'entity_type' => 'node',
+      'cardinality' => -1,
     ]);
 
     $field_storage->save();
@@ -103,7 +104,7 @@ class NodeTest extends FieldKernelTestBase {
 
     $nodeID = $page->id();
 
-    self::assertTrue($nodeID);
+    self::assertTrue((bool)$nodeID);
 
     $this->scheduledUpdateService->doUpdate();
 
@@ -128,7 +129,7 @@ class NodeTest extends FieldKernelTestBase {
 
     $nodeID = $page->id();
 
-    self::assertTrue($nodeID);
+    self::assertTrue((bool)$nodeID);
 
     $this->scheduledUpdateService->doUpdate();
 
@@ -136,7 +137,6 @@ class NodeTest extends FieldKernelTestBase {
 
     self::assertEquals('draft', $loadedNode->moderation_state->value);
   }
-
 
   public function testUpdateModerationStateFutureWithMorePagesAndArchivedContent() {
 
@@ -156,6 +156,33 @@ class NodeTest extends FieldKernelTestBase {
     $page->set('field_scheduled_publish', [
       'moderation_state' => 'archived',
       'value' => '2000-12-24T18:21Z',
+    ]);
+    $page->save();
+
+    $this->scheduledUpdateService->doUpdate();
+
+    $loadedNode = Node::load($page->id());
+
+    self::assertEquals('archived', $loadedNode->moderation_state->value);
+  }
+
+  public function testUpdateModerationStateMultiple() {
+
+    $page = Node::create([
+      'type' => 'page',
+      'title' => 'A',
+    ]);
+
+    $page->moderation_state->value = 'draft';
+    $page->set('field_scheduled_publish', [
+      [
+        'moderation_state' => 'published',
+        'value' => '2000-12-24T18:21Z',
+      ],
+      [
+        'moderation_state' => 'archived',
+        'value' => '2000-12-24T18:21Z',
+      ]
     ]);
     $page->save();
 

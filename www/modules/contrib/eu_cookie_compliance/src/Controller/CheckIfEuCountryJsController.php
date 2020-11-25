@@ -11,7 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class CheckIfEuCountryJsController extends ControllerBase {
 
   /**
-   * {@inheritdoc}
+   * Check if visitor is in the EU.
+   *
+   * @return JsonResponse
+   *   Whether the user is in EU.
    */
   public function content() {
     $data = eu_cookie_compliance_user_in_eu();

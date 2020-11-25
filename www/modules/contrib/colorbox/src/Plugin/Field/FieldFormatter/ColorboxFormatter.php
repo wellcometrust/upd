@@ -3,6 +3,7 @@
 namespace Drupal\colorbox\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Link;
@@ -45,6 +46,13 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
   protected $imageStyleStorage;
 
   /**
+   * Drupal\Core\Extension\ModuleHandlerInterface definition.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  private $moduleHandler;
+
+  /**
    * Constructs an ImageFormatter object.
    *
    * @param string $plugin_id
@@ -63,14 +71,19 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
    *   Any third party settings settings.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   The current user.
+   * @param Drupal\Core\Entity\EntityStorageInterface $image_style_storage
+   *   The image style storage.
    * @param \Drupal\colorbox\ElementAttachmentInterface $attachment
    *   Allow the library to be attached to the page.
+   * @param Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   Module handler services.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, AccountInterface $current_user, EntityStorageInterface $image_style_storage, ElementAttachmentInterface $attachment) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, AccountInterface $current_user, EntityStorageInterface $image_style_storage, ElementAttachmentInterface $attachment, ModuleHandlerInterface $moduleHandler) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
     $this->currentUser = $current_user;
     $this->imageStyleStorage = $image_style_storage;
     $this->attachment = $attachment;
+    $this->moduleHandler = $moduleHandler;
   }
 
   /**
@@ -86,8 +99,9 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
       $configuration['view_mode'],
       $configuration['third_party_settings'],
       $container->get('current_user'),
-      $container->get('entity.manager')->getStorage('image_style'),
-      $container->get('colorbox.attachment')
+      $container->get('entity_type.manager')->getStorage('image_style'),
+      $container->get('colorbox.attachment'),
+      $container->get('module_handler')
     );
   }
 
@@ -176,12 +190,19 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
         ],
       ],
     ];
-    if (\Drupal::moduleHandler()->moduleExists('token')) {
+    if ($this->moduleHandler->moduleExists('token')) {
+
+      $entity_type = '';
+
+      if (isset($form['#entity_type']) && !empty($form['#entity_type'])) {
+        $entity_type = $form['#entity_type'];
+      }
+
       $element['colorbox_token_gallery'] = [
         '#type' => 'fieldset',
-        '#title' => t('Replacement patterns'),
+        '#title' => $this->t('Replacement patterns'),
         '#theme' => 'token_tree_link',
-        '#token_types' => [$form['#entity_type'], 'file'],
+        '#token_types' => [$entity_type, 'file'],
         '#states' => [
           'visible' => [
             ':input[name$="[settings_edit_form][settings][colorbox_gallery]"]' => ['value' => 'custom'],
@@ -227,12 +248,19 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
         ],
       ],
     ];
-    if (\Drupal::moduleHandler()->moduleExists('token')) {
+    if ($this->moduleHandler->moduleExists('token')) {
+
+      $entity_type = '';
+
+      if (isset($form['#entity_type']) && !empty($form['#entity_type'])) {
+        $entity_type = $form['#entity_type'];
+      }
+
       $element['colorbox_token_caption'] = [
         '#type' => 'fieldset',
-        '#title' => t('Replacement patterns'),
+        '#title' => $this->t('Replacement patterns'),
         '#theme' => 'token_tree_link',
-        '#token_types' => [$form['#entity_type'], 'file'],
+        '#token_types' => [$entity_type, 'file'],
         '#states' => [
           'visible' => [
             ':input[name$="[settings_edit_form][settings][colorbox_caption]"]' => ['value' => 'custom'],

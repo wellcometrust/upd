@@ -42,7 +42,7 @@ class DateItemProcessor extends ProcessorPluginBase implements BuildProcessorInt
       SearchApiDate::FACETAPI_DATE_DAY => $this->t('Day'),
       SearchApiDate::FACETAPI_DATE_HOUR => $this->t('Hour'),
       SearchApiDate::FACETAPI_DATE_MINUTE => $this->t('Minute'),
-      SearchApiDate::FACETAPI_DATE_SECOND => $this->t('Second'),
+      SearchApiDate::FACETAPI_DATE_SECOND => $this->t('Second', [], ['context' => 'timeperiod']),
     ];
   }
 

@@ -28,20 +28,19 @@ your folder name: i.e. "colorbox_mycolorbox.css" and "colorbox_mycolorbox.js"') 
   }
 }
 
-
 /**
  * Implements hook_theme().
  */
 function colorbox_theme() {
-  return array(
-    'colorbox_formatter' => array(
-      'variables' => array(
+  return [
+    'colorbox_formatter' => [
+      'variables' => [
         'item' => NULL,
         'item_attributes' => NULL,
         'entity' => NULL,
         'settings' => NULL,
-      ),
+      ],
       'file' => 'colorbox.theme.inc',
-    ),
-  );
+    ],
+  ];
 }

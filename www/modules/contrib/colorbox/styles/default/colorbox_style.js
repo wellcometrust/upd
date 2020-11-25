@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Colorbox Style JS.
+ */
+
 (function ($) {
 
 Drupal.behaviors.initColorboxDefaultStyle = {

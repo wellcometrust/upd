@@ -2,14 +2,48 @@
 
 namespace Drupal\mailchimp_lists\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure settings for a Mailchimp list webhook.
  */
 class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * Constructs a MailchimpListsWebhookSettingsForm object.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The factory for configuration objects.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, MessengerInterface $messenger) {
+    parent::__construct($config_factory);
+
+    $this->messenger = $messenger;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('messenger')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -39,7 +73,7 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
 
     $form['webhook_events'] = array(
       '#type' => 'fieldset',
-      '#title' => t('Enabled webhook events for the @name list',
+      '#title' => $this->t('Enabled webhook events for the @name audience',
         array(
           '@name' => $list->name,
         )),
@@ -111,18 +145,18 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
     }
 
     if ($result) {
-      drupal_set_message(t('Webhooks for list "%name" have been updated.',
+      $this->messenger->addStatus($this->t('Webhooks for audience "%name" have been updated.',
         array(
           '%name' => $list->name,
         )
       ));
     }
     else {
-      drupal_set_message(t('Unable to update webhooks for list "%name".',
+      $this->messenger->addWarning($this->t('Unable to update webhooks for audience "%name".',
         array(
           '%name' => $list->name,
         )
-      ), 'warning');
+      ));
     }
 
     $form_state->setRedirect('mailchimp_lists.overview');

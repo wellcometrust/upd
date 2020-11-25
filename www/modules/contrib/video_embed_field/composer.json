@@ -4,10 +4,16 @@
   "type": "drupal-module",
   "homepage": "https://www.drupal.org/project/video_embed_field",
   "license": "GPL-2.0+",
-  "extra": {
+  "require": {
+    "drupal/core": "^8.8 || ^9"
+  },
+  "repositories": {
     "drupal": {
-      "package": "Field types",
-      "version": "8.x-1.x"
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
     }
+  },
+  "require-dev": {
+    "drupal/colorbox": "^1.0"
   }
 }

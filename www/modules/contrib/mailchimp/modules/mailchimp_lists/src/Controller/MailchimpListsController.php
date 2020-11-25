@@ -8,7 +8,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 
 /**
- * Mailchimp Lists controller.
+ * Mailchimp Lists/Audiences controller.
  */
 class MailchimpListsController extends ControllerBase {
 
@@ -20,15 +20,15 @@ class MailchimpListsController extends ControllerBase {
 
     $lists_admin_url = Url::fromUri('https://admin.mailchimp.com/lists/', array('attributes' => array('target' => '_blank')));
 
-    $lists_empty_message = t('You don\'t have any lists configured in your
+    $lists_empty_message = $this->t('You don\'t have any audiences configured in your
       Mailchimp account, (or you haven\'t configured your API key correctly on
-      the Global Settings tab). Head over to @link and create some lists, then
-      come back here and click "Refresh lists from Mailchimp"',
-      array('@link' => Link::fromTextAndUrl(t('Mailchimp'), $lists_admin_url)->toString()));
+      the Global Settings tab). Head over to @link and create some audiences, then
+      come back here and click "Refresh audiences from Mailchimp"',
+      array('@link' => Link::fromTextAndUrl($this->t('Mailchimp'), $lists_admin_url)->toString()));
 
     $content['lists_table'] = array(
       '#type' => 'table',
-      '#header' => array(t('Name'), t('Members'), t('Webhook Status'),),
+      '#header' => array($this->t('Name'), $this->t('Members'), $this->t('Webhook Status'),),
       '#empty' => $lists_empty_message,
     );
 
@@ -60,7 +60,7 @@ class MailchimpListsController extends ControllerBase {
     $refresh_url = Url::fromRoute('mailchimp_lists.refresh', array('destination' => 'admin/config/services/mailchimp/lists'));
 
     $content['refresh_link'] = array(
-      '#title' => 'Refresh lists from Mailchimp',
+      '#title' => 'Refresh audiences from Mailchimp',
       '#type' => 'link',
       '#url' => $refresh_url,
       '#attributes' => array(
@@ -71,7 +71,7 @@ class MailchimpListsController extends ControllerBase {
     $mailchimp_lists_url = Url::fromUri('https://admin.mailchimp.com/lists', array('attributes' => array('target' => '_blank')));
 
     $content['mailchimp_list_link'] = array(
-      '#title' => t('Go to Mailchimp Lists'),
+      '#title' => $this->t('Go to Mailchimp Audiences'),
       '#type' => 'link',
       '#url' => $mailchimp_lists_url,
     );

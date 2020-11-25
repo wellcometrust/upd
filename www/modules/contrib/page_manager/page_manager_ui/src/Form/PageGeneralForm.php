@@ -1,17 +1,11 @@
 <?php
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\PageGeneralForm.
- */
 
 namespace Drupal\page_manager_ui\Form;
 
-
-use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Display\VariantManager;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\page_manager\PageVariantInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PageGeneralForm extends FormBase {
@@ -24,23 +18,23 @@ class PageGeneralForm extends FormBase {
   protected $variantManager;
 
   /**
-   * The entity query factory.
+   * The page entity storage handler.
    *
-   * @var \Drupal\Core\Entity\Query\QueryFactory
+   * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $entityQuery;
+  protected $pageStorage;
 
   /**
    * Constructs a new PageGeneralForm.
    *
    * @param \Drupal\Core\Display\VariantManager $variant_manager
    *   The variant manager.
-   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
-   *   The entity query factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(VariantManager $variant_manager, QueryFactory $entity_query) {
+  public function __construct(VariantManager $variant_manager, EntityTypeManagerInterface $entity_type_manager) {
     $this->variantManager = $variant_manager;
-    $this->entityQuery = $entity_query;
+    $this->pageStorage = $entity_type_manager->getStorage('page');
   }
 
   /**
@@ -49,7 +43,7 @@ class PageGeneralForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('plugin.manager.display_variant'),
-      $container->get('entity.query')
+      $container->get('entity_type.manager')
     );
   }
 
@@ -138,7 +132,7 @@ class PageGeneralForm extends FormBase {
       if (empty($cached_values['variant_plugin_id'])) {
         $variant_plugin_id = $cached_values['variant_plugin_id'] = $form_state->getValue('variant_plugin_id');
         /* @var \Drupal\page_manager\PageVariantInterface $page_variant */
-        $page_variant = \Drupal::entityManager()
+        $page_variant = \Drupal::entityTypeManager()
           ->getStorage('page_variant')
           ->create([
             'variant' => $form_state->getValue('variant_plugin_id'),
@@ -177,7 +171,7 @@ class PageGeneralForm extends FormBase {
       $form_state->setValueForElement($element, $value);
 
       // Ensure each path is unique.
-      $path_query = $this->entityQuery->get('page')
+      $path_query = $this->pageStorage->getQuery()
         ->condition('path', $value);
       if (!$page->isNew()) {
         $path_query->condition('id', $page->id(), '<>');
