@@ -73,7 +73,7 @@ class DevelExecutePHP extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function build() {
-    return $this->formBuilder->getForm('Drupal\devel_php\Form\ExecutePHP');
+    return $this->formBuilder->getForm('Drupal\devel_php\Form\ExecutePHP', FALSE);
   }
 
 }

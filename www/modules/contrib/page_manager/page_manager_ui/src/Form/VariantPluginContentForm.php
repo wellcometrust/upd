@@ -1,17 +1,12 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\page_manager_ui\Form\VariantPluginContentForm.
- */
-
 namespace Drupal\page_manager_ui\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ctools\Form\AjaxFormTrait;
-use Drupal\user\SharedTempStoreFactory;
+use Drupal\Core\TempStore\SharedTempStoreFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,14 +19,14 @@ class VariantPluginContentForm extends FormBase {
   /**
    * Tempstore factory.
    *
-   * @var \Drupal\user\SharedTempStoreFactory
+   * @var \Drupal\Core\TempStore\SharedTempStoreFactory
    */
   protected $tempstore;
 
   /**
    * Constructs a new VariantPluginContentForm.
    *
-   * @param \Drupal\user\SharedTempStoreFactory $tempstore
+   * @param \Drupal\Core\TempStore\SharedTempStoreFactory $tempstore
    *   The tempstore factory.
    */
   public function __construct(SharedTempStoreFactory $tempstore) {
@@ -43,7 +38,7 @@ class VariantPluginContentForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('user.shared_tempstore')
+      $container->get('tempstore.shared')
     );
   }
 
@@ -51,6 +46,7 @@ class VariantPluginContentForm extends FormBase {
    * Get the tempstore ID.
    *
    * @return string
+   *   The temp store id.
    */
   protected function getTempstoreId() {
     return 'page_manager.block_display';
@@ -59,7 +55,8 @@ class VariantPluginContentForm extends FormBase {
   /**
    * Get the tempstore.
    *
-   * @return \Drupal\user\SharedTempStore
+   * @return \Drupal\Core\TempStore\SharedTempStore
+   *   The temp store.
    */
   protected function getTempstore() {
     return $this->tempstore->get($this->getTempstoreId());

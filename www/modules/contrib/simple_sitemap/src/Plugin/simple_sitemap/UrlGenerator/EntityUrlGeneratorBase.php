@@ -2,9 +2,11 @@
 
 namespace Drupal\simple_sitemap\Plugin\simple_sitemap\UrlGenerator;
 
+use Drupal\simple_sitemap\Plugin\simple_sitemap\SitemapGenerator\SitemapGeneratorBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 use Drupal\simple_sitemap\EntityHelper;
 use Drupal\simple_sitemap\Logger;
 use Drupal\simple_sitemap\Simplesitemap;
@@ -45,6 +47,11 @@ abstract class EntityUrlGeneratorBase extends UrlGeneratorBase {
   protected $entityHelper;
 
   /**
+   * @var bool
+   */
+  protected $isMultilingualSitemap;
+
+  /**
    * UrlGeneratorBase constructor.
    * @param array $configuration
    * @param $plugin_id
@@ -71,6 +78,7 @@ abstract class EntityUrlGeneratorBase extends UrlGeneratorBase {
     $this->entityTypeManager = $entity_type_manager;
     $this->anonUser = new AnonymousUserSession();
     $this->entityHelper = $entityHelper;
+    $this->isMultilingualSitemap = SitemapGeneratorBase::isMultilingualSitemap();
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -96,19 +104,20 @@ abstract class EntityUrlGeneratorBase extends UrlGeneratorBase {
   protected function getUrlVariants(array $path_data, Url $url_object) {
     $url_variants = [];
 
-    if (!$url_object->isRouted()) {
-      // Not a routed URL, including only default variant.
+    if (!$this->isMultilingualSitemap || !$url_object->isRouted()) {
+
+      // Not a routed URL or URL language negotiation disabled: Including only default variant.
       $alternate_urls = $this->getAlternateUrlsForDefaultLanguage($url_object);
     }
     elseif ($this->settings['skip_untranslated']
-      && ($entity = $this->entityHelper->getEntityFromUrlObject($url_object)) instanceof ContentEntityBase) {
+      && ($entity = $this->entityHelper->getEntityFromUrlObject($url_object)) instanceof ContentEntityInterface) {
 
-      /** @var ContentEntityBase $entity */
+      /** @var ContentEntityInterface $entity */
       $translation_languages = $entity->getTranslationLanguages();
       if (isset($translation_languages[Language::LANGCODE_NOT_SPECIFIED])
         || isset($translation_languages[Language::LANGCODE_NOT_APPLICABLE])) {
 
-        // Content entity's language is unknown, including only default variant.
+        // Content entity's language is unknown: Including only default variant.
         $alternate_urls = $this->getAlternateUrlsForDefaultLanguage($url_object);
       }
       else {
@@ -140,18 +149,19 @@ abstract class EntityUrlGeneratorBase extends UrlGeneratorBase {
     $alternate_urls = [];
     if ($url_object->access($this->anonUser)) {
       $alternate_urls[$this->defaultLanguageId] = $this->replaceBaseUrlWithCustom($url_object
-        ->setOption('language', $this->languages[$this->defaultLanguageId])->toString()
+        ->setAbsolute()->setOption('language', $this->languages[$this->defaultLanguageId])->toString()
       );
     }
+
     return $alternate_urls;
   }
 
   /**
-   * @param \Drupal\Core\Entity\ContentEntityBase $entity
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
    * @param \Drupal\Core\Url $url_object
    * @return array
    */
-  protected function getAlternateUrlsForTranslatedLanguages(ContentEntityBase $entity, Url $url_object) {
+  protected function getAlternateUrlsForTranslatedLanguages(ContentEntityInterface $entity, Url $url_object) {
     $alternate_urls = [];
 
     /** @var Language $language */
@@ -159,11 +169,12 @@ abstract class EntityUrlGeneratorBase extends UrlGeneratorBase {
       if (!isset($this->settings['excluded_languages'][$language->getId()]) || $language->isDefault()) {
         if ($entity->getTranslation($language->getId())->access('view', $this->anonUser)) {
           $alternate_urls[$language->getId()] = $this->replaceBaseUrlWithCustom($url_object
-            ->setOption('language', $language)->toString()
+            ->setAbsolute()->setOption('language', $language)->toString()
           );
         }
       }
     }
+
     return $alternate_urls;
   }
 
@@ -177,11 +188,12 @@ abstract class EntityUrlGeneratorBase extends UrlGeneratorBase {
       foreach ($this->languages as $language) {
         if (!isset($this->settings['excluded_languages'][$language->getId()]) || $language->isDefault()) {
           $alternate_urls[$language->getId()] = $this->replaceBaseUrlWithCustom($url_object
-            ->setOption('language', $language)->toString()
+            ->setAbsolute()->setOption('language', $language)->toString()
           );
         }
       }
     }
+
     return $alternate_urls;
   }
 
@@ -198,21 +210,34 @@ abstract class EntityUrlGeneratorBase extends UrlGeneratorBase {
       unset($path_data['url']);
       return $this->getUrlVariants($path_data, $url_object);
     }
-    else {
-      return FALSE !== $path_data ? [$path_data] : [];
-    }
+
+    return FALSE !== $path_data ? [$path_data] : [];
   }
 
   /**
-   * @param string $entity_type_name
-   * @param string $entity_id
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *
    * @return array
    */
-  protected function getImages($entity_type_name, $entity_id) {
-    $images = [];
-    foreach ($this->entityHelper->getEntityImageUrls($entity_type_name, $entity_id) as $url) {
-      $images[]['path'] = $this->replaceBaseUrlWithCustom($url);
+  protected function getEntityImageData(ContentEntityInterface $entity) {
+    $image_data = [];
+    foreach ($entity->getFieldDefinitions() as $field) {
+      if ($field->getType() === 'image') {
+        foreach ($entity->get($field->getName())->getValue() as $value) {
+          if (!empty($file = File::load($value['target_id']))) {
+            $image_data[] = [
+              'path' => $this->replaceBaseUrlWithCustom(
+                file_create_url($file->getFileUri())
+              ),
+              'alt' => $value['alt'],
+              'title' => $value['title'],
+            ];
+          }
+        }
+      }
     }
-    return $images;
+
+    return $image_data;
   }
+
 }

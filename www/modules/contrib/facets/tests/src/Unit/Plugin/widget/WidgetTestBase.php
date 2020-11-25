@@ -10,7 +10,7 @@ use Drupal\Core\Field\WidgetPluginManager;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Base class for widget unit tests.
@@ -66,16 +66,16 @@ abstract class WidgetTestBase extends UnitTestCase {
     }
     $this->originalResults = $original_results;
 
-    // Creates a mocked container, so we can access string translation.
-    $container = $this->prophesize(ContainerInterface::class);
+    // Create a container, so we can access string translation.
     $string_translation = $this->prophesize(TranslationInterface::class);
     $url_generator = $this->prophesize(UrlGeneratorInterface::class);
     $widget_manager = $this->prophesize(WidgetPluginManager::class);
 
-    $container->get('plugin.manager.facets.widget')->willReturn($widget_manager->reveal());
-    $container->get('string_translation')->willReturn($string_translation->reveal());
-    $container->get('url_generator')->willReturn($url_generator->reveal());
-    \Drupal::setContainer($container->reveal());
+    $container = new ContainerBuilder();
+    $container->set('plugin.manager.facets.widget', $widget_manager->reveal());
+    $container->set('string_translation', $string_translation->reveal());
+    $container->set('url_generator', $url_generator->reveal());
+    \Drupal::setContainer($container);
 
     $this->queryTypes = [
       'date' => 'date',

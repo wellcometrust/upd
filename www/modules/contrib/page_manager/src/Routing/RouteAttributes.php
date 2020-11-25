@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\Routing\RouteAttributes.
- */
-
 namespace Drupal\page_manager\Routing;
 
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;

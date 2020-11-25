@@ -300,7 +300,7 @@ class FacetListBuilder extends DraggableListBuilder {
         // message to notify users how to resolve their broken facets.
         if (substr($facet->getFacetSourceId(), 0, 16) == 'core_node_search') {
           $project_link = Link::fromTextAndUrl('https://www.drupal.org/project/facets_core_search', Url::fromUri('https://www.drupal.org/project/facets_core_search'))->toString();
-          drupal_set_message(t('Core search facets has been moved to a separate project. You need to download and enable this module from @project_link to continue using your core search facets.', ['@project_link' => $project_link]), 'error');
+          \Drupal::messenger()->addError(t('Core search facets has been moved to a separate project. You need to download and enable this module from @project_link to continue using your core search facets.', ['@project_link' => $project_link]), 'error');
         }
         $form['facets'][$facet->id()] = $this->buildRow($facet);
         $form['facets'][$facet->id()]['weight']['#attributes']['class'][] = $subgroup_class;
@@ -328,7 +328,7 @@ class FacetListBuilder extends DraggableListBuilder {
       $entity->setWeight($entity_values['weight']);
       $entity->save();
     }
-    drupal_set_message(t('The facets have been updated.'));
+    \Drupal::messenger()->addMessage(t('The facets have been updated.'));
   }
 
   /**

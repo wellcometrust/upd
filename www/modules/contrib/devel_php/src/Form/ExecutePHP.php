@@ -39,14 +39,22 @@ class ExecutePHP extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $details_open = TRUE) {
     $form['#redirect'] = FALSE;
+    $code = (isset($_SESSION['devel_execute_code']) ? $_SESSION['devel_execute_code'] : '');
+
+    $form['execute'] = [
+      '#type' => 'details',
+      '#title' => $this->t('PHP code to execute'),
+      '#open' => (!empty($code) || $details_open),
+    ];
 
     $form['execute']['code'] = [
       '#type' => 'textarea',
       '#title' => $this->t('PHP code to execute'),
+      '#title_display' => 'invisible',
       '#description' => $this->t('Enter some code. Do not use <code>&lt;?php ?&gt;</code> tags.'),
-      '#default_value' => isset($_SESSION['devel_execute_code']) ? $_SESSION['devel_execute_code'] : '',
+      '#default_value' => $code,
       '#rows' => 20,
       '#attributes' => [
         'style' => 'font-family: monospace; font-size: 1.25em;',

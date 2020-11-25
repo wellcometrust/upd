@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 use FileEye\MimeMap\Map\AbstractMap;
 use FileEye\MimeMap\MapHandler;
@@ -48,6 +49,12 @@ class UpdateCommand extends Command
                 InputOption::VALUE_NONE,
                 'Report updates.'
             )
+            ->addOption(
+                'fail-on-diff',
+                null,
+                InputOption::VALUE_NONE,
+                'Exit with an error when a difference is found. Map will not be updated.'
+            )
         ;
     }
 
@@ -56,10 +63,12 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $new_map = MapHandler::map('\FileEye\MimeMap\Map\EmptyMap');
-        $updater = new MapUpdater($new_map);
+        $io = new SymfonyStyle($input, $output);
 
-        // Executes on an emtpy map the script commands.
+        $updater = new MapUpdater();
+        $updater->selectBaseMap(MapUpdater::DEFAULT_BASE_MAP_CLASS);
+
+        // Executes on the base map the script commands.
         $commands = Yaml::parse(file_get_contents($input->getOption('script')));
         foreach ($commands as $command) {
             $output->writeln("<info>{$command[0]} ...</info>");
@@ -71,8 +80,8 @@ class UpdateCommand extends Command
                     }
                 }
             } catch (\Exception $e) {
-                $output->writeln('<error>' . $e->getMessage() . '</error>');
-                exit(2);
+                $io->error($e->getMessage());
+                return(1);
             }
         }
 
@@ -81,6 +90,7 @@ class UpdateCommand extends Command
         $current_map = MapHandler::map();
 
         // Check if anything got changed.
+        $write = true;
         if ($input->getOption('diff')) {
             $write = false;
             foreach ([
@@ -90,15 +100,19 @@ class UpdateCommand extends Command
             ] as $key => $desc) {
                 try {
                     $output->writeln("<info>Checking changes to {$desc} ...</info>");
-                    $this->compareMaps($current_map, $new_map, $key);
+                    $this->compareMaps($current_map, $updater->getMap(), $key);
                 } catch (\RuntimeException $e) {
                     $output->writeln("<comment>Changes to {$desc} mapping:</comment>");
                     $output->writeln($e->getMessage());
                     $write = true;
                 }
             }
-        } else {
-            $write = true;
+        }
+
+        // Fail on diff if required.
+        if ($write && $input->getOption('diff') && $input->getOption('fail-on-diff')) {
+            $io->error('Changes to mapping detected and --fail-on-diff requested, aborting.');
+            return(2);
         }
 
         // If changed, save the new map to the PHP file.
@@ -110,7 +124,9 @@ class UpdateCommand extends Command
         }
 
         // Reset the new map's map array.
-        $new_map->reset();
+        $updater->getMap()->reset();
+
+        return(0);
     }
 
     /**

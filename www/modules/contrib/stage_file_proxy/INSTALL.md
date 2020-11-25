@@ -6,21 +6,22 @@ Drupal module. Visit https://www.drupal.org/node/1897420 for more information.
 
 1. Obtain the module.
 2. Enable the module.
-3. Configure module either via admin UI or Add variables to $config in settings.php.
+3. Configure module either via admin UI or Add variables to $config in
+settings.php.
 
 
 CONFIGURATION
 -------------
 There are two options to configure this module.
 
-1.  Through the admin UI at Configuration > Stage File Proxy Settings 
-    (admin/config/system/stage_file_proxy).
-2.  By specifying configuration keys in settings.local.php.
+1. Through the admin UI at Configuration > Stage File Proxy Settings
+   (admin/config/system/stage_file_proxy).
+2. By specifying configuration keys in settings.local.php.
 
-If you choose the first option and make use of configuration synchronization 
-between environments, please also make use of something like the 
-[Configuration Split](https://www.drupal.org/project/config_split) module; this 
-module should not be used on production sites. 
+If you choose the first option and make use of configuration synchronization
+between environments, please also make use of something like the
+[Configuration Split](https://www.drupal.org/project/config_split) module; this
+module should not be used on production sites.
 
 ### The origin website
 Required.
@@ -74,7 +75,7 @@ Default is TRUE.
 If this is true (default) then Stage File Proxy will look for /style/ in
 the URL and determine the original file and request that rather than the
 processed file, then send a header to the browser to refresh the image and let
-image module handle it. This will speed up future requests for a different 
+image module handle it. This will speed up future requests for a different
 style of the same original file.
 
 ### Hotlink
@@ -125,7 +126,7 @@ $aliases['dev'] = [
 ```
 In order for this to work, you must copy the file
 drush/examples/sync_enable.drush.inc to your ~/.drush folder.
-For more information, see [/examples/sync_enable.drush.inc] from the Drush 
+For more information, see [/examples/sync_enable.drush.inc] from the Drush
 project.
 
 [/examples/sync_enable.drush.inc]: https://github.com/drush-ops/drush/blob/8.x/examples/sync_enable.drush.inc

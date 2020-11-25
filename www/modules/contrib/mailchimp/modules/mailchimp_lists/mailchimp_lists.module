@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Mailchimp lists module.
+ * Mailchimp lists/audiences module.
  */
 
 use Drupal\Core\Field\FieldItemInterface;
@@ -79,7 +79,7 @@ function mailchimp_lists_form_field_ui_field_edit_form_validate(&$form, FormStat
   if ($field_config->get('field_type') == 'mailchimp_lists_subscription') {
 
     if ($form_state->getValue('cardinality_number') != 1) {
-      $form_state->setErrorByName('cardinality_number', t('Cardinality on mailchimp lists fields must be set to 1.'));
+      $form_state->setErrorByName('cardinality_number', t('Cardinality on mailchimp audiences fields must be set to 1.'));
     }
   }
 }
@@ -94,7 +94,7 @@ function mailchimp_lists_load_email(MailchimpListsSubscription $instance, Entity
 
   if (empty($merge_fields) || !isset($merge_fields['EMAIL'])) {
     if ($log_errors) {
-      \Drupal::logger('mailchimp_lists')->notice('Mailchimp Lists field "{field}" on {entity} -> {bundle} has no EMAIL field configured, subscription actions cannot take place.', array(
+      \Drupal::logger('mailchimp_lists')->notice('Mailchimp Audiences field "{field}" on {entity} -> {bundle} has no EMAIL field configured, subscription actions cannot take place.', array(
         'field' => $instance->getFieldDefinition()->getName(),
         'entity' => $entity->getEntityType()->getLabel(),
         'bundle' => $entity->bundle(),
@@ -131,6 +131,11 @@ function mailchimp_lists_load_email(MailchimpListsSubscription $instance, Entity
  *   An Entity that has the $instance field.
  */
 function mailchimp_lists_process_subscribe_form_choices($choices, MailchimpListsSubscription $instance, EntityInterface $entity) {
+
+  //If unsubscribe is not allowed, and it's an unsubscribe, do nothing.
+  if (!isset($choices['allow_unsubscribe']) || !$choices['allow_unsubscribe'] && $choices['subscribe'] == 0) {
+    return;
+  }
   $email = mailchimp_lists_load_email($instance, $entity);
 
   if (!$email) {
@@ -186,7 +191,7 @@ function mailchimp_lists_process_subscribe_form_choices($choices, MailchimpLists
         break;
     }
     if (empty($ret)) {
-      drupal_set_message(t('There was a problem with your newsletter signup.'), 'warning');
+      \Drupal::messenger()->addWarning(t('There was a problem with your newsletter signup.'));
     }
   }
 }
@@ -292,7 +297,7 @@ function _mailchimp_lists_mergevars_populate($merge_fields, EntityInterface $ent
 
       if ($data instanceof ListInterface) {
         if (!is_numeric($name)) {
-          // Implicitly default to delta 0 for lists when not specified.
+          // Implicitly default to delta 0 for lists/audiences when not specified.
           $data = $data->first();
         }
         else {
@@ -354,7 +359,7 @@ function mailchimp_lists_update_member_merge_values($entity_type, $bundle_name, 
 
   $merge_fields = $field->getSetting('merge_fields');
 
-  // Assemble a list of current subscription statuses so we don't alter them.
+  // Assemble a list/audience of current subscription statuses so we don't alter them.
   // Because of cacheing we don't want to use the standard checks. Expiring the
   // cache would kill the point of doing this as a batch API operation.
   $batch = array(
@@ -382,7 +387,7 @@ function mailchimp_lists_update_member_merge_values($entity_type, $bundle_name, 
 }
 
 /**
- * Batch processor for pulling in subscriber information for a list.
+ * Batch processor for pulling in subscriber information for a list/audience.
  */
 function mailchimp_lists_get_subscribers(FieldConfig $field, &$context) {
   if (!isset($context['sandbox']['progress'])) {
@@ -521,23 +526,23 @@ function mailchimp_lists_execute_mergevar_batch_update($list_id, &$context) {
 function mailchimp_lists_populate_member_batch_complete($success, $results, $operations) {
   if ($success) {
     if ($results['errors']) {
-      drupal_set_message(t('Update errors occurred: merge variables updated on %count records, errors occurred on %errors records.',
+      \Drupal::messenger()->addWarning(t('Update errors occurred: merge variables updated on %count records, errors occurred on %errors records.',
         array(
           '%count' => $results['updates'],
           '%errors' => $results['errors'],
         )
-      ), 'warning');
+      ));
     }
     else {
-      drupal_set_message(t('Merge variables updated on %count records.',
+      \Drupal::messenger()->addStatus(t('Merge variables updated on %count records.',
         array(
           '%count' => $results['updates'],
         )
-      ), 'status');
+      ));
     }
   }
   else {
-    drupal_set_message(t('Merge variable update failed.'), 'error');
+    \Drupal::messenger()->addError(t('Merge variable update failed.'));
   }
 }
 
@@ -562,7 +567,7 @@ function mailchimp_lists_default_webhook_events() {
  * Returns an array of enabled webhook events.
  *
  * @param $list_id
- *   The Mailchimp list ID to return webhook actions for.
+ *   The Mailchimp list/audience ID to return webhook actions for.
  *
  * @return array
  *   An array of enabled webhook event names.

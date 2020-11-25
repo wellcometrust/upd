@@ -27,7 +27,7 @@
     $('.js-facets-dropdown-links').once('facets-dropdown-transform').each(function () {
       var $ul = $(this);
       var $links = $ul.find('.facet-item a');
-      var $dropdown = $('<select />');
+      var $dropdown = $('<select></select>');
       // Preserve all attributes of the list.
       $ul.each(function() {
         $.each(this.attributes,function(idx, elem) {
@@ -38,6 +38,7 @@
       $dropdown.removeClass('js-facets-dropdown-links');
 
       $dropdown.addClass('facets-dropdown');
+      $dropdown.addClass('js-facets-widget');
       $dropdown.addClass('js-facets-dropdown');
 
       var id = $(this).data('drupal-facet-id');
@@ -46,7 +47,7 @@
       var default_option_label = settings.facets.dropdown_widget[id]['facet-default-option-label'];
 
       // Add empty text option first.
-      var $default_option = $('<option />')
+      var $default_option = $('<option></option>')
         .attr('value', '')
         .text(default_option_label);
       $dropdown.append($default_option);
@@ -57,7 +58,7 @@
       $links.each(function () {
         var $link = $(this);
         var active = $link.hasClass('is-active');
-        var $option = $('<option />')
+        var $option = $('<option></option>')
           .attr('value', $link.attr('href'))
           .data($link.data());
         if (active) {
@@ -68,19 +69,25 @@
           $option.attr('selected', 'selected');
           $link.find('.js-facet-deactivate').remove();
         }
-        $option.text($link.text());
+        $option.text(function() {
+          // Add hierarchy indicator in case hierarchy is enabled.
+          var $parents = $link.parent('li.facet-item').parents('li.facet-item');
+          var prefix = '';
+          for (var i = 0; i < $parents.length; i++) {
+            prefix += '-';
+          }
+          return prefix + ' ' + $link.text().trim();
+        });
         $dropdown.append($option);
       });
 
       // Go to the selected option when it's clicked.
       $dropdown.on('change.facets', function () {
         var anchor = $($ul).find("[data-drupal-facet-item-id='" + $(this).find(':selected').data('drupalFacetItemId') + "']");
-        if ( anchor.length  > 0) {
-          $(anchor)[0].click();
-        }
-        else {
-          $ul.find('.default-option a')[0].click();
-        }
+        var $linkElement = (anchor.length > 0) ? $(anchor) : $ul.find('.default-option a');
+        var url = $linkElement.attr('href');
+
+        $(this).trigger('facets_filter', [ url ]);
       });
 
       // Append empty text option.

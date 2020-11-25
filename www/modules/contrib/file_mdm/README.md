@@ -18,7 +18,7 @@ getimagesize  | X    |       | Caches calls to the PHP ```getimagesize()``` func
 The module is inspired by discussions at [#2630242 Provide methods to retrieve EXIF image information via the Image object](https://www.drupal.org/node/2630242).
 
 
-## Features:
+## Features
 
 1. Load from, and save to, file embedded metadata directly from the files.
 2. Metadata for a file is statically cached during a request's lifetime. This
@@ -32,25 +32,31 @@ The module is inspired by discussions at [#2630242 Provide methods to retrieve E
    access the file locally.
 
 
-## Installing:
+## Requirements
+The versions 8.x-2.x of the module require __Drupal 8.8.0 or above__.
+
+
+## Installing
 
 The module requires [using Composer to manage Drupal site dependencies](https://www.drupal.org/node/2718229).
 Once you have setup building your code base using composer, require the module
 via
 
-```$ composer require drupal/file_mdm```
+```
+  $ composer require drupal/file_mdm:^2
+```
 
 then enable the module as usual. Also enable the EXIF or font submodules if
 needed.
 
 
-## Configuration:
+## Configuration
 
 - Go to _Manage > Configuration > System > File Metadata Manager_ and specify
   the cache retention requirements, in general and/or per each metadata plugin.
 
 
-## Usage examples:
+## Usage examples
 
 Metadata are retrieved by specifying the protocol plugin required, and the
 specific _metadata key_ needed.
@@ -72,44 +78,48 @@ bits     | The number of bits for each color                            |
 
   a. Use the _file_metadata_manager_ service to prepare collecting metadata for
      the file located at a desired URI:
-     ```php
-       $fmdm = \Drupal::service('file_metadata_manager');
-       $my_file_metadata = $fmdm->uri('public::/my_directory/test-image.jpeg');
-     ```
+
+```php
+   $fmdm = \Drupal::service('file_metadata_manager');
+   $my_file_metadata = $fmdm->uri('public::/my_directory/test-image.jpeg');
+```
+
   b. Get the metadata for the specific protocol, identified by the _plugin_, and
      the metadata _key_ required:
-     ```php
-       $mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
-     ```
-  c. Summarizing, in the context of a controller returning a render array:
-    ```php
-      $fmdm = \Drupal::service('file_metadata_manager');
-      $my_file_metadata = $fmdm->uri('public::/my_directory/test-image.jpeg');
-      $mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
-      return ['#markup' => 'MIME type: ' . $mime];
-    ```
 
-    will return something like
-    ```
-    MIME type: image/jpeg
-    ```
+```php
+   $mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
+```
+
+  c. Summarizing, in the context of a controller returning a render array:
+
+```php
+  $fmdm = \Drupal::service('file_metadata_manager');
+  $my_file_metadata = $fmdm->uri('public::/my_directory/test-image.jpeg');
+  $mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
+  return ['#markup' => 'MIME type: ' . $mime];
+```
+
+  will return something like
+
+```
+MIME type: image/jpeg
+```
 
 2. __Use a known local temp copy of the remote file to avoid remote file access:__
 
-  ```php
-    $fmdm = \Drupal::service('file_metadata_manager');
-    $my_file_metadata = $fmdm->uri('remote_wrapper::/my_directory/test-image.jpeg');
-    $my_file_metadata->setLocalTempPath($temp_path);
-    $mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
-    ...
-  ```
+```php
+$fmdm = \Drupal::service('file_metadata_manager');
+$my_file_metadata = $fmdm->uri('remote_wrapper::/my_directory/test-image.jpeg');
+$my_file_metadata->setLocalTempPath($temp_path);
+$mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
+```
 
 3. __Make a local temp copy of the remote file to avoid remote file access:__
 
-  ```php
-    $fmdm = \Drupal::service('file_metadata_manager');
-    $my_file_metadata = $fmdm->uri('remote_wrapper::/my_directory/test-image.jpeg');
-    $my_file_metadata->copyUriToTemp();
-    $mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
-    ...
-  ```
+```php
+$fmdm = \Drupal::service('file_metadata_manager');
+$my_file_metadata = $fmdm->uri('remote_wrapper::/my_directory/test-image.jpeg');
+$my_file_metadata->copyUriToTemp();
+$mime = $my_file_metadata->getMetadata('getimagesize', 'mime');
+```

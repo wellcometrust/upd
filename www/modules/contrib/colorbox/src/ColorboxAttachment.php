@@ -4,6 +4,7 @@ namespace Drupal\colorbox;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
@@ -47,7 +48,7 @@ class ColorboxAttachment implements ElementAttachmentInterface {
    * {@inheritdoc}
    */
   public function isApplicable() {
-    return !drupal_installation_attempted() && $this->activation->isActive();
+    return !InstallerKernel::installationAttempted() && $this->activation->isActive();
   }
 
   /**
@@ -55,7 +56,7 @@ class ColorboxAttachment implements ElementAttachmentInterface {
    */
   public function attach(array &$page) {
     if ($this->settings->get('custom.activate')) {
-      $js_settings = array(
+      $js_settings = [
         'transition' => $this->settings->get('custom.transition_type'),
         'speed' => $this->settings->get('custom.transition_speed'),
         'opacity' => $this->settings->get('custom.opacity'),
@@ -78,10 +79,10 @@ class ColorboxAttachment implements ElementAttachmentInterface {
         'scrolling' => $this->settings->get('custom.scrolling') ? TRUE : FALSE,
         'mobiledetect' => $this->settings->get('advanced.mobile_detect') ? TRUE : FALSE,
         'mobiledevicewidth' => $this->settings->get('advanced.mobile_device_width'),
-      );
+      ];
     }
     else {
-      $js_settings = array(
+      $js_settings = [
         'opacity' => '0.85',
         'current' => $this->t('{current} of {total}'),
         'previous' => $this->t('« Prev'),
@@ -92,7 +93,7 @@ class ColorboxAttachment implements ElementAttachmentInterface {
         'fixed' => TRUE,
         'mobiledetect' => $this->settings->get('advanced.mobile_detect') ? TRUE : FALSE,
         'mobiledevicewidth' => $this->settings->get('advanced.mobile_device_width'),
-      );
+      ];
     }
 
     $style = $this->settings->get('custom.style');
@@ -115,6 +116,9 @@ class ColorboxAttachment implements ElementAttachmentInterface {
     // Add JS and CSS based on selected style.
     if ($style != 'none') {
       $page['#attached']['library'][] = "colorbox/$style";
+    }
+    else {
+      $page['#attached']['library'][] = "colorbox/init";
     }
   }
 

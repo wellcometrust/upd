@@ -1,22 +1,10 @@
 <?php
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\PageParametersForm.
- */
 
 namespace Drupal\page_manager_ui\Form;
 
 use Drupal\Component\Serialization\Json;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
-use Drupal\Core\Display\ContextAwareVariantInterface;
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Plugin\Context\ContextDefinition;
-use Drupal\Core\Plugin\Context\ContextDefinitionInterface;
-use Drupal\Core\TypedData\ComplexDataDefinitionInterface;
-use Drupal\Core\TypedData\ListDataDefinitionInterface;
 use Drupal\Core\Url;
 
 class PageParametersForm extends FormBase {
@@ -51,7 +39,7 @@ class PageParametersForm extends FormBase {
         $this->t('Operations'),
       ],
       '#rows' => $this->renderRows($cached_values),
-      '#empty' => $this->t('There are no parameters defined for this page.')
+      '#empty' => $this->t('There are no parameters defined for this page.'),
     ];
     return $form;
   }
@@ -94,19 +82,20 @@ class PageParametersForm extends FormBase {
     $cached_values = $form_state->getTemporaryValue('wizard');
   }
 
-  protected function getOperations($route_name_base, array $route_parameters = array()) {
-    $operations['edit'] = array(
+
+  protected function getOperations($route_name_base, array $route_parameters = []) {
+    $operations['edit'] = [
       'title' => t('Edit'),
       'url' => new Url($route_name_base . '.edit', $route_parameters),
       'weight' => 10,
-      'attributes' => array(
+      'attributes' => [
         'class' => ['use-ajax'],
         'data-dialog-type' => 'modal',
         'data-dialog-options' => Json::encode([
           'width' => 700,
         ]),
-      ),
-    );
+      ],
+    ];
     return $operations;
   }
 

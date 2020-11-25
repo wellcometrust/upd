@@ -17,18 +17,12 @@ imagemagick.settings:
     prepend:
       type: string
       label: 'Prepend arguments'
-    prepend_pre_source:
-      type: boolean
-      label: 'Execute the arguments before loading the source image'
     log_warnings:
       type: boolean
       label: 'Log command executions returning with non-zero code'
     debug:
       type: boolean
       label: 'Display debugging information'
-    use_identify:
-      type: boolean
-      label: 'Use identify command'
     locale:
       type: string
       label: 'Locale for escaping shell commands'
@@ -49,6 +43,9 @@ imagemagick.settings:
         profile:
           type: string
           label: 'Color profile path'
+        coalesce:
+          type: boolean
+          label: 'Coalesce Animated GIF images'
 
 
 imagemagick.file_metadata_plugin.imagemagick_identify:

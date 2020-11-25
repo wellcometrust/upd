@@ -6,7 +6,6 @@
  */
 
 use Drupal\Component\Utility\Crypt;
-use Drupal\Component\Utility\Unicode;
 use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 
@@ -22,8 +21,11 @@ use Drupal\image\Entity\ImageStyle;
  *     placed in the img tag.
  *   - entity: An entity object.
  *   - settings: Formatter settings array.
+ *
+ * @codingStandardsIgnoreStart
  */
 function template_preprocess_colorbox_formatter(&$variables) {
+  // @codingStandardsIgnoreEnd
   static $gallery_token = NULL;
 
   $item = $variables['item'];
@@ -82,8 +84,8 @@ function template_preprocess_colorbox_formatter(&$variables) {
   $config = \Drupal::config('colorbox.settings');
   $colorbox_style = $config->get('colorbox_style');
   $trim_length = $config->get('colorbox_caption_trim_length');
-  if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || $config->get('colorbox_caption_trim')) && (Unicode::strlen($caption) > $trim_length)) {
-    $caption = Unicode::substr($caption, 0, $trim_length - 5) . '...';
+  if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || $config->get('colorbox_caption_trim')) && (mb_strlen($caption) > $trim_length)) {
+    $caption = mb_substr($caption, 0, $trim_length - 5) . '...';
   }
 
   // Build the gallery id.
@@ -150,7 +152,7 @@ function template_preprocess_colorbox_formatter(&$variables) {
     $variables['image']['#attributes'] = $item_attributes;
 
     // Do not output an empty 'title' attribute.
-    if (Unicode::strlen($item->title) != 0) {
+    if (mb_strlen($item->title) != 0) {
       $variables['image']['#title'] = $item->title;
       $data_cbox_img_attrs['title'] = '"title":"' . $item->title . '"';
     }

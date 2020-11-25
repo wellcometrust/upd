@@ -3,13 +3,9 @@
 namespace Drupal\config_split\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Drupal\Core\Url;
 
 /**
- * Class ConfigSplitController.
- *
- * @package Drupal\config_split\Controller
+ * The controller for split actions.
  */
 class ConfigSplitController extends ControllerBase {
 

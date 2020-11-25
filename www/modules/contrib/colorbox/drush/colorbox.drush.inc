@@ -5,6 +5,8 @@
  * Drush integration for colorbox.
  */
 
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * The Colorbox plugin URI.
  */
@@ -15,19 +17,19 @@ define('COLORBOX_DOWNLOAD_PREFIX', 'colorbox-');
  * Implements hook_drush_command().
  */
 function colorbox_drush_command() {
-  $items = array();
+  $items = [];
 
   // The key in the $items array is the name of the command.
-  $items['colorbox-plugin'] = array(
+  $items['colorbox-plugin'] = [
     'callback' => 'drush_colorbox_plugin',
     'description' => dt('Download and install the Colorbox plugin.'),
      // No bootstrap.
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
-    'arguments' => array(
+    'arguments' => [
       'path' => dt('Optional. A path where to install the Colorbox plugin. If omitted Drush will use the default location.'),
-    ),
-    'aliases' => array('colorboxplugin'),
-  );
+    ],
+    'aliases' => ['colorboxplugin'],
+  ];
 
   return $items;
 }
@@ -60,7 +62,7 @@ function drush_colorbox_plugin() {
   // Create the path if it does not exist.
   if (!is_dir($path)) {
     drush_op('mkdir', $path);
-    drush_log(dt('Directory @path was created', array('@path' => $path)), 'notice');
+    \Drupal::logger(dt('Directory @path was created', ['@path' => $path]))->notice('notice');
   }
 
   // Set the directory to the download location.
@@ -74,9 +76,9 @@ function drush_colorbox_plugin() {
 
     // Remove any existing Colorbox plugin directory.
     if (is_dir($dirname) || is_dir('colorbox')) {
-      drush_delete_dir($dirname, TRUE);
-      drush_delete_dir('colorbox', TRUE);
-      drush_log(dt('A existing Colorbox plugin was deleted from @path', array('@path' => $path)), 'notice');
+      Filesystem::remove($dirname, TRUE);
+      Filesystem::remove('colorbox', TRUE);
+      \Drupal::logger(dt('A existing Colorbox plugin was deleted from @path', ['@path' => $path]))->notice('notice');
     }
 
     // Decompress the zip archive.
@@ -90,10 +92,10 @@ function drush_colorbox_plugin() {
   }
 
   if (is_dir($dirname)) {
-    drush_log(dt('Colorbox plugin has been installed in @path', array('@path' => $path)), 'success');
+    \Drupal::logger(dt('Colorbox plugin has been installed in @path', ['@path' => $path]))->success('success');
   }
   else {
-    drush_log(dt('Drush was unable to install the Colorbox plugin to @path', array('@path' => $path)), 'error');
+    \Drupal::logger(dt('Drush was unable to install the Colorbox plugin to @path', ['@path' => $path]))->error('error');
   }
 
   // Set working directory back to the previous working directory.

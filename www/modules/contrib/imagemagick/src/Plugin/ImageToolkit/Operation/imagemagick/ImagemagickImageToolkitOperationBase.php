@@ -44,7 +44,7 @@ abstract class ImagemagickImageToolkitOperationBase extends ImageToolkitOperatio
    * @return \Drupal\imagemagick\ImagemagickExecArguments
    *   The Imagemagick arguments.
    */
-  protected function addArgument($argument, $mode = ImagemagickExecArguments::POST_SOURCE, $index = ImagemagickExecArguments::APPEND, array $info = []) {
+  protected function addArgument(string $argument, int $mode = ImagemagickExecArguments::POST_SOURCE, int $index = ImagemagickExecArguments::APPEND, array $info = []): ImagemagickExecArguments {
     $plugin_definition = $this->getPluginDefinition();
     $info = array_merge($info, [
       'image_toolkit_operation' => $plugin_definition['operation'],
@@ -63,7 +63,7 @@ abstract class ImagemagickImageToolkitOperationBase extends ImageToolkitOperatio
    *   An escaped string for use in the
    *   ImagemagickExecManagerInterface::execute method.
    */
-  protected function escapeArgument($argument) {
+  protected function escapeArgument(string $argument): string {
     return $this->getToolkit()->arguments()->escape($argument);
   }
 

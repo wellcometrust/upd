@@ -16,7 +16,7 @@
     "irc": "irc://irc.freenode.org/drupal-contribute",
     "source": "https://cgit.drupalcode.org/simple_sitemap"
   },
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "require": {
     "ext-xmlwriter": "*"
@@ -24,7 +24,7 @@
   "extra": {
     "drush": {
       "services": {
-        "drush.services.yml": "^9"
+        "drush.services.yml": "^9 || ^10"
       }
     }
   }

@@ -5,13 +5,13 @@
  * Provides a service to manage file metadata.
  */
 
-use \Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_cache_flush().
  */
 function file_mdm_cache_flush() {
-  return array('file_mdm');
+  return ['file_mdm'];
 }
 
 /**

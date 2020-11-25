@@ -11,8 +11,6 @@ namespace Laminas\Stdlib;
 use ArrayIterator;
 use ArrayObject as PhpArrayObject;
 
-use function array_reverse;
-
 /**
  * ArrayObject that acts as a stack with regards to iteration
  */

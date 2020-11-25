@@ -2,7 +2,7 @@
   "name": "drupal/eu_cookie_compliance",
   "description": "This module aims at making the website compliant with the new EU cookie regulation.",
   "type": "drupal-module",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "homepage": "https://drupal.org/project/eu_cookie_compliance",
   "keywords": [
@@ -23,6 +23,11 @@
       "role": "Maintainer"
     },
     {
+      "name": "Neslee Canil Pinto",
+      "homepage": "https://www.drupal.org/u/neslee-canil-pinto",
+      "role": "Maintainer"
+    },
+    {
       "name": "See other contributors",
       "homepage":"https://www.drupal.org/node/1538032/committers"
     }
@@ -32,7 +37,7 @@
     "forum": "https://drupal.stackexchange.com/search?q=eu+cookie+compliance",
     "issues": "https://www.drupal.org/project/issues/eu_cookie_compliance?version=8.x",
     "irc": "irc://irc.freenode.org/drupal-contribute",
-    "source": "https://cgit.drupalcode.org/eu-cookie-compliance"
+    "source": "https://git.drupalcode.org/project/eu-cookie-compliance"
   },
   "repositories": [
     {

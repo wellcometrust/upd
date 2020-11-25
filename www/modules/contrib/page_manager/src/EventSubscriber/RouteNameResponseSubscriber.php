@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\EventSubscriber\RouteNameResponseSubscriber.
- */
-
 namespace Drupal\page_manager\EventSubscriber;
 
 use Drupal\Core\Cache\CacheableResponseInterface;

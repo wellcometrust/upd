@@ -73,7 +73,10 @@ abstract class ConsentStorageBase extends PluginBase implements ConsentStorageIn
   }
 
   /**
-   * {@inheritdoc}
+   * Get status.
+   *
+   * @return bool
+   *   Current status.
    */
   public function getStatus() {
     return TRUE;
@@ -87,12 +90,13 @@ abstract class ConsentStorageBase extends PluginBase implements ConsentStorageIn
    *   FALSE if no priacy policy exists.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function getCurrentPolicyNodeRevision() {
     $config = $this->configFactory->get('eu_cookie_compliance.settings');
     $cookie_policy_link = $config->get('popup_link');
     $cookie_policy_drupal_path = \Drupal::service('path_alias.manager')->getPathByAlias($cookie_policy_link, \Drupal::languageManager()->getCurrentLanguage()->getId());
-    if (substr($cookie_policy_drupal_path, 0, 6) == '/node/') {
+    if (substr($cookie_policy_drupal_path, 0, 6) === '/node/') {
       $node_id = explode('/', $cookie_policy_drupal_path)[2];
       /** @var \Drupal\node\Entity\Node $node */
       $node = \Drupal::entityTypeManager()->getStorage('node')->load($node_id);
@@ -104,9 +108,7 @@ abstract class ConsentStorageBase extends PluginBase implements ConsentStorageIn
 
       return $node->getRevisionId();
     }
-    else {
-      return FALSE;
-    }
+    return FALSE;
   }
 
   /**
@@ -123,6 +125,6 @@ abstract class ConsentStorageBase extends PluginBase implements ConsentStorageIn
    *   Returns TRUE when the consent has been stored successfully, FALSE on
    *   error.
    */
-  abstract protected function registerConsent($consent_type);
+  abstract public function registerConsent($consent_type);
 
 }

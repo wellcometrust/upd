@@ -49,7 +49,7 @@ abstract class PelEntryNumber extends PelEntry
      *
      * @var array
      */
-    protected $value = array();
+    protected $value = [];
 
     /**
      * The minimum allowed value.
@@ -162,12 +162,15 @@ abstract class PelEntryNumber extends PelEntry
      */
     public function validateNumber($n)
     {
-        if ($this->dimension == 1) {
+        if ($this->dimension == 1 || is_scalar($n)) {
             if ($n < $this->min || $n > $this->max) {
                 Pel::maybeThrow(new PelOverflowException($n, $this->min, $this->max));
             }
         } else {
             for ($i = 0; $i < $this->dimension; $i ++) {
+                if (!isset($n[$i])) {
+                    continue;
+                }
                 if ($n[$i] < $this->min || $n[$i] > $this->max) {
                     Pel::maybeThrow(new PelOverflowException($n[$i], $this->min, $this->max));
                 }

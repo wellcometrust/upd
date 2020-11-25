@@ -1,7 +1,7 @@
 services:
   page_manager.current_user_context:
     class: Drupal\page_manager\EventSubscriber\CurrentUserContext
-    arguments: ['@current_user', '@entity_type.manager']
+    arguments: ['@context.repository']
     tags:
       - { name: 'event_subscriber' }
   page_manager.route_param_context:

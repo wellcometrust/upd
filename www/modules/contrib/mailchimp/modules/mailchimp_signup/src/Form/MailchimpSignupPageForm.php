@@ -5,12 +5,30 @@ namespace Drupal\mailchimp_signup\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\mailchimp_signup\Entity\MailchimpSignup;
 
 /**
- * Subscribe to a Mailchimp list.
+ * Subscribe to a Mailchimp list/audience.
  */
 class MailchimpSignupPageForm extends FormBase {
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * MailchimpSignupPageForm constructor.
+   *
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   */
+  public function __construct(MessengerInterface $messenger) {
+    $this->messenger = $messenger;
+  }
 
   /**
    * The ID for this form.
@@ -54,6 +72,7 @@ class MailchimpSignupPageForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = array();
+    $settings = $this->signup->settings;
 
     $form['#attributes'] = array('class' => array('mailchimp-signup-subscribe-form'));
 
@@ -75,9 +94,30 @@ class MailchimpSignupPageForm extends FormBase {
 
     $list = array();
     if ($lists_count > 1) {
+      // Default behavior.
+      // The only difference here is that we've moved the default
+      // value here, as a variable.
+      $show_lists_and_groups = TRUE;
+
+      // If we have selected the new option to pre-configure the
+      // interest groups, that means that we need to hide the
+      // container alongside the rendered checkboxes from the user.
+      if (isset($this->signup->settings['configure_groups']) && $this->signup->settings['configure_groups']) {
+        $show_lists_and_groups = FALSE;
+      }
+
       foreach ($lists as $list) {
         // Wrap in a div:
         $wrapper_key = 'mailchimp_' . $list->id;
+        $subscribe_to_list = false;
+
+        // If we have selected the pre-configure option, we need to populate
+        // the data the same way it gets, before introducing the new functionality.
+        if (isset($settings['configure_groups']) && isset($settings['group_items'])) {
+          if (array_key_exists($list->id, $settings['group_items'])) {
+            $subscribe_to_list = $list->id;
+          }
+        }
 
         $form['mailchimp_lists'][$wrapper_key] = array(
           '#prefix' => '<div id="mailchimp-newsletter-' . $list->id . '" class="mailchimp-newsletter-wrapper">',
@@ -88,28 +128,83 @@ class MailchimpSignupPageForm extends FormBase {
           '#type' => 'checkbox',
           '#title' => $list->name,
           '#return_value' => $list->id,
-          '#default_value' => 0,
+          '#default_value' => $subscribe_to_list,
+          '#access' => $show_lists_and_groups
         );
 
         if ($this->signup->settings['include_interest_groups'] && isset($list->intgroups)) {
           $form['mailchimp_lists'][$wrapper_key]['interest_groups'] = array(
             '#type' => 'fieldset',
-            '#title' => t('Interest Groups for %label', array('%label' => $list->name)),
+            '#access' => $show_lists_and_groups,
+            '#title' => $this->t('Interest Groups for %label', array('%label' => $list->name)),
             '#states' => array(
               'invisible' => array(
                 ':input[name="mailchimp_lists[' . $wrapper_key . '][subscribe]"]' => array('checked' => FALSE),
               ),
             ),
           );
-          $form['mailchimp_lists'][$wrapper_key]['interest_groups'] += mailchimp_interest_groups_form_elements($list);
+
+          // Create the form elements for all interest groups
+          // and select the ones needed.
+          $defaults = [];
+          $groups_items = isset($this->signup->settings['group_items']) ? $this->signup->settings['group_items'] : [];
+
+          if (isset($groups_items[$list->id])) {
+            $defaults = $groups_items[$list->id];
+          }
+
+          $form['mailchimp_lists'][$wrapper_key]['interest_groups'] += mailchimp_interest_groups_form_elements($list, $defaults);
+
+          // Include the GDPR consent checkbox if necessary
+          if ($this->signup->settings['gdpr_consent']) {
+             $form['mailchimp_lists'][$wrapper_key]['gdpr_consent'] = array(
+               '#type' => 'checkbox',
+               '#default_value' => FALSE,
+               '#title' => $this->signup->settings['gdpr_checkbox_label'],
+               '#required' => isset($this->signup->settings['gdpr_consent_required']) ? $this->signup->settings['gdpr_consent_required'] : FALSE,
+             );
+          }
         }
       }
     }
     else {
       $list = reset($lists);
+
+      // Default behavior.
+      // The only difference here is that we've moved the default
+      // value here, as a variable.
+      $show_lists_and_groups = TRUE;
+
+      // If we have selected the new option to pre-configure the
+      // interest groups, that means that we need to hide the
+      // container alongside the rendered checkboxes from the user.
+      if (isset($this->signup->settings['configure_groups']) && $this->signup->settings['configure_groups']) {
+        $show_lists_and_groups = FALSE;
+      }
+
+      // Create the form elements for all interest groups
+      // and select the ones needed.
+      $defaults = [];
+      $groups_items = isset($this->signup->settings['group_items']) ? $this->signup->settings['group_items'] : [];
+
+      if (isset($groups_items[$list->id])) {
+        $defaults = $groups_items[$list->id];
+      }
+
       if ($this->signup->settings['include_interest_groups'] && isset($list->intgroups)) {
         $form['mailchimp_lists']['#weight'] = 9;
-        $form['mailchimp_lists']['interest_groups'] = mailchimp_interest_groups_form_elements($list);
+        $form['mailchimp_lists']['interest_groups'] = mailchimp_interest_groups_form_elements($list, $defaults);
+        $form['mailchimp_lists']['#access'] = $show_lists_and_groups;
+      }
+
+      // Include the GDPR consent checkbox if necessary
+      if ($this->signup->settings['gdpr_consent']) {
+         $form['mailchimp_lists']['gdpr_consent'] = array(
+           '#type' => 'checkbox',
+           '#default_value' => FALSE,
+           '#title' => $this->signup->settings['gdpr_checkbox_label'],
+           '#required' => isset($this->signup->settings['gdpr_consent_required']) ? $this->signup->settings['gdpr_consent_required'] : FALSE,
+         );
       }
     }
 
@@ -147,10 +242,10 @@ class MailchimpSignupPageForm extends FormBase {
     $build_info = $form_state->getBuildInfo();
     $signup = $build_info['callback_object']->signup;
 
-    // For forms that allow subscribing to multiple lists
-    // ensure at least one list has been selected.
+    // For forms that allow subscribing to multiple lists/audiences
+    // ensure at least one list/audience has been selected.
 
-    // Get the enabled lists for this form.
+    // Get the enabled lists/audiences for this form.
     $enabled_lists = array_filter($signup->mc_lists);
     if (count($enabled_lists) > 1) {
 
@@ -166,7 +261,7 @@ class MailchimpSignupPageForm extends FormBase {
         return;
       }
 
-      $form_state->setErrorByName('mailchimp_lists', t("Please select at least one list to subscribe to."));
+      $form_state->setErrorByName('mailchimp_lists', $this->t("Please select at least one audience to subscribe to."));
     }
   }
 
@@ -192,6 +287,7 @@ class MailchimpSignupPageForm extends FormBase {
       $subscribe_lists[0] = array(
         'subscribe' => reset($this->signup->mc_lists),
         'interest_groups' => isset($mailchimp_lists['interest_groups']) ? $mailchimp_lists['interest_groups'] : NULL,
+        'gdpr_consent' => isset($mailchimp_lists['gdpr_consent']) ? $mailchimp_lists['gdpr_consent'] : NULL,
       );
     }
     else {
@@ -222,12 +318,12 @@ class MailchimpSignupPageForm extends FormBase {
           $interests[] = $current_interests;
         }
       }
-      $result = mailchimp_subscribe($list_id, $email, $mergevars, $interests, $this->signup->settings['doublein']);
+      $result = mailchimp_subscribe($list_id, $email, $mergevars, $interests, $this->signup->settings['doublein'], 'html', NULL, $list_choices['gdpr_consent']);
 
       if (empty($result)) {
-        drupal_set_message(t('There was a problem with your newsletter signup to %list.', array(
+        $this->messenger->addWarning($this->t('There was a problem with your newsletter signup to %list.', array(
           '%list' => $list_details[$list_id]->name,
-        )), 'warning');
+        )));
       }
       else {
         $successes[] = $list_details[$list_id]->name;
@@ -235,7 +331,7 @@ class MailchimpSignupPageForm extends FormBase {
     }
 
     if (count($successes) && strlen($this->signup->settings['confirmation_message'])) {
-      drupal_set_message($this->signup->settings['confirmation_message'], 'status');
+      $this->messenger->addStatus($this->signup->settings['confirmation_message']);
     }
 
     $destination = $this->signup->settings['destination'];

@@ -11,12 +11,6 @@ namespace Laminas\Stdlib\StringWrapper;
 use Laminas\Stdlib\Exception;
 use Laminas\Stdlib\StringUtils;
 
-use function in_array;
-use function strlen;
-use function strpos;
-use function strtoupper;
-use function substr;
-
 class Native extends AbstractStringWrapper
 {
     /**

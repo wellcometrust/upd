@@ -7,7 +7,12 @@ namespace Drupal\Tests\entity_browser\FunctionalJavascript;
  *
  * @group entity_browser
  */
-class ParagraphsTest extends EntityBrowserJavascriptTestBase {
+class ParagraphsTest extends EntityBrowserWebDriverTestBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'classy';
 
   /**
    * {@inheritdoc}

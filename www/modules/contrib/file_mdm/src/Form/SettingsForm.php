@@ -81,23 +81,23 @@ class SettingsForm extends ConfigFormBase {
     ];
 
     // Settings tabs.
-    $form['plugins'] = array(
+    $form['plugins'] = [
       '#type' => 'vertical_tabs',
       '#tree' => FALSE,
-    );
+    ];
 
     // Load subforms from each plugin.
     foreach ($this->metadataPlugins as $id => $plugin) {
       $definition = $plugin->getPluginDefinition();
-      $form['file_mdm_plugin_settings'][$id] = array(
+      $form['file_mdm_plugin_settings'][$id] = [
         '#type' => 'details',
         '#title' => $definition['title'],
         '#description' => $definition['help'],
         '#open' => FALSE,
         '#tree' => TRUE,
         '#group' => 'plugins',
-      );
-      $form['file_mdm_plugin_settings'][$id] += $plugin->buildConfigurationForm(array(), $form_state);
+      ];
+      $form['file_mdm_plugin_settings'][$id] += $plugin->buildConfigurationForm([], $form_state);
     }
 
     return parent::buildForm($form, $form_state);

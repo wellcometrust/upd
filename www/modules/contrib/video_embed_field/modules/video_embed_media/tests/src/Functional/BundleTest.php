@@ -3,7 +3,6 @@
 namespace Drupal\Tests\video_embed_media\Functional;
 
 use Drupal\Tests\media\Functional\MediaFunctionalTestBase;
-use Drupal\Tests\media\Functional\MediaFunctionalTestCreateMediaTypeTrait;
 use Drupal\Tests\video_embed_field\Functional\AdminUserTrait;
 
 /**
@@ -16,6 +15,11 @@ class BundleTest extends MediaFunctionalTestBase {
   use AdminUserTrait;
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Modules to install.
    *
    * @var array
@@ -26,20 +30,13 @@ class BundleTest extends MediaFunctionalTestBase {
   ];
 
   /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::setUp();
-  }
-
-  /**
    * Test the dialog form.
    */
   public function testMediaBundleCreation() {
     $this->drupalLogin($this->adminUser);
 
     // Create bundle and modify form display.
-    $media_type = $this->createMediaType(['bundle' => 'video_bundle'], 'video_embed_field');
+    $media_type = $this->createMediaType('video_embed_field', ['id' => 'video_bundle']);
     $source = $media_type->getSource();
     $source_field = $source->getSourceFieldDefinition($media_type);
     if ($source_field->isDisplayConfigurable('form')) {
@@ -49,7 +46,7 @@ class BundleTest extends MediaFunctionalTestBase {
 
       // @todo Replace entity_get_form_display() when #2367933 is done.
       // https://www.drupal.org/node/2872159.
-      entity_get_form_display('media', $media_type->id(), 'default')
+      $this->container->get('entity_display.repository')->getFormDisplay('media', $media_type->id(), 'default')
         ->setComponent($source_field->getName(), $component)
         ->save();
     }

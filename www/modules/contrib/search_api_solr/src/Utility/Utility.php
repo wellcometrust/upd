@@ -3,6 +3,7 @@
 namespace Drupal\search_api_solr\Utility;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\search_api\IndexInterface;
 use Drupal\search_api\ParseMode\ParseModeInterface;
@@ -447,7 +448,12 @@ class Utility {
   public static function buildSuggesterContextFilterQuery(array $tags) {
     $cfg = [];
     foreach ($tags as $tag) {
-      $cfg[] = '+' . self::encodeSolrName($tag);
+      if (self::decodeSolrName($tag) === $tag) {
+        $cfg[] = '+' . self::encodeSolrName($tag);
+      }
+      else {
+        $cfg[] = '+' . $tag;
+      }
     }
     return implode(' ', $cfg);
   }
@@ -563,7 +569,7 @@ class Utility {
       // For string and fulltext fields use the dedicated sort field for faster
       // and language specific sorts. If multiple languages are specified, use
       // the first one.
-      $language_ids = $query->getLanguages();
+      $language_ids = $query->getLanguages() ?? [LanguageInterface::LANGCODE_NOT_SPECIFIED];
       return Utility::encodeSolrName('sort' . SolrBackendInterface::SEARCH_API_SOLR_LANGUAGE_SEPARATOR . reset($language_ids) . '_' . $field_name);
     }
     elseif (preg_match('/^([a-z]+)m(_.*)/', $first_solr_field_name, $matches)) {
@@ -663,13 +669,15 @@ class Utility {
    *   (optional) An array of field names.
    * @param string $parse_mode_id
    *   (optional) The parse mode ID. Defaults to "phrase".
+   * @param array $options
+   *   (optional) An array of options.
    *
    * @return string
    *   A Solr query string representing the same keys.
    *
    * @throws \Drupal\search_api_solr\SearchApiSolrException
    */
-  public static function flattenKeys($keys, array $fields = [], string $parse_mode_id = 'phrase'): string {
+  public static function flattenKeys($keys, array $fields = [], string $parse_mode_id = 'phrase', array $options = []): string {
     switch ($parse_mode_id) {
       case 'keys':
         if (!empty($fields)) {
@@ -690,6 +698,7 @@ class Utility {
     $neg = '';
     $query_parts = [];
     $sloppiness = '';
+    $fuzziness = '';
 
     if (is_array($keys)) {
       $queryHelper = \Drupal::service('solarium.query_helper');
@@ -714,7 +723,7 @@ class Utility {
           if ('edismax' === $parse_mode_id) {
             throw new SearchApiSolrException('Incompatible parse mode.');
           }
-          if ($subkeys = self::flattenKeys($key, $fields, $parse_mode_id)) {
+          if ($subkeys = self::flattenKeys($key, $fields, $parse_mode_id, $options)) {
             $query_parts[] = $subkeys;
           }
         }
@@ -722,6 +731,7 @@ class Utility {
           $k[] = trim($key);
         }
         else {
+          $key = trim($key);
           switch ($parse_mode_id) {
             // Using the 'phrase' or 'sloppy_phrase' parse mode, Search API
             // provides one big phrase as keys. Using the 'terms' parse mode,
@@ -739,7 +749,16 @@ class Utility {
             case 'sloppy_phrase':
             case 'edismax':
             case 'keys':
-              $k[] = $queryHelper->escapePhrase(trim($key));
+              $k[] = $queryHelper->escapePhrase($key);
+              break;
+
+            case 'fuzzy_terms':
+              if (strpos($key, ' ')) {
+                $k[] = $queryHelper->escapePhrase($key);
+              }
+              else {
+                $k[] = $queryHelper->escapeTerm($key);
+              }
               break;
 
             default:
@@ -772,8 +791,15 @@ class Utility {
 
         case 'sloppy_terms':
         case 'sloppy_phrase':
-          // @todo Factor should be configurable.
-          $sloppiness = '~10000000';
+          if (isset($options['slop'])) {
+            $sloppiness = '~' . $options['slop'];
+          }
+          // No break! Execute 'default', too. 'terms' will be skipped when $k
+          // just contains one element.
+        case 'fuzzy_terms':
+          if (!$sloppiness && isset($options['fuzzy'])) {
+            $fuzziness = '~' . $options['fuzzy'];
+          }
           // No break! Execute 'default', too. 'terms' will be skipped when $k
           // just contains one element.
         case 'terms':
@@ -799,13 +825,15 @@ class Utility {
           }
           // No break! Execute 'default', too.
         default:
-          if ($sloppiness) {
-            foreach ($k as &$term_or_phrase) {
-              // Just add sloppiness when if we really have a phrase, indicated
-              // by double quotes and terms separated by blanks.
-              if (strpos($term_or_phrase, ' ') && strpos($term_or_phrase, '"') === 0) {
-                $term_or_phrase .= $sloppiness;
-              }
+          foreach ($k as &$term_or_phrase) {
+            // Just add sloppiness when if we really have a phrase, indicated
+            // by double quotes and terms separated by blanks.
+            if ($sloppiness && strpos($term_or_phrase, ' ') && strpos($term_or_phrase, '"') === 0) {
+              $term_or_phrase .= $sloppiness;
+            }
+            // Otherwise just add fuzziness when if we really have a term.
+            elseif ($fuzziness && !strpos($term_or_phrase, ' ') && strpos($term_or_phrase, '"') !== 0) {
+              $term_or_phrase .= $fuzziness;
             }
             unset($term_or_phrase);
           }

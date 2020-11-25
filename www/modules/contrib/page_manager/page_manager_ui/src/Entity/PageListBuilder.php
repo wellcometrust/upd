@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Entity\PageListBuilder.
- */
-
 namespace Drupal\page_manager_ui\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;

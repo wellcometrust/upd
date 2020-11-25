@@ -7,6 +7,7 @@
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\entity_reference_display\Plugin\Field\FieldFormatter\EntityReferenceRevisionsDisplayFormatter;
 
 /**
  * Implements hook_form_alter().
@@ -42,6 +43,11 @@ function entity_reference_display_field_widget_info_alter(array &$info) {
 function entity_reference_display_field_formatter_info_alter(array &$info) {
   // Allow to use the same formatters as list_string field type.
   entity_reference_display_set_available_plugins($info);
+
+  // Replace default formatter when revisions are supported.
+  if (\Drupal::moduleHandler()->moduleExists('entity_reference_revisions')) {
+    $info['entity_reference_display_default']['class'] = EntityReferenceRevisionsDisplayFormatter::class;
+  }
 }
 
 /**

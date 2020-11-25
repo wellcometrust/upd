@@ -3,7 +3,7 @@
 namespace Mailchimp;
 
 /**
- * Mailchimp Lists library.
+ * Mailchimp Lists/Audiences library.
  *
  * @package Mailchimp
  */
@@ -15,7 +15,7 @@ class MailchimpLists extends Mailchimp {
   const MEMBER_STATUS_PENDING = 'pending';
 
   /**
-   * Gets information about all lists owned by the authenticated account.
+   * Gets information about all lists/audiences owned by the authenticated account.
    *
    * @param array $parameters
    *   Associative array of optional request parameters.

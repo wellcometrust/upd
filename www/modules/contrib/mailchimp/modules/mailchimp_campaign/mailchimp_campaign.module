@@ -130,7 +130,7 @@ function mailchimp_campaign_save_campaign($template, $recipients, $settings, $te
       }
     }
     catch (\Exception $e) {
-      drupal_set_message($e->getMessage(), 'error');
+      \Drupal::messenger()->addError($e->getMessage());
       \Drupal::logger('mailchimp_campaign')->error('An error occurred while creating this campaign: {message}', array(
         'message' => $e->getMessage()));
       return NULL;
@@ -152,7 +152,7 @@ function mailchimp_campaign_save_campaign($template, $recipients, $settings, $te
       }
     }
     catch (\Exception $e) {
-      drupal_set_message($e->getMessage(), 'error');
+      \Drupal::messenger()->addError($e->getMessage());
       \Drupal::logger('mailchimp_campaign')->error(
         'An error occurred while updating this campaign: @msg',
         array('@msg' => $e->getMessage()));
@@ -161,7 +161,7 @@ function mailchimp_campaign_save_campaign($template, $recipients, $settings, $te
   }
 
   if (!empty($result->id)) {
-    drupal_set_message(t('Campaign %name (%cid) was successfully saved.',
+    \Drupal::messenger()->addStatus(t('Campaign %name (%cid) was successfully saved.',
       array('%name' => $settings->title, '%cid' => $campaign_id)));
 
     // Clear cached data for this campaign.
@@ -210,7 +210,7 @@ function mailchimp_campaign_send_campaign(MailchimpCampaign $campaign) {
     }
   }
   catch (\Exception $e) {
-    drupal_set_message($e->getMessage(), 'error');
+    \Drupal::messenger()->addError($e->getMessage());
     \Drupal::logger('mailchimp_campaign')
       ->error('An error occurred while sending to this campaign: {message}', array(
         'message' => $e->getMessage()
@@ -240,7 +240,7 @@ function mailchimp_campaign_delete_campaign(MailchimpCampaign $campaign) {
   }
 
   catch (\Exception $e) {
-    drupal_set_message($e->getMessage(), 'error');
+    \Drupal::messenger()->addError($e->getMessage());
     \Drupal::logger('mailchimp_campaign')->error('An error occurred while deleting this campaign: {message}', array(
       'message' => $e->getMessage()));
     return FALSE;
@@ -392,7 +392,7 @@ function mailchimp_campaign_get_campaigns($mc_campaign_ids, $reset = FALSE) {
       }
     }
     catch (\Exception $e) {
-      drupal_set_message($e->getMessage(), 'error');
+      \Drupal::messenger()->addError($e->getMessage());
       \Drupal::logger('mailchimp_campaign')->error('An error occurred while getting campaigns: {message}', array(
         'message' => $e->getMessage()));
 
@@ -408,7 +408,12 @@ function mailchimp_campaign_get_campaigns($mc_campaign_ids, $reset = FALSE) {
         }
       }
       catch(Exception $e) {
-        drupal_set_message($e->getMessage() . ' (Campaign ' . $campaign_id . ' removed from Mailchimp?)', 'error');
+        \Drupal::messenger()->addError(t('%message (Campaign %campaign_id removed from Mailchimp?)',
+          array(
+            '%message' => $e->getMessage(),
+            '%campaign_id' => $campaign_id,
+          )
+        ));
         \Drupal::logger('mailchimp_campaign')->error('An error occurred while getting campaigns: {message}', array(
           'message' => $e->getMessage()));
       }
@@ -444,7 +449,7 @@ function mailchimp_campaign_get_list_segments($list_id, $type) {
     $response = $mcapi->getSegments($list_id, $parameters);
   }
   catch (\Exception $e) {
-    drupal_set_message($e->getMessage(), 'error');
+    \Drupal::messenger()->addError($e->getMessage());
     \Drupal::logger('mailchimp_campaign')->error('An error occurred getting list segments for list ID {list_id}: {message} ', array(
       'list_id' => $list_id,
       'message' => $e->getMessage(),
@@ -475,7 +480,7 @@ function mailchimp_test_list_segment($list_id, $list_segment_id) {
     $result = $mc_lists->getSegmentMembers($list_id, $list_segment_id, array('count' => 500));
   }
   catch (\Exception $e) {
-    drupal_set_message($e->getMessage(), 'error');
+    \Drupal::messenger()->addError($e->getMessage());
     \Drupal::logger('mailchimp_campaign')->error('An error occurred testing a list segment: {message}', array(
       'message' => $e->getMessage()));
 

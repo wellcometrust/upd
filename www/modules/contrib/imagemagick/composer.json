@@ -3,9 +3,9 @@
     "type": "drupal-module",
     "description": "Provides an image toolkit to integrate ImageMagick with the Image API.",
     "require": {
-        "drupal/core": "^8.3",
-        "drupal/file_mdm": "^1.1",
-        "drupal/file_mdm_exif": "^1.1",
-        "fileeye/mimemap": "^1.0"
+        "php": ">=7",
+        "drupal/core": "^8.8 || ^9",
+        "drupal/file_mdm": "^2",
+        "drupal/sophron": "^1"
     }
 }

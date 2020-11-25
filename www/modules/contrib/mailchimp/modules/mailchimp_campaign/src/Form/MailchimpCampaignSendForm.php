@@ -3,8 +3,10 @@
 namespace Drupal\mailchimp_campaign\Form;
 
 use Drupal\Core\Entity\EntityConfirmFormBase;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Form controller for the MailchimpCampaign send campaign form.
@@ -12,6 +14,32 @@ use Drupal\Core\Form\FormStateInterface;
  * @ingroup mailchimp_campaign
  */
 class MailchimpCampaignSendForm extends EntityConfirmFormBase {
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * Constructs a MailchimpCampaignSendForm object.
+   *
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   */
+  public function __construct(MessengerInterface $messenger) {
+    $this->messenger = $messenger;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('messenger')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -47,7 +75,7 @@ class MailchimpCampaignSendForm extends EntityConfirmFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     if (mailchimp_campaign_send_campaign($this->entity)) {
-      drupal_set_message($this->t('Mailchimp Campaign %name has been sent.',
+      $this->messenger->addStatus($this->t('Mailchimp Campaign %name has been sent.',
         array('%name' => $this->entity->label())));
     }
 

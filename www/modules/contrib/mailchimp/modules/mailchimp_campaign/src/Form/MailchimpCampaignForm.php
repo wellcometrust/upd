@@ -2,14 +2,23 @@
 
 namespace Drupal\mailchimp_campaign\Form;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Render;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Form controller for the MailchimpCampaign entity edit form.
@@ -19,11 +28,91 @@ use Drupal\Core\Render;
 class MailchimpCampaignForm extends ContentEntityForm {
 
   /**
+   * Configuration object for this builder.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The entity display repository.
+   *
+   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
+   */
+  protected $entityDisplayRepository;
+
+  /**
+   * A cache backend interface.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cache;
+
+  /**
+   * Constructs a MailchimpCampaignForm object.
+   *
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration factory.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager.
+   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
+   *   The entity display repository.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache
+   *   The Mailchimp cache backend interface.
+   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
+   *   The entity type bundle service.
+   * @param \Drupal\Component\Datetime\TimeInterface $time
+   *   The time service.
+   */
+  public function __construct(EntityRepositoryInterface $entity_repository, ConfigFactoryInterface $config_factory, MessengerInterface $messenger, EntityTypeManagerInterface $entityTypeManager, EntityDisplayRepositoryInterface $entity_display_repository, CacheBackendInterface $cache, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL) {
+    parent::__construct($entity_repository, $entity_type_bundle_info, $time);
+    $this->config = $config_factory;
+    $this->messenger = $messenger;
+    $this->entityTypeManager = $entityTypeManager;
+    $this->entityDisplayRepository = $entity_display_repository;
+    $this->cache = $cache;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity.repository'),
+      $container->get('config.factory'),
+      $container->get('messenger'),
+      $container->get('entity_type.manager'),
+      $container->get('entity_display.repository'),
+      $container->get('cache.mailchimp'),
+      $container->get('entity_type.bundle.info'),
+      $container->get('datetime.time')
+    );
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
-    $site_config = \Drupal::config('system.site');
+    $site_config = $this->config->get('system.site');
 
     // Attach campaign JS and CSS.
     $form['#attached']['library'][] = 'mailchimp_campaign/campaign-form';
@@ -35,22 +124,22 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
     $form['title'] = array(
       '#type' => 'textfield',
-      '#title' => t('Title'),
-      '#description' => t('An internal name to use for this campaign. By default, the campaign subject will be used.'),
+      '#title' => $this->t('Title'),
+      '#description' => $this->t('An internal name to use for this campaign. By default, the campaign subject will be used.'),
       '#required' => FALSE,
       '#default_value' => (!empty($campaign->mc_data)) ? $campaign->mc_data->settings->title : '',
     );
     $form['subject'] = array(
       '#type' => 'textfield',
-      '#title' => t('Subject'),
+      '#title' => $this->t('Subject'),
       '#required' => TRUE,
       '#default_value' => (!empty($campaign->mc_data)) ? $campaign->mc_data->settings->subject_line : '',
     );
     $mailchimp_lists = mailchimp_get_lists();
     $form['list_id'] = array(
       '#type' => 'select',
-      '#title' => t('List'),
-      '#description' => t('Select the list this campaign should be sent to.'),
+      '#title' => $this->t('Audience'),
+      '#description' => $this->t('Select the audience this campaign should be sent to.'),
       '#options' => $this->buildOptionList($mailchimp_lists),
       '#default_value' => (!empty($campaign->mc_data)) ? $campaign->mc_data->recipients->list_id : -1,
       '#required' => TRUE,
@@ -76,8 +165,8 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
     $form['list_segment_id'] = array(
       '#type' => 'select',
-      '#title' => t('List Segment'),
-      '#description' => t('Select the list segment this campaign should be sent to.'),
+      '#title' => $this->t('Audience Tags'),
+      '#description' => $this->t('Select the audience tags this campaign should be sent to.'),
     );
     if (!empty($list_segments)) {
       $form['list_segment_id']['#options'] = $this->buildOptionList($list_segments, '-- Entire list --');
@@ -89,8 +178,8 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
     $form['from_email'] = array(
       '#type' => 'textfield',
-      '#title' => t('From Email'),
-      '#description' => t('the From: email address for your campaign message.'),
+      '#title' => $this->t('From Email'),
+      '#description' => $this->t('the From: email address for your campaign message.'),
       '#default_value' => (!empty($campaign->mc_data)) ? $campaign->mc_data->settings->reply_to : $site_config->get('mail'),
       '#size' => 40,
       '#maxlength' => 255,
@@ -98,8 +187,8 @@ class MailchimpCampaignForm extends ContentEntityForm {
     );
     $form['from_name'] = array(
       '#type' => 'textfield',
-      '#title' => t('From Name'),
-      '#description' => t('the From: name for your campaign message (not an email address)'),
+      '#title' => $this->t('From Name'),
+      '#description' => $this->t('the From: name for your campaign message (not an email address)'),
       '#default_value' => (!empty($campaign->mc_data)) ? $campaign->mc_data->settings->from_name : $site_config->get('name'),
       '#size' => 40,
       '#maxlength' => 255,
@@ -113,8 +202,8 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
     $form['template_id'] = array(
       '#type' => 'select',
-      '#title' => t('Template'),
-      '#description' => t('Select a Mailchimp user template to use. Due to a limitation in the API, only templates that do not contain repeating sections are available. If empty, the default template will be applied.'),
+      '#title' => $this->t('Template'),
+      '#description' => $this->t('Select a Mailchimp user template to use. Due to a limitation in the API, only templates that do not contain repeating sections are available. If empty, the default template will be applied.'),
       '#options' => $this->buildOptionList(mailchimp_campaign_list_templates(), '-- Select --', $template_type_labels),
       '#default_value' => (!empty($campaign->mc_data)) ? $campaign->mc_data->settings->template_id : -1,
       '#ajax' => array(
@@ -125,8 +214,8 @@ class MailchimpCampaignForm extends ContentEntityForm {
     $form['content'] = array(
       '#id' => 'content-sections',
       '#type' => 'fieldset',
-      '#title' => t('Content sections'),
-      '#description' => t('The HTML content or, if a template is selected, the content for each section.'),
+      '#title' => $this->t('Content sections'),
+      '#description' => $this->t('The HTML content or, if a template is selected, the content for each section.'),
       '#tree' => TRUE,
     );
 
@@ -157,7 +246,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
     if ($mc_template) {
       foreach ($mc_template->info->sections as $section => $content) {
         if (substr($section, 0, 6) == 'repeat') {
-          drupal_set_message(t('WARNING: This template has repeating sections, which are not supported. You may want to select a different template.'), 'warning');
+          $this->messenger->addWarning($this->t('WARNING: This template has repeating sections, which are not supported. You may want to select a different template.'));
         }
       }
       foreach ($mc_template->info->sections as $section => $content) {
@@ -198,14 +287,14 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
       $form['content']['html_wrapper'] = array(
         '#type' => 'details',
-        '#title' => t('Content'),
+        '#title' => $this->t('Content'),
         '#open' => FALSE,
       );
       $form['content']['html_wrapper']['html'] = array(
         '#type' => 'text_format',
         '#format' => ($campaign_template != NULL) ? $campaign_template['html']['format'] : 'mailchimp_campaign',
-        '#title' => t('Content'),
-        '#description' => t('The HTML content of the campaign.'),
+        '#title' => $this->t('Content'),
+        '#description' => $this->t('The HTML content of the campaign.'),
         '#access' => empty($form_state->getValue('template_id')),
         '#default_value' => ($campaign_template != NULL) ? $campaign_template['html']['value'] : '',
       );
@@ -223,7 +312,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
     // Message preview:
     if (!empty($form_state->getValue('mailchimp_campaign_campaign_preview'))) {
       $form['preview_wrapper'] = array(
-        '#title' => t('Campaign content preview'),
+        '#title' => $this->t('Campaign content preview'),
         '#type' => 'details',
         '#open' => TRUE,
       );
@@ -241,11 +330,11 @@ class MailchimpCampaignForm extends ContentEntityForm {
   protected function actions(array $form, FormStateInterface $form_state) {
     $actions = parent::actions($form, $form_state);
 
-    $actions['submit']['#value'] = t('Save as draft');
+    $actions['submit']['#value'] = $this->t('Save as draft');
 
     $actions['preview'] = array(
       '#type' => 'submit',
-      '#value' => t('Preview content'),
+      '#value' => $this->t('Preview content'),
       '#submit' => array('::submitForm', '::preview'),
     );
 
@@ -287,7 +376,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
     $campaign->save();
 
     // Clear campaigns cache.
-    $cache = \Drupal::cache('mailchimp');
+    $cache = $this->cache;
     $cache->deleteAll();
 
     $form_state->setRedirect('mailchimp_campaign.overview');
@@ -309,7 +398,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
   }
 
   /**
-   * Ajax callback to render list segments when a list is selected.
+   * Ajax callback to render list/audience segments when a list/audience is selected.
    *
    * @param array $form
    *   Form API array structure.
@@ -317,7 +406,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
    *   Form state information.
    *
    * @return AjaxResponse
-   *   Ajax response with the rendered list segments element.
+   *   Ajax response with the rendered list/audience segments element.
    */
   public static function listSegmentCallback(array $form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
@@ -453,7 +542,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
   private function buildEntityViewModeOptionList($entity_type) {
     $options = array();
 
-    $view_modes = \Drupal::service('entity_display.repository')->getViewModes($entity_type);
+    $view_modes = $this->entityDisplayRepository->getViewModes($entity_type);
 
     foreach ($view_modes as $view_mode_id => $view_mode_data) {
       $options[$view_mode_id] = $view_mode_data['label'];
@@ -483,14 +572,14 @@ class MailchimpCampaignForm extends ContentEntityForm {
     $form['entity_import'] = array(
       '#id' => 'entity-import',
       '#type' => 'details',
-      '#title' => t('Insert site content'),
-      '#description' => t('<b>For use only with text filters that use the Mailchimp Campaign filter</b><br />You can insert an entity of a given type and pick the view mode that will be rendered within this campaign section.'),
+      '#title' => $this->t('Insert site content'),
+      '#description' => $this->t('<b>For use only with text filters that use the Mailchimp Campaign filter</b><br />You can insert an entity of a given type and pick the view mode that will be rendered within this campaign section.'),
       '#open' => FALSE,
     );
 
     $form['entity_import']['entity_type'] = array(
       '#type' => 'select',
-      '#title' => t('Entity Type'),
+      '#title' => $this->t('Entity Type'),
       '#options' => $entity_options,
       '#default_value' => $entity_type,
       '#ajax' => array(
@@ -513,7 +602,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
       $form['entity_import']['entity_id'] = array(
         '#type' => 'textfield',
-        '#title' => t('Entity Title'),
+        '#title' => $this->t('Entity Title'),
         '#maxlength' => 255,
         // Pass entity type as first parameter to autocomplete callback.
         '#autocomplete_route_name' => 'mailchimp_campaign.entity_autocomplete',
@@ -525,7 +614,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
       $form['entity_import']['entity_view_mode'] = array(
         '#type' => 'select',
-        '#title' => t('View Mode'),
+        '#title' => $this->t('View Mode'),
         '#options' => $entity_view_mode_options,
         '#attributes' => array(
           'id' => $section . '-entity-import-entity-view-mode',
@@ -535,7 +624,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
 
     $form['entity_import']['entity_import_link'] = array(
       '#type' => 'item',
-      '#markup' => '<a id="' . $section . '-add-entity-token-link" class="add-entity-token-link" href="javascript:void(0);">' . t('Insert entity token') . '</a>',
+      '#markup' => '<a id="' . $section . '-add-entity-token-link" class="add-entity-token-link" href="javascript:void(0);">' . $this->t('Insert entity token') . '</a>',
       '#states' => array(
         'invisible' => array(
           ':input[name="content[' . $section . '_wrapper][entity_import][entity_type]"]' => array('value' => ''),
@@ -568,7 +657,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
    *   Filtered entities from entity_get_info().
    */
   private function getEntitiesForContentImport() {
-    $entity_info = \Drupal::entityTypeManager()->getDefinitions();
+    $entity_info = $this->entityTypeManager->getDefinitions();
 
     $filtered_entities = array();
 
@@ -615,11 +704,11 @@ class MailchimpCampaignForm extends ContentEntityForm {
       '#type' => 'item',
       '#title' => 'Mailchimp merge variables',
       '#markup' => $this->buildMergeVarsHtml($merge_vars),
-      '#description' => t(
-        'Insert merge variables from the %list_name list or one of the @standard_link.',
+      '#description' => $this->t(
+        'Insert merge variables from the %list_name audience or one of the @standard_link.',
         array(
           '%list_name' => $list_name,
-          '@standard_link' => Link::fromTextAndUrl(t('standard Mailchimp merge variables'), $merge_vars_url)->toString(),
+          '@standard_link' => Link::fromTextAndUrl($this->t('standard Mailchimp merge variables'), $merge_vars_url)->toString(),
         )
       ),
     );
@@ -660,7 +749,7 @@ class MailchimpCampaignForm extends ContentEntityForm {
       return render($element);
     }
     else {
-      return t('No custom merge vars exist for the current list.');
+      return $this->t('No custom merge vars exist for the current audience.');
     }
   }
 
