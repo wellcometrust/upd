@@ -121,7 +121,7 @@ class BookManager implements BookManagerInterface {
       // @todo: use route name for links, not system path.
       foreach ($book_links as $link) {
         $nid = $link['nid'];
-        if (isset($nodes[$nid]) && $nodes[$nid]->status) {
+        if (isset($nodes[$nid]) && $nodes[$nid]->access('view')) {
           $link['url'] = $nodes[$nid]->toUrl();
           $link['title'] = $nodes[$nid]->label();
           $link['type'] = $nodes[$nid]->bundle();
@@ -594,8 +594,7 @@ class BookManager implements BookManagerInterface {
       // Allow book-specific theme overrides.
       $element['attributes'] = new Attribute();
       $element['title'] = $data['link']['title'];
-      $node = $this->entityTypeManager->getStorage('node')->load($data['link']['nid']);
-      $element['url'] = $node->toUrl();
+      $element['url'] = 'entity:node/' . $data['link']['nid'];
       $element['localized_options'] = !empty($data['link']['localized_options']) ? $data['link']['localized_options'] : [];
       $element['localized_options']['set_active_class'] = TRUE;
       $element['below'] = $data['below'] ? $this->buildItems($data['below']) : [];

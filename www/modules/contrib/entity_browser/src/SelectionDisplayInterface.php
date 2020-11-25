@@ -2,7 +2,8 @@
 
 namespace Drupal\entity_browser;
 
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\ConfigurableInterface;
+use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
@@ -14,7 +15,7 @@ use Drupal\Core\Plugin\PluginFormInterface;
  * entities in an entity browser and delivering them upstream. The selections
  * are displayed in a form which delivers the selected entities on submit.
  */
-interface SelectionDisplayInterface extends PluginInspectionInterface, ConfigurablePluginInterface, PluginFormInterface {
+interface SelectionDisplayInterface extends PluginInspectionInterface, ConfigurableInterface, PluginFormInterface, DependentPluginInterface {
 
   /**
    * Returns the selection display label.
@@ -65,9 +66,19 @@ interface SelectionDisplayInterface extends PluginInspectionInterface, Configura
    * If preselection is not allowed by entity browser selection display, then
    * exception will be thrown.
    *
+   * @deprecated Use ::supportsPreselection instead.
+   *
    * @throws \Drupal\Core\Config\ConfigException
    */
   public function checkPreselectionSupport();
+
+  /**
+   * Check if the plugin supports preselection.
+   *
+   * @returns bool
+   *   Returns TRUE if preselection is supported.
+   */
+  public function supportsPreselection();
 
   /**
    * Returns true if selection display supports selection over javascript.

@@ -1,11 +1,16 @@
+/**
+ * @file
+ * JavaScript for Colorbox Load.
+ */
+
 (function ($) {
-  "use strict";
+  'use strict';
   Drupal.AjaxCommands.prototype.colorboxLoadOpen = function (ajax, response) {
-    $.colorbox($.extend(drupalSettings.colorbox, {
+    $.colorbox($.extend({}, drupalSettings.colorbox, {
       html: response.data,
       width: '90%',
       height: '90%'
     }));
-    Drupal.attachBehaviors(response.data);
+    Drupal.attachBehaviors();
   };
 })(jQuery);

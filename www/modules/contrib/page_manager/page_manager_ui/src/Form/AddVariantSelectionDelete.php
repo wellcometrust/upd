@@ -1,13 +1,7 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\AddVariantSelectionDelete.
- */
-
 namespace Drupal\page_manager_ui\Form;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\ctools\Form\ConditionDelete;
 
 class AddVariantSelectionDelete extends ConditionDelete {
@@ -29,11 +23,13 @@ class AddVariantSelectionDelete extends ConditionDelete {
    */
   protected function getParentRouteInfo($cached_values) {
     $page_variant = $this->getPageVariant($cached_values);
-    return ['entity.page_variant.add_step_form', [
+    return ['entity.page_variant.add_step_form',
+      [
       'page' => $page_variant->getPage()->id(),
       'machine_name' => $this->machine_name,
       'step' => 'selection',
-    ]];
+      ],
+    ];
   }
 
   /**

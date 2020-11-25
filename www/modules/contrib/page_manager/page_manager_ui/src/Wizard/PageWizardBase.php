@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Wizard\PageWizardBase.
- */
 
 namespace Drupal\page_manager_ui\Wizard;
 
@@ -21,7 +17,6 @@ class PageWizardBase extends EntityFormWizardBase {
     $cached_values['access'] = new PageManagerPluginAccess();
     return $cached_values;
   }
-
 
   /**
    * {@inheritdoc}
@@ -98,19 +93,20 @@ class PageWizardBase extends EntityFormWizardBase {
     }
   }
 
+
   public function finish(array &$form, FormStateInterface $form_state) {
     parent::finish($form, $form_state);
 
     $cached_values = $form_state->getTemporaryValue('wizard');
     /** @var \Drupal\page_manager\Entity\Page $page */
     $page = $cached_values['page'];
-    foreach($page->getVariants() as $variant) {
+    foreach ($page->getVariants() as $variant) {
       $variant->save();
     }
 
     $form_state->setRedirectUrl(new Url('entity.page.edit_form', [
       'machine_name' => $this->machine_name,
-      'step' => $this->step
+      'step' => 'general',
     ]));
   }
 

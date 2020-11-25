@@ -10,7 +10,10 @@ use Symfony\Component\Routing\Route;
 class CheckIfEuCountryJs {
 
   /**
-   * {@inheritdoc}
+   * Routes.
+   *
+   * @return array
+   *   List of routes.
    */
   public function routes() {
     $routes = [];

@@ -2,8 +2,11 @@
 
 namespace Drupal\colorbox\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * General configuration form for controlling the colorbox behaviour..
@@ -19,6 +22,31 @@ class ColorboxSettingsForm extends ConfigFormBase {
    * A state that represents the slideshow being enabled.
    */
   const STATE_SLIDESHOW_ENABLED = 1;
+
+  /**
+   * Drupal\Core\Extension\ModuleHandlerInterface definition.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  private $moduleHandler;
+
+  /**
+   * Class constructor.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $moduleHandler) {
+    parent::__construct($config_factory);
+    $this->moduleHandler = $moduleHandler;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('module_handler')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -62,7 +90,7 @@ class ColorboxSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Style'),
       '#options' => $colorbox_styles,
       '#default_value' => $config->get('custom.style'),
-      '#description' => $this->t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox plugin. Select "None" if you have added Colorbox styles to your theme.'),
+      '#description' => $this->t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox plugin. Select "None" if you have added Colorbox styles to your theme.  <br> <strong>Examples</strong>: <ul><li><a href="/modules/contrib/colorbox/images/admin/example_default.png" target="blank">Default</a></li><li><a href="/modules/contrib/colorbox/images/admin/example_plain.png" target="blank">Plain</a></li><li><a href="/modules/contrib/colorbox/images/admin/example_stockholm_syndrome.png" target="blank">Stockholm Syndrome</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_1.png" target="blank">Example 1</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_2.png" target="blank">Example 2</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_3.png" target="blank">Example 3</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_4.png" target="blank">Example 4</a></li><li><a href="/modules/contrib/colorbox/images/admin/example_none.png" target="blank">None</a></li></ul>'),
     ];
     $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = [
       '#type' => 'radios',
@@ -295,6 +323,21 @@ class ColorboxSettingsForm extends ConfigFormBase {
       ],
       '#default_value' => $config->get('advanced.compression_type'),
     ];
+
+    if (!$this->moduleHandler->moduleExists('colorbox_load') || !$this->moduleHandler->moduleExists('colorbox_inline')) {
+
+      $form['colorbox_extras'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Extras'),
+      ];
+
+      $form['colorbox_extras']['colorbox_additional_tips'] = [
+        '#markup' => $this->t('You can find new features in the <a href="@url_colorbox_load" target="blank">Colorbox Load</a> and <a href="@url_colorbox_inline" target="blank">Colorbox Inline</a>', [
+          '@url_colorbox_load' => 'https://www.drupal.org/project/colorbox_load',
+          '@url_colorbox_inline' => 'https://www.drupal.org/project/colorbox_inline',
+        ]),
+      ];
+    }
 
     return parent::buildForm($form, $form_state);
   }

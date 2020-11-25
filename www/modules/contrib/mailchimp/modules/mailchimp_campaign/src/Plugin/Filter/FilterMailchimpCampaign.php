@@ -74,7 +74,7 @@ class FilterMailchimpCampaign extends FilterBase {
    * {@inheritdoc}
    */
   public function tips($long = FALSE) {
-    $tip = t('Converts content tokens in the format %pattern into the appropriate rendered content and makes all paths absolute. Use the "Insert Site Content" widget below to generate tokens.',
+    $tip = $this->t('Converts content tokens in the format %pattern into the appropriate rendered content and makes all paths absolute. Use the "Insert Site Content" widget below to generate tokens.',
       array('%pattern' => '[mailchimp_campaign|entity_type=node|entity_id=1|view_mode=teaser]')
     );
 

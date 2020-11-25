@@ -8,13 +8,16 @@ use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\file\Entity\File;
 use Drupal\node\Entity\Node;
+use Drupal\Tests\TestFileCreationTrait;
 
 /**
  * Tests the image field widget.
  *
  * @group entity_browser
  */
-class ImageFieldTest extends EntityBrowserJavascriptTestBase {
+class ImageFieldTest extends EntityBrowserWebDriverTestBase {
+
+  use TestFileCreationTrait;
 
   /**
    * Created file entity.
@@ -49,7 +52,15 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
       ],
     ])->save();
 
-    file_unmanaged_copy(\Drupal::root() . '/core/modules/simpletest/files/image-test.jpg', 'public://example.jpg');
+    $test_files = $this->getTestFiles('image');
+    foreach ($test_files as $test_file) {
+      if ($test_file->filename === 'image-test.jpg') {
+        break;
+      }
+    }
+
+    $file_system = $this->container->get('file_system');
+    $file_system->copy($file_system->realpath($test_file->uri), 'public://example.jpg');
     $this->image = File::create([
       'uri' => 'public://example.jpg',
     ]);
@@ -120,13 +131,17 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
     $this->getSession()->switchToIFrame('entity_browser_iframe_test_entity_browser_iframe_view');
     $this->getSession()->getPage()->checkField('entity_browser_select[file:' . $this->image->id() . ']');
     $this->getSession()->getPage()->pressButton('Select entities');
-    $this->getSession()->getPage()->pressButton('Use selected');
+    $this->waitForAjaxToFinish();
+    $button = $this->assertSession()->waitForButton('Use selected');
     $this->assertSession()->pageTextContains('example.jpg');
+    $button->press();
+
     // Switch back to the main page.
     $this->getSession()->switchToIFrame();
     $this->waitForAjaxToFinish();
     // Check if the image thumbnail exists.
-    $this->assertSession()->elementExists('xpath', '//*[@data-drupal-selector="edit-field-image-current-' . $this->image->id() . '-display"]');
+    $this->assertSession()
+      ->waitForElementVisible('xpath', '//tr[@data-drupal-selector="edit-field-image-current-1"]');
     // Test if the image filename is present.
     $this->assertSession()->pageTextContains('example.jpg');
     // Test specifying Alt and Title texts and saving the node.
@@ -152,7 +167,14 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
     $this->assertSession()->linkExists('Select entities');
 
     // Test the Replace functionality.
-    file_unmanaged_copy(\Drupal::root() . '/core/modules/simpletest/files/image-test.jpg', 'public://example2.jpg');
+    $test_files = $this->getTestFiles('image');
+    foreach ($test_files as $test_file) {
+      if ($test_file->filename === 'image-test.jpg') {
+        break;
+      }
+    }
+    $file_system = $this->container->get('file_system');
+    $file_system->copy($file_system->realpath($test_file->uri), 'public://example2.jpg');
     $image2 = File::create(['uri' => 'public://example2.jpg']);
     $image2->save();
     \Drupal::service('file.usage')->add($image2, 'entity_browser', 'test', '1');
@@ -178,8 +200,18 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
   public function testImageFieldSettings() {
     $root = \Drupal::root();
     $file_wrong_type = $root . '/core/misc/druplicon.png';
-    $file_too_big = $root . '/core/modules/simpletest/files/image-2.jpg';
-    $file_just_right = $root . '/core/modules/simpletest/files/image-test.jpg';
+
+    $test_files = $this->getTestFiles('image');
+    $file_system = $this->container->get('file_system');
+    foreach ($test_files as $test_file) {
+      if ($test_file->filename === 'image-test.jpg') {
+        $file_just_right = $file_system->realpath($test_file->uri);
+      }
+      elseif ($test_file->filename === 'image-2.jpg') {
+        $file_too_big = $file_system->realpath($test_file->uri);
+      }
+    }
+
     $this->drupalGet('node/add/article');
     $this->assertSession()->linkExists('Select images');
     $this->getSession()->getPage()->clickLink('Select images');
@@ -207,8 +239,11 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
     $this->getSession()->getPage()->attachFileToField('files[upload][]', $file_just_right);
     $this->waitForAjaxToFinish();
     $this->getSession()->getPage()->pressButton('Select files');
-    $this->getSession()->getPage()->pressButton('Use selected');
+    $this->waitForAjaxToFinish();
+    $button = $this->assertSession()->waitForButton('Use selected');
     $this->assertSession()->pageTextContains('image-test.jpg');
+    $button->press();
+    $this->waitForAjaxToFinish();
     // Check that the file has uploaded to the correct sub-directory.
     $this->getSession()->switchToIFrame();
     $this->waitForAjaxToFinish();
@@ -217,7 +252,7 @@ class ImageFieldTest extends EntityBrowserJavascriptTestBase {
     /** @var \Drupal\file\Entity\File $file */
     $fid = explode(':', $entity_id)[1];
     $file = File::load($fid);
-    $this->assertContains('entity-browser-test', $file->getFileUri());
+    $this->assertStringContainsString('entity-browser-test', $file->getFileUri());
   }
 
 }

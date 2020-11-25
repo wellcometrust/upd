@@ -50,6 +50,7 @@
             - [removeType, [audio/x-pn-realaudio]]
             - [removeType, [application/vnd.rn-realmedia-vbr]]
             - [removeType, [application/docbook+xml]]
+            - [removeType, [image/g3fax]]
             - [removeType, [image/x-icon]]
             - [removeType, [image/x-pcx]]
             - [removeType, [application/x-msmetafile]]
@@ -61,10 +62,29 @@
             - [removeType, [video/x-fli]]
             - [removeType, [video/x-ms-wm]]
             - [removeType, [video/x-ms-asf]]
+
 -
     - 'Updating with information from freedesktop.org'
     - loadMapFromFreedesktopFile
-    - [https://raw.github.com/minad/mimemagic/master/script/freedesktop.org.xml]
+    - [https://gitlab.freedesktop.org/xdg/shared-mime-info/raw/master/data/freedesktop.org.xml.in]
+
+-
+    - 'Cleanup video/x-anim'
+    - applyOverrides
+    -
+        -
+            - [removeTypeExtensionMapping, [video/x-anim, "anim[1-9j]"]]
+            - [addTypeExtensionMapping, [video/x-anim, anim1]]
+            - [addTypeExtensionMapping, [video/x-anim, anim2]]
+            - [addTypeExtensionMapping, [video/x-anim, anim3]]
+            - [addTypeExtensionMapping, [video/x-anim, anim4]]
+            - [addTypeExtensionMapping, [video/x-anim, anim5]]
+            - [addTypeExtensionMapping, [video/x-anim, anim6]]
+            - [addTypeExtensionMapping, [video/x-anim, anim7]]
+            - [addTypeExtensionMapping, [video/x-anim, anim8]]
+            - [addTypeExtensionMapping, [video/x-anim, anim9]]
+            - [addTypeExtensionMapping, [video/x-anim, animj]]
+
 -
     - 'Adding back selected svn.apache.org mappings'
     - applyOverrides

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains views arguments collector.
- */
-
 namespace Drupal\simple_sitemap_views\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -77,16 +72,16 @@ class ArgumentCollector implements EventSubscriberInterface {
       return;
     }
 
-    // Get view ID from route.
     $view_id = $this->routeMatch->getParameter('view_id');
     /** @var \Drupal\views\ViewEntityInterface $view_entity */
     if ($view_id && $view_entity = $this->viewStorage->load($view_id)) {
-      // Get display ID from route.
       $display_id = $this->routeMatch->getParameter('display_id');
+
       // Get a set of view arguments and try to add them to the index.
       $view = $view_entity->getExecutable();
       $args = $this->getViewArgumentsFromRoute();
       $this->sitemapViews->addArgumentsToIndex($view, $args, $display_id);
+
       // Destroy a view instance.
       $view->destroy();
     }
@@ -107,7 +102,9 @@ class ArgumentCollector implements EventSubscriberInterface {
     $args = [];
     foreach ($map as $attribute => $parameter_name) {
       $parameter_name = isset($parameter_name) ? $parameter_name : $attribute;
-      if (($arg = $this->routeMatch->getRawParameter($parameter_name)) !== NULL) {
+      $arg = $this->routeMatch->getRawParameter($parameter_name);
+
+      if ($arg !== NULL) {
         $args[] = $arg;
       }
     }

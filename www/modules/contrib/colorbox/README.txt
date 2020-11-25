@@ -1,6 +1,6 @@
 CONTENTS OF THIS FILE
 ---------------------
-   
+
  * Introduction
  * Features
  * Requirements
@@ -61,13 +61,17 @@ INSTALLATION
 1. Install the module as normal, see link for instructions.
    Link: https://www.drupal.org/documentation/install/modules-themes/modules-8
 
-2. Download and unpack the Colorbox plugin in "libraries".
+2. Download and unpack the Colorbox plugin in "libraries" inside root folder.
     Make sure the path to the plugin file becomes:
     "libraries/colorbox/jquery.colorbox-min.js"
    Link: https://github.com/jackmoore/colorbox/archive/master.zip
    Drush users can use the command "drush colorbox-plugin".
 
-3. Go to "Administer" -> "Extend" and enable the Colorbox module.
+3. Change the permission of colorbox plugin inside 'libraries' folder.
+    Right click on 'libraries' folder -> properties -> "permissions"
+    and change to full permission.
+
+4. Go to "Administer" -> "Extend" and enable the Colorbox module.
 
 
 CONFIGURATION
@@ -111,6 +115,7 @@ MAINTAINERS
 
 Current maintainers:
 
+ * Neslee Canil Pinto - https://www.drupal.org/u/neslee-canil-pinto
  * Fredrik Jonsson (frjo) - https://www.drupal.org/user/5546
 
 Requires - Drupal 8

@@ -5,12 +5,40 @@ namespace Drupal\mailchimp_lists\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Clear Mailchimp lists cache.
  */
 class MailchimpListsClearCacheForm extends ConfirmFormBase {
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * MailchimpListsClearCacheForm constructor.
+   *
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   */
+  public function __construct(MessengerInterface $messenger) {
+    $this->messenger = $messenger;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('messenger')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -30,7 +58,7 @@ class MailchimpListsClearCacheForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return t('Reset Mailchimp List Cache');
+    return $this->t('Reset Mailchimp Audience Cache');
   }
 
   /**
@@ -41,7 +69,7 @@ class MailchimpListsClearCacheForm extends ConfirmFormBase {
   }
 
   public function getDescription() {
-    return t('Confirm clearing of Mailchimp list cache.');
+    return $this->t('Confirm clearing of Mailchimp audience cache.');
   }
 
   /**
@@ -56,7 +84,7 @@ class MailchimpListsClearCacheForm extends ConfirmFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     mailchimp_get_lists(array(), TRUE);
-    drupal_set_message(t('Mailchimp lists cache cleared.'));
+    $this->messenger->addStatus($this->t('Mailchimp audience cache cleared.'));
   }
 
 }

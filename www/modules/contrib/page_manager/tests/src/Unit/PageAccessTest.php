@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\page_manager\Unit\PageAccessTest.
- */
-
 namespace Drupal\Tests\page_manager\Unit;
 
 use Drupal\Core\Cache\Context\CacheContextsManager;

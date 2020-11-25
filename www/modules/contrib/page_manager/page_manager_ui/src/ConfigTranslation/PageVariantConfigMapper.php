@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\ConfigTranslation\PageVariantConfigMapper.
- */
-
 namespace Drupal\page_manager_ui\ConfigTranslation;
 
 use Drupal\config_translation\ConfigEntityMapper;

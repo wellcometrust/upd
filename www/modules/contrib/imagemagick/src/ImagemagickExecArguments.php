@@ -8,17 +8,6 @@ namespace Drupal\imagemagick;
 class ImagemagickExecArguments {
 
   /**
-   * An identifier to be used for arguments internal to the toolkit.
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Do not prefix arguments
-   *   to mark them internal, add them with ImageMagickExecArguments::INTERNAL
-   *   instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2925780
-   */
-  const INTERNAL_ARGUMENT_IDENTIFIER = '>!>';
-
-  /**
    * Default index for adding arguments.
    */
   const APPEND = -1;
@@ -112,46 +101,6 @@ class ImagemagickExecArguments {
   }
 
   /**
-   * Gets the command line arguments for the binary.
-   *
-   * @return string[]
-   *   The array of command line arguments.
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use
-   *   ImagemagickExecArguments methods to manipulate arguments directly.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2925780
-   */
-  public function getArguments() {
-    @trigger_error('getArguments() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ImagemagickExecArguments methods to manipulate arguments directly. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-    $ret = [];
-    foreach ($this->arguments as $i => $a) {
-      if (in_array($a['mode'], [self::POST_SOURCE, self::INTERNAL])) {
-        $ret[$i] = ($a['mode'] === self::INTERNAL ? self::INTERNAL_ARGUMENT_IDENTIFIER : '') . $a['argument'];
-      }
-    }
-    return $ret;
-  }
-
-  /**
-   * Gets the command line arguments string for the binary.
-   *
-   * Removes any argument used internally within the toolkit.
-   *
-   * @return string
-   *   The sring of command line arguments.
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::toString()
-   *   instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2925780
-   */
-  public function getStringForBinary() {
-    @trigger_error('getStringForBinary() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::toString() instead. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-    return $this->toString(self::POST_SOURCE);
-  }
-
-  /**
    * Gets a portion of the command line arguments string.
    *
    * @param int $mode
@@ -161,7 +110,7 @@ class ImagemagickExecArguments {
    * @return string
    *   The sring of command line arguments.
    */
-  public function toString($mode) {
+  public function toString(int $mode): string {
     if (!$this->arguments) {
       return '';
     }
@@ -172,48 +121,6 @@ class ImagemagickExecArguments {
       }
     }
     return implode(' ', $ret);
-  }
-
-  /**
-   * Adds a command line argument.
-   *
-   * @param string $arg
-   *   The command line argument to be added.
-   *
-   * @return $this
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::add() instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2925780
-   */
-  public function addArgument($arg) {
-    @trigger_error('addArgument() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::add() instead. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-    if (strpos($arg, self::INTERNAL_ARGUMENT_IDENTIFIER) === 0) {
-      @trigger_error('Adding internal arguments prefixing them with ImagemagickExecArguments::INTERNAL_ARGUMENT_IDENTIFIER is deprecated in 8.x-2.3, will be removed in 8.x-3.0. ::add() them with ImageMagickExecArguments::INTERNAL instead. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-      return $this->add(substr($arg, strlen(self::INTERNAL_ARGUMENT_IDENTIFIER)), self::INTERNAL);
-    }
-    return $this->add($arg);
-  }
-
-  /**
-   * Prepends a command line argument.
-   *
-   * @param string $arg
-   *   The command line argument to be prepended.
-   *
-   * @return $this
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::add() instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2925780
-   */
-  public function prependArgument($arg) {
-    @trigger_error('prependArgument() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::add() instead. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-    if (strpos($arg, self::INTERNAL_ARGUMENT_IDENTIFIER) === 0) {
-      @trigger_error('Adding internal arguments prefixing them with ImagemagickExecArguments::INTERNAL_ARGUMENT_IDENTIFIER is deprecated in 8.x-2.3, will be removed in 8.x-3.0. ::add() them with ImageMagickExecArguments::INTERNAL instead. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-      return $this->add(substr($arg, strlen(self::INTERNAL_ARGUMENT_IDENTIFIER)), self::INTERNAL, 0);
-    }
-    return $this->add($arg, self::POST_SOURCE, 0);
   }
 
   /**
@@ -235,7 +142,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function add($argument, $mode = self::POST_SOURCE, $index = self::APPEND, array $info = []) {
+  public function add(string $argument, int $mode = self::POST_SOURCE, int $index = self::APPEND, array $info = []): ImagemagickExecArguments {
     $argument = [
       'argument' => $argument,
       'mode' => $mode,
@@ -254,39 +161,6 @@ class ImagemagickExecArguments {
   }
 
   /**
-   * Finds if a command line argument exists.
-   *
-   * @param string $arg
-   *   The command line argument to be found.
-   *
-   * @return bool
-   *   Returns the array key for the argument if it is found in the array,
-   *   FALSE otherwise.
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::find() instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2925780
-   */
-  public function findArgument($arg) {
-    @trigger_error('findArgument() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::find() instead. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-    if (strpos($arg, self::INTERNAL_ARGUMENT_IDENTIFIER) === 0) {
-      @trigger_error('Adding internal arguments prefixing them with ImagemagickExecArguments::INTERNAL_ARGUMENT_IDENTIFIER is deprecated in 8.x-2.3, will be removed in 8.x-3.0. ::add() them with ImageMagickExecArguments::INTERNAL instead. See https://www.drupal.org/project/imagemagick/issues/2925780.', E_USER_DEPRECATED);
-      foreach ($this->getArguments() as $i => $a) {
-        if (strpos($a, $arg) === 0) {
-          return $i;
-        }
-      }
-      return FALSE;
-    }
-    $matches = $this->find('/^' . preg_quote($arg, '/') . '/', self::POST_SOURCE);
-    if (!empty($matches)) {
-      $keys = array_keys($matches);
-      return $keys[0];
-    }
-    return FALSE;
-  }
-
-  /**
    * Returns an array of the indexes of arguments matching specific criteria.
    *
    * @param string $regex
@@ -301,7 +175,7 @@ class ImagemagickExecArguments {
    * @return array
    *   Returns an array with the matching arguments.
    */
-  public function find($regex, $mode = NULL, array $info = []) {
+  public function find(string $regex, int $mode = NULL, array $info = []): array {
     $ret = [];
     foreach ($this->arguments as $i => $a) {
       if ($mode !== NULL && $a['mode'] !== $mode) {
@@ -329,25 +203,8 @@ class ImagemagickExecArguments {
    *   The index of the command line argument to be removed.
    *
    * @return $this
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::remove() instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2936615
    */
-  public function removeArgument($index) {
-    @trigger_error('removeArgument() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::remove() instead. See https://www.drupal.org/project/imagemagick/issues/2936615.', E_USER_DEPRECATED);
-    return $this->remove($index);
-  }
-
-  /**
-   * Removes a command line argument.
-   *
-   * @param int $index
-   *   The index of the command line argument to be removed.
-   *
-   * @return $this
-   */
-  public function remove($index) {
+  public function remove(int $index): ImagemagickExecArguments {
     if (isset($this->arguments[$index])) {
       unset($this->arguments[$index]);
     }
@@ -358,39 +215,10 @@ class ImagemagickExecArguments {
    * Resets the command line arguments.
    *
    * @return $this
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::reset() instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2936615
    */
-  public function resetArguments() {
-    @trigger_error('resetArguments() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::reset() instead. See https://www.drupal.org/project/imagemagick/issues/2936615.', E_USER_DEPRECATED);
-    return $this->reset();
-  }
-
-  /**
-   * Resets the command line arguments.
-   *
-   * @return $this
-   */
-  public function reset() {
+  public function reset(): ImagemagickExecArguments {
     $this->arguments = [];
     return $this;
-  }
-
-  /**
-   * Returns the count of command line arguments.
-   *
-   * @return $this
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::find() instead,
-   *   then count the result.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2936615
-   */
-  public function countArguments() {
-    @trigger_error('countArguments() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::find() instead, then count the result. See https://www.drupal.org/project/imagemagick/issues/2936615.', E_USER_DEPRECATED);
-    return count($this->arguments);
   }
 
   /**
@@ -401,7 +229,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setSource($source) {
+  public function setSource(string $source): ImagemagickExecArguments {
     $this->source = $source;
     return $this;
   }
@@ -413,7 +241,7 @@ class ImagemagickExecArguments {
    *   The source path of the image file, or an empty string if the source is
    *   not set.
    */
-  public function getSource() {
+  public function getSource(): string {
     return $this->source;
   }
 
@@ -425,7 +253,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setSourceLocalPath($path) {
+  public function setSourceLocalPath(string $path): ImagemagickExecArguments {
     $this->sourceLocalPath = $path;
     return $this;
   }
@@ -436,7 +264,7 @@ class ImagemagickExecArguments {
    * @return string
    *   A filesystem path.
    */
-  public function getSourceLocalPath() {
+  public function getSourceLocalPath(): string {
     return $this->sourceLocalPath;
   }
 
@@ -448,7 +276,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setSourceFormat($format) {
+  public function setSourceFormat(string $format): ImagemagickExecArguments {
     $this->sourceFormat = $this->execManager->getFormatMapper()->isFormatEnabled($format) ? $format : '';
     return $this;
   }
@@ -461,7 +289,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setSourceFormatFromExtension($extension) {
+  public function setSourceFormatFromExtension(string $extension): ImagemagickExecArguments {
     $this->sourceFormat = $this->execManager->getFormatMapper()->getFormatFromExtension($extension) ?: '';
     return $this;
   }
@@ -472,7 +300,7 @@ class ImagemagickExecArguments {
    * @return string
    *   The source image format.
    */
-  public function getSourceFormat() {
+  public function getSourceFormat(): string {
     return $this->sourceFormat;
   }
 
@@ -486,7 +314,7 @@ class ImagemagickExecArguments {
    *
    * @see http://www.imagemagick.org/script/command-line-processing.php
    */
-  public function setSourceFrames($frames) {
+  public function setSourceFrames(string $frames): ImagemagickExecArguments {
     $this->sourceFrames = $frames;
     return $this;
   }
@@ -494,7 +322,7 @@ class ImagemagickExecArguments {
   /**
    * Gets the source image frames to access.
    *
-   * @return string
+   * @return string|null
    *   The frames in '[n]' string format.
    *
    * @see http://www.imagemagick.org/script/command-line-processing.php
@@ -511,7 +339,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setDestination($destination) {
+  public function setDestination(string $destination): ImagemagickExecArguments {
     $this->destination = $destination;
     return $this;
   }
@@ -522,7 +350,7 @@ class ImagemagickExecArguments {
    * @return string
    *   The image destination URI/path.
    */
-  public function getDestination() {
+  public function getDestination(): string {
     return $this->destination;
   }
 
@@ -534,7 +362,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setDestinationLocalPath($path) {
+  public function setDestinationLocalPath(string $path): ImagemagickExecArguments {
     $this->destinationLocalPath = $path;
     return $this;
   }
@@ -545,7 +373,7 @@ class ImagemagickExecArguments {
    * @return string
    *   A filesystem path.
    */
-  public function getDestinationLocalPath() {
+  public function getDestinationLocalPath(): string {
     return $this->destinationLocalPath;
   }
 
@@ -561,7 +389,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setDestinationFormat($format) {
+  public function setDestinationFormat(string $format): ImagemagickExecArguments {
     $this->destinationFormat = $format;
     return $this;
   }
@@ -578,7 +406,7 @@ class ImagemagickExecArguments {
    *
    * @return $this
    */
-  public function setDestinationFormatFromExtension($extension) {
+  public function setDestinationFormatFromExtension(string $extension): ImagemagickExecArguments {
     $this->destinationFormat = $this->execManager->getFormatMapper()->getFormatFromExtension($extension) ?: '';
     return $this;
   }
@@ -593,28 +421,8 @@ class ImagemagickExecArguments {
    * @return string
    *   The image destination format.
    */
-  public function getDestinationFormat() {
+  public function getDestinationFormat(): string {
     return $this->destinationFormat;
-  }
-
-  /**
-   * Escapes a string.
-   *
-   * @param string $arg
-   *   The string to escape.
-   *
-   * @return string
-   *   An escaped string for use in the
-   *   ImagemagickExecManagerInterface::execute method.
-   *
-   * @deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::escape()
-   *   instead.
-   *
-   * @see https://www.drupal.org/project/imagemagick/issues/2936680
-   */
-  public function escapeShellArg($arg) {
-    @trigger_error('escapeShellArg() is deprecated in 8.x-2.3, will be removed in 8.x-3.0. Use ::escape() instead. See https://www.drupal.org/project/imagemagick/issues/2936680.', E_USER_DEPRECATED);
-    return $this->escape($arg);
   }
 
   /**
@@ -627,7 +435,7 @@ class ImagemagickExecArguments {
    *   An escaped string for use in the
    *   ImagemagickExecManagerInterface::execute method.
    */
-  public function escape($argument) {
+  public function escape(string $argument): string {
     return $this->execManager->escapeShellArg($argument);
   }
 

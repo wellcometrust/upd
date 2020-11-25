@@ -14,12 +14,14 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\user\RoleStorageInterface;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Provides settings for eu_cookie_compliance module.
  */
 class EuCookieComplianceConfigForm extends ConfigFormBase {
 
+  use StringTranslationTrait;
   /**
    * The path validator.
    *
@@ -119,7 +121,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
 
     $default_filter_format = filter_default_format();
     $full_html_format = FilterFormat::load('full_html');
-    if ($default_filter_format == 'restricted_html' && !empty($full_html_format) && $full_html_format->get('status')) {
+    if (($default_filter_format === 'restricted_html' || $default_filter_format === 'plain_text') && !empty($full_html_format) && $full_html_format->get('status')) {
       $default_filter_format = 'full_html';
     }
 
@@ -133,6 +135,8 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       $plugin_definition_name = $plugin_definition['name'];
       $consent_storage_options[$plugin_name] = $plugin_definition_name->render();
     }
+
+    $token_support = \Drupal::service('module_handler')->moduleExists('token');
 
     $form['popup_enabled'] = [
       '#type' => 'checkbox',
@@ -209,12 +213,10 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
         ],
       ],
     ];
-    $form['consent_per_category']['cookie_categories'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Cookie categories with separate consent'),
-      '#description' => $this->t('List of cookie categories that require separate consent. E.g. Functional cookies, Advertisement cookies, …') .
-      '<br />' . $this->t('Enter one value per line, in the following format: "key|label" or "key|label|description". Description is optional.'),
-      '#default_value' => $config->get('cookie_categories'),
+
+    $form['consent_per_category']['info'] = [
+      '#type' => 'markup',
+      '#markup' => $this->t("Cookie categories are managed in the Categories tab (found at the top of this page)."),
     ];
 
     $form['consent_per_category']['enable_save_preferences_button'] = [
@@ -251,21 +253,9 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       ],
     ];
 
-    $form['consent_per_category']['fix_first_cookie_category'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Tick the first checkbox and mark it read only.'),
-      '#default_value' => $config->get('fix_first_cookie_category'),
-    ];
-
-    $form['consent_per_category']['select_all_categories_by_default'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Tick all category checkboxes by default.'),
-      '#default_value' => $config->get('select_all_categories_by_default'),
-    ];
-
     $form['popup_info_template'] = [
       '#type' => 'details',
-      '#title' => 'Select the popup info template for \'default by consent\' option',
+      '#title' => $this->t("Select the popup info template for 'default by consent' option"),
       '#open' => TRUE,
       '#states' => [
         'visible' => [
@@ -278,9 +268,9 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#type' => 'radios',
       '#title' => $this->t('Info banner template'),
       '#options' => [
-        'legacy' => t('Cookie policy button in popup-buttons section and styled similarly to the Agree button,
+        'legacy' => $this->t('Cookie policy button in popup-buttons section and styled similarly to the Agree button,
         as in earlier versions of this module'),
-        'new' => t('Cookie policy button in popup-text section, styled differently than Agree button.'),
+        'new' => $this->t('Cookie policy button in popup-text section, styled differently than Agree button.'),
       ],
       '#default_value' => $config->get('popup_info_template'),
     ];
@@ -315,12 +305,20 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       ],
     ];
 
-    $form['cookies']['whitelisted_cookies'] = [
+    $form['cookies']['automatic_cookies_removal'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t("Enable cookie(s) automatic-removal when consent isn't given."),
+      '#default_value' => !empty($config->get('automatic_cookies_removal')) ? $config->get('automatic_cookies_removal') : FALSE,
+    ];
+
+    $form['cookies']['allowed_cookies'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Whitelisted cookies'),
-      '#default_value' => $config->get('whitelisted_cookies'),
-      '#description' => $this->t("Include the name of cookies, each on a separate line. When using the opt-in or opt-out consent options, this module will <strong>delete cookies from your domain that are not on the whitelist</strong> every few seconds when consent isn't given. PHP session cookies and the cookie for this module are always whitelisted.") .
-      '<br /><br />' . t('When using the consent method "Opt-in with categories", you can link the cookie to a specific consent category by using the format: "category:cookie_name".  Only when consent is given for the given category, will the cookie be whitelisted.'),
+      '#title' => $this->t('Allowed cookies'),
+      '#default_value' => $config->get('allowed_cookies'),
+      '#description' => $this->t("Include the name of cookies, each on a separate line. When using the opt-in or opt-out consent options, this module will <strong>delete cookies from your domain that are not allowed</strong> every few seconds when consent isn't given. PHP session cookies and the cookie for this module are always allowed.") .
+      '<br /><br />' . $this->t('When using the consent method "Opt-in with categories", you can link the cookie to a specific consent category by using the format: "category:cookie_name".  Only when consent is given for the given category, will the cookie be allowed.') .
+      '<br />' . $this->t('Cookie names can contain "*" characters which mean a series of any characters.'),
+      '#states' => ['visible' => ['input[name="automatic_cookies_removal"]' => ['checked' => TRUE]]],
     ];
 
     $form['consent_storage'] = [
@@ -379,6 +377,12 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#required' => TRUE,
       '#format' => $config_format,
     ];
+    if ($token_support) {
+      $form['popup_message']['tokens'] = [
+        '#theme' => 'token_tree_link',
+        '#token_types' => [],
+      ];
+    }
 
     $form['popup_message']['use_mobile_message'] = [
       '#type' => 'checkbox',
@@ -406,6 +410,12 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#required' => FALSE,
       '#format' => $config_format,
     ];
+    if ($token_support) {
+      $form['popup_message']['container']['tokens'] = [
+        '#theme' => 'token_tree_link',
+        '#token_types' => [],
+      ];
+    }
 
     $form['popup_message']['mobile_breakpoint'] = [
       '#type' => 'number',
@@ -450,31 +460,24 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       ],
     ];
 
-    $form['popup_message']['disagree_button'] = [
+    $form['popup_message']['show_more_info'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Show "Cookie Policy" and "More info" buttons'),
       '#description' => $this->t('If this option is checked, the cookie policy button will be shown on the site. Disabling this option will hide both the "Cookie Policy" button on the information banner and the "More info" button on the "Thank you" banner.'),
-      '#default_value' => $config->get('show_disagree_button'),
-      '#states' => [
-        'visible' => [
-          "input[name='method']" => ['value' => 'default'],
-        ],
-      ],
+      '#default_value' => $config->get('show_more_info'),
     ];
 
-    $form['popup_message']['popup_disagree_button_message'] = [
+    $form['popup_message']['popup_more_info_button_message'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Cookie policy button label'),
-      '#default_value' => $config->get('popup_disagree_button_message'),
+      '#default_value' => $config->get('popup_more_info_button_message'),
       '#size' => 30,
       '#states' => [
         'visible' => [
-          ['input[name="disagree_button"]' => ['checked' => TRUE]],
-          ['input[name="method"]' => ['!value' => 'default']],
+          ['input[name="show_more_info"]' => ['checked' => TRUE]],
         ],
         'required' => [
-          ['input[name="disagree_button"]' => ['checked' => TRUE]],
-          ['input[name="method"]' => ['!value' => 'default']],
+          ['input[name="show_more_info"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -507,19 +510,28 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
 
     $form['withdraw_consent']['info'] = [
       '#type' => 'markup',
-      '#markup' => t('GDPR requires that withdrawing consent for handling personal information should be as easy as giving consent. This module offers a tab button that when clicked brings up a message and a button that can be used to withdraw consent.'),
+      '#markup' => $this->t('GDPR requires that withdrawing consent for handling personal information should be as easy as giving consent. This module offers a tab button that when clicked brings up a message and a button that can be used to withdraw consent.'),
     ];
 
     $form['withdraw_consent']['withdraw_enabled'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable floating privacy settings tab and withdraw consent banner'),
+      '#title' => $this->t('Enable floating privacy settings tab and withdraw consent banner'),
       '#default_value' => $config->get('withdraw_enabled'),
+    ];
+
+    $form['withdraw_consent']['settings_tab_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable floating privacy settings tab after withdrawing consent'),
+      '#default_value' => $config->get('settings_tab_enabled'),
     ];
 
     $form['withdraw_consent']['withdraw_button_on_info_popup'] = [
       '#type' => 'checkbox',
-      '#title' => t('Put the "Withdraw consent" button on the cookie information banner.'),
+      '#title' => $this->t('Put the "Withdraw consent" button on the cookie information banner.'),
       '#default_value' => $config->get('withdraw_button_on_info_popup'),
+      '#states' => [
+        'visible' => ["input[name='method']" => ['value' => 'categories']],
+      ],
     ];
 
     $config_format = $config->get('popup_info.format');
@@ -532,9 +544,9 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
 
     $form['withdraw_consent']['withdraw_message'] = [
       '#type' => 'text_format',
-      '#title' => t('Withdraw consent banner message'),
+      '#title' => $this->t('Withdraw consent banner message'),
       '#default_value' => isset($config->get('withdraw_message')['value']) ? $config->get('withdraw_message')['value'] : '',
-      '#description' => t('Text that will be displayed in the banner that appears when the privacy settings tab is clicked.'),
+      '#description' => $this->t('Text that will be displayed in the banner that appears when the privacy settings tab is clicked.'),
       '#format' => $config_format,
       '#states' => [
         'visible' => [
@@ -542,19 +554,25 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
         ],
       ],
     ];
+    if ($token_support) {
+      $form['withdraw_consent']['tokens'] = [
+        '#theme' => 'token_tree_link',
+        '#token_types' => [],
+      ];
+    }
 
     $form['withdraw_consent']['withdraw_tab_button_label'] = [
       '#type' => 'textfield',
-      '#title' => t('Privacy settings tab label'),
+      '#title' => $this->t('Privacy settings tab label'),
       '#default_value' => $config->get('withdraw_tab_button_label'),
-      '#description' => t('Tab button that reveals/hides the withdraw message and action button when clicked.'),
+      '#description' => $this->t('Tab button that reveals/hides the withdraw message and action button when clicked.'),
     ];
 
     $form['withdraw_consent']['withdraw_action_button_label'] = [
       '#type' => 'textfield',
-      '#title' => t('Withdraw consent button label'),
+      '#title' => $this->t('Withdraw consent button label'),
       '#default_value' => $config->get('withdraw_action_button_label'),
-      '#description' => t('This button will withdraw consent when clicked.'),
+      '#description' => $this->t('This button will withdraw consent when clicked.'),
     ];
 
     $form['thank_you'] = [
@@ -588,9 +606,14 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#type' => 'text_format',
       '#title' => $this->t('"Thank you" banner message'),
       '#default_value' => !empty($config->get('popup_agreed')['value']) ? $config->get('popup_agreed')['value'] : '',
-      '#required' => TRUE,
       '#format' => $config_format,
     ];
+    if ($token_support) {
+      $form['thank_you']['tokens'] = [
+        '#theme' => 'token_tree_link',
+        '#token_types' => [],
+      ];
+    }
 
     $form['thank_you']['popup_find_more_button_message'] = [
       '#type' => 'textfield',
@@ -599,11 +622,11 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#size' => 30,
       '#states' => [
         'visible' => [
-          ['input[name="disagree_button"]' => ['checked' => TRUE]],
+          ['input[name="show_more_info"]' => ['checked' => TRUE]],
           ['input[name="method"]' => ['!value' => 'default']],
         ],
         'required' => [
-          ['input[name="disagree_button"]' => ['checked' => TRUE]],
+          ['input[name="show_more_info"]' => ['checked' => TRUE]],
           ['input[name="method"]' => ['!value' => 'default']],
         ],
       ],
@@ -614,7 +637,6 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#title' => $this->t('Hide button label'),
       '#default_value' => $config->get('popup_hide_button_message'),
       '#size' => 30,
-      '#required' => TRUE,
     ];
 
     $form['privacy'] = [
@@ -639,6 +661,22 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('popup_link_new_window'),
     ];
 
+    $form['version_set'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Privacy Policy Version'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    ];
+
+    $form['version_set']['cookie_policy_version'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Cookie Policy Version'),
+      '#title_display' => 'invisible',
+      '#description' => $this->t('Change this value to make the cookie information banner reappear for all visitors. A typical usage of this field is to increase the value when the privacy policy has been changed.'),
+      '#default_value' => $config->get('cookie_policy_version') ?: '1.0.0',
+      '#required' => TRUE,
+    ];
+
     $form['appearance'] = [
       '#type' => 'details',
       '#open' => TRUE,
@@ -649,11 +687,27 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
 
     if ($this->moduleHandler->moduleExists('jquery_colorpicker')) {
       $form_color_picker_type = 'jquery_colorpicker';
+      $jquery_colorpicker_version = _eu_cookie_compliance_get_jquery_colorpicker_version();
+      $bg_color = ($jquery_colorpicker_version === 2) ? '#' . $config->get('popup_bg_hex') : $config->get('popup_bg_hex');
+      $text_color = ($jquery_colorpicker_version === 2) ? '#' . $config->get('popup_text_hex') : $config->get('popup_text_hex');
+    }
+    else {
+      $bg_color = $config->get('popup_bg_hex');
+      $text_color = $config->get('popup_text_hex');
     }
 
+    $form['appearance']['containing_element'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Containing element'),
+      '#default_value' => !empty($config->get('containing_element')) ? $config->get('containing_element') : 'body',
+      '#maxlength' => 255,
+      '#required' => TRUE,
+      '#description' => $this->t('Serves as the parent element to append cookie banner html to.'),
+    ];
+
     $popup_position_options = [
-      'bottom' => 'Bottom',
-      'top' => 'Top',
+      'bottom' => $this->t('Bottom'),
+      'top' => $this->t('Top'),
     ];
 
     $popup_position_value = ($config->get('popup_position') === TRUE ? 'top' : ($config->get('popup_position') === FALSE ? 'bottom' : $config->get('popup_position')));
@@ -675,7 +729,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
     $form['appearance']['popup_text_hex'] = [
       '#type' => $form_color_picker_type,
       '#title' => $this->t('Text color'),
-      '#default_value' => $config->get('popup_text_hex'),
+      '#default_value' => $text_color,
       '#description' => $this->t('Change the text color of the banner. Provide HEX value without the #.'),
       '#element_validate' => ['eu_cookie_compliance_validate_hex'],
       '#states' => [
@@ -688,7 +742,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
     $form['appearance']['popup_bg_hex'] = [
       '#type' => $form_color_picker_type,
       '#title' => $this->t('Background color'),
-      '#default_value' => $config->get('popup_bg_hex'),
+      '#default_value' => $bg_color,
       '#description' => $this->t('Change the background color of the banner. Provide HEX value without the #.'),
       '#element_validate' => ['eu_cookie_compliance_validate_hex'],
       '#states' => [
@@ -731,7 +785,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
     $form['eu_only'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('EU countries'),
+      '#title' => $this->t('EU countries'),
     ];
 
     if ($this->moduleHandler->moduleExists('smart_ip') || $this->moduleHandler->moduleExists('geoip') || extension_loaded('geoip')) {
@@ -750,7 +804,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
     }
     else {
       $form['eu_only']['info'] = [
-        '#markup' => t('You can choose to show the banner only to visitors from EU countries. In order to achieve this, you need to install the <a href="http://drupal.org/project/smart_ip">smart_ip</a> module or install the <a href="http://drupal.org/project/geoip">geoip</a> module or enable the <a href="http://www.php.net/manual/en/function.geoip-country-code-by-name.php">geoip_country_code_by_name()</a> PHP function.'),
+        '#markup' => $this->t('You can choose to show the banner only to visitors from EU countries. In order to achieve this, you need to install the <a href="http://drupal.org/project/smart_ip">smart_ip</a> module or install the <a href="http://drupal.org/project/geoip">geoip</a> module or enable the <a href="http://www.php.net/manual/en/function.geoip-country-code-by-name.php">geoip_country_code_by_name()</a> PHP function.'),
       ];
     }
 
@@ -788,6 +842,40 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Reload page after user clicks the "Agree" button.'),
       '#default_value' => !empty($config->get('reload_page')) ? $config->get('reload_page') : 0,
+    ];
+
+    // Adding option to include/exclude routes to reload.
+    $reload_options = [
+      0 => $this->t('Include'),
+      1 => $this->t('Exclude'),
+    ];
+
+    $form['advanced']['reload_options'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Include/exclude specified routes for reloading'),
+      '#default_value' => $config->get('reload_options'),
+      '#options' => $reload_options,
+      '#description' => $this->t('Specify if you want to include or exclude the listed below routes for reloading the page after agreeing cookies.'),
+      '#states' => [
+        'visible' => [
+          ['input[name="reload_page"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['advanced']['reload_routes_list'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Routes list'),
+      '#default_value' => $config->get('reload_routes_list'),
+      '#description' => $this->t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. Leave blank for reloading all pages. Leave the list empty to reload on all pages. This field does not support url aliases.", [
+        '%blog' => '/blog',
+        '%blog-wildcard' => '/blog/*',
+      ]),
+      '#states' => [
+        'visible' => [
+          ['input[name="reload_page"]' => ['checked' => TRUE]],
+        ],
+      ],
     ];
 
     $form['advanced']['popup_scrolling_confirmation'] = [
@@ -881,6 +969,13 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       '#description' => $this->t("Sets the path of the cookie to '/' so that the cookie works across all sites on the domain."),
     ];
 
+    $form['advanced']['set_cookie_session_zero_on_disagree'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Set cookie lifetime to 0 if the user clicks the "Decline" or the "Withdraw consent" button.'),
+      '#description' => $this->t('Enable this if you want to show the consent banner at every new session until the user clicks the "Agree" button.'),
+      '#default_value' => $config->get('set_cookie_session_zero_on_disagree'),
+    ];
+
     $form['advanced']['cookie_lifetime'] = [
       '#type' => 'number',
       '#title' => $this->t('Cookie lifetime'),
@@ -907,6 +1002,20 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
+
+    if ($form_state->getValue('popup_agreed_enabled')) {
+      if (empty($form_state->getValue('popup_agreed'))) {
+        $form_state->setErrorByName('popup_agreed', $this->t('@name field is required', ['@name' => '"Thank you" banner message']));
+      }
+
+      if (empty($form_state->getValue('popup_find_more_button_message'))) {
+        $form_state->setErrorByName('popup_find_more_button_message', $this->t('@name field is required', ['@name' => 'More info button label']));
+      }
+
+      if (empty($form_state->getValue('popup_hide_button_message'))) {
+        $form_state->setErrorByName('popup_hide_button_message', $this->t('@name field is required', ['@name' => 'Hide button label']));
+      }
+    }
     // Set popup_info_template value to 'new' if method is not 'consent by
     // default'.
     if ($form_state->getValue('method') !== 'default') {
@@ -936,7 +1045,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       $form_state->setValue('use_mobile_message', FALSE);
     }
 
-    if ($form_state->getValue('popup_link') == '<front>' && $form_state->getValue('disagree_button')) {
+    if ($form_state->getValue('popup_link') === '<front>' && $form_state->getValue('show_more_info')) {
       $this->messenger()->addError($this->t('Your privacy policy link is pointing at the front page. This is the default value after installation, and unless your privacy policy is actually posted at the front page, you will need to create a separate page for the privacy policy and link to that page.'));
     }
 
@@ -956,25 +1065,25 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
     }
 
     // Handle legacy settings for popup_position:
-    if ($form_state->getValue('popup_position') == 'top') {
+    if ($form_state->getValue('popup_position') === 'top') {
       $form_state->setValue('popup_position', TRUE);
     }
-    elseif ($form_state->getValue('popup_position') == 'bottom') {
+    elseif ($form_state->getValue('popup_position') === 'bottom') {
       $form_state->setValue('popup_position', FALSE);
     }
 
     $method = $form_state->getValue('method');
 
-    if ($method != 'default') {
-      $form_state->setValue('disagree_button', TRUE);
+    if ($method !== 'default') {
       $form_state->setValue('popup_clicking_confirmation', FALSE);
       $form_state->setValue('popup_scrolling_confirmation', FALSE);
       $form_state->setValue('popup_info_template', 'new');
     }
     else {
-      $form_state->setValue('whitelisted_cookies', '');
+      $form_state->setValue('allowed_cookies', '');
       $form_state->setValue('disabled_javascripts', '');
       $form_state->setValue('withdraw_enabled', FALSE);
+      $form_state->setValue('settings_tab_enabled', FALSE);
     }
 
     // Clear cached javascript.
@@ -982,8 +1091,14 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
 
     eu_cookie_compliance_module_set_weight();
 
+    // Handle version 2 of jQuery colorpicker.
+    $jquery_colorpicker_version = _eu_cookie_compliance_get_jquery_colorpicker_version();
+    $bg_color = ($jquery_colorpicker_version === 2) ? substr($form_state->getValue('popup_bg_hex'), 1) : $form_state->getValue('popup_bg_hex');
+    $text_color = ($jquery_colorpicker_version === 2) ? substr($form_state->getValue('popup_text_hex'), 1) : $form_state->getValue('popup_text_hex');
+
     // Save settings.
     $this->config('eu_cookie_compliance.settings')
+      ->set('cookie_policy_version', $form_state->getValue('cookie_policy_version'))
       ->set('domain', $form_state->getValue('domain'))
       ->set('popup_enabled', $form_state->getValue('popup_enabled'))
       ->set('popup_clicking_confirmation', $form_state->getValue('popup_clicking_confirmation'))
@@ -1007,19 +1122,22 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       ->set('popup_height', $form_state->getValue('popup_height'))
       ->set('popup_width', $form_state->getValue('popup_width'))
       ->set('popup_delay', $form_state->getValue('popup_delay'))
-      ->set('popup_bg_hex', $form_state->getValue('popup_bg_hex'))
-      ->set('popup_text_hex', $form_state->getValue('popup_text_hex'))
+      ->set('popup_bg_hex', $bg_color)
+      ->set('popup_text_hex', $text_color)
       ->set('domains_option', $form_state->getValue('domains_option'))
       ->set('domains_list', $form_state->getValue('domains_list'))
       ->set('exclude_paths', $form_state->getValue('exclude_paths'))
       ->set('exclude_admin_theme', $form_state->getValue('exclude_admin_theme'))
       ->set('cookie_lifetime', $form_state->getValue('cookie_lifetime'))
       ->set('cookie_session', $form_state->getValue('cookie_session'))
+      ->set('set_cookie_session_zero_on_disagree', $form_state->getValue('set_cookie_session_zero_on_disagree'))
       ->set('eu_only', $form_state->getValue('eu_only'))
       ->set('eu_only_js', $form_state->getValue('eu_only_js'))
       ->set('use_bare_css', $form_state->getValue('use_bare_css'))
       ->set('disagree_do_not_show_popup', $form_state->getValue('disagree_do_not_show_popup'))
       ->set('reload_page', $form_state->getValue('reload_page'))
+      ->set('reload_options', $form_state->getValue('reload_options'))
+      ->set('reload_routes_list', $form_state->getValue('reload_routes_list'))
       ->set('domain_all_sites', $form_state->getValue('domain_all_sites'))
       ->set('cookie_name', $form_state->getValue('cookie_name'))
       ->set('exclude_uid_1', $form_state->getValue('exclude_uid_1'))
@@ -1027,7 +1145,8 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       ->set('fixed_top_position', $form_state->getValue('fixed_top_position'))
       ->set('method', $form_state->getValue('method'))
       ->set('disagree_button_label', $form_state->getValue('disagree_button_label'))
-      ->set('whitelisted_cookies', $form_state->getValue('whitelisted_cookies'))
+      ->set('automatic_cookies_removal', $form_state->getValue('automatic_cookies_removal'))
+      ->set('allowed_cookies', $form_state->getValue('allowed_cookies'))
       ->set('disabled_javascripts', $form_state->getValue('disabled_javascripts'))
       ->set('consent_storage_method', $form_state->getValue('consent_storage_method'))
       ->set('withdraw_message', $form_state->getValue('withdraw_message'))
@@ -1035,12 +1154,11 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
       ->set('withdraw_tab_button_label', $form_state->getValue('withdraw_tab_button_label'))
       ->set('withdraw_enabled', $form_state->getValue('withdraw_enabled'))
       ->set('withdraw_button_on_info_popup', $form_state->getValue('withdraw_button_on_info_popup'))
-      ->set('cookie_categories', $form_state->getValue('cookie_categories'))
       ->set('enable_save_preferences_button', $form_state->getValue('enable_save_preferences_button'))
       ->set('save_preferences_button_label', $form_state->getValue('save_preferences_button_label'))
       ->set('accept_all_categories_button_label', $form_state->getValue('accept_all_categories_button_label'))
-      ->set('fix_first_cookie_category', $form_state->getValue('fix_first_cookie_category'))
-      ->set('select_all_categories_by_default', $form_state->getValue('select_all_categories_by_default'))
+      ->set('containing_element', $form_state->getValue('containing_element'))
+      ->set('settings_tab_enabled', $form_state->getValue('settings_tab_enabled'))
       ->save();
 
     parent::submitForm($form, $form_state);

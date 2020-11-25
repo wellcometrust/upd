@@ -8,6 +8,26 @@ namespace Drupal\imagemagick;
 interface ImagemagickExecManagerInterface {
 
   /**
+   * Returns the format mapper.
+   *
+   * @return \Drupal\imagemagick\ImagemagickFormatMapperInterface
+   *   The format mapper service.
+   */
+  public function getFormatMapper(): ImagemagickFormatMapperInterface;
+
+  /**
+   * Sets the execution timeout (max. runtime).
+   *
+   * To disable the timeout, set this value to null.
+   *
+   * @param int|null $timeout
+   *   The timeout in seconds.
+   *
+   * @return $this
+   */
+  public function setTimeout(int $timeout): ImagemagickExecManagerInterface;
+
+  /**
    * Gets the binaries package in use.
    *
    * @param string $package
@@ -17,7 +37,7 @@ interface ImagemagickExecManagerInterface {
    *   The default package ('imagemagick'|'graphicsmagick'), or the $package
    *   argument.
    */
-  public function getPackage($package = NULL);
+  public function getPackage(string $package = NULL): string;
 
   /**
    * Gets a translated label of the binaries package in use.
@@ -29,7 +49,7 @@ interface ImagemagickExecManagerInterface {
    *   A translated label of the binaries package in use, or the $package
    *   argument.
    */
-  public function getPackageLabel($package = NULL);
+  public function getPackageLabel(string $package = NULL): string;
 
   /**
    * Verifies file path of the executable binary by checking its version.
@@ -45,7 +65,7 @@ interface ImagemagickExecManagerInterface {
    *   - errors: A list of error messages indicating if the executable could
    *     not be found or executed.
    */
-  public function checkPath($path, $package = NULL);
+  public function checkPath(string $path, string $package = NULL): array;
 
   /**
    * Executes the convert executable as shell command.
@@ -67,7 +87,7 @@ interface ImagemagickExecManagerInterface {
    *   TRUE if the command succeeded, FALSE otherwise. The error exit status
    *   code integer returned by the executable is logged.
    */
-  public function execute($command, ImagemagickExecArguments $arguments, &$output = NULL, &$error = NULL, $path = NULL);
+  public function execute(string $command, ImagemagickExecArguments $arguments, string &$output = NULL, string &$error = NULL, string $path = NULL): bool;
 
   /**
    * Executes a command on the operating system.
@@ -92,6 +112,6 @@ interface ImagemagickExecManagerInterface {
    *   The operating system returned code, or FALSE if it was not possible to
    *   execute the command.
    */
-  public function runOsShell($command, $arguments, $id, &$output = NULL, &$error = NULL);
+  public function runOsShell(string $command, string $arguments, string $id, string &$output = NULL, string &$error = NULL): int;
 
 }

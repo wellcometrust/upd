@@ -127,6 +127,9 @@ eu_cookie_compliance.settings:
     cookie_session:
       type: integer
       label: 'Cookie session'
+    set_cookie_session_zero_on_disagree:
+      type: integer
+      label: 'Disagree set cookie session'
     cookie_lifetime:
       type: integer
       label: 'Cookie lifetime'
@@ -142,6 +145,12 @@ eu_cookie_compliance.settings:
     reload_page:
       type: boolean
       label: 'Reload page after user clicks the "Agree" button.'
+    reload_options:
+      type: integer
+      label: 'Include/exclude specified routes for reloading'
+    reload_routes_list:
+      type: string
+      label: 'Routes list'
     cookie_name:
       type: string
       label: 'Cookie name'
@@ -157,9 +166,12 @@ eu_cookie_compliance.settings:
     disabled_javascripts:
       type: string
       label: 'Disable JavaScripts'
-    whitelisted_cookies:
+    automatic_cookies_removal:
+      type: boolean
+      label: 'Enable cookie(s) automatic-removal when consent is not explicitly given'
+    allowed_cookies:
       type: string
-      label: 'Whitelisted cookies'
+      label: 'Allowed cookies'
     consent_storage_method:
       type: string
       label: 'Consent storage method'
@@ -185,9 +197,6 @@ eu_cookie_compliance.settings:
     withdraw_button_on_info_popup:
       type: boolean
       label: 'Put the withdraw consent action button on the cookie information banner'
-    cookie_categories:
-      type: text
-      label: 'List of cookie categories with separate consent'
     save_preferences_button_label:
       type: label
       label: 'Save preferences action button label'
@@ -197,12 +206,15 @@ eu_cookie_compliance.settings:
     enable_save_preferences_button:
       type: boolean
       label: 'Replace the Agree button by a Save preferences and an Accept all categories button'
-    select_all_categories_by_default:
-      type: boolean
-      label: 'Check all checkboxes by default'
-    fix_first_cookie_category:
-      type: boolean
-      label: 'Check the first checkbox and mark it read only'
     domain_all_sites:
       type: boolean
       label: 'Allow the cookie to be set for all sites on the same domain'
+    settings_tab_enabled:
+      type: boolean
+      label: 'Enable floating privacy settings permanently'
+    containing_element:
+      type: string
+      label: 'Containing element'
+    cookie_policy_version:
+      type: string
+      label: 'Cookie Policy Version'

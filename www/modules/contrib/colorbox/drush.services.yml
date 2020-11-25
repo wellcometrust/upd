@@ -1,0 +1,5 @@
+services:
+  colorbox.commands:
+    class: \Drupal\colorbox\Commands\ColorboxCommands
+    tags:
+      - { name: drush.command }

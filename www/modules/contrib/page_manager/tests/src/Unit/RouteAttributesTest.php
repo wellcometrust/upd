@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\page_manager\Unit\RouteAttributesTest.
- */
-
 namespace Drupal\Tests\page_manager\Unit;
 
 use Drupal\page_manager\Routing\RouteAttributes;

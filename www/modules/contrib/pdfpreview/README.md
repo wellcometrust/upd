@@ -11,7 +11,7 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 
-The PDF Preview module shows a preview of PDF files uploaded through File Field.
+The PDFPreview module shows a preview of PDF files uploaded through File Field.
 
 This module provides a formatter which uses ImageMagick to extract the first
 page of a PDF file to a JPG or PNG image which is used to link to the file.

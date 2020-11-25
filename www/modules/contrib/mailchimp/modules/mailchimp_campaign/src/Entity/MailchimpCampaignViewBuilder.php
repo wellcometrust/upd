@@ -2,10 +2,16 @@
 
 namespace Drupal\mailchimp_campaign\Entity;
 
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityViewBuilder;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Link;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines the render controller for MailchimpCampaign entities.
@@ -13,6 +19,53 @@ use Drupal\Core\Url;
  * @ingroup mailchimp_campaign
  */
 class MailchimpCampaignViewBuilder extends EntityViewBuilder {
+
+  /**
+   * The date formatter service.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * Constructs a new MailchimpCampaignViewBuilder.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
+   *   The entity type definition.
+   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+   *   The entity manager service.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager.
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   *   The date formatter service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   */
+  public function __construct(EntityTypeInterface $entity_type, EntityManagerInterface $entity_manager, LanguageManagerInterface $language_manager, DateFormatterInterface $date_formatter, MessengerInterface $messenger) {
+    parent::__construct($entity_type, $entity_manager, $language_manager);
+    $this->dateFormatter = $date_formatter;
+    $this->messenger = $messenger;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
+    return new static(
+      $entity_type,
+      $container->get('entity.manager'),
+      $container->get('language_manager'),
+      $container->get('date.formatter'),
+      $container->get('messenger')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -32,7 +85,7 @@ class MailchimpCampaignViewBuilder extends EntityViewBuilder {
     }
 
     if (!$entity->isInitialized()) {
-      drupal_set_message('The campaign could not be found.', 'error');
+      $this->messenger->addError($this->t('The campaign could not be found.'));
       return $build;
     }
 
@@ -57,58 +110,58 @@ class MailchimpCampaignViewBuilder extends EntityViewBuilder {
     $send_time = 'N/A';
 
     if (isset($entity->mc_data->send_time) && $entity->mc_data->send_time) {
-      $send_time = \Drupal::service('date.formatter')
+      $send_time = $this->dateFormatter
         ->format(strtotime($entity->mc_data->send_time), 'custom', 'F j, Y - g:ia');
     }
 
     $fields = array(
       'title' => array(
-        'label' => t('Title'),
+        'label' => $this->t('Title'),
         'value' => $entity->mc_data->settings->title,
       ),
 
       'subject' => array(
-        'label' => t('Subject'),
+        'label' => $this->t('Subject'),
         'value' => $entity->mc_data->settings->subject_line,
       ),
       'list' => array(
-        'label' => t('Mailchimp List'),
+        'label' => $this->t('Mailchimp Audience'),
         'value' => Link::fromTextAndUrl($entity->list->name, $list_url)->toString(),
       ),
       'list_segment' => array(
-        'label' => t('List Segment'),
+        'label' => $this->t('Audience Tags'),
         'value' => $list_segment_name,
       ),
       'from_email' => array(
-        'label' => t('From Email'),
+        'label' => $this->t('From Email'),
         'value' => $entity->mc_data->settings->reply_to,
       ),
       'from_name' => array(
-        'label' => t('From Name'),
+        'label' => $this->t('From Name'),
         'value' => $entity->mc_data->settings->from_name,
       ),
       'template' => array(
-        'label' => t('Template'),
+        'label' => $this->t('Template'),
         'value' => $mc_template_name,
       ),
       'type' => array(
-        'label' => t('List type'),
+        'label' => $this->t('Audience type'),
         'value' => $entity->mc_data->type,
       ),
       'status' => array(
-        'label' => t('Status'),
+        'label' => $this->t('Status'),
         'value' => $entity->mc_data->status,
       ),
       'emails_sent' => array(
-        'label' => t('Emails sent'),
+        'label' => $this->t('Emails sent'),
         'value' => $entity->mc_data->emails_sent,
       ),
       'send_time' => array(
-        'label' => t('Send time'),
+        'label' => $this->t('Send time'),
         'value' => $send_time,
       ),
       'content' => array(
-        'label' => t('Rendered template HTML (@archive)',
+        'label' => $this->t('Rendered template HTML (@archive)',
           array(
             '@archive' => Link::fromTextAndUrl('View Mailchimp archive', $archive_url)->toString(),
             )

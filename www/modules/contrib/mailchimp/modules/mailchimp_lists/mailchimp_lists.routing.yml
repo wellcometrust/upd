@@ -2,7 +2,7 @@ mailchimp_lists.overview:
   path: 'admin/config/services/mailchimp/lists'
   defaults:
     _controller: '\Drupal\mailchimp_lists\Controller\MailchimpListsController::overview'
-    _title: 'Mailchimp Lists'
+    _title: 'Mailchimp Audiences'
   requirements:
     _permission: 'administer mailchimp'
     _mailchimp_configuration_access_check: 'TRUE'
@@ -11,7 +11,7 @@ mailchimp_lists.refresh:
   path: 'admin/config/services/mailchimp/list_cache_clear'
   defaults:
     _form: '\Drupal\mailchimp_lists\Form\MailchimpListsClearCacheForm'
-    _title: 'Reset Mailchimp List Cache'
+    _title: 'Reset Mailchimp Audience Cache'
   requirements:
     _permission: 'administer mailchimp'
 
@@ -27,7 +27,7 @@ mailchimp_lists.webhook:
   path: 'admin/config/services/mailchimp/lists/{list_id}/webhook'
   defaults:
     _form: '\Drupal\mailchimp_lists\Form\MailchimpListsWebhookSettingsForm'
-    _title: 'Mailchimp List Webhook Settings'
+    _title: 'Mailchimp Audience Webhook Settings'
   requirements:
     _permission: 'administer mailchimp'
 

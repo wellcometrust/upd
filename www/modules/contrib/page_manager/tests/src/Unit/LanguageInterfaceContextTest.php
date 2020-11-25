@@ -41,7 +41,7 @@ class LanguageInterfaceContextTest extends PageContextTestBase {
       ->getMock();
     $this->contextRepository->expects($this->once())
       ->method('getRunTimeContexts')
-      ->willReturn(array('@language.current_language_context:language_interface' => $context));
+      ->willReturn(['@language.current_language_context:language_interface' => $context]);
   }
 
   /**

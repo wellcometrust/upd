@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\page_manager\Kernel\PageVariantPageEntityTest.
- */
-
 namespace Drupal\Tests\page_manager\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;

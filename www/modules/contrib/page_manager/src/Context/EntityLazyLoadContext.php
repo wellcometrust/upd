@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\Context\EntityLazyLoadContext.
- */
-
 namespace Drupal\page_manager\Context;
 
 use Drupal\Core\Entity\EntityRepositoryInterface;

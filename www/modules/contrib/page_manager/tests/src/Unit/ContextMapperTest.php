@@ -1,19 +1,14 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\page_manager\Unit\ContextMapperTest.
- */
-
 namespace Drupal\Tests\page_manager\Unit;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Plugin\Context\Context;
-use Drupal\Core\Plugin\Context\ContextDefinition;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\Plugin\DataType\IntegerData;
 use Drupal\Core\TypedData\TypedDataManager;
+use Drupal\page_manager\Context\ContextDefinitionFactory;
 use Drupal\page_manager\Context\EntityLazyLoadContext;
 use Drupal\page_manager\ContextMapper;
 use Drupal\Tests\UnitTestCase;
@@ -83,7 +78,7 @@ class ContextMapperTest extends UnitTestCase {
         'value' => 5,
       ],
     ];
-    $expected = new Context(new ContextDefinition('integer', 'Foo'), 5);
+    $expected = new Context(ContextDefinitionFactory::create('integer')->setLabel('Foo'), 5);
     $actual = $this->staticContext->getContextValues($input)['foo'];
     $this->assertEquals($expected, $actual);
   }
@@ -99,7 +94,7 @@ class ContextMapperTest extends UnitTestCase {
         'value' => 'the_node_uuid',
       ],
     ];
-    $expected = new EntityLazyLoadContext(new ContextDefinition('entity:node', 'Foo'), $this->entityRepository->reveal(), 'the_node_uuid');
+    $expected = new EntityLazyLoadContext(ContextDefinitionFactory::create('entity:node')->setLabel('Foo'), $this->entityRepository->reveal(), 'the_node_uuid');
     $actual = $this->staticContext->getContextValues($input)['foo'];
     $this->assertEquals($expected, $actual);
   }

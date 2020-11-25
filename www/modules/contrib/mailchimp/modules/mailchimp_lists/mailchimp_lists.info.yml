@@ -1,6 +1,6 @@
-name: Mailchimp Lists
+name: Mailchimp Audiences
 type: module
-description: Manage and integrate Mailchimp lists.
+description: Manage and integrate Mailchimp audiences.
 package: Mailchimp
 core: 8.x
 configure: mailchimp_lists.overview

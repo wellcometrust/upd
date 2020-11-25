@@ -1,14 +1,8 @@
 <?php
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\AccessDelete.
- */
 
 namespace Drupal\page_manager_ui\Form;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\ctools\Form\ConditionDelete;
-use Drupal\page_manager\PageInterface;
 
 class AccessDelete extends ConditionDelete {
 
@@ -20,10 +14,12 @@ class AccessDelete extends ConditionDelete {
     $page = $cached_values['page'];
 
     $route_name = $page->isNew() ? 'entity.page.add_step_form' : 'entity.page.edit_form';
-    return [$route_name, [
+    return [$route_name,
+      [
       'machine_name' => $this->machine_name,
       'step' => 'access',
-    ]];
+      ],
+    ];
   }
 
   /**

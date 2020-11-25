@@ -12,7 +12,7 @@ include_once __DIR__ . "/../../../../lib/mailchimp-api-php/tests/src/MailchimpTe
 include_once __DIR__ . "/../../../../lib/mailchimp-api-php/tests/src/MailchimpLists.php";
 
 /**
- * Sets up Mailchimp Lists module tests.
+ * Sets up Mailchimp Lists/Audiences module tests.
  */
 abstract class MailchimpListsTestBase extends WebTestBase {
 

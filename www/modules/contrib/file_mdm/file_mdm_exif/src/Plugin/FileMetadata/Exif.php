@@ -4,6 +4,7 @@ namespace Drupal\file_mdm_exif\Plugin\FileMetadata;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
 use Drupal\file_mdm\Plugin\FileMetadata\FileMetadataPluginBase;
 use Drupal\file_mdm_exif\ExifTagMapperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -63,9 +64,11 @@ class Exif extends FileMetadataPluginBase {
    *   The MIME type mapping service.
    * @param \Drupal\file_mdm_exif\ExifTagMapperInterface $tag_mapper
    *   The EXIF tag mapping service.
+   * @param \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface $stream_wrapper_manager
+   *   The stream wrapper manager service.
    */
-  public function __construct(array $configuration, $plugin_id, array $plugin_definition, CacheBackendInterface $cache_service, ConfigFactoryInterface $config_factory, MimeTypeGuesserInterface $mime_type_guesser, ExifTagMapperInterface $tag_mapper) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $cache_service, $config_factory);
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition, CacheBackendInterface $cache_service, ConfigFactoryInterface $config_factory, MimeTypeGuesserInterface $mime_type_guesser, ExifTagMapperInterface $tag_mapper, StreamWrapperManagerInterface $stream_wrapper_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $cache_service, $config_factory, $stream_wrapper_manager);
     $this->mimeTypeGuesser = $mime_type_guesser;
     $this->tagMapper = $tag_mapper;
   }
@@ -81,7 +84,8 @@ class Exif extends FileMetadataPluginBase {
       $container->get('cache.file_mdm'),
       $container->get('config.factory'),
       $container->get('file.mime_type.guesser'),
-      $container->get('file_mdm_exif.tag_mapper')
+      $container->get('file_mdm_exif.tag_mapper'),
+      $container->get('stream_wrapper_manager')
     );
   }
 
@@ -328,7 +332,18 @@ class Exif extends FileMetadataPluginBase {
           unset($ifd[$tag]);
         }
         else {
-          $c->setValue($input_entry->getValue());
+          if ($this->getFile() instanceof PelJpeg) {
+            $c->setValue($input_entry->getValue());
+          }
+          else {
+            $v = $input_entry->getValue();
+            if (is_array($v)) {
+              $c->setValueArray($v);
+            }
+            else {
+              $c->setValue($v);
+            }
+          }
         }
       }
       else {
@@ -373,7 +388,12 @@ class Exif extends FileMetadataPluginBase {
       return TRUE;
     }
     elseif (isset($this->metadata[$ifd_tag['ifd']][$ifd_tag['tag']])) {
-      $this->metadata[$ifd_tag['ifd']][$ifd_tag['tag']]->setValue($value);
+      if (is_array($value)) {
+        $this->metadata[$ifd_tag['ifd']][$ifd_tag['tag']]->setValueArray($value);
+      }
+      else {
+        $this->metadata[$ifd_tag['ifd']][$ifd_tag['tag']]->setValue($value);
+      }
       return TRUE;
     }
     return FALSE;

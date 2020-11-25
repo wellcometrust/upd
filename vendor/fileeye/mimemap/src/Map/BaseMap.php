@@ -12,6 +12,43 @@ use FileEye\MimeMap\MappingException;
 abstract class BaseMap
 {
     /**
+     * Mapping between file extensions and MIME types.
+     *
+     * @var array
+     */
+    protected static $map = [];
+
+    /**
+     * A backup of the mapping between file extensions and MIME types.
+     *
+     * Used during the map update process.
+     *
+     * @var array
+     */
+    protected static $backupMap;
+
+    /**
+     * Backs up the map array.
+     *
+     * @return array
+     */
+    public function backup()
+    {
+        static::$backupMap = static::$map;
+    }
+
+    /**
+     * Resets the map array to the backup.
+     *
+     * @return array
+     */
+    public function reset()
+    {
+        static::$map = static::$backupMap;
+        static::$backupMap = null;
+    }
+
+    /**
      * Returns the singleton.
      *
      * @return string
@@ -73,8 +110,6 @@ abstract class BaseMap
      */
     protected function listEntries($entry, $match = null)
     {
-        $entry = strtolower($entry);
-
         if (!isset(static::$map[$entry])) {
             return [];
         }
@@ -104,8 +139,6 @@ abstract class BaseMap
      */
     protected function getMapEntry($entry, $entry_key)
     {
-        $entry = strtolower($entry);
-        $entry_key = strtolower($entry_key);
         return isset(static::$map[$entry][$entry_key]) ? static::$map[$entry][$entry_key] : null;
     }
 
@@ -124,9 +157,6 @@ abstract class BaseMap
      */
     protected function getMapSubEntry($entry, $entry_key, $sub_entry)
     {
-        $entry = strtolower($entry);
-        $entry_key = strtolower($entry_key);
-        $sub_entry = strtolower($sub_entry);
         return isset(static::$map[$entry][$entry_key][$sub_entry]) ? static::$map[$entry][$entry_key][$sub_entry] : null;
     }
 
@@ -148,9 +178,6 @@ abstract class BaseMap
      */
     protected function addMapSubEntry($entry, $entry_key, $sub_entry, $value)
     {
-        $entry = strtolower($entry);
-        $entry_key = strtolower($entry_key);
-        $sub_entry = strtolower($sub_entry);
         if (!isset(static::$map[$entry][$entry_key][$sub_entry])) {
             static::$map[$entry][$entry_key][$sub_entry] = [$value];
         } else {
@@ -178,10 +205,6 @@ abstract class BaseMap
      */
     protected function removeMapSubEntry($entry, $entry_key, $sub_entry, $value)
     {
-        $entry = strtolower($entry);
-        $entry_key = strtolower($entry_key);
-        $sub_entry = strtolower($sub_entry);
-
         // Return false if no entry.
         if (!isset(static::$map[$entry][$entry_key][$sub_entry])) {
             return false;
@@ -234,10 +257,6 @@ abstract class BaseMap
      */
     protected function setValueAsDefault($entry, $entry_key, $sub_entry, $value)
     {
-        $entry = strtolower($entry);
-        $entry_key = strtolower($entry_key);
-        $sub_entry = strtolower($sub_entry);
-
         // Throw exception if no entry.
         if (!isset(static::$map[$entry][$entry_key][$sub_entry])) {
             throw new MappingException("Cannot set '{$value}' as default for '{$entry_key}', '{$entry_key}' not defined");

@@ -1,15 +1,9 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\VariantPluginDeleteBlockForm.
- */
-
 namespace Drupal\page_manager_ui\Form;
 
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\page_manager\PageVariantInterface;
 
 /**
  * Provides a form for deleting an access condition.
@@ -17,6 +11,8 @@ use Drupal\page_manager\PageVariantInterface;
 class VariantPluginDeleteBlockForm extends ConfirmFormBase {
 
   /**
+   * The block variant.
+   *
    * @var \Drupal\ctools\Plugin\BlockVariantInterface
    */
   protected $plugin;
@@ -32,6 +28,7 @@ class VariantPluginDeleteBlockForm extends ConfirmFormBase {
    * Get the tempstore id.
    *
    * @return string
+   *   The temp store id.
    */
   protected function getTempstoreId() {
     return 'page_manager.block_display';
@@ -40,10 +37,11 @@ class VariantPluginDeleteBlockForm extends ConfirmFormBase {
   /**
    * Get the tempstore.
    *
-   * @return \Drupal\user\SharedTempStore
+   * @return \Drupal\Core\TempStore\SharedTempStore
+   *   The shared temp store.
    */
   protected function getTempstore() {
-    return \Drupal::service('user.shared_tempstore')->get($this->getTempstoreId());
+    return \Drupal::service('tempstore.shared')->get($this->getTempstoreId());
   }
 
   /**
@@ -82,7 +80,7 @@ class VariantPluginDeleteBlockForm extends ConfirmFormBase {
     $this->block = $this->plugin->getBlock($block_id);
     $form['block_display'] = [
       '#type' => 'value',
-      '#value' => $block_display
+      '#value' => $block_display,
     ];
     return parent::buildForm($form, $form_state);
   }
@@ -95,7 +93,7 @@ class VariantPluginDeleteBlockForm extends ConfirmFormBase {
     $cached_values = $this->getTempstore()->get($form_state->getValue('block_display'));
     $cached_values['plugin'] = $this->plugin;
     $this->getTempstore()->set($form_state->getValue('block_display'), $cached_values);
-    drupal_set_message($this->t('The block %label has been removed.', ['%label' => $this->block->label()]));
+    $this->messenger()->addMessage($this->t('The block %label has been removed.', ['%label' => $this->block->label()]));
   }
 
 }

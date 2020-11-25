@@ -1,11 +1,6 @@
 <?php
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\StaticContextConfigure.
- */
 
 namespace Drupal\page_manager_ui\Form;
-
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\Context\ContextInterface;
@@ -49,14 +44,16 @@ class StaticContextConfigure extends ContextConfigure {
       return ['entity.page.add_step_form', [
         'machine_name' => $this->machine_name,
         'step' => 'contexts',
-      ]];
+      ],
+      ];
     }
     else {
       $page_variant = $this->getPageVariant($cached_values);
       return ['entity.page.edit_form', [
         'machine_name' => $this->machine_name,
         'step' => 'page_variant__' . $page_variant->id() . '__contexts',
-      ]];
+      ],
+      ];
     }
   }
 

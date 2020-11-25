@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\ParameterEditForm.
- */
-
 namespace Drupal\page_manager_ui\Form;
 
 use Drupal\Core\Entity\EntityTypeRepositoryInterface;
@@ -12,8 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TypedData\PrimitiveInterface;
 use Drupal\Core\TypedData\TypedDataManagerInterface;
-use Drupal\page_manager\PageInterface;
-use Drupal\user\SharedTempStoreFactory;
+use Drupal\Core\TempStore\SharedTempStoreFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -50,11 +44,15 @@ class ParameterEditForm extends FormBase {
   protected $typedDataManager;
 
   /**
-   * @var \Drupal\user\SharedTempStoreFactory
+   * The shared temp store.
+   *
+   * @var \Drupal\Core\TempStore\SharedTempStoreFactory
    */
   protected $tempstore;
 
   /**
+   * The temp store id.
+   *
    * @var string
    */
   protected $tempstore_id;
@@ -73,7 +71,7 @@ class ParameterEditForm extends FormBase {
    *   The entity type repository.
    * @param \Drupal\Core\TypedData\TypedDataManagerInterface $typed_data_manager
    *   The typed data manager.
-   * @param \Drupal\user\SharedTempStoreFactory $tempstore
+   * @param \Drupal\Core\TempStore\SharedTempStoreFactory $tempstore
    *   The temporary store.
    */
   public function __construct(EntityTypeRepositoryInterface $entity_type_repository, TypedDataManagerInterface $typed_data_manager, SharedTempStoreFactory $tempstore) {
@@ -89,15 +87,27 @@ class ParameterEditForm extends FormBase {
     return new static(
       $container->get('entity_type.repository'),
       $container->get('typed_data_manager'),
-      $container->get('user.shared_tempstore')
+      $container->get('tempstore.shared')
     );
   }
 
+  /**
+   * Gets the temp store values.
+   *
+   * @return array
+   *   The temp store values.
+   */
   protected function getTempstore() {
     return $this->tempstore->get($this->tempstore_id)->get($this->machine_name);
   }
 
-  protected function setTempstore($cached_values) {
+  /**
+   * Sets cached values into temp store.
+   *
+   * @param array $cached_values
+   *   Cached values.
+   */
+  protected function setTempstore(array $cached_values) {
     $this->tempstore->get($this->tempstore_id)->set($this->machine_name, $cached_values);
   }
 
@@ -201,7 +211,7 @@ class ParameterEditForm extends FormBase {
     }
 
     $this->setTempstore($cache_values);
-    drupal_set_message($this->t('The %label parameter has been updated.', ['%label' => $label ?: $name]));
+    $this->messenger()->addMessage($this->t('The %label parameter has been updated.', ['%label' => $label ?: $name]));
     list($route_name, $route_parameters) = $this->getParentRouteInfo($cache_values);
     $form_state->setRedirect($route_name, $route_parameters);
   }
@@ -220,13 +230,15 @@ class ParameterEditForm extends FormBase {
       return ['entity.page.add_step_form', [
         'machine_name' => $this->machine_name,
         'step' => 'parameters',
-      ]];
+      ],
+      ];
     }
     else {
       return ['entity.page.edit_form', [
         'machine_name' => $this->machine_name,
         'step' => 'parameters',
-      ]];
+      ],
+      ];
     }
   }
 

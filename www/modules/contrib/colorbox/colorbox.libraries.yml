@@ -92,7 +92,7 @@ example4:
   dependencies:
     - colorbox/init
 
-example4:
+example5:
   version: VERSION
   css:
     theme:

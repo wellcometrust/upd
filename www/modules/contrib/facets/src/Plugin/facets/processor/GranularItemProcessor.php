@@ -47,7 +47,7 @@ class GranularItemProcessor extends ProcessorPluginBase implements BuildProcesso
       'include_lower' => TRUE,
       'include_upper' => FALSE,
       'include_edges' => TRUE,
-      ] + parent::defaultConfiguration();
+    ] + parent::defaultConfiguration();
   }
 
   /**

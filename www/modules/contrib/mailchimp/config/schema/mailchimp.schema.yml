@@ -29,3 +29,6 @@ mailchimp.settings:
     connected_paths:
       type: string
       label: 'The ID of the Mailchimp connected site linked to this site.'
+    webhook_hash:
+      type: string
+      lable: 'Hash to validate incoming webhooks'

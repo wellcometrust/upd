@@ -2,9 +2,18 @@
 
 namespace Drupal\Tests\facets\Unit\Plugin\widget;
 
+use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\facets\Entity\Facet;
 use Drupal\facets\Plugin\facets\widget\LinksWidget;
 use Drupal\facets\Result\Result;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\facets\FacetSource\FacetSourcePluginManager;
+use Drupal\facets\UrlProcessor\UrlProcessorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Drupal\Tests\Core\Routing\TestRouterInterface;
 
 /**
  * Unit test for widget.
@@ -32,7 +41,7 @@ class LinksWidgetTest extends WidgetTestBase {
     $this->widget->setConfiguration(['show_numbers' => TRUE]);
     $output = $this->widget->build($facet);
 
-    $this->assertInternalType('array', $output);
+    $this->assertSame('array', gettype($output));
     $this->assertCount(4, $output['#items']);
 
     $expected_links = [
@@ -42,9 +51,9 @@ class LinksWidgetTest extends WidgetTestBase {
       $this->buildLinkAssertion('Alpaca', 'alpaca', $facet, 9),
     ];
     foreach ($expected_links as $index => $value) {
-      $this->assertInternalType('array', $output['#items'][$index]);
+      $this->assertSame('array', gettype($output['#items'][$index]));
       $this->assertEquals($value, $output['#items'][$index]['#title']);
-      $this->assertInternalType('array', $output['#items'][$index]['#title']);
+      $this->assertSame('array', gettype($output['#items'][$index]['#title']));
       $this->assertEquals('link', $output['#items'][$index]['#type']);
       $this->assertEquals(['facet-item'], $output['#items'][$index]['#wrapper_attributes']['class']);
     }
@@ -64,7 +73,7 @@ class LinksWidgetTest extends WidgetTestBase {
     $this->widget->setConfiguration(['show_numbers' => TRUE]);
     $output = $this->widget->build($facet);
 
-    $this->assertInternalType('array', $output);
+    $this->assertSame('array', gettype($output));
     $this->assertCount(4, $output['#items']);
 
     $expected_links = [
@@ -74,7 +83,7 @@ class LinksWidgetTest extends WidgetTestBase {
       $this->buildLinkAssertion('Alpaca', 'alpaca', $facet, 9, TRUE),
     ];
     foreach ($expected_links as $index => $value) {
-      $this->assertInternalType('array', $output['#items'][$index]);
+      $this->assertSame('array', gettype($output['#items'][$index]));
       $this->assertEquals($value, $output['#items'][$index]['#title']);
       $this->assertEquals('link', $output['#items'][$index]['#type']);
       if ($index === 0 || $index === 3) {
@@ -97,7 +106,7 @@ class LinksWidgetTest extends WidgetTestBase {
     $this->widget->setConfiguration(['show_numbers' => FALSE]);
     $output = $this->widget->build($facet);
 
-    $this->assertInternalType('array', $output);
+    $this->assertSame('array', gettype($output));
     $this->assertCount(4, $output['#items']);
 
     $expected_links = [
@@ -107,7 +116,7 @@ class LinksWidgetTest extends WidgetTestBase {
       $this->buildLinkAssertion('Alpaca', 'alpaca', $facet, 9, FALSE, FALSE),
     ];
     foreach ($expected_links as $index => $value) {
-      $this->assertInternalType('array', $output['#items'][$index]);
+      $this->assertSame('array', gettype($output['#items'][$index]));
       $this->assertEquals($value, $output['#items'][$index]['#title']);
       $this->assertEquals('link', $output['#items'][$index]['#type']);
       if ($index === 1) {
@@ -122,7 +131,7 @@ class LinksWidgetTest extends WidgetTestBase {
 
     $output = $this->widget->build($facet);
 
-    $this->assertInternalType('array', $output);
+    $this->assertSame('array', gettype($output));
     $this->assertCount(4, $output['#items']);
 
     $expected_links = [
@@ -132,7 +141,7 @@ class LinksWidgetTest extends WidgetTestBase {
       $this->buildLinkAssertion('Alpaca', 'alpaca', $facet, 9),
     ];
     foreach ($expected_links as $index => $value) {
-      $this->assertInternalType('array', $output['#items'][$index]);
+      $this->assertSame('array', gettype($output['#items'][$index]));
       $this->assertEquals($value, $output['#items'][$index]['#title']);
       $this->assertEquals('link', $output['#items'][$index]['#type']);
       if ($index === 1) {
@@ -158,7 +167,7 @@ class LinksWidgetTest extends WidgetTestBase {
     $this->widget->setConfiguration(['show_numbers' => TRUE]);
     $output = $this->widget->build($facet);
 
-    $this->assertInternalType('array', $output);
+    $this->assertSame('array', gettype($output));
     $this->assertCount(4, $output['#items']);
 
     $expected_links = [
@@ -168,7 +177,7 @@ class LinksWidgetTest extends WidgetTestBase {
       $this->buildLinkAssertion('Alpaca', 'alpaca', $facet, 9),
     ];
     foreach ($expected_links as $index => $value) {
-      $this->assertInternalType('array', $output['#items'][$index]);
+      $this->assertSame('array', gettype($output['#items'][$index]));
       $this->assertEquals($value, $output['#items'][$index]['#title']);
       $this->assertEquals('link', $output['#items'][$index]['#type']);
       if ($index === 1) {
@@ -179,23 +188,96 @@ class LinksWidgetTest extends WidgetTestBase {
         $this->assertEquals(['facet-item'], $output['#items'][$index]['#wrapper_attributes']['class']);
       }
     }
-
   }
 
   /**
-   * Tests default configuration.
+   * Tests the rest link.
+   */
+  public function testResetLink() {
+    $facet = new Facet([], 'facets_facet');
+    $facet->setResults($this->originalResults);
+
+    $output = $this->widget->build($facet);
+
+    $this->assertSame('array', gettype($output));
+    $this->assertCount(4, $output['#items']);
+
+    $request = new Request();
+    $request->query->set('f', []);
+
+    $request_stack = new RequestStack();
+    $request_stack->push($request);
+
+    $this->createContainer();
+    $container = \Drupal::getContainer();
+    $container->set('request_stack', $request_stack);
+    \Drupal::setContainer($container);
+
+    // Enable the show reset link.
+    $this->widget->setConfiguration(['show_reset_link' => TRUE]);
+    $output = $this->widget->build($facet);
+
+    // Check that we now have more results.
+    $this->assertSame('array', gettype($output));
+    $this->assertCount(5, $output['#items']);
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function testDefaultConfiguration() {
     $default_config = $this->widget->defaultConfiguration();
-    $expected = [
-      'show_numbers' => FALSE,
-      'soft_limit' => 0,
-      'soft_limit_settings' => [
-        'show_less_label' => 'Show less',
-        'show_more_label' => 'Show more',
-      ],
-    ];
-    $this->assertEquals($expected, $default_config);
+    $this->assertArrayHasKey('show_numbers', $default_config);
+    $this->assertArrayHasKey('soft_limit', $default_config);
+    $this->assertArrayHasKey('show_reset_link', $default_config);
+    $this->assertArrayHasKey('reset_text', $default_config);
+    $this->assertArrayHasKey('soft_limit_settings', $default_config);
+    $this->assertArrayHasKey('show_less_label', $default_config['soft_limit_settings']);
+    $this->assertArrayHasKey('show_more_label', $default_config['soft_limit_settings']);
+
+    $this->assertEquals(FALSE, $default_config['show_numbers']);
+    $this->assertEquals(0, $default_config['soft_limit']);
+    $this->assertEquals(FALSE, $default_config['show_reset_link']);
+  }
+
+  /**
+   * Sets up a container.
+   */
+  protected function createContainer() {
+    $router = $this->getMockBuilder(TestRouterInterface::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $router->expects($this->any())
+      ->method('matchRequest')
+      ->willReturn([
+        '_raw_variables' => new ParameterBag([]),
+        '_route' => 'test',
+      ]);
+
+    $url_processor = $this->getMockBuilder(UrlProcessorInterface::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    $manager = $this->getMockBuilder(FacetSourcePluginManager::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $manager->expects($this->exactly(1))
+      ->method('createInstance')
+      ->willReturn($url_processor);
+
+    $storage = $this->createMock(EntityStorageInterface::class);
+    $em = $this->getMockBuilder(EntityTypeManagerInterface::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $em->expects($this->exactly(1))
+      ->method('getStorage')
+      ->willReturn($storage);
+
+    $container = new ContainerBuilder();
+    $container->set('router.no_access_checks', $router);
+    $container->set('entity_type.manager', $em);
+    $container->set('plugin.manager.facets.url_processor', $manager);
+    \Drupal::setContainer($container);
   }
 
 }

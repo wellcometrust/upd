@@ -40,9 +40,9 @@ class MailchimpListsSubscribeDefaultFormatter extends FormatterBase {
     $settings = $this->getSettings();
 
     $form['show_interest_groups'] = array(
-      '#title' => t('Show Interest Groups'),
+      '#title' => $this->t('Show Interest Groups'),
       '#type' => 'checkbox',
-      '#description' => $field_settings['show_interest_groups'] ? t('Check to display interest group membership details.') : t('To display Interest Groups, first enable them in the field instance settings.'),
+      '#description' => $field_settings['show_interest_groups'] ? $this->t('Check to display interest group membership details.') : $this->t('To display Interest Groups, first enable them in the field instance settings.'),
       '#default_value' => $field_settings['show_interest_groups'] && $settings['show_interest_groups'],
       '#disabled' => !$field_settings['show_interest_groups'],
     );
@@ -60,10 +60,10 @@ class MailchimpListsSubscribeDefaultFormatter extends FormatterBase {
     $summary = array();
 
     if ($field_settings['show_interest_groups'] && $settings['show_interest_groups']) {
-      $summary[] = t('Display Interest Groups');
+      $summary[] = $this->t('Display Interest Groups');
     }
     else {
-      $summary[] = t('Hide Interest Groups');
+      $summary[] = $this->t('Hide Interest Groups');
     }
 
     return $summary;
@@ -84,20 +84,20 @@ class MailchimpListsSubscribeDefaultFormatter extends FormatterBase {
       $mc_list = mailchimp_get_list($field_settings['mc_list_id']);
       $email = mailchimp_lists_load_email($item, $item->getEntity(), FALSE);
 
-      if ($email) {
+      if ($email && !empty($mc_list)) {
         if (mailchimp_is_subscribed($field_settings['mc_list_id'], $email)) {
-          $status = t('Subscribed to %list', array('%list' => $mc_list->name));
+          $status = $this->t('Subscribed to %list', array('%list' => $mc_list->name));
         }
         else {
-          $status = t('Not subscribed to %list', array('%list' => $mc_list->name));
+          $status = $this->t('Not subscribed to %list', array('%list' => $mc_list->name));
         }
       }
       else {
-        $status = t('Invalid email configuration.');
+        $status = $this->t('Invalid email configuration.');
       }
       $elements[$delta]['status'] = array(
         '#markup' => $status,
-        '#description' => t('@mc_list_description', array(
+        '#description' => $this->t('@mc_list_description', array(
           '@mc_list_description' => $item->getFieldDefinition()
             ->getDescription()
         )),
@@ -109,7 +109,7 @@ class MailchimpListsSubscribeDefaultFormatter extends FormatterBase {
         if (!empty($mc_list->intgroups)) {
           $elements[$delta]['interest_groups'] = array(
             '#type' => 'fieldset',
-            '#title' => t('Interest Groups'),
+            '#title' => $this->t('Interest Groups'),
             '#weight' => 100,
           );
 

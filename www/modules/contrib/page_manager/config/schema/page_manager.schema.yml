@@ -142,3 +142,12 @@ display_variant.plugin.http_status_code:
     redirect_location:
       type: string
       label: 'Redirect location'
+
+display_variant.plugin.layout_builder:
+  type: display_variant.plugin
+  label: 'Layout Builder'
+  mapping:
+    sections:
+      type: sequence
+      sequence:
+        type: layout_builder.section

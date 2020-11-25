@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\ContextMapperInterface.
- */
-
 namespace Drupal\page_manager;
 
 /**

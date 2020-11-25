@@ -27,7 +27,7 @@ symfony_local_env: dev
 ####### Services/containers.
 # Each of these service supports its own configuration.
 # See service.$NAME.yml for each.
-services: 
+services:
   - log
   - dashboard
   - fpm
@@ -47,4 +47,4 @@ services:
 
 # This could be set at the 'service level', in service.fpm.yml or service.cli.yml.
 # Setting it here ensure fpm and cli use the same version.
-php_version: 7.2
+php_version: 7.3

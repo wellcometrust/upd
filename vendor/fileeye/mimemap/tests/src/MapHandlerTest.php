@@ -128,6 +128,21 @@ class MapHandlerTest extends MimeMapTestBase
         $this->assertSame(['image/vnd.dvb.subtitle', 'text/vnd.dvb.subtitle', 'text/x-microdvd', 'text/x-mpsub', 'text/x-subviewer'], (new Extension('SUB'))->getTypes());
     }
 
+    public function testReAddAliasToType()
+    {
+        $this->assertSame(['image/psd', 'image/x-psd', 'image/photoshop', 'image/x-photoshop', 'application/photoshop', 'application/x-photoshop',], (new Type('image/vnd.adobe.photoshop'))->getAliases());
+        $this->map->addTypeAlias('image/vnd.adobe.photoshop', 'application/x-photoshop');
+        $this->assertSame(['image/psd', 'image/x-psd', 'image/photoshop', 'image/x-photoshop', 'application/photoshop', 'application/x-photoshop',], (new Type('image/vnd.adobe.photoshop'))->getAliases());
+    }
+
+    public function testAddAliasToMultipleTypes()
+    {
+        $this->assertSame([], (new Type('text/plain'))->getAliases());
+        $this->bcSetExpectedException('FileEye\MimeMap\MappingException', "Cannot set 'application/x-photoshop' as alias for 'text/plain', it is an alias of 'image/vnd.adobe.photoshop' already");
+        $this->map->addTypeAlias('text/plain', 'application/x-photoshop');
+        $this->assertSame([], (new Type('text/plain'))->getAliases());
+    }
+
     public function testAddAliasToMissingType()
     {
         $this->bcSetExpectedException('FileEye\MimeMap\MappingException', "Cannot set 'baz/qoo' as alias for 'bar/foo', 'bar/foo' not defined");
@@ -158,6 +173,81 @@ class MapHandlerTest extends MimeMapTestBase
         $this->map->setExtensionDefaultType('sub', 'image/bingo');
     }
 
+    /**
+     * Check that a type alias can be set as extension default.
+     */
+    public function testSetExtensionDefaultTypeToAlias()
+    {
+        $this->assertSame(['application/pdf'], (new Extension('pdf'))->getTypes());
+
+        $this->map->setExtensionDefaultType('pdf', 'application/x-pdf');
+        $this->assertSame(['application/x-pdf', 'application/pdf'], (new Extension('pdf'))->getTypes());
+        $this->assertSame('application/x-pdf', (new Extension('pdf'))->getDefaultType());
+
+        $this->map->setExtensionDefaultType('pdf', 'image/pdf');
+        $this->assertSame(['image/pdf', 'application/x-pdf', 'application/pdf'], (new Extension('pdf'))->getTypes());
+        $this->assertSame('image/pdf', (new Extension('pdf'))->getDefaultType());
+
+        // Remove the alias, should be removed from extension types.
+        $this->assertTrue($this->map->removeTypeAlias('application/pdf', 'application/x-pdf'));
+        $this->assertSame(['image/pdf', 'application/pdf'], (new Extension('pdf'))->getTypes());
+        $this->assertSame('image/pdf', (new Extension('pdf'))->getDefaultType());
+
+        // Add a fake MIME type to 'psd', an alias to that, then remove
+        // 'image/vnd.adobe.photoshop'.
+        $this->assertSame(['image/vnd.adobe.photoshop'], (new Extension('psd'))->getTypes());
+        $this->assertSame('image/vnd.adobe.photoshop', (new Extension('psd'))->getDefaultType());
+        $this->map->setExtensionDefaultType('psd', 'image/psd');
+        $this->assertSame(['image/psd', 'image/vnd.adobe.photoshop'], (new Extension('psd'))->getTypes());
+        $this->assertSame('image/psd', (new Extension('psd'))->getDefaultType());
+        $this->map->addTypeExtensionMapping('bingo/bongo', 'psd');
+        $this->assertSame(['image/psd', 'image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->addTypeAlias('bingo/bongo', 'bar/foo');
+        $this->assertSame(['image/psd', 'image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->setExtensionDefaultType('psd', 'bar/foo');
+        $this->assertSame(['bar/foo', 'image/psd', 'image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->assertTrue($this->map->removeType('image/vnd.adobe.photoshop'));
+        $this->assertSame(['bar/foo', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+    }
+
+    /**
+     * Check removing an aliased type mapping.
+     */
+    public function testRemoveAliasedTypeMapping()
+    {
+        $this->map->addTypeExtensionMapping('bingo/bongo', 'psd');
+        $this->assertSame(['image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->addTypeAlias('bingo/bongo', 'bar/foo');
+        $this->assertSame(['image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->setExtensionDefaultType('psd', 'bar/foo');
+        $this->assertSame(['bar/foo', 'image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->removeTypeExtensionMapping('bar/foo', 'psd');
+        $this->assertSame(['image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+    }
+
+    /**
+     * Check that a removing a type mapping also remove its aliases.
+     */
+    public function testRemoveUnaliasedTypeMapping()
+    {
+        // Add a fake MIME type to 'psd', an alias to that, then remove
+        // 'image/vnd.adobe.photoshop'.
+        $this->map->addTypeExtensionMapping('bingo/bongo', 'psd');
+        $this->assertSame(['image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->addTypeAlias('bingo/bongo', 'bar/foo');
+        $this->assertSame(['image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->setExtensionDefaultType('psd', 'bar/foo');
+        $this->assertSame(['bar/foo', 'image/vnd.adobe.photoshop', 'bingo/bongo'], (new Extension('psd'))->getTypes());
+        $this->map->removeTypeExtensionMapping('bingo/bongo', 'psd');
+        $this->assertSame(['image/vnd.adobe.photoshop'], (new Extension('psd'))->getTypes());
+    }
+
+    public function testSetExtensionDefaultTypeToInvalidAlias()
+    {
+        $this->bcSetExpectedException('FileEye\MimeMap\MappingException', "Cannot set 'image/psd' as default type for extension 'pdf', its unaliased type 'image/vnd.adobe.photoshop' is not associated to 'pdf'");
+        $this->map->setExtensionDefaultType('pdf', 'image/psd');
+    }
+
     public function testSetTypeDefaultExtension()
     {
         $this->assertSame(['jpeg', 'jpg', 'jpe'], (new Type('image/jpeg'))->getExtensions());
@@ -181,5 +271,29 @@ class MapHandlerTest extends MimeMapTestBase
     {
         $this->bcSetExpectedException('FileEye\MimeMap\MappingException', "Cannot map 'pdf' to 'application/acrobat', 'application/acrobat' is an alias");
         $this->map->addTypeExtensionMapping('application/acrobat', 'pdf');
+    }
+
+    /**
+     * Data provider for testAddMalformedTypeExtensionMapping.
+     */
+    public function malformedTypeProvider()
+    {
+        return [
+            'empty string' => [''],
+            'n' => ['n'],
+            'no media' => ['/n'],
+            'no sub type' => ['n/'],
+            'no comment closing bracket a' => ['image (open ()/*'],
+            'no comment closing bracket b' => ['image / * (open (())'],
+        ];
+    }
+
+    /**
+     * @dataProvider malformedTypeProvider
+     */
+    public function testAddMalformedTypeExtensionMapping($type)
+    {
+        $this->expectException('FileEye\MimeMap\MalformedTypeException');
+        $this->map->addTypeExtensionMapping($type, 'xxx');
     }
 }

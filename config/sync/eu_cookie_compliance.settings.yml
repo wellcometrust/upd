@@ -48,7 +48,6 @@ use_mobile_message: false
 method: opt_in
 disagree_button_label: 'No, thanks'
 disabled_javascripts: ''
-whitelisted_cookies: ''
 consent_storage_method: do_not_store
 withdraw_message:
   value: "<h2>We use cookies on this site to enhance your user experience</h2>\r\n\r\n<p>You have given your consent for us to set cookies.</p>\r\n"
@@ -56,14 +55,19 @@ withdraw_message:
 withdraw_action_button_label: 'Withdraw consent'
 withdraw_tab_button_label: 'Privacy settings'
 withdraw_enabled: true
-cookie_categories: ''
 enable_save_preferences_button: true
 save_preferences_button_label: 'Save preferences'
 accept_all_categories_button_label: 'Accept all cookies'
-fix_first_cookie_category: true
-select_all_categories_by_default: false
 withdraw_button_on_info_popup: false
 domain_all_sites: false
 _core:
   default_config_hash: R5A0_DuaSt9WRwy5rPzLIbeLdqlyFCkRIHjr02fxKxY
 cookie_session: 0
+reload_options: 0
+reload_routes_list: ''
+containing_element: body
+settings_tab_enabled: false
+automatic_cookies_removal: true
+set_cookie_session_zero_on_disagree: 0
+cookie_policy_version: 1.0.0
+allowed_cookies: ''

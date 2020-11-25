@@ -79,7 +79,7 @@ class PelConvert
      *            the unsigned short that will be converted. The lower
      *            two bytes will be extracted regardless of the actual size passed.
      *
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      *
@@ -101,7 +101,7 @@ class PelConvert
      *            the signed short that will be converted. The lower
      *            two bytes will be extracted regardless of the actual size passed.
      *
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      *
@@ -131,7 +131,7 @@ class PelConvert
      *            unsigned integer means that the absolute value will be used. Use
      *            {@link sLongToBytes} to convert signed integers.
      *
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      *
@@ -148,11 +148,11 @@ class PelConvert
          */
         $hex = str_pad(base_convert($value, 10, 16), 8, '0', STR_PAD_LEFT);
         if ($endian == self::LITTLE_ENDIAN) {
-            return (chr(hexdec($hex{6} . $hex{7})) . chr(hexdec($hex{4} . $hex{5})) . chr(hexdec($hex{2} . $hex{3})) .
-                 chr(hexdec($hex{0} . $hex{1})));
+            return (chr(hexdec($hex[6] . $hex[7])) . chr(hexdec($hex[4] . $hex[5])) . chr(hexdec($hex[2] . $hex[3])) .
+                 chr(hexdec($hex[0] . $hex[1])));
         } else {
-            return (chr(hexdec($hex{0} . $hex{1})) . chr(hexdec($hex{2} . $hex{3})) . chr(hexdec($hex{4} . $hex{5})) .
-                 chr(hexdec($hex{6} . $hex{7})));
+            return (chr(hexdec($hex[0] . $hex[1])) . chr(hexdec($hex[2] . $hex[3])) . chr(hexdec($hex[4] . $hex[5])) .
+                 chr(hexdec($hex[6] . $hex[7])));
         }
     }
 
@@ -164,7 +164,7 @@ class PelConvert
      *            will be treated as a signed 32 bit integer, from which the lower
      *            four bytes will be extracted.
      *
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      *
@@ -201,7 +201,7 @@ class PelConvert
      */
     public static function bytesToByte($bytes, $offset)
     {
-        return ord($bytes{$offset});
+        return ord($bytes[$offset]);
     }
 
     /**
@@ -238,7 +238,7 @@ class PelConvert
      *            the offset. The short found at the offset will be
      *            returned as an integer. There must be at least two bytes
      *            available beginning at the offset given.
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      * @return integer the unsigned short found at offset, e.g., an integer
@@ -248,9 +248,9 @@ class PelConvert
     public static function bytesToShort($bytes, $offset, $endian)
     {
         if ($endian == self::LITTLE_ENDIAN) {
-            return (ord($bytes{$offset + 1}) * 256 + ord($bytes{$offset}));
+            return (ord($bytes[$offset + 1]) * 256 + ord($bytes[$offset]));
         } else {
-            return (ord($bytes{$offset}) * 256 + ord($bytes{$offset + 1}));
+            return (ord($bytes[$offset]) * 256 + ord($bytes[$offset + 1]));
         }
     }
 
@@ -263,7 +263,7 @@ class PelConvert
      *            The short found at offset will be returned
      *            as an integer. There must be at least two bytes available
      *            beginning at the offset given.
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      * @return integer the signed byte found at offset, e.g., an integer in
@@ -289,7 +289,7 @@ class PelConvert
      *            The long found at offset will be returned
      *            as an integer. There must be at least four bytes available
      *            beginning at the offset given.
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      * @return integer the unsigned long found at offset, e.g., an integer
@@ -299,11 +299,11 @@ class PelConvert
     public static function bytesToLong($bytes, $offset, $endian)
     {
         if ($endian == self::LITTLE_ENDIAN) {
-            return (ord($bytes{$offset + 3}) * 16777216 + ord($bytes{$offset + 2}) * 65536 +
-                 ord($bytes{$offset + 1}) * 256 + ord($bytes{$offset}));
+            return (ord($bytes[$offset + 3]) * 16777216 + ord($bytes[$offset + 2]) * 65536 +
+                 ord($bytes[$offset + 1]) * 256 + ord($bytes[$offset]));
         } else {
-            return (ord($bytes{$offset}) * 16777216 + ord($bytes{$offset + 1}) * 65536 + ord($bytes{$offset + 2}) * 256 +
-                 ord($bytes{$offset + 3}));
+            return (ord($bytes[$offset]) * 16777216 + ord($bytes[$offset + 1]) * 65536 + ord($bytes[$offset + 2]) * 256 +
+                 ord($bytes[$offset + 3]));
         }
     }
 
@@ -316,7 +316,7 @@ class PelConvert
      *            The long found at offset will be returned
      *            as an integer. There must be at least four bytes available
      *            beginning at the offset given.
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}. *
      * @return integer the signed long found at offset, e.g., an integer in
@@ -342,7 +342,7 @@ class PelConvert
      *            The rational found at offset will be
      *            returned as an array. There must be at least eight bytes
      *            available beginning at the offset given.
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}. *
      * @return array the unsigned rational found at offset, e.g., an
@@ -351,10 +351,10 @@ class PelConvert
      */
     public static function bytesToRational($bytes, $offset, $endian)
     {
-        return array(
+        return [
             self::bytesToLong($bytes, $offset, $endian),
             self::bytesToLong($bytes, $offset + 4, $endian)
-        );
+        ];
     }
 
     /**
@@ -366,7 +366,7 @@ class PelConvert
      *            The rational found at offset will be
      *            returned as an array. There must be at least eight bytes
      *            available beginning at the offset given.
-     * @param integer $endian
+     * @param boolean $endian
      *            one of {@link LITTLE_ENDIAN} and {@link
      *            BIG_ENDIAN}.
      * @return array the signed rational found at offset, e.g., an array
@@ -375,10 +375,10 @@ class PelConvert
      */
     public static function bytesToSRational($bytes, $offset, $endian)
     {
-        return array(
+        return [
             self::bytesToSLong($bytes, $offset, $endian),
             self::bytesToSLong($bytes, $offset + 4, $endian)
-        );
+        ];
     }
 
     /**
@@ -407,7 +407,7 @@ class PelConvert
         $line = 24;
 
         for ($i = 0; $i < $s; $i ++) {
-            printf('%02X ', ord($bytes{$i}));
+            printf('%02X ', ord($bytes[$i]));
 
             if (($i + 1) % $line == 0) {
                 print("\n");

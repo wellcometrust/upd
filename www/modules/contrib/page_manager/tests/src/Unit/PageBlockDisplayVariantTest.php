@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\page_manager\Unit\PageBlockDisplayVariantTest.
- */
-
 namespace Drupal\Tests\page_manager\Unit;
 
 use Drupal\Component\Uuid\UuidInterface;
@@ -47,7 +42,7 @@ class PageBlockDisplayVariantTest extends UnitTestCase {
     $block1->access($account)->willReturn(TRUE);
 
     // Building a block with empty content.
-    $block1->build()->willReturn(['#cache' => [ 'tags' => [ 0 => 'tag_to_be_merged']]]);
+    $block1->build()->willReturn(['#cache' => ['tags' => [0 => 'tag_to_be_merged']]]);
 
     $context_handler = $this->prophesize(ContextHandlerInterface::class);
     $uuid_generator = $this->prophesize(UuidInterface::class);

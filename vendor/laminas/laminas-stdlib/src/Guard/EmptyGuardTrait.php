@@ -8,8 +8,6 @@
 
 namespace Laminas\Stdlib\Guard;
 
-use function sprintf;
-
 /**
  * Provide a guard method against empty data
  */

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\Routing\RouteEnhancerCollectorTrait.
- */
-
 namespace Drupal\page_manager\Routing;
 
 use Drupal\Core\Routing\EnhancerInterface;
@@ -19,14 +14,14 @@ trait RouteEnhancerCollectorTrait {
   /**
    * @var \Drupal\Core\Routing\EnhancerInterface[]
    */
-  protected $enhancers = array();
+  protected $enhancers = [];
 
   /**
-   * Cached sorted list of enhancers
+   * Cached sorted list of enhancers.
    *
    * @var \Drupal\Core\Routing\EnhancerInterface[]
    */
-  protected $sortedEnhancers = array();
+  protected $sortedEnhancers = [];
 
   /**
    * Add route enhancers to the router to let them generate information on
@@ -42,11 +37,11 @@ trait RouteEnhancerCollectorTrait {
    */
   public function addRouteEnhancer(EnhancerInterface $enhancer, $priority = 0) {
     if (empty($this->enhancers[$priority])) {
-      $this->enhancers[$priority] = array();
+      $this->enhancers[$priority] = [];
     }
 
     $this->enhancers[$priority][] = $enhancer;
-    $this->sortedEnhancers = array();
+    $this->sortedEnhancers = [];
 
     return $this;
   }
@@ -74,7 +69,7 @@ trait RouteEnhancerCollectorTrait {
    *   The sorted enhancers.
    */
   protected function sortRouteEnhancers() {
-    $sortedEnhancers = array();
+    $sortedEnhancers = [];
     krsort($this->enhancers);
 
     foreach ($this->enhancers as $enhancers) {
