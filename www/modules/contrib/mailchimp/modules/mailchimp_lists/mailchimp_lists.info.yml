@@ -9,3 +9,8 @@ dependencies:
  - drupal:field
  - mailchimp:mailchimp
  - drupal:options
+
+# Information added by Drupal.org packaging script on 2019-09-25
+version: '8.x-1.11'
+project: 'mailchimp'
+datestamp: 1569440291

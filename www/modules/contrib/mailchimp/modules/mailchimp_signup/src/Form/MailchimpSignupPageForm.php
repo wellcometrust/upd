@@ -198,7 +198,7 @@ class MailchimpSignupPageForm extends FormBase {
       }
 
       // Include the GDPR consent checkbox if necessary
-      if ($this->signup->settings['gdpr_consent']) {
+      if (isset($this->signup->settings['gdpr_consent']) && $this->signup->settings['gdpr_consent']) {
          $form['mailchimp_lists']['gdpr_consent'] = array(
            '#type' => 'checkbox',
            '#default_value' => FALSE,
@@ -318,7 +318,7 @@ class MailchimpSignupPageForm extends FormBase {
           $interests[] = $current_interests;
         }
       }
-      $result = mailchimp_subscribe($list_id, $email, $mergevars, $interests, $this->signup->settings['doublein'], 'html', NULL, $list_choices['gdpr_consent']);
+      $result = mailchimp_subscribe($list_id, $email, $mergevars, $interests, $this->signup->settings['doublein'], 'html', NULL, $list_choices['gdpr_consent'] ?? false);
 
       if (empty($result)) {
         $this->messenger->addWarning($this->t('There was a problem with your newsletter signup to %list.', array(
