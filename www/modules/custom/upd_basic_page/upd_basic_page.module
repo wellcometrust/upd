@@ -31,10 +31,11 @@ function _upd_basic_page_preprocess_node_sections(&$variables) {
   $variables['content']['vertical'][$i]['url'] = 'intro';
   foreach ($node->field_sections as $item) {
     $i++;
-    $variables['content']['vertical'][$i]['title'] = $item->entity->get('field_title')
-      ->getValue()[0]['value'];
-    $variables['content']['vertical'][$i]['url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $item->entity->get('field_title')
-    ->getValue()[0]['value'])));
+    $title = $item->entity->get('field_title')->getValue();
+    if (!empty($title)) {
+      $variables['content']['vertical'][$i]['title'] = $title[0]['value'];
+      $variables['content']['vertical'][$i]['url'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title[0]['value'])));
+    }
   }
 }
 
