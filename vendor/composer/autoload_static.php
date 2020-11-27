@@ -169,7 +169,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Drupal\\Console\\Composer\\Plugin\\' => 31,
             'Drupal\\Console\\' => 15,
             'Drupal\\Composer\\Plugin\\Scaffold\\' => 32,
-            'Drupal\\Composer\\Plugin\\ProjectMessage\\' => 38,
             'Drupal\\Component\\' => 17,
             'DrupalCodeGenerator\\' => 20,
             'Doctrine\\Persistence\\' => 21,
@@ -192,6 +191,7 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Consolidation\\AnnotatedCommand\\' => 31,
             'Composer\\Semver\\' => 16,
             'Composer\\Installers\\' => 20,
+            'ComposerManifest\\' => 17,
         ),
         'A' => 
         array (
@@ -510,10 +510,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         array (
             0 => __DIR__ . '/..' . '/drupal/core-composer-scaffold',
         ),
-        'Drupal\\Composer\\Plugin\\ProjectMessage\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/drupal/core-project-message',
-        ),
         'Drupal\\Component\\' => 
         array (
             0 => __DIR__ . '/../..' . '/www/core/lib/Drupal/Component',
@@ -592,6 +588,10 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+        ),
+        'ComposerManifest\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joachim-n/composer-manifest',
         ),
         'Asm89\\Stack\\' => 
         array (

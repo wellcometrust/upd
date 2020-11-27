@@ -90,9 +90,8 @@
     "drupal/config_filter": "^1.0",
     "drupal/config_split": "^1.4",
     "drupal/console": "~1.0",
-    "drupal/core": "8.9.9",
+    "drupal/core": "^8.9.9",
     "drupal/core-composer-scaffold": "^8.8",
-    "drupal/core-project-message": "^8.8",
     "drupal/ctools": "^3.0",
     "drupal/devel": "^4.0",
     "drupal/devel_php": "^1.2",
@@ -126,6 +125,7 @@
     "drupal/stage_file_proxy": "^1.0",
     "drupal/video_embed_field": "^2.0",
     "drush/drush": "^9.7.1 | ^10.0.0",
+    "joachim-n/composer-manifest": "^1.1",
     "webflo/drupal-finder": "^1.0.0",
     "zaporylie/composer-drupal-optimizations": "^1.0"
   },
