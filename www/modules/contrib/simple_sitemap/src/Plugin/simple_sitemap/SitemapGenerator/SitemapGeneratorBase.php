@@ -2,12 +2,14 @@
 
 namespace Drupal\simple_sitemap\Plugin\simple_sitemap\SitemapGenerator;
 
+use Drupal\Core\Url;
 use Drupal\simple_sitemap\Plugin\simple_sitemap\SimplesitemapPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Component\Datetime\Time;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Class SitemapGeneratorBase
@@ -57,6 +59,11 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
   /**
    * @var array
    */
+  protected $sitemapUrlSettings;
+
+  /**
+   * @var array
+   */
   protected static $indexAttributes = [
     'xmlns' => self::XMLNS,
   ];
@@ -88,7 +95,6 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
     $this->languageManager = $language_manager;
     $this->time = $time;
     $this->writer = $sitemap_writer;
-    $this->sitemapVariant = $this->settings['default_variant'];
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -110,6 +116,7 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
    */
   public function setSitemapVariant($sitemap_variant) {
     $this->sitemapVariant = $sitemap_variant;
+
     return $this;
   }
 
@@ -164,9 +171,8 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
     // Add sitemap chunk locations to document.
     foreach ($chunk_info as $chunk_data) {
       $this->writer->startElement('sitemap');
-      $this->writer->writeElement('loc', $this->getCustomBaseUrl()
-        . '/' . (!$this->isDefaultVariant() ? ($chunk_data->type . '/') : '') . 'sitemap.xml?page=' . $chunk_data->delta);
-      $this->writer->writeElement('lastmod', date_iso8601($chunk_data->sitemap_created));
+      $this->writer->writeElement('loc', $this->getSitemapUrl($chunk_data->delta));
+      $this->writer->writeElement('lastmod', date('c', $chunk_data->sitemap_created));
       $this->writer->endElement();
     }
 
@@ -272,8 +278,9 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
    * @return $this
    */
   public function publish() {
-    $unpublished_chunk = $this->db->query('SELECT MAX(id) FROM {simple_sitemap} WHERE type = :type AND status = :status', [':type' => $this->sitemapVariant, ':status' => 0])
-      ->fetchField();
+    $unpublished_chunk = $this->db->query('SELECT MAX(id) FROM {simple_sitemap} WHERE type = :type AND status = :status', [
+      ':type' => $this->sitemapVariant, ':status' => 0
+    ])->fetchField();
 
     // Only allow publishing a sitemap variant if there is an unpublished
     // sitemap variant, as publishing involves deleting the currently published
@@ -292,6 +299,7 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
    */
   public function setSettings(array $settings) {
     $this->settings = $settings;
+
     return $this;
   }
 
@@ -300,7 +308,78 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
    */
   protected function getCustomBaseUrl() {
     $customBaseUrl = $this->settings['base_url'];
+
     return !empty($customBaseUrl) ? $customBaseUrl : $GLOBALS['base_url'];
+  }
+
+  protected function getSitemapUrlSettings() {
+    if (NULL === $this->sitemapUrlSettings) {
+      $this->sitemapUrlSettings = [
+        'absolute' => TRUE,
+        'base_url' => $this->getCustomBaseUrl(),
+        'language' => $this->languageManager->getLanguage(LanguageInterface::LANGCODE_NOT_APPLICABLE),
+      ];
+    }
+
+    return $this->sitemapUrlSettings;
+  }
+
+  /**
+   * @param null $delta
+   * @return \Drupal\Core\GeneratedUrl|string
+   */
+  public function getSitemapUrl($delta = NULL) {
+    $parameters = NULL !== $delta ? ['page' => $delta] : [];
+    $url = $this->isDefaultVariant()
+      ? Url::fromRoute(
+        'simple_sitemap.sitemap_default',
+        $parameters,
+        $this->getSitemapUrlSettings())
+      : Url::fromRoute(
+        'simple_sitemap.sitemap_variant',
+        $parameters + ['variant' => $this->sitemapVariant],
+        $this->getSitemapUrlSettings()
+      );
+
+    return $url->toString();
+  }
+
+  /**
+   * Determines if the sitemap is to be a multilingual sitemap based on several
+   * factors.
+   *
+   * A hreflang/multilingual sitemap is only wanted if there are indexable
+   * languages available and if there is a language negotiation method enabled
+   * that is based on URL discovery. Any other language negotiation methods
+   * should be irrelevant, as a sitemap can only use URLs to guide to the
+   * correct language.
+   *
+   * @see https://www.drupal.org/project/simple_sitemap/issues/3154570#comment-13730522
+   *
+   * @return bool
+   */
+  public static function isMultilingualSitemap() {
+    if (!\Drupal::moduleHandler()->moduleExists('language')) {
+      return FALSE;
+    }
+
+    /** @var \Drupal\language\LanguageNegotiatorInterface $language_negotiator */
+    $language_negotiator = \Drupal::service('language_negotiator');
+
+    $url_negotiation_method_enabled = FALSE;
+    foreach ($language_negotiator->getNegotiationMethods(LanguageInterface::TYPE_URL) as $method) {
+      if ($language_negotiator->isNegotiationMethodEnabled($method['id'])) {
+        $url_negotiation_method_enabled = TRUE;
+        break;
+      }
+    }
+
+    $has_multiple_indexable_languages = count(
+        array_diff_key(\Drupal::languageManager()->getLanguages(),
+          \Drupal::service('simple_sitemap.generator')->getSetting('excluded_languages', []))
+      ) > 1;
+
+    return $url_negotiation_method_enabled && $has_multiple_indexable_languages;
   }
 
 }

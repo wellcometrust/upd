@@ -1,6 +1,6 @@
 # PEL: PHP Exif Library
 
-[![Build Status](https://secure.travis-ci.org/lsolesen/pel.png?branch=master)](http://travis-ci.org/lsolesen/pel) [![Code Coverage](https://scrutinizer-ci.com/g/lsolesen/pel/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lsolesen/pel/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lsolesen/pel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lsolesen/pel/?branch=master) [![Latest Stable Version](https://poser.pugx.org/lsolesen/pel/v/stable)](https://packagist.org/packages/lsolesen/pel) [![Total Downloads](https://poser.pugx.org/lsolesen/pel/downloads)](https://packagist.org/packages/lsolesen/pel) [![License](https://poser.pugx.org/lsolesen/pel/license)](https://packagist.org/packages/lsolesen/pel)
+[![Build Status](https://secure.travis-ci.org/pel/pel.png?branch=master)](http://travis-ci.org/pel/pel) [![Code Coverage](https://scrutinizer-ci.com/g/pel/pel/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/pel/pel/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/pel/pel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pel/pel/?branch=master) [![Latest Stable Version](https://poser.pugx.org/lsolesen/pel/v/stable)](https://packagist.org/packages/lsolesen/pel) [![Total Downloads](https://poser.pugx.org/lsolesen/pel/downloads)](https://packagist.org/packages/lsolesen/pel) [![License](https://poser.pugx.org/lsolesen/pel/license)](https://packagist.org/packages/lsolesen/pel)
 
 README file for PEL: PHP Exif Library.  A library with support for
 reading and writing Exif headers in JPEG and TIFF images using PHP.
@@ -27,6 +27,11 @@ important information about API changes.
 Also, please go to the PEL development mailing list (look below) and
 share your ideas about how the API should look like.
 
+## Installation
+
+```
+composer require lsolesen/pel
+```
 
 ## Documentation Overview
 
@@ -35,8 +40,7 @@ share your ideas about how the API should look like.
 * CHANGELOG.md: contains important information about changes in PEL.
 * examples/: small self-contained examples of how to use PEL.
 * AUTHORS: list of people who have helped.
-* run run-phpdoc.sh to generate API-documention or see it online at http://lsolesen.github.com/pel
-
+* run run-phpdoc.sh to generate API-documention or see it online at https://pel.github.io/pel/doc/
 
 ## Features of PEL
 
@@ -82,7 +86,7 @@ Please try the latest version before reporting bugs -- it might have
 been fixed already.  The latest code can be found in the git
 repository at
 
-  http://github.com/lsolesen/pel
+  http://github.com/pel/pel
 
 It is very helpful if you try out the latest code from the git
 repository before submitting a bug report. The code found there is
@@ -102,4 +106,4 @@ instructions.
 ## Credits
 
 Please see the AUTHORS file for a list of people who have contributed
-to PEL. See the full list of [code contributors](https://github.com/lsolesen/pel/graphs/contributors).
+to PEL. See the full list of [code contributors](https://github.com/pel/pel/graphs/contributors).

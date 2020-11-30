@@ -115,6 +115,11 @@ class EntityUrlGenerator extends EntityUrlGeneratorBase {
               $query->condition($keys['status'], 1);
             }
 
+            // Shift access check to EntityUrlGeneratorBase for language
+            // specific access.
+            // See https://www.drupal.org/project/simple_sitemap/issues/3102450.
+            $query->accessCheck(FALSE);
+
             foreach ($query->execute() as $entity_id) {
               $data_sets[] = [
                 'entity_type' => $entity_type_name,
@@ -137,45 +142,58 @@ class EntityUrlGenerator extends EntityUrlGeneratorBase {
       return FALSE;
     }
 
-    $entity_id = $entity->id();
-    $entity_type_name = $entity->getEntityTypeId();
-
     $entity_settings = $this->generator
       ->setVariants($this->sitemapVariant)
-      ->getEntityInstanceSettings($entity_type_name, $entity_id);
+      ->getEntityInstanceSettings($entity->getEntityTypeId(), $entity->id());
 
     if (empty($entity_settings['index'])) {
       return FALSE;
     }
 
-    $url_object = $entity->toUrl();
+    $url_object = $entity->toUrl()->setAbsolute();
 
     // Do not include external paths.
     if (!$url_object->isRouted()) {
       return FALSE;
     }
 
-    $path = $url_object->getInternalPath();
-
-    $url_object->setOption('absolute', TRUE);
-
     return [
       'url' => $url_object,
-      'lastmod' => method_exists($entity, 'getChangedTime') ? date_iso8601($entity->getChangedTime()) : NULL,
+      'lastmod' => method_exists($entity, 'getChangedTime') ? date('c', $entity->getChangedTime()) : NULL,
       'priority' => isset($entity_settings['priority']) ? $entity_settings['priority'] : NULL,
       'changefreq' => !empty($entity_settings['changefreq']) ? $entity_settings['changefreq'] : NULL,
       'images' => !empty($entity_settings['include_images'])
-        ? $this->getImages($entity_type_name, $entity_id)
+        ? $this->getEntityImageData($entity)
         : [],
 
       // Additional info useful in hooks.
       'meta' => [
-        'path' => $path,
+        'path' => $url_object->getInternalPath(),
         'entity_info' => [
-          'entity_type' => $entity_type_name,
-          'id' => $entity_id,
+          'entity_type' => $entity->getEntityTypeId(),
+          'id' => $entity->id(),
         ],
       ]
     ];
   }
+
+  /**
+   * @inheritdoc
+   *
+   * Make sure to clear entity cache so it does not build up resulting in a
+   * constant increase of memory.
+   *
+   * See https://www.drupal.org/project/simple_sitemap/issues/3170261.
+   */
+  public function generate($data_set) {
+    $result = parent::generate($data_set);
+
+    $storage = $this->entityTypeManager->getStorage($data_set['entity_type']);
+    if (method_exists($storage, 'resetCache')) {
+      $storage->resetCache([$data_set['id']]);
+    }
+
+    return $result;
+  }
+
 }

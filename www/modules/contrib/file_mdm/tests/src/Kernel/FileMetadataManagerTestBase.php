@@ -11,10 +11,18 @@ use Drupal\KernelTests\KernelTestBase;
 abstract class FileMetadataManagerTestBase extends KernelTestBase {
 
   /**
+   * The file system service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected $fileSystem;
+
+  /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
+    $this->fileSystem = \Drupal::service('file_system');
     $this->installConfig(['file_mdm']);
   }
 

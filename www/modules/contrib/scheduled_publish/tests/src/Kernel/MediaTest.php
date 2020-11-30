@@ -102,7 +102,7 @@ class MediaTest extends MediaKernelTestBase {
 
     $id = $entity->id();
 
-    self::assertTrue($id);
+    self::assertTrue((bool)$id);
 
     $this->scheduledUpdateService->doUpdate();
 
@@ -128,7 +128,7 @@ class MediaTest extends MediaKernelTestBase {
 
     $id = $entity->id();
 
-    self::assertTrue($id);
+    self::assertTrue((bool)$id);
 
     $this->scheduledUpdateService->doUpdate();
 

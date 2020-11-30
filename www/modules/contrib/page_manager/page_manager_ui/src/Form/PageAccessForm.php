@@ -1,14 +1,9 @@
 <?php
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Form\PageAccessForm.
- */
 
 namespace Drupal\page_manager_ui\Form;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\ctools\Form\ManageConditions;
-use Drupal\page_manager_ui\Form\AccessConfigure;
 
 class PageAccessForm extends ManageConditions {
 
@@ -66,7 +61,6 @@ class PageAccessForm extends ManageConditions {
   protected function getAddRoute($cached_values) {
     return 'entity.page.condition.add';
   }
-
 
   /**
    * {@inheritdoc}

@@ -43,6 +43,11 @@ class Crop extends ImagemagickImageToolkitOperationBase {
    * {@inheritdoc}
    */
   protected function validateArguments(array $arguments) {
+    // Fail if no dimensions available for current image.
+    if (is_null($this->getToolkit()->getWidth()) || is_null($this->getToolkit()->getHeight())) {
+      throw new \RuntimeException("No image dimensions available for the image '{$this->getPluginDefinition()['operation']}' operation");
+    }
+
     // Assure at least one dimension.
     if (empty($arguments['width']) && empty($arguments['height'])) {
       throw new \InvalidArgumentException("At least one dimension ('width' or 'height') must be provided to the image 'crop' operation");

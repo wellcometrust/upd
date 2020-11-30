@@ -25,7 +25,7 @@ content entity types including:
  * ...
 
 Contributed entity types like commerce products or media entities can be indexed
-as well. On top of that custom links and view pages can be added to the sitemap.
+as well. On top of that custom links and view pages can be added to sitemaps.
 
 To learn about XML sitemaps, see https://en.wikipedia.org/wiki/Sitemaps.
 
@@ -46,17 +46,18 @@ The module permission 'administer sitemap settings' can be configured under
 
 ### ENTITIES ###
 
-Initially only the home page is indexed in the sitemap. To include content into
-the sitemap, visit /admin/config/search/simplesitemap/entities to enable support
-for entity types of your choosing. Entity types which feature bundles can then
-be configured on a per-bundle basis, e.g.
+Initially only the home page is indexed in the default sitemap variant. To
+include content into a sitemap, visit
+/admin/config/search/simplesitemap/entities to enable support for entity types
+of your choosing. Bundleless entity types can be configured right on that page,
+for bundles of entity types visit the bundle's configuration pages, e.g.
 
  * /admin/structure/types/manage/[content type] for nodes
  * /admin/structure/taxonomy/manage/[taxonomy vocabulary] for taxonomy terms
  * /admin/structure/menu/manage/[menu] for menu items
  * ...
 
-When including an entity type or bundle into the sitemap, the priority setting
+When including an entity type or bundle into a sitemap, the priority setting
 can be set which will set the 'priority' parameter for all entities of that
 type. Same goes for the 'changefreq' setting. All Images referenced by the
 entities can be indexed as well. See https://en.wikipedia.org/wiki/Sitemaps to
@@ -69,6 +70,10 @@ override its sitemap settings.
 If you wish for the sitemap to reflect the new configuration instantly, check
 'Regenerate sitemaps after clicking save'. This setting only appears if a change
 in the settings has been detected.
+
+Once variants are set up in admin/config/search/simplesitemap/variants, all the
+above settings can be configured and overwritten on a per variant basis right
+from the UI.
 
 As the sitemaps are accessible to anonymous users, bear in mind that only links
 will be included which are accessible to anonymous users. There are no access
@@ -97,6 +102,14 @@ It is possible to have several sitemap instances of different sitemap types with
 specific links accessible under certain URLs. These sitemap variants can be
 configured under admin/config/search/simplesitemap/variants.
 
+#### AUTOMATIC SUBMISSION ####
+
+It is possible to have the module automatically submit specific sitemap
+variants to search engines. Google and Bing are preconfigured. This
+functionality is available through the included simple_sitemap_engines
+submodule. After enabling this module, go to
+admin/config/search/simplesitemap/engines/settings to set it up.
+
 ## USAGE ## 
 
 The sitemaps are accessible to the whole world under [variant name]/sitemap.xml.
@@ -109,9 +122,15 @@ to the 'Sitemap generation interval' setting.
 A manual generation is possible on admin/config/search/simplesitemap. This is
 also the place that shows the overall and variant specific generation status.
 
-The sitemap can be also generated via drush: Use the command
-'drush simple-sitemap:generate' ('ssg'), or 'drush simple-sitemap:rebuild-queue'
-('ssr').
+The sitemap can be also generated via drush:
+ * `simple-sitemap:generate` or `ssg`: Generates the sitemap (continues
+   generating from queue, or rebuilds queue for all variants beforehand if
+   nothing is queued).
+   
+ * `simple-sitemap:rebuild-queue` or `ssr`: Deletes queue and queues elements
+   for all or specific sitemap variants. Add `--variants` flag and specify a
+   comma separated list of variants if wanting to queue only specific variants
+   for the upcoming generation.
 
 Generation of hundreds of thousands of links can take time. Each variant gets
 published as soon as all of its links have been generated. The previous version
@@ -129,8 +148,9 @@ programmatic sitemap generation. These include:
  * setVariants
  * getSitemap
  * removeSitemap
- * generateSitemap
+ * queue
  * rebuildQueue
+ * generateSitemap
  * enableEntityType
  * disableEntityType
  * setBundleSettings
@@ -149,11 +169,7 @@ programmatic sitemap generation. These include:
     * addSitemapVariant
     * removeSitemapVariants
  * getQueueWorker
-    * deleteQueue
-    * rebuildQueue
     * getInitialElementCount
-    * getQueuedElementCount
-    * getStashedResultCount
     * getProcessedElementCount
     * generationInProgress
 

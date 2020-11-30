@@ -2,11 +2,12 @@
 
 namespace Drupal\Tests\config_filter\Kernel;
 
+use Drupal\config_filter\Config\FilteredStorageInterface;
 use Drupal\Core\Config\DatabaseStorage;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
- * Class ConfigFilterStorageFactoryTest.
+ * Storage factory test.
  *
  * @group config_filter
  */
@@ -25,7 +26,7 @@ class ConfigFilterStorageFactoryTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installConfig(['system']);
   }
@@ -34,7 +35,9 @@ class ConfigFilterStorageFactoryTest extends KernelTestBase {
    * Test that the config.storage.sync is decorated with the filtering version.
    */
   public function testServiceProvider() {
-    // Export the configuration.
+    // Config Filter makes the sync storage a filtered storage.
+    $this->assertInstanceOf(FilteredStorageInterface::class, $this->container->get('config.storage.sync'));
+    // Export the configuration. The pirate filter changes system.site.
     $this->copyConfig($this->container->get('config.storage'), $this->container->get('config.storage.sync'));
 
     // The pirate filter changes the system.site when importing.
@@ -45,6 +48,7 @@ class ConfigFilterStorageFactoryTest extends KernelTestBase {
 
     $config = $this->config('system.site')->getRawData();
     $config['name'] .= ' Arrr';
+    $config['slogan'] .= ' Arrr';
 
     $this->assertEquals($config, $this->container->get('config.storage.sync')->read('system.site'));
   }
@@ -83,6 +87,24 @@ class ConfigFilterStorageFactoryTest extends KernelTestBase {
     // Reading from the $filtered storage returns the merged config.
     $this->assertEquals($active->listAll(), $filtered->listAll());
     $this->assertEquals($active->readMultiple($active->listAll()), $filtered->readMultiple($filtered->listAll()));
+  }
+
+  /**
+   * Test that the listAll method doesn't advertise config that doesn't exist.
+   */
+  public function testListAll() {
+    /** @var \Drupal\Core\Config\StorageInterface $filtered */
+    $filtered = $this->container->get('config_filter.storage_factory')->getSync();
+
+    // The pirate filter always adds the pirate config to listAll.
+    // But the filtered storage doesn't return the ones that don't exist.
+    $this->assertNotContains('system.pirates', $filtered->listAll());
+    $this->assertFalse($filtered->exists('system.pirates'));
+
+    // Turn on bluff mode, to make the filter properly add the config.
+    \Drupal::state()->set('config_filter_test_bluff', TRUE);
+    $this->assertContains('system.pirates', $filtered->listAll());
+    $this->assertTrue($filtered->exists('system.pirates'));
   }
 
 }

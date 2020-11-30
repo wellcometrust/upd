@@ -16,11 +16,10 @@ Exif extensions which only provides read capabilities.
 
   a. Prepare collecting metadata for the file located at a desired URI:
 
-     ```php
-      $fmdm = \Drupal::service('file_metadata_manager');
-      $my_file_metadata = $fmdm->uri('public::/my_directory/test-exif.jpeg');
-      ...
-     ```
+```php
+  $fmdm = \Drupal::service('file_metadata_manager');
+  $my_file_metadata = $fmdm->uri('public::/my_directory/test-exif.jpeg');
+```
 
   b. Get the metadata for the metadata _$key_ required. The value returned is an
      associative array with two keys:
@@ -28,11 +27,11 @@ Exif extensions which only provides read capabilities.
        presentation;
      - 'value': the EXIF tag value in PEL internal format.
 
-    ```php
-     ...
-     $val = $my_file_metadata->getMetadata('exif', $key);
-     ...
-    ```
+```php
+ ...
+ $val = $my_file_metadata->getMetadata('exif', $key);
+ ...
+```
 
   c. EXIF metadata is organized in 'headers' (IFDs) and 'tags'. For this reason,
      the metadata _$key_ can be specified in the ```getMetadata``` method:
@@ -44,58 +43,58 @@ Exif extensions which only provides read capabilities.
      The following statements all are equivalent in returning the same
      information about the 'ApertureValue' TAG in the 'Exif' IFD:
 
-     ```php
-      ...
-      $aperture = $my_file_metadata->getMetadata('exif', 'ApertureValue');
-      $aperture = $my_file_metadata->getMetadata('exif', ['Exif', 'ApertureValue']);
-      $aperture = $my_file_metadata->getMetadata('exif', [2, 'ApertureValue']);
-      $aperture = $my_file_metadata->getMetadata('exif', ['Exif', 0x9202]);
-      $aperture = $my_file_metadata->getMetadata('exif', [2, 0x9202]);
-      ...
-     ```
+```php
+  ...
+  $aperture = $my_file_metadata->getMetadata('exif', 'ApertureValue');
+  $aperture = $my_file_metadata->getMetadata('exif', ['Exif', 'ApertureValue']);
+  $aperture = $my_file_metadata->getMetadata('exif', [2, 'ApertureValue']);
+  $aperture = $my_file_metadata->getMetadata('exif', ['Exif', 0x9202]);
+  $aperture = $my_file_metadata->getMetadata('exif', [2, 0x9202]);
+  ...
+```
 
   d. Get a list of IFDs:
 
-     ```php
-      ...
-      $my_file_metadata->getSupportedKeys('exif', ['ifds' => TRUE]);
-      ...
-     ```
+```php
+  ...
+  $my_file_metadata->getSupportedKeys('exif', ['ifds' => TRUE]);
+  ...
+```
 
   e. Get a list of TAGs for a given IFD:
 
-     ```php
-      ...
-      $my_file_metadata->getSupportedKeys('exif', ['ifd' => 'GPS']);
-      ...
-     ```
+```php
+  ...
+  $my_file_metadata->getSupportedKeys('exif', ['ifd' => 'GPS']);
+  ...
+```
 
   f. Walk through all possible IFDs/TAGs and build a table with results:
 
-     ```php
-      ...
-      $header = [
-        ['data' => 'key'],
-        ['data' => 'text'],
-        ['data' => 'value'],
-      ];
-      $rows = [];
-      foreach ($my_file_metadata->getSupportedKeys('exif', ['ifds' => TRUE]) as $ifd) {
-        $rows[] = [['data' => $ifd[0], 'colspan' => 3]];
-        $keys = $my_file_metadata->getSupportedKeys('exif', ['ifd' => $ifd[0]]);
-        foreach ($keys as $key) {
-          $x = $my_file_metadata->getMetadata('exif', $key);
-          if ($x) {
-            $rows[] = ['data' => [$key[1], $x ? $x['text'] : NULL, $x ? var_export($x['value'], TRUE) : NULL]];
-          }
-        }
+```php
+  ...
+  $header = [
+    ['data' => 'key'],
+    ['data' => 'text'],
+    ['data' => 'value'],
+  ];
+  $rows = [];
+  foreach ($my_file_metadata->getSupportedKeys('exif', ['ifds' => TRUE]) as $ifd) {
+    $rows[] = [['data' => $ifd[0], 'colspan' => 3]];
+    $keys = $my_file_metadata->getSupportedKeys('exif', ['ifd' => $ifd[0]]);
+    foreach ($keys as $key) {
+      $x = $my_file_metadata->getMetadata('exif', $key);
+      if ($x) {
+        $rows[] = ['data' => [$key[1], $x ? $x['text'] : NULL, $x ? var_export($x['value'], TRUE) : NULL]];
       }
-      return [
-        '#theme' => 'table',
-        '#header' => $header,
-        '#rows' => $rows,
-      ];
-     ```
+    }
+  }
+  return [
+    '#theme' => 'table',
+    '#header' => $header,
+    '#rows' => $rows,
+  ];
+```
 
 2. __Change EXIF information and save to file:__
 
@@ -106,29 +105,29 @@ a. If you are changing information that is _already_ existing in the source
    file, then you can use the plugin ```setMetadata``` method, passing the value
    that the PEL Exif entry expects:
 
-   ```php
-    ...
-    $my_file_metadata->setMetadata('exif', 'Orientation', 7);
-    ...
-   ```
+```php
+  ...
+  $my_file_metadata->setMetadata('exif', 'Orientation', 7);
+  ...
+```
 
 b. If you are _adding_ a TAG that was not existing before, you need to pass a
    new PEL Exif entry, as expected for that entry. This can also be done as an
    alternative to change an existing entry:
 
-  ```php
-   ...
-   $artist_tag = \Drupal::service('file_mdm_exif.tag_mapper')->resolveKeyToIfdAndTag('Artist');
-   $value = 'MEEeeee!';
-   $artist = new PelEntryAscii($artist_tag['tag'], $value);
-   $my_file_metadata->setMetadata('exif', 'Artist', $artist);
-   ...
-  ```
+```php
+  ...
+  $artist_tag = \Drupal::service('file_mdm_exif.tag_mapper')->resolveKeyToIfdAndTag('Artist');
+  $value = 'MEEeeee!';
+  $artist = new PelEntryAscii($artist_tag['tag'], $value);
+  $my_file_metadata->setMetadata('exif', 'Artist', $artist);
+  ...
+```
 
 c. Save changed metadata to file:
 
-  ```php
-   ...
-   $my_file_metadata->saveMetadataToFile('exif');
-   ...
-  ```
+```php
+  ...
+  $my_file_metadata->saveMetadataToFile('exif');
+  ...
+```

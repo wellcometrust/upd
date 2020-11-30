@@ -46,7 +46,7 @@ interface ImagemagickFormatMapperInterface {
    * @return array[][]
    *   An array of arrays of error strings.
    */
-  public function validateMap(array $map);
+  public function validateMap(array $map): array;
 
   /**
    * Gets the list of currently enabled image formats.
@@ -54,7 +54,7 @@ interface ImagemagickFormatMapperInterface {
    * @return array
    *   A simple array of image formats.
    */
-  public function getEnabledFormats();
+  public function getEnabledFormats(): array;
 
   /**
    * Gets the list of currently enabled image file extensions.
@@ -62,7 +62,7 @@ interface ImagemagickFormatMapperInterface {
    * @return array
    *   A simple array of image file extensions.
    */
-  public function getEnabledExtensions();
+  public function getEnabledExtensions(): array;
 
   /**
    * Checks if an image format is enabled in the toolkit.
@@ -75,7 +75,7 @@ interface ImagemagickFormatMapperInterface {
    *   TRUE if the specified format is enabled within the toolkit, FALSE
    *   otherwise.
    */
-  public function isFormatEnabled($format);
+  public function isFormatEnabled(string $format): bool;
 
   /**
    * Gets the MIME type of an image format.
@@ -88,7 +88,7 @@ interface ImagemagickFormatMapperInterface {
    *   The MIME type of the specified format if the format is enabled in the
    *   toolkit, NULL otherwise.
    */
-  public function getMimeTypeFromFormat($format);
+  public function getMimeTypeFromFormat(string $format);
 
   /**
    * Gets the image format, given the image file extension.
@@ -102,6 +102,6 @@ interface ImagemagickFormatMapperInterface {
    *   specified extension, if the format is enabled in the toolkit. NULL
    *   otherwise.
    */
-  public function getFormatFromExtension($extension);
+  public function getFormatFromExtension(string $extension);
 
 }

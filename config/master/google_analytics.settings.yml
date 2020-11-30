@@ -27,10 +27,11 @@ custom:
   metric: {  }
 codesnippet:
   create: {  }
-  before: ''
+  before: "var gaCode = 'UA-96672028-1';\r\nwindow['ga-disable-' + gaCode] = true;\r\nif(document.cookie.valueOf('cookie-agreed') === \"cookie-agreed=1\") {\r\n  window['ga-disable-' + gaCode] = false;\r\n}"
   after: ''
 translation_set: false
 cache: false
 debug: false
 _core:
   default_config_hash: 5YkLBJiAXgH9BDLkDIb1ozqfCXWwvZggf4XfcXgfjzc
+premium: false

@@ -43,7 +43,7 @@ class TestPreQuery extends ProcessorPluginBase implements PreQueryProcessorInter
    * {@inheritdoc}
    */
   public function preQuery(FacetInterface $facet) {
-    drupal_set_message($this->getConfiguration()['test_value']);
+    \Drupal::messenger()->addMessage($this->getConfiguration()['test_value']);
   }
 
   /**

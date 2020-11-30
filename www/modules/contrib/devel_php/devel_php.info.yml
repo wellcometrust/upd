@@ -6,7 +6,7 @@ package: 'Development'
 dependencies:
   - devel:devel
 
-# Information added by Drupal.org packaging script on 2020-05-30
-version: '8.x-1.2'
+# Information added by Drupal.org packaging script on 2020-10-06
+version: '8.x-1.3'
 project: 'devel_php'
-datestamp: 1590832062
+datestamp: 1601974472

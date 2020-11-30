@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager_ui\Controller\PageManagerController.
- */
-
 namespace Drupal\page_manager_ui\Controller;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
@@ -16,7 +11,7 @@ use Drupal\Core\Url;
 use Drupal\ctools\Form\AjaxFormTrait;
 use Drupal\page_manager\PageInterface;
 use Drupal\page_manager\PageVariantInterface;
-use Drupal\user\SharedTempStoreFactory;
+use Drupal\Core\TempStore\SharedTempStoreFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -58,7 +53,7 @@ class PageManagerController extends ControllerBase {
   /**
    * Tempstore factory.
    *
-   * @var \Drupal\user\SharedTempStoreFactory
+   * @var \Drupal\Core\TempStore\SharedTempStoreFactory
    */
   protected $tempstore;
 
@@ -73,8 +68,8 @@ class PageManagerController extends ControllerBase {
    *   The variant manager.
    * @param \Drupal\Core\Plugin\Context\ContextHandlerInterface $context_handler
    *   The context handler.
-+   * @param \Drupal\user\SharedTempStoreFactory $tempstore
-+   *   The tempstore factory.
+   * @param \Drupal\Core\TempStore\SharedTempStoreFactory $tempstore
+   *   The tempstore factory.
    */
   public function __construct(BlockManagerInterface $block_manager, PluginManagerInterface $condition_manager, PluginManagerInterface $variant_manager, ContextHandlerInterface $context_handler, SharedTempStoreFactory $tempstore) {
     $this->blockManager = $block_manager;
@@ -93,7 +88,7 @@ class PageManagerController extends ControllerBase {
       $container->get('plugin.manager.condition'),
       $container->get('plugin.manager.display_variant'),
       $container->get('context.handler'),
-      $container->get('user.shared_tempstore')
+      $container->get('tempstore.shared')
     );
   }
 
@@ -190,10 +185,10 @@ class PageManagerController extends ControllerBase {
     $page->$op()->save();
 
     if ($op == 'enable') {
-      drupal_set_message($this->t('The %label page has been enabled.', ['%label' => $page->label()]));
+      $this->messenger()->addMessage($this->t('The %label page has been enabled.', ['%label' => $page->label()]));
     }
     elseif ($op == 'disable') {
-      drupal_set_message($this->t('The %label page has been disabled.', ['%label' => $page->label()]));
+      $this->messenger()->addMessage($this->t('The %label page has been disabled.', ['%label' => $page->label()]));
     }
 
     return $this->redirect('entity.page.collection');

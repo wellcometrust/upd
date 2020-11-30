@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\page_manager\Event\PageManagerContextEvent.
- */
-
 namespace Drupal\page_manager\Event;
 
 use Drupal\page_manager\PageInterface;

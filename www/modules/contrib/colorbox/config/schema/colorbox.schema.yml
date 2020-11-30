@@ -113,7 +113,7 @@ colorbox.settings:
           type: integer
           label: 'Mobile detection'
         mobile_device_width:
-          type: 'string'
+          type: string
           label: 'Device width'
         caption_trim:
           type: integer

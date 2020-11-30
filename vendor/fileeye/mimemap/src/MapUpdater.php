@@ -10,6 +10,11 @@ use FileEye\MimeMap\Map\AbstractMap;
 class MapUpdater
 {
     /**
+     * The default, empty, base map to use for update.
+     */
+    const DEFAULT_BASE_MAP_CLASS = '\FileEye\MimeMap\Map\EmptyMap';
+
+    /**
      * The AbstractMap object to update.
      *
      * @var AbstractMap
@@ -31,14 +36,28 @@ class MapUpdater
     }
 
     /**
-     * Constructor.
+     * Returns the AbstractMap object being updated.
      *
-     * @param AbstractMap $map
-     *   The map.
+     * @return AbstractMap
      */
-    public function __construct(AbstractMap $map)
+    public function getMap()
     {
-        $this->map = $map;
+        return $this->map;
+    }
+
+    /**
+     * Sets the AbstractMap object to update.
+     *
+     * @param string $map_class
+     *   The FQCN of the map to be updated.
+     *
+     * @return $this
+     */
+    public function selectBaseMap($map_class)
+    {
+        $this->map = MapHandler::map($map_class);
+        $this->map->backup();
+        return $this;
     }
 
     /**
@@ -51,14 +70,20 @@ class MapUpdater
      *
      * @return string[]
      *   An array of error messages.
+     *
+     * @throws \RuntimeException
+     *   If it was not possible to access the file.
      */
     public function loadMapFromApacheFile($source_file)
     {
         $errors = [];
 
-        $lines = file($source_file);
+        $lines = @file($source_file);
+        if ($lines === false) {
+            throw new \RuntimeException("Failed accessing {$source_file}");
+        }
         foreach ($lines as $line) {
-            if ($line{0} == '#') {
+            if ($line[0] == '#') {
                 continue;
             }
             $line = preg_replace("#\\s+#", ' ', trim($line));
@@ -178,7 +203,7 @@ class MapUpdater
     {
         $content = preg_replace(
             '#protected static \$map = (.+?);#s',
-            "protected static \$map = " . var_export($this->map->getMapArray(), true) . ";",
+            "protected static \$map = " . preg_replace('/\s+$/m', '', var_export($this->map->getMapArray(), true)) . ";",
             file_get_contents($file)
         );
         file_put_contents($file, $content);

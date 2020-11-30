@@ -1,16 +1,11 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\page_manager_ui\Form\PageVariantDeleteForm.
- */
-
 namespace Drupal\page_manager_ui\Form;
 
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\user\SharedTempStoreFactory;
+use Drupal\Core\TempStore\SharedTempStoreFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,14 +16,14 @@ class PageVariantDeleteForm extends ConfirmFormBase {
   /**
    * Tempstore factory.
    *
-   * @var \Drupal\user\SharedTempStoreFactory
+   * @var \Drupal\Core\TempStore\SharedTempStoreFactory
    */
   protected $tempstore;
 
   /**
    * Constructs a PageVariantDeleteForm.
    *
-   * @param \Drupal\user\SharedTempStoreFactory $tempstore
+   * @param \Drupal\Core\TempStore\SharedTempStoreFactory $tempstore
    *   The tempstore factory.
    */
   public function __construct(SharedTempStoreFactory $tempstore) {
@@ -40,7 +35,7 @@ class PageVariantDeleteForm extends ConfirmFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('user.shared_tempstore')
+      $container->get('tempstore.shared')
     );
   }
 
@@ -48,6 +43,7 @@ class PageVariantDeleteForm extends ConfirmFormBase {
    * Get the tempstore id.
    *
    * @return string
+   *   The temp store id.
    */
   protected function getTempstoreId() {
     return 'page_manager.page';
@@ -98,8 +94,7 @@ class PageVariantDeleteForm extends ConfirmFormBase {
 
     // Add to a list to remove for real later.
     $cached_values['deleted_variants'][$variant_machine_name] = $page_variant;
-
-    drupal_set_message($this->t('The variant %label has been removed.', [
+    $this->messenger()->addMessage($this->t('The variant %label has been removed.', [
       '%label' => $page_variant->label(),
     ]));
 

@@ -51,6 +51,13 @@ class FetchManagerTest extends KernelTestBase {
   protected $fileSystem;
 
   /**
+   * The config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * Before a test method is run, setUp() is invoked.
    *
    * Create new fetchManager object.
@@ -62,8 +69,9 @@ class FetchManagerTest extends KernelTestBase {
     $this->config('system.file')->set('default_scheme', 'public')->save();
     $this->client = new Client();
     $this->logger = \Drupal::logger('test_logger');
+    $this->configFactory = $this->container->get('config.factory');
 
-    $this->fetchManager = new FetchManager($this->client, $this->fileSystem, $this->logger);
+    $this->fetchManager = new FetchManager($this->client, $this->fileSystem, $this->logger, $this->configFactory);
   }
 
   /**

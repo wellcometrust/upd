@@ -5,19 +5,26 @@ namespace Drupal\Tests\colorbox\FunctionalJavascript;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\file\Entity\File;
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
-use Drupal\simpletest\ContentTypeCreationTrait;
-use Drupal\simpletest\NodeCreationTrait;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
+use Drupal\Tests\node\Traits\NodeCreationTrait;
 
 /**
  * Test the colorbox JavaScript.
  *
  * @group colorbox
  */
-class ColorboxJavascriptTest extends JavascriptTestBase {
+class ColorboxJavascriptTest extends WebDriverTestBase {
 
   use NodeCreationTrait;
   use ContentTypeCreationTrait;
+
+  /**
+   * Theme to use.
+   *
+   * @var string
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * {@inheritdoc}
@@ -75,7 +82,6 @@ class ColorboxJavascriptTest extends JavascriptTestBase {
       ->setComponent('field_test_image', [
         'type' => 'colorbox',
         'settings' => ['colorbox_caption' => 'alt'],
-        'status' => TRUE,
       ])
       ->save();
     drupal_flush_all_caches();
@@ -92,7 +98,7 @@ class ColorboxJavascriptTest extends JavascriptTestBase {
    */
   public function testMobileDetection() {
     $this->changeSetting('advanced.mobile_detect', TRUE);
-    $this->changeSetting('advanced.mobile_detect_width', '1200px');
+    $this->changeSetting('advanced.mobile_device_width', '1200px');
     $this->getSession()->resizeWindow(200, 200);
     $this->drupalGet('node/' . $this->node->id());
     $this->assertSession()->elementAttributeContains('css', '#colorbox', 'style', 'display: none;');
@@ -135,13 +141,13 @@ class ColorboxJavascriptTest extends JavascriptTestBase {
   protected function setUp() {
     parent::setUp();
     $this->createContentType(['type' => 'page']);
-    FieldStorageConfig::create(array(
+    FieldStorageConfig::create([
       'field_name' => 'field_test_image',
       'entity_type' => 'node',
       'type' => 'image',
       'settings' => [],
       'cardinality' => 3,
-    ))->save();
+    ])->save();
     $field_config = FieldConfig::create([
       'field_name' => 'field_test_image',
       'label' => 'Colorbox Field',
@@ -157,10 +163,9 @@ class ColorboxJavascriptTest extends JavascriptTestBase {
       ->setComponent('field_test_image', [
         'type' => 'colorbox',
         'settings' => [],
-        'status' => TRUE,
       ])
       ->save();
-    file_unmanaged_copy(DRUPAL_ROOT . '/core/modules/simpletest/files/image-1.png', 'public://test.png');
+    \Drupal::service('file_system')->copy(__DIR__ . '/../../../images/admin/colorbox_example_1.png', 'public://test.png');
     $file_a = File::create([
       'uri' => 'public://test.png',
       'filename' => 'test.png',

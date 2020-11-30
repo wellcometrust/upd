@@ -15,10 +15,10 @@ mailchimp_signup.mailchimp_signup.*:
       label: 'UUID'
     mc_lists:
       type: sequence
-      label: 'Mailchimp List(s)'
+      label: 'Mailchimp Audience(s)'
       sequence:
         type: string
-        label: 'Mailchimp List'
+        label: 'Mailchimp Audience'
     mode:
       type: integer
       label: 'Mode'
@@ -77,3 +77,15 @@ mailchimp_signup.mailchimp_signup.*:
         safe_interest_groups:
           type: boolean
           label: 'Safe Interest Groups'
+        configure_groups:
+          type: boolean
+          labvel: 'Pre-configure interest groups'
+        gdpr_consent:
+          type: boolean
+          label: 'GDPR consent'
+        gdpr_checkbox_label:
+          type: text
+          label: 'GDPR checkbox label'
+        gdpr_consent_required:
+          type: boolean
+          label: 'GDPR consent required'

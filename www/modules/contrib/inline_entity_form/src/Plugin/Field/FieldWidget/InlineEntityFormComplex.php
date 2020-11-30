@@ -3,7 +3,10 @@
 namespace Drupal\inline_entity_form\Plugin\Field\FieldWidget;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Component\Utility\Tags;
+use Drupal\Core\Entity\Element\EntityAutocomplete;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -14,6 +17,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\Element;
 use Drupal\inline_entity_form\TranslationHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Component\Utility\Crypt;
 
 /**
  * Complex inline widget.
@@ -22,7 +26,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "inline_entity_form_complex",
  *   label = @Translation("Inline entity form - Complex"),
  *   field_types = {
- *     "entity_reference"
+ *     "entity_reference",
+ *     "entity_reference_revisions",
  *   },
  *   multiple_values = true
  * )
@@ -37,9 +42,16 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
   protected $moduleHandler;
 
   /**
+   * Selection Plugin Manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface
+   */
+  protected $selectionManager;
+
+  /**
    * Constructs a InlineEntityFormComplex object.
    *
-   * @param array $plugin_id
+   * @param string $plugin_id
    *   The plugin_id for the widget.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
@@ -57,10 +69,13 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
    *   The entity display repository.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   Module handler service.
+   * @param \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface $selection_manager
+   *   The selection plugin manager.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, EntityTypeBundleInfoInterface $entity_type_bundle_info, EntityTypeManagerInterface $entity_type_manager, EntityDisplayRepositoryInterface $entity_display_repository, ModuleHandlerInterface $module_handler) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, EntityTypeBundleInfoInterface $entity_type_bundle_info, EntityTypeManagerInterface $entity_type_manager, EntityDisplayRepositoryInterface $entity_display_repository, ModuleHandlerInterface $module_handler, SelectionPluginManagerInterface $selection_manager) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings, $entity_type_bundle_info, $entity_type_manager, $entity_display_repository);
     $this->moduleHandler = $module_handler;
+    $this->selectionManager = $selection_manager;
   }
 
   /**
@@ -76,7 +91,8 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
       $container->get('entity_type.bundle.info'),
       $container->get('entity_type.manager'),
       $container->get('entity_display.repository'),
-      $container->get('module_handler')
+      $container->get('module_handler'),
+      $container->get('plugin.manager.entity_reference_selection')
     );
   }
 
@@ -198,9 +214,9 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
     ]);
 
     // Assign a unique identifier to each IEF widget.
-    // Since $parents can get quite long, sha1() ensures that every id has
+    // Since $parents can get quite long, hashing ensures that every id has
     // a consistent and relatively short length while maintaining uniqueness.
-    $this->setIefId(sha1(implode('-', $parents)));
+    $this->setIefId(Crypt::hashBase64(implode('-', $parents)));
 
     // Get the langcode of the parent entity.
     $parent_langcode = $items->getEntity()->language()->getId();
@@ -225,8 +241,6 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
     if ($element['#type'] == 'details') {
       $element['#open'] = !$this->getSetting('collapsed');
     }
-
-    $element['#attached']['library'][] = 'inline_entity_form/widget';
 
     $this->prepareFormState($form_state, $items, $element['#translating']);
     $entities = $form_state->get(['inline_entity_form', $this->getIefId(), 'entities']);
@@ -265,7 +279,8 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
 
     $weight_delta = max(ceil($entities_count * 1.2), 50);
     foreach ($entities as $key => $value) {
-      // Data used by theme_inline_entity_form_entity_table().
+      // Data used by inline-entity-form-entity-table.html.twig.
+      // @see template_preprocess_inline_entity_form_entity_table()
       /** @var \Drupal\Core\Entity\EntityInterface $entity */
       $entity = $value['entity'];
       $element['entities'][$key]['#label'] = $this->inlineFormHandler->getEntityLabel($value['entity']);
@@ -510,6 +525,9 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
       }
     }
     else {
+      // Make a delta key bigger than all existing ones, without assuming that
+      // the keys are strictly consecutive.
+      $new_key = $entities ? max(array_keys($entities)) + 1 : 0;
       // There's a form open, show it.
       if ($form_state->get(['inline_entity_form', $this->getIefId(), 'form']) == 'add') {
         $element['form'] = [
@@ -519,9 +537,9 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
             'add',
             $this->determineBundle($form_state),
             $parent_langcode,
-            NULL,
-            array_merge($parents, ['inline_entity_form'])
-          )
+            $new_key,
+            array_merge($parents, [$new_key])
+          ),
         ];
         $element['form']['inline_entity_form']['#process'] = [
           ['\Drupal\inline_entity_form\Element\InlineEntityForm', 'processEntityForm'],
@@ -537,7 +555,7 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
           '#ief_id' => $this->getIefId(),
           // Used by Field API and controller methods to find the relevant
           // values in $form_state.
-          '#parents' => array_merge($parents),
+          '#parents' => array_merge($parents, [$new_key]),
           '#entity_type' => $target_type,
           '#ief_labels' => $this->getEntityTypeLabels(),
           '#match_operator' => $this->getSetting('match_operator'),
@@ -556,12 +574,6 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
           $process_element = &$element['form'];
         }
         $process_element['#process'][] = [get_class($this), 'hideCancel'];
-      }
-
-      // No entities have been added. Remove the outer fieldset to reduce
-      // visual noise caused by having two titles.
-      if (empty($entities)) {
-        $element['#type'] = 'container';
       }
     }
 
@@ -583,7 +595,7 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
 
     $field_name = $this->fieldDefinition->getName();
     $parents = array_merge($form['#parents'], [$field_name, 'form']);
-    $ief_id = sha1(implode('-', $parents));
+    $ief_id = Crypt::hashBase64(implode('-', $parents));
     $this->setIefId($ief_id);
     $widget_state = &$form_state->get(['inline_entity_form', $ief_id]);
     foreach ($widget_state['entities'] as $key => $value) {
@@ -598,11 +610,67 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
     // If the inline entity form is still open, then its entity hasn't
     // been transferred to the IEF form state yet.
     if (empty($values) && !empty($widget_state['form'])) {
-      // @todo Do the same for reference forms.
       if ($widget_state['form'] == 'add') {
         $element = NestedArray::getValue($form, [$field_name, 'widget', 'form']);
         $entity = $element['inline_entity_form']['#entity'];
         $values[] = ['entity' => $entity];
+      }
+      elseif ($widget_state['form'] == 'ief_add_existing') {
+        $parent = NestedArray::getValue($form, [$field_name, 'widget', 'form']);
+        $element = isset($parent['entity_id']) ? $parent['entity_id'] : [];
+        if (!empty($element['#value'])) {
+          $options = [
+            'target_type' => $element['#target_type'],
+            'handler' => $element['#selection_handler'],
+          ] + $element['#selection_settings'];
+          /** @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionInterface $handler */
+          $handler = $this->selectionManager->getInstance($options);
+          $input_values = $element['#tags'] ? Tags::explode($element['#value']) : [$element['#value']];
+
+          foreach ($input_values as $input) {
+            $match = EntityAutocomplete::extractEntityIdFromAutocompleteInput($input);
+            if ($match === NULL) {
+              // Try to get a match from the input string when the user didn't use
+              // the autocomplete but filled in a value manually.
+              $entities_by_bundle = $handler->getReferenceableEntities($input, '=');
+              $entities = array_reduce($entities_by_bundle, function ($flattened, $bundle_entities) {
+                return $flattened + $bundle_entities;
+              }, []);
+              $params = [
+                '%value' => $input,
+                '@value' => $input,
+              ];
+              if (empty($entities)) {
+                $form_state->setError($element, $this->t('There are no entities matching "%value".', $params));
+              }
+              elseif (count($entities) > 5) {
+                $params['@id'] = key($entities);
+                // Error if there are more than 5 matching entities.
+                $form_state->setError($element, $this->t('Many entities are called %value. Specify the one you want by appending the id in parentheses, like "@value (@id)".', $params));
+              }
+              elseif (count($entities) > 1) {
+                // More helpful error if there are only a few matching entities.
+                $multiples = [];
+                foreach ($entities as $id => $name) {
+                  $multiples[] = $name . ' (' . $id . ')';
+                }
+                $params['@id'] = $id;
+                $form_state->setError($element, $this->t('Multiple entities match this reference; "%multiple". Specify the one you want by appending the id in parentheses, like "@value (@id)".', ['%multiple' => implode('", "', $multiples)] + $params));
+              }
+              else {
+                // Take the one and only matching entity.
+                $values += [
+                  'target_id' => key($entities),
+                ];
+              }
+            }
+            else {
+              $values += [
+                'target_id' => $match,
+              ];
+            }
+          }
+        }
       }
     }
     // Sort values by weight.
@@ -808,9 +876,6 @@ class InlineEntityFormComplex extends InlineEntityFormBase implements ContainerF
     $element = inline_entity_form_get_element($form, $form_state);
     $remove_button = $form_state->getTriggeringElement();
     $delta = $remove_button['#ief_row_delta'];
-
-    /** @var \Drupal\Core\Field\FieldDefinitionInterface $instance */
-    $instance = $form_state->get(['inline_entity_form', $element['#ief_id'], 'instance']);
 
     /** @var \Drupal\Core\Entity\EntityInterface $entity */
     $entity = $element['entities'][$delta]['form']['#entity'];

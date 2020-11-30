@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for mailchimp_test.
+ */
+
+if (!class_exists('Mailchimp\Tests\Mailchimp')) {
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/Client.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/Mailchimp.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpAutomations.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpCampaigns.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpEcommerce.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpLists.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpReports.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpTemplates.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpTestHttpClient.php";
+  include_once __DIR__ . "/../../../lib/mailchimp-api-php/tests/src/MailchimpTestHttpResponse.php";
+}

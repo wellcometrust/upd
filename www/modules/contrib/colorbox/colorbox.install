@@ -5,12 +5,24 @@
  * Install, update and uninstall functions for the colorbox module.
  */
 
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_install().
+ */
+function colorbox_install() {
+  \Drupal::messenger()->addMessage(t('Thanks for installing Colorbox'));
+  \Drupal::messenger()->addMessage(t('You may configure Colorbox by visiting <a href="@url_settings">@url_settings</a>', [
+    '@url_settings' => Url::fromRoute('colorbox.admin_settings')->toString(),
+  ]));
+}
+
 /**
  * Implements hook_requirements().
  */
 function colorbox_requirements($phase) {
   if ($phase != 'runtime') {
-    return array();
+    return [];
   }
 
   $library = \Drupal::service('library.discovery')->getLibraryByName('colorbox', 'colorbox');

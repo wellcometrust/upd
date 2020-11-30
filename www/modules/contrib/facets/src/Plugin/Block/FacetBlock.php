@@ -94,6 +94,13 @@ class FacetBlock extends BlockBase implements ContainerFactoryPluginInterface {
         'route_parameters' => ['facets_facet' => $facet->id()],
       ];
 
+      if (!empty($build[0]['#attributes']['class']) && in_array('facet-active', $build[0]['#attributes']['class'], TRUE)) {
+        $build['#attributes']['class'][] = 'facet-active';
+      }
+      else {
+        $build['#attributes']['class'][] = 'facet-inactive';
+      }
+
       // Add classes needed for ajax.
       if (!empty($build['#use_ajax'])) {
         $build['#attributes']['class'][] = 'block-facets-ajax';
@@ -159,8 +166,8 @@ class FacetBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function blockSubmit($form, FormStateInterface $form_state) {
     // Checks for a valid form id. Panelizer does not generate one.
     if (isset($form['id']['#value'])) {
-      // Save block id to configuration, we do this for loading the original block
-      // with ajax.
+      // Save block id to configuration, we do this for loading the original
+      // block with ajax.
       $block_id = $form['id']['#value'];
       $this->configuration['block_id'] = $block_id;
     }

@@ -33,7 +33,7 @@ class FileMetadataPluginManager extends DefaultPluginManager {
   /**
    * {@inheritdoc}
    */
-  public function createInstance($plugin_id, array $configuration = array()) {
+  public function createInstance($plugin_id, array $configuration = []) {
     $plugin_definition = $this->getDefinition($plugin_id);
     $default_config = call_user_func($plugin_definition['class'] . '::defaultConfiguration');
     $configuration = $this->configFactory->get($plugin_definition['provider'] . '.file_metadata_plugin.' . $plugin_id)->get('configuration') ?: [];

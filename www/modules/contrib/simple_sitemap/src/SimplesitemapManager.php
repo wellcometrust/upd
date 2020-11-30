@@ -18,7 +18,6 @@ use Drupal\simple_sitemap\Plugin\simple_sitemap\UrlGenerator\UrlGeneratorManager
 class SimplesitemapManager {
 
   const DEFAULT_SITEMAP_TYPE = 'default_hreflang';
-  const DEFAULT_SITEMAP_GENERATOR = 'default';
 
   /**
    * @var \Drupal\Core\Config\ConfigFactory
@@ -136,20 +135,23 @@ class SimplesitemapManager {
    */
   public function getSitemapVariants($sitemap_type = NULL, $attach_type_info = TRUE) {
     if (NULL === $sitemap_type) {
-      $variants = [];
+      $variants_by_type = [];
       foreach ($this->configFactory->listAll('simple_sitemap.variants.') as $config_name) {
-        $config_name_parts = explode('.', $config_name);
-        $saved_variants = $this->configFactory->get($config_name)->get('variants');
-        $saved_variants = $attach_type_info ? $this->attachSitemapTypeToVariants($saved_variants, $config_name_parts[2]) : $saved_variants;
-        $variants = array_merge($variants, (is_array($saved_variants) ? $saved_variants : []));
+        $variants = !empty($variants = $this->configFactory->get($config_name)->get('variants')) ? $variants : [];
+        $variants = $attach_type_info ? $this->attachSitemapTypeToVariants($variants, explode('.', $config_name)[2]) : $variants;
+        $variants_by_type[] = $variants;
       }
+      $variants = array_merge([], ...$variants_by_type);
     }
     else {
-      $variants = $this->configFactory->get("simple_sitemap.variants.$sitemap_type")->get('variants');
-      $variants = is_array($variants) ? $variants : [];
+      $variants = !empty($variants = $this->configFactory->get("simple_sitemap.variants.$sitemap_type")->get('variants')) ? $variants : [];
       $variants = $attach_type_info ? $this->attachSitemapTypeToVariants($variants, $sitemap_type) : $variants;
     }
-    array_multisort(array_column($variants, "weight"), SORT_ASC, $variants);
+
+    // Sort variants by weight.
+    $variant_weights = array_column($variants, 'weight');
+    array_multisort($variant_weights, SORT_ASC, $variants);
+
     return $variants;
   }
 
@@ -159,7 +161,7 @@ class SimplesitemapManager {
    * @return array
    */
   protected function attachSitemapTypeToVariants(array $variants, $type) {
-    return array_map(function($variant) use ($type) { return $variant + ['type' => $type]; }, $variants);
+    return array_map(static function($variant) use ($type) { return $variant + ['type' => $type]; }, $variants);
   }
 
   /**
@@ -197,7 +199,7 @@ class SimplesitemapManager {
     }
 
     if (isset($old_variant)) {
-      $definition = $definition + $old_variant;
+      $definition += $old_variant;
     }
 
     $variants = array_merge($this->getSitemapVariants($definition['type'], FALSE), [$name => ['label' => $definition['label'], 'weight' => $definition['weight']]]);
@@ -294,7 +296,6 @@ class SimplesitemapManager {
         $query->condition('type', (array) $variant_names, 'IN');
       }
       $query->execute();
-
 
       // Remove default variant setting.
       if (NULL === $variant_names

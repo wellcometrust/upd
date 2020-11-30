@@ -47,18 +47,13 @@
         }
         // Update view on facet item click.
         else {
-          $('[data-drupal-facet-id=' + facetId + ']').find('.facet-item').once().each(function (index, facet_item) {
-            $(facet_item).children('a').once().click(function (e) {
-              e.preventDefault();
-              updateFacetsView($(this).attr('href'), current_dom_id, view_path);
-            });
-          });
-
           $('[data-drupal-facet-id=' + facetId + ']').each(function (index, facet_item) {
-            if ($(facet_item).hasClass('js-facets-dropdown')) {
-              $(facet_item).unbind('change.facets');
-              $(facet_item).on('change.facets', function () {
-                updateFacetsView($(this).val(), current_dom_id, view_path);
+            if ($(facet_item).hasClass('js-facets-widget')) {
+              $(facet_item).unbind('facets_filter.facets');
+              $(facet_item).on('facets_filter.facets', function (event, url) {
+                $('.js-facets-widget').trigger('facets_filtering');
+
+                updateFacetsView(url, current_dom_id, view_path);
               });
             }
           });
@@ -108,8 +103,15 @@
     var settings = drupalSettings;
     var facets_blocks = facetsBlocks();
 
+    // Remove All Range Input Form Facet Blocks from being updated.
+    if(settings.facets && settings.facets.rangeInput) {
+      $.each(settings.facets.rangeInput, function (index, value){
+        delete facets_blocks[value.facetId];
+      });
+    }
+
     // Update facet blocks.
-    let facet_settings = {
+    var facet_settings = {
       url: Drupal.url('facets-block-ajax'),
       submit: {
         facet_link: href,

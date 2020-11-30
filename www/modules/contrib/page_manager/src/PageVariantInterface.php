@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\page_manager\PageVariantInterface.
- */
-
 namespace Drupal\page_manager;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;

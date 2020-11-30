@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\page_manager\Unit\PageManagerRoutesTest.
- */
-
 namespace Drupal\Tests\page_manager\Unit;
 
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
@@ -203,7 +198,7 @@ class PageManagerRoutesTest extends UnitTestCase {
       'test_route.POST_with_format',
       'test_route',
       'page_manager.page_view_page1_variant1',
-      ], array_keys($collection->all()));
+    ], array_keys($collection->all()));
 
     $route = $collection->get('page_manager.page_view_page1_variant1');
     $expected_defaults = [
@@ -231,6 +226,7 @@ class PageManagerRoutesTest extends UnitTestCase {
     ];
     $this->assertMatchingRoute($route, $existing_route_path, $expected_defaults, $expected_requirements, $expected_options);
   }
+
 
   public function providerTestAlterRoutesOverrideExisting() {
     $data = [];
@@ -280,12 +276,11 @@ class PageManagerRoutesTest extends UnitTestCase {
       'test_route',
       'page_manager.page_view_page1_variant1',
       'page_manager.page_view_page2_variant2',
-      ], array_keys($collection->all()));
+    ], array_keys($collection->all()));
     $expected = [
       'test_route' => [
         'path' => '/test_route1',
-        'defaults' => [
-        ],
+        'defaults' => [],
         'requirements' => [
           '_access' => 'TRUE',
         ],

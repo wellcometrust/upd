@@ -3,7 +3,9 @@
 namespace Drupal\facets\Plugin\facets\widget;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\facets\FacetInterface;
+use Drupal\facets\Result\Result;
 use Drupal\facets\Widget\WidgetPluginBase;
 
 /**
@@ -27,6 +29,9 @@ class LinksWidget extends WidgetPluginBase {
         'show_less_label' => 'Show less',
         'show_more_label' => 'Show more',
       ],
+      'show_reset_link' => FALSE,
+      'hide_reset_when_no_selection' => FALSE,
+      'reset_text' => $this->t('Show all'),
     ] + parent::defaultConfiguration();
   }
 
@@ -35,6 +40,7 @@ class LinksWidget extends WidgetPluginBase {
    */
   public function build(FacetInterface $facet) {
     $build = parent::build($facet);
+    $this->appendWidgetLibrary($build);
     $soft_limit = (int) $this->getConfiguration()['soft_limit'];
     if ($soft_limit !== 0) {
       $show_less_label = $this->getConfiguration()['soft_limit_settings']['show_less_label'];
@@ -47,7 +53,78 @@ class LinksWidget extends WidgetPluginBase {
     if ($facet->getUseHierarchy()) {
       $build['#attached']['library'][] = 'facets/drupal.facets.hierarchical';
     }
+
+    $results = $facet->getResults();
+    if ($this->getConfiguration()['show_reset_link'] && count($results) > 0 && (!$this->getConfiguration()['hide_reset_when_no_selection'] || $facet->getActiveItems())) {
+      // Add reset link.
+      $max_items = array_sum(array_map(function ($item) {
+        return $item->getCount();
+      }, $results));
+
+      $urlProcessorManager = \Drupal::service('plugin.manager.facets.url_processor');
+      $url_processor = $urlProcessorManager->createInstance($facet->getFacetSourceConfig()->getUrlProcessorName(), ['facet' => $facet]);
+      $active_filters = $url_processor->getActiveFilters();
+
+      if (isset($active_filters[''])) {
+        unset($active_filters['']);
+      }
+
+      unset($active_filters[$facet->id()]);
+
+      // Only if there are still active filters, use url generator.
+      if ($active_filters) {
+        $url = \Drupal::service('facets.utility.url_generator')
+          ->getUrl($active_filters, FALSE);
+      }
+      else {
+        $request = \Drupal::request();
+        $url = Url::createFromRequest($request);
+        $params = $request->query->all();
+        unset($params[$url_processor->getFilterKey()]);
+        $url->setRouteParameter('facets_query', '');
+        $url->setOption('query', $params);
+      }
+
+      $result_item = new Result($facet, 'reset_all', $this->getConfiguration()['reset_text'], $max_items);
+      $result_item->setActiveState(FALSE);
+      $result_item->setUrl($url);
+
+      // Check if any other facet is in use.
+      $none_active = TRUE;
+      foreach ($results as $result) {
+        if ($result->isActive()) {
+          $none_active = FALSE;
+          break;
+        }
+      }
+
+      // Add an is-active class when no other facet is in use.
+      if ($none_active) {
+        $result_item->setActiveState(TRUE);
+      }
+
+      // Build item.
+      $item = $this->buildListItems($facet, $result_item);
+
+      // Add a class for the reset link wrapper.
+      $item['#wrapper_attributes']['class'][] = 'facets-reset';
+
+      // Put reset facet link on first place.
+      array_unshift($build['#items'], $item);
+    }
+
     return $build;
+  }
+
+  /**
+   * Appends widget library and relevant information for it to build array.
+   *
+   * @param array $build
+   *   Reference to build array.
+   */
+  protected function appendWidgetLibrary(array &$build) {
+    $build['#attached']['library'][] = 'facets/drupal.facets.link-widget';
+    $build['#attributes']['class'][] = 'js-facets-links';
   }
 
   /**
@@ -88,6 +165,30 @@ class LinksWidget extends WidgetPluginBase {
       '#states' => [
         'optional' => [':input[name="widget_config[soft_limit]"]' => ['value' => 0]],
       ],
+    ];
+
+    $form['show_reset_link'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show reset link'),
+      '#default_value' => $this->getConfiguration()['show_reset_link'],
+    ];
+    $form['reset_text'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Reset text'),
+      '#default_value' => $this->getConfiguration()['reset_text'],
+      '#states' => [
+        'visible' => [
+          ':input[name="widget_config[show_reset_link]"]' => ['checked' => TRUE],
+        ],
+        'required' => [
+          ':input[name="widget_config[show_reset_link]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+    $form['hide_reset_when_no_selection'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide reset link when no facet item is selected'),
+      '#default_value' => $this->getConfiguration()['hide_reset_when_no_selection'],
     ];
     return $form;
   }
