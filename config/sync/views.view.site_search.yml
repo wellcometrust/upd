@@ -151,6 +151,8 @@ display:
             description: ''
             use_operator: false
             operator: search_api_fulltext_op
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: query
             required: false
             remember: false
@@ -160,8 +162,7 @@ display:
               anonymous: '0'
               administrator: '0'
               editor: '0'
-            operator_limit_selection: false
-            operator_list: {  }
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -174,7 +175,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          parse_mode: terms
+          parse_mode: direct
           min_length: null
           fields:
             - field_standfirst

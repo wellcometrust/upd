@@ -64,6 +64,31 @@ $settings['trusted_host_patterns'] = ['.*'];
   ],
 ];*/
 
+// Solr Config
+$config['search_api.server.local_solr']= [
+  'backend_config' => [
+    'connector_config' => [
+      'host' => '192.168.57.130',
+      'path' => '/',
+      'core' => 'upd_core',
+      'port' => '8080',
+    ],
+  ],
+];
+// @TODO: #49093 Fix Solr configuration locally and search engine on website.
+// Development: Uncomment the following code to override search API solr server
+// configuration, when using other config_split configurations.
+/*$config['search_api.server.local_solr'] = [
+  'backend_config' => [
+    'connector_config' => [
+      'host' => '192.168.57.130',
+      'path' => '/',
+      'core' => 'upd_core',
+      'port' => '8080',
+    ],
+  ],
+];*/
+
 /**
  * Include local dev settings if any (gitignored, normally).
  */

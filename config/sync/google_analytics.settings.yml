@@ -27,7 +27,7 @@ custom:
   metric: {  }
 codesnippet:
   create: {  }
-  before: "var gaCode = 'UA-96672028-1';\r\nwindow['ga-disable-' + gaCode] = true;\r\nif(document.cookie.valueOf('cookie-agreed') === \"cookie-agreed=1\") {\r\n  window['ga-disable-' + gaCode] = false;\r\n}"
+  before: "var gaCode = 'UA-96672028-1';\r\nwindow['ga-disable-' + gaCode] = true;\r\nif (document.cookie.split(';').some(function(item) {return item.trim().indexOf('cookie-agreed=2') == 0})) {\r\n  window['ga-disable-' + gaCode] = false;\r\n}"
   after: ''
 translation_set: false
 cache: false
