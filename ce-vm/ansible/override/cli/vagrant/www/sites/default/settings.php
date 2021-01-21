@@ -38,6 +38,9 @@ $databases['default']['default'] = [
 // Config sync directory.
 $settings['config_sync_directory'] = '../config/sync';
 
+// Private files folder, usually outside the web folder.
+$settings['file_private_path'] = '../private';
+
 // Enable the 'local' config_split and force other splits to be disabled.
 $config['config_split.config_split.local']['status'] = TRUE;
 $config['config_split.config_split.master']['status'] = FALSE;

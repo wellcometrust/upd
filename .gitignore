@@ -1,5 +1,6 @@
 .idea
 files/*
+private/*
 www/sites/default/files/*
 /www/sites/default/files/*
 www/sites/default/settings.php

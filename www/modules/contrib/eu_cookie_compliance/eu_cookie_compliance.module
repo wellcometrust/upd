@@ -17,6 +17,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Asset\AttachedAssetsInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Xss;
+use Drupal\domain\Entity\Domain;
 use Drupal\eu_cookie_compliance\PersonalInformationFormInterface;
 
 /**
@@ -77,17 +78,6 @@ function eu_cookie_compliance_preprocess_page(&$variables) {
     }
   }
 
-  // Adapt excluded/included reload routes to regular expressions for later use
-  // in the JS.
-  if (!empty($config->get('reload_routes_list'))) {
-
-    $routes_list = str_replace(["\r\n", "\r"], "\n", $config->get('reload_routes_list'));
-    $routes_list = explode("\n", $routes_list);
-    $routes_list = preg_replace('/\//', '', $routes_list, 1);
-    $routes_list = preg_replace('/\//', '\/', $routes_list);
-    $routes_list = preg_replace('/\*/', '.*', $routes_list);
-  }
-
   // Check exclude paths.
   $path_match = FALSE;
 
@@ -133,230 +123,24 @@ function eu_cookie_compliance_preprocess_page(&$variables) {
   if ($config->get('popup_enabled') && \Drupal::currentUser()->hasPermission('display eu cookie compliance popup') && $geoip_match['in_eu'] && $domain_allow && !$path_match && !$admin_theme_match && $uid1_match && $modules_allow_popup) {
     $language = \Drupal::languageManager()->getCurrentLanguage();
 
-    $data['css'] = '';
-    // Color overrides.
-    if ($config->get('popup_bg_hex') !== '' && $config->get('popup_text_hex') !== '') {
-      $data['css'] = 'div#sliding-popup, div#sliding-popup .eu-cookie-withdraw-banner, .eu-cookie-withdraw-tab {background: #' . Html::escape($config->get('popup_bg_hex')) . '} div#sliding-popup.eu-cookie-withdraw-wrapper { background: transparent; } #sliding-popup h1, #sliding-popup h2, #sliding-popup h3, #sliding-popup p, #sliding-popup label, #sliding-popup div, .eu-cookie-compliance-more-button, .eu-cookie-compliance-secondary-button, .eu-cookie-withdraw-tab { color: #' . Html::escape($config->get('popup_text_hex')) . ';} .eu-cookie-withdraw-tab { border-color: #' . Html::escape($config->get('popup_text_hex')) . ';}';
+    // Start building out a cache tag.
+    $cid = 'eu_cookie_compliance_data:' . $language->getId();
+
+    // Check if the domain should be added to the cache tag.
+    $moduleHandler = \Drupal::service('module_handler');
+    if ($moduleHandler->moduleExists('domain') && count(Domain::loadMultiple()) > 0) {
+      $cid .= ':' . \Drupal::service('domain.negotiator')->getActiveId();
     }
-    if (!empty($config->get('popup_position')) && $config->get('popup_position') && !empty($config->get('fixed_top_position')) && $config->get('fixed_top_position')) {
-      $data['css'] .= '#sliding-popup.sliding-popup-top { position: fixed; }';
-    }
+    // Add the current theme to the cache tag
+    $cid .= ':' . \Drupal::service('theme.manager')->getActiveTheme()->getName();
 
-    $method = $config->get('method') ? $config->get('method') : 'default';
-
-    if ($method === 'auto') {
-      $dnt = isset($_SERVER['HTTP_DNT']) ? $_SERVER['HTTP_DNT'] : NULL;
-      if ((int) $dnt === 0 && $dnt !== NULL) {
-        $method = 'default';
-      }
-      else {
-        $method = 'opt_in';
-      }
-    }
-
-    // Set default value for $popup_info_template.
-    $popup_info_template = 'eu_cookie_compliance_popup_info';
-
-    $withdraw_button_on_info_popup = $config->get('withdraw_button_on_info_popup');
-    $save_preferences_button_label = '';
-
-    switch ($method) {
-      case 'default':
-        $click_confirmation = $config->get('popup_clicking_confirmation');
-        $scroll_confirmation = $config->get('popup_scrolling_confirmation');
-        $primary_button_label = $config->get('popup_agree_button_message');
-        $primary_button_class = 'agree-button eu-cookie-compliance-default-button';
-        $secondary_button_label = '';
-        $secondary_button_class = '';
-        $privacy_settings_tab_label = FALSE;
-        $withdraw_button_on_info_popup = FALSE;
-        $info_templates = [
-          'legacy' => 'eu_cookie_compliance_popup_info_consent_default',
-          'new' => 'eu_cookie_compliance_popup_info',
-        ];
-        $popup_info_template = $info_templates[$config->get('popup_info_template')];
-        break;
-
-      case 'opt_in':
-        $click_confirmation = FALSE;
-        $scroll_confirmation = FALSE;
-        $primary_button_label = $config->get('popup_agree_button_message');
-        $primary_button_class = 'agree-button eu-cookie-compliance-secondary-button';
-        $secondary_button_label = $config->get('disagree_button_label');
-        $secondary_button_class = 'decline-button eu-cookie-compliance-default-button';
-        $privacy_settings_tab_label = $config->get('withdraw_tab_button_label');
-        break;
-
-      case 'categories':
-        $click_confirmation = FALSE;
-        $scroll_confirmation = FALSE;
-        if ($config->get('enable_save_preferences_button')) {
-          $save_preferences_button_label = $config->get('save_preferences_button_label');
-          $primary_button_label = $config->get('accept_all_categories_button_label');
-        }
-        else {
-          $save_preferences_button_label = '';
-          $primary_button_label = $config->get('popup_agree_button_message');
-        }
-        $primary_button_class = 'agree-button eu-cookie-compliance-default-button';
-        $secondary_button_label = $config->get('withdraw_action_button_label');
-        $secondary_button_class = 'eu-cookie-withdraw-button hidden';
-        $privacy_settings_tab_label = $withdraw_button_on_info_popup ? $config->get('withdraw_tab_button_label') : FALSE;
-        break;
-
-      case 'opt_out':
-        $click_confirmation = FALSE;
-        $scroll_confirmation = FALSE;
-        $primary_button_label = $config->get('disagree_button_label');
-        $primary_button_class = 'decline-button eu-cookie-compliance-secondary-button';
-        $secondary_button_label = $config->get('popup_agree_button_message');
-        $secondary_button_class = 'agree-button eu-cookie-compliance-default-button';
-        $privacy_settings_tab_label = $withdraw_button_on_info_popup ? $config->get('withdraw_tab_button_label') : FALSE;
-        break;
-    }
-
-    $cookie_categories = $method === 'categories' ? \Drupal::entityTypeManager()->getStorage('cookie_category')->getCookieCategories() : FALSE;
-
-    $settings_tab_enabled = $config->get('settings_tab_enabled');
-
-    $popup_text_info = $config->get('popup_info.value');
-    $popup_text_agreed = $config->get('popup_agreed.value');
-    $withdraw_markup = $config->get('withdraw_message.value');
-    $mobile_popup_text_info = $config->get('mobile_popup_info.value');
-
-    if (\Drupal::service('module_handler')->moduleExists('token')) {
-      $token_service = \Drupal::token();
-      $popup_text_info = $token_service->replace($popup_text_info);
-      $popup_text_agreed = $token_service->replace($popup_text_agreed);
-      $withdraw_markup = $token_service->replace($withdraw_markup);
-      $mobile_popup_text_info = $token_service->replace($mobile_popup_text_info);
-    }
-    $popup_text_info = str_replace(["\r", "\n"], '', Xss::filterAdmin($popup_text_info));
-    $popup_text_agreed = str_replace(["\r", "\n"], '', Xss::filterAdmin($popup_text_agreed));
-    $withdraw_markup = str_replace(["\r", "\n"], '', Xss::filterAdmin($withdraw_markup));
-    $mobile_popup_text_info = str_replace(["\r", "\n"], '', Xss::filterAdmin($mobile_popup_text_info));
-
-    // @NOTE: disagree_button is a legacy variable name renamed
-    // to more_info_button, keeped it to avoid problems in customs templates.
-    $html_info = FALSE;
-    $mobile_html_info = FALSE;
-    if ($config->get('popup_enabled')) {
-      $html_info = [
-        '#theme' => $popup_info_template,
-        '#message' => check_markup($popup_text_info, $config->get('popup_info.format')),
-        '#agree_button' => $primary_button_label,
-        '#disagree_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
-        '#more_info_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
-        '#secondary_button_label' => $secondary_button_label,
-        '#primary_button_class' => $primary_button_class,
-        '#secondary_button_class' => $secondary_button_class,
-        '#cookie_categories' => $cookie_categories,
-        '#save_preferences_button_label' => $save_preferences_button_label,
-        '#privacy_settings_tab_label' => $privacy_settings_tab_label,
-        '#withdraw_button_on_info_popup' => $withdraw_button_on_info_popup,
-        '#method' => $method,
-        '#settings_tab_enabled' => $settings_tab_enabled,
-      ];
-      $html_info = \Drupal::service('renderer')->render($html_info);
-
-      $mobile_html_info = [
-        '#theme' => $popup_info_template,
-        '#message' => check_markup($mobile_popup_text_info, $config->get('popup_info.format')),
-        '#agree_button' => $primary_button_label,
-        '#disagree_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
-        '#more_info_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
-        '#secondary_button_label' => $secondary_button_label,
-        '#primary_button_class' => $primary_button_class,
-        '#secondary_button_class' => $secondary_button_class,
-        '#cookie_categories' => $cookie_categories,
-        '#save_preferences_button_label' => $save_preferences_button_label,
-        '#privacy_settings_tab_label' => $privacy_settings_tab_label,
-        '#withdraw_button_on_info_popup' => $withdraw_button_on_info_popup,
-        '#method' => $method,
-      ];
-
-      $mobile_html_info = \Drupal::service('renderer')->render($mobile_html_info);
-    }
-    $html_agreed = FALSE;
-    if ($config->get('popup_agreed_enabled')) {
-      $html_agreed = [
-        '#theme' => 'eu_cookie_compliance_popup_agreed',
-        '#message' => check_markup($popup_text_agreed, $config->get('popup_agreed.format'), FALSE),
-        '#hide_button' => $config->get('popup_hide_button_message'),
-        '#find_more_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_find_more_button_message') : FALSE,
-      ];
-      $html_agreed = \Drupal::service('renderer')->render($html_agreed);
-    }
-
-    $withdraw_markup = [
-      '#theme' => 'eu_cookie_compliance_withdraw',
-      '#message' => check_markup($withdraw_markup, $config->get('withdraw_message.format'), FALSE),
-      '#withdraw_tab_button_label' => $config->get('withdraw_tab_button_label'),
-      '#withdraw_action_button_label' => $config->get('withdraw_action_button_label'),
-    ];
-    $withdraw_markup = \Drupal::service('renderer')->render($withdraw_markup);
-
-    $popup_link = $config->get('popup_link');
-    if (UrlHelper::isExternal($popup_link)) {
-      $popup_link = Url::fromUri($popup_link);
+    if ($cache = \Drupal::cache('render')->get($cid)) {
+      $data = $cache->data;
     }
     else {
-      // Guard against translations being entered without leading slash.
-      if (substr($popup_link, 0, 1) !== '/' && substr($popup_link, 0, 1) !== '?' && substr($popup_link, 0, 1) !== '#') {
-        $popup_link = '/' . $popup_link;
-      }
-      $popup_link = $popup_link === '<front>' ? '/' : $popup_link;
-      $popup_link = Url::fromUserInput($popup_link);
+      $data = eu_cookie_compliance_build_data();
+      \Drupal::cache('render')->set($cid, $data, Cache::PERMANENT, $config->getCacheTags());
     }
-    $popup_link = $popup_link->toString();
-    $cookie_categories = \Drupal::entityTypeManager()->getStorage('cookie_category')->getCookieCategories();
-
-    $data['variables'] = [
-      'cookie_policy_version' => $config->get('cookie_policy_version') ?: '1.0.0',
-      'popup_enabled'        => $config->get('popup_enabled'),
-      'popup_agreed_enabled' => $config->get('popup_agreed_enabled'),
-      'popup_hide_agreed'    => $config->get('popup_hide_agreed'),
-      'popup_clicking_confirmation' => $click_confirmation,
-      'popup_scrolling_confirmation' => $scroll_confirmation,
-      'popup_html_info'      => $config->get('popup_enabled') ? $html_info : FALSE,
-      'use_mobile_message'   => !empty($config->get('use_mobile_message')) ? $config->get('use_mobile_message') : FALSE,
-      'mobile_popup_html_info' => $config->get('popup_enabled') ? $mobile_html_info : FALSE,
-      'mobile_breakpoint'    => !empty($config->get('mobile_breakpoint')) ? $config->get('mobile_breakpoint') : '768',
-      'popup_html_agreed'    => $config->get('popup_agreed_enabled') ? $html_agreed : FALSE,
-      'popup_use_bare_css'   => !empty($config->get('use_bare_css')) ? $config->get('use_bare_css') : FALSE,
-      'popup_height'         => !empty($config->get('popup_height')) ? $config->get('popup_height') : 'auto',
-      'popup_width'          => !empty($config->get('popup_width')) ? $config->get('popup_width') : '100%',
-      'popup_delay'          => (int) ($config->get('popup_delay')),
-      'popup_link'           => $popup_link,
-      'popup_link_new_window' => $config->get('popup_link_new_window'),
-      'popup_position'       => $config->get('popup_position'),
-      'fixed_top_position'   => !empty($config->get('fixed_top_position')) ? $config->get('fixed_top_position') : FALSE,
-      'popup_language'       => $language->getId(),
-      'store_consent'        => $config->get('consent_storage_method') !== 'do_not_store',
-      'better_support_for_screen_readers'         => !empty($config->get('better_support_for_screen_readers')) ? $config->get('better_support_for_screen_readers') : FALSE,
-      'cookie_name'          => !empty($config->get('cookie_name')) ? $config->get('cookie_name') : '',
-      'reload_page'          => !empty($config->get('reload_page')) ? $config->get('reload_page') : FALSE,
-      'domain'               => $config->get('domain'),
-      'domain_all_sites'     => $config->get('domain_all_sites'),
-      'popup_eu_only_js'     => !empty($config->get('eu_only_js')) ? $config->get('eu_only_js') : FALSE,
-      'cookie_lifetime'      => $config->get('cookie_lifetime'),
-      'cookie_session'       => $config->get('cookie_session'),
-      'set_cookie_session_zero_on_disagree' => $config->get('set_cookie_session_zero_on_disagree'),
-      'disagree_do_not_show_popup' => !empty($config->get('disagree_do_not_show_popup')) ? $config->get('disagree_do_not_show_popup') : FALSE,
-      'method'               => $method,
-      'automatic_cookies_removal'  => empty($config->get('automatic_cookies_removal')) ? FALSE : $config->get('automatic_cookies_removal'),
-      'allowed_cookies'  => !empty($config->get('allowed_cookies')) ? $config->get('allowed_cookies') : '',
-      'withdraw_markup'      => $withdraw_markup,
-      'withdraw_enabled'     => $config->get('withdraw_enabled'),
-      'reload_options'       => $config->get('reload_options'),
-      'reload_routes_list'   => !empty($routes_list) ? $routes_list : $config->get('reload_routes_list'),
-      'withdraw_button_on_info_popup' => $config->get('withdraw_button_on_info_popup'),
-      'cookie_categories'   => is_array($cookie_categories) ? array_keys($cookie_categories) : FALSE,
-      'cookie_categories_details' => is_array($cookie_categories) ? $cookie_categories : FALSE,
-      'enable_save_preferences_button' => $config->get('enable_save_preferences_button'),
-      'containing_element'  => $config->get('containing_element'),
-      'settings_tab_enabled' => $config->get('settings_tab_enabled'),
-    ];
 
     $variables['#attached']['drupalSettings']['eu_cookie_compliance'] = $data['variables'];
     $variables['#attached']['library'][] = 'eu_cookie_compliance/eu_cookie_compliance_' . ($config->get('use_bare_css') ? 'bare' : 'default');
@@ -474,6 +258,275 @@ function eu_cookie_compliance_preprocess_page(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Builds the data structure for the cookie banner.
+ *
+ * @return array
+ *   The data needed for the cookie banner.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function eu_cookie_compliance_build_data() {
+  $language = Drupal::languageManager()->getCurrentLanguage();
+  $config = Drupal::config('eu_cookie_compliance.settings');
+
+  // Adapt excluded/included reload routes to regular expressions for later use
+  // in the JS.
+  if (!empty($config->get('reload_routes_list'))) {
+
+    $routes_list = str_replace(["\r\n", "\r"], "\n", $config->get('reload_routes_list'));
+    $routes_list = explode("\n", $routes_list);
+    $routes_list = preg_replace('/\//', '', $routes_list, 1);
+    $routes_list = preg_replace('/\//', '\/', $routes_list);
+    $routes_list = preg_replace('/\*/', '.*', $routes_list);
+  }
+
+  $data['css'] = '';
+  // Color overrides.
+  if ($config->get('popup_bg_hex') !== '' && $config->get('popup_text_hex') !== '') {
+    $data['css'] = 'div#sliding-popup, div#sliding-popup .eu-cookie-withdraw-banner, .eu-cookie-withdraw-tab {background: #' . Html::escape($config->get('popup_bg_hex')) . '} div#sliding-popup.eu-cookie-withdraw-wrapper { background: transparent; } #sliding-popup h1, #sliding-popup h2, #sliding-popup h3, #sliding-popup p, #sliding-popup label, #sliding-popup div, .eu-cookie-compliance-more-button, .eu-cookie-compliance-secondary-button, .eu-cookie-withdraw-tab { color: #' . Html::escape($config->get('popup_text_hex')) . ';} .eu-cookie-withdraw-tab { border-color: #' . Html::escape($config->get('popup_text_hex')) . ';}';
+  }
+  if (!empty($config->get('popup_position')) && $config->get('popup_position') && !empty($config->get('fixed_top_position')) && $config->get('fixed_top_position')) {
+    $data['css'] .= '#sliding-popup.sliding-popup-top { position: fixed; }';
+  }
+
+  $method = $config->get('method') ? $config->get('method') : 'default';
+
+  if ($method === 'auto') {
+    $dnt = isset($_SERVER['HTTP_DNT']) ? $_SERVER['HTTP_DNT'] : NULL;
+    if ((int) $dnt === 0 && $dnt !== NULL) {
+      $method = 'default';
+    }
+    else {
+      $method = 'opt_in';
+    }
+  }
+
+  // Set default value for $popup_info_template.
+  $popup_info_template = 'eu_cookie_compliance_popup_info';
+
+  $withdraw_button_on_info_popup = $config->get('withdraw_button_on_info_popup');
+  $settings_tab_enabled = $config->get('settings_tab_enabled');
+  $save_preferences_button_label = '';
+
+  switch ($method) {
+    case 'default':
+      $click_confirmation = $config->get('popup_clicking_confirmation');
+      $scroll_confirmation = $config->get('popup_scrolling_confirmation');
+      $primary_button_label = $config->get('popup_agree_button_message');
+      $primary_button_class = 'agree-button eu-cookie-compliance-default-button';
+      $secondary_button_label = '';
+      $secondary_button_class = '';
+      $privacy_settings_tab_label = FALSE;
+      $withdraw_button_on_info_popup = FALSE;
+      $info_templates = [
+        'legacy' => 'eu_cookie_compliance_popup_info_consent_default',
+        'new' => 'eu_cookie_compliance_popup_info',
+      ];
+      $popup_info_template = $info_templates[$config->get('popup_info_template')];
+      break;
+
+    case 'opt_in':
+      $click_confirmation = FALSE;
+      $scroll_confirmation = FALSE;
+      $primary_button_label = $config->get('popup_agree_button_message');
+      $primary_button_class = 'agree-button eu-cookie-compliance-secondary-button';
+      $secondary_button_label = $config->get('disagree_button_label');
+      $secondary_button_class = 'decline-button eu-cookie-compliance-default-button';
+      $privacy_settings_tab_label = $settings_tab_enabled ? $config->get('withdraw_tab_button_label') : FALSE;
+      break;
+
+    case 'categories':
+      $click_confirmation = FALSE;
+      $scroll_confirmation = FALSE;
+      if ($config->get('enable_save_preferences_button')) {
+        $save_preferences_button_label = $config->get('save_preferences_button_label');
+        $primary_button_label = $config->get('accept_all_categories_button_label');
+      }
+      else {
+        $save_preferences_button_label = '';
+        $primary_button_label = $config->get('popup_agree_button_message');
+      }
+      $primary_button_class = 'agree-button eu-cookie-compliance-default-button';
+      $secondary_button_label = $config->get('withdraw_action_button_label');
+      $secondary_button_class = 'eu-cookie-withdraw-button hidden';
+      $privacy_settings_tab_label = $withdraw_button_on_info_popup ? $config->get('withdraw_tab_button_label') : FALSE;
+      break;
+
+    case 'opt_out':
+      $click_confirmation = FALSE;
+      $scroll_confirmation = FALSE;
+      $primary_button_label = $config->get('disagree_button_label');
+      $primary_button_class = 'decline-button eu-cookie-compliance-secondary-button';
+      $secondary_button_label = $config->get('popup_agree_button_message');
+      $secondary_button_class = 'agree-button eu-cookie-compliance-default-button';
+      $privacy_settings_tab_label = $settings_tab_enabled ? $config->get('withdraw_tab_button_label') : FALSE;
+      break;
+  }
+
+  $cookie_categories = $method === 'categories' ? \Drupal::entityTypeManager()->getStorage('cookie_category')->getCookieCategories() : FALSE;
+
+  $settings_tab_enabled = $config->get('settings_tab_enabled');
+
+  $popup_text_info = $config->get('popup_info.value');
+  $popup_text_agreed = $config->get('popup_agreed.value');
+  $withdraw_markup = $config->get('withdraw_message.value');
+  $mobile_popup_text_info = $config->get('mobile_popup_info.value');
+
+  if (\Drupal::service('module_handler')->moduleExists('token')) {
+    $token_service = \Drupal::token();
+    $popup_text_info = $token_service->replace($popup_text_info);
+    $popup_text_agreed = $token_service->replace($popup_text_agreed);
+    $withdraw_markup = $token_service->replace($withdraw_markup);
+    $mobile_popup_text_info = $token_service->replace($mobile_popup_text_info);
+  }
+  $popup_text_info = str_replace(["\r", "\n"], '', Xss::filterAdmin($popup_text_info));
+  $popup_text_agreed = str_replace(["\r", "\n"], '', Xss::filterAdmin($popup_text_agreed));
+  $withdraw_markup = str_replace(["\r", "\n"], '', Xss::filterAdmin($withdraw_markup));
+  $mobile_popup_text_info = str_replace(["\r", "\n"], '', Xss::filterAdmin($mobile_popup_text_info));
+
+  $was_debugging = FALSE;
+
+  /*
+   * @var $twig_service Twig_Environment
+   */
+  $twig_service = Drupal::service('twig');
+
+  if ($twig_service->isDebug()) {
+    $was_debugging = TRUE;
+    $twig_service->disableDebug();
+  }
+
+  // @NOTE: disagree_button is a legacy variable name renamed
+  // to more_info_button, keeped it to avoid problems in customs templates.
+  $html_info = FALSE;
+  $mobile_html_info = FALSE;
+  if ($config->get('popup_enabled')) {
+    $html_info = [
+      '#theme' => $popup_info_template,
+      '#message' => check_markup($popup_text_info, $config->get('popup_info.format')),
+      '#agree_button' => $primary_button_label,
+      '#disagree_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
+      '#more_info_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
+      '#secondary_button_label' => $secondary_button_label,
+      '#primary_button_class' => $primary_button_class,
+      '#secondary_button_class' => $secondary_button_class,
+      '#cookie_categories' => $cookie_categories,
+      '#save_preferences_button_label' => $save_preferences_button_label,
+      '#privacy_settings_tab_label' => $privacy_settings_tab_label,
+      '#withdraw_button_on_info_popup' => $withdraw_button_on_info_popup,
+      '#method' => $method,
+      '#settings_tab_enabled' => $settings_tab_enabled,
+    ];
+
+    $mobile_html_info = [
+      '#theme' => $popup_info_template,
+      '#message' => check_markup($mobile_popup_text_info, $config->get('popup_info.format')),
+      '#agree_button' => $primary_button_label,
+      '#disagree_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
+      '#more_info_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_more_info_button_message') : FALSE,
+      '#secondary_button_label' => $secondary_button_label,
+      '#primary_button_class' => $primary_button_class,
+      '#secondary_button_class' => $secondary_button_class,
+      '#cookie_categories' => $cookie_categories,
+      '#save_preferences_button_label' => $save_preferences_button_label,
+      '#privacy_settings_tab_label' => $privacy_settings_tab_label,
+      '#withdraw_button_on_info_popup' => $withdraw_button_on_info_popup,
+      '#method' => $method,
+    ];
+
+    $html_info = trim(Drupal::service('renderer')->renderRoot($html_info)->__toString());
+    $mobile_html_info = trim(Drupal::service('renderer')->renderRoot($mobile_html_info)->__toString());
+  }
+  $html_agreed = FALSE;
+  if ($config->get('popup_agreed_enabled')) {
+    $html_agreed = [
+      '#theme' => 'eu_cookie_compliance_popup_agreed',
+      '#message' => check_markup($popup_text_agreed, $config->get('popup_agreed.format'), FALSE),
+      '#hide_button' => $config->get('popup_hide_button_message'),
+      '#find_more_button' => ($config->get('show_more_info') == TRUE) ? $config->get('popup_find_more_button_message') : FALSE,
+    ];
+    $html_agreed = trim(Drupal::service('renderer')->renderRoot($html_agreed)->__toString());
+  }
+
+  $withdraw_markup = [
+    '#theme' => 'eu_cookie_compliance_withdraw',
+    '#message' => check_markup($withdraw_markup, $config->get('withdraw_message.format'), FALSE),
+    '#withdraw_tab_button_label' => $config->get('withdraw_tab_button_label'),
+    '#withdraw_action_button_label' => $config->get('withdraw_action_button_label'),
+  ];
+
+  $withdraw_markup = trim(Drupal::service('renderer')->renderRoot($withdraw_markup)->__toString());
+
+  if ($was_debugging) {
+    $twig_service->enableDebug();
+  }
+
+  $popup_link = $config->get('popup_link');
+  if (UrlHelper::isExternal($popup_link)) {
+    $popup_link = Url::fromUri($popup_link);
+  }
+  else {
+    // Guard against translations being entered without leading slash.
+    if (substr($popup_link, 0, 1) !== '/' && substr($popup_link, 0, 1) !== '?' && substr($popup_link, 0, 1) !== '#') {
+      $popup_link = '/' . $popup_link;
+    }
+    $popup_link = $popup_link === '<front>' ? '/' : $popup_link;
+    $popup_link = Url::fromUserInput($popup_link);
+  }
+  $popup_link = $popup_link->toString();
+  $cookie_categories = \Drupal::entityTypeManager()->getStorage('cookie_category')->getCookieCategories();
+
+  $data['variables'] = [
+    'cookie_policy_version' => $config->get('cookie_policy_version') ?: '1.0.0',
+    'popup_enabled'        => $config->get('popup_enabled'),
+    'popup_agreed_enabled' => $config->get('popup_agreed_enabled'),
+    'popup_hide_agreed'    => $config->get('popup_hide_agreed'),
+    'popup_clicking_confirmation' => $click_confirmation,
+    'popup_scrolling_confirmation' => $scroll_confirmation,
+    'popup_html_info'      => $config->get('popup_enabled') ? $html_info : FALSE,
+    'use_mobile_message'   => !empty($config->get('use_mobile_message')) ? $config->get('use_mobile_message') : FALSE,
+    'mobile_popup_html_info' => $config->get('popup_enabled') ? $mobile_html_info : FALSE,
+    'mobile_breakpoint'    => !empty($config->get('mobile_breakpoint')) ? $config->get('mobile_breakpoint') : '768',
+    'popup_html_agreed'    => $config->get('popup_agreed_enabled') ? $html_agreed : FALSE,
+    'popup_use_bare_css'   => !empty($config->get('use_bare_css')) ? $config->get('use_bare_css') : FALSE,
+    'popup_height'         => !empty($config->get('popup_height')) ? $config->get('popup_height') : 'auto',
+    'popup_width'          => !empty($config->get('popup_width')) ? $config->get('popup_width') : '100%',
+    'popup_delay'          => (int) ($config->get('popup_delay')),
+    'popup_link'           => $popup_link,
+    'popup_link_new_window' => $config->get('popup_link_new_window'),
+    'popup_position'       => $config->get('popup_position'),
+    'fixed_top_position'   => !empty($config->get('fixed_top_position')) ? $config->get('fixed_top_position') : FALSE,
+    'popup_language'       => $language->getId(),
+    'store_consent'        => $config->get('consent_storage_method') !== 'do_not_store',
+    'better_support_for_screen_readers'         => !empty($config->get('better_support_for_screen_readers')) ? $config->get('better_support_for_screen_readers') : FALSE,
+    'cookie_name'          => !empty($config->get('cookie_name')) ? $config->get('cookie_name') : '',
+    'reload_page'          => !empty($config->get('reload_page')) ? $config->get('reload_page') : FALSE,
+    'domain'               => $config->get('domain'),
+    'domain_all_sites'     => $config->get('domain_all_sites'),
+    'popup_eu_only_js'     => !empty($config->get('eu_only_js')) ? $config->get('eu_only_js') : FALSE,
+    'cookie_lifetime'      => $config->get('cookie_lifetime'),
+    'cookie_session'       => $config->get('cookie_session'),
+    'set_cookie_session_zero_on_disagree' => $config->get('set_cookie_session_zero_on_disagree'),
+    'disagree_do_not_show_popup' => !empty($config->get('disagree_do_not_show_popup')) ? $config->get('disagree_do_not_show_popup') : FALSE,
+    'method'               => $method,
+    'automatic_cookies_removal'  => empty($config->get('automatic_cookies_removal')) ? FALSE : $config->get('automatic_cookies_removal'),
+    'allowed_cookies'  => !empty($config->get('allowed_cookies')) ? $config->get('allowed_cookies') : '',
+    'withdraw_markup'      => $withdraw_markup,
+    'withdraw_enabled'     => $config->get('withdraw_enabled'),
+    'reload_options'       => $config->get('reload_options'),
+    'reload_routes_list'   => !empty($routes_list) ? $routes_list : $config->get('reload_routes_list'),
+    'withdraw_button_on_info_popup' => $config->get('withdraw_button_on_info_popup'),
+    'cookie_categories'   => is_array($cookie_categories) ? array_keys($cookie_categories) : FALSE,
+    'cookie_categories_details' => is_array($cookie_categories) ? $cookie_categories : FALSE,
+    'enable_save_preferences_button' => $config->get('enable_save_preferences_button'),
+    'containing_element'  => $config->get('containing_element'),
+    'settings_tab_enabled' => $config->get('settings_tab_enabled'),
+  ];
+  return $data;
 }
 
 /**
@@ -781,6 +834,8 @@ function eu_cookie_compliance_module_set_weight() {
   $exclude_modules = [
     'eu_cookie_compliance',
   ];
+  // Allow other modules to exclude themselves.
+  \Drupal::moduleHandler()->alter('eu_cookie_compliance_module_weight_exclude', $exclude_modules);
 
   $extension_config = \Drupal::configFactory()->get('core.extension');
   // Loop through all installed modules to find the highest weight.
