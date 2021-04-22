@@ -3,13 +3,14 @@
 namespace Drupal\ng_lightbox;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Path\AliasManagerInterface;
+use Drupal\path_alias\AliasManagerInterface;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Routing\AdminContext;
-use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Url;
-use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Provides a Service Class for NgLightbox.
+ */
 class NgLightbox {
 
   /**
@@ -18,21 +19,29 @@ class NgLightbox {
   const DEFAULT_MODAL = 'drupal_modal';
 
   /**
+   * Provides an interface for URL path matchers.
+   *
    * @var \Drupal\Core\Path\PathMatcherInterface
    */
   protected $pathMatcher;
 
   /**
-   * @var \Drupal\Core\Path\AliasManagerInterface
+   * Find an alias for a path and vice versa.
+   *
+   * @var \Drupal\path_alias\AliasManagerInterface
    */
   protected $aliasManager;
 
   /**
+   * Defines the immutable configuration object.
+   *
    * @var \Drupal\Core\Config\ImmutableConfig
    */
   protected $config;
 
   /**
+   * Provides a helper class to determine whether the route is an admin one.
+   *
    * @var \Drupal\Core\Routing\AdminContext
    */
   protected $adminContext;
@@ -49,10 +58,14 @@ class NgLightbox {
    *
    * @param \Drupal\Core\Path\PathMatcherInterface $path_matcher
    *   Patch matcher services for comparing the lightbox patterns.
-   * @param \Drupal\Core\Path\AliasManagerInterface $alias_manager
+   * @param \Drupal\path_alias\AliasManagerInterface $alias_manager
    *   Alias manager so we can also test path aliases.
+   *   The Path Alias core subsystem has been moved to the "path_alias" module
+   *   [https://www.drupal.org/node/3092086].
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory so we can get the lightbox settings.
+   * @param \Drupal\Core\Routing\AdminContext $admin_context
+   *   Provides a helper class to determine whether the route is an admin one.
    */
   public function __construct(PathMatcherInterface $path_matcher, AliasManagerInterface $alias_manager, ConfigFactoryInterface $config_factory, AdminContext $admin_context) {
     $this->pathMatcher = $path_matcher;
@@ -107,7 +120,7 @@ class NgLightbox {
     // Normalise the patterns as well so they match the normalised paths.
     $patterns = strtolower($this->config->get('patterns'));
 
-    // Check for internal paths first which is much quicker than the alias lookup.
+    // Check for internal paths first which is much quicker than alias lookup.
     if ($this->pathMatcher->matchPath($path, $patterns)) {
       $this->matches[$path] = TRUE;
     }
@@ -135,7 +148,7 @@ class NgLightbox {
   public function addLightbox(array &$link) {
     // Safety check if class isn't an array.
     if (!isset($link['options']['attributes']['class'])) {
-      $link['options']['attributes']['class'] = array();
+      $link['options']['attributes']['class'] = [];
     }
 
     // Add our lightbox class.

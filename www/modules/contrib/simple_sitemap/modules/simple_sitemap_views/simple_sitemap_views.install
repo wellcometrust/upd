@@ -64,8 +64,6 @@ function simple_sitemap_views_schema() {
     ],
     'primary key' => ['id'],
     'indexes' => [
-      'view' => ['view_id'],
-      'display' => ['view_id', 'display_id'],
       'arguments_ids' => ['view_id', 'display_id', 'arguments_ids'],
     ],
   ];
@@ -107,4 +105,13 @@ function simple_sitemap_views_update_8301() {
       $view->save(TRUE);
     }
   }
+}
+
+/**
+ * Remove unnecessary indexes.
+ */
+function simple_sitemap_views_update_8302() {
+  $schema = \Drupal::database()->schema();
+  $schema->dropIndex('simple_sitemap_views', 'view');
+  $schema->dropIndex('simple_sitemap_views', 'display');
 }

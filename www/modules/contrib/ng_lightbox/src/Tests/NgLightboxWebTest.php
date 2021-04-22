@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ng_lightbox\Tests\NgLightboxWebTest
- */
-
 namespace Drupal\ng_lightbox\Tests;
 
 use Drupal\simpletest\WebTestBase;
@@ -16,10 +11,13 @@ use Drupal\simpletest\WebTestBase;
  */
 class NgLightboxWebTest extends WebTestBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected $profile = 'minimal';
 
   /**
-   * Default modules to enable.
+   * Modules to install.
    *
    * @var array
    */

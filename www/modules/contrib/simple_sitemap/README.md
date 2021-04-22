@@ -4,15 +4,16 @@
  * Installation
  * Configuration
  * Usage
+ * Debugging
  * Extending the module
  * How Can You Contribute?
  * Maintainers
 
 ## INTRODUCTION ##
 
-Author and maintainer: Pawel Ginalski (gbyte.co)
- * Drupal: https://www.drupal.org/u/gbyte.co
- * Personal: https://gbyte.co/
+Author and maintainer: Pawel Ginalski (gbyte)
+ * Drupal: https://www.drupal.org/u/gbyte
+ * Personal: https://gbyte.dev/
 
 The module generates multilingual XML sitemaps which adhere to Google's new
 hreflang standard. Out of the box the sitemaps index most of Drupal's
@@ -24,7 +25,7 @@ content entity types including:
  * users
  * ...
 
-Contributed entity types like commerce products or media entities can be indexed
+Contributed entity types like commerce products can be indexed
 as well. On top of that custom links and view pages can be added to sitemaps.
 
 To learn about XML sitemaps, see https://en.wikipedia.org/wiki/Sitemaps.
@@ -43,6 +44,12 @@ for instructions on how to install or update Drupal modules.
 
 The module permission 'administer sitemap settings' can be configured under
 /admin/people/permissions.
+
+### VARIANTS ###
+
+It is possible to have several sitemap instances of different sitemap types with
+specific links accessible under certain URLs. These sitemap variants can be
+configured under admin/config/search/simplesitemap/variants.
 
 ### ENTITIES ###
 
@@ -82,33 +89,42 @@ checks for links added through the module's hooks (see below).
 ### VIEWS ###
 
 To index views, enable the included, optional module Simple XML Sitemap (Views)
-(simple_sitemap_views). Simple views as well as views with arguments can be
-indexed on the view edit page. For views with arguments, links to all view
-variants will be included in the sitemap.
+(simple_sitemap_views).
+
+Simple views as well as views with arguments can be indexed on the view edit
+page. For views with arguments, links to all view variants will be included in
+the sitemap.
 
 ### CUSTOM LINKS ###
 
 To include custom links into a sitemap, visit
 /admin/config/search/simplesitemap/custom.
 
-### SETTINGS ###
-
-The settings page can be found under admin/config/search/simplesitemap.
-Here the module can be configured and the sitemaps can be manually regenerated.
-
-#### VARIANTS ####
-
-It is possible to have several sitemap instances of different sitemap types with
-specific links accessible under certain URLs. These sitemap variants can be
-configured under admin/config/search/simplesitemap/variants.
-
-#### AUTOMATIC SUBMISSION ####
+### AUTOMATIC SUBMISSION ###
 
 It is possible to have the module automatically submit specific sitemap
-variants to search engines. Google and Bing are preconfigured. This
-functionality is available through the included simple_sitemap_engines
+variants to search engines. Google and Bing are preconfigured.
+
+This functionality is available through the included simple_sitemap_engines
 submodule. After enabling this module, go to
 admin/config/search/simplesitemap/engines/settings to set it up.
+
+### PERFORMANCE ###
+
+The module can be tuned via UI for a vast improvement in generation speeds on
+huge sites. To speed up generation, go to
+admin/config/search/simplesitemap/engines/settings and increase
+'Entities per queue item' and 'Sitemap generation max duration'.
+
+Further things that can be tweaked are unchecking 'Exclude duplicate links' and
+increasing 'Maximum links in a sitemap'.
+
+These settings will increase the demand for PHP  execution time and memory, so
+please make sure  to test the sitemap generation behaviour. See 'PERFORMANCE TEST'.
+
+### OTHER SETTINGS ###
+
+Other settings can be found under admin/config/search/simplesitemap/settings.
 
 ## USAGE ## 
 
@@ -135,6 +151,21 @@ The sitemap can be also generated via drush:
 Generation of hundreds of thousands of links can take time. Each variant gets
 published as soon as all of its links have been generated. The previous version
 of the sitemap variant is accessible during the generation process.
+
+## Debugging ##
+
+### PERFORMANCE TEST ###
+
+The module includes a script that can be used to test the sitemap generation
+performance.
+
+Run `drush scr --uri http://example.com modules/simple_sitemap/tests/scripts/performance_test.php`
+on your production environment to calculate generation speed and the amount of
+queries performed.
+
+If testing on a non-production environment, you can generate dummy content prior
+to generation:
+`drush scr --uri http://example.com modules/simple_sitemap/tests/scripts/performance_test.php -- generate 500`
 
 ## EXTENDING THE MODULE ##
 
@@ -170,6 +201,8 @@ programmatic sitemap generation. These include:
     * removeSitemapVariants
  * getQueueWorker
     * getInitialElementCount
+    * getQueuedElementCount
+    * getStashedResultCount
     * getProcessedElementCount
     * generationInProgress
 
@@ -193,7 +226,7 @@ $generator
   ->generateSitemap();
 ```
 
-See https://gbyte.co/projects/simple-xml-sitemap and code documentation in 
+See https://gbyte.dev/projects/simple-xml-sitemap and code documentation in 
 Drupal\simple_sitemap\Simplesitemap for further details.
 
 ### API HOOKS ###
@@ -249,7 +282,7 @@ the settings array of the new generator plugin's annotation. See how the
 EntityUrlGenerator is overwritten by the EntityMenuLinkContentUrlGenerator to
 facilitate a different logic for menu links.
 
-See https://gbyte.co/projects/simple-xml-sitemap for further details.
+See https://gbyte.dev/projects/simple-xml-sitemap for further details.
 
 ## HOW CAN YOU CONTRIBUTE? ##
 
@@ -264,9 +297,9 @@ See https://gbyte.co/projects/simple-xml-sitemap for further details.
    donation will be much appreciated.
    https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5AFYRSBLGSC3W
    
- * Feel free to contact me for paid support: https://gbyte.co/contact
+ * Feel free to contact me for paid support: https://gbyte.dev/contact
 
 ## MAINTAINERS ##
 
 Current maintainers:
- * Pawel Ginalski (gbyte.co) - https://www.drupal.org/u/gbyte.co
+ * Pawel Ginalski (gbyte) - https://www.drupal.org/u/gbyte

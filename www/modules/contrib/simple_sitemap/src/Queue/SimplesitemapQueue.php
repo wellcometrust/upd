@@ -2,13 +2,31 @@
 
 namespace Drupal\simple_sitemap\Queue;
 
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Queue\DatabaseQueue;
+use Drupal\Component\Datetime\Time;
 
 /**
  * Class SimplesitemapQueue
  * @package Drupal\simple_sitemap\Queue
  */
 class SimplesitemapQueue extends DatabaseQueue {
+
+  /**
+   * @var \Drupal\Component\Datetime\Time
+   */
+  protected $time;
+
+  /**
+   * SimplesitemapQueue constructor.
+   * @param $name
+   * @param \Drupal\Core\Database\Connection $connection
+   * @param \Drupal\Component\Datetime\Time $time
+   */
+  public function __construct($name, Connection $connection, Time $time) {
+    parent::__construct($name, $connection);
+    $this->time = $time;
+  }
 
   /**
    * Overrides \Drupal\Core\Queue\DatabaseQueue::claimItem().
@@ -30,6 +48,30 @@ class SimplesitemapQueue extends DatabaseQueue {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Gets a simple_sitemap queue item in a very efficient way.
+   *
+   * @return \Generator
+   *   A queue item object with at least the following properties:
+   *   - data: the same as what what passed into createItem().
+   *   - item_id: the unique ID returned from createItem().
+   *   - created: timestamp when the item was put into the queue.
+   *
+   * @see \Drupal\Core\Queue\QueueInterface::claimItem
+   */
+  public function yieldItem() {
+    try {
+      $query = $this->connection->query('SELECT data, item_id FROM {queue} q WHERE name = :name ORDER BY item_id ASC', [':name' => $this->name]);
+      while ($item = $query->fetchObject()) {
+        $item->data = unserialize($item->data);
+        yield $item;
+      }
+    }
+    catch (\Exception $e) {
+      $this->catchException($e);
+    }
   }
 
   public function createItems($data_sets) {
@@ -61,7 +103,7 @@ class SimplesitemapQueue extends DatabaseQueue {
       $query->values([
         $this->name,
         serialize($data),
-        time(),
+        $this->time->getRequestTime(),
       ]);
     }
 

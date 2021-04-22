@@ -2,10 +2,11 @@
 
 namespace Drupal\colorbox\Commands;
 
+use Drupal\Core\Asset\libraryDiscovery;
 use Drush\Commands\DrushCommands;
-use Symfony\Component\Filesystem\Filesystem;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * A Drush commandfile.
@@ -19,6 +20,20 @@ use GuzzleHttp\Exception\RequestException;
  *   - http://git.drupalcode.org/devel/tree/drush.services.yml
  */
 class ColorboxCommands extends DrushCommands {
+
+  /**
+   * Library discovery service.
+   *
+   * @var Drupal\Core\Asset\libraryDiscovery
+   */
+  protected $libraryDiscovery;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(libraryDiscovery $library_discovery) {
+    $this->libraryDiscovery = $library_discovery;
+  }
 
   /**
    * Download and install the Colorbox plugin.
@@ -49,7 +64,7 @@ class ColorboxCommands extends DrushCommands {
     }
 
     // Load the colorbox defined library.
-    if ($colorbox_library = \Drupal::service('library.discovery')->getLibraryByName('colorbox', 'colorbox')) {
+    if ($colorbox_library = $this->libraryDiscovery->getLibraryByName('colorbox', 'colorbox')) {
       // Download the file.
       $client = new Client();
       $destination = tempnam(sys_get_temp_dir(), 'colorbox-tmp');

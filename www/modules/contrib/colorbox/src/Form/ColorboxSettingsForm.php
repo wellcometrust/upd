@@ -66,6 +66,9 @@ class ColorboxSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    global $base_url;
+    $module_path = \Drupal::service('extension.list.module')->getPath('colorbox');
+    $img_folder_path = $base_url . '/' . $module_path . '/images/admin';
 
     $config = $this->configFactory->get('colorbox.settings');
 
@@ -90,7 +93,7 @@ class ColorboxSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Style'),
       '#options' => $colorbox_styles,
       '#default_value' => $config->get('custom.style'),
-      '#description' => $this->t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox plugin. Select "None" if you have added Colorbox styles to your theme.  <br> <strong>Examples</strong>: <ul><li><a href="/modules/contrib/colorbox/images/admin/example_default.png" target="blank">Default</a></li><li><a href="/modules/contrib/colorbox/images/admin/example_plain.png" target="blank">Plain</a></li><li><a href="/modules/contrib/colorbox/images/admin/example_stockholm_syndrome.png" target="blank">Stockholm Syndrome</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_1.png" target="blank">Example 1</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_2.png" target="blank">Example 2</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_3.png" target="blank">Example 3</a></li><li><a href="/modules/contrib/colorbox/images/admin/colorbox_example_4.png" target="blank">Example 4</a></li><li><a href="/modules/contrib/colorbox/images/admin/example_none.png" target="blank">None</a></li></ul>'),
+      '#description' => $this->t('Select the style to use for the Colorbox. The example styles are the ones that come with the Colorbox plugin. Select "None" if you have added Colorbox styles to your theme.  <br> <strong>Examples</strong>: <ul><li><a href="@img_folder_path/example_default.png" target="blank">Default</a></li><li><a href="@img_folder_path/example_plain.png" target="blank">Plain</a></li><li><a href="@img_folder_path/example_stockholm_syndrome.png" target="blank">Stockholm Syndrome</a></li><li><a href="@img_folder_path/colorbox_example_1.png" target="blank">Example 1</a></li><li><a href="@img_folder_path/colorbox_example_2.png" target="blank">Example 2</a></li><li><a href="@img_folder_path/colorbox_example_3.png" target="blank">Example 3</a></li><li><a href="@img_folder_path/colorbox_example_4.png" target="blank">Example 4</a></li><li><a href="@img_folder_path/example_none.png" target="blank">None</a></li></ul>', ['@img_folder_path' => $img_folder_path]),
     ];
     $form['colorbox_custom_settings']['colorbox_custom_settings_activate'] = [
       '#type' => 'radios',

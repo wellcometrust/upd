@@ -44,6 +44,9 @@ simple_sitemap.settings:
       type: sequence
       sequence:
         type: string
+    entities_per_queue_item:
+      label: 'Entities per queue item'
+      type: integer
 
 simple_sitemap.bundle_settings.*.*.*:
   label: 'Entity bundle settings'
