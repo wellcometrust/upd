@@ -50,37 +50,37 @@ class NgLightboxSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $this->config = $this->configFactory()->getEditable('ng_lightbox.settings');
 
-    $form['container']['patterns'] = array(
+    $form['container']['patterns'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Paths'),
       '#default_value' => $this->config->get('patterns'),
       '#description' => $this->t('New line separated paths that must start with a leading slash. Wildcard character is *. E.g. /comment/*/reply.'),
-    );
-    $form['container']['default_width'] = array(
+    ];
+    $form['container']['default_width'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Default Width'),
       '#default_value' => $this->config->get('default_width'),
       '#description' => $this->t('The default width for modals opened with NG Lightbox.'),
-    );
-    $form['container']['lightbox_class'] = array(
+    ];
+    $form['container']['lightbox_class'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Lightbox Class'),
       '#default_value' => $this->config->get('lightbox_class'),
       '#description' => $this->t('The css custom class for modals opened with NG Lightbox.'),
-    );
-    $form['container']['skip_admin_paths'] = array(
+    ];
+    $form['container']['skip_admin_paths'] = [
       '#title' => $this->t('Skip all admin paths'),
       '#type' => 'checkbox',
       '#default_value' => $this->config->get('skip_admin_paths'),
       '#description' => $this->t('This will exclude all admin paths from the lightbox. If you want some paths, see hook_ng_lightbox_ajax_path_alter().'),
-    );
-    $form['container']['renderer'] = array(
+    ];
+    $form['container']['renderer'] = [
       '#title' => $this->t('Renderer'),
       '#type' => 'select',
       '#default_value' => $this->config->get('renderer') ?: NgLightbox::DEFAULT_MODAL,
       '#description' => $this->t('Select which renderer should be used for the lightbox.'),
       '#options' => $this->renderers,
-    );
+    ];
 
     return parent::buildForm($form, $form_state);
   }

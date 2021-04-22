@@ -1,15 +1,11 @@
 <?php
 
-/**
- * @file
- * NG Lightbox tests.
- */
-
 namespace Drupal\ng_lightbox\Tests;
 
+use Drupal\Core\Link;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
-use Drupal\simpletest\KernelTestBase;
+use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Test basic functionality of the lightbox.
@@ -19,6 +15,8 @@ use Drupal\simpletest\KernelTestBase;
 class NgLightboxTest extends KernelTestBase {
 
   /**
+   * Modules to install.
+   *
    * @var array
    */
   public static $modules = ['system', 'node', 'user', 'ng_lightbox'];
@@ -28,12 +26,10 @@ class NgLightboxTest extends KernelTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->installSchema('system', ['router', 'url_alias']);
     \Drupal::service('router.builder')->rebuild();
 
     $this->installEntitySchema('node');
     $this->installEntitySchema('user');
-    $this->installSchema('node', ['node_access']);
     $this->installConfig(['ng_lightbox']);
 
     // Create the node type.
@@ -48,15 +44,16 @@ class NgLightboxTest extends KernelTestBase {
     // Test the patterns are enabled on links as expected.
     $node = Node::create(['type' => 'page', 'title' => $this->randomString()]);
     $node->save();
-    $config = \Drupal::configFactory()->getEditable('ng_lightbox.settings');
-    $config->set('patterns', $node->url())->save();
-    $this->assertLightboxEnabled(\Drupal::l('Normal Path', $node->urlInfo()));
+    $value_patterns = $node->toUrl()->toString();
+    $config = \Drupal::configFactory()->getEditable('ng_lightbox.settings')
+              ->set('patterns', $value_patterns)
+              ->save();
+    $this->assertLightboxEnabled(Link::fromTextAndUrl('Normal Path', $node->toUrl()));
 
     // Create a second node and make sure it doesn't get lightboxed.
-    $node = Node::create(['type' => 'page', 'title' => $this->randomString()]);
-    $node->save();
-    $this->assertLightboxNotEnabled(\Drupal::l('Normal Path', $node->urlInfo()));
-
+    $secondnode = Node::create(['type' => 'page', 'title' => $this->randomString()]);
+    $secondnode->save();
+    $this->assertLightboxNotEnabled(Link::fromTextAndUrl('Second Path', $secondnode->toUrl()));
 
     // @TODO, these were in D7 but in D8, I can't see how you can even generate
     // a link with such a format so maybe it isn't needed at all?
@@ -73,8 +70,8 @@ class NgLightboxTest extends KernelTestBase {
    *   The rendered link.
    */
   protected function assertLightboxEnabled($link) {
-    $this->assertContains('use-ajax', $link);
-    $this->assertContains('data-dialog-type', $link);
+    $this->assertStringContainsString('use-ajax', $link->toString());
+    $this->assertStringContainsString('data-dialog-type', $link->toString());
   }
 
   /**
@@ -84,48 +81,8 @@ class NgLightboxTest extends KernelTestBase {
    *   The rendered link.
    */
   protected function assertLightboxNotEnabled($link) {
-    $this->assertNotContains('use-ajax', $link);
-    $this->assertNotContains('data-dialog-type', $link);
-  }
-
-  /**
-   * Asserts a string does exist in the haystack.
-   *
-   * @param string $needle
-   *   The string to search for.
-   * @param string $haystack
-   *   The string to search within.
-   * @param string $message
-   *   The message to log.
-   *
-   * @return bool
-   *   TRUE if it was found otherwise FALSE.
-   */
-  protected function assertContains($needle, $haystack, $message = '') {
-    if (empty($message)) {
-      $message = t('%needle was found within %haystack', array('%needle' => $needle, '%haystack' => $haystack));
-    }
-    return $this->assertTrue(stripos($haystack, $needle) !== FALSE, $message);
-  }
-
-  /**
-   * Asserts a string does not exist in the haystack.
-   *
-   * @param string $needle
-   *   The string to search for.
-   * @param string $haystack
-   *   The string to search within.
-   * @param string $message
-   *   The message to log.
-   *
-   * @return bool
-   *   TRUE if it was not found otherwise FALSE.
-   */
-  protected function assertNotContains($needle, $haystack, $message = '') {
-    if (empty($message)) {
-      $message = t('%needle was not found within %haystack', array('%needle' => $needle, '%haystack' => $haystack));
-    }
-    return $this->assertTrue(stripos($haystack, $needle) === FALSE, $message);
+    $this->assertNotContains('use-ajax', $link->toRenderable());
+    $this->assertNotContains('data-dialog-type', $link->toRenderable());
   }
 
 }

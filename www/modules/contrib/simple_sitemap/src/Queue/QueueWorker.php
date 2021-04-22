@@ -4,6 +4,7 @@ namespace Drupal\simple_sitemap\Queue;
 
 use Drupal\Component\Utility\Timer;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\simple_sitemap\Plugin\simple_sitemap\SitemapGenerator\SitemapGeneratorBase;
 use Drupal\simple_sitemap\SimplesitemapSettings;
 use Drupal\simple_sitemap\SimplesitemapManager;
@@ -15,11 +16,13 @@ class QueueWorker {
   use BatchTrait;
 
   const REBUILD_QUEUE_CHUNK_ITEM_SIZE = 5000;
+  const LOCK_ID = 'simple_sitemap:generation';
 
   const GENERATE_TYPE_FORM = 'form';
   const GENERATE_TYPE_DRUSH = 'drush';
   const GENERATE_TYPE_CRON = 'cron';
   const GENERATE_TYPE_BACKEND = 'backend';
+  const GENERATE_LOCK_TIMEOUT = 3600;
 
   /**
    * @var \Drupal\simple_sitemap\SimplesitemapSettings
@@ -50,6 +53,11 @@ class QueueWorker {
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   protected $moduleHandler;
+
+  /**
+   * @var \Drupal\Core\Lock\LockBackendInterface
+   */
+  protected $lock;
 
   /**
    * @var string|null
@@ -104,19 +112,22 @@ class QueueWorker {
    * @param \Drupal\simple_sitemap\Queue\SimplesitemapQueue $element_queue
    * @param \Drupal\simple_sitemap\Logger $logger
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Lock\LockBackendInterface $lock
    */
   public function __construct(SimplesitemapSettings $settings,
                               SimplesitemapManager $manager,
                               StateInterface $state,
                               SimplesitemapQueue $element_queue,
                               Logger $logger,
-                              ModuleHandlerInterface $module_handler) {
+                              ModuleHandlerInterface $module_handler,
+                              LockBackendInterface $lock) {
     $this->settings = $settings;
     $this->manager = $manager;
     $this->state = $state;
     $this->queue = $element_queue;
     $this->logger = $logger;
     $this->moduleHandler = $module_handler;
+    $this->lock = $lock;
   }
 
   /**
@@ -183,8 +194,12 @@ class QueueWorker {
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    */
   public function rebuildQueue($variants = NULL) {
+    if (!$this->lock->acquire(static::LOCK_ID)) {
+      throw new \RuntimeException('Unable to acquire a lock for sitemap queue rebuilding');
+    }
     $this->deleteQueue();
     $this->queue($variants);
+    $this->lock->release(static::LOCK_ID);
 
     return $this;
   }
@@ -219,7 +234,14 @@ class QueueWorker {
       $this->rebuildQueue();
     }
 
-    while ($element = $this->queue->claimItem()) {
+    // Acquire a lock for max execution time + 5 seconds. If max_execution time
+    // is unlimited then lock for 1 hour.
+    $lock_timeout = $max_execution_time > 0 ? ($max_execution_time / 1000) + 5 : static::GENERATE_LOCK_TIMEOUT;
+    if (!$this->lock->acquire(static::LOCK_ID, $lock_timeout)) {
+      throw new \RuntimeException('Unable to acquire a lock for sitemap generation');
+    }
+
+    foreach ($this->queue->yieldItem() as $element) {
 
       if (!empty($max_execution_time) && Timer::read('simple_sitemap_generator') >= $max_execution_time) {
         break;
@@ -259,6 +281,7 @@ class QueueWorker {
     else {
       $this->stashResults();
     }
+    $this->lock->release(static::LOCK_ID);
 
     return $this;
   }

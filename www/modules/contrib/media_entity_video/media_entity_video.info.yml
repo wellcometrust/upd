@@ -7,7 +7,7 @@ core_version_requirement: ^8 || ^9
 dependencies:
   - drupal:media (>= 8.4)
 
-# Information added by Drupal.org packaging script on 2020-11-09
-version: '8.x-2.0-rc1'
+# Information added by Drupal.org packaging script on 2021-02-09
+version: '8.x-2.0-rc2'
 project: 'media_entity_video'
-datestamp: 1604927292
+datestamp: 1612839185

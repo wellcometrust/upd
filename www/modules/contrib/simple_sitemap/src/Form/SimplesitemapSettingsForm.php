@@ -176,6 +176,14 @@ class SimplesitemapSettingsForm extends SimplesitemapFormBase {
       '#required' => TRUE,
     ];
 
+    $form['simple_sitemap_settings']['advanced']['entities_per_queue_item'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Entities per queue item'),
+      '#min' => 1,
+      '#description' => $this->t('The number of entities to process in each queue item.<br>Increasing this number will use more memory but will result in less queries improving generation speed.'),
+      '#default_value' => $this->generator->getSetting('entities_per_queue_item', 50),
+    ];
+
     $this->formHelper->displayRegenerateNow($form['simple_sitemap_settings']);
 
     return parent::buildForm($form, $form_state);
@@ -204,7 +212,8 @@ class SimplesitemapSettingsForm extends SimplesitemapFormBase {
                'xsl',
                'base_url',
                'default_variant',
-               'disable_language_hreflang'] as $setting_name) {
+               'disable_language_hreflang',
+               'entities_per_queue_item'] as $setting_name) {
       $this->generator->saveSetting($setting_name, $form_state->getValue($setting_name));
     }
     $this->generator->saveSetting('excluded_languages', array_filter($form_state->getValue('excluded_languages')));

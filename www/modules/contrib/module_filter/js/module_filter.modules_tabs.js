@@ -335,7 +335,8 @@
           ModuleFilter.modulesWrapper.children('details').each(function() {
             var $details = $(this);
             var packageName = $details.children('summary').text();
-            var packageId = packageName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+            var packageId = $details.children('summary').attr('aria-controls');
+            packageId = packageId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
             if (tabs[packageId] == undefined) {
               tabs[packageId] = new Tab(packageName, packageId);

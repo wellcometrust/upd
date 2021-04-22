@@ -58,10 +58,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         array (
             'ZipStream\\' => 10,
         ),
-        'X' => 
-        array (
-            'XdgBaseDir\\' => 11,
-        ),
         'W' => 
         array (
             'Webmozart\\PathUtil\\' => 19,
@@ -156,6 +152,7 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         ),
         'E' => 
         array (
+            'Enlightn\\SecurityChecker\\' => 25,
             'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
@@ -216,10 +213,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
-        ),
-        'XdgBaseDir\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
         ),
         'Webmozart\\PathUtil\\' => 
         array (
@@ -469,6 +462,10 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'FileEye\\MimeMap\\' => 
         array (
             0 => __DIR__ . '/..' . '/fileeye/mimemap/src',
+        ),
+        'Enlightn\\SecurityChecker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/enlightn/security-checker/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (

@@ -23,7 +23,7 @@ function media_entity_video_install() {
     // referenced somewhere else. Since showing an error that it was not
     // possible to copy the files is also confusing, we silently do nothing.
     if (!file_exists($destination . DIRECTORY_SEPARATOR . $file->filename)) {
-      file_unmanaged_copy($file->uri, $destination, FILE_EXISTS_ERROR);
+      \Drupal::service('file_system')->copy($file->uri, $destination, FileSystemInterface::EXISTS_ERROR);
     }
   }
 }

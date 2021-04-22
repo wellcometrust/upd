@@ -237,6 +237,7 @@ abstract class SitemapGeneratorBase extends SimplesitemapPluginBase implements S
       'sitemap_string' => $this->getXml($links),
       'sitemap_created' => $this->time->getRequestTime(),
       'status' => 0,
+      'link_count' => count($links),
     ])->execute();
 
     return $this;
