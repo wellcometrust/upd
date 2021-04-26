@@ -17,7 +17,7 @@ class DefaultTags extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     // Modules for core functionality.
     'node',
     'taxonomy',
@@ -145,7 +145,7 @@ class DefaultTags extends BrowserTestBase {
     foreach ($routes as $route) {
       // Identify the path to load.
       $this_page_url = $this->buildUrl($route, ['absolute' => TRUE]);
-      $this->assertTrue(!empty($this_page_url));
+      $this->assertNotEmpty($this_page_url);
 
       // Load the path.
       $this->drupalGet($this_page_url);
@@ -153,7 +153,7 @@ class DefaultTags extends BrowserTestBase {
 
       // Check the meta tags.
       $xpath = $this->xpath("//link[@rel='canonical']");
-      $this->assertNotEqual((string) $xpath[0]->getAttribute('href'), $front_url);
+      $this->assertNotEquals((string) $xpath[0]->getAttribute('href'), $front_url);
       self::assertEquals((string) $xpath[0]->getAttribute('href'), $this_page_url);
     }
   }

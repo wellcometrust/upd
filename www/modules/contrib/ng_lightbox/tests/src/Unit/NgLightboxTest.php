@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\ng_lightbox\Unit\NgLightboxTest
- */
-
 namespace Drupal\Tests\ng_lightbox\Unit;
 
 use Drupal\ng_lightbox\NgLightbox;
@@ -47,7 +42,7 @@ class NgLightboxTest extends UnitTestCase {
   /**
    * Helper to create Url mocks.
    *
-   * @param bool|FALSE $is_external
+   * @param bool|false $is_external
    *   TRUE if this URL is external otherwise FALSE.
    *
    * @return \Prophecy\Prophecy\ObjectProphecy
@@ -68,7 +63,8 @@ class NgLightboxTest extends UnitTestCase {
   protected function getLightbox($skip_admin_paths = TRUE, $is_admin_route = TRUE) {
 
     $path_matcher = $this->prophesize('Drupal\Core\Path\PathMatcherInterface');
-    $alias_manager = $this->prophesize('Drupal\Core\Path\AliasManagerInterface');
+    // The Path Alias core subsystem has been moved to the "path_alias" module.
+    $alias_manager = $this->prophesize('Drupal\path_alias\AliasManagerInterface');
     $config_factory = $this->prophesize('Drupal\Core\Config\ConfigFactoryInterface');
     $config = $this->prophesize('Drupal\Core\Config\ImmutableConfig');
     $config->get(Argument::exact('skip_admin_paths'))->willReturn($skip_admin_paths);

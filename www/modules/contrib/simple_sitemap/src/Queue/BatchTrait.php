@@ -13,7 +13,7 @@ trait BatchTrait {
    */
   protected $batch;
 
-  protected static $batchErrorMessage = 'The generation failed to finish. It can be continued manually on the module\'s setting page, or via drush.';
+  protected static $batchErrorMessage = 'The generation failed to finish. It can be continued manually on the module\'s settings page, or via drush.';
 
   /**
    * @param string $from
@@ -25,7 +25,7 @@ trait BatchTrait {
       'title' => $this->t('Generating XML sitemaps'),
       'init_message' => $this->t('Initializing...'),
       'error_message' => $this->t(self::$batchErrorMessage),
-      'progress_message' => $this->t('Processing items from the queue.<br>Each sitemap variant is published after all of its items have been processed.'),
+      'progress_message' => $this->t('Processing items from the queue.<br>Each sitemap variant gets published after all of its items have been processed.'),
       'operations' => [[ __CLASS__ . '::' . 'doBatchGenerateSitemap', []]],
       'finished' => [__CLASS__, 'finishGeneration'],
     ];
@@ -66,7 +66,7 @@ trait BatchTrait {
     $processed_element_count = $queue_worker->getProcessedElementCount();
     $original_element_count = $queue_worker->getInitialElementCount();
 
-    $context['message'] = t('@indexed out of @total total items have been processed.', [
+    $context['message'] = t('@indexed out of @total total queue items have been processed.', [
       '@indexed' => $processed_element_count, '@total' => $original_element_count]);
     $context['finished'] = $original_element_count > 0 ? ($processed_element_count / $original_element_count) : 1;
   }

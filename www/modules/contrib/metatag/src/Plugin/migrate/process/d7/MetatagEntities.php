@@ -247,8 +247,6 @@ class MetatagEntities extends ProcessPluginBase {
       // 'hreflang_' . $langcode => 'hreflang_per_language',
       // From metatag_mobile.metatag.inc:
       'alternate_handheld' => 'alternate_handheld',
-      // @todo https://www.drupal.org/project/metatag/issues/3077781
-      // 'amphtml' => '',
       'android-app-link-alternative' => 'android_app_link_alternative',
       'android-manifest' => 'android_manifest',
       'apple-itunes-app' => 'apple_itunes_app',
@@ -424,6 +422,7 @@ class MetatagEntities extends ProcessPluginBase {
 
       // From metatag_verification.metatag.inc:
       'baidu-site-verification' => 'baidu',
+      'facebook-domain-verification' => 'facebook_domain_verification',
       'google-site-verification' => 'bing',
       'msvalidate.01' => 'google',
       'norton-safeweb-site-verification' => 'norton_safe_web',

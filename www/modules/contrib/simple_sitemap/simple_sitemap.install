@@ -5,6 +5,8 @@
  * Module install and update procedures.
  */
 
+use Drupal\Core\Database\Database;
+
 /**
  * Implements hook_requirements().
  *
@@ -129,8 +131,18 @@ function simple_sitemap_schema() {
         'unsigned' => TRUE,
         'default' => 0,
       ],
+      'link_count' => [
+        'description' => 'The number of links in the sitemap.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ],
     ],
     'primary key' => ['id'],
+    'indexes' => [
+      'type_status_delta' => ['type', 'status', 'delta'],
+    ],
   ];
 
   $schema['simple_sitemap_entity_overrides'] = [
@@ -166,6 +178,9 @@ function simple_sitemap_schema() {
       ],
     ],
     'primary key' => ['id'],
+    'indexes' => [
+      'entity_key' => ['type', 'entity_type', 'entity_id'],
+    ],
   ];
 
   return $schema;
@@ -717,4 +732,88 @@ function simple_sitemap_update_8302() {
     $settings->clear('batch_process_limit');
     $settings->save();
   }
+}
+
+/**
+ * Add indexes to the simple_sitemap and simple_sitemap_entity_overrides tables.
+ */
+function simple_sitemap_update_8303() {
+  $schema = Database::getConnection()->schema();
+  $spec = [
+    'fields' => [
+      'type' => [
+        'description' => 'Type of sitemap this chunk belongs to.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'delta' => [
+        'description' => 'Delta of the chunk within the type scope.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ],
+      'status' => [
+        'description' => 'Flag indicating the publishing status of the chunk.',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ],
+    ],
+  ];
+  $schema->addIndex('simple_sitemap', 'type_status_delta', ['type', 'status', 'delta'], $spec);
+
+  $spec = [
+    'fields' => [
+      'type' => [
+        'description' => 'Type of sitemap this override belongs to.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+      ],
+      'entity_type' => [
+        'description' => 'Entity type of the overriding entity.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+      ],
+      'entity_id' => [
+        'description' => 'ID of the overriding entity.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+      ],
+    ],
+  ];
+  $schema->addIndex('simple_sitemap_entity_overrides', 'entity_key', ['type', 'entity_type', 'entity_id'], $spec);
+}
+
+/**
+ * Add 'entities_per_queue_item' to configuration.
+ */
+function simple_sitemap_update_8304() {
+  \Drupal::service('config.factory')
+    ->getEditable('simple_sitemap.settings')
+    ->set('entities_per_queue_item', 50)
+    ->save();
+  return t("The new 'Entities per queue item' setting has been set to 50 to improve generation performance. This changes the memory footprint during generation, so please make sure to test and adjust performance settings to your needs on the module's settings page.");
+}
+
+/**
+ * Add the link_count field to simple_sitemap table.
+ */
+function simple_sitemap_update_8305() {
+  \Drupal::database()->schema()->addField(
+    'simple_sitemap',
+    'link_count', [
+      'description' => 'The number of links in the sitemap.',
+      'type' => 'int',
+      'not null' => TRUE,
+      'unsigned' => TRUE,
+      'default' => 0,
+    ]
+  );
 }

@@ -48,7 +48,7 @@
           <div class="details-wrapper">
             <div class="details-description">
               <div class="requirements">
-                <div class="admin-requirements">{{ 'Machine name: <span dir="ltr" class="table-filter-text-source">@machine-name</span>'|t({'@machine-name': module.machine_name }) }}</div>
+                <div class="admin-requirements">{{ 'Machine name: <span dir="ltr" class="module-machine-name table-filter-text-source">@machine-name</span>'|t({'@machine-name': module.machine_name }) }}</div>
                 {% if module.version %}
                   <div class="admin-requirements">{{ 'Version: @module-version'|t({'@module-version': module.version }) }}</div>
                 {% endif %}
@@ -57,6 +57,9 @@
                 {% endif %}
                 {% if module.required_by %}
                   <div class="admin-requirements required-by">{{ 'Required by: @module-list'|t({'@module-list': module.required_by }) }}</div>
+                {% endif %}
+                {% if module.path %}
+                  <div class="admin-requirements module-path">{{ 'Module path: @module-list'|t({'@module-list': module.path }) }}</div>
                 {% endif %}
               </div>
               {% if module.links %}

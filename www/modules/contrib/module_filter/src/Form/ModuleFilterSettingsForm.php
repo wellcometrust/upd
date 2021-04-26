@@ -37,6 +37,13 @@ class ModuleFilterSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('tabs'),
     ];
 
+    $form['modules']['path'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show module path in modules list'),
+      '#description' => $this->t('Defines if the relative path of each module will be display in its row.'),
+      '#default_value' => $config->get('path'),
+    ];
+
     return $form;
   }
 
@@ -47,6 +54,7 @@ class ModuleFilterSettingsForm extends ConfigFormBase {
     $values = $form_state->getValues();
     $this->config('module_filter.settings')
       ->set('tabs', $values['tabs'])
+      ->set('path', $values['path'])
       ->save();
 
     parent::submitForm($form, $form_state);

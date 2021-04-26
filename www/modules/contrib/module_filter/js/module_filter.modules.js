@@ -45,7 +45,7 @@
         ModuleFilter.modulesWrapper = $('.modules-wrapper', ModuleFilter.wrapper);
 
         ModuleFilter.input.winnow(ModuleFilter.wrapperId + ' ' + ModuleFilter.selector, {
-          textSelector: 'td.module .module-name',
+          textSelector: 'td.module .module-name, .module-machine-name',
           emptyMessage: Drupal.t('No results'),
           clearLabel: Drupal.t('clear'),
           wrapper: ModuleFilter.modulesWrapper,

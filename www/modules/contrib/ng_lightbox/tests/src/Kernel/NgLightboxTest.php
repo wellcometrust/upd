@@ -13,9 +13,11 @@ use Drupal\KernelTests\KernelTestBase;
 class NgLightboxTest extends KernelTestBase {
 
   /**
-   * {@inheritdoc}
+   * Modules to install.
+   *
+   * @var array
    */
-  static $modules = ['system', 'ng_lightbox'];
+  public static $modules = ['system', 'ng_lightbox'];
 
   /**
    * Test a URL that only has a hash.

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ng_lightbox\NgLightboxServiceProvider
- */
-
 namespace Drupal\ng_lightbox;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -31,9 +26,14 @@ class NgLightboxServiceProvider extends ServiceProviderBase {
   }
 
   /**
+   * Function for addLightBox.
+   *
    * @param \Drupal\Core\DependencyInjection\ContainerBuilder $container
-   * @param $id
-   * @param $title
+   *   Drupal's dependency injection container builder.
+   * @param string $id
+   *   The ID of the main content render box.
+   * @param string $title
+   *   The title of the box.
    */
   protected function addLightbox(ContainerBuilder $container, $id, $title) {
     $definition = $container->getDefinition($id);

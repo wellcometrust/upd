@@ -11,7 +11,6 @@ module:
   config: 0
   contextual: 0
   devel: 0
-  devel_php: 0
   field_ui: 0
   module_filter: 0
   page_manager_ui: 0

@@ -7,6 +7,27 @@
 
 use Drupal\Core\Render\Element;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function module_filter_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.module_filter':
+      $output = '';
+      $output .= '<p>';
+      $output .= t('The modules list page can become quite big when dealing with a fairly large site or even just a dev site meant for testing new and various modules being considered.');
+      $output .= '</p>';
+      $output .= '<p>';
+      $output .= t('What this module aims to accomplish is the ability to quickly find the module you are looking for without having to rely on the browsers search feature which more times than not shows you the module name in the -Required by- or -Depends on- sections of the various modules or even some other location on the page like a menu item.');
+      $output .= '</p>';
+      $output .= '<p>';
+      $output .= t('See the <a href=":project_page">project page on Drupal.org</a> for more details.', [':project_page' => 'https://www.drupal.org/project/module_filter']);
+
+      return $output;
+  }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -53,7 +74,7 @@ function module_filter_form_system_modules_alter(&$form, FormStateInterface $for
 
   // Remove recent items older than a week.
   $recent = array_filter($recent, function ($val) {
-    return !($val < REQUEST_TIME - 60 * 60 * 24 * 7);
+    return !($val < \Drupal::time()->getRequestTime() - 60 * 60 * 24 * 7);
   });
   $state->set('module_filter.recent', $recent);
 
@@ -68,7 +89,7 @@ function module_filter_form_system_modules_alter(&$form, FormStateInterface $for
     }
   }
 
-  $modules = system_rebuild_module_data();
+  $modules = \Drupal::service('extension.list.module')->reset()->getList();
 
   foreach ($modules as $name => $module) {
     if ($name == 'module_filter') {
@@ -102,7 +123,7 @@ function module_filter_form_system_modules_confirm_form_alter(&$form, FormStateI
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function module_filter_form_system_modules_uninstall_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function module_filter_form_system_modules_uninstall_alter(&$form, FormStateInterface $form_state, $form_id) {
   $key = array_search('system/drupal.system.modules', $form['#attached']['library']);
   if ($key !== FALSE) {
     unset($form['#attached']['library'][$key]);
@@ -118,7 +139,7 @@ function module_filter_form_system_modules_uninstall_alter(&$form, \Drupal\Core\
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function module_filter_form_user_admin_permissions_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function module_filter_form_user_admin_permissions_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['filters'] = [
     '#type' => 'container',
     '#attributes' => [
@@ -157,6 +178,18 @@ function module_filter_theme_registry_alter(&$theme_registry) {
  * Implements hook_preprocess_HOOK().
  */
 function module_filter_preprocess_system_modules_details(&$variables) {
+  $display_path = \Drupal::config('module_filter.settings')->get('path');
+  if ($display_path) {
+    foreach ($variables['modules'] as &$module) {
+      // Get the module id from parents.
+      // Because core does not provide it in template_preprocess_system_modules_details.
+      $id = $module['name']['#parents'][1];
+      $path = drupal_get_path('module', $id);
+      if (!empty($path)) {
+        $module['path'] = $path;
+      }
+    }
+  }
 }
 
 /**
@@ -170,7 +203,7 @@ function module_filter_system_modules_recent_enabled_submit($form, FormStateInte
   // the version of Drupal and building the $modules array accordingly.
   // @see https://www.drupal.org/node/2851653
   $modules = [];
-  if (version_compare(\DRUPAL::VERSION, '8.3.0', '<')) {
+  if (version_compare(\Drupal::VERSION, '8.3.0', '<')) {
     foreach ($form_state->getValue('modules') as $package) {
       $modules += $package;
     }
@@ -182,7 +215,7 @@ function module_filter_system_modules_recent_enabled_submit($form, FormStateInte
   foreach (Element::children($form['modules']) as $package) {
     foreach ($modules as $module => $details) {
       if (isset($form['modules'][$package][$module]) && $form['modules'][$package][$module]['enable']['#default_value'] != $details['enable']) {
-        $recent[$module] = REQUEST_TIME;
+        $recent[$module] = \Drupal::time()->getRequestTime();
       }
     }
   }
