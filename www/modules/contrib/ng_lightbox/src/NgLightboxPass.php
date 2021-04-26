@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ng_lightbox\NgLightboxPass
- */
-
 namespace Drupal\ng_lightbox;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

@@ -10,7 +10,7 @@
  */
 function module_filter_install() {
   $state = \Drupal::state();
-  $state->set('module_filter.recent', ['module_filter' => REQUEST_TIME]);
+  $state->set('module_filter.recent', ['module_filter' => \Drupal::time()->getRequestTime()]);
 }
 
 /**

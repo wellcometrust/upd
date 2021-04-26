@@ -119,7 +119,7 @@ class SimplesitemapSitemapsForm extends SimplesitemapFormBase {
       $index_progress = [
         '#theme' => 'progress_bar',
         '#percent' => $percent,
-        '#message' => $this->t('@indexed out of @total items have been processed.<br>Each sitemap variant is published after all of its items have been processed.', ['@indexed' => $indexed_count, '@total' => $total_count]),
+        '#message' => $this->t('@indexed out of @total queue items have been processed.<br>Each sitemap variant is published after all of its items have been processed.', ['@indexed' => $indexed_count, '@total' => $total_count]),
       ];
       $form['simple_sitemap_settings']['status']['progress']['bar']['#markup'] = render($index_progress);
     }
@@ -132,7 +132,7 @@ class SimplesitemapSitemapsForm extends SimplesitemapFormBase {
       'base_url' => $this->generator->getSetting('base_url', ''),
       'default_variant' => $this->generator->getSetting('default_variant', NULL),
     ];
-    $sitemap_statuses = $this->fetchSitemapInstanceStatuses();
+    $sitemap_statuses = $this->fetchSitemapInstanceInfo();
     $published_timestamps = $this->fetchSitemapInstancePublishedTimestamps();
     foreach ($sitemap_manager->getSitemapTypes() as $type_name => $type_definition) {
       if (!empty($variants = $sitemap_manager->getSitemapVariants($type_name, FALSE))) {
@@ -148,20 +148,22 @@ class SimplesitemapSitemapsForm extends SimplesitemapFormBase {
         ];
         $form['simple_sitemap_settings']['status']['types'][$type_name]['table'] = [
           '#type' => 'table',
-          '#header' => [$this->t('Variant'), $this->t('Status')],
+          '#header' => [$this->t('Variant'), $this->t('Status'), $this->t('Link count')],
           '#attributes' => ['class' => ['form-item', 'clearfix']],
         ];
         foreach ($variants as $variant_name => $variant_definition) {
           if (!isset($sitemap_statuses[$variant_name])) {
             $row['name']['data']['#markup'] = '<span title="' . $variant_name . '">' . $this->t($variant_definition['label']) . '</span>';
             $row['status'] = $this->t('pending');
+            $row['count'] = '';
           }
           else {
-            switch ($sitemap_statuses[$variant_name]) {
+            switch ($sitemap_statuses[$variant_name]['status']) {
 
               case 0:
                 $row['name']['data']['#markup'] = '<span title="' . $variant_name . '">' . $this->t($variant_definition['label']) . '</span>';
                 $row['status'] = $this->t('generating');
+                $row['count'] = '';
                 break;
 
               case 1:
@@ -169,10 +171,16 @@ class SimplesitemapSitemapsForm extends SimplesitemapFormBase {
                 $row['name']['data']['#markup'] = $this->t('<a href="@url" target="_blank">@variant</a>',
                   ['@url' => $sitemap_generator->setSitemapVariant($variant_name)->getSitemapUrl(), '@variant' => $this->t($variant_definition['label'])]
                 );
-                $row['status'] = $this->t(($sitemap_statuses[$variant_name] === 1
+                $row['status'] = $this->t(($sitemap_statuses[$variant_name]['status'] === 1
                   ? 'published on @time'
                   : 'published on @time, regenerating'
                 ), ['@time' => $this->dateFormatter->format($published_timestamps[$variant_name])]);
+                // Once the sitemap has been regenerated after
+                // simple_sitemap_update_8305() there will always be a link
+                // count.
+                $row['count'] = $sitemap_statuses[$variant_name]['link_count'] > 0
+                  ? $sitemap_statuses[$variant_name]['link_count']
+                  : $this->t('unavailable');
                 break;
             }
           }
@@ -190,7 +198,7 @@ class SimplesitemapSitemapsForm extends SimplesitemapFormBase {
 
   /**
    * @return array
-   *  Array of sitemap statuses keyed by variant name.
+   *  Array of sitemap statuses and link counts keyed by variant name.
    *  Status values:
    *  0: Instance is unpublished
    *  1: Instance is published
@@ -198,19 +206,20 @@ class SimplesitemapSitemapsForm extends SimplesitemapFormBase {
    *
    * @todo Implement SitemapGeneratorBase::isPublished() per sitemap instead or at least return a constant.
    */
-  protected function fetchSitemapInstanceStatuses() {
+  protected function fetchSitemapInstanceInfo() {
     $results = $this->db
-      ->query('SELECT type, status FROM {simple_sitemap} GROUP BY type, status')
+      ->query('SELECT type, status, SUM(link_count) as link_count FROM {simple_sitemap} GROUP BY type, status ORDER BY type, status ASC')
       ->fetchAll();
 
-    $instances = [];
+    $instance_info = [];
     foreach ($results as $i => $result) {
-      $instances[$result->type] = isset($instances[$result->type])
-        ? $result->status + 1
-        : (int) $result->status;
+      $instance_info[$result->type] = [
+        'status' => isset($instance_info[$result->type]) ? $result->status + 1 : (int) $result->status,
+        'link_count' => (int) $result->link_count,
+      ];
     }
 
-    return $instances;
+    return $instance_info;
   }
 
   /**

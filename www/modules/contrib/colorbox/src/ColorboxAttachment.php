@@ -15,7 +15,7 @@ class ColorboxAttachment implements ElementAttachmentInterface {
   use StringTranslationTrait;
 
   /**
-   * The service to determin if colorbox should be activated.
+   * The service to determine if colorbox should be activated.
    *
    * @var \Drupal\colorbox\ActivationCheckInterface
    */

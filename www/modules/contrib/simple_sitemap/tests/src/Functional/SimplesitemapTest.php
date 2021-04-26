@@ -84,6 +84,28 @@ class SimplesitemapTest extends SimplesitemapTestBase {
   }
 
   /**
+   * Tests locks
+   */
+  public function testLocking() {
+    $this->generator->removeCustomLinks()
+      ->addCustomLink('/node/' . $this->node->id())
+      ->generateSitemap(QueueWorker::GENERATE_TYPE_BACKEND);
+    $this->drupalLogin($this->createUser(['administer sitemap settings']));
+
+    $this->drupalGet('/admin/config/search/simplesitemap/settings');
+    $this->submitForm(['simple_sitemap_regenerate_now' => TRUE], 'Save configuration');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('The configuration options have been saved.');
+    $this->assertSession()->pageTextNotContains('Unable to acquire a lock for sitemap generation.');
+
+    \Drupal::lock()->acquire(QueueWorker::LOCK_ID);
+    $this->submitForm(['simple_sitemap_regenerate_now' => TRUE], 'Save configuration');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('The configuration options have been saved.');
+    $this->assertSession()->pageTextContainsOnce('Unable to acquire a lock for sitemap generation.');
+  }
+
+  /**
    * Test removing custom paths from the sitemap settings.
    *
    * @throws \Drupal\Component\Plugin\Exception\PluginException
@@ -205,6 +227,43 @@ class SimplesitemapTest extends SimplesitemapTestBase {
     $this->assertSession()->responseContains('node/' . $this->node->id());
     $this->assertSession()->responseContains('0.5');
     $this->assertSession()->responseNotContains('changefreq');
+  }
+
+  /**
+   * Test link count.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public function testLinkCount() {
+    $this->generator->setBundleSettings('node', 'page')
+      ->removeCustomLinks()
+      ->generateSitemap(QueueWorker::GENERATE_TYPE_BACKEND);
+
+    $this->drupalLogin($this->createUser(['administer sitemap settings']));
+    $this->drupalGet('admin/config/search/simplesitemap');
+    $link_count_elements = $this->xpath('//*[@id="simple-sitemap-sitemaps-form"]//table/tbody/tr/td[3]');
+    $this->assertSame('2', $link_count_elements[0]->getText());
+
+    $this->createNode(['title' => 'Another node', 'type' => 'page']);
+    $this->generator->setBundleSettings('node', 'page')
+      ->removeCustomLinks()
+      ->generateSitemap(QueueWorker::GENERATE_TYPE_BACKEND);
+    $this->drupalLogin($this->createUser(['administer sitemap settings']));
+    $this->drupalGet('admin/config/search/simplesitemap');
+    $link_count_elements = $this->xpath('//*[@id="simple-sitemap-sitemaps-form"]//table/tbody/tr/td[3]');
+    $this->assertSame('3', $link_count_elements[0]->getText());
+
+    // Pretend that we've just run the simple_sitemap_update_8305() update on a
+    // site with existing sitemaps.
+    \Drupal::database()->update('simple_sitemap')
+      ->fields(['link_count' => 0])
+      ->execute();
+    $this->drupalGet('admin/config/search/simplesitemap');
+    $link_count_elements = $this->xpath('//*[@id="simple-sitemap-sitemaps-form"]//table/tbody/tr/td[3]');
+    $this->assertSame('unavailable', $link_count_elements[0]->getText());
   }
 
   /**
