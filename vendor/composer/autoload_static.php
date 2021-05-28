@@ -115,6 +115,7 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
             'Psr\\Http\\Client\\' => 16,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
+            'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
         ),
         'M' => 
@@ -386,6 +387,10 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'PhpParser\\' => 
         array (
