@@ -40,7 +40,7 @@
 <div{{ attributes.addClass(classes) }}>
 
   {% if (view.element['view_build']['#title']['#markup'] or header) %}
-    <header class="page-header">
+    <div class="page-header" role="region" aria-label="{{ 'Page header'|t }}">
       <div class="wrapper  wrapper--gutter">
         <h1 class="page-header__title">
           {{ view.element['view_build']['#title']['#markup'] }}
@@ -49,7 +49,7 @@
           <p class="page-header__subheading">{{ header['area']['#text'] }}</p>
         {% endif %}
       </div>
-    </header>
+    </div>
   {% endif %}
 
 

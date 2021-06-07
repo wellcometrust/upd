@@ -47,7 +47,7 @@
 ]
 %}
 {% block paragraph %}
-<header{{ attributes.addClass(classes) }}>
+<aside{{attributes.addClass(classes)}} aria-label="{{ 'Highlight header'|t }}">
 
     {% block content %}
     <div class="wrapper wrapper--gutter highlight-header__wrapper">
@@ -69,5 +69,5 @@
     </div>
     {% endblock %}
 
-</header>
+</aside>
 {% endblock paragraph %}

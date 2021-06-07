@@ -38,7 +38,7 @@
  * @ingroup themeable
  */
 #}
-<aside class="resource-box">
+<aside class="resource-box" aria-label="{{ content.field_title }}">
     <h3 class="resource-box__title">{{ content.field_title }}</h3>
     <ul class="resource-box__list">
         {% for item in content.file_info %}
