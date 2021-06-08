@@ -75,13 +75,13 @@
 {{ title_prefix }}
 {% if label %}
   {% if page %}
-    <header class="page-header">
+    <div class="page-header" role="region" aria-label="{{ 'Page header'|t }}">
       <div class="wrapper  wrapper--gutter">
         {{ title_prefix }}
         <h1 class="page-header__title page-title">{{ label }}</h1>
         <p class="page-header__subheading">{{ node.field_standfirst.value }}</p>
       </div>
-    </header>
+    </div>
   {% else %}
     <h2 class="node-title"><a href="{{ url }}" class="node__title-link" rel="bookmark">{{ label }}</a></h2>
     {% endif %}
@@ -107,7 +107,7 @@
         {% if content.body|render %}
           {{ content.body }}
         {% endif %}
-        
+
         <div{{ content_attributes.addClass('content u-font-body-copy') }}>
           {{ content.field_faq_dropdown }}
         </div>
