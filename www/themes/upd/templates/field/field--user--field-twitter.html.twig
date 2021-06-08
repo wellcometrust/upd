@@ -40,10 +40,10 @@
 #}
 
 {% for item in items %}
- <a href="{{ item.content }}">
+<a href="{{ item.content['#url'].uri }}"{% if (item.content['#title'] is not empty) and (item.content['#title'] != item.content['#url'].uri) %} aria-label="{{ item.content['#title'] }}"{% endif %}>
   <svg class="svg-icon svg-icon--circular team-tile__icon" xmlns="http://www.w3.org/2000/svg" title="Twitter">
     <title>Twitter</title>
       <use xlink:href="#svg-icon-twitter" />
   </svg>
- </a>
+</a>
 {% endfor %}
