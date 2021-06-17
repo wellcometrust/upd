@@ -16,7 +16,7 @@ packages:
     consolidation/site-alias: 3.1.0
     consolidation/site-process: 2.1.0
     container-interop/container-interop: 1.2.0
-    cweagans/composer-patches: 1.7.0
+    cweagans/composer-patches: 1.7.1
     dflydev/dot-access-configuration: v1.0.3
     dflydev/dot-access-data: v1.1.0
     dflydev/placeholder-resolver: v1.0.2
@@ -43,7 +43,7 @@ packages:
     drupal/core: 8.9.16
     drupal/core-composer-scaffold: 8.9.16
     drupal/crop: 2.1.0
-    drupal/ctools: 3.6.0
+    drupal/ctools: 3.7.0
     drupal/devel: 4.1.1
     drupal/dropzonejs: 2.5.0
     drupal/entity_browser: 2.5.0
@@ -127,15 +127,15 @@ packages:
     stecman/symfony-console-completion: 0.11.0
     symfony-cmf/routing: 1.4.1
     symfony/class-loader: v3.4.47
-    symfony/config: v4.4.23
+    symfony/config: v4.4.25
     symfony/console: v3.4.47
-    symfony/css-selector: v4.4.24
+    symfony/css-selector: v4.4.25
     symfony/debug: v4.4.25
     symfony/dependency-injection: v3.4.47
-    symfony/dom-crawler: v4.4.24
+    symfony/dom-crawler: v4.4.25
     symfony/event-dispatcher: v3.4.47
     symfony/event-dispatcher-contracts: v2.4.0
-    symfony/filesystem: v4.4.22
+    symfony/filesystem: v4.4.25
     symfony/finder: v4.4.25
     symfony/http-foundation: v3.4.47
     symfony/http-kernel: v3.4.49
@@ -148,13 +148,14 @@ packages:
     symfony/polyfill-php70: v1.20.0
     symfony/polyfill-php72: v1.23.0
     symfony/polyfill-php80: v1.23.0
+    symfony/polyfill-php81: v1.23.0
     symfony/process: v3.4.47
     symfony/psr-http-message-bridge: v1.2.0
     symfony/routing: v3.4.47
     symfony/serializer: v3.4.47
     symfony/translation: v3.4.47
     symfony/validator: v3.4.47
-    symfony/var-dumper: v4.4.22
+    symfony/var-dumper: v4.4.25
     symfony/yaml: v3.4.47
     thinkshout/mailchimp-api-php: 2.0.0
     twig/twig: v1.44.4
