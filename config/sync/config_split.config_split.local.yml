@@ -19,19 +19,16 @@ module:
   views_ui: 0
 theme: {  }
 blacklist:
-  - dblog.settings
   - devel.settings
   - devel.toolbar.settings
   - field_ui.settings
-  - system.logging
   - system.menu.devel
-  - views.view.watchdog
-  - google_analytics.settings
-  - search_api.server.local_solr
-  - system.site
   - stage_file_proxy.settings
   - update.settings
 graylist:
+  - dblog.settings
+  - search_api.server.local_solr
+  - system.logging
   - system.performance
 graylist_dependents: true
 graylist_skip_equal: true

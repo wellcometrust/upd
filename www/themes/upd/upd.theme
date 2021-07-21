@@ -178,7 +178,14 @@ function upd_preprocess_media__video(&$variables) {
       break;
 
     case 'embed_mode':
-      $variables['media_link'] =  _upd_create_media_link($media->id(), array('icon-block', 'svg-icon--chevron-right'));
+      $variables['media_link'] = _upd_create_media_link($media->id(), [
+        'class' => [
+          'icon-block',
+          'svg-icon--chevron-right',
+        ],
+        // Provide accessibility 'aria-label' attribute to embedded video link.
+        'aria-label' => t('Watch video: @media_name', ['@media_name' => $media->getName()]),
+      ]);
 
       break;
   }
@@ -220,6 +227,17 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
 
   $paragraph = $variables['paragraph'];
 
+  // Set value for attribute 'aria_label', to differentiate paragraphs on page.
+  $field_title = $paragraph->get('field_title')->getValue();
+  $field_title_value = array_pop($field_title);
+
+  $aria_label = t("Watch video");
+  if (!empty($field_title_value)) {
+    $aria_label .= ": " . $field_title_value['value'];
+  }
+
+  $variables['aria_label'] = $aria_label;
+
   $full_width = $paragraph->get('field_full_width')->getValue();
 
   $media_id = $paragraph->get('field_video')->getValue();
@@ -236,7 +254,15 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
     $variables['video_context_class'] = 'watch-video__context--non-full-width';
   }
 
-  $variables['media_link'] = _upd_create_media_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Watch video');
+  $variables['media_link'] = _upd_create_media_link($media_id[0]['target_id'], [
+    'class' => [
+      'button',
+      'watch-video__cta',
+      'svg-icon--chevron-right',
+    ],
+    'aria-label' => $aria_label,
+  ],
+  t('Watch video'));
 
   $variables['media_cta_link'] = _upd_create_media_cta_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Find out more here');
 
@@ -255,7 +281,7 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
  *
  * @return mixed|null
  */
-function _upd_create_media_link($id, $classes, $title = '') {
+function _upd_create_media_link($id, $attributes, $title = '') {
 
   $media = Media::load($id);
 
@@ -271,9 +297,7 @@ function _upd_create_media_link($id, $classes, $title = '') {
 
 // Populate render array with class / data attribute.
 
-    $link['#attributes'] = array(
-      'class' => $classes,
-    );
+    $link['#attributes'] = $attributes;
 
     return render($link);
 
@@ -392,7 +416,7 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
 // Obtain parameter from URL so we can work out which is active.
     $field_news_category_target_id = \Drupal::request()->get('field_news_category_target_id');
 
-    $html = '<div class="wrapper  wrapper--gutter news-filter-container"><h4>Filter by</h4>';
+    $html = '<div class="wrapper  wrapper--gutter news-filter-container" aria-label="News filters" role="navigation"><h4>Filter by</h4>';
 
     // Only get options which are taxonomy terms, e.g. not "all".
     foreach ($form['field_news_category_target_id']['#options'] as $k => $option) {
@@ -452,7 +476,7 @@ function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $for
 // Obtain parameter from URL so we can work out which is active.
     $field_faq_category_target_id = \Drupal::request()->get('field_faq_category_target_id');
 
-    $html = '<div class="wrapper  wrapper--gutter faq-filter-container"><h4>Filter by</h4>';
+    $html = '<div class="wrapper  wrapper--gutter faq-filter-container" aria-label="FAQs filters" role="navigation"><h4>Filter by</h4>';
 
     // Only get options which are taxonomy terms, e.g. not "all".
     foreach ($form['field_faq_category_target_id']['#options'] as $k => $option) {

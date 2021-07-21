@@ -72,7 +72,7 @@
  * @ingroup themeable
  */
 #}
-<header class="page-header">
+<div class="page-header" role="region" aria-label="{{ 'Page header'|t }}">
   <div class="wrapper  wrapper--gutter">
     <span class="page-header__category">{{ content.field_publish_date }}</span>
     <h1 class="page-header__title">{{ label }}</h1>
@@ -81,20 +81,23 @@
          target="_blank"
          href="https://twitter.com/intent/tweet?text={{ node
          .label }}&url={{ url('<front>') }}{{ url|trim('/',
-         'left') }}&via=Patient_Data">
+         'left') }}&via=Patient_Data"
+         aria-label="{{ 'Share on Twitter'|t }}">
+
         <img src="{{  url('<front>') }}{{ directory
-        }}/assets/images/round_twitter.png"/></a>
+        }}/assets/images/round_twitter.png" alt="{{ 'Share on Twitter'|t }}"/></a>
       <a class="share-button"
          target="_blank"
          href='mailto:?Subject=Understanding Patient Data: {{node
          .label }}&body=You might be interested in this: "{{ node
          .label }}" ({{ url('<front>') }}{{ url|trim('/',
-         'left') }})' >
+         'left') }})'
+         aria-label="{{ 'Share by email'|t }}">
         <img src="{{  url('<front>') }}{{ directory
-        }}/assets/images/round_email.png"/></a>
+        }}/assets/images/round_email.png" alt="{{ 'Share by email'|t }}"/></a>
     </div>
   </div>
-</header>
+</div>
 <div class="wrapper wrapper--gutter">
   <main class="layout layout--reverse">
     <article class="layout__item layout__item--primary" id="primary">

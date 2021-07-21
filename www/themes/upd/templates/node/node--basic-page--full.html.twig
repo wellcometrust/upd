@@ -74,7 +74,7 @@
 #}
   {% if label %}
       {% if page %}
-          <header class="page-header">
+          <div class="page-header" role="region" aria-label="{{ 'Page header'|t }}">
 
               <div class="wrapper wrapper--gutter">
                   {{ title_prefix }}
@@ -82,7 +82,7 @@
                   {{ title_suffix }}
               </div>
 
-          </header>
+          </div>
       {% endif %}
   {% endif %}
 
