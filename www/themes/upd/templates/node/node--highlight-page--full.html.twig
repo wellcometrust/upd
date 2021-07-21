@@ -77,30 +77,29 @@
 
 <div class="wrapper wrapper--gutter">
 
+    {% if content.vertical is not empty %}
+        <aside class="layout__item layout__item--secondary layout__item--sticky u-hidden-layout-simple" aria-label="{{ 'Secondary navigation'|t }}">
+            <div class="layout__wrapper">
+                <ul class="toc" data-scroll-spy="#primary">
+                    {% for item in content.vertical %}
+                        <li class="toc__item">
+                            <a class="toc__element" href="#{{ item.url }}">
+                                {{ item.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+    {% endif %}
+
     <main class="layout">
-
-        {% if content.vertical is not empty %}
-            <aside class="layout__item layout__item--secondary layout__item--sticky u-hidden-layout-simple">
-                <div class="layout__wrapper">
-                    <ul class="toc" data-scroll-spy="#primary">
-                        {% for item in content.vertical %}
-                            <li class="toc__item">
-                                <a class="toc__element" href="#{{ item.url }}">
-                                    {{ item.title }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </aside>
-        {% endif %}
-
         <article class="layout__item u-font-body-copy layout__item--primary" id="primary">
 
             {% if content.field_standfirst|render %}
                 {{ content.field_standfirst }}
             {% endif %}
-            
+
             {% if content.body|render %}
                 <section class="body">
                     {{ content.body }}

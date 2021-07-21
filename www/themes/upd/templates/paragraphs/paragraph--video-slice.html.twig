@@ -47,7 +47,7 @@
 {{ attach_library('upd_video/upd_lightbox') }}
 
 {% block paragraph %}
-<div{{ attributes.addClass(classes) }}>
+<div{{ attributes.addClass(classes) }} role="region" aria-label="{{ aria_label }}">
     {% block content %}
 
         <div class="watch-video__wrapper {{ video_wrapper_class }}">
