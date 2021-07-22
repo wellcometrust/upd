@@ -1487,25 +1487,24 @@
     },
     {
         "name": "doctrine/cache",
-        "version": "1.11.3",
-        "version_normalized": "1.11.3.0",
+        "version": "1.12.1",
+        "version_normalized": "1.12.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/cache.git",
-            "reference": "3bb5588cec00a0268829cc4a518490df6741af9d"
+            "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/cache/zipball/3bb5588cec00a0268829cc4a518490df6741af9d",
-            "reference": "3bb5588cec00a0268829cc4a518490df6741af9d",
+            "url": "https://api.github.com/repos/doctrine/cache/zipball/4cf401d14df219fa6f38b671f5493449151c9ad8",
+            "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8",
             "shasum": ""
         },
         "require": {
             "php": "~7.1 || ^8.0"
         },
         "conflict": {
-            "doctrine/common": ">2.2,<2.4",
-            "psr/cache": ">=3"
+            "doctrine/common": ">2.2,<2.4"
         },
         "require-dev": {
             "alcaeus/mongo-php-adapter": "^1.1",
@@ -1514,13 +1513,14 @@
             "mongodb/mongodb": "^1.1",
             "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
             "predis/predis": "~1.0",
-            "psr/cache": "^1.0 || ^2.0",
-            "symfony/cache": "^4.4 || ^5.2"
+            "psr/cache": "^1.0 || ^2.0 || ^3.0",
+            "symfony/cache": "^4.4 || ^5.2 || ^6.0@dev",
+            "symfony/var-exporter": "^4.4 || ^5.2 || ^6.0@dev"
         },
         "suggest": {
             "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
         },
-        "time": "2021-05-25T09:01:55+00:00",
+        "time": "2021-07-17T14:39:21+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2817,17 +2817,17 @@
     },
     {
         "name": "drupal/core",
-        "version": "8.9.16",
-        "version_normalized": "8.9.16.0",
+        "version": "8.9.17",
+        "version_normalized": "8.9.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/drupal/core.git",
-            "reference": "498effa27ae5111f53f04fbe80fd05369a88c53d"
+            "reference": "a1416f2cc6701acc0cc6725bfeac3715e633fd9c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/drupal/core/zipball/498effa27ae5111f53f04fbe80fd05369a88c53d",
-            "reference": "498effa27ae5111f53f04fbe80fd05369a88c53d",
+            "url": "https://api.github.com/repos/drupal/core/zipball/a1416f2cc6701acc0cc6725bfeac3715e633fd9c",
+            "reference": "a1416f2cc6701acc0cc6725bfeac3715e633fd9c",
             "shasum": ""
         },
         "require": {
@@ -2854,7 +2854,7 @@
             "laminas/laminas-diactoros": "^1.8",
             "laminas/laminas-feed": "^2.12",
             "masterminds/html5": "^2.1",
-            "pear/archive_tar": "^1.4.12",
+            "pear/archive_tar": "^1.4.14",
             "php": "^7.0.8",
             "psr/log": "^1.0",
             "stack/builder": "^1.0",
@@ -2994,7 +2994,7 @@
             "drupal/workflows": "self.version",
             "drupal/workspaces": "self.version"
         },
-        "time": "2021-05-25T09:17:58+00:00",
+        "time": "2021-07-20T21:43:12+00:00",
         "type": "drupal-core",
         "extra": {
             "drupal-scaffold": {
@@ -3050,8 +3050,8 @@
     },
     {
         "name": "drupal/core-composer-scaffold",
-        "version": "8.9.16",
-        "version_normalized": "8.9.16.0",
+        "version": "8.9.17",
+        "version_normalized": "8.9.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -3412,18 +3412,18 @@
     },
     {
         "name": "drupal/entity_browser",
-        "version": "2.5.0",
-        "version_normalized": "2.5.0.0",
+        "version": "2.6.0",
+        "version_normalized": "2.6.0.0",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/entity_browser.git",
-            "reference": "8.x-2.5"
+            "reference": "8.x-2.6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/entity_browser-8.x-2.5.zip",
-            "reference": "8.x-2.5",
-            "shasum": "29456b961f0f90ff064601ab8a382446a8143774"
+            "url": "https://ftp.drupal.org/files/projects/entity_browser-8.x-2.6.zip",
+            "reference": "8.x-2.6",
+            "shasum": "95cad4ce9620ccb4f02afa0e8b8bbf7c73fc5aac"
         },
         "require": {
             "drupal/core": "^8.8 || ^9"
@@ -3440,8 +3440,8 @@
         "type": "drupal-module",
         "extra": {
             "drupal": {
-                "version": "8.x-2.5",
-                "datestamp": "1588015429",
+                "version": "8.x-2.6",
+                "datestamp": "1624401306",
                 "security-coverage": {
                     "status": "covered",
                     "message": "Covered by Drupal's security advisory policy"
@@ -3504,8 +3504,8 @@
     },
     {
         "name": "drupal/entity_browser_entity_form",
-        "version": "2.5.0",
-        "version_normalized": "2.5.0.0",
+        "version": "2.6.0",
+        "version_normalized": "2.6.0.0",
         "require": {
             "drupal/core": "^8.7.7 || ^9",
             "drupal/entity_browser": "*",
@@ -3514,8 +3514,8 @@
         "type": "metapackage",
         "extra": {
             "drupal": {
-                "version": "8.x-2.5",
-                "datestamp": "1588015429",
+                "version": "8.x-2.6",
+                "datestamp": "1624401306",
                 "security-coverage": {
                     "status": "covered",
                     "message": "Covered by Drupal's security advisory policy"
@@ -5575,18 +5575,18 @@
     },
     {
         "name": "drupal/search_api",
-        "version": "1.19.0",
-        "version_normalized": "1.19.0.0",
+        "version": "1.20.0",
+        "version_normalized": "1.20.0.0",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/search_api.git",
-            "reference": "8.x-1.19"
+            "reference": "8.x-1.20"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/search_api-8.x-1.19.zip",
-            "reference": "8.x-1.19",
-            "shasum": "5654e9d02117e28c585d89a25ea3cc40d20c5019"
+            "url": "https://ftp.drupal.org/files/projects/search_api-8.x-1.20.zip",
+            "reference": "8.x-1.20",
+            "shasum": "4bed60ac7b502ccc1d4a01411aa35d2cb7f496c7"
         },
         "require": {
             "drupal/core": "^8.8 || ^9"
@@ -5607,8 +5607,8 @@
         "type": "drupal-module",
         "extra": {
             "drupal": {
-                "version": "8.x-1.19",
-                "datestamp": "1612192040",
+                "version": "8.x-1.20",
+                "datestamp": "1626684847",
                 "security-coverage": {
                     "status": "covered",
                     "message": "Covered by Drupal's security advisory policy"
@@ -5616,7 +5616,7 @@
             },
             "drush": {
                 "services": {
-                    "drush.services.yml": "^9"
+                    "drush.services.yml": "^9 || ^10"
                 }
             }
         },
@@ -5649,20 +5649,21 @@
     },
     {
         "name": "drupal/search_api_solr",
-        "version": "4.1.12",
-        "version_normalized": "4.1.12.0",
+        "version": "4.2.0",
+        "version_normalized": "4.2.0.0",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/search_api_solr.git",
-            "reference": "4.1.12"
+            "reference": "4.2.0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/search_api_solr-4.1.12.zip",
-            "reference": "4.1.12",
-            "shasum": "1f533d784b0609ca4b21a87bc012d1b100b12860"
+            "url": "https://ftp.drupal.org/files/projects/search_api_solr-4.2.0.zip",
+            "reference": "4.2.0",
+            "shasum": "ebdd5e5fdb0169207f544e2e5600bb8bc566f420"
         },
         "require": {
+            "composer/semver": "^1.0|^3.0",
             "consolidation/annotated-command": "^2.12|^4.1",
             "drupal/core": "^8.8 || ^9",
             "drupal/search_api": "~1.17",
@@ -5671,8 +5672,8 @@
             "ext-simplexml": "*",
             "laminas/laminas-stdlib": "^3.2",
             "maennchen/zipstream-php": "^1.2|^2.0",
-            "php": "^7.2|^8.0",
-            "solarium/solarium": "^6.0.4|^6.1.0"
+            "php": "^7.3|^8.0",
+            "solarium/solarium": "^6.1.3"
         },
         "conflict": {
             "drupal/acquia_search_solr": "<1.0.0-beta8",
@@ -5698,8 +5699,8 @@
         "type": "drupal-module",
         "extra": {
             "drupal": {
-                "version": "4.1.12",
-                "datestamp": "1622737539",
+                "version": "4.2.0",
+                "datestamp": "1624552136",
                 "security-coverage": {
                     "status": "covered",
                     "message": "Covered by Drupal's security advisory policy"
@@ -6906,17 +6907,17 @@
     },
     {
         "name": "laminas/laminas-escaper",
-        "version": "2.7.0",
-        "version_normalized": "2.7.0.0",
+        "version": "2.8.0",
+        "version_normalized": "2.8.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/laminas/laminas-escaper.git",
-            "reference": "5e04bc5ae5990b17159d79d331055e2c645e5cc5"
+            "reference": "2d6dce99668b413610e9544183fa10392437f542"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/5e04bc5ae5990b17159d79d331055e2c645e5cc5",
-            "reference": "5e04bc5ae5990b17159d79d331055e2c645e5cc5",
+            "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/2d6dce99668b413610e9544183fa10392437f542",
+            "reference": "2d6dce99668b413610e9544183fa10392437f542",
             "shasum": ""
         },
         "require": {
@@ -6927,7 +6928,7 @@
             "zendframework/zend-escaper": "^2.6.1"
         },
         "require-dev": {
-            "laminas/laminas-coding-standard": "~1.0.0",
+            "laminas/laminas-coding-standard": "~2.3.0",
             "phpunit/phpunit": "^9.3",
             "psalm/plugin-phpunit": "^0.12.2",
             "vimeo/psalm": "^3.16"
@@ -6936,7 +6937,7 @@
             "ext-iconv": "*",
             "ext-mbstring": "*"
         },
-        "time": "2020-11-17T21:26:43+00:00",
+        "time": "2021-06-26T14:26:08+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -7025,17 +7026,17 @@
     },
     {
         "name": "laminas/laminas-stdlib",
-        "version": "3.3.1",
-        "version_normalized": "3.3.1.0",
+        "version": "3.4.0",
+        "version_normalized": "3.4.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/laminas/laminas-stdlib.git",
-            "reference": "d81c7ffe602ed0e6ecb18691019111c0f4bf1efe"
+            "reference": "e89c2268c9cad25099f562f7f015c28c5dd383c9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/d81c7ffe602ed0e6ecb18691019111c0f4bf1efe",
-            "reference": "d81c7ffe602ed0e6ecb18691019111c0f4bf1efe",
+            "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/e89c2268c9cad25099f562f7f015c28c5dd383c9",
+            "reference": "e89c2268c9cad25099f562f7f015c28c5dd383c9",
             "shasum": ""
         },
         "require": {
@@ -7046,11 +7047,13 @@
             "zendframework/zend-stdlib": "^3.2.1"
         },
         "require-dev": {
-            "laminas/laminas-coding-standard": "~1.0.0",
+            "laminas/laminas-coding-standard": "~2.3.0",
             "phpbench/phpbench": "^0.17.1",
-            "phpunit/phpunit": "~9.3.7"
+            "phpunit/phpunit": "~9.3.7",
+            "psalm/plugin-phpunit": "^0.16.0",
+            "vimeo/psalm": "^4.7"
         },
-        "time": "2020-11-19T20:18:59+00:00",
+        "time": "2021-06-28T21:37:31+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -7071,17 +7074,17 @@
     },
     {
         "name": "laminas/laminas-zendframework-bridge",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-            "reference": "6cccbddfcfc742eb02158d6137ca5687d92cee32"
+            "reference": "13af2502d9bb6f7d33be2de4b51fb68c6cdb476e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/6cccbddfcfc742eb02158d6137ca5687d92cee32",
-            "reference": "6cccbddfcfc742eb02158d6137ca5687d92cee32",
+            "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/13af2502d9bb6f7d33be2de4b51fb68c6cdb476e",
+            "reference": "13af2502d9bb6f7d33be2de4b51fb68c6cdb476e",
             "shasum": ""
         },
         "require": {
@@ -7093,7 +7096,7 @@
             "squizlabs/php_codesniffer": "^3.5",
             "vimeo/psalm": "^4.6"
         },
-        "time": "2021-02-25T21:54:58+00:00",
+        "time": "2021-06-24T12:49:22+00:00",
         "type": "library",
         "extra": {
             "laminas": {
@@ -7313,17 +7316,17 @@
     },
     {
         "name": "masterminds/html5",
-        "version": "2.7.4",
-        "version_normalized": "2.7.4.0",
+        "version": "2.7.5",
+        "version_normalized": "2.7.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Masterminds/html5-php.git",
-            "reference": "9227822783c75406cfe400984b2f095cdf03d417"
+            "reference": "f640ac1bdddff06ea333a920c95bbad8872429ab"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/9227822783c75406cfe400984b2f095cdf03d417",
-            "reference": "9227822783c75406cfe400984b2f095cdf03d417",
+            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/f640ac1bdddff06ea333a920c95bbad8872429ab",
+            "reference": "f640ac1bdddff06ea333a920c95bbad8872429ab",
             "shasum": ""
         },
         "require": {
@@ -7333,9 +7336,9 @@
             "php": ">=5.3.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "^4.8.35"
+            "phpunit/phpunit": "^4.8.35 || ^5.7.21 || ^6 || ^7"
         },
-        "time": "2020-10-01T13:52:52+00:00",
+        "time": "2021-07-01T14:25:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -7380,17 +7383,17 @@
     },
     {
         "name": "myclabs/php-enum",
-        "version": "1.8.0",
-        "version_normalized": "1.8.0.0",
+        "version": "1.8.3",
+        "version_normalized": "1.8.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/myclabs/php-enum.git",
-            "reference": "46cf3d8498b095bd33727b13fd5707263af99421"
+            "reference": "b942d263c641ddb5190929ff840c68f78713e937"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/myclabs/php-enum/zipball/46cf3d8498b095bd33727b13fd5707263af99421",
-            "reference": "46cf3d8498b095bd33727b13fd5707263af99421",
+            "url": "https://api.github.com/repos/myclabs/php-enum/zipball/b942d263c641ddb5190929ff840c68f78713e937",
+            "reference": "b942d263c641ddb5190929ff840c68f78713e937",
             "shasum": ""
         },
         "require": {
@@ -7400,9 +7403,9 @@
         "require-dev": {
             "phpunit/phpunit": "^9.5",
             "squizlabs/php_codesniffer": "1.*",
-            "vimeo/psalm": "^4.5.1"
+            "vimeo/psalm": "^4.6.2"
         },
-        "time": "2021-02-15T16:11:48+00:00",
+        "time": "2021-07-05T08:18:36+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -7428,17 +7431,17 @@
     },
     {
         "name": "nikic/php-parser",
-        "version": "v4.10.5",
-        "version_normalized": "4.10.5.0",
+        "version": "v4.12.0",
+        "version_normalized": "4.12.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nikic/PHP-Parser.git",
-            "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f"
+            "reference": "6608f01670c3cc5079e18c1dab1104e002579143"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4432ba399e47c66624bc73c8c0f811e5c109576f",
-            "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/6608f01670c3cc5079e18c1dab1104e002579143",
+            "reference": "6608f01670c3cc5079e18c1dab1104e002579143",
             "shasum": ""
         },
         "require": {
@@ -7449,7 +7452,7 @@
             "ircmaxell/php-yacc": "^0.0.7",
             "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
         },
-        "time": "2021-05-03T19:11:20+00:00",
+        "time": "2021-07-21T10:44:31+00:00",
         "bin": [
             "bin/php-parse"
         ],
@@ -7482,17 +7485,17 @@
     },
     {
         "name": "pear/archive_tar",
-        "version": "1.4.13",
-        "version_normalized": "1.4.13.0",
+        "version": "1.4.14",
+        "version_normalized": "1.4.14.0",
         "source": {
             "type": "git",
             "url": "https://github.com/pear/Archive_Tar.git",
-            "reference": "2b87b41178cc6d4ad3cba678a46a1cae49786011"
+            "reference": "4d761c5334c790e45ef3245f0864b8955c562caa"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/2b87b41178cc6d4ad3cba678a46a1cae49786011",
-            "reference": "2b87b41178cc6d4ad3cba678a46a1cae49786011",
+            "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/4d761c5334c790e45ef3245f0864b8955c562caa",
+            "reference": "4d761c5334c790e45ef3245f0864b8955c562caa",
             "shasum": ""
         },
         "require": {
@@ -7507,7 +7510,7 @@
             "ext-xz": "Lzma2 compression support.",
             "ext-zlib": "Gzip compression support."
         },
-        "time": "2021-02-16T10:50:50+00:00",
+        "time": "2021-07-20T13:53:39+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -8204,17 +8207,17 @@
     },
     {
         "name": "solarium/solarium",
-        "version": "6.1.1",
-        "version_normalized": "6.1.1.0",
+        "version": "6.1.4",
+        "version_normalized": "6.1.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/solariumphp/solarium.git",
-            "reference": "a161014dea4799c46adeb542d0a25ec334dcccc2"
+            "reference": "6265dc4484c433325a3f71871ea8e2a2247d27fa"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/solariumphp/solarium/zipball/a161014dea4799c46adeb542d0a25ec334dcccc2",
-            "reference": "a161014dea4799c46adeb542d0a25ec334dcccc2",
+            "url": "https://api.github.com/repos/solariumphp/solarium/zipball/6265dc4484c433325a3f71871ea8e2a2247d27fa",
+            "reference": "6265dc4484c433325a3f71871ea8e2a2247d27fa",
             "shasum": ""
         },
         "require": {
@@ -8233,11 +8236,11 @@
             "phpstan/extension-installer": "^1.0",
             "phpstan/phpstan": "^0.12",
             "phpstan/phpstan-phpunit": "^0.12",
-            "phpunit/phpunit": "^8.5 || ^9.4",
+            "phpunit/phpunit": "^9.5",
             "roave/security-advisories": "dev-master",
             "symfony/event-dispatcher": "^4.3 || ^5.0"
         },
-        "time": "2021-02-05T13:03:56+00:00",
+        "time": "2021-07-06T10:45:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -8478,17 +8481,17 @@
     },
     {
         "name": "symfony/config",
-        "version": "v4.4.25",
-        "version_normalized": "4.4.25.0",
+        "version": "v4.4.26",
+        "version_normalized": "4.4.26.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/config.git",
-            "reference": "2803882bb10353d277d4539635dd688a053d571c"
+            "reference": "1cb26cdb8a9834d8494cadd284602fa0647b73e5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/config/zipball/2803882bb10353d277d4539635dd688a053d571c",
-            "reference": "2803882bb10353d277d4539635dd688a053d571c",
+            "url": "https://api.github.com/repos/symfony/config/zipball/1cb26cdb8a9834d8494cadd284602fa0647b73e5",
+            "reference": "1cb26cdb8a9834d8494cadd284602fa0647b73e5",
             "shasum": ""
         },
         "require": {
@@ -8510,7 +8513,7 @@
         "suggest": {
             "symfony/yaml": "To use the yaml reference dumper"
         },
-        "time": "2021-05-26T11:20:16+00:00",
+        "time": "2021-06-21T14:51:25+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -8964,24 +8967,24 @@
     },
     {
         "name": "symfony/filesystem",
-        "version": "v4.4.25",
-        "version_normalized": "4.4.25.0",
+        "version": "v4.4.26",
+        "version_normalized": "4.4.26.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/filesystem.git",
-            "reference": "2d926ebd76f52352deb3c9577d8c1d4b96eae429"
+            "reference": "a501126eb6ec9288a3434af01b3d4499ec1268a0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/filesystem/zipball/2d926ebd76f52352deb3c9577d8c1d4b96eae429",
-            "reference": "2d926ebd76f52352deb3c9577d8c1d4b96eae429",
+            "url": "https://api.github.com/repos/symfony/filesystem/zipball/a501126eb6ec9288a3434af01b3d4499ec1268a0",
+            "reference": "a501126eb6ec9288a3434af01b3d4499ec1268a0",
             "shasum": ""
         },
         "require": {
             "php": ">=7.1.3",
             "symfony/polyfill-ctype": "~1.8"
         },
-        "time": "2021-05-26T17:30:55+00:00",
+        "time": "2021-06-30T07:12:23+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -10239,17 +10242,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.4.25",
-        "version_normalized": "4.4.25.0",
+        "version": "v4.4.26",
+        "version_normalized": "4.4.26.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0"
+            "reference": "a586efdf2aa832d05b9249e9115d24f6a2691160"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0",
-            "reference": "31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/a586efdf2aa832d05b9249e9115d24f6a2691160",
+            "reference": "a586efdf2aa832d05b9249e9115d24f6a2691160",
             "shasum": ""
         },
         "require": {
@@ -10273,7 +10276,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2021-05-27T09:48:32+00:00",
+        "time": "2021-06-17T06:35:48+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
