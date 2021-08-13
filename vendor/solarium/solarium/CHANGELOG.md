@@ -5,6 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.1.5]
+### Added
+- Component\Result\Stats\Result::getDistinctValues()
+- Component\Result\Stats\Result::getCountDistinct()
+- Component\Result\Stats\Result::getCardinality()
+- Component\Result\Stats\FacetValue::getPercentiles()
+- Component\Result\Stats\FacetValue::getDistinctValues()
+- Component\Result\Stats\FacetValue::getCountDistinct()
+- Component\Result\Stats\FacetValue::getCardinality()
+- Component\Result\Stats\FacetValue::getStatValue()
+- Plugin PostBigExtractRequest
+- Support for Configset API
+- Set connection timeout on cURL adapter
+
+### Fixed
+- Component\Result\Stats\Result::getPercentiles() returns percentiles as an associative array
+
+### Changed
+- Component\Result\Stats\Result::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
+- Component\Result\Stats\FacetValue::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
+- Component\Result\Stats\Result::getValue() is renamed to getStatValue()
+
+### Deprecated
+- Component\Result\Stats\FacetValue::getFacets()
+- Component\Result\Stats\Result::getValue()
+
+
 ## [6.1.4]
 ### Added
 - Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
@@ -18,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Parsing nested details in debug response
 
 ### Changed
-- Solarium\Component/Result/Stats/Result::getValue() is now public
+- Solarium\Component\Result\Stats\Result::getValue() is now public
 
 
 ## [6.1.3]
