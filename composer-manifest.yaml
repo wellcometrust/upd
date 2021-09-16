@@ -4,7 +4,7 @@ packages:
     chi-teck/drupal-code-generator: 1.33.1
     ckeditor/tabletoolstoolbar: 0.0.1
     colorbox/colorbox.js: 1.6.4
-    composer/installers: v1.11.0
+    composer/installers: v1.12.0
     composer/semver: 1.7.2
     consolidation/annotated-command: 2.12.1
     consolidation/config: 1.2.1
@@ -40,8 +40,8 @@ packages:
     drupal/console-core: 1.9.7
     drupal/console-en: v1.9.7
     drupal/console-extend-plugin: 0.9.5
-    drupal/core: 8.9.18
-    drupal/core-composer-scaffold: 8.9.18
+    drupal/core: 8.9.19
+    drupal/core-composer-scaffold: 8.9.19
     drupal/crop: 2.1.0
     drupal/ctools: 3.7.0
     drupal/devel: 4.1.1
@@ -98,10 +98,10 @@ packages:
     guzzlehttp/psr7: 1.8.2
     joachim-n/composer-manifest: 1.1.3
     laminas/laminas-diactoros: 1.8.7p2
-    laminas/laminas-escaper: 2.8.0
+    laminas/laminas-escaper: 2.9.0
     laminas/laminas-feed: 2.14.1
-    laminas/laminas-stdlib: 3.5.0
-    laminas/laminas-zendframework-bridge: 1.3.0
+    laminas/laminas-stdlib: 3.6.0
+    laminas/laminas-zendframework-bridge: 1.4.0
     league/container: 2.5.0
     lsolesen/pel: 0.9.10
     maennchen/zipstream-php: 2.1.0
@@ -127,16 +127,16 @@ packages:
     stecman/symfony-console-completion: 0.11.0
     symfony-cmf/routing: 1.4.1
     symfony/class-loader: v3.4.47
-    symfony/config: v4.4.27
+    symfony/config: v4.4.30
     symfony/console: v3.4.47
     symfony/css-selector: v4.4.27
     symfony/debug: v4.4.27
     symfony/dependency-injection: v3.4.47
-    symfony/dom-crawler: v4.4.27
+    symfony/dom-crawler: v4.4.30
     symfony/event-dispatcher: v3.4.47
     symfony/event-dispatcher-contracts: v2.4.0
     symfony/filesystem: v4.4.27
-    symfony/finder: v4.4.27
+    symfony/finder: v4.4.30
     symfony/http-foundation: v3.4.47
     symfony/http-kernel: v3.4.49
     symfony/polyfill-ctype: v1.23.0
@@ -155,7 +155,7 @@ packages:
     symfony/serializer: v3.4.47
     symfony/translation: v3.4.47
     symfony/validator: v3.4.47
-    symfony/var-dumper: v4.4.27
+    symfony/var-dumper: v4.4.30
     symfony/yaml: v3.4.47
     thinkshout/mailchimp-api-php: 2.0.0
     twig/twig: v1.44.4
