@@ -13,7 +13,7 @@ packages:
     consolidation/output-formatters: 3.5.1
     consolidation/robo: 1.4.13
     consolidation/self-update: 1.2.0
-    consolidation/site-alias: 3.1.0
+    consolidation/site-alias: 3.1.1
     consolidation/site-process: 2.1.0
     container-interop/container-interop: 1.2.0
     cweagans/composer-patches: 1.7.1
@@ -30,7 +30,7 @@ packages:
     doctrine/persistence: 1.3.8
     doctrine/reflection: 1.2.2
     dropzone/dropzone.js: 4.3.0
-    drupal/admin_toolbar: 3.0.2
+    drupal/admin_toolbar: 3.0.3
     drupal/ckeditor_tabletoolstoolbar: 1.0.0
     drupal/colorbox: 1.7.0
     drupal/colorbox_load: 1.2.0
@@ -50,7 +50,7 @@ packages:
     drupal/entity_browser_entity_form: 2.6.0
     drupal/entity_reference_display: 1.4.0
     drupal/entity_reference_revisions: 1.9.0
-    drupal/eu_cookie_compliance: 1.14.0
+    drupal/eu_cookie_compliance: 1.16.0
     drupal/facets: 1.8.0
     drupal/field_group: 3.2.0
     drupal/file_mdm: 2.1.0
@@ -99,7 +99,7 @@ packages:
     joachim-n/composer-manifest: 1.1.3
     laminas/laminas-diactoros: 1.8.7p2
     laminas/laminas-escaper: 2.9.0
-    laminas/laminas-feed: 2.14.1
+    laminas/laminas-feed: 2.15.0
     laminas/laminas-stdlib: 3.6.0
     laminas/laminas-zendframework-bridge: 1.4.0
     league/container: 2.5.0
@@ -107,7 +107,7 @@ packages:
     maennchen/zipstream-php: 2.1.0
     masterminds/html5: 2.7.5
     myclabs/php-enum: 1.8.3
-    nikic/php-parser: v4.12.0
+    nikic/php-parser: v4.13.0
     pear/archive_tar: 1.4.14
     pear/console_getopt: v1.4.3
     pear/pear-core-minimal: v1.10.11
@@ -158,8 +158,8 @@ packages:
     symfony/var-dumper: v4.4.30
     symfony/yaml: v3.4.47
     thinkshout/mailchimp-api-php: 2.0.0
-    twig/twig: v1.44.4
-    typo3/phar-stream-wrapper: v3.1.6
+    twig/twig: v1.44.5
+    typo3/phar-stream-wrapper: v3.1.7
     webflo/drupal-finder: 1.2.2
     webmozart/assert: 1.10.0
     webmozart/path-util: 2.3.0

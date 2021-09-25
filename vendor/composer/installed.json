@@ -1031,17 +1031,17 @@
     },
     {
         "name": "consolidation/site-alias",
-        "version": "3.1.0",
-        "version_normalized": "3.1.0.0",
+        "version": "3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/consolidation/site-alias.git",
-            "reference": "9ed3c590be9fcf9fea69c73456c2fd4b27f5204c"
+            "reference": "e824b57253d9174f4a500f87e6d0e1e497c2a50a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/consolidation/site-alias/zipball/9ed3c590be9fcf9fea69c73456c2fd4b27f5204c",
-            "reference": "9ed3c590be9fcf9fea69c73456c2fd4b27f5204c",
+            "url": "https://api.github.com/repos/consolidation/site-alias/zipball/e824b57253d9174f4a500f87e6d0e1e497c2a50a",
+            "reference": "e824b57253d9174f4a500f87e6d0e1e497c2a50a",
             "shasum": ""
         },
         "require": {
@@ -1056,7 +1056,7 @@
             "symfony/var-dumper": "^4",
             "yoast/phpunit-polyfills": "^0.2.0"
         },
-        "time": "2021-02-20T20:03:10+00:00",
+        "time": "2021-09-21T00:30:48+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2129,18 +2129,18 @@
     },
     {
         "name": "drupal/admin_toolbar",
-        "version": "3.0.2",
-        "version_normalized": "3.0.2.0",
+        "version": "3.0.3",
+        "version_normalized": "3.0.3.0",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/admin_toolbar.git",
-            "reference": "3.0.2"
+            "reference": "3.0.3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/admin_toolbar-3.0.2.zip",
-            "reference": "3.0.2",
-            "shasum": "a3b7a8030695d0c1d49ec57786321e2dd142184a"
+            "url": "https://ftp.drupal.org/files/projects/admin_toolbar-3.0.3.zip",
+            "reference": "3.0.3",
+            "shasum": "ce735c931c0bd6da79bd8e45ca459d61015bbe44"
         },
         "require": {
             "drupal/core": "^8.8.0 || ^9.0"
@@ -2151,8 +2151,8 @@
         "type": "drupal-module",
         "extra": {
             "drupal": {
-                "version": "3.0.2",
-                "datestamp": "1629907124",
+                "version": "3.0.3",
+                "datestamp": "1632322068",
                 "security-coverage": {
                     "status": "covered",
                     "message": "Covered by Drupal's security advisory policy"
@@ -3688,27 +3688,27 @@
     },
     {
         "name": "drupal/eu_cookie_compliance",
-        "version": "1.14.0",
-        "version_normalized": "1.14.0.0",
+        "version": "1.16.0",
+        "version_normalized": "1.16.0.0",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/eu-cookie-compliance.git",
-            "reference": "8.x-1.14"
+            "reference": "8.x-1.16"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/eu_cookie_compliance-8.x-1.14.zip",
-            "reference": "8.x-1.14",
-            "shasum": "37b7d8e33d5bc466272a288dbbb386d8702ed3c1"
+            "url": "https://ftp.drupal.org/files/projects/eu_cookie_compliance-8.x-1.16.zip",
+            "reference": "8.x-1.16",
+            "shasum": "13f8056534b82242cc0f8a7200e0c11b6da5c99f"
         },
         "require": {
-            "drupal/core": "^8.8 || ^9"
+            "drupal/core": "^8.9 || ^9"
         },
         "type": "drupal-module",
         "extra": {
             "drupal": {
-                "version": "8.x-1.14",
-                "datestamp": "1606569775",
+                "version": "8.x-1.16",
+                "datestamp": "1632461967",
                 "security-coverage": {
                     "status": "covered",
                     "message": "Covered by Drupal's security advisory policy"
@@ -6957,41 +6957,38 @@
     },
     {
         "name": "laminas/laminas-feed",
-        "version": "2.14.1",
-        "version_normalized": "2.14.1.0",
+        "version": "2.15.0",
+        "version_normalized": "2.15.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/laminas/laminas-feed.git",
-            "reference": "463fdae515fba30633906098c258d3b2c733c15c"
+            "reference": "3ef837a12833c74b438d2c3780023c4244e0abae"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laminas/laminas-feed/zipball/463fdae515fba30633906098c258d3b2c733c15c",
-            "reference": "463fdae515fba30633906098c258d3b2c733c15c",
+            "url": "https://api.github.com/repos/laminas/laminas-feed/zipball/3ef837a12833c74b438d2c3780023c4244e0abae",
+            "reference": "3ef837a12833c74b438d2c3780023c4244e0abae",
             "shasum": ""
         },
         "require": {
             "ext-dom": "*",
             "ext-libxml": "*",
-            "laminas/laminas-escaper": "^2.5.2",
-            "laminas/laminas-stdlib": "^3.2.1",
-            "laminas/laminas-zendframework-bridge": "^1.0",
-            "php": "^7.3 || ~8.0.0"
+            "laminas/laminas-escaper": "^2.9",
+            "laminas/laminas-stdlib": "^3.6",
+            "php": "^7.3 || ~8.0.0 || ~8.1.0"
         },
         "conflict": {
-            "laminas/laminas-servicemanager": "<3.3"
-        },
-        "replace": {
-            "zendframework/zend-feed": "^2.12.0"
+            "laminas/laminas-servicemanager": "<3.3",
+            "zendframework/zend-feed": "*"
         },
         "require-dev": {
             "laminas/laminas-cache": "^2.7.2",
-            "laminas/laminas-coding-standard": "~1.0.0",
-            "laminas/laminas-db": "^2.8.2",
-            "laminas/laminas-http": "^2.7",
-            "laminas/laminas-servicemanager": "^3.3",
-            "laminas/laminas-validator": "^2.10.1",
-            "phpunit/phpunit": "^9.3",
+            "laminas/laminas-coding-standard": "~2.2.1",
+            "laminas/laminas-db": "^2.13.3",
+            "laminas/laminas-http": "^2.15",
+            "laminas/laminas-servicemanager": "^3.7",
+            "laminas/laminas-validator": "^2.15",
+            "phpunit/phpunit": "^9.5.5",
             "psalm/plugin-phpunit": "^0.13.0",
             "psr/http-message": "^1.0.1",
             "vimeo/psalm": "^4.1"
@@ -7004,7 +7001,7 @@
             "laminas/laminas-validator": "Laminas\\Validator component, for validating email addresses used in Atom feeds and entries when using the Writer subcomponent",
             "psr/http-message": "PSR-7 ^1.0.1, if you wish to use Laminas\\Feed\\Reader\\Http\\Psr7ResponseDecorator"
         },
-        "time": "2021-04-01T19:26:09+00:00",
+        "time": "2021-09-20T18:11:11+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -7429,17 +7426,17 @@
     },
     {
         "name": "nikic/php-parser",
-        "version": "v4.12.0",
-        "version_normalized": "4.12.0.0",
+        "version": "v4.13.0",
+        "version_normalized": "4.13.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nikic/PHP-Parser.git",
-            "reference": "6608f01670c3cc5079e18c1dab1104e002579143"
+            "reference": "50953a2691a922aa1769461637869a0a2faa3f53"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/6608f01670c3cc5079e18c1dab1104e002579143",
-            "reference": "6608f01670c3cc5079e18c1dab1104e002579143",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50953a2691a922aa1769461637869a0a2faa3f53",
+            "reference": "50953a2691a922aa1769461637869a0a2faa3f53",
             "shasum": ""
         },
         "require": {
@@ -7450,7 +7447,7 @@
             "ircmaxell/php-yacc": "^0.0.7",
             "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
         },
-        "time": "2021-07-21T10:44:31+00:00",
+        "time": "2021-09-20T12:20:58+00:00",
         "bin": [
             "bin/php-parse"
         ],
@@ -10413,17 +10410,17 @@
     },
     {
         "name": "twig/twig",
-        "version": "v1.44.4",
-        "version_normalized": "1.44.4.0",
+        "version": "v1.44.5",
+        "version_normalized": "1.44.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/twigphp/Twig.git",
-            "reference": "4d400421528e9fa40caaffcf7824c172526dd99d"
+            "reference": "dd4353357c5a116322e92a00d16043a31881a81e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/twigphp/Twig/zipball/4d400421528e9fa40caaffcf7824c172526dd99d",
-            "reference": "4d400421528e9fa40caaffcf7824c172526dd99d",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/dd4353357c5a116322e92a00d16043a31881a81e",
+            "reference": "dd4353357c5a116322e92a00d16043a31881a81e",
             "shasum": ""
         },
         "require": {
@@ -10434,7 +10431,7 @@
             "psr/container": "^1.0",
             "symfony/phpunit-bridge": "^4.4.9|^5.0.9"
         },
-        "time": "2021-05-16T12:11:20+00:00",
+        "time": "2021-09-17T08:35:19+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -10479,17 +10476,17 @@
     },
     {
         "name": "typo3/phar-stream-wrapper",
-        "version": "v3.1.6",
-        "version_normalized": "3.1.6.0",
+        "version": "v3.1.7",
+        "version_normalized": "3.1.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-            "reference": "60131cb573a1e478cfecd34e4ea38e3b31505f75"
+            "reference": "5cc2f04a4e2f5c7e9cc02a3bdf80fae0f3e11a8c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/60131cb573a1e478cfecd34e4ea38e3b31505f75",
-            "reference": "60131cb573a1e478cfecd34e4ea38e3b31505f75",
+            "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/5cc2f04a4e2f5c7e9cc02a3bdf80fae0f3e11a8c",
+            "reference": "5cc2f04a4e2f5c7e9cc02a3bdf80fae0f3e11a8c",
             "shasum": ""
         },
         "require": {
@@ -10504,7 +10501,7 @@
         "suggest": {
             "ext-fileinfo": "For PHP builtin file type guessing, otherwise uses internal processing"
         },
-        "time": "2020-11-07T09:06:16+00:00",
+        "time": "2021-09-20T19:19:13+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
