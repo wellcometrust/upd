@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.node.question_content.body
     - field.field.node.question_content.field_faq_category
-    - field.field.node.question_content.field_node_weight
     - node.type.question_content
   module:
     - text
@@ -34,5 +33,5 @@ content:
     weight: 100
     region: content
 hidden:
-  field_node_weight: true
   langcode: true
+  search_api_excerpt: true

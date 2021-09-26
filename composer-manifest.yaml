@@ -46,6 +46,7 @@ packages:
     drupal/crop: 2.1.0
     drupal/ctools: 3.7.0
     drupal/devel: 4.1.1
+    drupal/draggableviews: 2.0.1
     drupal/dropzonejs: 2.5.0
     drupal/entity_browser: 2.6.0
     drupal/entity_browser_entity_form: 2.6.0
