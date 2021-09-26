@@ -340,7 +340,10 @@ display:
           empty: true
           tokenize: false
           content:
-            value: "What is patient data, how can it be used, by who and why – find out more here.\n\nWe will be adding to this list of questions, let us know what else you would like to find out about."
+            value: |-
+              What is patient data, how can it be used, by who and why – find out more here.
+
+              We will be adding to this list of questions, let us know what else you would like to find out about.
             format: full_html
           plugin_id: text
       footer: {  }
