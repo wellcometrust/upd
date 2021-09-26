@@ -18,14 +18,14 @@ function ce_deploy_delete_all_field_instances($field_name, $entity_type = 'node'
     'include_deleted' => TRUE,
     'field_name' => $field_name,
   ];
-  $fields = \Drupal::entityManager()->getStorage('field_config')->loadByProperties($properties);
-  $info = \Drupal::entityManager()->getDefinitions();
+  $fields = \Drupal::service('entity_type.manager')->getStorage('field_config')->loadByProperties($properties);
+  $info = \Drupal::service('entity_type.manager')->getDefinitions();
   foreach ($fields as $field) {
     $entity_type = $field->getTargetEntityTypeId();
 
     // Proceed only if the module implementing the entity has not been uninstalled already.
     if (isset($info[$entity_type])) {
-      Drupal::entityManager()->getStorage($entity_type)->purgeFieldData($field, 100);
+      \Drupal::service('entity_type.manager')->getStorage($entity_type)->purgeFieldData($field, 100);
     }
     $field->delete();
     field_purge_field($field);

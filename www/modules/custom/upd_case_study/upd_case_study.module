@@ -93,9 +93,9 @@ function _upd_case_study_preprocess_node_nextprevious(&$variables) {
   if ($variables['node']->getType() != 'case_study') {
     return;
   }
-  $nextprevious_block = \Drupal::entityManager()->getStorage('block')->load('nextpreviousblock');
+  $nextprevious_block = \Drupal::service('entity_type.manager')->getStorage('block')->load('nextpreviousblock');
   if (!empty($nextprevious_block)) {
-    $nextprevious_block_content = \Drupal::entityManager()
+    $nextprevious_block_content = \Drupal::service('entity_type.manager')
       ->getViewBuilder('block')
       ->view($nextprevious_block);
     if ($nextprevious_block_content) {
