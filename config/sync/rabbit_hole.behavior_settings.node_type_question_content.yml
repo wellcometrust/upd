@@ -1,0 +1,14 @@
+uuid: ccd62e1e-413a-48e1-8701-8f26e742c8be
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.question_content
+id: node_type_question_content
+entity_type_id: node_type
+entity_id: question_content
+action: page_not_found
+allow_override: 0
+redirect: ''
+redirect_code: 301
+redirect_fallback_action: access_denied
