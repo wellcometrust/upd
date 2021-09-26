@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f02a418f298f1c865121248e600aa5a2",
+    "content-hash": "92f89e757682022c5ab97da78c30db84",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4300,57 +4300,6 @@
             }
         },
         {
-            "name": "drupal/jquery_colorpicker",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/jquery_colorpicker.git",
-                "reference": "8.x-1.4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/jquery_colorpicker-8.x-1.4.zip",
-                "reference": "8.x-1.4",
-                "shasum": "68008be07021354cc30afef24ece8ed359c349e1"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.4",
-                    "datestamp": "1523761084",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Jaypan",
-                    "homepage": "https://www.drupal.org/user/324696"
-                },
-                {
-                    "name": "plopesc",
-                    "homepage": "https://www.drupal.org/user/282415"
-                }
-            ],
-            "description": "Creates a jQuery colorpicker field and form element",
-            "homepage": "https://www.drupal.org/project/jquery_colorpicker",
-            "support": {
-                "source": "http://cgit.drupalcode.org/jquery_colorpicker"
-            }
-        },
-        {
             "name": "drupal/jquery_ui",
             "version": "1.4.0",
             "source": {
@@ -4767,61 +4716,6 @@
             }
         },
         {
-            "name": "drupal/media_upload",
-            "version": "2.0.0-alpha3",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/media_upload.git",
-                "reference": "8.x-2.0-alpha3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/media_upload-8.x-2.0-alpha3.zip",
-                "reference": "8.x-2.0-alpha3",
-                "shasum": "7f1d7767a1cba86824d4fa6027621b8494bf49ef"
-            },
-            "require": {
-                "drupal/core": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-2.0-alpha3",
-                    "datestamp": "1511429288",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "hbigot",
-                    "homepage": "https://www.drupal.org/user/3272546"
-                },
-                {
-                    "name": "klelostec",
-                    "homepage": "https://www.drupal.org/user/3455737"
-                },
-                {
-                    "name": "treuliaux",
-                    "homepage": "https://www.drupal.org/user/3530240"
-                }
-            ],
-            "description": "Allows uploading files in bulk and converting them to media entities.",
-            "homepage": "https://www.drupal.org/project/media_upload",
-            "support": {
-                "source": "http://cgit.drupalcode.org/media_upload"
-            }
-        },
-        {
             "name": "drupal/menu_link_attributes",
             "version": "1.2.0",
             "source": {
@@ -5040,51 +4934,6 @@
             "homepage": "https://www.drupal.org/project/ng_lightbox",
             "support": {
                 "source": "https://git.drupalcode.org/project/ng_lightbox"
-            }
-        },
-        {
-            "name": "drupal/node_weight",
-            "version": "dev-2.x",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/node_weight.git",
-                "reference": "e15ad972dfd6f6c1279a373838871c48e3e46de0"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-2.x-dev",
-                    "datestamp": "1544116380",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Entaro",
-                    "homepage": "https://www.drupal.org/user/891938"
-                },
-                {
-                    "name": "pwanat",
-                    "homepage": "https://www.drupal.org/user/3518012"
-                }
-            ],
-            "description": "Adds a weight field to the node Add/Edit form.",
-            "homepage": "https://www.drupal.org/project/node_weight",
-            "support": {
-                "source": "http://cgit.drupalcode.org/node_weight"
             }
         },
         {
@@ -10613,7 +10462,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/inline_entity_form": 5,
-        "drupal/node_weight": 20,
         "drupal/page_manager": 10,
         "drupal/pdfpreview": 5,
         "drupal/rabbit_hole": 10

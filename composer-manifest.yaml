@@ -60,19 +60,16 @@ packages:
     drupal/image_widget_crop: 2.3.0
     drupal/imagemagick: 3.2.0
     drupal/inline_entity_form: 1.0.0-rc9
-    drupal/jquery_colorpicker: 1.4.0
     drupal/jquery_ui: 1.4.0
     drupal/jquery_ui_draggable: 1.2.0
     drupal/jquery_ui_droppable: 1.2.0
     drupal/mailchimp: 2.0.2
     drupal/media_entity_browser: 2.0.0-alpha3
     drupal/media_entity_video: 2.0.0-rc2
-    drupal/media_upload: 2.0.0-alpha3
     drupal/menu_link_attributes: 1.2.0
     drupal/metatag: 1.16.0
     drupal/module_filter: 3.2.0
     drupal/ng_lightbox: 2.0.0-beta1
-    drupal/node_weight: 'dev-2.x:e15ad972dfd6f6c1279a373838871c48e3e46de0'
     drupal/page_manager: 4.0.0-beta6
     drupal/panels: 4.6.0
     drupal/paragraphs: 1.12.0
