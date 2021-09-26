@@ -2212,33 +2212,30 @@
     },
     {
         "name": "drupal/ckeditor_tabletoolstoolbar",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "2.0.0-rc1",
+        "version_normalized": "2.0.0.0-RC1",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/ckeditor_tabletoolstoolbar.git",
-            "reference": "8.x-1.0"
+            "reference": "2.0.0-rc1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/ckeditor_tabletoolstoolbar-8.x-1.0.zip",
-            "reference": "8.x-1.0",
-            "shasum": "03c2c952e73d9f2010f46352b1495123727d370f"
+            "url": "https://ftp.drupal.org/files/projects/ckeditor_tabletoolstoolbar-2.0.0-rc1.zip",
+            "reference": "2.0.0-rc1",
+            "shasum": "df4cc0b5571c1d21694086708414f38b4054164d"
         },
         "require": {
-            "drupal/core": "*"
+            "drupal/core": "^8 || ^9"
         },
         "type": "drupal-module",
         "extra": {
-            "branch-alias": {
-                "dev-1.x": "1.x-dev"
-            },
             "drupal": {
-                "version": "8.x-1.0",
-                "datestamp": "1503931144",
+                "version": "2.0.0-rc1",
+                "datestamp": "1622112304",
                 "security-coverage": {
-                    "status": "covered",
-                    "message": "Covered by Drupal's security advisory policy"
+                    "status": "not-covered",
+                    "message": "RC releases are not covered by Drupal security advisories."
                 }
             }
         },

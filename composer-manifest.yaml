@@ -31,7 +31,7 @@ packages:
     doctrine/reflection: 1.2.2
     dropzone/dropzone.js: 4.3.0
     drupal/admin_toolbar: 3.0.3
-    drupal/ckeditor_tabletoolstoolbar: 1.0.0
+    drupal/ckeditor_tabletoolstoolbar: 2.0.0-rc1
     drupal/color_field: 2.4.0
     drupal/colorbox: 1.7.0
     drupal/colorbox_load: 1.2.0

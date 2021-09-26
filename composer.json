@@ -84,7 +84,7 @@
     "cweagans/composer-patches": "^1.6",
     "dropzone/dropzone.js": "4.3.0",
     "drupal/admin_toolbar": "^3.0",
-    "drupal/ckeditor_tabletoolstoolbar": "^1.0",
+    "drupal/ckeditor_tabletoolstoolbar": "^2.0",
     "drupal/color_field": "^2.4",
     "drupal/colorbox": "^1.0",
     "drupal/colorbox_load": "^1.0",
