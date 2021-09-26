@@ -6,7 +6,7 @@ dependencies:
     - field.field.taxonomy_term.impact_of_work.field_color
     - taxonomy.vocabulary.impact_of_work
   module:
-    - jquery_colorpicker
+    - color_field
     - path
     - text
 id: taxonomy_term.impact_of_work.default
@@ -15,19 +15,18 @@ bundle: impact_of_work
 mode: default
 content:
   description:
-    type: text_textfield
-    weight: 0
+    type: text_textarea
+    weight: 1
     settings:
-      size: 60
       placeholder: ''
+      rows: 5
     third_party_settings: {  }
     region: content
   field_color:
-    weight: 31
-    settings:
-      color: FFFFFF
+    weight: 4
+    settings: {  }
     third_party_settings: {  }
-    type: jquery_colorpicker
+    type: color_field_widget_html5
     region: content
   langcode:
     type: language_select
@@ -38,7 +37,7 @@ content:
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: -5
+    weight: 0
     settings:
       size: 60
       placeholder: ''
@@ -46,8 +45,15 @@ content:
     region: content
   path:
     type: path
-    weight: 30
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     region: content
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 5
+    region: content
+    third_party_settings: {  }
 hidden: {  }

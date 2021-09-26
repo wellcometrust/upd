@@ -7,6 +7,7 @@ module:
   ce_deploy: 0
   ckeditor: 0
   ckeditor_tabletoolstoolbar: 0
+  color_field: 0
   colorbox: 0
   colorbox_load: 0
   config_filter: 0
@@ -37,7 +38,6 @@ module:
   imagemagick: 0
   inline_entity_form: 0
   inline_form_errors: 0
-  jquery_colorpicker: 0
   language: 0
   layout_discovery: 0
   link: 0
