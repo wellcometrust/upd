@@ -25,7 +25,7 @@ class FilterMailchimpCampaign extends FilterBase {
 
     // Replace node macros with entity content.
     $pattern = '/\[mailchimp_campaign\|entity_type=(\w+)\|entity_id=(\d+)\|view_mode=(\w+)\]/s';
-    $text = preg_replace_callback($pattern, array($this, 'processCallback'), $text);
+    $text = preg_replace_callback($pattern, [$this, 'processCallback'], $text);
 
     // Convert URL to absolute.
     $text = $this->convertUrl($text);
@@ -38,7 +38,7 @@ class FilterMailchimpCampaign extends FilterBase {
   /**
    * Callback for preg_replace in process()
    */
-  public static function processCallback($matches = array()) {
+  public static function processCallback($matches = []) {
     $content = '';
     $entity_type = $entity_id = $view_mode = '';
     foreach ($matches as $key => $match) {
@@ -46,25 +46,27 @@ class FilterMailchimpCampaign extends FilterBase {
         case 1:
           $entity_type = $match;
           break;
+
         case 2:
           $entity_id = $match;
           break;
+
         case 3:
           $view_mode = $match;
           break;
       }
     }
 
-    $entity_manager = \Drupal::entityManager();
-    $entity = $entity_manager->getStorage($entity_type)->load($entity_id);
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $entity = $entity_type_manager->getStorage($entity_type)->load($entity_id);
     if (!empty($entity)) {
-      $render_controller = \Drupal::entityManager()->getViewBuilder($entity->getEntityTypeId());
-      $render_array = $render_controller->view($entity, $view_mode);
+      $view_builder = \Drupal::entityTypeManager()->getViewBuilder($entity->getEntityTypeId());
+      $build = $view_builder->view($entity, $view_mode);
       // Remove contextual links.
-      if (isset($render_array[$entity_type][$entity_id]['#contextual_links'])) {
-        unset($render_array[$entity_type][$entity_id]['#contextual_links']);
+      if (isset($build[$entity_type][$entity_id]['#contextual_links'])) {
+        unset($build[$entity_type][$entity_id]['#contextual_links']);
       }
-      $content = render($render_array);
+      $content = render($build);
     }
 
     return $content;
@@ -75,7 +77,7 @@ class FilterMailchimpCampaign extends FilterBase {
    */
   public function tips($long = FALSE) {
     $tip = $this->t('Converts content tokens in the format %pattern into the appropriate rendered content and makes all paths absolute. Use the "Insert Site Content" widget below to generate tokens.',
-      array('%pattern' => '[mailchimp_campaign|entity_type=node|entity_id=1|view_mode=teaser]')
+      ['%pattern' => '[mailchimp_campaign|entity_type=node|entity_id=1|view_mode=teaser]']
     );
 
     return $tip;
@@ -86,7 +88,7 @@ class FilterMailchimpCampaign extends FilterBase {
    */
   private function convertUrl($text) {
     global $base_url;
-    $matches = array();
+    $matches = [];
     preg_match_all('/<(a|img).*?(href|src)="(.*?)"/', $text, $matches);
     foreach ($matches[3] as $key => $url) {
       if ($url[0] == '/') {

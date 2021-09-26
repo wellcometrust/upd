@@ -63,7 +63,7 @@ packages:
     drupal/jquery_ui: 1.4.0
     drupal/jquery_ui_draggable: 1.2.0
     drupal/jquery_ui_droppable: 1.2.0
-    drupal/mailchimp: 1.11.0
+    drupal/mailchimp: 2.0.2
     drupal/media_entity_browser: 2.0.0-alpha3
     drupal/media_entity_video: 2.0.0-rc2
     drupal/media_upload: 2.0.0-alpha3
@@ -158,7 +158,7 @@ packages:
     symfony/validator: v3.4.47
     symfony/var-dumper: v4.4.30
     symfony/yaml: v3.4.47
-    thinkshout/mailchimp-api-php: 2.0.0
+    thinkshout/mailchimp-api-php: v2.1.1
     twig/twig: v1.44.5
     typo3/phar-stream-wrapper: v3.1.7
     webflo/drupal-finder: 1.2.2

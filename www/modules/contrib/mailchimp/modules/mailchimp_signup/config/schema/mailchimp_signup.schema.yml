@@ -62,6 +62,9 @@ mailchimp_signup.mailchimp_signup.*:
         destination:
           type: string
           label: 'Destination'
+        ajax_submit:
+          type: boolean
+          label: 'Ajax form submit'
         mergefields:
           type: sequence
           label: 'Mergefields'
@@ -79,7 +82,7 @@ mailchimp_signup.mailchimp_signup.*:
           label: 'Safe Interest Groups'
         configure_groups:
           type: boolean
-          labvel: 'Pre-configure interest groups'
+          label: 'Pre-configure interest groups'
         gdpr_consent:
           type: boolean
           label: 'GDPR consent'

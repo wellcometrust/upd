@@ -10,5 +10,5 @@ use Drupal\Core\Entity\ContentEntityInterface;
  * @ingroup mailchimp_campaign
  */
 interface MailchimpCampaignInterface extends ContentEntityInterface {
-  
+
 }

@@ -73,5 +73,10 @@ field.value.mailchimp_lists_subscription:
       type: boolean
       label: 'Subscribe'
     interest_groups:
-      type: string
-      label: 'Interest Groups'
+      type: sequence
+      label: 'Interest groups'
+      sequence:
+        type: ignore
+    allow_unsubscribe:
+      type: boolean
+      label: 'Allow Unsubscribe'

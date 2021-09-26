@@ -54,7 +54,7 @@ class MailchimpListsUpdateMergevarsForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'mailchimp_lists_admin_update_mergevars';
   }
 
@@ -79,15 +79,11 @@ class MailchimpListsUpdateMergevarsForm extends ConfirmFormBase {
     return Url::fromRoute('mailchimp_lists.fields');
   }
 
-  public function getDescription() {
-    return $this->t('This can overwrite values configured directly on your Mailchimp Account.');
-  }
-
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
+  public function getDescription() {
+    return $this->t('This can overwrite values configured directly on your Mailchimp Account.');
   }
 
   /**

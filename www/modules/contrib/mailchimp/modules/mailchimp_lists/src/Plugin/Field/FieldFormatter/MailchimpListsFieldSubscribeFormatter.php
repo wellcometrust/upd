@@ -2,6 +2,7 @@
 
 namespace Drupal\mailchimp_lists\Plugin\Field\FieldFormatter;
 
+use Drupal\mailchimp_lists\Form\MailchimpListsSubscribeForm;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
@@ -58,9 +59,9 @@ class MailchimpListsFieldSubscribeFormatter extends FormatterBase implements Con
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    $settings = array(
+    $settings = [
       'show_interest_groups' => FALSE,
-    );
+    ];
 
     return $settings;
   }
@@ -74,13 +75,13 @@ class MailchimpListsFieldSubscribeFormatter extends FormatterBase implements Con
     $field_settings = $this->getFieldSettings();
     $settings = $this->getSettings();
 
-    $form['show_interest_groups'] = array(
+    $form['show_interest_groups'] = [
       '#title' => $this->t('Show Interest Groups'),
       '#type' => 'checkbox',
       '#description' => $field_settings['show_interest_groups'] ? $this->t('Check to display interest group membership details.') : $this->t('To display Interest Groups, first enable them in the field instance settings.'),
       '#default_value' => $field_settings['show_interest_groups'] && $settings['show_interest_groups'],
       '#disabled' => !$field_settings['show_interest_groups'],
-    );
+    ];
 
     return $form;
   }
@@ -92,7 +93,7 @@ class MailchimpListsFieldSubscribeFormatter extends FormatterBase implements Con
     $field_settings = $this->getFieldSettings();
     $settings = $this->getSettings();
 
-    $summary = array();
+    $summary = [];
 
     if ($field_settings['show_interest_groups'] && $settings['show_interest_groups']) {
       $summary[] = $this->t('Display Interest Groups');
@@ -108,11 +109,11 @@ class MailchimpListsFieldSubscribeFormatter extends FormatterBase implements Con
    * {@inheritdoc}
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
-    $elements = array();
+    $elements = [];
 
     /* @var $item \Drupal\mailchimp_lists\Plugin\Field\FieldType\MailchimpListsSubscription */
     foreach ($items as $delta => $item) {
-      $form = new \Drupal\mailchimp_lists\Form\MailchimpListsSubscribeForm();
+      $form = new MailchimpListsSubscribeForm();
 
       $field_name = $item->getFieldDefinition()->getName();
 

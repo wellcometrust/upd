@@ -24,7 +24,8 @@ use Drupal\Core\Entity\EntityInterface;
  *
  * @ingroup mailchimp
  */
-function hook_mailchimp_subscribe_success($list_id, $email, $merge_vars) {}
+function hook_mailchimp_subscribe_success($list_id, $email, $merge_vars) {
+}
 
 /**
  * Perform an action when an email is successfully unsubscribed from a list.
@@ -36,7 +37,8 @@ function hook_mailchimp_subscribe_success($list_id, $email, $merge_vars) {}
  *
  * @ingroup mailchimp
  */
-function hook_mailchimp_unsubscribe_success($list_id, $email) {}
+function hook_mailchimp_unsubscribe_success($list_id, $email) {
+}
 
 /**
  * Perform an action during the firing of a Mailchimp webhook.
@@ -50,21 +52,23 @@ function hook_mailchimp_unsubscribe_success($list_id, $email) {}
  *
  * @ingroup mailchimp
  */
-function hook_mailchimp_process_webhook($type, $data) {}
+function hook_mailchimp_process_webhook($type, array $data) {
+}
 
 /**
  * Alter mergevars before they are sent to Mailchimp.
  *
  * @param array $mergevars
  *   The current mergevars.
- * @param EntityInterface $entity
+ * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity used to populate the mergevars.
  * @param string $entity_type
  *   The entity type.
  *
  * @ingroup mailchimp
  */
-function hook_mailchimp_lists_mergevars_alter(&$mergevars, EntityInterface $entity, $entity_type) {}
+function hook_mailchimp_lists_mergevars_alter(array &$mergevars, EntityInterface $entity, $entity_type) {
+}
 
 /**
  * @} End of "addtogroup hooks".

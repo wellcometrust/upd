@@ -1,8 +1,9 @@
 {
   "name": "drupal/mailchimp",
+  "type": "drupal-module",
   "description": "Mailchimp is an integration with the Mailchimp Mass email tool.",
   "homepage": "http://drupal.org/project/mailchimp",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "repositories": [
     {
       "type": "vcs",
@@ -10,11 +11,6 @@
     }
   ],
   "require": {
-    "thinkshout/mailchimp-api-php": "2.0.0"
-  },
-  "autoload": {
-    "psr-0": {
-      "Mailchimp": "src/"
-    }
+    "thinkshout/mailchimp-api-php": "^2.0"
   }
 }

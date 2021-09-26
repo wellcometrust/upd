@@ -46,7 +46,7 @@ class MailchimpCampaignDeleteForm extends EntityConfirmFormBase {
    */
   public function getQuestion() {
     return $this->t('Are you sure you want to delete %name?',
-      array('%name' => $this->entity->label()));
+      ['%name' => $this->entity->label()]);
   }
 
   /**
@@ -75,7 +75,7 @@ class MailchimpCampaignDeleteForm extends EntityConfirmFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     if (mailchimp_campaign_delete_campaign($this->entity)) {
-      $this->messenger->addStatus($this->t('Mailchimp Campaign %label has been deleted.', array('%label' => $this->entity->label())));
+      $this->messenger->addStatus($this->t('Mailchimp Campaign %label has been deleted.', ['%label' => $this->entity->label()]));
     }
 
     $form_state->setRedirectUrl($this->getCancelUrl());
@@ -93,4 +93,5 @@ class MailchimpCampaignDeleteForm extends EntityConfirmFormBase {
   public function afterBuild(array $element, FormStateInterface $form_state) {
     return $element;
   }
+
 }

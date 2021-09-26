@@ -2,6 +2,7 @@
 
 namespace Drupal\mailchimp_signup\Plugin\Block;
 
+use Drupal\mailchimp_signup\Form\MailchimpSignupPageForm;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -76,7 +77,6 @@ class MailchimpSignupSubscribeBlock extends BlockBase implements ContainerFactor
     );
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -86,7 +86,7 @@ class MailchimpSignupSubscribeBlock extends BlockBase implements ContainerFactor
     /* @var $signup \Drupal\mailchimp_signup\Entity\MailchimpSignup */
     $signup = mailchimp_signup_load($signup_id);
 
-    $form = new \Drupal\mailchimp_signup\Form\MailchimpSignupPageForm($this->messenger);
+    $form = new MailchimpSignupPageForm($this->messenger);
 
     $form->setFormID($this->getFormId($signup));
     $form->setSignup($signup);

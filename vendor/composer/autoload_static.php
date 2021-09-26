@@ -626,13 +626,6 @@ class ComposerStaticInit4875342e4b77227349a2f8713d7a6b49
                 0 => __DIR__ . '/..' . '/stack/builder/src',
             ),
         ),
-        'M' => 
-        array (
-            'Mailchimp' => 
-            array (
-                0 => __DIR__ . '/../..' . '/www/modules/contrib/mailchimp/src',
-            ),
-        ),
         'E' => 
         array (
             'EasyRdf_' => 
