@@ -1,0 +1,82 @@
+# Schema for the configuration files of the mailchimp lists module.
+
+field.formatter.settings.mailchimp_lists_subscribe_default:
+  type: mapping
+  label: 'Mailchimp lists subscribe formatter settings'
+  mapping:
+    show_interest_groups:
+      type: boolean
+      label: 'Show interest groups'
+
+field.formatter.settings.mailchimp_lists_field_subscribe:
+  type: mapping
+  label: 'Mailchimp lists field subscribe formatter settings'
+  mapping:
+    show_interest_groups:
+      type: boolean
+      label: 'Show interest groups'
+
+field.storage_settings.mailchimp_lists_subscription:
+  type: mapping
+  label: 'Mailchimp lists subscription settings'
+  mapping:
+    mc_list_id:
+      type: string
+      label: 'Mailchimp Audience'
+    double_opt_in:
+      type: boolean
+      label: 'Require subscribers to Double Opt-in'
+    send_welcome:
+      type: boolean
+      label: 'Send welcome message'
+
+field.field_settings.mailchimp_lists_subscription:
+  type: mapping
+  label: 'Mailchimp lists subscription settings'
+  mapping:
+    subscribe_checkbox_label:
+      type: label
+      label: 'Subscribe Checkbox Label'
+    show_interest_groups:
+      type: boolean
+      label: 'Enable Interest Groups'
+    hide_subscribe_checkbox:
+      type: boolean
+      label: 'Hide Subscribe Checkbox'
+    interest_groups_hidden:
+      type: boolean
+      label: 'Hide Interest Groups'
+    interest_groups_label:
+      type: label
+      label: 'Interest Groups Label'
+    merge_fields:
+      type: sequence
+      label: 'Merge Fields'
+      sequence:
+        type: string
+    unsubscribe_on_delete:
+      type: boolean
+      label: 'Unsubscribe on deletion'
+
+field.value.mailchimp_lists_subscription:
+  type: mapping
+  label: 'Default value'
+  mapping:
+    value:
+      type: mapping
+      label: 'Value'
+      mapping:
+        subscribe:
+          type: boolean
+          label: 'Subscribe'
+    subscribe:
+      type: boolean
+      label: 'Subscribe'
+    interest_groups:
+      type: sequence
+      label: 'Interest groups'
+      sequence:
+        type: ignore
+    allow_unsubscribe:
+      type: boolean
+      label: 'Allow Unsubscribe'

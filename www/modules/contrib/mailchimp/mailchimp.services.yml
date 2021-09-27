@@ -1,0 +1,28 @@
+services:
+  cache.mailchimp:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin }
+    factory: cache_factory:get
+    arguments: ['mailchimp']
+
+  access_check.mailchimp.configuration:
+    class: Drupal\mailchimp\Access\MailchimpConfigurationAccessCheck
+    arguments: ['@current_user']
+    tags:
+      - { name: access_check, applies_to: _mailchimp_configuration_access_check }
+
+  logger.channel.mailchimp:
+    parent: logger.channel_base
+    arguments: ['mailchimp']
+
+  mailchimp.settings:
+    class: Drupal\Core\Config\Config
+    factory: config.factory:get
+    arguments: ['mailchimp.settings']
+    private: true
+    shared: false
+
+  mailchimp.client_factory:
+    class: Drupal\mailchimp\ClientFactory
+    arguments: ['@mailchimp.settings', '@logger.channel.mailchimp']

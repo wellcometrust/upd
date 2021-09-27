@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for Mailchimp Audiences.
+ */
+
+/**
+ * Update structure of mailchimp fields.
+ */
+function mailchimp_lists_update_8001() {
+  /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager */
+  $entity_field_manager = \Drupal::service('entity_field.manager');
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_map = $entity_field_manager->getFieldMapByFieldType('mailchimp_lists_subscription');
+
+  // Update each mailchimp field, since only the serialize flag changed, only
+  // the stored schema needs to be updated.
+  foreach ($field_map as $entity_type_id => $fields) {
+    foreach (array_keys($fields) as $field_name) {
+      $field_storage_definition = $entity_definition_update_manager->getFieldStorageDefinition($field_name, $entity_type_id);
+      $entity_definition_update_manager->updateFieldStorageDefinition($field_storage_definition);
+    }
+  }
+}

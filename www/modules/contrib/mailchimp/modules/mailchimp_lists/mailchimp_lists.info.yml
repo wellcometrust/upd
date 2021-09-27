@@ -1,0 +1,16 @@
+name: Mailchimp Audiences
+type: module
+description: Manage and integrate Mailchimp audiences.
+package: Mailchimp
+core_version_requirement: ^8.7.7 || ^9
+configure: mailchimp_lists.overview
+
+dependencies:
+ - drupal:field
+ - mailchimp:mailchimp
+ - drupal:options
+
+# Information added by Drupal.org packaging script on 2021-03-16
+version: '2.0.2'
+project: 'mailchimp'
+datestamp: 1615931528

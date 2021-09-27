@@ -1,0 +1,94 @@
+# Schema for the configuration files of the mailchimp_signup module.
+
+mailchimp_signup.mailchimp_signup.*:
+  type: config_entity
+  label: 'Mailchimp Signup config'
+  mapping:
+    id:
+      type: string
+      label: 'Machine Name'
+    title:
+      type: text
+      label: 'Title'
+    uuid:
+      type: string
+      label: 'UUID'
+    mc_lists:
+      type: sequence
+      label: 'Mailchimp Audience(s)'
+      sequence:
+        type: string
+        label: 'Mailchimp Audience'
+    mode:
+      type: integer
+      label: 'Mode'
+    mergefields:
+      type: sequence
+      label: 'Mergefields'
+      sequence:
+        type: boolean
+        label: 'Merge field'
+    description:
+      type: text
+      label: 'Description'
+    doublein:
+      type: boolean
+      label: 'Double-Opt-In'
+    send_welcome:
+      type: boolean
+      label: 'Send Welcome'
+    include_interest_groups:
+      type: boolean
+      label: 'Include Interest Groups'
+    status:
+      type: boolean
+      label: 'Status'
+    settings:
+      type: mapping
+      label: 'Settings'
+      mapping:
+        path:
+          type: string
+          label: 'Path'
+        submit_button:
+          type: text
+          label: 'Submit Button'
+        confirmation_message:
+          type: text
+          label: 'Confirmation Message'
+        description:
+          type: text
+          label: 'Description'
+        destination:
+          type: string
+          label: 'Destination'
+        ajax_submit:
+          type: boolean
+          label: 'Ajax form submit'
+        mergefields:
+          type: sequence
+          label: 'Mergefields'
+          sequence:
+            type: string
+            label: 'Merge field'
+        doublein:
+          type: boolean
+          label: 'Double-Opt-In'
+        include_interest_groups:
+          type: boolean
+          label: 'Include Interest Groups'
+        safe_interest_groups:
+          type: boolean
+          label: 'Safe Interest Groups'
+        configure_groups:
+          type: boolean
+          label: 'Pre-configure interest groups'
+        gdpr_consent:
+          type: boolean
+          label: 'GDPR consent'
+        gdpr_checkbox_label:
+          type: text
+          label: 'GDPR checkbox label'
+        gdpr_consent_required:
+          type: boolean
+          label: 'GDPR consent required'

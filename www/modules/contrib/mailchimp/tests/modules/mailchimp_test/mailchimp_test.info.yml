@@ -1,0 +1,9 @@
+name: 'Mailchimp Test'
+type: module
+description: 'Mailchimp Test Module.'
+package: Testing
+
+# Information added by Drupal.org packaging script on 2021-03-16
+version: '2.0.2'
+project: 'mailchimp'
+datestamp: 1615931528
