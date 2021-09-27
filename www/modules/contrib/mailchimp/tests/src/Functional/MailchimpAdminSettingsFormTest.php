@@ -20,15 +20,15 @@ class MailchimpAdminSettingsFormTest extends FunctionalMailchimpTestBase {
   public function testSettingsForm() {
     $this->drupalLogin($this->lowUser);
     $this->drupalGet('/admin/config/services/mailchimp');
-    $this->assertResponse(403);
+    $this->assertSession()->statusCodeEquals(403);
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('/admin/config/services/mailchimp');
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
     $this->submitForm([
       'api_key' => 'TEST_KEY',
     ], 'Save configuration');
-    $this->assertText('The configuration options have been saved');
-    $this->assertEquals('TEST_KEY', \Drupal::config('mailchimp.settings')->get('api_key'));
+    $this->assertSession()->pageTextContains('The configuration options have been saved');
+    $this->assertSame('TEST_KEY', \Drupal::config('mailchimp.settings')->get('api_key'));
   }
 
 }

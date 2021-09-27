@@ -7,6 +7,7 @@ module:
   ce_deploy: 0
   ckeditor: 0
   ckeditor_tabletoolstoolbar: 0
+  color_field: 0
   colorbox: 0
   colorbox_load: 0
   config_filter: 0
@@ -17,6 +18,7 @@ module:
   ctools_views: 0
   datetime: 0
   dblog: 0
+  draggableviews: 0
   dropzonejs: 0
   dropzonejs_eb_widget: 0
   dynamic_page_cache: 0
@@ -37,7 +39,6 @@ module:
   imagemagick: 0
   inline_entity_form: 0
   inline_form_errors: 0
-  jquery_colorpicker: 0
   language: 0
   layout_discovery: 0
   link: 0
@@ -47,7 +48,6 @@ module:
   media: 0
   media_entity_browser: 0
   media_entity_video: 0
-  media_upload: 0
   menu_link_attributes: 0
   menu_ui: 0
   metatag: 0
@@ -57,7 +57,6 @@ module:
   metatag_views: 0
   ng_lightbox: 0
   node: 0
-  node_weight: 0
   options: 0
   page_cache: 0
   page_manager: 0
@@ -66,8 +65,10 @@ module:
   path: 0
   path_alias: 0
   pdfpreview: 0
+  rabbit_hole: 0
   redirect: 0
   responsive_image: 0
+  rh_node: 0
   scheduled_publish: 0
   search_api: 0
   search_api_solr: 0

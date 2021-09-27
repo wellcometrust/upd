@@ -8,3 +8,4 @@ _core:
 enable_connected: true
 connected_id: 10a4684f2cbb4ad
 connected_paths: ''
+api_timeout: 10

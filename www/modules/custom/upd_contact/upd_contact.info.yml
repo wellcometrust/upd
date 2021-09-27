@@ -1,7 +1,7 @@
-name: UPD Featured 
+name: UPD Featured
 type: module
 description: 'Provide contact and newsletter functionalities.'
 package: UPD
-core: '8.x'
+core_version_requirement: ^8 || ^9
 dependencies:
   - drupal:contact

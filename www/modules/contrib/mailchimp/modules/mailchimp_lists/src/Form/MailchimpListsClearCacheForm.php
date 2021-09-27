@@ -2,7 +2,6 @@
 
 namespace Drupal\mailchimp_lists\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -43,7 +42,7 @@ class MailchimpListsClearCacheForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'mailchimp_lists_admin_clear_cache';
   }
 
@@ -68,6 +67,9 @@ class MailchimpListsClearCacheForm extends ConfirmFormBase {
     return Url::fromRoute('mailchimp_lists.overview');
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getDescription() {
     return $this->t('Confirm clearing of Mailchimp audience cache.');
   }
@@ -75,15 +77,8 @@ class MailchimpListsClearCacheForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    mailchimp_get_lists(array(), TRUE);
+    mailchimp_get_lists([], TRUE);
     $this->messenger->addStatus($this->t('Mailchimp audience cache cleared.'));
   }
 

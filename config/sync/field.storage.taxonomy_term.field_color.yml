@@ -1,16 +1,17 @@
-uuid: 7e199900-f866-408f-97fe-9504c0e489d4
+uuid: eab8b21e-a03b-420b-9d70-0cd13c1bfcbd
 langcode: en
 status: true
 dependencies:
   module:
-    - jquery_colorpicker
+    - color_field
     - taxonomy
 id: taxonomy_term.field_color
 field_name: field_color
 entity_type: taxonomy_term
-type: jquery_colorpicker
-settings: {  }
-module: jquery_colorpicker
+type: color_field_type
+settings:
+  format: hexhex
+module: color_field
 locked: false
 cardinality: 1
 translatable: true

@@ -1,11 +1,7 @@
 name: UPD CKEditor Tooltip plugin
 type: module
 description: This plugin adds toolitps feature to the editor.
-# core: 8.x
+core_version_requirement: ^8 || ^9
 package: UPD
 dependencies:
   - ckeditor
-
-version: '8.x-1.0'
-core: '8.x'
-project: 'upd_ck_tooltip'

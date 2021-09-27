@@ -13,7 +13,7 @@ class MailchimpSignupRoutes {
    * {@inheritdoc}
    */
   public function routes() {
-    $routes = array();
+    $routes = [];
 
     $signups = mailchimp_signup_load_multiple();
 
@@ -24,15 +24,15 @@ class MailchimpSignupRoutes {
           // Route Path.
           '/' . $signup->settings['path'],
           // Route defaults.
-          array(
+          [
             '_controller' => '\Drupal\mailchimp_signup\Controller\MailchimpSignupController::page',
             '_title' => $signup->title,
             'signup_id' => $signup->id,
-          ),
+          ],
           // Route requirements.
-          array(
+          [
             '_permission'  => 'access mailchimp signup pages',
-          )
+          ]
         );
       }
     }

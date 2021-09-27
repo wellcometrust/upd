@@ -10,5 +10,5 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
  * @ingroup mailchimp_signup
  */
 interface MailchimpSignupInterface extends ConfigEntityInterface {
-  
+
 }

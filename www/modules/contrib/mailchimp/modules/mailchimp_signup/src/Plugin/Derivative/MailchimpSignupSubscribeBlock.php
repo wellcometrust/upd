@@ -3,6 +3,7 @@
 namespace Drupal\mailchimp_signup\Plugin\Derivative;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Provides block plugin definitions for Mailchimp Signup blocks.
@@ -11,6 +12,7 @@ use Drupal\Component\Plugin\Derivative\DeriverBase;
  */
 class MailchimpSignupSubscribeBlock extends DeriverBase {
 
+  use StringTranslationTrait;
   /**
    * {@inheritdoc}
    */
@@ -22,7 +24,7 @@ class MailchimpSignupSubscribeBlock extends DeriverBase {
       if (intval($signup->mode) == MAILCHIMP_SIGNUP_BLOCK || intval($signup->mode) == MAILCHIMP_SIGNUP_BOTH) {
 
         $this->derivatives[$signup->id] = $base_plugin_definition;
-        $this->derivatives[$signup->id]['admin_label'] = t('Mailchimp Subscription Form: @name', array('@name' => $signup->label()));
+        $this->derivatives[$signup->id]['admin_label'] = $this->t('Mailchimp Subscription Form: @name', ['@name' => $signup->label()]);
       }
     }
 

@@ -5,7 +5,7 @@
  * Creates signup forms integrated with Mailchimp.
  */
 
-use \Drupal\mailchimp_signup\Entity\MailchimpSignup;
+use Drupal\mailchimp_signup\Entity\MailchimpSignup;
 
 define('MAILCHIMP_SIGNUP_BLOCK', 1);
 define('MAILCHIMP_SIGNUP_PAGE', 2);
@@ -35,7 +35,7 @@ function mailchimp_signup_load($signup_id) {
  * @return \Drupal\mailchimp_signup\Entity\MailchimpSignup[]
  *   Array of MailchimpSignup entities.
  */
-function mailchimp_signup_load_multiple($signup_ids = array(), $reset = FALSE) {
+function mailchimp_signup_load_multiple(array $signup_ids = [], $reset = FALSE) {
   if (empty($signup_ids)) {
     $signup_ids = NULL;
   }
