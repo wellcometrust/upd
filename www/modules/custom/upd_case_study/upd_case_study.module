@@ -69,10 +69,16 @@ function _upd_case_study_preprocess_node_tags(&$variables) {
   ];
   foreach ($fields as $field) {
     foreach ($node->get($field)->referencedEntities() as $term) {
-      $color = $term->get('field_color')->value;
+      // Default color: 'f8533d'.
+      $color = 'f8533d';
+      // Get color from 'field_color' value.
+      $field_color_value = $term->get('field_color')->getValue();
+      if (!empty($field_color_value)) {
+        $color = $field_color_value[0]['color'];
+      }
       $node->updTags[$term->id()] = [
         'label' => $term->label(),
-        'color' => !empty($color) ? $color : 'f8533d',
+        'color' => $color,
       ];
     }
   }
@@ -87,9 +93,9 @@ function _upd_case_study_preprocess_node_nextprevious(&$variables) {
   if ($variables['node']->getType() != 'case_study') {
     return;
   }
-  $nextprevious_block = \Drupal::entityManager()->getStorage('block')->load('nextpreviousblock');
+  $nextprevious_block = \Drupal::service('entity_type.manager')->getStorage('block')->load('nextpreviousblock');
   if (!empty($nextprevious_block)) {
-    $nextprevious_block_content = \Drupal::entityManager()
+    $nextprevious_block_content = \Drupal::service('entity_type.manager')
       ->getViewBuilder('block')
       ->view($nextprevious_block);
     if ($nextprevious_block_content) {

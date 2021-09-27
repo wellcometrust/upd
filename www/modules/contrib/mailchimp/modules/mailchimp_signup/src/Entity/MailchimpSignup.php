@@ -23,6 +23,20 @@ use Drupal\mailchimp_signup\MailchimpSignupInterface;
  *     }
  *   },
  *   config_prefix = "mailchimp_signup",
+ *   config_export = {
+ *     "id",
+ *     "title",
+ *     "uuid",
+ *     "mc_lists",
+ *     "mode",
+ *     "mergefields",
+ *     "description",
+ *     "doublein",
+ *     "send_welcome",
+ *     "include_interest_groups",
+ *     "status",
+ *     "settings",
+ *   },
  *   admin_permission = "administer mailchimp signup entities",
  *   entity_keys = {
  *     "id" = "id",
@@ -81,7 +95,7 @@ class MailchimpSignup extends ConfigEntityBase implements MailchimpSignupInterfa
   /**
    * The Signup Form Status.
    *
-   * @var boolean
+   * @var bool
    */
   public $status;
 

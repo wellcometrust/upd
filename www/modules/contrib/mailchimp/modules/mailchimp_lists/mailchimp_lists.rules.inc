@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Rules integration for the mailchimp lists module.
@@ -8,33 +9,33 @@
  * Implements hook_rules_action_info().
  */
 function mailchimp_lists_rules_action_info() {
-  $items = array();
-  $items['mailchimp_lists_user_subscribe'] = array(
+  $items = [];
+  $items['mailchimp_lists_user_subscribe'] = [
     'label' => t('Subscribe or unsubscribe entity from a mailchimp audience'),
-    'parameter' => array(
-      'entity' => array(
+    'parameter' => [
+      'entity' => [
         'type' => 'entity',
         'label' => t('Entity'),
         'description' => t('The entity to subscribe/unsubscribe'),
-      ),
-      'field' => array(
+      ],
+      'field' => [
         'type' => '*',
         'label' => t('Mailchimp Audience Subscription Field'),
         'description' => t('Subscription Field connected to the desired Mailchimp Audience.'),
         'restriction' => 'selector',
         'wrapped' => TRUE,
         'allow null' => FALSE,
-      ),
-      'subscribe' => array(
+      ],
+      'subscribe' => [
         'type' => 'boolean',
         'label' => t('Subscribe'),
         'description' => t('True to subscribe, False to unsubscribe'),
-      ),
-    ),
+      ],
+    ],
     'group' => t('Mailchimp'),
     'access callback' => 'mailchimp_lists_rules_access_callback',
     'base' => 'mailchimp_lists_rules_action_entity_subscribe',
-  );
+  ];
   return $items;
 }
 

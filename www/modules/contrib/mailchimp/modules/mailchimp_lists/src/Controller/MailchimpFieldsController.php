@@ -43,9 +43,9 @@ class MailchimpFieldsController extends ControllerBase {
    * {@inheritdoc}
    */
   public function overview() {
-    $content = array();
+    $content = [];
 
-    $content['description'] = array(
+    $content['description'] = [
       '#markup' => $this->t('This displays a list of all Mailchimp Subscription Fields
         configured on your system, with a row for each unique Instance of that field.
         To edit each field\'s settings, go to the Entity Bundle\'s configuration
@@ -58,14 +58,19 @@ class MailchimpFieldsController extends ControllerBase {
         You can manually force updates of all existing Merge Values to existing
         Mailchimp subscribers for each field configuration using the \'Batch Update\'
         option on this table. The Mailchimp Subscription Field is provided by the
-        Mailchimp Audiences (mailchimp_lists) module.')
-    );
+        Mailchimp Audiences (mailchimp_lists) module.'),
+    ];
 
-    $content['fields_table'] = array(
+    $content['fields_table'] = [
       '#type' => 'table',
-      '#header' => array($this->t('Entity Type'), $this->t('Bundle'), $this->t('Field'), $this->t('Batch Update'),),
+      '#header' => [
+        $this->t('Entity Type'),
+        $this->t('Bundle'),
+        $this->t('Field'),
+        $this->t('Batch Update'),
+      ],
       '#empty' => '',
-    );
+    ];
 
     $field_map = $this->entityFieldManager->getFieldMap();
 
@@ -74,25 +79,25 @@ class MailchimpFieldsController extends ControllerBase {
       foreach ($fields as $field_name => $field_properties) {
         if ($field_properties['type'] == 'mailchimp_lists_subscription') {
           foreach ($field_properties['bundles'] as $bundle) {
-            $batch_update_url = Url::fromRoute('mailchimp_lists.update_mergevars', array(
+            $batch_update_url = Url::fromRoute('mailchimp_lists.update_mergevars', [
               'entity_type' => $entity_type,
               'bundle' => $bundle,
               'field_name' => $field_name,
               'destination' => 'admin/config/services/mailchimp/fields',
-            ));
+            ]);
 
-            $content['fields_table'][$row_id]['entity_type'] = array(
+            $content['fields_table'][$row_id]['entity_type'] = [
               '#markup' => $entity_type,
-            );
-            $content['fields_table'][$row_id]['bundle'] = array(
+            ];
+            $content['fields_table'][$row_id]['bundle'] = [
               '#markup' => $bundle,
-            );
-            $content['fields_table'][$row_id]['field'] = array(
+            ];
+            $content['fields_table'][$row_id]['field'] = [
               '#markup' => $field_name,
-            );
-            $content['fields_table'][$row_id]['batch_update'] = array(
+            ];
+            $content['fields_table'][$row_id]['batch_update'] = [
               '#markup' => Link::fromTextAndUrl($this->t('Update Mailchimp Mergevar Values'), $batch_update_url)->toString(),
-            );
+            ];
 
             $row_id++;
           }

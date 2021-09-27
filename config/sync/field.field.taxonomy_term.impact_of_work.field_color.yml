@@ -1,4 +1,4 @@
-uuid: 60bbe0ec-15b7-4879-8561-dd3d310bc44d
+uuid: 2c445cf2-a8ca-4040-9f0b-1fddb2697c13
 langcode: en
 status: true
 dependencies:
@@ -6,18 +6,20 @@ dependencies:
     - field.storage.taxonomy_term.field_color
     - taxonomy.vocabulary.impact_of_work
   module:
-    - jquery_colorpicker
+    - color_field
 id: taxonomy_term.impact_of_work.field_color
 field_name: field_color
 entity_type: taxonomy_term
 bundle: impact_of_work
 label: Color
 description: ''
-required: true
+required: false
 translatable: false
 default_value:
   -
-    value: f8533d
+    color: '#f8533d'
+    opacity: null
 default_value_callback: ''
-settings: {  }
-field_type: jquery_colorpicker
+settings:
+  opacity: 0
+field_type: color_field_type

@@ -18,14 +18,14 @@ class MailchimpConfigOverrider extends ConfigFactoryOverrideBase implements Conf
    * {@inheritdoc}
    */
   public function loadOverrides($names) {
-    $overrides = array(
-      'mailchimp.settings' => array(
+    $overrides = [
+      'mailchimp.settings' => [
         'api_key' => 'MAILCHIMP_TEST_API_KEY',
         'cron' => FALSE,
         'batch_limit' => 100,
         'test_mode' => TRUE,
-      ),
-    );
+      ],
+    ];
 
     return $overrides;
   }
@@ -79,4 +79,5 @@ class MailchimpConfigOverrider extends ConfigFactoryOverrideBase implements Conf
   public function onConfigSave(ConfigCrudEvent $event) {
     // Not required for test case config.
   }
+
 }

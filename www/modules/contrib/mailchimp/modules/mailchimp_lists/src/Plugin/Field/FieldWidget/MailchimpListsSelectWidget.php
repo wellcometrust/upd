@@ -44,18 +44,18 @@ class MailchimpListsSelectWidget extends WidgetBase {
     // Load the Mailchimp list from the field's list ID.
     $mc_list = mailchimp_get_list($this->fieldDefinition->getSetting('mc_list_id'));
 
-    $element += array(
+    $element += [
       '#title' => Html::escape($element['#title']),
       '#type' => 'fieldset',
-    );
+    ];
 
-    $element['subscribe'] = array(
+    $element['subscribe'] = [
       '#title' => $this->fieldDefinition->getSetting('subscribe_checkbox_label') ?: $this->t('Subscribe'),
       '#type' => 'checkbox',
       '#default_value' => ($subscribe_default) ? TRUE : $this->fieldDefinition->isRequired(),
       '#required' => $this->fieldDefinition->isRequired(),
       '#disabled' => $this->fieldDefinition->isRequired(),
-    );
+    ];
 
     // TRUE if interest groups are enabled for this list.
     $show_interest_groups = $this->fieldDefinition->getSetting('show_interest_groups');
@@ -83,56 +83,37 @@ class MailchimpListsSelectWidget extends WidgetBase {
       $mc_list = mailchimp_get_list($instance->getFieldDefinition()->getSetting('mc_list_id'));
 
       if ($interest_groups_hidden && !$is_default_value_widget) {
-        $element['interest_groups'] = array();
+        $element['interest_groups'] = [];
       }
       else {
-        $element['interest_groups'] = array(
+        $element['interest_groups'] = [
           '#type' => $interest_group_element_type,
           '#title' => Html::escape($instance->getFieldDefinition()->getSetting('interest_groups_label')),
           '#weight' => 100,
-          '#states' => array(
-            'invisible' => array(
-              ':input[name="' . $instance->getFieldDefinition()->getName() . '[0][value][subscribe]"]' => array('checked' => FALSE),
-            ),
-          ),
-        );
+          '#states' => [
+            'invisible' => [
+              ':input[name="' . $instance->getFieldDefinition()->getName() . '[0][value][subscribe]"]' => ['checked' => FALSE],
+            ],
+          ],
+        ];
       }
 
       if ($is_default_value_widget) {
-        $element['interest_groups']['#states']['invisible'] = array(
-          ':input[name="settings[show_interest_groups]"]' => array('checked' => FALSE),
-        );
+        $element['interest_groups']['#states']['invisible'] = [
+          ':input[name="settings[show_interest_groups]"]' => ['checked' => FALSE],
+        ];
       }
 
       $groups_default = $instance->getInterestGroups();
 
       if ($groups_default == NULL) {
-        $groups_default = array();
+        $groups_default = [];
       }
 
       if (!empty($mc_list->intgroups)) {
         $mode = $is_default_value_widget ? 'admin' : ($interest_groups_hidden ? 'hidden' : 'default');
         $element['interest_groups'] += mailchimp_interest_groups_form_elements($mc_list, $groups_default, $email, $mode);
       }
-    }
-
-    // Make a distinction between whether the field is edited by the system or the user.
-    // This is important to prevent unwanted subscription overwrites.
-    $build_info = $form_state->getBuildInfo();
-    if ($build_info['callback_object'] instanceof EntityFormInterface &&  $build_info['callback_object']->getOperation() == 'edit') {
-
-      // The field is set from an edited via the UI.
-      $element['allow_unsubscribe'] = array(
-        '#type' => 'value',
-        '#value' => TRUE,
-      );
-    }
-    else {
-      // The field is NOT set from an edit.
-      $element['allow_unsubscribe'] = array(
-        '#type' => 'value',
-        '#value' => FALSE,
-      );
     }
 
     return $element;
