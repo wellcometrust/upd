@@ -58,8 +58,6 @@ return array(
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'MyCLabs\\Enum\\' => array($vendorDir . '/myclabs/php-enum/src'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
-    'Mailchimp\\http\\' => array($vendorDir . '/thinkshout/mailchimp-api-php/src/http'),
-    'Mailchimp\\' => array($vendorDir . '/thinkshout/mailchimp-api-php/src'),
     'League\\Container\\' => array($vendorDir . '/league/container/src'),
     'Laminas\\ZendFrameworkBridge\\' => array($vendorDir . '/laminas/laminas-zendframework-bridge/src'),
     'Laminas\\Stdlib\\' => array($vendorDir . '/laminas/laminas-stdlib/src'),
