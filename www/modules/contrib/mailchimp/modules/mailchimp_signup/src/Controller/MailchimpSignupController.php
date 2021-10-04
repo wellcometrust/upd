@@ -2,10 +2,10 @@
 
 namespace Drupal\mailchimp_signup\Controller;
 
+use Drupal\mailchimp_signup\Form\MailchimpSignupPageForm;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\mailchimp_signup\Entity\MailchimpSignup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -60,11 +60,11 @@ class MailchimpSignupController extends ControllerBase {
    *   Renderable array of page content.
    */
   public function page($signup_id) {
-    $content = array();
+    $content = [];
 
     $signup = mailchimp_signup_load($signup_id);
 
-    $form = new \Drupal\mailchimp_signup\Form\MailchimpSignupPageForm($this->messenger);
+    $form = new MailchimpSignupPageForm($this->messenger);
 
     $form_id = 'mailchimp_signup_subscribe_page_' . $signup->id . '_form';
     $form->setFormID($form_id);

@@ -40,7 +40,7 @@ function mailchimp_lists_entity_delete($entity) {
   foreach ($list_fields as $field) {
     // Additional foreach to support multiple values.
     foreach ($entity->get($field) as $item) {
-      mailchimp_lists_process_subscribe_form_choices(array('subscribe' => FALSE), $item, $entity);
+      mailchimp_lists_process_subscribe_form_choices(['subscribe' => FALSE], $item, $entity);
     }
   }
 }
@@ -94,11 +94,11 @@ function mailchimp_lists_load_email(MailchimpListsSubscription $instance, Entity
 
   if (empty($merge_fields) || !isset($merge_fields['EMAIL'])) {
     if ($log_errors) {
-      \Drupal::logger('mailchimp_lists')->notice('Mailchimp Audiences field "{field}" on {entity} -> {bundle} has no EMAIL field configured, subscription actions cannot take place.', array(
+      \Drupal::logger('mailchimp_lists')->notice('Mailchimp Audiences field "{field}" on {entity} -> {bundle} has no EMAIL field configured, subscription actions cannot take place.', [
         'field' => $instance->getFieldDefinition()->getName(),
         'entity' => $entity->getEntityType()->getLabel(),
         'bundle' => $entity->bundle(),
-      ));
+      ]);
     }
 
     return FALSE;
@@ -110,7 +110,7 @@ function mailchimp_lists_load_email(MailchimpListsSubscription $instance, Entity
   /* @var $mail_field \Drupal\Core\Field\FieldItemList */
   $mail_field = $entity->get($mail_property);
 
-  if (($mail_field != NULL) && valid_email_address($mail_field->getString())) {
+  if (($mail_field != NULL) && \Drupal::service('email.validator')->isValid($mail_field->getString())) {
     return $mail_field->getString();
   }
   else {
@@ -130,12 +130,14 @@ function mailchimp_lists_load_email(MailchimpListsSubscription $instance, Entity
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   An Entity that has the $instance field.
  */
-function mailchimp_lists_process_subscribe_form_choices($choices, MailchimpListsSubscription $instance, EntityInterface $entity) {
+function mailchimp_lists_process_subscribe_form_choices(array $choices, MailchimpListsSubscription $instance, EntityInterface $entity) {
 
-  //If unsubscribe is not allowed, and it's an unsubscribe, do nothing.
-  if (!isset($choices['allow_unsubscribe']) || !$choices['allow_unsubscribe'] && $choices['subscribe'] == 0) {
+  // Never process a unsubscribe when the entity is new.
+  // This is important to prevent unwanted subscription overwrites.
+  if ($entity->isNew() && $choices['subscribe'] == 0) {
     return;
   }
+
   $email = mailchimp_lists_load_email($instance, $entity);
 
   if (!$email) {
@@ -164,13 +166,13 @@ function mailchimp_lists_process_subscribe_form_choices($choices, MailchimpLists
 
   if ($function) {
     if ($function == 'remove') {
-      $mergevars = array();
+      $mergevars = [];
     }
     else {
       $mergevars = _mailchimp_lists_mergevars_populate($settings['merge_fields'], $entity);
     }
 
-    $interests = isset($choices['interest_groups']) ? $choices['interest_groups'] : array();
+    $interests = isset($choices['interest_groups']) ? $choices['interest_groups'] : [];
 
     switch ($function) {
       case 'add':
@@ -178,7 +180,7 @@ function mailchimp_lists_process_subscribe_form_choices($choices, MailchimpLists
         break;
 
       case 'remove':
-        $ret = mailchimp_unsubscribe($settings['mc_list_id'], $email, TRUE);
+        $ret = mailchimp_unsubscribe($settings['mc_list_id'], $email);
         break;
 
       case 'update':
@@ -213,7 +215,6 @@ function _mailchimp_lists_subscription_has_changed(MailchimpListsSubscription $i
     $original = $entity->original;
 
     // First compare Interest Group settings.
-
     if ($settings['show_interest_groups']) {
       $field_name = $instance->getFieldDefinition()->getName();
 
@@ -222,8 +223,8 @@ function _mailchimp_lists_subscription_has_changed(MailchimpListsSubscription $i
       /* @var $new_field_settings \Drupal\mailchimp_lists\Plugin\Field\FieldType\MailchimpListsSubscription */
       $new_field_settings = $entity->{$field_name}->get(0);
 
-      $old_interest_groups = is_null($old_field_settings) ? [] : $old_field_settings->getValue('interest_groups');
-      $new_interest_groups = $new_field_settings->getValue('interest_groups');
+      $old_interest_groups = is_null($old_field_settings) ? [] : $old_field_settings->getInterestGroups();
+      $new_interest_groups = $new_field_settings->getInterestGroups();
 
       foreach ($new_interest_groups as $id => $new_interests) {
         // Check for change in entire interest group.
@@ -235,7 +236,7 @@ function _mailchimp_lists_subscription_has_changed(MailchimpListsSubscription $i
 
         // Check for changes in individual interests.
         foreach ($new_interests as $interest_id => $interest_status) {
-          if (!isset($old_interests[$interest_id]) || ($old_interests[$interest_id] != $interest_status)) {
+          if (!isset($old_interests[$interest_id]) || ($old_interests[$interest_id] !== $interest_status)) {
             return TRUE;
           }
         }
@@ -262,7 +263,7 @@ function _mailchimp_lists_subscription_has_changed(MailchimpListsSubscription $i
         else {
           if (!is_array($choices['interest_groups'][$grouping['id']])) {
             // Standardize formatting of choices:
-            $choices['interest_groups'][$grouping['id']] = array($choices['interest_groups'][$grouping['id']] => $choices['interest_groups'][$grouping['id']]);
+            $choices['interest_groups'][$grouping['id']] = [$choices['interest_groups'][$grouping['id']] => $choices['interest_groups'][$grouping['id']]];
           }
 
           foreach ($grouping['groups'] as $group) {
@@ -286,18 +287,17 @@ function _mailchimp_lists_subscription_has_changed(MailchimpListsSubscription $i
  * @see \Drupal\ctools\TypedDataResolver::getContextFromProperty()
  */
 function _mailchimp_lists_mergevars_populate($merge_fields, EntityInterface $entity) {
-  $mergevars = array();
-
+  $mergevars = [];
 
   foreach (array_filter($merge_fields) as $label => $property_path) {
 
     $data = $entity->getTypedData();
-    $value = null;
+    $value = NULL;
     foreach (explode(':', $property_path) as $name) {
 
       if ($data instanceof ListInterface) {
         if (!is_numeric($name)) {
-          // Implicitly default to delta 0 for lists/audiences when not specified.
+          // Implicitly default to delta 0 for audiences when not specified.
           $data = $data->first();
         }
         else {
@@ -338,7 +338,7 @@ function _mailchimp_lists_mergevars_populate($merge_fields, EntityInterface $ent
     // Cast to string to avoid problems with NULL values that the API does not
     // accept.
     // @todo: Check if this causes problems with integers or other non-string
-    //  merge fields, assuming the exist.
+    // merge fields, assuming the exist.
     $mergevars[$label] = (string) $value;
   }
 
@@ -359,29 +359,29 @@ function mailchimp_lists_update_member_merge_values($entity_type, $bundle_name, 
 
   $merge_fields = $field->getSetting('merge_fields');
 
-  // Assemble a list/audience of current subscription statuses so we don't alter them.
+  // Assemble a list of current subscription statuses so we don't alter them.
   // Because of cacheing we don't want to use the standard checks. Expiring the
   // cache would kill the point of doing this as a batch API operation.
-  $batch = array(
-    'operations' => array(
-      array('mailchimp_lists_get_subscribers', array($field)),
-      array(
+  $batch = [
+    'operations' => [
+      ['mailchimp_lists_get_subscribers', [$field]],
+      [
         'mailchimp_lists_populate_member_batch',
-        array(
+        [
           $entity_type,
           $bundle_name,
           $field,
           $merge_fields,
-        ),
-      ),
-      array('mailchimp_lists_execute_mergevar_batch_update', array($mc_list_id)),
-    ),
+        ],
+      ],
+      ['mailchimp_lists_execute_mergevar_batch_update', [$mc_list_id]],
+    ],
     'finished' => 'mailchimp_lists_populate_member_batch_complete',
     'title' => t('Processing Merge Variable Updates'),
     'init_message' => t('Starting Mailchimp Merge Variable Update.'),
     'progress_message' => t('Processed @current out of @total.'),
     'error_message' => t('Mailchimp Merge Variable Update Failed.'),
-  );
+  ];
 
   batch_set($batch);
 }
@@ -391,16 +391,16 @@ function mailchimp_lists_update_member_merge_values($entity_type, $bundle_name, 
  */
 function mailchimp_lists_get_subscribers(FieldConfig $field, &$context) {
   if (!isset($context['sandbox']['progress'])) {
-    $context['results']['subscribers'] = array();
+    $context['results']['subscribers'] = [];
     $context['sandbox']['progress'] = 0;
   }
 
   $limit = 100;
 
-  $options = array(
+  $options = [
     'offset' => $context['sandbox']['progress'] / $limit,
     'count' => $limit,
-  );
+  ];
 
   $mc_list_id = $field->getFieldStorageDefinition()->getSetting('mc_list_id');
 
@@ -414,7 +414,7 @@ function mailchimp_lists_get_subscribers(FieldConfig $field, &$context) {
       $context['results']['subscribers'][strtolower($result->email_address)] = $result;
       $context['sandbox']['progress']++;
     }
-    $context['message'] = t('Check subscription status for contact %count of %total.', array('%count' => $context['sandbox']['progress'], '%total' => $context['sandbox']['max']));
+    $context['message'] = t('Check subscription status for contact %count of %total.', ['%count' => $context['sandbox']['progress'], '%total' => $context['sandbox']['max']]);
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
 }
@@ -439,7 +439,7 @@ function mailchimp_lists_populate_member_batch($entity_type, $bundle_name, $fiel
 
     if ($context['sandbox']['max']) {
       $context['sandbox']['entity_ids'] = array_keys($query_results);
-      $context['results']['update_queue'] = array();
+      $context['results']['update_queue'] = [];
     }
   }
 
@@ -452,22 +452,22 @@ function mailchimp_lists_populate_member_batch($entity_type, $bundle_name, $fiel
       $merge_vars = _mailchimp_lists_mergevars_populate($mergefields, $entity);
 
       if ($merge_vars['EMAIL'] && isset($context['results']['subscribers'][strtolower($merge_vars['EMAIL'])])) {
-        $context['results']['update_queue'][] = array(
+        $context['results']['update_queue'][] = [
           'email' => $merge_vars['EMAIL'],
           // Preserve subscribers's email type selection:
           'email_type' => $context['results']['subscribers'][strtolower($merge_vars['EMAIL'])]->email_type,
           'merge_vars' => $merge_vars,
-        );
+        ];
       }
 
       $context['sandbox']['progress']++;
     }
 
     $context['message'] = t('Checking for changes on items %count - %next.',
-      array(
+      [
         '%count' => $context['sandbox']['progress'],
         '%next' => $context['sandbox']['progress'] + $batch_size,
-      )
+      ]
     );
 
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
@@ -510,10 +510,10 @@ function mailchimp_lists_execute_mergevar_batch_update($list_id, &$context) {
     $batch_size = count($batch);
     $context['sandbox']['progress'] += $batch_size;
     $context['message'] = t('Updating Mailchimp mergevars for items %count - %next.',
-      array(
+      [
         '%count' => $context['sandbox']['progress'],
         '%next' => $context['sandbox']['progress'] + $batch_size,
-      )
+      ]
     );
 
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
@@ -527,17 +527,17 @@ function mailchimp_lists_populate_member_batch_complete($success, $results, $ope
   if ($success) {
     if ($results['errors']) {
       \Drupal::messenger()->addWarning(t('Update errors occurred: merge variables updated on %count records, errors occurred on %errors records.',
-        array(
+        [
           '%count' => $results['updates'],
           '%errors' => $results['errors'],
-        )
+        ]
       ));
     }
     else {
       \Drupal::messenger()->addStatus(t('Merge variables updated on %count records.',
-        array(
+        [
           '%count' => $results['updates'],
-        )
+        ]
       ));
     }
   }
@@ -553,27 +553,27 @@ function mailchimp_lists_populate_member_batch_complete($success, $results, $ope
  *   Default webhook event names, indexed by the IDs used by the Mailchimp API.
  */
 function mailchimp_lists_default_webhook_events() {
-  return array(
+  return [
     'subscribe' => 'Subscribes',
     'unsubscribe' => 'Unsubscribes',
     'profile' => 'Profile Updates',
     'cleaned' => 'Cleaned Emails',
     'upemail' => 'Email Address Changes',
     'campaign' => 'Campaign Sending Status',
-  );
+  ];
 }
 
 /**
  * Returns an array of enabled webhook events.
  *
- * @param $list_id
+ * @param string $list_id
  *   The Mailchimp list/audience ID to return webhook actions for.
  *
  * @return array
  *   An array of enabled webhook event names.
  */
 function mailchimp_lists_enabled_webhook_events($list_id) {
-  $enabled_events = array();
+  $enabled_events = [];
 
   $webhook_url = mailchimp_webhook_url();
 

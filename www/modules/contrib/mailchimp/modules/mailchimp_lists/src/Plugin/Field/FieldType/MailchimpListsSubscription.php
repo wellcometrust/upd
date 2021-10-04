@@ -3,7 +3,6 @@
 namespace Drupal\mailchimp_lists\Plugin\Field\FieldType;
 
 use Drupal\Component\Utility\Html;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\OptGroup;
@@ -31,48 +30,49 @@ class MailchimpListsSubscription extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function defaultStorageSettings() {
-    return array(
+    return [
       'mc_list_id' => '',
       'double_opt_in' => 0,
       'send_welcome' => 0,
-    ) + parent::defaultStorageSettings();
+    ] + parent::defaultStorageSettings();
   }
 
   /**
    * {@inheritdoc}
    */
   public static function defaultFieldSettings() {
-    return array(
+    return [
       'subscribe_checkbox_label' => 'Subscribe',
       'show_interest_groups' => 0,
       'hide_subscribe_checkbox' => 0,
       'interest_groups_hidden' => 0,
       'interest_groups_label' => '',
-      'merge_fields' => array(),
+      'merge_fields' => [],
       'unsubscribe_on_delete' => 0,
-    ) + parent::defaultFieldSettings();
+    ] + parent::defaultFieldSettings();
   }
 
   /**
    * {@inheritdoc}
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
-    $columns = array(
-      'subscribe' => array(
+    $columns = [
+      'subscribe' => [
         'type' => 'int',
         'size' => 'tiny',
         'not null' => TRUE,
         'default' => 0,
-      ),
-      'interest_groups' => array(
+      ],
+      'interest_groups' => [
         'type' => 'text',
         'size' => 'normal',
         'not null' => TRUE,
-      ),
-    );
-    return array(
+        'serialize' => TRUE,
+      ],
+    ];
+    return [
       'columns' => $columns,
-    );
+    ];
   }
 
   /**
@@ -83,7 +83,7 @@ class MailchimpListsSubscription extends FieldItemBase {
       ->setLabel(t('Subscribe'))
       ->setDescription(t('True when an entity is subscribed to a audience.'));
 
-    $properties['interest_groups'] = DataDefinition::create('string')
+    $properties['interest_groups'] = DataDefinition::create('any')
       ->setLabel(t('Interest groups'))
       ->setDescription(t('Interest groups selected for a audience.'));
 
@@ -97,20 +97,20 @@ class MailchimpListsSubscription extends FieldItemBase {
     $element = parent::storageSettingsForm($form, $form_state, $has_data);
 
     $lists = mailchimp_get_lists();
-    $options = array('' => $this->t('-- Select --'));
+    $options = ['' => $this->t('-- Select --')];
     foreach ($lists as $mc_list) {
       $options[$mc_list->id] = $mc_list->name;
     }
 
-    $field_map = \Drupal::entityManager()->getFieldMap();
+    $field_map = \Drupal::service('entity_field.manager')->getFieldMap();
 
-    $field_definitions = array();
+    $field_definitions = [];
     foreach ($field_map as $entity_type => $fields) {
-      $field_definitions[$entity_type] = \Drupal::entityManager()->getFieldStorageDefinitions($entity_type);
+      $field_definitions[$entity_type] = \Drupal::service('entity_field.manager')->getFieldStorageDefinitions($entity_type);
     }
 
-    // Prevent Mailchimp lists/audiences that have already been assigned to a field
-    // appearing as field options.
+    // Prevent Mailchimp lists/audiences that have already been assigned to a
+    // field appearing as field options.
     foreach ($field_map as $entity_type => $fields) {
       foreach ($fields as $field_name => $field_properties) {
         if ($field_properties['type'] == 'mailchimp_lists_subscription') {
@@ -126,31 +126,31 @@ class MailchimpListsSubscription extends FieldItemBase {
     }
 
     $refresh_lists_url = Url::fromRoute('mailchimp_lists.refresh');
-    $mailchimp_url = Url::fromUri('https://admin.mailchimp.com', array('attributes' => array('target' => '_blank')));
+    $mailchimp_url = Url::fromUri('https://admin.mailchimp.com', ['attributes' => ['target' => '_blank']]);
 
-    $element['mc_list_id'] = array(
+    $element['mc_list_id'] = [
       '#type' => 'select',
       '#title' => $this->t('Mailchimp Audience'),
       '#multiple' => FALSE,
       '#description' => $this->t('Available Mailchimp audiences which are not already
         attached to Mailchimp Subscription Fields. If there are no options,
         make sure you have created an audience at @Mailchimp first, then @cacheclear.',
-        array(
+        [
           '@Mailchimp' => Link::fromTextAndUrl('Mailchimp', $mailchimp_url)->toString(),
           '@cacheclear' => Link::fromTextAndUrl('clear your audience cache', $refresh_lists_url)->toString(),
-        )),
+        ]),
       '#options' => $options,
       '#default_value' => $this->getSetting('mc_list_id'),
       '#required' => TRUE,
       '#disabled' => $has_data,
-    );
-    $element['double_opt_in'] = array(
+    ];
+    $element['double_opt_in'] = [
       '#type' => 'checkbox',
       '#title' => 'Require subscribers to Double Opt-in',
       '#description' => 'New subscribers will be sent a link with an email they must follow to confirm their subscription.',
       '#default_value' => $this->getSetting('double_opt_in'),
       '#disabled' => $has_data,
-    );
+    ];
 
     return $element;
   }
@@ -169,59 +169,59 @@ class MailchimpListsSubscription extends FieldItemBase {
     $this->definition;
     $instance_settings = $this->definition->getSettings();
 
-    $element['subscribe_checkbox_label'] = array(
+    $element['subscribe_checkbox_label'] = [
       '#title' => 'Subscribe Checkbox Label',
       '#type' => 'textfield',
       '#default_value' => isset($instance_settings['subscribe_checkbox_label']) ? $instance_settings['subscribe_checkbox_label'] : 'Subscribe',
-    );
-    $element['show_interest_groups'] = array(
+    ];
+    $element['show_interest_groups'] = [
       '#title' => "Enable Interest Groups",
       '#type' => "checkbox",
       '#default_value' => $instance_settings['show_interest_groups'],
-    );
-    $element['hide_subscribe_checkbox'] = array(
+    ];
+    $element['hide_subscribe_checkbox'] = [
       '#title' => $this->t('Hide Subscribe Checkbox'),
       '#type' => 'checkbox',
       '#default_value' => $instance_settings['hide_subscribe_checkbox'],
       '#description' => $this->t('When Interest Groups are enabled, the "subscribe" checkbox is hidden and selecting any interest group will subscribe a user to the audience.'),
-      '#states' => array(
-        'visible' => array(
-          'input[name="settings[show_interest_groups]"]' => array('checked' => TRUE),
-        ),
-      ),
-    );
-    $element['interest_groups_hidden'] = array(
+      '#states' => [
+        'visible' => [
+          'input[name="settings[show_interest_groups]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+    $element['interest_groups_hidden'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Hide Interest Groups.'),
       '#description' => $this->t('If checked, the Interest Groups will not be displayed, but the default values will be used.'),
       '#default_value' => $instance_settings['interest_groups_hidden'],
-      '#states' => array(
-        'visible' => array(
-          'input[name="settings[show_interest_groups]"]' => array('checked' => TRUE),
-        ),
-      ),
-    );
-    $element['interest_groups_label'] = array(
+      '#states' => [
+        'visible' => [
+          'input[name="settings[show_interest_groups]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+    $element['interest_groups_label'] = [
       '#title' => "Interest Groups Label",
       '#type' => "textfield",
       '#default_value' => !empty($instance_settings['interest_groups_label']) ? $instance_settings['interest_groups_label'] : 'Interest Groups',
-    );
-    $element['merge_fields'] = array(
+    ];
+    $element['merge_fields'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Merge Fields'),
       '#description' => $this->t('Multi-value fields will only sync their first value to Mailchimp, as Mailchimp does not support multi-value fields.'),
       '#tree' => TRUE,
-    );
+    ];
 
-    $element['unsubscribe_on_delete'] = array(
+    $element['unsubscribe_on_delete'] = [
       '#title' => "Unsubscribe on deletion",
       '#type' => "checkbox",
       '#description' => $this->t('Unsubscribe entities from this audience when they are deleted.'),
       '#default_value' => $instance_settings['unsubscribe_on_delete'],
-    );
+    ];
 
     $mv_defaults = $instance_settings['merge_fields'];
-    $mergevars = mailchimp_get_mergevars(array($mc_list_id));
+    $mergevars = mailchimp_get_mergevars([$mc_list_id]);
 
     $field_config = $this->getFieldDefinition();
 
@@ -236,12 +236,12 @@ class MailchimpListsSubscription extends FieldItemBase {
 
     foreach ($mergevars[$mc_list_id] as $mergevar) {
       $default_value = isset($mv_defaults[$mergevar->tag]) ? $mv_defaults[$mergevar->tag] : -1;
-      $element['merge_fields'][$mergevar->tag] = array(
+      $element['merge_fields'][$mergevar->tag] = [
         '#type' => 'select',
         '#title' => Html::escape($mergevar->name),
         '#default_value' => array_key_exists($default_value, $fields_flat) ? $default_value : '',
         '#required' => $mergevar->required,
-      );
+      ];
       if (!$mergevar->required || $mergevar->tag === 'EMAIL') {
         $element['merge_fields'][$mergevar->tag]['#options'] = $fields;
         if ($mergevar->tag === 'EMAIL') {
@@ -267,8 +267,8 @@ class MailchimpListsSubscription extends FieldItemBase {
   /**
    * {@inheritdoc}
    */
-  public function preSave() {
-    parent::preSave();
+  public function postSave($update) {
+    parent::postSave($update);
 
     $choices = $this->values;
 
@@ -302,6 +302,7 @@ class MailchimpListsSubscription extends FieldItemBase {
    * Returns the field 'subscribe' value.
    *
    * @return bool
+   *   The field 'subscribe' value.
    */
   public function getSubscribe() {
     if (isset($this->values['subscribe'])) {
@@ -315,6 +316,7 @@ class MailchimpListsSubscription extends FieldItemBase {
    * Returns the field 'interest_groups' value.
    *
    * @return array
+   *   The field 'interest_groups' value.
    */
   public function getInterestGroups() {
     if (isset($this->values['interest_groups'])) {
@@ -336,13 +338,13 @@ class MailchimpListsSubscription extends FieldItemBase {
    * @param string $prefix
    *   Optional prefix for option IDs in the options list/audience.
    * @param string $tree
-   *   Optional name of the parent element if this options list/audience is part of a tree.
+   *   Optional name of the parent element if the options are part of a tree.
    *
    * @return array
    *   List of properties that can be used as an #options list/audience.
    */
   private function getFieldmapOptions($entity_type, $entity_bundle = NULL, $required = FALSE, $prefix = NULL, $tree = NULL) {
-    $options = array();
+    $options = [];
     if (!$prefix) {
       $options[''] = $this->t('-- Select --');
     }
@@ -398,4 +400,5 @@ class MailchimpListsSubscription extends FieldItemBase {
     }
     return $options;
   }
+
 }

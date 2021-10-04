@@ -5,7 +5,6 @@ namespace Drupal\mailchimp_signup\Controller;
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Url;
-use Drupal\Core\Link;
 
 /**
  * Provides a listing of MailchimpSignups.
@@ -37,13 +36,13 @@ class MailchimpSignupListBuilder extends ConfigEntityListBuilder {
     $block_mode = [
       '#title' => $this->t('Block'),
       '#type' => 'link',
-      '#url' => $block_url
+      '#url' => $block_url,
     ];
 
     $page_mode = [
       '#title' => $this->t('Page'),
       '#type' => 'link',
-      '#url' => $page_url
+      '#url' => $page_url,
     ];
 
     $modes = NULL;
@@ -53,38 +52,42 @@ class MailchimpSignupListBuilder extends ConfigEntityListBuilder {
       case MAILCHIMP_SIGNUP_BLOCK:
         $modes = $block_mode;
         break;
+
       case MAILCHIMP_SIGNUP_PAGE:
         $modes = $page_mode;
         break;
+
       case MAILCHIMP_SIGNUP_BOTH:
-        $modes = array(
+        $modes = [
           'block_link' => $block_mode,
-          'separator' => array(
+          'separator' => [
             '#markup' => ' and ',
-          ),
-          'page_link' => $page_mode
-        );
+          ],
+          'page_link' => $page_mode,
+        ];
         break;
     }
 
-    $list_labels = array();
+    $list_labels = [];
     foreach ($entity->mc_lists as $list_id) {
       if (!empty($list_id) && isset($mc_lists[$list_id])) {
-        $list_url = Url::fromUri('https://admin.mailchimp.com/lists/dashboard/overview?id=' . $mc_lists[$list_id]->id, array('attributes' => array('target' => '_blank')));
+        $list_url = Url::fromUri('https://admin.mailchimp.com/lists/dashboard/overview?id=' . $mc_lists[$list_id]->id, ['attributes' => ['target' => '_blank']]);
         $list_link = [
+          // phpcs:ignore
           '#title' => $this->t($mc_lists[$list_id]->name),
+          // phpcs:enable
           '#type' => 'link',
           '#url' => $list_url,
         ];
         $list_labels[] = $list_link;
-        $list_labels[] = array('#markup' => ', ');
+        $list_labels[] = ['#markup' => ', '];
       }
     }
 
     // Remove the last comma from the $list_labels array.
     array_pop($list_labels);
 
-    $row['label'] = $this->getLabel($entity) . ' (Machine name: ' . $entity->id() . ')';
+    $row['label'] = "{$entity->label()} (Machine name: {$entity->id()})";
     $row['display_modes']['data'] = $modes;
     $row['lists']['data'] = $list_labels;
 

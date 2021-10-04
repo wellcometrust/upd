@@ -7,6 +7,9 @@ mailchimp.settings:
     api_key:
       type: string
       label: 'Mailchimp API Integration Key'
+    api_timeout:
+      type: integer
+      label: 'Mailchimp API Timeout'
     cron:
       type: boolean
       label: 'Queue subscription operations for cron'

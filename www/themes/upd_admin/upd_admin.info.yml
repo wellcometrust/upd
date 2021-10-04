@@ -1,7 +1,7 @@
 name: Understanding Patient Data Admin
 type: theme
 description: UPD Admin Theme
-core: 8.x
+core_version_requirement: ^8 || ^9
 # Defines the base theme
 base theme: seven
 # Defines libraries group in which we can add css/js.

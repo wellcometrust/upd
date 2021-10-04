@@ -104,7 +104,7 @@ class NextPreviousBlock extends BlockBase {
 
       $next = array_values($next);
       $next = $next[0];
-      $next_url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $next);
+      $next_url = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $next);
       $next_node = [];
       $next_node['title'] = Node::load($next)->title->value;
       $next_node['display_text'] = $display_text;

@@ -5,7 +5,7 @@ package: UPD
 # version: VERSION
 # core: 8.x
 base theme: false
-core: '8.x'
+core_version_requirement: ^8 || ^9
 
 libraries:
  - upd/global-styling

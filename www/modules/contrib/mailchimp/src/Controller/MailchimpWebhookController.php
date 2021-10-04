@@ -89,11 +89,12 @@ class MailchimpWebhookController extends ControllerBase {
       }
 
       // Allow other modules to act on a webhook.
-      $this->moduleHandler->invokeAll('mailchimp_process_webhook', array($type, $data));
+      $this->moduleHandler->invokeAll('mailchimp_process_webhook', [$type, $data]);
 
       // Log event.
-      $this->logger->info('Webhook type {type} has been processed.', array(
-        'type' => $type));
+      $this->logger->info('Webhook type {type} has been processed.', [
+        'type' => $type,
+      ]);
 
       $return = 1;
     }

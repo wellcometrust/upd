@@ -6,7 +6,6 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -48,10 +47,13 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'mailchimp_lists_webhook_settings';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getEditableConfigNames() {
     return ['mailchimp_lists.webhook'];
   }
@@ -60,9 +62,7 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    global $request;
-
-    $list_id = $request->attributes->get('_raw_variables')->get('list_id');
+    $list_id = $this->getRequest()->attributes->get('_raw_variables')->get('list_id');
 
     $list = mailchimp_get_list($list_id);
 
@@ -71,31 +71,24 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
     $default_webhook_events = mailchimp_lists_default_webhook_events();
     $enabled_webhook_events = mailchimp_lists_enabled_webhook_events($list_id);
 
-    $form['webhook_events'] = array(
+    $form['webhook_events'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Enabled webhook events for the @name audience',
-        array(
+        [
           '@name' => $list->name,
-        )),
+        ]),
       '#tree' => TRUE,
-    );
+    ];
 
     foreach ($default_webhook_events as $event => $name) {
-      $form['webhook_events'][$event] = array(
+      $form['webhook_events'][$event] = [
         '#type' => 'checkbox',
         '#title' => $name,
         '#default_value' => in_array($event, $enabled_webhook_events),
-      );
+      ];
     }
 
     return parent::buildForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
   }
 
   /**
@@ -108,7 +101,7 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
 
     $webhook_events = $form_state->getValue('webhook_events');
 
-    $events = array();
+    $events = [];
     foreach ($webhook_events as $webhook_id => $enable) {
       $events[$webhook_id] = ($enable === 1);
     }
@@ -129,11 +122,11 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
         }
       }
 
-      $sources = array(
+      $sources = [
         'user' => TRUE,
         'admin' => TRUE,
         'api' => FALSE,
-      );
+      ];
 
       // Add webhook with enabled events.
       $result = mailchimp_webhook_add(
@@ -146,16 +139,16 @@ class MailchimpListsWebhookSettingsForm extends ConfigFormBase {
 
     if ($result) {
       $this->messenger->addStatus($this->t('Webhooks for audience "%name" have been updated.',
-        array(
+        [
           '%name' => $list->name,
-        )
+        ]
       ));
     }
     else {
       $this->messenger->addWarning($this->t('Unable to update webhooks for audience "%name".',
-        array(
+        [
           '%name' => $list->name,
-        )
+        ]
       ));
     }
 

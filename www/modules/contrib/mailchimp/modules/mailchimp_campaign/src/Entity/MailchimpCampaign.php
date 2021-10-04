@@ -75,7 +75,7 @@ class MailchimpCampaign extends ContentEntityBase implements MailchimpCampaignIn
    * {@inheritdoc}
    */
   public function setTemplate($template) {
-   $this->set('template', serialize($template));
+    $this->set('template', serialize($template));
   }
 
   /**
@@ -89,7 +89,7 @@ class MailchimpCampaign extends ContentEntityBase implements MailchimpCampaignIn
    * in the GUI. The behaviour of the widgets used can be determined here.
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-    $fields = array();
+    $fields = [];
 
     // Standard field, used as unique if primary index.
     $fields['mc_campaign_id'] = BaseFieldDefinition::create('string')
@@ -107,11 +107,11 @@ class MailchimpCampaign extends ContentEntityBase implements MailchimpCampaignIn
       ->setLabel(t('Template'))
       ->setDescription(t('Campaign body template.'))
       ->setSetting('case_sensitive', TRUE)
-      ->setDisplayOptions('view', array(
+      ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string_long',
         'weight' => 0,
-      ));
+      ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
@@ -129,11 +129,11 @@ class MailchimpCampaign extends ContentEntityBase implements MailchimpCampaignIn
    */
   public function access($operation, AccountInterface $account = NULL, $return_as_object = FALSE) {
     if ($operation == 'create') {
-      return $this->entityManager()
+      return $this->entityTypeManager()
         ->getAccessControlHandler($this->entityTypeId)
         ->createAccess($this->bundle(), $account, [], $return_as_object);
     }
-    return $this->entityManager()
+    return $this->entityTypeManager()
       ->getAccessControlHandler($this->entityTypeId)
       ->access($this, $operation, $account, $return_as_object);
   }
@@ -149,7 +149,14 @@ class MailchimpCampaign extends ContentEntityBase implements MailchimpCampaignIn
     return $this->mc_data->settings->title;
   }
 
+  /**
+   * Returns whether or not the campaign data is initialized.
+   *
+   * @return bool
+   *   Whether or not the campaign data is initialized.
+   */
   public function isInitialized() {
     return isset($this->mc_data);
   }
+
 }

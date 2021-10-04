@@ -2,4 +2,4 @@ name: UPD Search
 type: module
 description: 'Provide custom search functionalities.'
 package: UPD
-core: '8.x'
+core_version_requirement: ^8 || ^9
