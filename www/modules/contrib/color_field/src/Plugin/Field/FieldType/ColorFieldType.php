@@ -159,7 +159,10 @@ class ColorFieldType extends FieldItemBase {
         'opacity' => [
           'Range' => [
             'min' => $min,
-            'minMessage' => $this->t('%name: the opacity may be no less than %min.', ['%name' => $label, '%min' => $min]),
+            'minMessage' => $this->t('%name: the opacity may be no less than %min.', [
+              '%name' => $label,
+              '%min' => $min,
+            ]),
           ],
         ],
       ]);
@@ -169,7 +172,10 @@ class ColorFieldType extends FieldItemBase {
         'opacity' => [
           'Range' => [
             'max' => $max,
-            'maxMessage' => $this->t('%name: the opacity may be no greater than %max.', ['%name' => $label, '%max' => $max]),
+            'maxMessage' => $this->t('%name: the opacity may be no greater than %max.', [
+              '%name' => $label,
+              '%max' => $max,
+            ]),
           ],
         ],
       ]);

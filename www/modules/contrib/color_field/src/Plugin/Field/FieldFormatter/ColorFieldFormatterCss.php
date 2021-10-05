@@ -33,6 +33,13 @@ class ColorFieldFormatterCss extends FormatterBase implements ContainerFactoryPl
   protected $tokenService;
 
   /**
+   * The token entity mapper service.
+   *
+   * @var \Drupal\token\TokenEntityMapperInterface|null
+   */
+  protected $tokenEntityMapper;
+
+  /**
    * Constructs an ColorFieldFormatterCss object.
    *
    * @param string $plugin_id
@@ -51,10 +58,13 @@ class ColorFieldFormatterCss extends FormatterBase implements ContainerFactoryPl
    *   Any third party settings.
    * @param \Drupal\Core\Utility\Token $token_service
    *   The token service.
+   * @param \Drupal\token\TokenEntityMapperInterface $token_entity_mapper
+   *   Optional token entity mapper service.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, Token $token_service) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, Token $token_service, $token_entity_mapper = NULL) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
     $this->tokenService = $token_service;
+    $this->tokenEntityMapper = $token_entity_mapper;
   }
 
   /**
@@ -70,7 +80,8 @@ class ColorFieldFormatterCss extends FormatterBase implements ContainerFactoryPl
       $configuration['label'],
       $configuration['view_mode'],
       $configuration['third_party_settings'],
-      $container->get('token')
+      $container->get('token'),
+      $container->has('token.entity_mapper') ? $container->get('token.entity_mapper') : NULL
     );
   }
 
@@ -166,19 +177,37 @@ class ColorFieldFormatterCss extends FormatterBase implements ContainerFactoryPl
       ],
       '#element_validate' => ['token_element_validate'],
       '#token_types' => [
-        $this->fieldDefinition->getTargetEntityTypeId(),
+        $this->getTokenType(),
         'color_field',
       ],
     ];
     $elements['token_help'] = [
       '#theme' => 'token_tree_link',
       '#token_types' => [
-        $this->fieldDefinition->getTargetEntityTypeId(),
+        $this->getTokenType(),
         'color_field',
       ],
     ];
 
     return $elements;
+  }
+
+  /**
+   * Gets the token type of the target entity.
+   *
+   * If the token entity mapper service is available, it will be used to get
+   * the token type. If that service is not available, the target entity type id
+   * will be used as a fallback.
+   *
+   * @return string
+   *   Token type of the target entity.
+   */
+  protected function getTokenType(): string {
+    $entity_type_id = $this->fieldDefinition->getTargetEntityTypeId();
+    if (!$this->tokenEntityMapper) {
+      return $entity_type_id;
+    }
+    return $this->tokenEntityMapper->getTokenTypeForEntityType($entity_type_id, TRUE);
   }
 
   /**
@@ -220,9 +249,8 @@ class ColorFieldFormatterCss extends FormatterBase implements ContainerFactoryPl
 
     $elements = [];
 
-    $entity = $items->getEntity();
     $tokens = [
-      $entity->getEntityType()->id() => $entity,
+      $this->getTokenType() => $items->getEntity(),
     ];
     foreach ($items as $item) {
       $value = $this->viewValue($item);
@@ -248,6 +276,9 @@ class ColorFieldFormatterCss extends FormatterBase implements ContainerFactoryPl
         '#value' => $inline_css,
       ], sha1($inline_css),
       ];
+      // If rendered in a view entity field, the #attached only propagates if
+      // there is some markup set.
+      $elements[0] = ['#markup' => "<div class='hidden'>{$value}</div>"];
     }
 
     return $elements;

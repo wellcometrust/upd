@@ -2,8 +2,6 @@
 
 namespace Drupal\color_field;
 
-use Exception;
-
 /**
  * RGB represents the RGB color format.
  */
@@ -47,13 +45,13 @@ class ColorHSL extends ColorBase {
   public function __construct($hue, $sat, $lum, $opacity) {
 
     if ($hue < 0 || $hue > 360) {
-      throw new Exception("Invalid hue: $hue");
+      throw new \Exception("Invalid hue: $hue");
     }
     if ($sat < 0 || $sat > 100) {
-      throw new Exception("Invalid saturation: $sat");
+      throw new \Exception("Invalid saturation: $sat");
     }
     if ($lum < 0 || $lum > 100) {
-      throw new Exception("Invalid luminosity: $lum");
+      throw new \Exception("Invalid luminosity: $lum");
     }
 
     $this->hue = $hue;

@@ -1,8 +1,28 @@
 build:
+  environment:
+    startcontainers:
+      runcontainers:
+    create_db:
+      dbcreate:
+  codebase:
+    assemble_codebase:
+      checkout_core:
+      checkout.contrib:
+      fetch:
+      patch:
+      composer.core_install:
+      gather_dependencies:
+      update_build:
+      yarn_install:
+      start_phantomjs:
   assessment:
     validate_codebase:
-      phplint: {  }
-      container_composer: {  }
+      phplint:
+      container_composer:
+      csslint:
+      eslint:
+      phpcs:
+    testing:
       container_command:
         commands:
           - cd ${SOURCE_DIR}
@@ -11,40 +31,10 @@ build:
           - sudo -u www-data composer config extra.installer-types.1 "bower-asset"
           - sudo -u www-data composer config extra.installer-paths.libraries\/\{\$name\} "[type:bower-asset]"
           - sudo -u www-data sed -i 's/"\[type:bower-asset\]"/\["type:bower-asset"\]/' composer.json
-          - sudo -u www-data composer require "oomphinc/composer-installers-extender:^1.1"
-          - sudo -u www-data composer require "bower-asset/spectrum:^1.8" "bower-asset/jquery-simple-color:^v1.2.2"
-          - dir libraries
-      csslint:
-        halt-on-fail: false
-      eslint:
-        halt-on-fail: false
-      phpcs:
-        sniff-all-files: false
-        halt-on-fail: false
-        coder-version: ^8.2@stable
-    testing:
+          - sudo -u www-data composer require "oomphinc/composer-installers-extender:^2.0" "bower-asset/spectrum:^1.8" "bower-asset/jquery-simple-color:^v1.2.2"
       run_tests.standard:
         types: 'Simpletest,PHPUnit-Unit,PHPUnit-Kernel,PHPUnit-Functional'
-        testgroups: '--all'
-        color: true
-        die-on-fail: false
-        keep-results: true
-        keep-results-table: false
-        verbose: false
-        concurrency: 0
-        halt-on-fail: false
-        repeat: 1
-        suppress-deprecations: true
       run_tests.js:
         concurrency: 1
-        types: PHPUnit-FunctionalJavascript
-        testgroups: '--all'
-        color: true
-        die-on-fail: false
-        keep-results: true
-        keep-results-table: false
-        verbose: false
-        halt-on-fail: false
-        repeat: 1
-        suppress-deprecations: true
-      nightwatchjs: {  }
+        types: 'PHPUnit-FunctionalJavascript'
+      nightwatchjs:

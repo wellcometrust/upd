@@ -29,6 +29,7 @@ class ColorField extends FieldPluginBase {
       'source' => $field_name,
       'process' => [
         'color' => 'rgb',
+        'opacity' => 'opacity',
       ],
     ];
 
