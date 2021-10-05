@@ -4,7 +4,7 @@ namespace Drupal\eu_cookie_compliance\Form;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Path\PathValidatorInterface;
@@ -56,7 +56,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
   /**
    * The filter format storage.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManager
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $filterFormatStorage;
 
@@ -94,7 +94,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
    *   The role storage.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
-   * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The filter format storage.
    * @param \Drupal\eu_cookie_compliance\Plugin\ConsentStorageManager $consent_storage
    *   The Consent storage.
@@ -103,7 +103,7 @@ class EuCookieComplianceConfigForm extends ConfigFormBase {
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_page
    *   The page cache.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, PathValidatorInterface $path_validator, RequestContext $request_context, RoleStorageInterface $role_storage, ModuleHandlerInterface $module_handler, EntityTypeManager $entity_type_manager, ConsentStorageManager $consent_storage, CacheBackendInterface $cache_bootstrap, CacheBackendInterface $cache_page) {
+  public function __construct(ConfigFactoryInterface $config_factory, PathValidatorInterface $path_validator, RequestContext $request_context, RoleStorageInterface $role_storage, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, ConsentStorageManager $consent_storage, CacheBackendInterface $cache_bootstrap, CacheBackendInterface $cache_page) {
     parent::__construct($config_factory);
 
     $this->pathValidator = $path_validator;

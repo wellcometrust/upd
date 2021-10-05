@@ -3,7 +3,7 @@
 namespace Drupal\eu_cookie_compliance\Plugin;
 
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Language\LanguageManagerInterface;
@@ -57,7 +57,7 @@ class EuCcClearCache {
    *   The Module handler.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
-   * @param \Drupal\Core\Entity\EntityTypeManager $domain_storage
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $domain_storage
    *   The domain storage.
    * @param \Drupal\Core\Extension\ThemeExtensionList $theme_extension_list
    *   The theme extension list.
@@ -67,7 +67,7 @@ class EuCcClearCache {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(ModuleHandler $module_handler, LanguageManagerInterface $language_manager, EntityTypeManager $domain_storage, ThemeExtensionList $theme_extension_list, CacheBackendInterface $cache_render) {
+  public function __construct(ModuleHandler $module_handler, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $domain_storage, ThemeExtensionList $theme_extension_list, CacheBackendInterface $cache_render) {
     $this->moduleHandler = $module_handler;
     $this->languageManager = $language_manager;
     if ($this->moduleHandler->moduleExists('domain')) {

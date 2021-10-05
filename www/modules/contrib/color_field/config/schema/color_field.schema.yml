@@ -142,6 +142,12 @@ field.widget.settings.color_field_widget_spectrum:
     show_buttons:
       type: label
       label: 'Show Buttons'
+    cancel_text:
+      type: label
+      label: 'Cancel button text'
+    choose_text:
+      type: label
+      label: 'Choose button text'
     allow_empty:
       type: label
       label: 'Allow Empty'

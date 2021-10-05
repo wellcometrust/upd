@@ -29,6 +29,8 @@ class ColorFieldWidgetSpectrum extends ColorFieldWidgetBase {
       'palette' => '',
       'show_palette_only' => FALSE,
       'show_buttons' => FALSE,
+      'cancel_text' => 'Cancel',
+      'choose_text' => 'Choose',
       'allow_empty' => FALSE,
     ] + parent::defaultSettings();
   }
@@ -79,6 +81,28 @@ class ColorFieldWidgetSpectrum extends ColorFieldWidgetBase {
       '#default_value' => $this->getSetting('show_buttons'),
       '#description' => $this->t('Add Cancel/Confirm Button.'),
     ];
+    $element['cancel_text'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Cancel button text'),
+      '#description' => $this->t('Leave empty to stay default.'),
+      '#default_value' => $this->getSetting('cancel_text'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldDefinition->getName() . '][settings_edit_form][settings][show_buttons]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+    $element['choose_text'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Choose button text'),
+      '#description' => $this->t('Leave empty to stay default.'),
+      '#default_value' => $this->getSetting('choose_text'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldDefinition->getName() . '][settings_edit_form][settings][show_buttons]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
     $element['allow_empty'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Allow Empty'),
@@ -120,7 +144,11 @@ class ColorFieldWidgetSpectrum extends ColorFieldWidgetBase {
     // Do some cleanup to reduce risk of malformed data.
     if (!empty($settings['palette'])) {
       // Remove any whitespace.
-      $settings['palette'] = str_replace([' ', "\n", '"', "'"], '', $settings['palette']);
+      $settings['palette'] = str_replace(
+        [' ', "\n", '"', "'"],
+        '',
+        $settings['palette']
+      );
 
       // Parse each row first and reset the palette.
       $rows = explode("\r", $settings['palette']);

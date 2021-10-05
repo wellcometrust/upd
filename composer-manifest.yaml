@@ -6,7 +6,7 @@ packages:
     colorbox/colorbox.js: 1.6.4
     composer/installers: v1.12.0
     composer/semver: 3.2.5
-    consolidation/annotated-command: 4.3.2
+    consolidation/annotated-command: 4.4.0
     consolidation/config: 1.2.1
     consolidation/filter-via-dot-access-data: 1.0.0
     consolidation/log: 2.0.2
@@ -32,7 +32,7 @@ packages:
     dropzone/dropzone.js: 4.3.0
     drupal/admin_toolbar: 3.0.3
     drupal/ckeditor_tabletoolstoolbar: 2.0.0-rc1
-    drupal/color_field: 2.4.0
+    drupal/color_field: 2.5.0
     drupal/colorbox: 1.7.0
     drupal/colorbox_load: 1.2.0
     drupal/config_filter: 1.8.0
@@ -52,7 +52,7 @@ packages:
     drupal/entity_browser_entity_form: 2.6.0
     drupal/entity_reference_display: 1.4.0
     drupal/entity_reference_revisions: 1.9.0
-    drupal/eu_cookie_compliance: 1.16.0
+    drupal/eu_cookie_compliance: 1.18.0
     drupal/facets: 1.8.0
     drupal/field_group: 3.2.0
     drupal/file_mdm: 2.1.0
@@ -127,8 +127,8 @@ packages:
     symfony/config: v4.4.30
     symfony/console: v4.4.30
     symfony/css-selector: v4.4.27
-    symfony/debug: v4.4.27
-    symfony/dependency-injection: v4.4.27
+    symfony/debug: v4.4.31
+    symfony/dependency-injection: v4.4.31
     symfony/deprecation-contracts: v2.4.0
     symfony/dom-crawler: v4.4.30
     symfony/error-handler: v4.4.30
@@ -138,8 +138,8 @@ packages:
     symfony/finder: v4.4.30
     symfony/http-client-contracts: v2.4.0
     symfony/http-foundation: v4.4.30
-    symfony/http-kernel: v4.4.30
-    symfony/mime: v5.3.7
+    symfony/http-kernel: v4.4.32
+    symfony/mime: v5.3.8
     symfony/polyfill-ctype: v1.23.0
     symfony/polyfill-iconv: v1.23.0
     symfony/polyfill-intl-idn: v1.23.0
@@ -152,12 +152,12 @@ packages:
     symfony/process: v4.4.30
     symfony/psr-http-message-bridge: v2.1.1
     symfony/routing: v4.4.30
-    symfony/serializer: v4.4.27
+    symfony/serializer: v4.4.31
     symfony/service-contracts: v2.4.0
-    symfony/translation: v4.4.30
+    symfony/translation: v4.4.32
     symfony/translation-contracts: v2.4.0
-    symfony/validator: v4.4.30
-    symfony/var-dumper: v5.3.7
+    symfony/validator: v4.4.31
+    symfony/var-dumper: v5.3.8
     symfony/yaml: v4.4.29
     thinkshout/mailchimp-api-php: v2.1.1
     twig/twig: v2.14.7

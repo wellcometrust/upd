@@ -15,7 +15,7 @@ function color_field_requirements($phase) {
       $requirements['color_field_simple'] = [
         'title' => t('Color Field library: jQuery Simple Color'),
         'value' => t('Missing'),
-        'description' => t('Download the <a href=":url">jQuery Simple Color library</a> and copy it to :library', [
+        'description' => t('If you want to use the Simple Color widget, you must download the <a href=":url">jQuery Simple Color</a> library and copy it to :library', [
           ':url' => 'https://github.com/recurser/jquery-simple-color',
           ':library' => DRUPAL_ROOT . '/libraries/jquery-simple-color/',
         ]),
@@ -33,7 +33,7 @@ function color_field_requirements($phase) {
       $requirements['color_field_spectrum'] = [
         'title' => t('Color Field library: Spectrum'),
         'value' => t('Missing'),
-        'description' => t('Download the <a href=":url">Spectrum library</a> and copy it to :library', [
+        'description' => t('If you want to use the Spectrum widget, you must download the <a href=":url">Spectrum</a> Library and copy it to :library', [
           ':url' => 'https://github.com/bgrins/spectrum',
           ':library' => DRUPAL_ROOT . '/libraries/spectrum/',
         ]),
