@@ -689,7 +689,11 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<a class=\"news-tile\" href=\"\"><time class=\"news-tile__date\" >{{ created }}</time>\n<h2 class=\"news-tile__title\">{{ title }}</h2>\n<div class=\"cta  cta--small  cta--arrow\">{{ view_node }}</div>\n</a>"
+            text: |-
+              <a class="news-tile" href=""><time class="news-tile__date" >{{ created }}</time>
+              <h2 class="news-tile__title">{{ title }}</h2>
+              <div class="cta  cta--small  cta--arrow">{{ view_node }}</div>
+              </a>
             make_link: false
             path: ''
             absolute: false

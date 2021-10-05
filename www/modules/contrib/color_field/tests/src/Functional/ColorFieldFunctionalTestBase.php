@@ -50,7 +50,9 @@ abstract class ColorFieldFunctionalTestBase extends BrowserTestBase {
     parent::setUp();
 
     $this->drupalCreateContentType(['type' => 'article']);
-    $user = $this->drupalCreateUser(['create article content', 'edit own article content']);
+    $user = $this->drupalCreateUser([
+      'create article content', 'edit own article content',
+    ]);
     $this->drupalLogin($user);
     $entityTypeManager = $this->container->get('entity_type.manager');
     FieldStorageConfig::create([

@@ -50,7 +50,9 @@ class ColorFieldWidgetJavascriptTests extends WebDriverTestBase {
     parent::setUp();
 
     $this->drupalCreateContentType(['type' => 'article']);
-    $user = $this->drupalCreateUser(['create article content', 'edit own article content']);
+    $user = $this->drupalCreateUser([
+      'create article content', 'edit own article content',
+    ]);
     $this->drupalLogin($user);
     $entityTypeManager = $this->container->get('entity_type.manager');
     FieldStorageConfig::create([
@@ -99,7 +101,7 @@ class ColorFieldWidgetJavascriptTests extends WebDriverTestBase {
       ->setComponent('field_color_repeat', [
         'type' => 'color_field_widget_box',
         'settings' => [
-          'default_colors' => '#FF0000,#FFFFFF',
+          'default_colors' => '#ff0000,#FFFFFF',
         ],
       ])
       ->setComponent('field_color', [
@@ -117,7 +119,7 @@ class ColorFieldWidgetJavascriptTests extends WebDriverTestBase {
     $page = $session->getPage();
 
     // Wait for elements to be generated.
-    $web_assert->waitForElementVisible('css', '#color-field-field-color_repeat button');
+    $web_assert->waitForElementVisible('css', '#color-field-field-color-repeat button');
 
     $boxes = $page->findAll('css', '#color-field-field-color-repeat button');
     $this->assertEquals(3, count($boxes));
@@ -145,6 +147,34 @@ class ColorFieldWidgetJavascriptTests extends WebDriverTestBase {
     $box->click();
     $field = $page->findField('field_color[0][color]');
     $this->assertEquals('#007749', $field->getValue());
+
+    // Test that the edit of a saved color field also show the selected color.
+    // This one tests for the default in uppercase.
+    $node1 = $this->drupalCreateNode([
+      'type' => 'article',
+      'field_color_repeat' => [
+        ['color' => 'ffffff'],
+      ],
+    ]);
+    $this->drupalGet('/node/' . $node1->id() . '/edit');
+    // Wait for elements to be generated.
+    $web_assert->waitForElementVisible('css', '#color-field-field-color-repeat button');
+    $active = $page->findAll('css', '#color-field-field-color-repeat button.color_field_widget_box__square.active');
+    $this->assertEquals(1, count($active));
+
+    // Test that the edit of a saved color field also show the selected color.
+    // This one tests for the default in lowercase.
+    $node2 = $this->drupalCreateNode([
+      'type' => 'article',
+      'field_color_repeat' => [
+        ['color' => 'ff0000'],
+      ],
+    ]);
+    $this->drupalGet('/node/' . $node2->id() . '/edit');
+    // Wait for elements to be generated.
+    $web_assert->waitForElementVisible('css', '#color-field-field-color-repeat button');
+    $active = $page->findAll('css', '#color-field-field-color-repeat button.color_field_widget_box__square.active');
+    $this->assertEquals(1, count($active));
   }
 
   /**
