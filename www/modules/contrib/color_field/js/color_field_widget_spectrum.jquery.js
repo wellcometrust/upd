@@ -27,8 +27,8 @@
         var spectrum_settings = settings.color_field.color_field_widget_spectrum[$element.attr('id')];
 
         // Hide the widget labels if the widgets are being shown.
-        if (!spectrum_settings.show_input) {
-          $('.js-color-field-widget-spectrum').find('label').hide();
+        if (!spectrum_settings.show_input || !spectrum_settings.show_alpha) {
+          $element.find('label').hide();
           $element_opacity.hide();
         }
 
@@ -42,6 +42,9 @@
           palette:  spectrum_settings.palette,
           showButtons: spectrum_settings.show_buttons,
           allowEmpty: spectrum_settings.allow_empty,
+          chooseText: spectrum_settings.choose_text,
+          cancelText: spectrum_settings.cancel_text,
+          appendTo: $element_color.parent(),
 
           change: function (tinycolor) {
             var hexColor = '';
@@ -49,7 +52,7 @@
 
             if (tinycolor) {
               hexColor = tinycolor.toHexString();
-              opacity = tinycolor._roundA;
+              opacity = Math.round((tinycolor._roundA + Number.EPSILON) * 100) / 100;
             }
 
             $element_color.val(hexColor);

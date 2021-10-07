@@ -1,9 +1,0 @@
-media_upload.add:
-  title: 'Upload media in bulk'
-  parent: entity.media.collection
-  route_name: media_upload.mediaupload
-
-media_upload.config:
-  title: 'Media Upload'
-  parent: system.admin_config_media
-  route_name: media_upload.mediaupload_settings

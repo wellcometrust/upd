@@ -23,7 +23,7 @@ class ColorFieldWidgetHTML5 extends ColorFieldWidgetBase {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return [] + parent::defaultSettings();
+    return [];
   }
 
   /**
