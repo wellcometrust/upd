@@ -16,7 +16,7 @@ use Solarium\Exception\OutOfBoundsException;
 /**
  * Local Parameters.
  *
- * @see https://lucene.apache.org/solr/guide/local-parameters-in-queries.html
+ * @see https://solr.apache.org/guide/local-parameters-in-queries.html
  *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
@@ -883,6 +883,7 @@ class LocalParameters implements \ArrayAccess
         return isset($this->parameters[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
@@ -894,9 +895,9 @@ class LocalParameters implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        return $this->parameters[$offset] = $value;
+        $this->parameters[$offset] = $value;
     }
 
     /**

@@ -626,6 +626,10 @@
     var storedCategories = cookies.get(cookieName);
 
     if (storedCategories !== null && typeof storedCategories !== 'undefined') {
+      // JS cookie introduced unescaped cookie values.
+      if (storedCategories.indexOf('%') !== -1) {
+        storedCategories = decodeURI(storedCategories).replace('%2C', ',');
+      }
       _euccSelectedCategories = JSON.parse(storedCategories);
     }
     else {
