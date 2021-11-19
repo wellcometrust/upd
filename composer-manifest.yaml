@@ -80,7 +80,7 @@ packages:
     drupal/scheduled_publish: 3.9.0
     drupal/search_api: 1.20.0
     drupal/search_api_solr: 4.2.1
-    drupal/simple_sitemap: 3.10.0
+    drupal/simple_sitemap: 4.0.0
     drupal/sophron: 1.1.0
     drupal/stage_file_proxy: 1.1.0
     drupal/token: 1.9.0
