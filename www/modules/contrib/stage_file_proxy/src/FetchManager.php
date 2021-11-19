@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\Core\StreamWrapper\StreamWrapperManager;
+use Drupal\Core\Utility\Error;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
@@ -58,9 +59,9 @@ class FetchManager implements FetchManagerInterface {
    * {@inheritdoc}
    */
   public function fetch($server, $remote_file_dir, $relative_path, array $options) {
+    $url = $server . '/' . UrlHelper::encodePath($remote_file_dir . '/' . $relative_path);
     try {
       // Fetch remote file.
-      $url = $server . '/' . UrlHelper::encodePath($remote_file_dir . '/' . $relative_path);
       $options['Connection'] = 'close';
       $response = $this->client->get($url, $options);
 
@@ -101,10 +102,11 @@ class FetchManager implements FetchManagerInterface {
       return FALSE;
     }
     catch (GuzzleException $e) {
-      // Do nothing.
+      $this->logger->error(
+        'Stage File Proxy encountered an error when retrieving file @url. @message in %function (line %line of %file).',
+        Error::decodeException($e) + ['@url' => $url]);
+      return FALSE;
     }
-    $this->logger->error('Stage File Proxy encountered an unknown error by retrieving file @file', ['@file' => $server . '/' . UrlHelper::encodePath($remote_file_dir . '/' . $relative_path)]);
-    return FALSE;
   }
 
   /**

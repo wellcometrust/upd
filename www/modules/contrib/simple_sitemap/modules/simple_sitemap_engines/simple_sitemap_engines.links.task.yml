@@ -1,7 +1,7 @@
 simple_sitemap.engines:
   route_name: simple_sitemap.engines.status
   title: 'Search engines'
-  base_route: simple_sitemap.sitemaps
+  base_route: entity.simple_sitemap.collection
   weight: 2
 
 simple_sitemap.engines.status:

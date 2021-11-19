@@ -24,6 +24,8 @@ class SearchEngineListBuilder extends ConfigEntityListBuilder {
   protected $dateFormatter;
 
   /**
+   * The state key/value store.
+   *
    * @var \Drupal\Core\State\StateInterface
    */
   protected $state;
@@ -67,7 +69,7 @@ class SearchEngineListBuilder extends ConfigEntityListBuilder {
   public function buildHeader() {
     $header['label'] = $this->t('Name');
     $header['url'] = $this->t('Submission URL');
-    $header['variants'] = $this->t('Sitemap variants');
+    $header['variants'] = $this->t('Sitemaps');
     $header['last_submitted'] = $this->t('Last submitted');
 
     return $header;
@@ -79,7 +81,7 @@ class SearchEngineListBuilder extends ConfigEntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     $last_submitted = $this->state->get("simple_sitemap_engines.simple_sitemap_engine.{$entity->id()}.last_submitted", -1);
 
-    /** @var \Drupal\simple_sitemap_engines\Entity\SearchEngine $entity */
+    /** @var \Drupal\simple_sitemap_engines\Entity\SimpleSitemapEngine $entity */
     $row['label'] = $entity->label();
     $row['url'] = $entity->url;
     $row['variants'] = implode(', ', $entity->sitemap_variants);

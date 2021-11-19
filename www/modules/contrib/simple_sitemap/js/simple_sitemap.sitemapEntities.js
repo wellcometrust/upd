@@ -2,17 +2,17 @@
  * @file
  * Attaches simple_sitemap behaviors to the sitemap entities form.
  */
-(function($) {
+(function ($) {
 
   "use strict";
 
   Drupal.behaviors.simple_sitemapSitemapEntities = {
-    attach: function(context, settings) {
-      $.each(settings.simple_sitemap.all_entities, function(index, entityId) {
+    attach: function (context, settings) {
+      $.each(settings.simple_sitemap.all_entities, function (index, entityId) {
         var target = '#edit-' + entityId + '-enabled';
         triggerVisibility(target, entityId);
 
-        $(target).change(function() {
+        $(target).change(function () {
           triggerVisibility(target, entityId);
         });
       });

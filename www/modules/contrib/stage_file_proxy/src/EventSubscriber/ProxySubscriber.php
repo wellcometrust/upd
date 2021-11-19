@@ -139,49 +139,60 @@ class ProxySubscriber implements EventSubscriberInterface {
     // Path relative to file directory. Used for hotlinking.
     $relative_path = mb_substr($request_path, mb_strlen($file_dir) + 1);
     // If file is fetched and use_imagecache_root is set, original is used.
-    $fetch_path = $relative_path;
+    $paths = [$relative_path];
 
-    // Is this imagecache? Request the root file and let imagecache resize.
-    // We check this first so locally added files have precedence.
-    $original_path = $this->manager->styleOriginalPath($relative_path, TRUE);
-    if ($original_path) {
-      if (file_exists($original_path)) {
-        // Imagecache can generate it without our help.
-        return;
+    // Webp support.
+    $is_webp = FALSE;
+    if (strpos($relative_path, '.webp')) {
+      $paths[] = str_replace('.webp', '', $relative_path);
+      $is_webp = TRUE;
+    }
+
+    foreach ($paths as $relative_path) {
+      $fetch_path = $relative_path;
+
+      // Is this imagecache? Request the root file and let imagecache resize.
+      // We check this first so locally added files have precedence.
+      $original_path = $this->manager->styleOriginalPath($relative_path, TRUE);
+      if ($original_path && !$is_webp) {
+        if (file_exists($original_path)) {
+          // Imagecache can generate it without our help.
+          return;
+        }
+        if ($config->get('use_imagecache_root')) {
+          // Config says: Fetch the original.
+          $fetch_path = StreamWrapperManager::getTarget($original_path);
+        }
       }
-      if ($config->get('use_imagecache_root')) {
-        // Config says: Fetch the original.
-        $fetch_path = StreamWrapperManager::getTarget($original_path);
+
+      $query = $this->requestStack->getCurrentRequest()->query->all();
+      $query_parameters = UrlHelper::filterQueryParameters($query);
+      $options = [
+        'verify' => $config->get('verify'),
+      ];
+
+      if ($config->get('hotlink')) {
+
+        $location = Url::fromUri("$server/$remote_file_dir/$relative_path", [
+          'query' => $query_parameters,
+          'absolute' => TRUE,
+        ])->toString();
+
       }
-    }
+      elseif ($this->manager->fetch($server, $remote_file_dir, $fetch_path, $options)) {
+        // Refresh this request & let the web server work out mime type, etc.
+        $location = Url::fromUri('base://' . $request_path, [
+          'query' => $query_parameters,
+          'absolute' => TRUE,
+        ])->toString();
+        // Avoid redirection caching in upstream proxies.
+        header("Cache-Control: must-revalidate, no-cache, post-check=0, pre-check=0, private");
+      }
 
-    $query = $this->requestStack->getCurrentRequest()->query->all();
-    $query_parameters = UrlHelper::filterQueryParameters($query);
-    $options = [
-      'verify' => $config->get('verify'),
-    ];
-
-    if ($config->get('hotlink')) {
-
-      $location = Url::fromUri("$server/$remote_file_dir/$relative_path", [
-        'query' => $query_parameters,
-        'absolute' => TRUE,
-      ])->toString();
-
-    }
-    elseif ($this->manager->fetch($server, $remote_file_dir, $fetch_path, $options)) {
-      // Refresh this request & let the web server work out mime type, etc.
-      $location = Url::fromUri('base://' . $request_path, [
-        'query' => $query_parameters,
-        'absolute' => TRUE,
-      ])->toString();
-      // Avoid redirection caching in upstream proxies.
-      header("Cache-Control: must-revalidate, no-cache, post-check=0, pre-check=0, private");
-    }
-
-    if (isset($location)) {
-      header("Location: $location");
-      exit;
+      if (isset($location)) {
+        header("Location: $location");
+        exit;
+      }
     }
   }
 
