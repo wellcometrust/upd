@@ -6,7 +6,7 @@ use Drupal\views\Plugin\views\display_extender\DisplayExtenderPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\views\Plugin\views\display\DisplayRouterInterface;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
-use Drupal\simple_sitemap\SimplesitemapManager;
+use Drupal\simple_sitemap_views\SimpleSitemapViews;
 use Drupal\simple_sitemap\Form\FormHelper;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\ViewExecutable;
@@ -33,18 +33,11 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
   protected $formHelper;
 
   /**
-   * Simple XML Sitemap manager.
+   * The sitemaps.
    *
-   * @var \Drupal\simple_sitemap\SimplesitemapManager
+   * @var \Drupal\simple_sitemap\Entity\SimpleSitemapInterface[]
    */
-  protected $sitemapManager;
-
-  /**
-   * The sitemap variants.
-   *
-   * @var array
-   */
-  protected $variants = [];
+  protected $sitemaps = [];
 
   /**
    * Constructs the plugin.
@@ -57,14 +50,13 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    *   The plugin implementation definition.
    * @param \Drupal\simple_sitemap\Form\FormHelper $form_helper
    *   Simple XML Sitemap form helper.
-   * @param \Drupal\simple_sitemap\SimplesitemapManager $sitemap_manager
-   *   Simple XML Sitemap manager.
+   * @param \Drupal\simple_sitemap_views\SimpleSitemapViews $sitemap_views
+   *   Views sitemap data.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, FormHelper $form_helper, SimplesitemapManager $sitemap_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, FormHelper $form_helper, SimpleSitemapViews $sitemap_views) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->formHelper = $form_helper;
-    $this->sitemapManager = $sitemap_manager;
-    $this->variants = $sitemap_manager->getSitemapVariants(NULL, FALSE);
+    $this->sitemaps = $sitemap_views->getSitemaps();
   }
 
   /**
@@ -76,14 +68,14 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
       $plugin_id,
       $plugin_definition,
       $container->get('simple_sitemap.form_helper'),
-      $container->get('simple_sitemap.manager')
+      $container->get('simple_sitemap.views')
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
+  public function init(ViewExecutable $view, DisplayPluginBase $display, ?array &$options = NULL) {
     parent::init($view, $display, $options);
     if (!$this->hasSitemapSettings()) {
       $this->options = [];
@@ -104,6 +96,7 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    */
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     if ($this->hasSitemapSettings() && $form_state->get('section') == 'simple_sitemap') {
+      $has_required_arguments = $this->hasRequiredArguments();
       $arguments_options = $this->getArgumentsOptions();
 
       $form['variants'] = [
@@ -111,20 +104,20 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
         '#tree' => TRUE,
       ];
 
-      foreach ($this->variants as $variant => $definition) {
+      foreach ($this->sitemaps as $variant => $sitemap) {
         $settings = $this->getSitemapSettings($variant);
         $variant_form = &$form['variants'][$variant];
 
         $variant_form = [
           '#type' => 'details',
-          '#title' => '<em>' . $definition['label'] . '</em>',
+          '#title' => '<em>' . $sitemap->label() . '</em>',
           '#open' => (bool) $settings['index'],
         ];
 
         $variant_form['index'] = [
           '#type' => 'checkbox',
-          '#title' => $this->t('Index this display in variant <em>@variant_label</em>', [
-            '@variant_label' => $definition['label'],
+          '#title' => $this->t('Index this display in sitemap <em>@variant_label</em>', [
+            '@variant_label' => $sitemap->label(),
           ]),
           '#default_value' => $settings['index'],
         ];
@@ -166,6 +159,11 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
           '#states' => $states,
         ];
 
+        // Required arguments are always indexed.
+        foreach ($this->getRequiredArguments() as $argument_id) {
+          $variant_form['arguments'][$argument_id]['#disabled'] = TRUE;
+        }
+
         // Max links with arguments.
         $variant_form['max_links'] = [
           '#type' => 'number',
@@ -173,7 +171,7 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
           '#description' => $this->t('The maximum number of link variations to be indexed for this display. If left blank, each argument will create link variations for this display. Use with caution, as a large number of argument values​can significantly increase the number of sitemap links.'),
           '#default_value' => $settings['max_links'],
           '#min' => 1,
-          '#access' => !empty($arguments_options),
+          '#access' => !empty($arguments_options) || $has_required_arguments,
           '#states' => $states,
         ];
       }
@@ -187,9 +185,13 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    * {@inheritdoc}
    */
   public function validateOptionsForm(&$form, FormStateInterface $form_state) {
-    if ($this->hasSitemapSettings() && $form_state->get('section') == 'simple_sitemap') {
-      foreach (array_keys($this->variants) as $variant) {
-        $arguments = $form_state->getValue(['variants', $variant, 'arguments'], []);
+    if ($this->hasSitemapSettings() && $form_state->get('section') === 'simple_sitemap') {
+      $required_arguments = $this->getRequiredArguments();
+
+      foreach ($this->sitemaps as $variant => $sitemap) {
+        $key = ['variants', $variant, 'arguments'];
+        $arguments = &$form_state->getValue($key, []);
+        $arguments = array_merge($arguments, $required_arguments);
         $errors = $this->validateIndexedArguments($arguments);
 
         foreach ($errors as $message) {
@@ -203,12 +205,12 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    * {@inheritdoc}
    */
   public function submitOptionsForm(&$form, FormStateInterface $form_state) {
-    if ($this->hasSitemapSettings() && $form_state->get('section') == 'simple_sitemap') {
+    if ($this->hasSitemapSettings() && $form_state->get('section') === 'simple_sitemap') {
       $variants = $form_state->getValue('variants');
       $this->options['variants'] = [];
 
-      // Save settings for each variant.
-      foreach (array_keys($this->variants) as $variant) {
+      // Save settings for each sitemap.
+      foreach ($this->sitemaps as $variant => $sitemap) {
         $settings = $variants[$variant] + $this->getSitemapSettings($variant);
 
         if ($settings['index']) {
@@ -222,13 +224,13 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function validate() {
+  public function validate(): array {
     $errors = [parent::validate()];
 
     // Validate the argument options relative to the
     // current state of the view argument handlers.
     if ($this->hasSitemapSettings()) {
-      foreach (array_keys($this->variants) as $variant) {
+      foreach ($this->sitemaps as $variant => $sitemap) {
         $settings = $this->getSitemapSettings($variant);
         $errors[] = $this->validateIndexedArguments($settings['arguments']);
       }
@@ -248,7 +250,7 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
       ];
 
       $included_variants = [];
-      foreach (array_keys($this->variants) as $variant) {
+      foreach ($this->sitemaps as $variant => $sitemap) {
         $settings = $this->getSitemapSettings($variant);
 
         if ($settings['index']) {
@@ -259,9 +261,9 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
       $options['simple_sitemap'] = [
         'title' => NULL,
         'category' => 'simple_sitemap',
-        'value' => $included_variants ? $this->t('Included in sitemap variants: @variants', [
+        'value' => $included_variants ? $this->t('Included in sitemaps: @variants', [
           '@variants' => implode(', ', $included_variants),
-        ]) : $this->t('Excluded from all sitemap variants'),
+        ]) : $this->t('Excluded from all sitemaps'),
       ];
     }
   }
@@ -270,12 +272,12 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    * Gets the sitemap settings.
    *
    * @param string $variant
-   *   The name of the sitemap variant.
+   *   The ID of the sitemap.
    *
    * @return array
    *   The sitemap settings.
    */
-  public function getSitemapSettings($variant) {
+  public function getSitemapSettings(string $variant): array {
     $settings = [
       'index' => 0,
       'priority' => 0.5,
@@ -287,6 +289,15 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
     if (isset($this->options['variants'][$variant])) {
       $settings = $this->options['variants'][$variant] + $settings;
     }
+
+    if (empty($this->displayHandler->getHandlers('argument'))) {
+      $settings['arguments'] = [];
+    }
+    else {
+      $required_arguments = $this->getRequiredArguments();
+      $settings['arguments'] = array_merge($settings['arguments'], $required_arguments);
+    }
+
     return $settings;
   }
 
@@ -296,8 +307,54 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    * @return bool
    *   Has sitemap settings (TRUE) or not (FALSE).
    */
-  public function hasSitemapSettings() {
-    return $this->displayHandler instanceof DisplayRouterInterface;
+  public function hasSitemapSettings(): bool {
+    return $this->displayHandler instanceof DisplayRouterInterface && !empty($this->sitemaps);
+  }
+
+  /**
+   * Gets required view arguments (presented in the path).
+   *
+   * @return array
+   *   View arguments IDs.
+   */
+  public function getRequiredArguments(): array {
+    $arguments = $this->displayHandler->getHandlers('argument');
+
+    if (!empty($arguments)) {
+      $bits = explode('/', $this->displayHandler->getPath());
+      $arg_counter = 0;
+
+      foreach ($bits as $bit) {
+        if ($bit === '%' || strpos($bit, '%') === 0) {
+          $arg_counter++;
+        }
+      }
+
+      if ($arg_counter > 0) {
+        $arguments = array_slice(array_keys($arguments), 0, $arg_counter);
+        return array_combine($arguments, $arguments);
+      }
+    }
+
+    return [];
+  }
+
+  /**
+   * Determines if the view path contains required arguments.
+   *
+   * @return bool
+   *   TRUE if the path contains required arguments, FALSE if not.
+   */
+  public function hasRequiredArguments(): bool {
+    $bits = explode('/', $this->displayHandler->getPath());
+
+    foreach ($bits as $bit) {
+      if ($bit === '%' || strpos($bit, '%') === 0) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
   }
 
   /**
@@ -306,7 +363,7 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    * @return array
    *   View arguments labels keyed by argument ID.
    */
-  protected function getArgumentsOptions() {
+  protected function getArgumentsOptions(): array {
     $arguments = $this->displayHandler->getHandlers('argument');
     $arguments_options = [];
 
@@ -314,6 +371,7 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
     foreach ($arguments as $id => $argument) {
       $arguments_options[$id] = $argument->adminLabel();
     }
+
     return $arguments_options;
   }
 
@@ -327,7 +385,7 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
    *   An array of error strings. This will be empty if there are no validation
    *   errors.
    */
-  protected function validateIndexedArguments(array $indexed_arguments) {
+  protected function validateIndexedArguments(array $indexed_arguments): array {
     $arguments = $this->displayHandler->getHandlers('argument');
     $arguments = array_fill_keys(array_keys($arguments), 0);
     $arguments = array_merge($arguments, $indexed_arguments);
@@ -341,6 +399,7 @@ class SimpleSitemapDisplayExtender extends DisplayExtenderPluginBase {
         break;
       }
     }
+
     return $errors;
   }
 

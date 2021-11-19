@@ -2,7 +2,7 @@ simple_sitemap.sitemaps:
   title: 'Simple XML Sitemap'
   description: 'Configure, add content to and generate XML sitemaps.'
   parent: system.admin_config_search
-  route_name: simple_sitemap.sitemaps
+  route_name: entity.simple_sitemap.collection
 
 simple_sitemap.settings:
   title: 'Settings'

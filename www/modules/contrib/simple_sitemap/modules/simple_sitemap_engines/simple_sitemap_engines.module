@@ -5,6 +5,8 @@
  * Submits sitemaps to search engines.
  */
 
+use Drupal\simple_sitemap_engines\Entity\SimpleSitemapEngine;
+
 /**
  * Implements hook_cron().
  *
@@ -18,11 +20,9 @@ function simple_sitemap_engines_cron() {
 
   if ($config->get('enabled')) {
     $interval = (int) $config->get('submission_interval') * 60 * 60;
-    $request_time = \Drupal::service('datetime.time')->getRequestTime();
+    $request_time = \Drupal::time()->getRequestTime();
 
-    foreach (\Drupal::entityTypeManager()
-      ->getStorage('simple_sitemap_engine')
-      ->loadMultiple() as $id => $engine) {
+    foreach (SimpleSitemapEngine::loadMultiple() as $id => $engine) {
       $last_submitted = \Drupal::state()->get("simple_sitemap_engines.simple_sitemap_engine.{$id}.last_submitted", -1);
       if ($last_submitted !== -1
         && $last_submitted + $interval > $request_time) {
