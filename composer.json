@@ -120,7 +120,7 @@
     "drupal/scheduled_publish": "^3.1",
     "drupal/search_api": "^1.16",
     "drupal/search_api_solr": "^4.1",
-    "drupal/simple_sitemap": "^3.0",
+    "drupal/simple_sitemap": "^4.0",
     "drupal/stage_file_proxy": "^1.0",
     "drupal/video_embed_field": "^2.0",
     "drush/drush": "^9.7.1 | ^10.0.0",

@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.1.6]
+### Added
+- PHP 8.1 support
+- QueryType\Update\Query\Document::setFields() to set all fields on a Document
+
+### Fixed
+- Always respect automatic filtering of control characters in field values in QueryType\Update\Query\Document
+- Remove the field modifier along with the value(s) and boost in QueryType\Update\Query\Document::removeField()
+- Allow string to be returned for `min`, `max` and `mean` statistics in Component\Result\Stats\ResultTrait
+
+
 ## [6.1.5]
 ### Added
 - Component\Result\Stats\Result::getDistinctValues()
