@@ -14,49 +14,49 @@ third_party_settings:
     group_content:
       children:
         - group_main_content
+      label: Content
+      region: content
       parent_name: ''
       weight: 0
       format_type: tabs
       format_settings:
         label: Content
-        direction: horizontal
-        id: ''
         classes: ''
-      label: Content
-      region: content
+        id: ''
+        direction: horizontal
     group_main_content:
       children:
         - field_case_studies
+      label: 'Main Content'
+      region: content
       parent_name: group_content
       weight: 5
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Main Content'
-      region: content
 id: paragraph.case_study_slice.default
 targetEntityType: paragraph
 bundle: case_study_slice
 mode: default
 content:
   field_case_studies:
+    type: entity_browser_entity_reference
     weight: 1
+    region: content
     settings:
       entity_browser: article_browser_case_study
       field_widget_display: label
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_edit: false
+      field_widget_remove: true
       field_widget_replace: false
       open: false
       field_widget_display_settings: {  }
+      selection_mode: selection_append
     third_party_settings: {  }
-    type: entity_browser_entity_reference
-    region: content
 hidden:
   created: true
   status: true

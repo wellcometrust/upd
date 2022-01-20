@@ -20,11 +20,11 @@ bundle: hub_page
 mode: default
 content:
   field_metatags:
-    weight: 1
+    type: metatag_empty_formatter
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: metatag_empty_formatter
+    weight: 1
     region: content
 hidden:
   body: true

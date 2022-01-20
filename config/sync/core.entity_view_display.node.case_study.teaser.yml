@@ -34,17 +34,17 @@ content:
     region: content
   field_thumbnail:
     type: image
-    weight: 0
     label: above
     settings:
-      image_style: thumbnail_list
       image_link: ''
+      image_style: thumbnail_list
     third_party_settings: {  }
+    weight: 0
     region: content
   links:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+    weight: 100
     region: content
 hidden:
   field_disease_type: true

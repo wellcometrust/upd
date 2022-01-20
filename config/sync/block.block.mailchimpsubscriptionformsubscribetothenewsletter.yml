@@ -17,21 +17,21 @@ plugin: 'mailchimp_signup_subscribe_block:subscribe_to_the_newsletter'
 settings:
   id: 'mailchimp_signup_subscribe_block:subscribe_to_the_newsletter'
   label: 'Subscribe to the newsletter'
-  provider: mailchimp_signup
   label_display: visible
+  provider: mailchimp_signup
 visibility:
   request_path:
     id: request_path
-    pages: '*'
     negate: false
     context_mapping: {  }
+    pages: '*'
   user_role:
     id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
     roles:
       anonymous: anonymous
       authenticated: authenticated
       administrator: administrator
       editor: editor
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'

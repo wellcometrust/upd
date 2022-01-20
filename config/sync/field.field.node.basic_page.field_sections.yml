@@ -26,32 +26,20 @@ settings:
       basic_vertical_tab: basic_vertical_tab
       basic_title_link: basic_title_link
     target_bundles_drag_drop:
+      basic_title_link:
+        weight: 10
+        enabled: true
+      basic_vertical_tab:
+        weight: 9
+        enabled: true
       case_study_vertical_tab:
         weight: 7
         enabled: false
-      faq_dropdowns:
-        weight: 8
-        enabled: false
-      grid_items:
-        weight: 9
-        enabled: false
-      basic_vertical_tab:
-        enabled: true
-        weight: 9
-      resource_vertical_tab:
-        weight: 10
-        enabled: false
-      basic_title_link:
-        enabled: true
-        weight: 10
-      testimonial:
-        weight: 11
-        enabled: false
-      tile_paragraph:
-        weight: 12
-        enabled: false
       dos_donts:
         weight: 13
+        enabled: false
+      faq_dropdowns:
+        weight: 8
         enabled: false
       file_download:
         weight: 20
@@ -59,13 +47,25 @@ settings:
       funding:
         weight: 21
         enabled: false
+      grid_items:
+        weight: 9
+        enabled: false
       list_item:
         weight: 23
         enabled: false
       list_with_sublist:
         weight: 24
         enabled: false
+      resource_vertical_tab:
+        weight: 10
+        enabled: false
       team_list:
         weight: 26
+        enabled: false
+      testimonial:
+        weight: 11
+        enabled: false
+      tile_paragraph:
+        weight: 12
         enabled: false
 field_type: entity_reference_revisions

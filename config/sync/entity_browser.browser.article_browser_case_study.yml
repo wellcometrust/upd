@@ -20,12 +20,12 @@ widget_selector: tabs
 widget_selector_configuration: {  }
 widgets:
   494e270a-578b-44dc-9b6d-14ccfa04ee0e:
+    id: view
+    uuid: 494e270a-578b-44dc-9b6d-14ccfa04ee0e
+    label: Articles
+    weight: 1
     settings:
-      view: article_browser
-      view_display: entity_browser_3
       submit_text: 'Select articles'
       auto_select: false
-    uuid: 494e270a-578b-44dc-9b6d-14ccfa04ee0e
-    weight: 1
-    label: Articles
-    id: view
+      view: article_browser
+      view_display: entity_browser_3

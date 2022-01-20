@@ -23,6 +23,7 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+namespace lsolesen\pel;
 
 /**
  * Classes for dealing with JPEG markers.
@@ -34,12 +35,11 @@
  *
  * @author Martin Geisler <mgeisler@users.sourceforge.net>
  * @author Johannes Weberhofer <jweberhofer@weberhofer.at>
+ *
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public
  *          License (GPL)
  * @package PEL
  */
-namespace lsolesen\pel;
-
 class PelJpegMarker
 {
 
@@ -473,6 +473,7 @@ class PelJpegMarker
      *
      * @param integer $marker
      *            the marker as defined in {@link PelJpegMarker}
+     *
      * @return boolean
      */
     public static function isValid($marker)
@@ -486,6 +487,7 @@ class PelJpegMarker
      *
      * @param integer $marker
      *            the marker as defined in {@link PelJpegMarker}
+     *
      * @return string
      */
     public static function getBytes($marker)
@@ -499,6 +501,7 @@ class PelJpegMarker
      *
      * @param integer $marker
      *            the marker as defined in {@link PelJpegMarker}
+     *
      * @return string
      */
     public static function getName($marker)
@@ -515,6 +518,7 @@ class PelJpegMarker
      *
      * @param integer $marker
      *            the marker as defined in {@link PelJpegMarker}
+     *
      * @return string
      */
     public static function getDescription($marker)
@@ -523,7 +527,12 @@ class PelJpegMarker
             if (array_key_exists($marker, self::$jpegMarkerDescriptions)) {
                 return self::$jpegMarkerDescriptions[$marker];
             } else {
-                $splitted = preg_split("/(\d+)/", self::$jpegMarkerShort[$marker], - 1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+                $splitted = preg_split(
+                    "/(\d+)/",
+                    self::$jpegMarkerShort[$marker],
+                    - 1,
+                    PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+                );
                 if ((count($splitted) == 2) && array_key_exists($splitted[0], self::$jpegMarkerDescriptions)) {
                     return Pel::fmt(self::$jpegMarkerDescriptions[$splitted[0]], $splitted[1]);
                 }

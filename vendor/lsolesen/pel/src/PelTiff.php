@@ -22,6 +22,7 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+namespace lsolesen\pel;
 
 /**
  * Classes for dealing with TIFF data.
@@ -58,8 +59,6 @@
  * @author Martin Geisler <mgeisler@users.sourceforge.net>
  * @package PEL
  */
-namespace lsolesen\pel;
-
 class PelTiff
 {
 
@@ -114,8 +113,9 @@ class PelTiff
      * will be built. If the data cannot be parsed correctly, a {@link
      * PelInvalidDataException} is thrown, explaining the problem.
      *
-     * @param PelDataWindow $d
-     *            the data from which the object will be
+     * @param
+     *            d
+     *            PelDataWindow the data from which the object will be
      *            constructed. This should be valid TIFF data, coming either
      *            directly from a TIFF image or from the Exif data in a JPEG image.
      */
@@ -208,6 +208,7 @@ class PelTiff
      *            the desired byte order of the TIFF data.
      *            This should be one of {@link PelConvert::LITTLE_ENDIAN} or {@link
      *            PelConvert::BIG_ENDIAN}.
+     *
      * @return string the bytes representing this object.
      */
     public function getBytes($order = PelConvert::LITTLE_ENDIAN)
@@ -247,9 +248,10 @@ class PelTiff
     /**
      * Save the TIFF object as a TIFF image in a file.
      *
-     * @param string $filename
-     *            the filename to save in. An existing file with the
+     * @param
+     *            string the filename to save in. An existing file with the
      *            same name will be overwritten!
+     *
      * @return integer|FALSE The number of bytes that were written to the
      *         file, or FALSE on failure.
      */
@@ -283,8 +285,10 @@ class PelTiff
      *
      * @param PelDataWindow $d
      *            the bytes that will be examined.
+     *
      * @return boolean true if the data looks like valid TIFF data,
      *         false otherwise.
+     *
      * @see PelJpeg::isValid()
      */
     public static function isValid(PelDataWindow $d)

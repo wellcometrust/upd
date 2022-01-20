@@ -14,14 +14,14 @@ bundle: team_list
 mode: default
 content:
   field_team_member:
-    weight: 0
+    type: entity_reference_display_default
     label: above
     settings:
       display_field: ''
       view_mode: default
       link: false
     third_party_settings: {  }
-    type: entity_reference_display_default
+    weight: 0
     region: content
 hidden:
   field_display_mode: true

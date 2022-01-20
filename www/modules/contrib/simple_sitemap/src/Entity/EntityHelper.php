@@ -2,6 +2,7 @@
 
 namespace Drupal\simple_sitemap\Entity;
 
+use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -9,6 +10,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
+use Drupal\system\Entity\Menu;
 
 /**
  * Helper class for working with entities.
@@ -37,6 +39,13 @@ class EntityHelper {
   protected $configFactory;
 
   /**
+   * Static cache of bundle information.
+   *
+   * @var array
+   */
+  protected $bundleInfo = [];
+
+  /**
    * EntityHelper constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -62,7 +71,27 @@ class EntityHelper {
    *   An array of bundle information.
    */
   public function getBundleInfo(string $entity_type_id): array {
-    return $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
+    if (!isset($this->bundleInfo[$entity_type_id])) {
+      $bundle_info = &$this->bundleInfo[$entity_type_id];
+
+      // Menu fix.
+      if ($entity_type_id === 'menu_link_content') {
+        $bundle_info = [];
+
+        foreach (Menu::loadMultiple() as $menu) {
+          $bundle_info[$menu->id()]['label'] = $menu->label();
+        }
+      }
+      else {
+        $bundle_info = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
+      }
+
+      // Sort bundles by label.
+      uasort($bundle_info, function ($a, $b) {
+        return SortArray::sortByKeyString($a, $b, 'label');
+      });
+    }
+    return $this->bundleInfo[$entity_type_id];
   }
 
   /**
@@ -77,7 +106,6 @@ class EntityHelper {
    *   The bundle label.
    */
   public function getBundleLabel(string $entity_type_id, string $bundle_name) {
-    // Menu fix.
     return $this->getBundleInfo($entity_type_id)[$bundle_name]['label'] ?? $bundle_name;
   }
 
@@ -152,7 +180,7 @@ class EntityHelper {
    * @return bool
    *   TRUE if the entity type is atomic and FALSE otherwise.
    */
-  public function entityTypeIsAtomic($entity_type_id): bool {
+  public function entityTypeIsAtomic(string $entity_type_id): bool {
 
     // Menu fix.
     if ($entity_type_id === 'menu_link_content') {

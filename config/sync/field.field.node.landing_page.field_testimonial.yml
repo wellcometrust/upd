@@ -22,23 +22,11 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       testimonial: testimonial
       video_slice: video_slice
+    negate: 0
     target_bundles_drag_drop:
-      case_study_vertical_tab:
-        weight: 6
-        enabled: false
-      faq_dropdowns:
-        weight: 7
-        enabled: false
-      grid_items:
-        weight: 8
-        enabled: false
-      testimonial:
-        enabled: true
-        weight: 10
       basic_title_link:
         weight: 23
         enabled: false
@@ -51,8 +39,14 @@ settings:
       box_list:
         weight: 26
         enabled: false
+      case_study_vertical_tab:
+        weight: 6
+        enabled: false
       dos_donts:
         weight: 28
+        enabled: false
+      faq_dropdowns:
+        weight: 7
         enabled: false
       faq_referenced_questions:
         weight: 30
@@ -62,6 +56,9 @@ settings:
         enabled: false
       funding:
         weight: 32
+        enabled: false
+      grid_items:
+        weight: 8
         enabled: false
       hero_header_slice:
         weight: 34
@@ -84,12 +81,15 @@ settings:
       team_list:
         weight: 40
         enabled: false
+      testimonial:
+        weight: 10
+        enabled: true
       tile_paragraph:
         weight: 42
         enabled: false
       video_slice:
-        enabled: true
         weight: 43
+        enabled: true
       video_text_block:
         weight: 44
         enabled: false

@@ -16,19 +16,19 @@ bundle: funding
 mode: default
 content:
   field_body:
-    weight: 1
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 1
     region: content
   field_funding_image:
-    weight: 0
+    type: image
     label: above
     settings:
-      image_style: logo
       image_link: ''
+      image_style: logo
     third_party_settings: {  }
-    type: image
+    weight: 0
     region: content
 hidden: {  }

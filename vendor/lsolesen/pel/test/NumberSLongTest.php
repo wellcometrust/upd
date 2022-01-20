@@ -22,18 +22,21 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+
 namespace Pel\Test;
 
-use lsolesen\pel\PelEntrySLong;
+use \lsolesen\pel\PelEntrySLong;
 
 class NumberSLongTest extends NumberTestCase
 {
-
-    public function setUp(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp()
     {
         parent::setUp();
         $this->num = new PelEntrySLong(42);
-        $this->min = - 2147483648;
+        $this->min = -2147483648;
         $this->max = 2147483647;
     }
 }

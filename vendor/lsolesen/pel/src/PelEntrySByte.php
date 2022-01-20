@@ -22,6 +22,7 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+namespace lsolesen\pel;
 
 /**
  * Classes used to hold bytes, both signed and unsigned.
@@ -45,8 +46,6 @@
  * @author Martin Geisler <mgeisler@users.sourceforge.net>
  * @package PEL
  */
-namespace lsolesen\pel;
-
 class PelEntrySByte extends PelEntryNumber
 {
 
@@ -61,6 +60,7 @@ class PelEntrySByte extends PelEntryNumber
      *            the tag which this entry represents. This
      *            should be one of the constants defined in {@link PelTag}
      *            which has format {@link PelFormat::BYTE}.
+     *
      * @param int $value...
      *            the byte(s) that this entry will represent.
      *            The argument passed must obey the same rules as the argument to
@@ -85,9 +85,11 @@ class PelEntrySByte extends PelEntryNumber
      *
      * @param int $number
      *            the number that should be converted.
-     * @param boolean $order
+     *
+     * @param PelByteOrder $order
      *            one of {@link PelConvert::LITTLE_ENDIAN} and
      *            {@link PelConvert::BIG_ENDIAN}, specifying the target byte order.
+     *
      * @return string bytes representing the number given.
      */
     public function numberToBytes($number, $order)

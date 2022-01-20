@@ -26,7 +26,6 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       file_download: file_download
       image: image
@@ -34,6 +33,7 @@ settings:
       video_slice: video_slice
       resource_links_block: resource_links_block
       video_text_block: video_text_block
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 19
@@ -57,26 +57,29 @@ settings:
         weight: 25
         enabled: false
       file_download:
-        enabled: true
         weight: 26
+        enabled: true
       funding:
         weight: 27
         enabled: false
       grid_items:
         weight: 28
         enabled: false
-      image:
-        enabled: true
-        weight: 29
-      list_item:
+      hero_header_slice:
         weight: 30
         enabled: false
-      hero_header_slice:
+      image:
+        weight: 29
+        enabled: true
+      list_item:
         weight: 30
         enabled: false
       list_with_sublist:
         weight: 31
         enabled: false
+      resource_links_block:
+        weight: 35
+        enabled: true
       team_list:
         weight: 32
         enabled: false
@@ -84,15 +87,12 @@ settings:
         weight: 33
         enabled: false
       tile_paragraph:
-        enabled: true
         weight: 34
+        enabled: true
       video_slice:
-        enabled: true
         weight: 35
-      resource_links_block:
         enabled: true
-        weight: 35
       video_text_block:
-        enabled: true
         weight: 36
+        enabled: true
 field_type: entity_reference_revisions

@@ -22,17 +22,21 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+
 namespace Pel\Test;
 
-use PHPUnit\Framework\TestCase;
+use lsolesen\pel\PelDataWindow;
 use lsolesen\pel\PelJpeg;
+use lsolesen\pel\PelTiff;
+use lsolesen\pel\Pel;
 use lsolesen\pel\PelTag;
+use PHPUnit\Framework\TestCase;
 
 class GH77Test extends TestCase
 {
-
     public function testReturnModul()
     {
+        
         $file = dirname(__FILE__) . '/images/gh-77.jpg';
 
         $input_jpeg = new PelJpeg($file);
@@ -40,9 +44,9 @@ class GH77Test extends TestCase
 
         $tiff = $app1->getTiff();
         $ifd0 = $tiff->getIfd();
-
+        
         $model = $ifd0->getEntry(PelTag::MODEL);
-
+        
         $this->assertEquals($model->getValue(), "Canon EOS 5D Mark III");
     }
 }

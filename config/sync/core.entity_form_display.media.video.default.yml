@@ -22,15 +22,15 @@ third_party_settings:
       children:
         - group_main_content
         - group_settings
+      label: Content
+      region: content
       parent_name: ''
       weight: 0
       format_type: tabs
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         direction: vertical
-      label: Content
-      region: content
     group_main_content:
       children:
         - name
@@ -38,34 +38,34 @@ third_party_settings:
         - field_media_file
         - field_video_poster
         - field_call_to_action
+      label: 'Main Content'
+      region: content
       parent_name: group_content_video
       weight: 1
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Main Content'
-      region: content
     group_settings:
       children:
         - status
         - uid
         - created
         - path
+      label: Settings
+      region: content
       parent_name: group_content_video
       weight: 2
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: Settings
-      region: content
 id: media.video.default
 targetEntityType: media
 bundle: video
@@ -78,13 +78,13 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_call_to_action:
+    type: link_default
     weight: 7
+    region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-    type: link_default
-    region: content
   field_media_file:
     type: file_generic
     weight: 5
@@ -93,19 +93,19 @@ content:
       progress_indicator: throbber
     third_party_settings: {  }
   field_video_embed:
+    type: video_embed_field_textfield
     weight: 4
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: video_embed_field_textfield
-    region: content
   field_video_poster:
+    type: image_image
     weight: 6
+    region: content
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-    type: image_image
-    region: content
   langcode:
     type: language_select
     weight: 2
@@ -129,19 +129,19 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 30
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
     weight: 32
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
-    region: content
     third_party_settings: {  }
 hidden: {  }

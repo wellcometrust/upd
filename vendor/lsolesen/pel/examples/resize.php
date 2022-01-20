@@ -23,14 +23,8 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
-namespace Pel\examples;
 
-use lsolesen\pel\Pel;
-use lsolesen\pel\PelJpeg;
-
-/**
- * a printf() variant that appends a newline to the output.
- */
+/* a printf() variant that appends a newline to the output. */
 function println($args)
 {
     $args = func_get_args();
@@ -41,7 +35,10 @@ function println($args)
 /* Make PEL speak the users language, if it is available. */
 setlocale(LC_ALL, '');
 
-$argv = $_SERVER['argv'];
+/* Load the required PEL files for handling JPEG images. */
+require_once '../autoload.php';
+
+use lsolesen\pel\PelJpeg;
 
 /*
  * Store the name of the script in $prog and remove this first part of
@@ -104,9 +101,6 @@ $input_jpeg = new PelJpeg($input);
  * in $input_jpeg when creating the Image resource.
  */
 $original = ImageCreateFromString($input_jpeg->getBytes());
-if ($original === false) {
-    throw new \Exception('Can\'t create image from string');
-}
 $original_w = ImagesX($original);
 $original_h = ImagesY($original);
 
@@ -115,9 +109,6 @@ $scaled_h = $original_h * $scale;
 
 /* Now create the scaled image. */
 $scaled = ImageCreateTrueColor($scaled_w, $scaled_h);
-if ($original === false) {
-    throw new \Exception('Can\'t create true color image from scaled resources');
-}
 ImageCopyResampled($scaled, $original, 0, 0, 0, 0, $scaled_w, $scaled_h, $original_w, $original_h);
 
 /*
