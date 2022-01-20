@@ -21,6 +21,7 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+namespace lsolesen\pel;
 
 /**
  * Exception thrown when an invalid marker is found.
@@ -33,8 +34,6 @@
  * @package PEL
  * @subpackage Exception
  */
-namespace lsolesen\pel;
-
 class PelJpegInvalidMarkerException extends PelException
 {
 
@@ -45,6 +44,7 @@ class PelJpegInvalidMarkerException extends PelException
      *
      * @param int $marker
      *            the byte found.
+     *
      * @param int $offset
      *            the offset in the data.
      */

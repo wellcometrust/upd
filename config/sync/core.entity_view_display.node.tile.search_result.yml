@@ -16,11 +16,11 @@ bundle: tile
 mode: search_result
 content:
   field_standfirst:
-    weight: 0
+    type: basic_string
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 0
     region: content
 hidden:
   field_list_text: true

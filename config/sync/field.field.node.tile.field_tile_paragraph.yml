@@ -40,6 +40,6 @@ settings:
         weight: 11
         enabled: false
       tile_paragraph:
-        enabled: true
         weight: 12
+        enabled: true
 field_type: entity_reference_revisions

@@ -424,14 +424,14 @@ class SimplesitemapTest extends SimplesitemapTestBase {
 
     // Assert that creating a new content type doesn't remove the overrides.
     $this->drupalGet('node/' . $this->node->id() . '/edit');
-    $this->submitForm(['index_default_node_settings' => 0], 'Save');
+    $this->submitForm(['simple_sitemap[default][index]' => 0], 'Save');
     $this->assertEquals(1, $this->getOverridesCount('node', $this->node->id()));
     // Create a new content type.
     $this->drupalGet('admin/structure/types/add');
     $this->submitForm([
       'name' => 'simple_sitemap_type',
       'type' => 'simple_sitemap_type',
-      'index_default_node_settings' => 0,
+      'simple_sitemap[default][index]' => 0,
     ], 'Save content type');
     // The entity override from the other content type should not be affected.
     $this->assertEquals(1, $this->getOverridesCount('node', $this->node->id()));

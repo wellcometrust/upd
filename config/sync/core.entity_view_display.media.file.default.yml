@@ -15,20 +15,20 @@ bundle: file
 mode: default
 content:
   field_media_file:
+    type: file_default
     label: visually_hidden
     settings: {  }
     third_party_settings: {  }
-    type: file_default
     weight: 1
     region: content
   name:
-    label: hidden
     type: string
-    weight: 0
-    region: content
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   created: true
   langcode: true

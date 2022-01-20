@@ -25,13 +25,13 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       faq_dropdowns: faq_dropdowns
       image: image
       tile_paragraph: tile_paragraph
       video_slice: video_slice
       video_text_block: video_text_block
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 17
@@ -45,6 +45,9 @@ settings:
       box_list:
         weight: 20
         enabled: false
+      case_study_slice:
+        weight: 28
+        enabled: false
       case_study_vertical_tab:
         weight: 21
         enabled: false
@@ -52,8 +55,11 @@ settings:
         weight: 22
         enabled: false
       faq_dropdowns:
-        enabled: true
         weight: 23
+        enabled: true
+      faq_referenced_questions:
+        weight: 32
+        enabled: false
       file_download:
         weight: 24
         enabled: false
@@ -63,43 +69,37 @@ settings:
       grid_items:
         weight: 26
         enabled: false
-      list_item:
-        weight: 27
-        enabled: false
-      image:
-        enabled: true
-        weight: 28
-      list_with_sublist:
-        weight: 28
-        enabled: false
-      case_study_slice:
-        weight: 28
-        enabled: false
-      team_list:
-        weight: 29
-        enabled: false
       hero_header_slice:
         weight: 30
         enabled: false
-      testimonial:
-        weight: 30
+      image:
+        weight: 28
+        enabled: true
+      list_item:
+        weight: 27
         enabled: false
-      tile_paragraph:
-        enabled: true
-        weight: 31
-      faq_referenced_questions:
-        weight: 32
+      list_with_sublist:
+        weight: 28
         enabled: false
-      video_slice:
-        enabled: true
-        weight: 32
-      video_text_block:
-        enabled: true
-        weight: 38
       referenced_link:
         weight: 40
         enabled: false
       resource_links_block:
         weight: 41
         enabled: false
+      team_list:
+        weight: 29
+        enabled: false
+      testimonial:
+        weight: 30
+        enabled: false
+      tile_paragraph:
+        weight: 31
+        enabled: true
+      video_slice:
+        weight: 32
+        enabled: true
+      video_text_block:
+        weight: 38
+        enabled: true
 field_type: entity_reference_revisions

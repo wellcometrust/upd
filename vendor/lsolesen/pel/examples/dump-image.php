@@ -27,8 +27,9 @@
 /* Make PEL speak the users language, if it is available. */
 setlocale(LC_ALL, '');
 
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
+
 use lsolesen\pel\Pel;
-use lsolesen\pel\PelConvert;
 use lsolesen\pel\PelDataWindow;
 use lsolesen\pel\PelJpeg;
 use lsolesen\pel\PelTiff;

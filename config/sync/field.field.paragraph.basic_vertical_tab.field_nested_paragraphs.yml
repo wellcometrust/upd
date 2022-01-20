@@ -39,46 +39,46 @@ settings:
       basic_title_link:
         weight: 9
         enabled: false
-      basic_vertical_tab:
-        weight: 10
-        enabled: false
-      case_study_vertical_tab:
-        weight: 11
-        enabled: false
-      faq_dropdowns:
-        enabled: true
-        weight: 12
-      dos_donts:
-        enabled: true
-        weight: 13
-      grid_items:
-        weight: 13
-        enabled: false
-      testimonial:
-        weight: 15
-        enabled: false
-      funding:
-        enabled: true
-        weight: 15
-      tile_paragraph:
-        weight: 16
-        enabled: false
-      file_download:
-        enabled: true
-        weight: 16
       basic_user_list_item:
         weight: 17
         enabled: false
+      basic_vertical_tab:
+        weight: 10
+        enabled: false
       box_list:
-        enabled: true
         weight: 19
+        enabled: true
+      case_study_vertical_tab:
+        weight: 11
+        enabled: false
+      dos_donts:
+        weight: 13
+        enabled: true
+      faq_dropdowns:
+        weight: 12
+        enabled: true
+      file_download:
+        weight: 16
+        enabled: true
+      funding:
+        weight: 15
+        enabled: true
+      grid_items:
+        weight: 13
+        enabled: false
       list_item:
         weight: 20
         enabled: false
       list_with_sublist:
-        enabled: true
         weight: 21
-      team_list:
         enabled: true
+      team_list:
         weight: 24
+        enabled: true
+      testimonial:
+        weight: 15
+        enabled: false
+      tile_paragraph:
+        weight: 16
+        enabled: false
 field_type: entity_reference_revisions

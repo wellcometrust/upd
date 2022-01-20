@@ -25,6 +25,6 @@ settings:
       case_study_vertical_tab: case_study_vertical_tab
     target_bundles_drag_drop:
       case_study_vertical_tab:
-        enabled: true
         weight: 2
+        enabled: true
 field_type: entity_reference_revisions

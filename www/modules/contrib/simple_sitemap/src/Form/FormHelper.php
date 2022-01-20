@@ -173,6 +173,11 @@ class FormHelper {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function processForm(FormStateInterface $form_state): bool {
+    // Do not alter the form if user lacks certain permissions.
+    if (!$this->currentUser->hasPermission('administer sitemap settings')) {
+      return FALSE;
+    }
+
     $this->formState = $form_state;
     $this->cleanUpFormInfo();
 
@@ -291,11 +296,6 @@ class FormHelper {
       return FALSE;
     }
 
-    // Do not alter the form if user lacks certain permissions.
-    if (!$this->currentUser->hasPermission('administer sitemap settings')) {
-      return FALSE;
-    }
-
     // Do not alter the form if entity is not enabled in sitemap settings.
     if (!$this->generator->entityManager()->entityTypeIsEnabled($this->getEntityTypeId())) {
       return FALSE;
@@ -328,6 +328,7 @@ class FormHelper {
       '#title' => $this->t('Regenerate all sitemaps after hitting <em>Save</em>'),
       '#description' => $this->t('This setting will regenerate all sitemaps including the above changes.'),
       '#default_value' => FALSE,
+      '#tree' => FALSE,
     ];
     if ($this->settings->get('cron_generate')) {
       $form_fragment['simple_sitemap_regenerate_now']['#description'] .= '<br>' . $this->t('Otherwise the sitemaps will be regenerated during a future cron run.');
@@ -382,22 +383,23 @@ class FormHelper {
       : $this->t('undefined');
 
     $sitemaps = SimpleSitemap::loadMultiple();
-    $form_fragment['settings']['#markup'] = empty($sitemaps)
+    $form_fragment['#markup'] = empty($sitemaps)
       ? $this->t('At least one sitemap needs to be defined for a bundle to be indexable.<br>Sitemaps can be configured <a href="@url">here</a>.', ['@url' => $GLOBALS['base_url'] . '/admin/config/search/simplesitemap'])
       : '<strong>' . $this->t('Sitemaps') . '</strong>';
 
     foreach ($sitemaps as $variant => $sitemap) {
-      $form_fragment['settings'][$variant] = [
+      $form_fragment[$variant] = [
         '#type' => 'details',
         '#title' => '<em>' . $sitemap->label() . '</em>',
         '#open' => !empty($this->bundleSettings[$variant]['index']),
+        '#after_build' => [[self::class, 'displayEntitySettingsAfterBuild']],
       ];
 
       // Disable fields of entity instance whose bundle is not indexed.
-      $form_fragment['settings'][$variant]['#disabled'] = $this->getEntityCategory() === 'instance' && empty($this->bundleSettings[$variant]['bundle_settings']['index']);
+      $form_fragment[$variant]['#disabled'] = $this->getEntityCategory() === 'instance' && empty($this->bundleSettings[$variant]['bundle_settings']['index']);
 
       // Index.
-      $form_fragment['settings'][$variant]['index_' . $variant . '_' . $this->getEntityTypeId() . '_settings'] = [
+      $form_fragment[$variant]['index'] = [
         '#type' => 'radios',
         '#default_value' => (int) $this->bundleSettings[$variant]['index'],
         '#options' => [
@@ -420,15 +422,17 @@ class FormHelper {
             '@sitemap_label' => $sitemap->label(),
           ]),
         ],
-        '#attributes' => ['class' => ['enabled-for-sitemap', $variant]],
+        '#attributes' => [
+          'data-simple-sitemap-label' => $sitemap->label(),
+        ],
       ];
 
       if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings[$variant]['bundle_settings']['index'])) {
-        $form_fragment['settings'][$variant]['index_' . $variant . '_' . $this->getEntityTypeId() . '_settings']['#options'][(int) $this->bundleSettings[$variant]['bundle_settings']['index']] .= ' <em>(' . $this->t('default') . ')</em>';
+        $form_fragment[$variant]['index']['#options'][(int) $this->bundleSettings[$variant]['bundle_settings']['index']] .= ' <em>(' . $this->t('default') . ')</em>';
       }
 
       // Priority.
-      $form_fragment['settings'][$variant]['priority_' . $variant . '_' . $this->getEntityTypeId() . '_settings'] = [
+      $form_fragment[$variant]['priority'] = [
         '#type' => 'select',
         '#title' => $this->t('Priority'),
         '#description' => $this->getEntityCategory() === 'instance'
@@ -436,17 +440,14 @@ class FormHelper {
         : $this->t('The priority entities of this type will have in the eyes of search engine bots.'),
         '#default_value' => $this->bundleSettings[$variant]['priority'],
         '#options' => $this->getPrioritySelectValues(),
-        '#states' => [
-          'visible' => [':input[name="index_' . $variant . '_' . $this->getEntityTypeId() . '_settings"]' => ['value' => 1]],
-        ],
       ];
 
       if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings[$variant]['bundle_settings']['priority'])) {
-        $form_fragment['settings'][$variant]['priority_' . $variant . '_' . $this->getEntityTypeId() . '_settings']['#options'][$this->formatPriority($this->bundleSettings[$variant]['bundle_settings']['priority'])] .= ' (' . $this->t('default') . ')';
+        $form_fragment[$variant]['priority']['#options'][$this->formatPriority($this->bundleSettings[$variant]['bundle_settings']['priority'])] .= ' (' . $this->t('default') . ')';
       }
 
       // Changefreq.
-      $form_fragment['settings'][$variant]['changefreq_' . $variant . '_' . $this->getEntityTypeId() . '_settings'] = [
+      $form_fragment[$variant]['changefreq'] = [
         '#type' => 'select',
         '#title' => $this->t('Change frequency'),
         '#description' => $this->getEntityCategory() === 'instance'
@@ -454,17 +455,14 @@ class FormHelper {
         : $this->t('The frequency with which entities of this type change. Search engine bots may take this as an indication of how often to index them.'),
         '#default_value' => isset($this->bundleSettings[$variant]['changefreq']) ? $this->bundleSettings[$variant]['changefreq'] : NULL,
         '#options' => $this->getChangefreqSelectValues(),
-        '#states' => [
-          'visible' => [':input[name="index_' . $variant . '_' . $this->getEntityTypeId() . '_settings"]' => ['value' => 1]],
-        ],
       ];
 
       if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings[$variant]['bundle_settings']['changefreq'])) {
-        $form_fragment['settings'][$variant]['changefreq_' . $variant . '_' . $this->getEntityTypeId() . '_settings']['#options'][$this->bundleSettings[$variant]['bundle_settings']['changefreq']] .= ' (' . $this->t('default') . ')';
+        $form_fragment[$variant]['changefreq']['#options'][$this->bundleSettings[$variant]['bundle_settings']['changefreq']] .= ' (' . $this->t('default') . ')';
       }
 
       // Images.
-      $form_fragment['settings'][$variant]['include_images_' . $variant . '_' . $this->getEntityTypeId() . '_settings'] = [
+      $form_fragment[$variant]['include_images'] = [
         '#type' => 'select',
         '#title' => $this->t('Include images'),
         '#description' => $this->getEntityCategory() === 'instance'
@@ -472,17 +470,35 @@ class FormHelper {
         : $this->t('Determines if images referenced by entities of this type should be included in the sitemap.'),
         '#default_value' => isset($this->bundleSettings[$variant]['include_images']) ? (int) $this->bundleSettings[$variant]['include_images'] : 0,
         '#options' => [$this->t('No'), $this->t('Yes')],
-        '#states' => [
-          'visible' => [':input[name="index_' . $variant . '_' . $this->getEntityTypeId() . '_settings"]' => ['value' => 1]],
-        ],
       ];
 
       if ($this->getEntityCategory() === 'instance' && isset($this->bundleSettings[$variant]['bundle_settings']['include_images'])) {
-        $form_fragment['settings'][$variant]['include_images_' . $variant . '_' . $this->getEntityTypeId() . '_settings']['#options'][(int) $this->bundleSettings[$variant]['bundle_settings']['include_images']] .= ' (' . $this->t('default') . ')';
+        $form_fragment[$variant]['include_images']['#options'][(int) $this->bundleSettings[$variant]['bundle_settings']['include_images']] .= ' (' . $this->t('default') . ')';
       }
     }
 
     return $this;
+  }
+
+  /**
+   * After-build callback to set the correct #states.
+   *
+   * @param array $element
+   *   The element structure.
+   *
+   * @return array
+   *   The element structure.
+   */
+  public static function displayEntitySettingsAfterBuild(array $element): array {
+    $selector = ':input[name="' . $element['index']['#name'] . '"]';
+
+    foreach (['priority', 'changefreq', 'include_images'] as $key) {
+      $element[$key]['#states'] = [
+        'visible' => [$selector => ['value' => 1]],
+      ];
+    }
+
+    return $element;
   }
 
   /**
