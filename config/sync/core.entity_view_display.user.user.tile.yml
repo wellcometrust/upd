@@ -19,32 +19,32 @@ bundle: user
 mode: tile
 content:
   field_name_and_surname:
-    weight: 6
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 6
     region: content
   field_photo:
     type: image
-    weight: 0
     label: hidden
     settings:
-      image_style: user_thumbnail
       image_link: ''
+      image_style: user_thumbnail
     third_party_settings: {  }
+    weight: 0
     region: content
   field_position:
-    weight: 7
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 7
     region: content
   field_twitter:
-    weight: 9
+    type: link
     label: hidden
     settings:
       trim_length: 80
@@ -53,7 +53,7 @@ content:
       rel: '0'
       target: '0'
     third_party_settings: {  }
-    type: link
+    weight: 9
     region: content
 hidden:
   langcode: true

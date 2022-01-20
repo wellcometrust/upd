@@ -22,6 +22,7 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+namespace lsolesen\pel;
 
 /**
  * Classes used to hold ASCII strings.
@@ -54,8 +55,6 @@
  * @author Martin Geisler <mgeisler@users.sourceforge.net>
  * @package PEL
  */
-namespace lsolesen\pel;
-
 class PelEntryAscii extends PelEntry
 {
 
@@ -78,6 +77,7 @@ class PelEntryAscii extends PelEntry
      *            one of the constants defined in {@link PelTag}, e.g., {@link
      *            PelTag::IMAGE_DESCRIPTION}, {@link PelTag::MODEL}, or any other
      *            tag with format {@link PelFormat::ASCII}.
+     *
      * @param string $str
      *            the string that this entry will represent. The
      *            string must obey the same rules as the string argument to {@link
@@ -88,13 +88,21 @@ class PelEntryAscii extends PelEntry
     {
         $this->tag = $tag;
         $this->format = PelFormat::ASCII;
-        $this->setValue($str);
+        self::setValue($str);
     }
 
     /**
+     * Give the entry a new ASCII value.
      *
-     * {@inheritdoc}
-     * @see \lsolesen\pel\PelEntry::setValue()
+     * This will overwrite the previous value. The value can be
+     * retrieved later with the {@link getValue} method.
+     *
+     * @param
+     *            string the new value of the entry. This should be given
+     *            without any trailing NULL character. The string must be plain
+     *            7-bit ASCII, the string should contain no high bytes.
+     *
+     * @todo Implement check for high bytes?
      */
     public function setValue($str)
     {
@@ -104,9 +112,11 @@ class PelEntryAscii extends PelEntry
     }
 
     /**
+     * Return the ASCII string of the entry.
      *
-     * {@inheritdoc}
-     * @see \lsolesen\pel\PelEntry::getValue()
+     * @return string the string held, without any final NULL character.
+     *         The string will be the same as the one given to {@link setValue}
+     *         or to the {@link __construct constructor}.
      */
     public function getValue()
     {
@@ -114,9 +124,16 @@ class PelEntryAscii extends PelEntry
     }
 
     /**
+     * Return the ASCII string of the entry.
      *
-     * {@inheritdoc}
-     * @see \lsolesen\pel\PelEntry::getText()
+     * This methods returns the same as {@link getValue}.
+     *
+     * @param
+     *            boolean not used with ASCII entries.
+     *
+     * @return string the string held, without any final NULL character.
+     *         The string will be the same as the one given to {@link setValue}
+     *         or to the {@link __construct constructor}.
      */
     public function getText($brief = false)
     {

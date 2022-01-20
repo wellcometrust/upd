@@ -2,14 +2,15 @@
 
 namespace Drupal\simple_sitemap\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\simple_sitemap\Manager\EntityManager;
-use Drupal\simple_sitemap\Entity\SimpleSitemap;
-use Drupal\simple_sitemap\Settings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\simple_sitemap\Manager\EntityManager;
 use Drupal\simple_sitemap\Manager\Generator;
+use Drupal\simple_sitemap\Entity\SimpleSitemap;
 use Drupal\simple_sitemap\Entity\EntityHelper;
+use Drupal\simple_sitemap\Settings;
 
 /**
  * Provides form to manage entity settings.
@@ -28,7 +29,7 @@ class EntitiesForm extends SimpleSitemapFormBase {
    *
    * @var \Drupal\simple_sitemap\Manager\EntityManager
    */
-  protected $sitemapEntities;
+  protected $entityManager;
 
   /**
    * EntitiesForm constructor.
@@ -43,7 +44,7 @@ class EntitiesForm extends SimpleSitemapFormBase {
    *   Simple XML Sitemap form helper.
    * @param \Drupal\simple_sitemap\Entity\EntityHelper $entity_helper
    *   Helper class for working with entities.
-   * @param \Drupal\simple_sitemap\Manager\EntityManager $sitemap_entities
+   * @param \Drupal\simple_sitemap\Manager\EntityManager $entity_manager
    *   The simple_sitemap.entity_manager service.
    */
   public function __construct(
@@ -52,7 +53,7 @@ class EntitiesForm extends SimpleSitemapFormBase {
     Settings $settings,
     FormHelper $form_helper,
     EntityHelper $entity_helper,
-    EntityManager $sitemap_entities
+    EntityManager $entity_manager
   ) {
     parent::__construct(
       $config_factory,
@@ -61,7 +62,7 @@ class EntitiesForm extends SimpleSitemapFormBase {
       $form_helper
     );
     $this->entityHelper = $entity_helper;
-    $this->sitemapEntities = $sitemap_entities;
+    $this->entityManager = $entity_manager;
   }
 
   /**
@@ -89,111 +90,74 @@ class EntitiesForm extends SimpleSitemapFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
+    $table = [
+      '#type' => 'table',
+      '#header' => [
+        $this->t('Entity type'),
+        $this->t('Indexed bundles'),
+        $this->t('Enabled'),
+        $this->t('Operations'),
+      ],
+      '#empty' => $this->t('No supported entity types available.'),
+      '#attached' => ['library' => ['simple_sitemap/sitemapEntities']],
+    ];
 
-    $form['simple_sitemap_entities']['#prefix'] = FormHelper::getDonationText();
+    $entity_types = $this->entityHelper->getSupportedEntityTypes();
+    foreach ($entity_types as $entity_type_id => &$entity_type) {
+      $entity_type = $entity_type->getLabel() ?: $entity_type_id;
+    }
+    natcasesort($entity_types);
 
-    $form['simple_sitemap_entities']['entities'] = [
+    foreach ($entity_types as $entity_type_id => $label) {
+      $is_enabled = $this->entityManager->entityTypeIsEnabled($entity_type_id);
+
+      $table[$entity_type_id]['type'] = [
+        '#markup' => '<strong>' . $label . '</strong>',
+      ];
+
+      $table[$entity_type_id]['bundles'] = [
+        '#type' => 'item',
+        '#input' => FALSE,
+        '#markup' => $this->getIndexedBundlesString($entity_type_id),
+      ];
+
+      $table[$entity_type_id]['enabled'] = [
+        '#type' => 'checkbox',
+        '#default_value' => $is_enabled,
+        '#parents' => ['entity_types', $entity_type_id],
+      ];
+
+      $table[$entity_type_id]['operations'] = [
+        '#type' => 'operations',
+        '#access' => $is_enabled,
+        '#links' => [
+          'display_edit' => [
+            'title' => $this->t('Configure'),
+            'url' => Url::fromRoute('simple_sitemap.entity_bundles', ['entity_type_id' => $entity_type_id], [
+              'query' => ['destination' => Url::fromRoute('<current>')->toString()],
+            ]),
+          ],
+        ],
+      ];
+
+      if ($is_enabled) {
+        $table[$entity_type_id]['#attributes']['class'][] = 'color-success';
+
+        if ($this->hasIndexedBundles($entity_type_id)) {
+          $table[$entity_type_id]['#attributes']['class'][] = 'protected';
+        }
+      }
+    }
+
+    $form['sitemap_entities'] = [
+      '#prefix' => FormHelper::getDonationText(),
       '#title' => $this->t('Sitemap entities'),
       '#type' => 'fieldset',
       '#markup' => '<div class="description">' . $this->t('Simple XML Sitemap settings will be added only to entity forms of entity types enabled here. For all entity types featuring bundles (e.g. <em>node</em>) sitemap settings have to be set on their bundle pages (e.g. <em>page</em>).') . '</div>',
+      'entity_types' => $table,
     ];
 
-    $form['#attached']['library'][] = 'simple_sitemap/sitemapEntities';
-    $form['#attached']['drupalSettings']['simple_sitemap'] = [
-      'all_entities' => [],
-      'atomic_entities' => [],
-    ];
-
-    $all_bundle_settings = $this->generator->setVariants()->entityManager()->getAllBundleSettings();
-    $indexed_bundles = [];
-    foreach ($all_bundle_settings as $variant => $entity_types) {
-      foreach ($entity_types as $entity_type_name => $bundles) {
-        foreach ($bundles as $bundle_name => $bundle_settings) {
-          if ($bundle_settings['index']) {
-            $indexed_bundles[$entity_type_name][$bundle_name]['variants'][] = SimpleSitemap::load($variant)->label();
-            $indexed_bundles[$entity_type_name][$bundle_name]['bundle_label'] = $this->entityHelper->getBundleLabel($entity_type_name, $bundle_name);
-          }
-        }
-      }
-    }
-
-    $entity_type_labels = [];
-    foreach ($this->entityHelper->getSupportedEntityTypes() as $entity_type_id => $entity_type) {
-      $entity_type_labels[$entity_type_id] = $entity_type->getLabel() ?: $entity_type_id;
-    }
-    asort($entity_type_labels);
-
-    foreach ($entity_type_labels as $entity_type_id => $entity_type_label) {
-      $enabled_entity_type = $this->generator->entityManager()->entityTypeIsEnabled($entity_type_id);
-      $atomic_entity_type = $this->entityHelper->entityTypeIsAtomic($entity_type_id);
-      $css_entity_type_id = str_replace('_', '-', $entity_type_id);
-
-      $form['simple_sitemap_entities']['entities'][$entity_type_id] = [
-        '#type' => 'details',
-        '#title' => $entity_type_label,
-        '#open' => $enabled_entity_type,
-      ];
-
-      $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_enabled'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->t('Enable @entity_type_label <em>(@entity_type_id)</em> support', [
-          '@entity_type_label' => $entity_type_label,
-          '@entity_type_id' => $entity_type_id,
-        ]),
-        '#description' => $atomic_entity_type
-        ? $this->t('Sitemap settings for the entity type <em>@entity_type_label</em> can be set below and overridden on its entity pages.', ['@entity_type_label' => $entity_type_label])
-        : $this->t('Sitemap settings for the entity type <em>@entity_type_label</em> can be set on its bundle pages and overridden on its entity pages.', ['@entity_type_label' => $entity_type_label]),
-        '#default_value' => $enabled_entity_type,
-      ];
-
-      if ($form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_enabled']['#default_value']) {
-
-        $indexed_bundles_string = '';
-        if (isset($indexed_bundles[$entity_type_id])) {
-          foreach ($indexed_bundles[$entity_type_id] as $bundle_data) {
-            $indexed_bundles_string .= '<br><em>' . $bundle_data['bundle_label'] . '</em> <span class="description">(' . $this->t('sitemaps') . ': <em>' . implode(', ', $bundle_data['variants']) . '</em>)</span>';
-          }
-        }
-
-        $bundle_info = '';
-        if (!$atomic_entity_type) {
-          $bundle_info .= '<div id="indexed-bundles-' . $css_entity_type_id . '">'
-            . (!empty($indexed_bundles_string)
-              ? $this->t("<em>@entity_type_label</em> bundles set to be indexed:", ['@entity_type_label' => $entity_type_label]) . ' ' . $indexed_bundles_string
-              : $this->t('No <em>@entity_type_label</em> bundles are set to be indexed yet.', ['@entity_type_label' => $entity_type_label]))
-            . '</div>';
-        }
-
-        if (!empty($indexed_bundles_string)) {
-          $bundle_info .= '<div id="warning-' . $css_entity_type_id . '">'
-            . ($atomic_entity_type
-              ? $this->t("<strong>Warning:</strong> This entity type's sitemap settings including per-entity overrides will be deleted after hitting <em>Save</em>.")
-              : $this->t("<strong>Warning:</strong> The sitemap settings and any per-entity overrides will be deleted for the following bundles:" . $indexed_bundles_string))
-            . '</div>';
-        }
-
-        $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_enabled']['#suffix'] = $bundle_info;
-      }
-
-      $form['#attached']['drupalSettings']['simple_sitemap']['all_entities'][] = $css_entity_type_id;
-
-      if ($atomic_entity_type) {
-        $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings']['#prefix'] = '<div id="indexed-bundles-' . $css_entity_type_id . '">';
-        $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings']['#suffix'] = '</div>';
-
-        $this->formHelper
-          ->cleanUpFormInfo()
-          ->setEntityCategory('bundle')
-          ->setEntityTypeId($entity_type_id)
-          ->setBundleName($entity_type_id)
-          ->negotiateSettings()
-          ->displayEntitySettings(
-            $form['simple_sitemap_entities']['entities'][$entity_type_id][$entity_type_id . '_settings']
-          );
-      }
-    }
-
-    $this->formHelper->displayRegenerateNow($form['simple_sitemap_entities']['entities']);
+    $this->formHelper->displayRegenerateNow($form);
 
     return parent::buildForm($form, $form_state);
   }
@@ -202,32 +166,17 @@ class EntitiesForm extends SimpleSitemapFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $values = $form_state->getValues();
-    foreach ($values as $field_name => $value) {
-      if (substr($field_name, -strlen('_enabled')) === '_enabled') {
-        $entity_type_id = substr($field_name, 0, -8);
-        if ($value) {
-          $this->generator->entityManager()->enableEntityType($entity_type_id);
-          if ($this->entityHelper->entityTypeIsAtomic($entity_type_id)) {
-            foreach (SimpleSitemap::loadMultiple() as $variant => $sitemap) {
-              if (isset($values['index_' . $variant . '_' . $entity_type_id . '_settings'])) {
-                $this->generator
-                  ->setVariants($variant)
-                  ->entityManager()->setBundleSettings($entity_type_id, $entity_type_id, [
-                    'index' => (bool) $values['index_' . $variant . '_' . $entity_type_id . '_settings'],
-                    'priority' => $values['priority_' . $variant . '_' . $entity_type_id . '_settings'],
-                    'changefreq' => $values['changefreq_' . $variant . '_' . $entity_type_id . '_settings'],
-                    'include_images' => (bool) $values['include_images_' . $variant . '_' . $entity_type_id . '_settings'],
-                  ]);
-              }
-            }
-          }
-        }
-        else {
-          $this->generator->entityManager()->disableEntityType($entity_type_id);
-        }
+    $entity_types = $form_state->getValue('entity_types');
+
+    foreach ($entity_types as $entity_type_id => $enabled) {
+      if ($enabled) {
+        $this->entityManager->enableEntityType($entity_type_id);
+      }
+      else {
+        $this->entityManager->disableEntityType($entity_type_id);
       }
     }
+
     parent::submitForm($form, $form_state);
 
     // Regenerate sitemaps according to user setting.
@@ -237,6 +186,75 @@ class EntitiesForm extends SimpleSitemapFormBase {
         ->rebuildQueue()
         ->generate();
     }
+  }
+
+  /**
+   * Gets indexed bundles.
+   *
+   * @return array
+   *   Indexed bundles data.
+   */
+  protected function getIndexedBundles(): array {
+    static $indexed_bundles;
+
+    if ($indexed_bundles === NULL) {
+      $indexed_bundles = [];
+
+      foreach ($this->entityManager->setVariants()->getAllBundleSettings() as $variant => $entity_types) {
+        $sitemap_label = SimpleSitemap::load($variant)->label();
+
+        foreach ($entity_types as $entity_type_id => $bundles) {
+          foreach ($bundles as $bundle_name => $bundle_settings) {
+            if ($bundle_settings['index']) {
+              $indexed_bundles[$entity_type_id][$bundle_name]['sitemaps'][] = $sitemap_label;
+              $indexed_bundles[$entity_type_id][$bundle_name]['bundle_label'] = $this->entityHelper->getBundleLabel($entity_type_id, $bundle_name);
+            }
+          }
+        }
+      }
+    }
+
+    return $indexed_bundles;
+  }
+
+  /**
+   * Determines whether the given entity type has indexed bundles.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   *
+   * @return bool
+   *   TRUE if the given entity type has indexed bundles, FALSE otherwise.
+   */
+  protected function hasIndexedBundles(string $entity_type_id): bool {
+    return !empty($this->getIndexedBundles()[$entity_type_id]);
+  }
+
+  /**
+   * Gets a string representation of indexed bundles for the given entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string
+   *   A string representation of indexed bundles for the given entity type.
+   */
+  protected function getIndexedBundlesString(string $entity_type_id) {
+    if (!$this->entityManager->entityTypeIsEnabled($entity_type_id)) {
+      return '';
+    }
+    if (!$this->hasIndexedBundles($entity_type_id)) {
+      return $this->t('Excluded from all sitemaps');
+    }
+
+    foreach ($this->getIndexedBundles()[$entity_type_id] as $bundle_data) {
+      $pieces[] = $this->t('%bundle_label <span class="description">(sitemaps: %sitemaps)</span>', [
+        '%bundle_label' => $bundle_data['bundle_label'],
+        '%sitemaps' => implode(', ', $bundle_data['sitemaps']),
+      ]);
+    }
+
+    return implode('<br />', $pieces ?? []);
   }
 
 }

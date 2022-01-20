@@ -1,11 +1,11 @@
+favicon:
+  path: ''
+  use_default: false
 features:
-  node_user_picture: false
   comment_user_picture: true
   comment_user_verification: true
   favicon: false
+  node_user_picture: false
 logo:
-  use_default: false
   path: ''
-favicon:
   use_default: false
-  path: ''

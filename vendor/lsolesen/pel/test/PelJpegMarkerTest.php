@@ -23,12 +23,13 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+
 namespace Pel\Test;
 
 use PHPUnit\Framework\TestCase;
+use lsolesen\pel\PelJpegMarker;
 use lsolesen\pel\Pel;
 use lsolesen\pel\PelJpegInvalidMarkerException;
-use lsolesen\pel\PelJpegMarker;
 
 class PelJpegMarkerTest extends TestCase
 {
@@ -54,12 +55,11 @@ class PelJpegMarkerTest extends TestCase
     }
 
     /**
-     *
+     * @expectedException lsolesen\pel\PelJpegInvalidMarkerException
      * @throws PelJpegInvalidMarkerException
      */
     public function testInvalidMarkerException()
     {
-        $this->expectException('lsolesen\pel\PelJpegInvalidMarkerException');
         throw new PelJpegInvalidMarkerException(1, 2);
     }
 }

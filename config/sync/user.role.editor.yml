@@ -1,7 +1,42 @@
 uuid: f8a9f3d8-a268-4201-8947-5919c2a7abd1
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - filter.format.basic_html
+    - filter.format.full_html
+    - media.type.file
+    - media.type.image
+    - media.type.video
+    - node.type.art
+    - node.type.basic_page
+    - node.type.case_study
+    - node.type.faq
+    - node.type.highlight_page
+    - node.type.hub_page
+    - node.type.landing_page
+    - node.type.question_content
+    - node.type.tile
+    - taxonomy.vocabulary.disease
+    - taxonomy.vocabulary.impact_of_work
+    - taxonomy.vocabulary.source_of_data
+    - workflows.workflow.draft_publish_archive
+  module:
+    - content_moderation
+    - dropzonejs
+    - entity_browser
+    - eu_cookie_compliance
+    - file
+    - filter
+    - media
+    - metatag
+    - node
+    - path
+    - redirect
+    - system
+    - taxonomy
+    - toolbar
+    - video_embed_field
 id: editor
 label: Editor
 weight: 3
@@ -20,13 +55,11 @@ permissions:
   - 'access video_browser entity browser pages'
   - 'administer menu'
   - 'administer meta tags'
-  - 'administer node weight'
   - 'administer nodes'
   - 'administer redirects'
   - 'administer taxonomy'
   - 'administer url aliases'
   - 'administer users'
-  - 'assign node weight'
   - 'bypass node access'
   - 'create art content'
   - 'create basic_page content'
@@ -117,7 +150,6 @@ permissions:
   - 'revert tile revisions'
   - 'update any media'
   - 'update media'
-  - 'upload media'
   - 'use draft_publish_archive transition create_new_draft'
   - 'use draft_publish_archive transition publish'
   - 'use text format basic_html'

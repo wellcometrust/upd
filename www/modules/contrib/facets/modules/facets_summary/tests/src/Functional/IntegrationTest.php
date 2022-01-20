@@ -350,7 +350,7 @@ class IntegrationTest extends FacetsTestBase {
     $this->drupalGet('admin/structure/block');
     $this->assertSession()->pageTextContains($block->label());
 
-    $this->drupalGet('admin/structure/block/library/classy');
+    $this->drupalGet('admin/structure/block/library/' . $this->defaultTheme);
     $this->assertSession()->pageTextContains($name);
 
     // Check for the warning message that additional config entities will be
@@ -360,7 +360,7 @@ class IntegrationTest extends FacetsTestBase {
     $this->assertSession()->pageTextContains($block->label());
     $this->drupalPostForm(NULL, [], 'Delete');
 
-    $this->drupalGet('admin/structure/block/library/classy');
+    $this->drupalGet('admin/structure/block/library/' . $this->defaultTheme);
     $this->assertSession()->pageTextNotContains($name);
   }
 

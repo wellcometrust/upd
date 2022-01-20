@@ -46,8 +46,8 @@ settings:
         weight: 19
         enabled: false
       list_item:
-        enabled: true
         weight: 20
+        enabled: true
       list_with_sublist:
         weight: 21
         enabled: false

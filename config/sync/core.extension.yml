@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: m2GVq11UAOVuNgj8x0t5fMOPujpvQQ_zxLoaly1BMEU
 module:
   admin_toolbar: 0
   admin_toolbar_links_access_filter: 0
@@ -100,6 +102,4 @@ theme:
   seven: 0
   upd: 0
   upd_admin: 0
-_core:
-  default_config_hash: m2GVq11UAOVuNgj8x0t5fMOPujpvQQ_zxLoaly1BMEU
 profile: minimal

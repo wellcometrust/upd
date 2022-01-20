@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       tile_paragraph: tile_paragraph
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 20
@@ -74,8 +74,8 @@ settings:
         weight: 35
         enabled: false
       tile_paragraph:
-        enabled: true
         weight: 36
+        enabled: true
       video_slice:
         weight: 37
         enabled: false

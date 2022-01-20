@@ -22,10 +22,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       video_slice: video_slice
       video_text_block: video_text_block
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 24
@@ -91,9 +91,9 @@ settings:
         weight: 44
         enabled: false
       video_slice:
-        enabled: true
         weight: 45
-      video_text_block:
         enabled: true
+      video_text_block:
         weight: 46
+        enabled: true
 field_type: entity_reference_revisions

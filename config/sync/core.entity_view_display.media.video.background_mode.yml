@@ -21,8 +21,6 @@ mode: background_mode
 content:
   field_call_to_action:
     type: link_separate
-    weight: 3
-    region: content
     label: hidden
     settings:
       trim_length: 80
@@ -31,17 +29,19 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
+    weight: 3
+    region: content
   field_media_file:
+    type: video_player_html5
     label: hidden
     settings:
       video_attributes: 'autoplay="true" loop="true" mute="true" preload="false"'
       provide_download_link: 0
     third_party_settings: {  }
-    type: video_player_html5
     weight: 0
     region: content
   field_video_embed:
-    weight: 2
+    type: video_embed_field_video
     label: hidden
     settings:
       autoplay: true
@@ -49,16 +49,16 @@ content:
       width: 854
       height: 480
     third_party_settings: {  }
-    type: video_embed_field_video
+    weight: 2
     region: content
   field_video_poster:
     type: image_url
-    weight: 1
-    region: content
     label: hidden
     settings:
       image_style: ''
     third_party_settings: {  }
+    weight: 1
+    region: content
 hidden:
   created: true
   langcode: true

@@ -28,8 +28,8 @@ settings:
         weight: 16
         enabled: false
       basic_user_list_item:
-        enabled: true
         weight: 17
+        enabled: true
       basic_vertical_tab:
         weight: 18
         enabled: false

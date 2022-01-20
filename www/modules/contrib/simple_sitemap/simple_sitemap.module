@@ -43,6 +43,8 @@ function simple_sitemap_form_alter(&$form, FormStateInterface $form_state, $form
     '#group' => isset($form['additional_settings']) ? 'additional_settings' : 'advanced',
     '#title' => t('Simple XML Sitemap'),
     '#description' => $f->getEntityCategory() === 'instance' ? t('Settings for this entity can be overridden here.') : '',
+    '#attributes' => ['class' => ['simple-sitemap-fieldset']],
+    '#tree' => TRUE,
     '#weight' => 10,
   ];
 
@@ -91,39 +93,29 @@ function simple_sitemap_entity_form_submit(array $form, FormStateInterface $form
     return;
   }
 
-  $values = $form_state->getValues();
-
-  // Fix for values appearing in a sub array on a commerce product entity.
-  $values = $values['simple_sitemap'] ?? $values;
+  $values = $form_state->getValue('simple_sitemap');
 
   if ($f->valuesChanged($form, $values)) {
 
     /** @var \Drupal\simple_sitemap\Manager\Generator $generator */
     $generator = \Drupal::service('simple_sitemap.generator');
 
-    foreach (SimpleSitemap::loadMultiple() as $variant => $sitemap) {
+    foreach (SimpleSitemap::loadMultiple() as $variant => $sitemap) { // @todo No need to load all sitemaps here.
 
       // Variants may have changed since form load.
-      if (isset($values['index_' . $variant . '_' . $f->getEntityTypeId() . '_settings'])) {
-        $settings = [
-          'index' => (bool) $values['index_' . $variant . '_' . $f->getEntityTypeId() . '_settings'],
-          'priority' => $values['priority_' . $variant . '_' . $f->getEntityTypeId() . '_settings'],
-          'changefreq' => $values['changefreq_' . $variant . '_' . $f->getEntityTypeId() . '_settings'],
-          'include_images' => (bool) $values['include_images_' . $variant . '_' . $f->getEntityTypeId() . '_settings'],
-        ];
-
+      if (isset($values[$variant])) {
         $generator->setVariants($variant);
 
         switch ($f->getEntityCategory()) {
           case 'bundle':
-            $generator->entityManager()->setBundleSettings($f->getEntityTypeId(), $f->getBundleName(), $settings);
+            $generator->entityManager()->setBundleSettings($f->getEntityTypeId(), $f->getBundleName(), $values[$variant]);
             break;
 
           case 'instance':
             // Make sure the entity is saved first for multi-step forms,
             // see https://www.drupal.org/project/simple_sitemap/issues/3080510.
             if (!$f->entityIsNew()) {
-              $generator->entityManager()->setEntityInstanceSettings($f->getEntityTypeId(), $f->getInstanceId(), $settings);
+              $generator->entityManager()->setEntityInstanceSettings($f->getEntityTypeId(), $f->getInstanceId(), $values[$variant]);
             }
             break;
         }
@@ -131,7 +123,7 @@ function simple_sitemap_entity_form_submit(array $form, FormStateInterface $form
     }
 
     // Regenerate sitemaps according to user setting.
-    if (!empty($values['simple_sitemap_regenerate_now'])) {
+    if ($form_state->getValue('simple_sitemap_regenerate_now')) {
       $generator->setVariants()
         ->rebuildQueue()
         ->generate();

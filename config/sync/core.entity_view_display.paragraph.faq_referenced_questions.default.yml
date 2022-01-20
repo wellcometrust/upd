@@ -11,12 +11,12 @@ bundle: faq_referenced_questions
 mode: default
 content:
   field_faq_content:
-    weight: 0
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      link: true
       view_mode: default
+      link: true
     third_party_settings: {  }
-    type: entity_reference_entity_view
+    weight: 0
     region: content
 hidden: {  }

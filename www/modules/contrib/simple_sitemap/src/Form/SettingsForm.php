@@ -161,8 +161,8 @@ class SettingsForm extends SimpleSitemapFormBase {
       '#title' => $this->t('Default sitemap'),
       '#description' => $this->t('This sitemap will be available under <em>/sitemap.xml</em> in addition to its default path <em>/variant-name/sitemap.xml</em>.<br>Sitemaps can be configured <a href="@url">here</a>.', ['@url' => $GLOBALS['base_url'] . '/admin/config/search/simplesitemap']),
       '#default_value' => isset($sitemaps[$default_variant]) ? $default_variant : '',
-      '#options' => ['' => $this->t('- None -')] + array_map(function ($variant) {
-        return $variant->label();
+      '#options' => ['' => $this->t('- None -')] + array_map(function ($sitemap) {
+        return $sitemap->label();
       }, $sitemaps),
     ];
 

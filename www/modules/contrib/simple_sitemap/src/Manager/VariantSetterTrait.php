@@ -27,11 +27,10 @@ trait VariantSetterTrait {
    * @return $this
    *
    * @todo Check if variants exist and throw exception.
-   * @todo Instead of array_keys(loadMultiple()) maybe a quicker entity query to get simple_sitemap IDs (variants)?
    */
   public function setVariants($variants = NULL) {
     if ($variants === NULL) {
-      $this->variants = array_keys(SimpleSitemap::loadMultiple());
+      $this->variants = array_keys(SimpleSitemap::loadMultiple()); // @todo No need to load all sitemaps here.
     }
     else {
       $this->variants = (array) $variants;
