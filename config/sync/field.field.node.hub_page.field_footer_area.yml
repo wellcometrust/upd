@@ -22,10 +22,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       case_study_slice: case_study_slice
       video_text_block: video_text_block
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 20
@@ -39,6 +39,9 @@ settings:
       box_list:
         weight: 23
         enabled: false
+      case_study_slice:
+        weight: 28
+        enabled: true
       case_study_vertical_tab:
         weight: 24
         enabled: false
@@ -48,12 +51,12 @@ settings:
       faq_dropdowns:
         weight: 26
         enabled: false
+      faq_referenced_questions:
+        weight: 32
+        enabled: false
       file_download:
         weight: 27
         enabled: false
-      case_study_slice:
-        enabled: true
-        weight: 28
       funding:
         weight: 28
         enabled: false
@@ -69,11 +72,14 @@ settings:
       list_item:
         weight: 32
         enabled: false
-      faq_referenced_questions:
-        weight: 32
-        enabled: false
       list_with_sublist:
         weight: 33
+        enabled: false
+      referenced_link:
+        weight: 40
+        enabled: false
+      resource_links_block:
+        weight: 41
         enabled: false
       team_list:
         weight: 34
@@ -88,12 +94,6 @@ settings:
         weight: 37
         enabled: false
       video_text_block:
-        enabled: true
         weight: 38
-      referenced_link:
-        weight: 40
-        enabled: false
-      resource_links_block:
-        weight: 41
-        enabled: false
+        enabled: true
 field_type: entity_reference_revisions

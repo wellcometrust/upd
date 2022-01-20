@@ -1,7 +1,12 @@
 uuid: 5a23a36e-9300-43dd-ab14-5b28af36076b
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - eu_cookie_compliance
+    - mailchimp_signup
+    - media
+    - system
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
 id: anonymous

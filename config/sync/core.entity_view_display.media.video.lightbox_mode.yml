@@ -18,15 +18,15 @@ mode: lightbox_mode
 content:
   field_video_embed:
     type: video_embed_field_video
-    weight: 0
-    region: content
     label: hidden
     settings:
       autoplay: true
+      responsive: false
       width: 854
       height: 480
-      responsive: false
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   created: true
   field_call_to_action: true

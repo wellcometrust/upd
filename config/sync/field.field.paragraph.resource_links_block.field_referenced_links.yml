@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       referenced_link: referenced_link
+    negate: 0
     target_bundles_drag_drop:
-      resource_links_block:
-        weight: 22
-        enabled: false
       basic_title_link:
         weight: 23
         enabled: false
@@ -71,8 +68,11 @@ settings:
         weight: 36
         enabled: false
       referenced_link:
-        enabled: true
         weight: 37
+        enabled: true
+      resource_links_block:
+        weight: 22
+        enabled: false
       team_list:
         weight: 38
         enabled: false

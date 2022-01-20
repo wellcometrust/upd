@@ -5,6 +5,7 @@ dependencies: {  }
 id: master
 label: Master
 description: 'Environment configuration for the *master* branch, used as the development testing site.'
+weight: 0
 folder: ../config/master
 module:
   stage_file_proxy: 0
@@ -17,4 +18,3 @@ graylist:
   - system.performance
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0

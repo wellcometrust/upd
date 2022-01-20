@@ -5,6 +5,7 @@ dependencies: {  }
 id: local
 label: Local
 description: 'Local environment configuration for developers.'
+weight: 0
 folder: ../config/local
 module:
   admin_toolbar_tools: 0
@@ -32,4 +33,3 @@ graylist:
   - system.performance
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0

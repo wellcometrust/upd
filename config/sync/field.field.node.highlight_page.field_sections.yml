@@ -22,20 +22,20 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       basic_title_link: basic_title_link
       basic_vertical_tab: basic_vertical_tab
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
-        enabled: true
         weight: 20
+        enabled: true
       basic_user_list_item:
         weight: 21
         enabled: false
       basic_vertical_tab:
-        enabled: true
         weight: 22
+        enabled: true
       box_list:
         weight: 23
         enabled: false

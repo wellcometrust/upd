@@ -31,8 +31,8 @@ settings:
         weight: 6
         enabled: false
       grid_items:
-        enabled: true
         weight: 7
+        enabled: true
       resource_vertical_tab:
         weight: 8
         enabled: false

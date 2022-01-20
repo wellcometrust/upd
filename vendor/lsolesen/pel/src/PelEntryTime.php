@@ -22,6 +22,25 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+namespace lsolesen\pel;
+
+/**
+ * Classes used to hold ASCII strings.
+ *
+ * The classes defined here are to be used for Exif entries holding
+ * ASCII strings, such as {@link PelTag::MAKE}, {@link
+ * PelTag::SOFTWARE}, and {@link PelTag::DATE_TIME}. For
+ * entries holding normal textual ASCII strings the class {@link
+ * PelEntryAscii} should be used, but for entries holding
+ * timestamps the class {@link PelEntryTime} would be more
+ * convenient instead. Copyright information is handled by the {@link
+ * PelEntryCopyright} class.
+ *
+ * @author Martin Geisler <mgeisler@users.sourceforge.net>
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public
+ *          License (GPL)
+ * @package PEL
+ */
 
 /**
  * Class for holding a date and time.
@@ -47,8 +66,6 @@
  * @author Martin Geisler <mgeisler@users.sourceforge.net>
  * @package PEL
  */
-namespace lsolesen\pel;
-
 class PelEntryTime extends PelEntryAscii
 {
 
@@ -98,7 +115,8 @@ class PelEntryTime extends PelEntryAscii
      *            one of the constants {@link PelTag::DATE_TIME}, {@link
      *            PelTag::DATE_TIME_ORIGINAL}, or {@link
      *            PelTag::DATE_TIME_DIGITIZED}.
-     * @param integer|string|double $timestamp
+     *
+     * @param integer $timestamp
      *            the timestamp held by this entry in the correct form
      *            as indicated by the third argument. For {@link UNIX_TIMESTAMP}
      *            this is an integer counting the number of seconds since January
@@ -107,6 +125,7 @@ class PelEntryTime extends PelEntryAscii
      *            floating point number where the integer part denotes the day
      *            count and the fractional part denotes the time of day (0.25 means
      *            6:00, 0.75 means 18:00).
+     *
      * @param integer $type
      *            the type of the timestamp. This must be one of
      *            {@link UNIX_TIMESTAMP}, {@link EXIF_STRING}, or
@@ -114,7 +133,7 @@ class PelEntryTime extends PelEntryAscii
      */
     public function __construct($tag, $timestamp, $type = self::UNIX_TIMESTAMP)
     {
-        $this->tag = $tag;
+        parent::__construct($tag);
         $this->setValue($timestamp, $type);
     }
 
@@ -129,7 +148,8 @@ class PelEntryTime extends PelEntryAscii
      *            the type of the timestamp. This must be one of
      *            {@link UNIX_TIMESTAMP}, {@link EXIF_STRING}, or
      *            {@link JULIAN_DAY_COUNT}.
-     * @return integer|string|false the timestamp held by this entry in the correct form
+     *
+     * @return integer the timestamp held by this entry in the correct form
      *         as indicated by the type argument. For {@link UNIX_TIMESTAMP}
      *         this is an integer counting the number of seconds since January
      *         1st 1970, for {@link EXIF_STRING} this is a string of the form
@@ -162,14 +182,20 @@ class PelEntryTime extends PelEntryAscii
             case self::JULIAN_DAY_COUNT:
                 return $this->day_count + $this->seconds / 86400;
             default:
-                throw new PelInvalidArgumentException('Expected UNIX_TIMESTAMP (%d), ' . 'EXIF_STRING (%d), or ' . 'JULIAN_DAY_COUNT (%d) for $type, got %d.', self::UNIX_TIMESTAMP, self::EXIF_STRING, self::JULIAN_DAY_COUNT, $type);
+                throw new PelInvalidArgumentException(
+                    'Expected UNIX_TIMESTAMP (%d), ' . 'EXIF_STRING (%d), or ' . 'JULIAN_DAY_COUNT (%d) for $type, got %d.',
+                    self::UNIX_TIMESTAMP,
+                    self::EXIF_STRING,
+                    self::JULIAN_DAY_COUNT,
+                    $type
+                );
         }
     }
 
     /**
      * Update the timestamp held by this entry.
      *
-     * @param integer|float|string $timestamp
+     * @param integer $timestamp
      *            the timestamp held by this entry in the correct form
      *            as indicated by the third argument. For {@link UNIX_TIMESTAMP}
      *            this is an integer counting the number of seconds since January
@@ -178,46 +204,52 @@ class PelEntryTime extends PelEntryAscii
      *            floating point number where the integer part denotes the day
      *            count and the fractional part denotes the time of day (0.25 means
      *            6:00, 0.75 means 18:00).
+     *
      * @param integer $type
      *            the type of the timestamp. This must be one of
      *            {@link UNIX_TIMESTAMP}, {@link EXIF_STRING}, or
      *            {@link JULIAN_DAY_COUNT}.
-     * @throws PelInvalidArgumentException
      */
     public function setValue($timestamp, $type = self::UNIX_TIMESTAMP)
     {
-        if ($type === self::UNIX_TIMESTAMP) {
-            if (is_int($timestamp) || is_float($timestamp)) {
+        switch ($type) {
+            case self::UNIX_TIMESTAMP:
                 $this->day_count = $this->convertUnixToJd($timestamp);
                 $this->seconds = $timestamp % 86400;
-            } else {
-                throw new PelInvalidArgumentException('Expected integer value for $type, got %s', gettype($timestamp));
-            }
-        } elseif ($type === self::EXIF_STRING) {
-            /*
-             * Clean the timestamp: some timestamps are broken other
-             * separators than ':' and ' '.
-             */
-            $d = preg_split('/[^0-9]+/', $timestamp);
-            for ($i = 0; $i < 6; $i ++) {
-                if (empty($d[$i])) {
-                    $d[$i] = 0;
+                break;
+
+            case self::EXIF_STRING:
+                /* Clean the timestamp: some timestamps are broken other
+                 * separators than ':' and ' '. */
+                $d = preg_split('/[^0-9]+/', $timestamp);
+                for ($i = 0; $i < 6; $i ++) {
+                    if (empty($d[$i])) {
+                        $d[$i] = 0;
+                    }
                 }
-            }
-            $this->day_count = $this->convertGregorianToJd($d[0], $d[1], $d[2]);
-            $this->seconds = $d[3] * 3600 + $d[4] * 60 + $d[5];
-        } elseif ($type === self::JULIAN_DAY_COUNT) {
-            if (is_int($timestamp) || is_float($timestamp)) {
+                $this->day_count = $this->convertGregorianToJd($d[0], $d[1], $d[2]);
+                $this->seconds = $d[3] * 3600 + $d[4] * 60 + $d[5];
+                break;
+
+            case self::JULIAN_DAY_COUNT:
                 $this->day_count = (int) floor($timestamp);
                 $this->seconds = (int) (86400 * ($timestamp - floor($timestamp)));
-            } else {
-                throw new PelInvalidArgumentException('Expected integer value for $type, got %s', gettype($timestamp));
-            }
-        } else {
-            throw new PelInvalidArgumentException('Expected UNIX_TIMESTAMP (%d), ' . 'EXIF_STRING (%d), or ' . 'JULIAN_DAY_COUNT (%d) for $type, got %d.', self::UNIX_TIMESTAMP, self::EXIF_STRING, self::JULIAN_DAY_COUNT, $type);
+                break;
+
+            default:
+                throw new PelInvalidArgumentException(
+                    'Expected UNIX_TIMESTAMP (%d), ' . 'EXIF_STRING (%d), or ' . 'JULIAN_DAY_COUNT (%d) for $type, got %d.',
+                    self::UNIX_TIMESTAMP,
+                    self::EXIF_STRING,
+                    self::JULIAN_DAY_COUNT,
+                    $type
+                );
         }
 
-        // finally update the string which will be used when this is turned into bytes.
+        /*
+         * Now finally update the string which will be used when this is
+         * turned into bytes.
+         */
         parent::setValue($this->getValue(self::EXIF_STRING));
     }
 
@@ -247,14 +279,15 @@ class PelEntryTime extends PelEntryAscii
         }
 
         $m1412 = ($month <= 2) ? - 1 : 0;
-        return floor((1461 * ($year + 4800 + $m1412)) / 4) + floor((367 * ($month - 2 - 12 * $m1412)) / 12) - floor((3 * floor(($year + 4900 + $m1412) / 100)) / 4) + $day - 32075;
+        return floor((1461 * ($year + 4800 + $m1412)) / 4) + floor((367 * ($month - 2 - 12 * $m1412)) / 12) -
+             floor((3 * floor(($year + 4900 + $m1412) / 100)) / 4) + $day - 32075;
     }
 
     /**
      * Converts a Julian Day count to a year/month/day triple.
      *
-     * @param int $jd
-     *            the Julian Day count.
+     * @param
+     *            int the Julian Day count.
      * @return array an array with three entries: year, month, day.
      */
     public function convertJdToGregorian($jd)
@@ -288,20 +321,21 @@ class PelEntryTime extends PelEntryAscii
     /**
      * Converts a UNIX timestamp to a Julian Day count.
      *
-     * @param integer|float $timestamp
+     * @param integer $timestamp
      *            the timestamp.
-     * @return float the Julian Day count.
+     * @return integer the Julian Day count.
      */
     public function convertUnixToJd($timestamp)
     {
-        return floor($timestamp / 86400) + 2440588;
+        return (int) (floor($timestamp / 86400) + 2440588);
     }
 
     /**
      * Converts a Julian Day count to a UNIX timestamp.
      *
-     * @param integer|float $jd
+     * @param integer $jd
      *            the Julian Day count.
+     *
      * @return mixed $timestamp the integer timestamp or false if the
      *         day count cannot be represented as a UNIX timestamp.
      */

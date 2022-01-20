@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       testimonial: testimonial
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 23
@@ -37,13 +37,13 @@ settings:
       box_list:
         weight: 26
         enabled: false
+      case_study_slice:
+        weight: 28
+        enabled: false
       case_study_vertical_tab:
         weight: 27
         enabled: false
       dos_donts:
-        weight: 28
-        enabled: false
-      case_study_slice:
         weight: 28
         enabled: false
       faq_dropdowns:
@@ -83,8 +83,8 @@ settings:
         weight: 40
         enabled: false
       testimonial:
-        enabled: true
         weight: 41
+        enabled: true
       tile_paragraph:
         weight: 42
         enabled: false

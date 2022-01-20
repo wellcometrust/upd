@@ -22,6 +22,9 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+namespace lsolesen\pel;
+
+use lsolesen\pel\PelException;
 
 /**
  * Standard PEL exception.
@@ -39,8 +42,6 @@
  * @package PEL
  * @subpackage Exception
  */
-namespace lsolesen\pel;
-
 class PelInvalidDataException extends PelException
 {
 }

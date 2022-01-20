@@ -14,7 +14,7 @@ bundle: file_download
 mode: default
 content:
   field_download_files:
-    weight: 1
+    type: pdfpreview
     label: hidden
     settings:
       image_style: ''
@@ -23,14 +23,14 @@ content:
       fallback_formatter: file_default
       show_description: 0
     third_party_settings: {  }
-    type: pdfpreview
+    weight: 1
     region: content
   field_title:
-    weight: 0
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
 hidden: {  }

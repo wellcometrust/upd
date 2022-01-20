@@ -21,15 +21,14 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+
 namespace Pel\Test;
 
-use PHPUnit\Framework\TestCase;
-use lsolesen\pel\PelIllegalFormatException;
 use lsolesen\pel\PelJpeg;
+use PHPUnit\Framework\TestCase;
 
 class BrokenImagesTest extends TestCase
 {
-
     public function testWindowWindowExceptionIsCaught()
     {
         $jpeg = new PelJpeg(dirname(__FILE__) . '/broken_images/gh-10-a.jpg');
@@ -50,7 +49,6 @@ class BrokenImagesTest extends TestCase
 
     public function testInvalidIfd()
     {
-        $this->expectException(PelIllegalFormatException::class) ;
         $jpeg = new PelJpeg(dirname(__FILE__) . '/broken_images/gh-156.jpg');
         $this->assertInstanceOf('\lsolesen\pel\PelJpeg', $jpeg);
     }

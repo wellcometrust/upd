@@ -177,20 +177,19 @@ class QueueWorker {
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    */
   public function queue($variants = NULL): QueueWorker {
-    $all_data_sets = [];
-    $empty_variants = [];
-
     $variants = $variants !== NULL ? (array) $variants : NULL;
 
     /** @var \Drupal\simple_sitemap\Entity\SimpleSitemap[] $sitemaps */
     $sitemaps = $this->entityTypeManager->getStorage('simple_sitemap')->loadMultiple($variants);
 
+    $empty_variants = array_fill_keys(array_keys($sitemaps), TRUE);
+    $all_data_sets = [];
+
     foreach ($sitemaps as $variant => $sitemap) {
-      $data_sets = [];
       foreach ($sitemap->getType()->getUrlGenerators() as $url_generator_id => $url_generator) {
         // @todo Automatically set sitemap.
-        $data_sets = $url_generator->setSitemap($sitemap)->getDataSets();
-        foreach ($data_sets as $data_set) {
+        foreach ($url_generator->setSitemap($sitemap)->getDataSets() as $data_set) {
+          unset($empty_variants[$variant]);
           $all_data_sets[] = [
             'data' => $data_set,
             'sitemap' => $variant,
@@ -203,9 +202,6 @@ class QueueWorker {
           }
         }
       }
-      if (empty($data_sets)) {
-        $empty_variants[] = $variant;
-      }
     }
 
     if (!empty($all_data_sets)) {
@@ -215,8 +211,8 @@ class QueueWorker {
 
     // Remove all sitemap content of variants which did not yield any queue
     // elements.
-    foreach ($empty_variants as $empty_variant) {
-      $sitemaps[$empty_variant]->deleteContent();
+    foreach ($empty_variants as $variant => $is_empty) {
+      $sitemaps[$variant]->deleteContent();
     }
 
     return $this;

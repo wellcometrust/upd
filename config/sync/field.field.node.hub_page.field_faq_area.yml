@@ -22,10 +22,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       faq_dropdowns: faq_dropdowns
       faq_referenced_questions: faq_referenced_questions
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 20
@@ -46,8 +46,11 @@ settings:
         weight: 25
         enabled: false
       faq_dropdowns:
-        enabled: true
         weight: 26
+        enabled: true
+      faq_referenced_questions:
+        weight: 30
+        enabled: true
       file_download:
         weight: 27
         enabled: false
@@ -57,9 +60,6 @@ settings:
       grid_items:
         weight: 29
         enabled: false
-      faq_referenced_questions:
-        enabled: true
-        weight: 30
       hero_header_slice:
         weight: 30
         enabled: false
@@ -71,6 +71,12 @@ settings:
         enabled: false
       list_with_sublist:
         weight: 33
+        enabled: false
+      referenced_link:
+        weight: 38
+        enabled: false
+      resource_links_block:
+        weight: 39
         enabled: false
       team_list:
         weight: 34
@@ -86,11 +92,5 @@ settings:
         enabled: false
       video_text_block:
         weight: 38
-        enabled: false
-      referenced_link:
-        weight: 38
-        enabled: false
-      resource_links_block:
-        weight: 39
         enabled: false
 field_type: entity_reference_revisions

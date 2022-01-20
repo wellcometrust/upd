@@ -99,7 +99,7 @@
     "drupal/dropzonejs": "2.x",
     "drupal/entity_reference_display": "^1.0",
     "drupal/eu_cookie_compliance": "^1.9",
-    "drupal/facets": "^1.0",
+    "drupal/facets": "^2.0",
     "drupal/field_group": "^3.0",
     "drupal/google_analytics": "^2.0",
     "drupal/image_widget_crop": "^2.1",

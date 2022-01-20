@@ -21,22 +21,22 @@ widget_selector: tabs
 widget_selector_configuration: {  }
 widgets:
   ead69cc9-702b-4a29-9157-fb37f622f110:
+    id: view
+    uuid: ead69cc9-702b-4a29-9157-fb37f622f110
+    label: 'View item(s)'
+    weight: 1
     settings:
-      view: media_entity_browser
-      view_display: entity_browser_1
       submit_text: 'Select item(s)'
       auto_select: false
-    uuid: ead69cc9-702b-4a29-9157-fb37f622f110
-    weight: 1
-    label: 'View item(s)'
-    id: view
+      view: media_entity_browser
+      view_display: entity_browser_1
   115423d4-e59f-4d3b-8740-35d12bdf6684:
+    id: entity_form
+    uuid: 115423d4-e59f-4d3b-8740-35d12bdf6684
+    label: 'Upload video(s)'
+    weight: 3
     settings:
+      submit_text: 'Save video(s)'
       entity_type: media
       bundle: video
       form_mode: default
-      submit_text: 'Save video(s)'
-    uuid: 115423d4-e59f-4d3b-8740-35d12bdf6684
-    weight: 3
-    label: 'Upload video(s)'
-    id: entity_form

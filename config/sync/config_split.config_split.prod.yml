@@ -5,6 +5,7 @@ dependencies: {  }
 id: prod
 label: Prod
 description: '*Attention* Live site environment configuration for production.'
+weight: 0
 folder: ../config/prod
 module: {  }
 theme: {  }
@@ -12,4 +13,3 @@ blacklist: {  }
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0

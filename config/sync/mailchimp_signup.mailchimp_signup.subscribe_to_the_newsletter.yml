@@ -22,6 +22,7 @@ settings:
   path: ''
   submit_button: 'Sign up'
   confirmation_message: 'You have been successfully subscribed.'
+  description: ''
   destination: ''
   mergefields:
     EMAIL: 'O:8:"stdClass":8:{s:3:"tag";s:5:"EMAIL";s:4:"name";s:13:"Email Address";s:4:"type";s:5:"email";s:8:"required";b:1;s:13:"default_value";s:0:"";s:6:"public";b:1;s:13:"display_order";i:1;s:7:"options";O:8:"stdClass":1:{s:4:"size";i:25;}}'
@@ -29,7 +30,6 @@ settings:
     LNAME: 'O:8:"stdClass":12:{s:8:"merge_id";i:2;s:3:"tag";s:5:"LNAME";s:4:"name";s:9:"Last Name";s:4:"type";s:4:"text";s:8:"required";b:0;s:13:"default_value";s:0:"";s:6:"public";b:1;s:13:"display_order";i:3;s:7:"options";O:8:"stdClass":1:{s:4:"size";i:25;}s:9:"help_text";s:0:"";s:7:"list_id";s:10:"e490f201fa";s:6:"_links";a:4:{i:0;O:8:"stdClass":4:{s:3:"rel";s:4:"self";s:4:"href";s:66:"https://us16.api.mailchimp.com/3.0/lists/e490f201fa/merge-fields/2";s:6:"method";s:3:"GET";s:12:"targetSchema";s:85:"https://us16.api.mailchimp.com/schema/3.0/Definitions/Lists/MergeFields/Response.json";}i:1;O:8:"stdClass":5:{s:3:"rel";s:6:"parent";s:4:"href";s:64:"https://us16.api.mailchimp.com/3.0/lists/e490f201fa/merge-fields";s:6:"method";s:3:"GET";s:12:"targetSchema";s:95:"https://us16.api.mailchimp.com/schema/3.0/Definitions/Lists/MergeFields/CollectionResponse.json";s:6:"schema";s:80:"https://us16.api.mailchimp.com/schema/3.0/CollectionLinks/Lists/MergeFields.json";}i:2;O:8:"stdClass":5:{s:3:"rel";s:6:"update";s:4:"href";s:66:"https://us16.api.mailchimp.com/3.0/lists/e490f201fa/merge-fields/2";s:6:"method";s:5:"PATCH";s:12:"targetSchema";s:85:"https://us16.api.mailchimp.com/schema/3.0/Definitions/Lists/MergeFields/Response.json";s:6:"schema";s:82:"https://us16.api.mailchimp.com/schema/3.0/Definitions/Lists/MergeFields/PATCH.json";}i:3;O:8:"stdClass":3:{s:3:"rel";s:6:"delete";s:4:"href";s:66:"https://us16.api.mailchimp.com/3.0/lists/e490f201fa/merge-fields/2";s:6:"method";s:6:"DELETE";}}}'
     MMERGE3: '0'
     MMERGE4: '0'
-  description: ''
   doublein: true
   include_interest_groups: true
   safe_interest_groups: false

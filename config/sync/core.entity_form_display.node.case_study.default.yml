@@ -37,15 +37,15 @@ third_party_settings:
         - group_main_content_casestudy
         - group_tabbed_content
         - group_categorisation_casestudy
+      label: Content
+      region: content
       parent_name: ''
       weight: 0
       format_type: tabs
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         direction: vertical
-      label: Content
-      region: content
     group_main_content_casestudy:
       children:
         - title
@@ -55,17 +55,17 @@ third_party_settings:
         - field_list_text
         - field_thumbnail
         - field_pdf
+      label: 'Main Content'
+      region: content
       parent_name: group_content_casestudy
       weight: 20
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Main Content'
-      region: content
     group_categorisation_casestudy:
       children:
         - field_sources_of_data
@@ -74,31 +74,31 @@ third_party_settings:
         - field_type_of_user
         - field_geographical_area
         - field_key_words
+      label: Categorisation
+      region: content
       parent_name: group_content_casestudy
       weight: 22
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: Categorisation
-      region: content
     group_tabbed_content:
       children:
         - field_vertical_tab
+      label: 'Tabbed Content'
+      region: content
       parent_name: group_content_casestudy
       weight: 21
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Tabbed Content'
-      region: content
 id: node.case_study.default
 targetEntityType: node
 bundle: case_study
@@ -107,55 +107,55 @@ content:
   created:
     type: datetime_timestamp
     weight: 6
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   field_disease_type:
     type: entity_reference_autocomplete
     weight: 13
     region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
   field_geographical_area:
+    type: entity_reference_autocomplete
     weight: 15
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_has_media:
+    type: options_buttons
     weight: 7
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_buttons
-    region: content
   field_impact_of_work:
     type: entity_reference_autocomplete
     weight: 12
     region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
   field_key_words:
+    type: entity_reference_autocomplete_tags
     weight: 16
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
-    type: entity_reference_autocomplete_tags
-    region: content
   field_list_text:
     type: string_textarea
     weight: 5
@@ -183,9 +183,9 @@ content:
     region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
   field_standfirst:
     type: string_textarea
@@ -204,15 +204,15 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
   field_type_of_user:
+    type: entity_reference_autocomplete
     weight: 14
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_vertical_tab:
     type: paragraphs
     weight: 5
@@ -221,28 +221,28 @@ content:
       title: Paragraph
       title_plural: Paragraphs
       edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
       closed_mode: summary
       autocollapse: none
       closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
       features:
-        duplicate: duplicate
         collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
     third_party_settings: {  }
   field_video:
-    weight: 3
-    settings: {  }
-    third_party_settings: {  }
     type: video_embed_field_textfield
+    weight: 3
     region: content
-  field_video_position:
-    weight: 4
     settings: {  }
     third_party_settings: {  }
+  field_video_position:
     type: options_select
+    weight: 4
     region: content
+    settings: {  }
+    third_party_settings: {  }
   langcode:
     type: language_select
     weight: 3
@@ -253,40 +253,40 @@ content:
   moderation_state:
     type: moderation_state_default
     weight: 8
-    settings: {  }
     region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
     weight: 1
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   status:
     type: boolean_checkbox
+    weight: 5
+    region: content
     settings:
       display_label: true
-    weight: 5
     third_party_settings: {  }
-    region: content
   title:
     type: string_textfield
     weight: 1
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 4
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
-    region: content
 hidden:
   field_featured: true
   promote: true

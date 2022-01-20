@@ -15,44 +15,44 @@ third_party_settings:
       children:
         - group_main_content_resource_link
         - group_links
+      label: Content
+      region: content
       parent_name: ''
       weight: 0
       format_type: tabs
       format_settings:
         label: Content
-        direction: horizontal
-        id: ''
         classes: ''
-      label: Content
-      region: content
+        id: ''
+        direction: horizontal
     group_main_content_resource_link:
       children:
         - field_title
+      label: 'Main Content'
+      region: content
       parent_name: group_content_resource_link
       weight: 22
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Main Content'
-      region: content
     group_links:
       children:
         - field_referenced_links
+      label: Links
+      region: content
       parent_name: group_content_resource_link
       weight: 23
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: Links
-      region: content
 id: paragraph.resource_links_block.default
 targetEntityType: paragraph
 bundle: resource_links_block
@@ -61,6 +61,7 @@ content:
   field_referenced_links:
     type: entity_reference_paragraphs
     weight: 23
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -69,15 +70,14 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-    region: content
   field_title:
+    type: string_textfield
     weight: 21
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
 hidden:
   created: true
   status: true

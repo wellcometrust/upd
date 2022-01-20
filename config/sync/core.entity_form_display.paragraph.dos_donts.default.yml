@@ -13,13 +13,13 @@ bundle: dos_donts
 mode: default
 content:
   field_dos_and_donts:
+    type: text_textarea
     weight: 6
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
 hidden:
   created: true
   status: true

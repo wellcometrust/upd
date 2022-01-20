@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       hero_header_slice: hero_header_slice
+    negate: 0
     target_bundles_drag_drop:
       basic_title_link:
         weight: 19
@@ -55,12 +55,12 @@ settings:
       grid_items:
         weight: 28
         enabled: false
+      hero_header_slice:
+        weight: 30
+        enabled: true
       image:
         weight: 29
         enabled: false
-      hero_header_slice:
-        enabled: true
-        weight: 30
       list_item:
         weight: 30
         enabled: false

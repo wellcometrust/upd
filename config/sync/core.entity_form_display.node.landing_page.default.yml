@@ -31,89 +31,89 @@ third_party_settings:
         - group_three_column_grid_landing
         - group_main_content
         - group_related_content_landing
+      label: Content
+      region: content
       parent_name: ''
       weight: 0
       format_type: tabs
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         direction: vertical
-      label: Content
-      region: content
     group_three_column_grid_landing:
       children:
         - field_3_items_grid
+      label: 'Three column grid'
+      region: content
       parent_name: group_content_landing
       weight: 23
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Three column grid'
-      region: content
     group_testimonial_landing:
       children:
         - field_testimonial
+      label: Testimonial
+      region: content
       parent_name: group_content_landing
       weight: 22
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: Testimonial
-      region: content
     group_related_content_landing:
       children:
         - field_featured_articles
         - field_case_studies
+      label: 'Related Content'
+      region: content
       parent_name: group_content_landing
       weight: 25
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Related Content'
-      region: content
     group_main_content:
       children:
         - field_content_area
         - field_footer_area
+      label: 'Main Content'
+      region: content
       parent_name: group_content_landing
       weight: 24
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: open
         description: ''
         required_fields: true
-      label: 'Main Content'
-      region: content
     group_header_content:
       children:
         - title
         - field_standfirst
         - field_hero_intro
+      label: 'Header Content'
+      region: content
       parent_name: group_content_landing
       weight: 20
       format_type: tab
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
         description: ''
         required_fields: true
-      label: 'Header Content'
-      region: content
 id: node.landing_page.default
 targetEntityType: node
 bundle: landing_page
@@ -122,12 +122,13 @@ content:
   created:
     type: datetime_timestamp
     weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   field_3_items_grid:
     type: entity_reference_paragraphs
     weight: 3
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -136,7 +137,6 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-    region: content
   field_case_studies:
     type: entity_browser_entity_reference
     weight: 12
@@ -144,72 +144,72 @@ content:
     settings:
       entity_browser: article_browser_case_study
       field_widget_display: label
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_edit: false
+      field_widget_remove: true
       field_widget_replace: false
       open: false
       field_widget_display_settings: {  }
+      selection_mode: selection_append
     third_party_settings: {  }
   field_content_area:
+    type: paragraphs
     weight: 26
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
       edit_mode: open
       closed_mode: summary
       autocollapse: none
+      closed_mode_threshold: 0
       add_mode: dropdown
       form_display_mode: default
       default_paragraph_type: ''
       features:
-        duplicate: duplicate
         collapse_edit_all: collapse_edit_all
-      closed_mode_threshold: 0
+        duplicate: duplicate
     third_party_settings: {  }
-    type: paragraphs
-    region: content
   field_featured_articles:
+    type: entity_browser_entity_reference
     weight: 10
+    region: content
     settings:
       entity_browser: article_browser_news
       field_widget_display: label
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_edit: false
+      field_widget_remove: true
       field_widget_replace: false
       open: false
       field_widget_display_settings: {  }
+      selection_mode: selection_append
     third_party_settings: {  }
-    type: entity_browser_entity_reference
-    region: content
   field_footer_area:
+    type: paragraphs
     weight: 28
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
       edit_mode: open
       closed_mode: summary
       autocollapse: none
+      closed_mode_threshold: 0
       add_mode: dropdown
       form_display_mode: default
       default_paragraph_type: _none
       features:
-        duplicate: duplicate
-        collapse_edit_all: collapse_edit_all
         add_above: '0'
-      closed_mode_threshold: 0
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
     third_party_settings: {  }
-    type: paragraphs
-    region: content
   field_hero_intro:
+    type: string_textarea
     weight: 4
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: string_textarea
-    region: content
   field_metatags:
     type: metatag_firehose
     weight: 7
@@ -217,16 +217,17 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_standfirst:
+    type: text_textarea
     weight: 3
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_testimonial:
     type: entity_reference_paragraphs
     weight: 12
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -235,7 +236,6 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-    region: content
   langcode:
     type: language_select
     weight: 1
@@ -246,54 +246,54 @@ content:
   moderation_state:
     type: moderation_state_default
     weight: 9
-    settings: {  }
     region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
     weight: 6
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   promote:
     type: boolean_checkbox
+    weight: 4
+    region: content
     settings:
       display_label: true
-    weight: 4
     third_party_settings: {  }
-    region: content
   status:
     type: boolean_checkbox
+    weight: 8
+    region: content
     settings:
       display_label: true
-    weight: 8
     third_party_settings: {  }
-    region: content
   sticky:
     type: boolean_checkbox
+    weight: 5
+    region: content
     settings:
       display_label: true
-    weight: 5
     third_party_settings: {  }
-    region: content
   title:
     type: string_textfield
     weight: 1
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 2
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
     third_party_settings: {  }
-    region: content
   url_redirects:
     weight: 50
     region: content
