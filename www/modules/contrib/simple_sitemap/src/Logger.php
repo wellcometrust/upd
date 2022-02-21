@@ -89,7 +89,7 @@ class Logger {
    *
    * @return $this
    */
-  public function m($message, array $substitutions = []): Logger {
+  public function m(string $message, array $substitutions = []): Logger {
     $this->message = $message;
     $this->substitutions = $substitutions;
     return $this;

@@ -1,5 +1,5 @@
 colorbox:
-  remote: http://github.com/jackmoore/colorbox
+  remote: https://github.com/jackmoore/colorbox
   version: VERSION
   license:
     name: MIT
@@ -11,7 +11,7 @@ colorbox:
     - core/jquery.once
 
 colorbox-dev:
-  remote: http://github.com/jackmoore/colorbox
+  remote: https://github.com/jackmoore/colorbox
   version: VERSION
   license:
     name: MIT

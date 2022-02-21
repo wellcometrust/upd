@@ -5,20 +5,20 @@ packages:
     ckeditor/tabletoolstoolbar: 0.0.1
     colorbox/colorbox.js: 1.6.4
     composer/installers: v1.12.0
-    composer/semver: 3.2.7
+    composer/semver: 3.2.9
     consolidation/annotated-command: 4.5.1
     consolidation/config: 1.2.1
     consolidation/filter-via-dot-access-data: 1.0.0
-    consolidation/log: 2.0.4
-    consolidation/output-formatters: 4.2.1
-    consolidation/robo: 3.0.7
-    consolidation/self-update: 2.0.3
+    consolidation/log: 2.1.0
+    consolidation/output-formatters: 4.2.2
+    consolidation/robo: 3.0.8
+    consolidation/self-update: 2.0.5
     consolidation/site-alias: 3.1.3
     consolidation/site-process: 4.1.3
-    cweagans/composer-patches: 1.7.1
+    cweagans/composer-patches: 1.7.2
     dflydev/dot-access-configuration: v1.0.3
     dflydev/dot-access-data: v1.1.0
-    dflydev/placeholder-resolver: v1.0.2
+    dflydev/placeholder-resolver: v1.0.3
     doctrine/annotations: 1.13.2
     doctrine/cache: 1.12.1
     doctrine/collections: 1.6.8
@@ -29,10 +29,10 @@ packages:
     doctrine/persistence: 1.3.8
     doctrine/reflection: 1.2.2
     dropzone/dropzone.js: 4.3.0
-    drupal/admin_toolbar: 3.0.3
+    drupal/admin_toolbar: 3.1.0
     drupal/ckeditor_tabletoolstoolbar: 2.0.0-rc1
     drupal/color_field: 2.5.0
-    drupal/colorbox: 1.7.0
+    drupal/colorbox: 1.8.0
     drupal/colorbox_load: 1.2.0
     drupal/config_filter: 1.8.0
     drupal/config_split: 1.7.0
@@ -40,8 +40,8 @@ packages:
     drupal/console-core: 1.9.7
     drupal/console-en: v1.9.7
     drupal/console-extend-plugin: 0.9.5
-    drupal/core: 9.3.3
-    drupal/core-composer-scaffold: 9.3.3
+    drupal/core: 9.3.6
+    drupal/core-composer-scaffold: 9.3.6
     drupal/crop: 2.1.0
     drupal/ctools: 3.7.0
     drupal/devel: 4.1.3
@@ -52,9 +52,9 @@ packages:
     drupal/entity_reference_display: 1.4.0
     drupal/entity_reference_revisions: 1.9.0
     drupal/eu_cookie_compliance: 1.19.0
-    drupal/facets: 2.0.0
+    drupal/facets: 2.0.1
     drupal/field_group: 3.2.0
-    drupal/file_mdm: 2.2.0
+    drupal/file_mdm: 2.3.0
     drupal/google_analytics: 2.5.0
     drupal/image_widget_crop: 2.3.0
     drupal/imagemagick: 3.2.0
@@ -72,14 +72,14 @@ packages:
     drupal/page_manager: 4.0.0-beta6
     drupal/panels: 4.6.0
     drupal/paragraphs: 1.12.0
-    drupal/pathauto: 1.8.0
+    drupal/pathauto: 1.9.0
     drupal/pdfpreview: 1.0.0
     drupal/rabbit_hole: 1.0.0-beta10
     drupal/redirect: 1.7.0
     drupal/scheduled_publish: 3.9.0
-    drupal/search_api: 1.20.0
-    drupal/search_api_solr: 4.2.1
-    drupal/simple_sitemap: 4.0.1
+    drupal/search_api: 1.23.0
+    drupal/search_api_solr: 4.2.7
+    drupal/simple_sitemap: 4.1.1
     drupal/sophron: 1.1.0
     drupal/stage_file_proxy: 1.2.0
     drupal/token: 1.10.0
@@ -98,9 +98,9 @@ packages:
     laminas/laminas-diactoros: 2.8.0
     laminas/laminas-escaper: 2.9.0
     laminas/laminas-feed: 2.16.0
-    laminas/laminas-stdlib: 3.7.0
+    laminas/laminas-stdlib: 3.7.1
     league/container: 3.4.1
-    lsolesen/pel: 0.9.9
+    lsolesen/pel: 0.9.11
     maennchen/zipstream-php: 2.1.0
     masterminds/html5: 2.7.5
     myclabs/php-enum: 1.8.3
@@ -119,26 +119,26 @@ packages:
     psr/log: 1.1.4
     psy/psysh: v0.10.12
     ralouphie/getallheaders: 3.0.3
-    solarium/solarium: 6.2.1
+    solarium/solarium: 6.2.3
     stack/builder: v1.0.6
     stecman/symfony-console-completion: 0.11.0
     symfony-cmf/routing: 2.3.4
-    symfony/config: v4.4.36
-    symfony/console: v4.4.36
-    symfony/css-selector: v4.4.27
-    symfony/debug: v4.4.36
-    symfony/dependency-injection: v4.4.36
+    symfony/config: v4.4.37
+    symfony/console: v4.4.37
+    symfony/css-selector: v4.4.37
+    symfony/debug: v4.4.37
+    symfony/dependency-injection: v4.4.37
     symfony/deprecation-contracts: v2.5.0
-    symfony/dom-crawler: v4.4.36
-    symfony/error-handler: v4.4.36
-    symfony/event-dispatcher: v4.4.34
+    symfony/dom-crawler: v4.4.37
+    symfony/error-handler: v4.4.37
+    symfony/event-dispatcher: v4.4.37
     symfony/event-dispatcher-contracts: v1.1.11
-    symfony/filesystem: v4.4.27
-    symfony/finder: v4.4.36
+    symfony/filesystem: v4.4.37
+    symfony/finder: v4.4.37
     symfony/http-client-contracts: v2.5.0
-    symfony/http-foundation: v4.4.36
-    symfony/http-kernel: v4.4.36
-    symfony/mime: v5.4.2
+    symfony/http-foundation: v4.4.37
+    symfony/http-kernel: v4.4.37
+    symfony/mime: v5.4.3
     symfony/polyfill-ctype: v1.24.0
     symfony/polyfill-iconv: v1.24.0
     symfony/polyfill-intl-idn: v1.24.0
@@ -148,18 +148,18 @@ packages:
     symfony/polyfill-php73: v1.24.0
     symfony/polyfill-php80: v1.24.0
     symfony/polyfill-php81: v1.24.0
-    symfony/process: v4.4.36
+    symfony/process: v4.4.37
     symfony/psr-http-message-bridge: v2.1.2
-    symfony/routing: v4.4.34
-    symfony/serializer: v4.4.36
+    symfony/routing: v4.4.37
+    symfony/serializer: v4.4.37
     symfony/service-contracts: v2.5.0
-    symfony/translation: v4.4.34
+    symfony/translation: v4.4.37
     symfony/translation-contracts: v2.5.0
-    symfony/validator: v4.4.36
-    symfony/var-dumper: v5.4.2
-    symfony/yaml: v4.4.36
+    symfony/validator: v4.4.37
+    symfony/var-dumper: v5.4.3
+    symfony/yaml: v4.4.37
     thinkshout/mailchimp-api-php: v2.1.3
-    twig/twig: v2.14.10
+    twig/twig: v2.14.11
     typo3/phar-stream-wrapper: v3.1.7
     webflo/drupal-finder: 1.2.2
     webmozart/assert: 1.10.0

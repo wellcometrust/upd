@@ -12,6 +12,7 @@
 
 /**
  * Alter the generated link data before the sitemap is saved.
+ *
  * This hook gets invoked for every sitemap chunk generated.
  *
  * @param array &$links

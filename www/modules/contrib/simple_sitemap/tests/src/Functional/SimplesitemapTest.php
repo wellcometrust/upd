@@ -611,7 +611,9 @@ class SimplesitemapTest extends SimplesitemapTestBase {
   /**
    * Test resuming sitemap generation.
    *
-   * @throws \Drupal\Component\Plugin\Exception\PluginException|\Drupal\Core\Entity\EntityStorageException
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   *
    * @dataProvider generationResumeProvider
    */
   public function testGenerationResume($element_count, $generate_duration, $max_links, $langcodes = []) {
@@ -634,7 +636,7 @@ class SimplesitemapTest extends SimplesitemapTestBase {
 
     $this->generator->rebuildQueue();
     $generate_count = 0;
-    /** @var QueueWorker $queue_worker */
+    /** @var \Drupal\simple_sitemap\Queue\QueueWorker $queue_worker */
     $queue_worker = \Drupal::service('simple_sitemap.queue_worker');
     while ($queue_worker->generationInProgress()) {
       $generate_count++;

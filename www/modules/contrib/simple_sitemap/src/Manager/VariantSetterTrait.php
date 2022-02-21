@@ -30,7 +30,8 @@ trait VariantSetterTrait {
    */
   public function setVariants($variants = NULL) {
     if ($variants === NULL) {
-      $this->variants = array_keys(SimpleSitemap::loadMultiple()); // @todo No need to load all sitemaps here.
+      // @todo No need to load all sitemaps here.
+      $this->variants = array_keys(SimpleSitemap::loadMultiple());
     }
     else {
       $this->variants = (array) $variants;

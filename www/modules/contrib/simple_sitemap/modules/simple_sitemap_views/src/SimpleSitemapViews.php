@@ -209,7 +209,7 @@ class SimpleSitemapViews {
       // Required arguments.
       foreach ($bits as $bit) {
         if ($bit == '%' || strpos($bit, '%') === 0) {
-          $indexable_arguments[] = isset($arguments[$arg_index]) ? $arguments[$arg_index] : $bit;
+          $indexable_arguments[] = $arguments[$arg_index] ?? $bit;
           $arg_index++;
         }
       }

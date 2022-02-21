@@ -19,8 +19,8 @@ simple_sitemap.types:
 simple_sitemap.settings:
   route_name: simple_sitemap.settings
   title: 'Settings'
-  base_route: entity.simple_sitemap.collection
-  weight: 0
+  parent_id: simple_sitemap.sitemaps
+  weight: 1
 
 simple_sitemap.inclusion:
   route_name: simple_sitemap.entities
@@ -32,10 +32,10 @@ simple_sitemap.entities:
   route_name: simple_sitemap.entities
   title: 'Entities'
   parent_id: simple_sitemap.inclusion
-  weight: 0
+  weight: -1
 
 simple_sitemap.custom:
   route_name: simple_sitemap.custom
   title: 'Custom links'
   parent_id: simple_sitemap.inclusion
-  weight: 1
+  weight: 0

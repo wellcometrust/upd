@@ -19,7 +19,7 @@ use Drupal\simple_sitemap\Plugin\simple_sitemap\SitemapGenerator\SitemapGenerato
  *     plural = "@count sitemap types",
  *   ),
  *   handlers = {
- *     "storage" = "Drupal\simple_sitemap\Entity\SimpleSitemapTypeStorage",
+ *     "storage" = "\Drupal\simple_sitemap\Entity\SimpleSitemapTypeStorage",
  *     "list_builder" = "\Drupal\simple_sitemap\SimpleSitemapTypeListBuilder",
  *     "form" = {
  *       "default" = "\Drupal\simple_sitemap\Form\SimpleSitemapTypeEntityForm",
@@ -49,8 +49,6 @@ use Drupal\simple_sitemap\Plugin\simple_sitemap\SitemapGenerator\SitemapGenerato
  *     "collection" = "/admin/config/search/simplesitemap/types",
  *   },
  * )
- *
- * @todo Implement dependency injection after https://www.drupal.org/project/drupal/issues/2142515 is fixed.
  */
 class SimpleSitemapType extends ConfigEntityBase implements SimpleSitemapTypeInterface {
 

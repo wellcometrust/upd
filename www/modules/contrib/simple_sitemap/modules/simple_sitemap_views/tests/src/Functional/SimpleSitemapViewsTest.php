@@ -34,7 +34,7 @@ class SimpleSitemapViewsTest extends SimpleSitemapViewsTestBase {
     $this->assertNotEmpty($indexable_views);
 
     $test_view_exists = FALSE;
-    foreach ($indexable_views as &$view) {
+    foreach ($indexable_views as $view) {
       if ($view->id() == $this->testView->id() && $view->current_display == $this->testView->current_display) {
         $test_view_exists = TRUE;
         break;
