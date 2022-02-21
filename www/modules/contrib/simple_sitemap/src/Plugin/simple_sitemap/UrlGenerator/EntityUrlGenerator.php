@@ -156,18 +156,18 @@ class EntityUrlGenerator extends EntityUrlGeneratorBase {
           if ($bundle_settings['index']) {
             $query = $entityTypeStorage->getQuery();
 
-          if (!empty($keys['id'])) {
-            $query->sort($keys['id']);
-          }
-          if (!empty($keys['bundle'])) {
-            $query->condition($keys['bundle'], $bundle_name);
-          }
-          if (!empty($keys['published'])) {
-            $query->condition($keys['published'], 1);
-          }
-          elseif (!empty($keys['status'])) {
-            $query->condition($keys['status'], 1);
-          }
+            if (!empty($keys['id'])) {
+              $query->sort($keys['id']);
+            }
+            if (!empty($keys['bundle'])) {
+              $query->condition($keys['bundle'], $bundle_name);
+            }
+            if (!empty($keys['published'])) {
+              $query->condition($keys['published'], 1);
+            }
+            elseif (!empty($keys['status'])) {
+              $query->condition($keys['status'], 1);
+            }
 
             // Shift access check to EntityUrlGeneratorBase for language
             // specific access.

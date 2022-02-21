@@ -2,6 +2,7 @@
 
 namespace Drupal\simple_sitemap\Form;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\simple_sitemap\Entity\EntityHelper;
@@ -47,6 +48,13 @@ class FormHelper {
    * @var \Drupal\Core\Form\FormStateInterface
    */
   protected $formState;
+
+  /**
+   * Form entity.
+   *
+   * @var \Drupal\Core\Entity\EntityInterface
+   */
+  protected $entity;
 
   /**
    * The entity category.
@@ -168,24 +176,26 @@ class FormHelper {
    *
    * @return bool
    *   Whether the processed form is supported.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function processForm(FormStateInterface $form_state): bool {
-    // Do not alter the form if user lacks certain permissions.
-    if (!$this->currentUser->hasPermission('administer sitemap settings')) {
-      return FALSE;
-    }
-
     $this->formState = $form_state;
     $this->cleanUpFormInfo();
 
-    if ($this->getEntityDataFromFormEntity()) {
-      $this->negotiateSettings();
-    }
+    return $this->userAccess()
+      && $this->getFormEntity()
+      && $this->getFormEntityData()
+      && $this->generator->entityManager()
+        ->entityTypeIsEnabled($this->getEntityTypeId());
+  }
 
-    return $this->supports();
+  /**
+   * Determine if the current user has access to administer sitemap settings.
+   *
+   * @return bool
+   *   Returns whether the user has access to administer sitemap settings.
+   */
+  protected function userAccess(): bool {
+    return $this->currentUser->hasPermission('administer sitemap settings');
   }
 
   /**
@@ -198,7 +208,18 @@ class FormHelper {
    */
   public function setEntityCategory(?string $entity_category): FormHelper {
     $this->entityCategory = $entity_category;
+
     return $this;
+  }
+
+  /**
+   * Gets the form entity.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   *   The form entity.
+   */
+  public function getEntity(): ?EntityInterface {
+    return $this->entity;
   }
 
   /**
@@ -284,34 +305,13 @@ class FormHelper {
   }
 
   /**
-   * Determines whether the currently processed form is supported.
-   *
-   * @return bool
-   *   Whether the currently processed form is supported.
-   */
-  protected function supports(): bool {
-
-    // Do not alter the form if it is irrelevant to sitemap generation.
-    if (empty($this->getEntityCategory())) {
-      return FALSE;
-    }
-
-    // Do not alter the form if entity is not enabled in sitemap settings.
-    if (!$this->generator->entityManager()->entityTypeIsEnabled($this->getEntityTypeId())) {
-      return FALSE;
-    }
-
-    return TRUE;
-  }
-
-  /**
    * Determines whether the entity is new.
    *
    * @return bool
    *   TRUE if the entity is new, or FALSE if the entity has already been saved.
    */
   public function entityIsNew(): bool {
-    return empty($entity = $this->getFormEntity()) || $entity->isNew();
+    return $this->entity === NULL || $this->entity->isNew();
   }
 
   /**
@@ -338,14 +338,14 @@ class FormHelper {
   }
 
   /**
-   * Performs settings negotiation.
+   * Gathers sitemap settings for set entity.
    *
    * @return $this
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function negotiateSettings(): FormHelper {
+  protected function getEntitySitemapSettings(): FormHelper {
     $this->bundleSettings = $this->generator
       ->setVariants()
       ->entityManager()
@@ -375,9 +375,13 @@ class FormHelper {
    *
    * @return $this
    *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   *
    * @todo Refactor.
    */
   public function displayEntitySettings(array &$form_fragment): FormHelper {
+
     $bundle_name = !empty($this->getBundleName())
       ? $this->entityHelper->getBundleLabel($this->getEntityTypeId(), $this->getBundleName())
       : $this->t('undefined');
@@ -387,6 +391,7 @@ class FormHelper {
       ? $this->t('At least one sitemap needs to be defined for a bundle to be indexable.<br>Sitemaps can be configured <a href="@url">here</a>.', ['@url' => $GLOBALS['base_url'] . '/admin/config/search/simplesitemap'])
       : '<strong>' . $this->t('Sitemaps') . '</strong>';
 
+    $this->getEntitySitemapSettings();
     foreach ($sitemaps as $variant => $sitemap) {
       $form_fragment[$variant] = [
         '#type' => 'details',
@@ -453,7 +458,7 @@ class FormHelper {
         '#description' => $this->getEntityCategory() === 'instance'
         ? $this->t('The frequency with which this <em>@bundle</em> entity changes. Search engine bots may take this as an indication of how often to index it.', ['@bundle' => $bundle_name])
         : $this->t('The frequency with which entities of this type change. Search engine bots may take this as an indication of how often to index them.'),
-        '#default_value' => isset($this->bundleSettings[$variant]['changefreq']) ? $this->bundleSettings[$variant]['changefreq'] : NULL,
+        '#default_value' => $this->bundleSettings[$variant]['changefreq'] ?? NULL,
         '#options' => $this->getChangefreqSelectValues(),
       ];
 
@@ -502,19 +507,13 @@ class FormHelper {
   }
 
   /**
-   * Checks if this particular form is a bundle form, or a bundle instance form.
-   *
-   * Also gathers sitemap settings from the database.
+   * Gathers info about the entity.
    *
    * @return bool
    *   TRUE if this is a bundle or bundle instance form, FALSE otherwise.
    */
-  protected function getEntityDataFromFormEntity(): bool {
-    if (!$form_entity = $this->getFormEntity()) {
-      return FALSE;
-    }
-
-    $entity_type_id = $form_entity->getEntityTypeId();
+  protected function getFormEntityData(): bool {
+    $entity_type_id = $this->entity->getEntityTypeId();
     $sitemap_entity_types = $this->entityHelper->getSupportedEntityTypes();
     if (isset($sitemap_entity_types[$entity_type_id])) {
       $this->setEntityCategory('instance');
@@ -538,39 +537,34 @@ class FormHelper {
 
     switch ($this->getEntityCategory()) {
       case 'bundle':
-        $this->setEntityTypeId($this->entityHelper->getBundleEntityTypeId($form_entity));
-        $this->setBundleName($form_entity->id());
+        $this->setEntityTypeId($this->entityHelper->getBundleEntityTypeId($this->entity));
+        $this->setBundleName($this->entity->id());
         $this->setInstanceId(NULL);
-        break;
+        return TRUE;
 
       case 'instance':
         $this->setEntityTypeId($entity_type_id);
-        $this->setBundleName($this->entityHelper->getEntityInstanceBundleName($form_entity));
+        $this->setBundleName($this->entityHelper->getEntityInstanceBundleName($this->entity));
         // New menu link's id is '' instead of NULL, hence checking for empty.
-        $this->setInstanceId(!$this->entityIsNew() ? $form_entity->id() : NULL);
-        break;
+        $this->setInstanceId(!$this->entityIsNew() ? $this->entity->id() : NULL);
+        return TRUE;
 
       default:
         return FALSE;
     }
-
-    return TRUE;
   }
 
   /**
-   * Gets the object entity of the form if available.
-   *
-   * @return \Drupal\Core\Entity\EntityBase|false
-   *   Entity or FALSE if non-existent or if form operation is
-   *   'delete'.
+   * Sets the object entity of the form if available.
    */
-  protected function getFormEntity() {
+  protected function getFormEntity(): bool {
     $form_object = $this->formState->getFormObject();
     if (NULL !== $form_object
       && method_exists($form_object, 'getOperation')
       && method_exists($form_object, 'getEntity')
-      && in_array($form_object->getOperation(), self::$allowedFormOperations, TRUE)) {
-      return $form_object->getEntity();
+      && in_array($form_object->getOperation(), static::$allowedFormOperations, TRUE)) {
+      $this->entity = $form_object->getEntity();
+      return TRUE;
     }
 
     return FALSE;
@@ -585,6 +579,7 @@ class FormHelper {
    * @return $this
    */
   public function cleanUpFormInfo(): FormHelper {
+    $this->entity = NULL;
     $this->entityCategory = NULL;
     $this->entityTypeId = NULL;
     $this->bundleName = NULL;
@@ -592,36 +587,6 @@ class FormHelper {
     $this->bundleSettings = NULL;
 
     return $this;
-  }
-
-  /**
-   * Checks if simple_sitemap values have been changed after the form submit.
-   *
-   * To be used in an entity form submit.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param array $values
-   *   The simple_sitemap values.
-   *
-   * @return bool
-   *   TRUE if simple_sitemap form values have been altered by the user.
-   *
-   * @todo Make it work with variants.
-   */
-  public function valuesChanged(array $form, array $values): bool {
-    // @codingStandardsIgnoreStart
-//    foreach (self::$valuesToCheck as $field_name) {
-//      if (!isset($form['simple_sitemap'][$field_name]['#default_value'])
-//        || (isset($values[$field_name]) && $values[$field_name] != $form['simple_sitemap'][$field_name]['#default_value'])) {
-//        return TRUE;
-//      }
-//    }
-//
-//    return FALSE;
-    // @codingStandardsIgnoreEnd
-
-    return TRUE;
   }
 
   /**
@@ -729,6 +694,30 @@ class FormHelper {
    */
   public static function getDonationText(): string {
     return '<div class="description">' . t('If you would like to say thanks and support the development of this module, a <a target="_blank" href="@url">donation</a> will be much appreciated.', ['@url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5AFYRSBLGSC3W']) . '</div>';
+  }
+
+  /**
+   * Adds a submit handler to a form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param callable $callback
+   *   The submit handler.
+   */
+  public static function addSubmitHandler(array &$form, callable $callback) {
+    if (isset($form['actions']['submit']['#submit'])) {
+      foreach (array_keys($form['actions']) as $action) {
+        if ($action !== 'preview'
+          && isset($form['actions'][$action]['#type'])
+          && $form['actions'][$action]['#type'] === 'submit') {
+          $form['actions'][$action]['#submit'][] = $callback;
+        }
+      }
+    }
+    // Fix for account page rendering other submit handlers not usable.
+    else {
+      $form['#submit'][] = $callback;
+    }
   }
 
 }

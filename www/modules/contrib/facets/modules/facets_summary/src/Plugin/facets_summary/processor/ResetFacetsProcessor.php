@@ -35,7 +35,10 @@ class ResetFacetsProcessor extends ProcessorPluginBase implements BuildProcessor
       return $build;
     }
 
-    $request = \Drupal::requestStack()->getMasterRequest();
+    $request_stack = \Drupal::requestStack();
+    // Support 9.3+.
+    // @todo remove switch after 9.3 or greater is required.
+    $request = version_compare(\Drupal::VERSION, '9.3', '>=') ? $request_stack->getMainRequest() : $request_stack->getMasterRequest();
     $query_params = $request->query->all();
 
     // Bypass all active facets and remove them from the query parameters array.
@@ -45,7 +48,7 @@ class ResetFacetsProcessor extends ProcessorPluginBase implements BuildProcessor
 
       if ($facet->getActiveItems()) {
         // This removes query params when using the query url processor.
-        if(isset($query_params[$filter_key])){
+        if (isset($query_params[$filter_key])) {
           foreach ($query_params[$filter_key] as $delta => $param) {
             if (strpos($param, $url_alias . ':') !== FALSE) {
               unset($query_params[$filter_key][$delta]);
@@ -70,7 +73,7 @@ class ResetFacetsProcessor extends ProcessorPluginBase implements BuildProcessor
     // Check if reset link text is not set or it contains only whitespaces.
     // Set text from settings or set default text.
     if (empty($configuration['settings']['link_text']) || strlen(trim($configuration['settings']['link_text'])) === 0) {
-      $itemText = t('Reset');
+      $itemText = $this->t('Reset');
     }
     else {
       $itemText = $configuration['settings']['link_text'];

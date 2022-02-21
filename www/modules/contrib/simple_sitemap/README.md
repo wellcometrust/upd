@@ -43,7 +43,7 @@ for instructions on how to install or update Drupal modules.
 ### PERMISSIONS ###
 
 The module permission 'administer sitemap settings' can be configured under
-/admin/people/permissions.
+admin/people/permissions.
 
 ### SITEMAP VARIANTS ###
 
@@ -58,19 +58,19 @@ A sitemap type is a configuration entity consisting of one sitemap generator
 plugin and several URL generator plugins. These plugins can be implemented by
 custom modules. The module comes with the default sitemap type
 'default_hreflang'. Sitemap types can be defined via the UI under
-/admin/config/search/simplesitemap/types.
+admin/config/search/simplesitemap/types.
 
 ### ENTITIES ###
 
 Initially only the home page is indexed in the default sitemap. To
 include content into a sitemap, visit
-/admin/config/search/simplesitemap/entities to enable support for entity types
+admin/config/search/simplesitemap/entities to enable support for entity types
 of your choosing. Bundleless entity types can be configured right on that page,
 for bundles of entity types visit the bundle's configuration pages, e.g.
 
- * /admin/structure/types/manage/[content type] for nodes
- * /admin/structure/taxonomy/manage/[taxonomy vocabulary] for taxonomy terms
- * /admin/structure/menu/manage/[menu] for menu items
+ * admin/structure/types/manage/[content type] for nodes
+ * admin/structure/taxonomy/manage/[taxonomy vocabulary] for taxonomy terms
+ * admin/structure/menu/manage/[menu] for menu items
  * ...
 
 When including an entity type or bundle into a sitemap, the priority setting
@@ -107,23 +107,37 @@ variants will be included in the sitemap.
 ### CUSTOM LINKS ###
 
 To include custom links into a sitemap, visit
-/admin/config/search/simplesitemap/custom.
+admin/config/search/simplesitemap/custom.
 
-### AUTOMATIC SUBMISSION ###
+### SEARCH ENGINES ###
+
+The module can submit sitemap changes to search engines as well as notify search
+engines of entity changes directly.
+These functionalities are available through the included simple_sitemap_engines
+submodule. After enabling this module, go to
+admin/config/search/simplesitemap/engines/settings to set it up.
+
+#### SITEMAP SUBMISSION ####
 
 It is possible to have the module automatically submit specific sitemap
-variants to search engines. Google and Bing are preconfigured.
+variants to search engines. Google is preconfigured and new engines can be added
+programmatically via simple_sitemap_engine entities. Specific sitemap variants
+can be submitted to specific search engines, the time interval is configurable.
 
-This functionality is available through the included simple_sitemap_engines
-submodule. After enabling this module, go to
-admin/config/search/simplesitemap/engines/settings to set it up. Further engines
-can be added programmatically via simple_sitemap_engine configuration entities.
+#### INDEXNOW SUBMISSION ####
+
+The module also supports the IndexNow service provided by Bing and Yandex. The
+two search engines are preconfigured and new engines can be added
+programmatically via simple_sitemap_engine entities. For the submission to work,
+a key needs to be generated under
+admin/config/search/simplesitemap/engines/settings and entities need to be
+included under admin/config/search/simplesitemap/entities.
 
 ### PERFORMANCE ###
 
 The module can be tuned via UI for a vast improvement in generation speeds on
 huge sites. To speed up generation, go to
-admin/config/search/simplesitemap/engines/settings and increase
+admin/config/search/simplesitemap/settings and increase
 'Entities per queue item' and 'Sitemap generation max duration'.
 
 Further things that can be tweaked are unchecking 'Exclude duplicate links' and

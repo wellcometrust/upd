@@ -8,7 +8,7 @@ dependencies:
   - simple_sitemap:simple_sitemap
   - drupal:views
 
-# Information added by Drupal.org packaging script on 2021-12-28
-version: '4.0.1'
+# Information added by Drupal.org packaging script on 2022-02-09
+version: '4.1.1'
 project: 'simple_sitemap'
-datestamp: 1640700060
+datestamp: 1644365755

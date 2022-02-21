@@ -5,10 +5,12 @@
  * Main module file containing hooks.
  */
 
+use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\simple_sitemap\Entity\SimpleSitemap;
+use Drupal\simple_sitemap\Form\FormHelper;
 use Drupal\simple_sitemap\Queue\QueueWorker;
 use Drupal\system\MenuInterface;
 use Drupal\language\ConfigurableLanguageInterface;
@@ -16,7 +18,7 @@ use Drupal\language\ConfigurableLanguageInterface;
 /**
  * Implements hook_help().
  */
-function simple_sitemap_help($route_name, RouteMatchInterface $route_match) {
+function simple_sitemap_help($route_name, RouteMatchInterface $route_match): ?MarkupInterface {
   return $route_name === 'help.page.simple_sitemap'
     ? check_markup(file_get_contents(__DIR__ . '/README.md'))
     : NULL;
@@ -58,19 +60,7 @@ function simple_sitemap_form_alter(&$form, FormStateInterface $form_state, $form
     ->displayRegenerateNow($form['simple_sitemap']);
 
   // Add submission handler.
-  if (isset($form['actions']['submit']['#submit'])) {
-    foreach (array_keys($form['actions']) as $action) {
-      if ($action !== 'preview'
-        && isset($form['actions'][$action]['#type'])
-        && $form['actions'][$action]['#type'] === 'submit') {
-        $form['actions'][$action]['#submit'][] = 'simple_sitemap_entity_form_submit';
-      }
-    }
-  }
-  // Fix for account page rendering other submit handlers not usable.
-  else {
-    $form['#submit'][] = 'simple_sitemap_entity_form_submit';
-  }
+  FormHelper::addSubmitHandler($form, 'simple_sitemap_entity_form_submit');
 }
 
 /**
@@ -95,39 +85,37 @@ function simple_sitemap_entity_form_submit(array $form, FormStateInterface $form
 
   $values = $form_state->getValue('simple_sitemap');
 
-  if ($f->valuesChanged($form, $values)) {
+  /** @var \Drupal\simple_sitemap\Manager\Generator $generator */
+  $generator = \Drupal::service('simple_sitemap.generator');
 
-    /** @var \Drupal\simple_sitemap\Manager\Generator $generator */
-    $generator = \Drupal::service('simple_sitemap.generator');
+  // @todo No need to load all sitemaps here.
+  foreach (SimpleSitemap::loadMultiple() as $variant => $sitemap) {
 
-    foreach (SimpleSitemap::loadMultiple() as $variant => $sitemap) { // @todo No need to load all sitemaps here.
+    // Variants may have changed since form load.
+    if (isset($values[$variant])) {
+      $generator->setVariants($variant);
 
-      // Variants may have changed since form load.
-      if (isset($values[$variant])) {
-        $generator->setVariants($variant);
+      switch ($f->getEntityCategory()) {
+        case 'bundle':
+          $generator->entityManager()->setBundleSettings($f->getEntityTypeId(), $f->getBundleName(), $values[$variant]);
+          break;
 
-        switch ($f->getEntityCategory()) {
-          case 'bundle':
-            $generator->entityManager()->setBundleSettings($f->getEntityTypeId(), $f->getBundleName(), $values[$variant]);
-            break;
-
-          case 'instance':
-            // Make sure the entity is saved first for multi-step forms,
-            // see https://www.drupal.org/project/simple_sitemap/issues/3080510.
-            if (!$f->entityIsNew()) {
-              $generator->entityManager()->setEntityInstanceSettings($f->getEntityTypeId(), $f->getInstanceId(), $values[$variant]);
-            }
-            break;
-        }
+        case 'instance':
+          // Make sure the entity is saved first for multi-step forms,
+          // see https://www.drupal.org/project/simple_sitemap/issues/3080510.
+          if (!$f->entityIsNew()) {
+            $generator->entityManager()->setEntityInstanceSettings($f->getEntityTypeId(), $f->getInstanceId(), $values[$variant]);
+          }
+          break;
       }
     }
+  }
 
-    // Regenerate sitemaps according to user setting.
-    if ($form_state->getValue('simple_sitemap_regenerate_now')) {
-      $generator->setVariants()
-        ->rebuildQueue()
-        ->generate();
-    }
+  // Regenerate sitemaps according to user setting.
+  if ($form_state->getValue('simple_sitemap_regenerate_now')) {
+    $generator->setVariants()
+      ->rebuildQueue()
+      ->generate();
   }
 }
 
@@ -144,7 +132,7 @@ function simple_sitemap_cron() {
     $request_time = \Drupal::service('datetime.time')->getRequestTime();
     $state = \Drupal::state();
 
-    /** @var QueueWorker $queue_worker */
+    /** @var \Drupal\simple_sitemap\Queue\QueueWorker $queue_worker */
     $queue_worker = \Drupal::service('simple_sitemap.queue_worker');
     $generation_in_progress = $queue_worker->generationInProgress();
 

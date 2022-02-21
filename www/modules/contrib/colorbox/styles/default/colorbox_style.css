@@ -162,7 +162,7 @@
 }
 .cboxSlideshow_on #cboxSlideshow {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   right: 30px;
   background: url(images/controls.png) no-repeat -75px -50px;
   width: 25px;
@@ -174,7 +174,7 @@
 }
 .cboxSlideshow_off #cboxSlideshow {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   right: 30px;
   background: url(images/controls.png) no-repeat -25px -50px;
   width: 25px;
@@ -188,7 +188,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  background: url(images/controls.png) no-repeat -75px 0px;
+  background: url(images/controls.png) no-repeat -75px 0;
   width: 25px;
   height: 25px;
   text-indent: -9999px;
@@ -200,7 +200,7 @@
   position: absolute;
   bottom: 0;
   left: 27px;
-  background: url(images/controls.png) no-repeat -50px 0px;
+  background: url(images/controls.png) no-repeat -50px 0;
   width: 25px;
   height: 25px;
   text-indent: -9999px;
@@ -218,7 +218,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  background: url(images/controls.png) no-repeat -25px 0px;
+  background: url(images/controls.png) no-repeat -25px 0;
   width: 25px;
   height: 25px;
   text-indent: -9999px;

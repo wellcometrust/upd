@@ -70,7 +70,8 @@ class SimpleSitemapCommands extends DrushCommands {
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    */
   public function rebuildQueue(array $options = ['variants' => '']): void {
-    $variants = array_keys(SimpleSitemap::loadMultiple()); // @todo No need to load all sitemaps here.
+    // @todo No need to load all sitemaps here.
+    $variants = array_keys(SimpleSitemap::loadMultiple());
     if (strlen($options['variants']) > 0) {
       $chosen_variants = array_map('trim', array_filter(explode(',', $options['variants'])));
       if (!empty($erroneous_variants = array_diff($chosen_variants, $variants))) {

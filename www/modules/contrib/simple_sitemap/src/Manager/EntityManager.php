@@ -153,6 +153,14 @@ class EntityManager {
       }
     }
 
+    // @todo Implement hook to be used inside simple_sitemap_engines?
+    // Deleting inclusion settings for simple_sitemap_engines.
+    foreach ($this->configFactory->listAll('simple_sitemap_engines.bundle_settings.') as $config_name) {
+      if (explode('.', $config_name)[2] === $entity_type_id) {
+        $this->configFactory->getEditable($config_name)->delete();
+      }
+    }
+
     // Deleting entity overrides.
     $this->setVariants()->removeEntityInstanceSettings($entity_type_id);
 

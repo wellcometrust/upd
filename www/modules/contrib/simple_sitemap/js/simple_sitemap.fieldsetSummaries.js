@@ -9,18 +9,24 @@
   Drupal.behaviors.simpleSitemapFieldsetSummaries = {
     attach: function (context) {
       $(context).find('.simple-sitemap-fieldset').drupalSetSummary(function (context) {
-        var enabledVariants = [];
+        let summary = '', enabledVariants = [];
+
+        $(context).find('input:checkbox[name$="[index_now]"]').each(function () {
+          summary = (this.checked ? Drupal.t('IndexNow notification enabled') : Drupal.t('IndexNow notification disabled')) + ', ';
+        });
 
         $(context).find('input:radio:checked[data-simple-sitemap-label][value="1"]').each(function () {
           enabledVariants.push(this.dataset.simpleSitemapLabel);
         });
 
         if (enabledVariants.length > 0) {
-          return Drupal.t('Included in sitemaps: ') + enabledVariants.join(', ');
+          summary += Drupal.t('Included in sitemaps: ') + enabledVariants.join(', ');
         }
         else {
-          return Drupal.t('Excluded from all sitemaps');
+          summary += Drupal.t('Excluded from all sitemaps');
         }
+
+        return summary;
       });
     }
   };

@@ -7,7 +7,7 @@
 
 use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
-
+use Drupal\Component\Utility\Xss;
 /**
  * Prepares variables for colorbox formatter templates.
  *
@@ -27,7 +27,7 @@ function template_preprocess_colorbox_formatter(&$variables) {
   // @codingStandardsIgnoreEnd
 
   $item = $variables['item'];
-  $item_attributes = isset($variables['item_attributes']) ? $variables['item_attributes'] : [];
+  $item_attributes = $variables['item_attributes'] ?? [];
   $entity = $variables['entity'];
   $settings = $variables['settings'];
   $image_uri = $item->entity->getFileUri();
@@ -152,7 +152,7 @@ function template_preprocess_colorbox_formatter(&$variables) {
     }
   }
 
-  $variables['attributes']['title'] = $caption;
+  $variables['attributes']['title'] = Xss::filter($caption);
   $variables['attributes']['data-colorbox-gallery'] = $gallery_id;
   $variables['attributes']['class'] = $classes_array;
   if (!empty($data_cbox_img_attrs)) {

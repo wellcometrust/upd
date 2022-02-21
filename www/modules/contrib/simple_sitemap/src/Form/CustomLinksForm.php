@@ -136,8 +136,8 @@ class CustomLinksForm extends SimpleSitemapFormBase {
       $placeholders = [
         '@line' => ++$i,
         '@path' => $link_config['path'],
-        '@priority' => isset($link_config['priority']) ? $link_config['priority'] : '',
-        '@changefreq' => isset($link_config['changefreq']) ? $link_config['changefreq'] : '',
+        '@priority' => $link_config['priority'] ?? '',
+        '@changefreq' => $link_config['changefreq'] ?? '',
         '@changefreq_options' => implode(', ', FormHelper::getChangefreqOptions()),
       ];
 
@@ -207,7 +207,7 @@ class CustomLinksForm extends SimpleSitemapFormBase {
     $custom_links_string_lines = array_filter(array_map('trim', $custom_links_string_lines));
 
     $custom_links = [];
-    foreach ($custom_links_string_lines as $i => &$line) {
+    foreach ($custom_links_string_lines as $i => $line) {
       $link_settings = explode(' ', $line);
       $custom_links[$i]['path'] = $link_settings[0];
 

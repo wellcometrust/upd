@@ -31,5 +31,5 @@ graylist:
   - search_api.server.local_solr
   - system.logging
   - system.performance
-graylist_dependents: true
+graylist_dependents: false
 graylist_skip_equal: true
