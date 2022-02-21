@@ -38,8 +38,8 @@ class SimpleSitemapListBuilder extends DraggableListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    $row['name']['#markup'] = '<span title="' . (string) $entity->get('description') . '">' . $entity->label() . '</span>';
-    $row['type']['#markup'] = '<span title="' . (string) $entity->getType()->get('description') . '">' . $entity->getType()->label() . '</span>';
+    $row['name']['#markup'] = '<span title="' . $entity->get('description') . '">' . $entity->label() . '</span>';
+    $row['type']['#markup'] = '<span title="' . $entity->getType()->get('description') . '">' . $entity->getType()->label() . '</span>';
     $row['status']['#markup'] = $this->t('pending');
     $row['count']['#markup'] = '';
 
@@ -55,7 +55,7 @@ class SimpleSitemapListBuilder extends DraggableListBuilder {
         case SimpleSitemap::SITEMAP_PUBLISHED_GENERATING:
           $created = \Drupal::service('date.formatter')->format($entity->fromPublished()->getCreated());
 
-          $row['name']['#markup'] = '<a title ="' . (string) $entity->get('description')
+          $row['name']['#markup'] = '<a title ="' . $entity->get('description')
             . '" href="' . $entity->toUrl()->toString() . '" target="_blank">'
             . $entity->label() . '</a>';
           $row['status']['#markup'] = $entity->contentStatus() === SimpleSitemap::SITEMAP_PUBLISHED

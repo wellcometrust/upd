@@ -61,7 +61,7 @@ class SimpleSitemapEntityForm extends EntityForm {
       '#required' => TRUE,
       '#machine_name' => [
         'exists' => '\Drupal\simple_sitemap\Entity\SimpleSitemap::load',
-        'replace_pattern' => '[^a-z0-9-_.]+',
+        'replace_pattern' => '[^a-z0-9-_]+',
         'replace' => '-',
         'error' => $this->t('The sitemap ID will be part of the URL and can only contain lowercase letters, numbers, dashes and underscores.'),
       ],

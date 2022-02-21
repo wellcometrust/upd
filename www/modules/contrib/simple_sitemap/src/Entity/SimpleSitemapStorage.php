@@ -261,7 +261,7 @@ class SimpleSitemapStorage extends ConfigEntityStorage {
    *   The sitemap entity to process.
    */
   public function deleteContent(SimpleSitemap $entity): void {
-    $this->purgeContent($entity->id());
+    $this->purgeContent([$entity->id()]);
   }
 
   /**
@@ -329,13 +329,13 @@ class SimpleSitemapStorage extends ConfigEntityStorage {
    *
    * @param \Drupal\simple_sitemap\Entity\SimpleSitemap $entity
    *   The sitemap entity.
-   * @param bool|null $status
+   * @param int|null $status
    *   Fetch by sitemap status.
    *
    * @return int
    *   Number of chunks.
    */
-  public function getChunkCount(SimpleSitemap $entity, ?bool $status = SimpleSitemap::FETCH_BY_STATUS_ALL): int {
+  public function getChunkCount(SimpleSitemap $entity, ?int $status = SimpleSitemap::FETCH_BY_STATUS_ALL): int {
     $query = $this->database->select('simple_sitemap', 's')
       ->condition('s.type', $entity->id())
       ->condition('s.delta', self::SITEMAP_INDEX_DELTA, '<>');
@@ -494,13 +494,13 @@ class SimpleSitemapStorage extends ConfigEntityStorage {
    *
    * @param \Drupal\simple_sitemap\Entity\SimpleSitemap $entity
    *   The sitemap entity.
-   * @param bool|null $status
+   * @param int|null $status
    *   Fetch by sitemap status.
    *
    * @return string|null
    *   Timestamp of sitemap chunk generation.
    */
-  public function getCreated(SimpleSitemap $entity, ?bool $status = SimpleSitemap::FETCH_BY_STATUS_ALL): ?string {
+  public function getCreated(SimpleSitemap $entity, ?int $status = SimpleSitemap::FETCH_BY_STATUS_ALL): ?string {
     foreach ($this->getChunkData($entity) as $chunk) {
       if ($status === SimpleSitemap::FETCH_BY_STATUS_ALL || $chunk->status == $status) {
         return $chunk->sitemap_created;
@@ -515,13 +515,13 @@ class SimpleSitemapStorage extends ConfigEntityStorage {
    *
    * @param \Drupal\simple_sitemap\Entity\SimpleSitemap $entity
    *   The sitemap entity.
-   * @param bool|null $status
+   * @param int|null $status
    *   Fetch by sitemap status.
    *
    * @return int
    *   Number of links.
    */
-  public function getLinkCount(SimpleSitemap $entity, ?bool $status = SimpleSitemap::FETCH_BY_STATUS_ALL): int {
+  public function getLinkCount(SimpleSitemap $entity, ?int $status = SimpleSitemap::FETCH_BY_STATUS_ALL): int {
     $count = 0;
     foreach ($this->getChunkData($entity) as $chunk) {
       if ($chunk->delta != self::SITEMAP_INDEX_DELTA
@@ -538,16 +538,16 @@ class SimpleSitemapStorage extends ConfigEntityStorage {
    *
    * @param array|null $variants
    *   An array of sitemap IDs, or NULL for all sitemaps.
-   * @param bool|null $status
+   * @param int|null $status
    *   Purge by sitemap status.
    */
-  public function purgeContent($variants = NULL, ?bool $status = SimpleSitemap::FETCH_BY_STATUS_ALL): void {
+  public function purgeContent(?array $variants = NULL, ?int $status = SimpleSitemap::FETCH_BY_STATUS_ALL): void {
     $query = $this->database->delete('simple_sitemap');
     if ($status !== SimpleSitemap::FETCH_BY_STATUS_ALL) {
       $query->condition('status', $status);
     }
     if ($variants !== NULL) {
-      $query->condition('type', (array) $variants, 'IN');
+      $query->condition('type', $variants, 'IN');
     }
     $query->execute();
   }

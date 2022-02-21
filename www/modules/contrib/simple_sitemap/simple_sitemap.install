@@ -218,7 +218,7 @@ function simple_sitemap_update_8201() {
   ];
   foreach ($entity_types as $entity_type_name => $settings) {
     if (isset($naming_changes[$entity_type_name])) {
-      $entity_types[$naming_changes[$entity_type_name]] = $entity_types[$entity_type_name];
+      $entity_types[$naming_changes[$entity_type_name]] = $settings;
       unset($entity_types[$entity_type_name]);
     }
   }
@@ -544,13 +544,9 @@ function simple_sitemap_update_8212() {
   foreach ($all_bundle_settings as $bundle_settings) {
     $config = $config_factory->get($bundle_settings)->get();
 
-    $config['include_images'] = isset($config['include_images'])
-      ? (bool) $config['include_images']
-      : FALSE;
+    $config['include_images'] = isset($config['include_images']) && $config['include_images'];
 
-    $config['index'] = isset($config['index'])
-      ? (bool) $config['index']
-      : FALSE;
+    $config['index'] = isset($config['index']) && $config['index'];
 
     $config_factory->getEditable($bundle_settings)->setData($config)->save();
   }

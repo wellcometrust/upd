@@ -145,7 +145,7 @@ class StatusForm extends SimpleSitemapFormBase {
 
       // With all results processed, there still may be some stashed results to
       // be indexed.
-      $percent = $percent === 100 && $this->queueWorker->generationInProgress() ? 99 : $percent;
+      $percent = $percent == 100 && $this->queueWorker->generationInProgress() ? 99 : $percent;
 
       $index_progress = [
         '#theme' => 'progress_bar',

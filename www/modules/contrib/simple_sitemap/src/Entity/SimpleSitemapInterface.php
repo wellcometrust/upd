@@ -157,9 +157,9 @@ interface SimpleSitemapInterface extends ConfigEntityInterface {
    *
    * @param array|null $variants
    *   An array of sitemap IDs, or NULL for all sitemaps.
-   * @param bool|null $status
+   * @param int|null $status
    *   Purge by sitemap status.
    */
-  public static function purgeContent(?array $variants = NULL, ?bool $status = SimpleSitemap::FETCH_BY_STATUS_ALL);
+  public static function purgeContent(?array $variants = NULL, ?int $status = SimpleSitemap::FETCH_BY_STATUS_ALL);
 
 }

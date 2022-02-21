@@ -21,7 +21,7 @@ use Drupal\simple_sitemap\Exception\SitemapNotExistsException;
  *     plural = "@count sitemaps",
  *   ),
  *   handlers = {
- *     "storage" = "Drupal\simple_sitemap\Entity\SimpleSitemapStorage",
+ *     "storage" = "\Drupal\simple_sitemap\Entity\SimpleSitemapStorage",
  *     "list_builder" = "\Drupal\simple_sitemap\SimpleSitemapListBuilder",
  *     "form" = {
  *       "default" = "\Drupal\simple_sitemap\Form\SimpleSitemapEntityForm",
@@ -52,8 +52,6 @@ use Drupal\simple_sitemap\Exception\SitemapNotExistsException;
  *     "collection" = "/admin/config/search/simplesitemap",
  *   },
  * )
- *
- * @todo Implement dependency injection after https://www.drupal.org/project/drupal/issues/2142515 is fixed.
  */
 class SimpleSitemap extends ConfigEntityBase implements SimpleSitemapInterface {
 
@@ -347,7 +345,7 @@ class SimpleSitemap extends ConfigEntityBase implements SimpleSitemapInterface {
   /**
    * {@inheritdoc}
    */
-  public static function purgeContent(?array $variants = NULL, ?bool $status = self::FETCH_BY_STATUS_ALL) {
+  public static function purgeContent(?array $variants = NULL, ?int $status = self::FETCH_BY_STATUS_ALL) {
     \Drupal::entityTypeManager()->getStorage('simple_sitemap')->purgeContent($variants, $status);
   }
 

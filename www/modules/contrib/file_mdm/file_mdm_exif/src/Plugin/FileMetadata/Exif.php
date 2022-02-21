@@ -218,7 +218,9 @@ class Exif extends FileMetadataPluginBase {
    * {@inheritdoc}
    */
   public function isSaveToFileSupported() {
-    return TRUE;
+    // @todo pel/pel from 0.9.10 is unstable when writing files. Once fixed,
+    //   allow writing.
+    return FALSE;
   }
 
   /**

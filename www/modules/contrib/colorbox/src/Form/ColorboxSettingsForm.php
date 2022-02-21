@@ -7,11 +7,19 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Extension\ModuleExtensionList;
 
 /**
  * General configuration form for controlling the colorbox behaviour..
  */
 class ColorboxSettingsForm extends ConfigFormBase {
+
+  /**
+   * The list of available modules.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $extensionListModule;
 
   /**
    * A state that represents the custom settings being enabled.
@@ -32,10 +40,18 @@ class ColorboxSettingsForm extends ConfigFormBase {
 
   /**
    * Class constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The Configuration Factory.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   The module handler service.
+   * @param \Drupal\Core\Extension\ModuleExtensionList $extension_list_module
+   *   The list of available modules.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $moduleHandler) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $moduleHandler, ModuleExtensionList $extension_list_module) {
     parent::__construct($config_factory);
     $this->moduleHandler = $moduleHandler;
+    $this->extensionListModule = $extension_list_module;
   }
 
   /**
@@ -44,7 +60,8 @@ class ColorboxSettingsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('module_handler')
+      $container->get('module_handler'),
+      $container->get('extension.list.module')
     );
   }
 
@@ -67,7 +84,7 @@ class ColorboxSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     global $base_url;
-    $module_path = \Drupal::service('extension.list.module')->getPath('colorbox');
+    $module_path = $this->extensionListModule->getPath('colorbox');
     $img_folder_path = $base_url . '/' . $module_path . '/images/admin';
 
     $config = $this->configFactory->get('colorbox.settings');

@@ -8,7 +8,7 @@ use Drupal\Core\Render\BubbleableMetadata;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Processes the inbound path using sitemap lookups.
+ * Processes the inbound and outbound sitemap paths.
  */
 class SitemapPathProcessor implements InboundPathProcessorInterface, OutboundPathProcessorInterface {
 

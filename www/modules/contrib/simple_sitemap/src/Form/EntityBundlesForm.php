@@ -146,7 +146,6 @@ class EntityBundlesForm extends SimpleSitemapFormBase {
         ->setEntityCategory('bundle')
         ->setEntityTypeId($entity_type_id)
         ->setBundleName($bundle_name)
-        ->negotiateSettings()
         ->displayEntitySettings($form['settings'][$bundle_name]);
     }
 
@@ -162,7 +161,8 @@ class EntityBundlesForm extends SimpleSitemapFormBase {
     $entity_type_id = $form_state->getValue('entity_type_id');
     $bundles = $form_state->getValue('bundles');
 
-    foreach (SimpleSitemap::loadMultiple() as $variant => $sitemap) { // @todo No need to load all sitemaps here.
+    // @todo No need to load all sitemaps here.
+    foreach (SimpleSitemap::loadMultiple() as $variant => $sitemap) {
       $this->entityManager->setVariants($variant);
 
       foreach ($bundles as $bundle_name => $settings) {
