@@ -166,11 +166,8 @@ class FileMetadataExifTest extends FileMetadataManagerTestBase {
 
   /**
    * Test writing metadata to JPEG file.
-   *
-   * @todo pel/pel from 0.9.10 is unstable when writing files. Once fixed,
-   *   allow reenable test.
    */
-  public function __testJpegExifSaveToFile() {
+  public function testJpegExifSaveToFile() {
     $fmdm = $this->container->get('file_metadata_manager');
 
     // Copy test file to public://.
@@ -339,11 +336,8 @@ class FileMetadataExifTest extends FileMetadataManagerTestBase {
 
   /**
    * Test writing metadata to TIFF file.
-   *
-   * @todo pel/pel from 0.9.10 is unstable when writing files. Once fixed,
-   *   allow reenable test.
    */
-  public function __testTiffExifSaveToFile() {
+  public function testTiffExifSaveToFile() {
     $fmdm = $this->container->get('file_metadata_manager');
 
     // Copy test file to public://.
