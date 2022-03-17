@@ -5,16 +5,16 @@ packages:
     ckeditor/tabletoolstoolbar: 0.0.1
     colorbox/colorbox.js: 1.6.4
     composer/installers: v1.12.0
-    composer/semver: 3.2.9
-    consolidation/annotated-command: 4.5.1
+    composer/semver: 3.3.1
+    consolidation/annotated-command: 4.5.2
     consolidation/config: 1.2.1
     consolidation/filter-via-dot-access-data: 1.0.0
-    consolidation/log: 2.1.0
+    consolidation/log: 2.1.1
     consolidation/output-formatters: 4.2.2
-    consolidation/robo: 3.0.8
+    consolidation/robo: 3.0.10
     consolidation/self-update: 2.0.5
-    consolidation/site-alias: 3.1.3
-    consolidation/site-process: 4.1.3
+    consolidation/site-alias: 3.1.5
+    consolidation/site-process: 4.2.0
     cweagans/composer-patches: 1.7.2
     dflydev/dot-access-configuration: v1.0.3
     dflydev/dot-access-data: v1.1.0
@@ -25,7 +25,7 @@ packages:
     doctrine/common: 2.13.3
     doctrine/event-manager: 1.1.1
     doctrine/inflector: 1.4.4
-    doctrine/lexer: 1.2.2
+    doctrine/lexer: 1.2.3
     doctrine/persistence: 1.3.8
     doctrine/reflection: 1.2.2
     dropzone/dropzone.js: 4.3.0
@@ -40,11 +40,11 @@ packages:
     drupal/console-core: 1.9.7
     drupal/console-en: v1.9.7
     drupal/console-extend-plugin: 0.9.5
-    drupal/core: 9.3.6
-    drupal/core-composer-scaffold: 9.3.6
-    drupal/crop: 2.1.0
+    drupal/core: 9.3.8
+    drupal/core-composer-scaffold: 9.3.8
+    drupal/crop: 2.2.0
     drupal/ctools: 3.7.0
-    drupal/devel: 4.1.3
+    drupal/devel: 4.1.5
     drupal/draggableviews: 2.0.1
     drupal/dropzonejs: 2.5.0
     drupal/entity_browser: 2.6.0
@@ -54,11 +54,11 @@ packages:
     drupal/eu_cookie_compliance: 1.19.0
     drupal/facets: 2.0.1
     drupal/field_group: 3.2.0
-    drupal/file_mdm: 2.3.0
+    drupal/file_mdm: 2.4.0
     drupal/google_analytics: 2.5.0
     drupal/image_widget_crop: 2.3.0
     drupal/imagemagick: 3.2.0
-    drupal/inline_entity_form: 1.0.0-rc9
+    drupal/inline_entity_form: 1.0.0-rc10
     drupal/jquery_ui: 1.4.0
     drupal/jquery_ui_draggable: 1.2.0
     drupal/jquery_ui_droppable: 1.2.0
@@ -71,7 +71,7 @@ packages:
     drupal/ng_lightbox: 2.0.0-beta1
     drupal/page_manager: 4.0.0-beta6
     drupal/panels: 4.6.0
-    drupal/paragraphs: 1.12.0
+    drupal/paragraphs: 1.13.0
     drupal/pathauto: 1.9.0
     drupal/pdfpreview: 1.0.0
     drupal/rabbit_hole: 1.0.0-beta10
@@ -86,7 +86,7 @@ packages:
     drupal/video_embed_field: 2.4.0
     drush/drush: 10.6.2
     egulias/email-validator: 3.1.2
-    enlightn/security-checker: v1.9.0
+    enlightn/security-checker: v1.10.0
     fileeye/mimemap: 1.1.5
     geerlingguy/drupal-vm: 4.9.2
     grasmash/expander: 1.0.0
@@ -100,7 +100,7 @@ packages:
     laminas/laminas-feed: 2.16.0
     laminas/laminas-stdlib: 3.7.1
     league/container: 3.4.1
-    lsolesen/pel: 0.9.11
+    lsolesen/pel: 0.9.12
     maennchen/zipstream-php: 2.1.0
     masterminds/html5: 2.7.5
     myclabs/php-enum: 1.8.3
@@ -124,39 +124,39 @@ packages:
     stecman/symfony-console-completion: 0.11.0
     symfony-cmf/routing: 2.3.4
     symfony/config: v4.4.37
-    symfony/console: v4.4.37
+    symfony/console: v4.4.38
     symfony/css-selector: v4.4.37
     symfony/debug: v4.4.37
-    symfony/dependency-injection: v4.4.37
+    symfony/dependency-injection: v4.4.39
     symfony/deprecation-contracts: v2.5.0
-    symfony/dom-crawler: v4.4.37
+    symfony/dom-crawler: v4.4.39
     symfony/error-handler: v4.4.37
     symfony/event-dispatcher: v4.4.37
     symfony/event-dispatcher-contracts: v1.1.11
-    symfony/filesystem: v4.4.37
+    symfony/filesystem: v4.4.39
     symfony/finder: v4.4.37
     symfony/http-client-contracts: v2.5.0
-    symfony/http-foundation: v4.4.37
-    symfony/http-kernel: v4.4.37
+    symfony/http-foundation: v4.4.39
+    symfony/http-kernel: v4.4.39
     symfony/mime: v5.4.3
-    symfony/polyfill-ctype: v1.24.0
-    symfony/polyfill-iconv: v1.24.0
-    symfony/polyfill-intl-idn: v1.24.0
-    symfony/polyfill-intl-normalizer: v1.24.0
-    symfony/polyfill-mbstring: v1.24.0
-    symfony/polyfill-php72: v1.24.0
-    symfony/polyfill-php73: v1.24.0
-    symfony/polyfill-php80: v1.24.0
-    symfony/polyfill-php81: v1.24.0
+    symfony/polyfill-ctype: v1.25.0
+    symfony/polyfill-iconv: v1.25.0
+    symfony/polyfill-intl-idn: v1.25.0
+    symfony/polyfill-intl-normalizer: v1.25.0
+    symfony/polyfill-mbstring: v1.25.0
+    symfony/polyfill-php72: v1.25.0
+    symfony/polyfill-php73: v1.25.0
+    symfony/polyfill-php80: v1.25.0
+    symfony/polyfill-php81: v1.25.0
     symfony/process: v4.4.37
     symfony/psr-http-message-bridge: v2.1.2
     symfony/routing: v4.4.37
-    symfony/serializer: v4.4.37
+    symfony/serializer: v4.4.39
     symfony/service-contracts: v2.5.0
     symfony/translation: v4.4.37
     symfony/translation-contracts: v2.5.0
-    symfony/validator: v4.4.37
-    symfony/var-dumper: v5.4.3
+    symfony/validator: v4.4.39
+    symfony/var-dumper: v5.4.6
     symfony/yaml: v4.4.37
     thinkshout/mailchimp-api-php: v2.1.3
     twig/twig: v2.14.11
