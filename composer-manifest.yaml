@@ -40,13 +40,13 @@ packages:
     drupal/console-core: 1.9.7
     drupal/console-en: v1.9.7
     drupal/console-extend-plugin: 0.9.5
-    drupal/core: 9.3.8
-    drupal/core-composer-scaffold: 9.3.8
+    drupal/core: 9.3.9
+    drupal/core-composer-scaffold: 9.3.9
     drupal/crop: 2.2.0
     drupal/ctools: 3.7.0
     drupal/devel: 4.1.5
     drupal/draggableviews: 2.0.1
-    drupal/dropzonejs: 2.5.0
+    drupal/dropzonejs: 2.6.0
     drupal/entity_browser: 2.6.0
     drupal/entity_browser_entity_form: 2.6.0
     drupal/entity_reference_display: 1.4.0
@@ -93,7 +93,7 @@ packages:
     grasmash/yaml-expander: 1.4.0
     guzzlehttp/guzzle: 6.5.5
     guzzlehttp/promises: 1.5.1
-    guzzlehttp/psr7: 1.8.3
+    guzzlehttp/psr7: 1.8.5
     joachim-n/composer-manifest: 1.1.4
     laminas/laminas-diactoros: 2.8.0
     laminas/laminas-escaper: 2.9.0
