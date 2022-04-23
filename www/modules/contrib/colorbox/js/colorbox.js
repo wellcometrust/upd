@@ -3,7 +3,7 @@
  * Colorbox JS.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, drupalSettings) {
 
   'use strict';
 
@@ -36,7 +36,7 @@
         // If a title attribute is supplied, sanitize it.
         var title = $(this).attr('title');
         if (title) {
-          extendParams.title = Drupal.checkPlain(title);
+          extendParams.title = Drupal.colorbox.sanitizeMarkup(title);
         }
         $(this).colorbox($.extend({}, settings.colorbox, extendParams));
       });
@@ -64,4 +64,49 @@
     }
   };
 
-})(jQuery, Drupal);
+  // Create colorbox namespace if it doesn't exist.
+  if (!Drupal.hasOwnProperty('colorbox')) {
+    Drupal.colorbox = {};
+  }
+
+  /**
+   * Global function to allow sanitizing captions and control strings.
+   *
+   * @param markup
+   *   String containing potential markup.
+   * @return @string
+   *  Sanitized string with potentially dangerous markup removed.
+   */
+  Drupal.colorbox.sanitizeMarkup = function(markup) {
+    // If DOMPurify installed, allow some HTML. Otherwise, treat as plain text.
+    if (typeof DOMPurify !== 'undefined') {
+      var purifyConfig = {
+        ALLOWED_TAGS: [
+          'a',
+          'b',
+          'strong',
+          'i',
+          'em',
+          'u',
+          'cite',
+          'code',
+          'br'
+        ],
+        ALLOWED_ATTR: [
+          'href',
+          'hreflang',
+          'title',
+          'target'
+        ]
+      }
+      if (drupalSettings.hasOwnProperty('dompurify_custom_config')) {
+        purifyConfig = drupalSettings.dompurify_custom_config;
+      }
+      return DOMPurify.sanitize(markup, purifyConfig);
+    }
+    else {
+      return Drupal.checkPlain(markup);
+    }
+  }
+
+})(jQuery, Drupal, drupalSettings);

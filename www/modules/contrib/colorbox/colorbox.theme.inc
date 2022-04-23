@@ -83,7 +83,7 @@ function template_preprocess_colorbox_formatter(&$variables) {
   // Shorten the caption for the example styles or when caption
   // shortening is active.
   $config = \Drupal::config('colorbox.settings');
-  $colorbox_style = $config->get('colorbox_style');
+  $colorbox_style = !empty($config->get('colorbox_style')) ? $config->get('colorbox_style') : '';
   $trim_length = $config->get('colorbox_caption_trim_length');
   if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || $config->get('colorbox_caption_trim')) && (strlen($caption) > $trim_length)) {
     $caption = substr($caption, 0, $trim_length - 5) . '...';
@@ -112,7 +112,7 @@ function template_preprocess_colorbox_formatter(&$variables) {
     $variables['image']['#attributes'] = $item_attributes;
 
     // Do not output an empty 'title' attribute.
-    if (strlen($item->title) != 0) {
+    if (!empty($item->title)) {
       $variables['image']['#title'] = $item->title;
       $data_cbox_img_attrs['title'] = '"title":"' . $item->title . '"';
     }
