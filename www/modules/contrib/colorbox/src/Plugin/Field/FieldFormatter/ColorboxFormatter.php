@@ -2,6 +2,7 @@
 
 namespace Drupal\colorbox\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Asset\LibraryDiscoveryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -53,6 +54,13 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
   private $moduleHandler;
 
   /**
+   * Library discovery service.
+   *
+   * @var \Drupal\Core\Asset\LibraryDiscoveryInterface
+   */
+  private $libraryDiscovery;
+
+  /**
    * Constructs an ImageFormatter object.
    *
    * @param string $plugin_id
@@ -77,13 +85,27 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
    *   Allow the library to be attached to the page.
    * @param Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   Module handler services.
+   * @param Drupal\Core\Asset\LibraryDiscoveryInterface $libraryDiscovery
+   *   Library discovery service.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, AccountInterface $current_user, EntityStorageInterface $image_style_storage, ElementAttachmentInterface $attachment, ModuleHandlerInterface $moduleHandler) {
+  public function __construct($plugin_id,
+                              $plugin_definition,
+                              FieldDefinitionInterface $field_definition,
+                              array $settings,
+                              $label,
+                              $view_mode,
+                              array $third_party_settings,
+                              AccountInterface $current_user,
+                              EntityStorageInterface $image_style_storage,
+                              ElementAttachmentInterface $attachment,
+                              ModuleHandlerInterface $moduleHandler,
+                              LibraryDiscoveryInterface $libraryDiscovery) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
     $this->currentUser = $current_user;
     $this->imageStyleStorage = $image_style_storage;
     $this->attachment = $attachment;
     $this->moduleHandler = $moduleHandler;
+    $this->libraryDiscovery = $libraryDiscovery;
   }
 
   /**
@@ -101,7 +123,8 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
       $container->get('current_user'),
       $container->get('entity_type.manager')->getStorage('image_style'),
       $container->get('colorbox.attachment'),
-      $container->get('module_handler')
+      $container->get('module_handler'),
+      $container->get('library.discovery')
     );
   }
 
@@ -403,6 +426,15 @@ class ColorboxFormatter extends ImageFormatterBase implements ContainerFactoryPl
     // Attach the Colorbox JS and CSS.
     if ($this->attachment->isApplicable()) {
       $this->attachment->attach($elements);
+
+      $dompurify = $this->libraryDiscovery->getLibraryByName('colorbox', 'dompurify');
+      $dompurify_file = !empty($dompurify['js'][0]['data']) ?
+        DRUPAL_ROOT . '/' . $dompurify['js'][0]['data'] : NULL;
+      $dompurify_exists = !empty($dompurify) && !empty($dompurify_file) &&
+        file_exists($dompurify_file);
+      if ($dompurify_exists) {
+        $elements['#attached']['library'][] = 'colorbox/dompurify';
+      }
     }
 
     return $elements;
