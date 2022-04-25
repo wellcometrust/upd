@@ -10,7 +10,7 @@
     attach: function (context, settings) {
       $(context).bind('cbox_complete', function () {
         // Make all the controls invisible.
-        $('#cboxCurrent, #cboxSlideshow, #cboxPrevious, #cboxNext', context).addClass('element-invisible');
+        $('#cboxCurrent, #cboxSlideshow, #cboxPrevious, #cboxNext', context).addClass('visually-hidden');
         // Replace "Close" with "×" and show.
         $('#cboxClose', context).html('\u00d7').addClass('cbox-close-plain');
         // Hide empty title.

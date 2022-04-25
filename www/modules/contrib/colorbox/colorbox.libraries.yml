@@ -7,6 +7,8 @@ colorbox:
   js:
     /libraries/colorbox/jquery.colorbox-min.js: { minified: true }
   dependencies:
+    - core/drupal
+    - core/drupalSettings
     - core/jquery
     - core/jquery.once
 
@@ -21,6 +23,15 @@ colorbox-dev:
   dependencies:
     - core/jquery
     - core/jquery.once
+
+dompurify:
+  remote: https://github.com/cure53/DOMPurify
+  version: VERSION
+  license:
+    name: MPL
+    gpl-compatible: false
+  js:
+    /libraries/DOMPurify/dist/purify.min.js: { }
 
 init:
   version: VERSION
