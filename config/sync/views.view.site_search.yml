@@ -244,7 +244,7 @@ display:
               question_content: default
               tile: search_result
       query:
-        type: views_query
+        type: search_api_query
         options:
           bypass_access: false
           skip_access: false
