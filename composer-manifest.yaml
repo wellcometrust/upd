@@ -6,7 +6,7 @@ packages:
     colorbox/colorbox.js: 1.6.4
     composer/installers: v1.12.0
     composer/semver: 3.3.2
-    consolidation/annotated-command: 4.5.5
+    consolidation/annotated-command: 4.5.6
     consolidation/config: 1.2.1
     consolidation/filter-via-dot-access-data: 1.0.0
     consolidation/log: 2.1.1
@@ -34,8 +34,8 @@ packages:
     drupal/color_field: 2.5.0
     drupal/colorbox: 1.10.0
     drupal/colorbox_load: 1.2.0
-    drupal/config_filter: 1.9.0
-    drupal/config_split: 1.8.0
+    drupal/config_filter: 1.10.0
+    drupal/config_split: 1.9.0
     drupal/console: 1.9.8
     drupal/console-core: 1.9.7
     drupal/console-en: v1.9.7
@@ -43,22 +43,22 @@ packages:
     drupal/core: 9.4.3
     drupal/core-composer-scaffold: 9.4.3
     drupal/crop: 2.2.0
-    drupal/ctools: 3.7.0
+    drupal/ctools: 3.8.0
     drupal/devel: 4.1.5
     drupal/draggableviews: 2.0.1
     drupal/dropzonejs: 2.6.0
-    drupal/entity_browser: 2.6.0
-    drupal/entity_browser_entity_form: 2.6.0
+    drupal/entity_browser: 2.7.0
+    drupal/entity_browser_entity_form: 2.7.0
     drupal/entity_reference_display: 1.4.0
     drupal/entity_reference_revisions: 1.9.0
     drupal/eu_cookie_compliance: 1.19.0
-    drupal/facets: 2.0.2
+    drupal/facets: 2.0.5
     drupal/field_group: 3.2.0
     drupal/file_mdm: 2.4.0
     drupal/google_analytics: 2.5.0
     drupal/image_widget_crop: 2.3.0
     drupal/imagemagick: 3.2.0
-    drupal/inline_entity_form: 1.0.0-rc11
+    drupal/inline_entity_form: 1.0.0-rc12
     drupal/jquery_ui: 1.4.0
     drupal/jquery_ui_draggable: 1.2.0
     drupal/jquery_ui_droppable: 1.2.0
@@ -66,7 +66,7 @@ packages:
     drupal/media_entity_browser: 2.0.0-alpha3
     drupal/media_entity_video: 2.0.0-rc2
     drupal/menu_link_attributes: 1.2.0
-    drupal/metatag: 1.19.0
+    drupal/metatag: 1.21.0
     drupal/module_filter: 3.2.0
     drupal/ng_lightbox: 2.0.0-beta1
     drupal/page_manager: 4.0.0-beta6
@@ -77,14 +77,14 @@ packages:
     drupal/rabbit_hole: 1.0.0-beta10
     drupal/redirect: 1.7.0
     drupal/scheduled_publish: 3.9.0
-    drupal/search_api: 1.23.0
+    drupal/search_api: 1.25.0
     drupal/search_api_solr: 4.2.7
-    drupal/simple_sitemap: 4.1.1
+    drupal/simple_sitemap: 4.1.2
     drupal/sophron: 1.1.0
     drupal/stage_file_proxy: 1.2.0
     drupal/token: 1.10.0
     drupal/video_embed_field: 2.4.0
-    drush/drush: 10.6.2
+    drush/drush: 10.6.1
     egulias/email-validator: 3.2.1
     enlightn/security-checker: v1.10.0
     fileeye/mimemap: 1.1.5
@@ -117,9 +117,9 @@ packages:
     psr/http-factory: 1.0.1
     psr/http-message: 1.0.1
     psr/log: 1.1.4
-    psy/psysh: v0.10.12
+    psy/psysh: v0.11.7
     ralouphie/getallheaders: 3.0.3
-    solarium/solarium: 6.2.3
+    solarium/solarium: 6.2.4
     stack/builder: v1.0.6
     stecman/symfony-console-completion: 0.11.0
     symfony-cmf/routing: 2.3.4

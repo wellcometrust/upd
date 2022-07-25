@@ -11,6 +11,8 @@ id: disease_type_or_population_group
 name: 'Disease type or population group'
 weight: 0
 min_count: 1
+missing: false
+missing_label: others
 url_alias: disease_type_or_population_group
 facet_source_id: 'search_api:views_block__case_studies_index_solr__block_1'
 field_identifier: field_disease_type
