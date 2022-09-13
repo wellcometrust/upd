@@ -138,7 +138,15 @@
   "prefer-stable": true,
   "config": {
     "process-timeout": 2200,
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true,
+      "cweagans/composer-patches": true,
+      "drupal/core-composer-scaffold": true,
+      "zaporylie/composer-drupal-optimizations": true,
+      "drupal/console-extend-plugin": true,
+      "joachim-n/composer-manifest": true
+    }
   },
   "extra": {
     "drupal-scaffold": {
