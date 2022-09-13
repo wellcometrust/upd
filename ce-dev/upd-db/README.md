@@ -1,0 +1,1 @@
+Place the database dump inside this directory as project_name.sql.bz2
