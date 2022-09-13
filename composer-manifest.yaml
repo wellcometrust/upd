@@ -95,6 +95,8 @@ packages:
     guzzlehttp/promises: 1.5.1
     guzzlehttp/psr7: 1.8.5
     joachim-n/composer-manifest: 1.1.4
+    jquery/jquery_colorpicker: 0.0.1
+    jquery/tooltipster-master: 0.0.1
     laminas/laminas-diactoros: 2.11.0
     laminas/laminas-escaper: 2.9.0
     laminas/laminas-feed: 2.17.0
