@@ -49,6 +49,7 @@ PATCHES.txt
 
 # Ignore scaffolding TXT files added by 'drupal/core-composer-scaffold'.
 www/INSTALL.txt
+www/LICENSE.txt
 www/README.txt
 www/example.gitignore
 www/modules/README.txt
@@ -72,6 +73,7 @@ www/profiles/contrib
 www/.csslintrc
 www/.editorconfig
 www/.eslintignore
+www/.eslintrc
 www/.eslintrc.json
 www/.gitattributes
 www/.ht.router.php
