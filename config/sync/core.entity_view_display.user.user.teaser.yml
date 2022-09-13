@@ -31,6 +31,8 @@ content:
     settings:
       image_link: ''
       image_style: user_profile
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
@@ -46,3 +48,4 @@ hidden:
   field_twitter: true
   langcode: true
   member_for: true
+  search_api_excerpt: true
