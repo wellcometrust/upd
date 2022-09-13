@@ -57,6 +57,10 @@ www/sites/README.txt
 www/themes/README.txt
 #node_modules
 
+# Ignore all libraries except custom ones.
+www/libraries/*
+!www/libraries/ck_tooltip
+
 # Ignore dynamic composer directories.
 vendor/*
 www/modules/
@@ -64,7 +68,7 @@ www/core
 www/modules/contrib
 www/themes/contrib
 www/profiles/contrib
-www/libraries
+
 www/.csslintrc
 www/.editorconfig
 www/.eslintignore
