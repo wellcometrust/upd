@@ -1,12 +1,9 @@
+# Ignore IDE/editors files
+.*sw?
+nbproject
+.project
 .idea
-files/*
-private/*
-www/sites/default/files/*
-/www/sites/default/files/*
-www/sites/default/settings.php
-/www/sites/default/settings.php
-.project
-.project
+*~
 docs/*
 www/.idea/*
 /nbproject
@@ -16,4 +13,85 @@ node_modules/
 .DS_STORE
 mariadb-init/*
 .docker-sync
+
+# Ignore Visual Studio Code files.
+.vscode
 *.code-workspace
+
+.DS_Store
+
+# Local configuration
+.vagrant/
+drush/drushrc.php
+# Place local settings in settings.local.php.
+# www/sites/default/settings.local.php
+www/sites/*/settings.local.php
+www/sites/*/services.development.local.yml
+# www/sites/*/services*.yml
+# !www/sites/*/services.yml
+
+# Uploaded or dumped files
+dumps/*sql.gz*
+*sql.bz*
+www/sites/*/files
+www/sites/*/private
+private/
+
+# Testing doesn't always need to be built for now.
+tests/vendor
+/prototype/pattern-lab/vendor/composer/autoload_static.php
+
+# Permit media testing for #26240 in a separate site
+www/sites/mediatest/
+www/sites/sites.php
+
+PATCHES.txt
+
+# Ignore scaffolding TXT files added by 'drupal/core-composer-scaffold'.
+www/INSTALL.txt
+www/LICENSE.txt
+www/README.txt
+www/example.gitignore
+www/modules/README.txt
+www/profiles/README.txt
+www/sites/README.txt
+www/themes/README.txt
+#node_modules
+
+# Ignore all libraries except custom ones.
+www/libraries/*
+!www/libraries/ck_tooltip
+
+# Ignore dynamic composer directories.
+vendor/*
+www/modules/
+www/core
+www/modules/contrib
+www/themes/contrib
+www/profiles/contrib
+
+www/.csslintrc
+www/.editorconfig
+www/.eslintignore
+www/.eslintrc
+www/.eslintrc.json
+www/.gitattributes
+www/.ht.router.php
+www/.htaccess
+www/autoload.php
+www/index.php
+www/robots.txt
+www/update.php
+www/web.config
+www/sites/simpletest/
+www/sites/*/services*.yml
+www/sites/*/development.services*.yml
+www/sites/*/settings*.php
+www/sites/*/private
+www/sites/default/drush.yml
+www/README.md
+/.editorconfig
+/.gitattributes
+/.phpunit.result.cache
+www/core/phpcs.xml
+www/core/phpunit.xml
