@@ -1,3 +1,0 @@
-media.source.video:
-  type: media.source.field_aware
-  label: '"Video" media source configuration'
