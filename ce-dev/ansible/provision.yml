@@ -1,0 +1,66 @@
+- hosts: upd-web
+  become: yes
+  vars:
+    - _domain_name: www.upd.local
+    - _env_type: dev
+    - project_name: upd
+    - mysql_client:
+        host: upd-db
+        user: root
+        password: ce-dev
+
+    - nginx:
+        domains:
+          - server_name: "{{ _domain_name }}"
+            access_log:  "/var/log/nginx-access.log"
+            error_log:  "/var/log/nginx-error.log"
+            error_log_level:  "notice"
+            webroot:  "/home/ce-dev/deploy/live.local/www"
+            project_type:  "drupal8"
+            ssl:
+              domain: "{{ _domain_name }}"
+              cert: "{{ _ce_dev_mkcert_base}}/{{ _domain_name }}.pem"
+              key: "{{ _ce_dev_mkcert_base}}/{{ _domain_name }}-key.pem"
+              handling: "unmanaged"
+            ratelimitingcrawlers: no
+            is_default: yes
+            servers:
+              - port: 80
+                ssl: no
+                https_redirect: yes
+              - port: 443
+                ssl: yes
+                https_redirect: no
+                custom_directives:
+                  - |
+                      # Allow phpstorm validator for local stack.
+                      location ~ ^/_intellij_phpdebug_validator\.php$ {
+                          try_files @phpprocess @phpprocess;
+                      }
+            upstreams: []
+    - php:
+        version:
+          - 7.4
+        cli:
+          memory_limit: -1
+          _env_type: dev
+        fpm:
+          _env_type: dev
+    - xdebug:
+        cli: true
+        fpm: true
+  tasks:
+    - apt:
+        update_cache: yes
+    - import_role:
+        name: _meta/common_base
+    - import_role:
+        name: mysql_client
+    - import_role:
+        name: php-cli
+    - import_role:
+        name: php-fpm
+    - import_role:
+        name: nginx
+    - import_role:
+        name: lhci

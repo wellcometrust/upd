@@ -1,0 +1,67 @@
+version: "3.7"
+x-ce_dev:
+  version: 1.x
+  registry: localhost:5000
+  project_name: upd
+  provision:
+    - ce-dev/ansible/provision.yml
+  deploy:
+    - ce-dev/ansible/deploy.yml
+  urls:
+    - https://www.upd.local
+services:
+  web:
+    image: codeenigma/ce-dev-1.x:latest
+    expose:
+      - 443
+      - 80
+    x-ce_dev:
+      host_aliases:
+        - www.upd.local
+      # Uncomment and comment the "volumes" below to use Unison file sync.
+      # unison:
+      #   - src: ../
+      #     dest: /home/ce-dev/deploy/live.local
+      #     target_platforms:
+      #       - darwin
+      #       - linux
+      #     ignore:
+      #       - Name vendor
+      #       - Name node_modules
+      #       - Path */sites/*/files
+    volumes:
+      - ../:/home/ce-dev/deploy/live.local:delegated
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ce-dev
+  solr:
+    image: 'solr:6'
+    expose:
+      - 8983
+    volumes:
+      # solr core *data* is stored on the 'solr' docker volume
+      # This mount is optional; without it your search index disappears
+      # each time the ddev project is stopped and started.
+      - updsolr:/var/solr
+
+      # This mounts the conf in .ddev/solr into the container where
+      # the solr-precreate command in the entrypoint uses it as a one-time
+      # configuration to copy config into the newly-created core. It is not
+      # used if the core has previously been created.
+      - ./ansible/solr/default:/solr-conf/default
+
+      # solr-configupdate.sh copies fresh configuration files into the
+      # solr container on each
+      # startup, so if you change the config in .ddev/solr/conf
+      # it will be refreshed on `ddev start`. The file must be
+      # executable (`chmod +x .ddev/solr/solr-init.sh
+      - "./ansible/solr/docker-entrypoint-initdb.d/solr-configupdate.sh:/docker-entrypoint-initdb.d/solr-configupdate.sh"
+
+    entrypoint:
+      - "sh"
+      - "-c"
+      - "docker-entrypoint.sh solr-precreate default /solr-conf/default"
+
+volumes:
+  updsolr:
