@@ -1,3 +1,0 @@
----
-varnish_sysvinit_config_path: /etc/sysconfig
-varnish_systemd_config_path: /usr/lib/systemd/system

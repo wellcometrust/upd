@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "064b996a82c14ae6c9839c638a45f85b",
+    "content-hash": "ec118a7c865f0486e1520d62e619b1a5",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -6569,6 +6569,24 @@
             "time": "2021-10-06T06:56:42+00:00"
         },
         {
+            "name": "jquery/jquery_colorpicker",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip"
+            },
+            "type": "drupal-library"
+        },
+        {
+            "name": "jquery/tooltipster-master",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/iamceege/tooltipster/archive/master.zip"
+            },
+            "type": "drupal-library"
+        },
+        {
             "name": "laminas/laminas-diactoros",
             "version": "2.11.0",
             "source": {
@@ -11195,5 +11213,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.3.0"
 }
