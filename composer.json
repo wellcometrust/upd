@@ -75,6 +75,30 @@
           "type": "zip"
         }
       }
+    },
+    "jquery_colorpicker": {
+      "type": "package",
+      "package": {
+        "name": "jquery/jquery_colorpicker",
+        "version": "0.0.1",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
+          "type": "zip"
+        }
+      }
+    },
+    "tooltipster_master": {
+      "type": "package",
+      "package": {
+        "name": "jquery/tooltipster-master",
+        "version": "0.0.1",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://github.com/iamceege/tooltipster/archive/master.zip",
+          "type": "zip"
+        }
+      }
     }
   },
   "require": {
@@ -125,6 +149,8 @@
     "drupal/video_embed_field": "^2.0",
     "drush/drush": "^9.7.1 | ^10.0.0",
     "joachim-n/composer-manifest": "^1.1",
+    "jquery/jquery_colorpicker": "^0.0.1",
+    "jquery/tooltipster-master": "^0.0.1",
     "webflo/drupal-finder": "^1.0.0",
     "zaporylie/composer-drupal-optimizations": "^1.0"
   },
@@ -138,7 +164,15 @@
   "prefer-stable": true,
   "config": {
     "process-timeout": 2200,
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true,
+      "cweagans/composer-patches": true,
+      "drupal/core-composer-scaffold": true,
+      "zaporylie/composer-drupal-optimizations": true,
+      "drupal/console-extend-plugin": true,
+      "joachim-n/composer-manifest": true
+    }
   },
   "extra": {
     "drupal-scaffold": {
