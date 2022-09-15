@@ -11,6 +11,8 @@ id: content_type_solr
 name: 'Content type (solr)'
 weight: 0
 min_count: 1
+missing: false
+missing_label: others
 url_alias: content_type_solr
 facet_source_id: 'search_api:views_block__site_search__block_1'
 field_identifier: type

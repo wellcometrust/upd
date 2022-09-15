@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.case_study.field_impact_of_work
     - field.field.node.case_study.field_key_words
     - field.field.node.case_study.field_list_text
+    - field.field.node.case_study.field_metatags
     - field.field.node.case_study.field_pdf
     - field.field.node.case_study.field_sources_of_data
     - field.field.node.case_study.field_standfirst
@@ -38,6 +39,8 @@ content:
     settings:
       image_link: ''
       image_style: thumbnail_list
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
@@ -54,6 +57,7 @@ hidden:
   field_impact_of_work: true
   field_key_words: true
   field_list_text: true
+  field_metatags: true
   field_pdf: true
   field_sources_of_data: true
   field_standfirst: true
@@ -62,3 +66,4 @@ hidden:
   field_video: true
   field_video_position: true
   langcode: true
+  search_api_excerpt: true
