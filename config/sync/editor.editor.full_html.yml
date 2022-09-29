@@ -66,10 +66,6 @@ settings:
             - tablecellsplithorizontal
             - tablecellsplitvertical
   plugins:
-    stylescombo:
-      styles: ''
-    language:
-      language_list: un
     video_embed:
       defaults:
         children:
