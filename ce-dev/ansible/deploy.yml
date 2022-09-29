@@ -26,8 +26,6 @@
             # config_import_command: "cim"
             config_sync_directory: "config/sync"
             sanitize_command: "sql-sanitize"
-            # Remove after initial pass, to avoid reinstalling Drupal.
-            force_install: yes
             base_url: "https://{{ _domain_name }}"
     # Composer command to run.
     - composer:
@@ -46,6 +44,7 @@
               dumps_directory: "{{ deploy_path }}/ce-dev"
             target:
               database: "{{ project_name }}_local"
+              host: "{{ project_name }}-db"
               credentials_file: "/home/{{ deploy_user }}/.mysql.creds"
               type: fixed
   pre_tasks:
@@ -62,6 +61,6 @@
     - composer # Composer install step.
     - database_backup # This is still needed to generate credentials.
     - config_generate # Generates settings.php
-#    - database_apply # Run drush updb and config import.
-#    - sync/database_sync # Grab database from a remote server.
+    - sync/database_sync # Grab database from a remote server.
+    - database_apply # Run drush updb and config import.
     - _exit # Some common housekeeping.
