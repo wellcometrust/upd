@@ -25,7 +25,7 @@
     "gulp-svgstore": "^6.1.0",
     "gulp-util": "^3.0.8",
     "lodash-es": "^4.17.4",
-    "marked": "^0.3.6",
+    "marked": "^4.0.10",
     "masonry-layout": "^4.1.1",
     "normalizecss": "^3.0.0",
     "postcss-import": "^9.1.0",
