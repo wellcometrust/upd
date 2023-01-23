@@ -2,7 +2,10 @@
 
 /**
  * @file
+ * Manages deployment tasks and updates.
  */
+
+use Drupal\image\Entity\ImageStyle;
 
 /**
  * Delete field author to replace with taxonomy.
@@ -14,8 +17,17 @@ function ce_deploy_install() {
 /**
  * Flush image styles for better logo sizes.
  */
-use Drupal\image\Entity\ImageStyle;
 function ce_deploy_update_8301() {
   $style = ImageStyle::load('logo');
   $style->flush();
+}
+
+/**
+ * R63548: Upgrades and clean-up: Fix PHP notice due to module schema key.
+ */
+function ce_deploy_update_9501() {
+  // The module 'config_ignore' was removed, but the 'key_value' for
+  // 'system.schema' still holds '8201', which should be removed.
+  $key_value = \Drupal::service('keyvalue');
+  $key_value->get('system.schema')->delete('config_ignore');
 }
