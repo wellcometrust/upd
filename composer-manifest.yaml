@@ -19,7 +19,7 @@ packages:
     dflydev/dot-access-configuration: v1.0.3
     dflydev/dot-access-data: v1.1.0
     dflydev/placeholder-resolver: v1.0.3
-    doctrine/annotations: 1.14.2
+    doctrine/annotations: 1.14.3
     doctrine/cache: 1.13.0
     doctrine/collections: 1.8.0
     doctrine/common: 2.13.3
@@ -33,8 +33,8 @@ packages:
     drupal/admin_toolbar: 3.3.0
     drupal/ckeditor: 1.0.1
     drupal/ckeditor_tabletoolstoolbar: 2.0.0-rc1
-    drupal/color_field: 2.5.0
-    drupal/colorbox: 1.10.0
+    drupal/color_field: 3.0.0
+    drupal/colorbox: 2.0.0
     drupal/colorbox_load: 1.3.0
     drupal/config_filter: 1.10.0
     drupal/config_split: 1.9.0
@@ -46,12 +46,12 @@ packages:
     drupal/core-composer-scaffold: 9.5.2
     drupal/crop: 2.3.0
     drupal/ctools: 3.13.0
-    drupal/devel: 4.2.1
+    drupal/devel: 5.0.2
     drupal/draggableviews: 2.1.1
     drupal/dropzonejs: 2.7.0
     drupal/entity_browser: 2.9.0
     drupal/entity_browser_entity_form: 2.9.0
-    drupal/entity_reference_display: 1.4.0
+    drupal/entity_reference_display: 2.0.0
     drupal/entity_reference_revisions: 1.10.0
     drupal/eu_cookie_compliance: 1.24.0
     drupal/facets: 2.0.6
@@ -62,14 +62,16 @@ packages:
     drupal/imagemagick: 3.4.0
     drupal/inline_entity_form: 1.0.0-rc14
     drupal/jquery_ui: 1.6.0
+    drupal/jquery_ui_autocomplete: 2.0.0
     drupal/jquery_ui_draggable: 2.0.0
     drupal/jquery_ui_droppable: 1.5.0
+    drupal/jquery_ui_menu: 2.0.0
     drupal/mailchimp: 2.0.2
-    drupal/media_entity_browser: 2.0.0-alpha3
+    drupal/media_entity_browser: 2.0.0-alpha4
     drupal/media_entity_video: 2.0.0-rc2
     drupal/menu_link_attributes: 1.3.0
     drupal/metatag: 1.22.0
-    drupal/module_filter: 3.4.0
+    drupal/module_filter: 4.0.1
     drupal/ng_lightbox: 2.0.0
     drupal/page_manager: 4.0.0-rc2
     drupal/panels: 4.7.0
@@ -83,7 +85,7 @@ packages:
     drupal/search_api_solr: 4.2.10
     drupal/simple_sitemap: 4.1.4
     drupal/sophron: 1.3.0
-    drupal/stage_file_proxy: 1.5.0
+    drupal/stage_file_proxy: 2.0.2
     drupal/token: 1.11.0
     drupal/video_embed_field: 2.5.0
     drush/drush: 10.6.1
@@ -115,7 +117,7 @@ packages:
     pear/pear-core-minimal: v1.10.11
     pear/pear_exception: v1.0.2
     phenx/php-font-lib: 0.5.4
-    psr/cache: 1.0.1
+    psr/cache: 2.0.0
     psr/container: 1.1.2
     psr/event-dispatcher: 1.0.0
     psr/http-client: 1.0.1
@@ -164,7 +166,7 @@ packages:
     symfony/translation: v4.4.47
     symfony/translation-contracts: v2.5.2
     symfony/validator: v4.4.48
-    symfony/var-dumper: v5.4.17
+    symfony/var-dumper: v5.4.19
     symfony/var-exporter: v5.4.17
     symfony/yaml: v4.4.45
     thinkshout/mailchimp-api-php: v2.1.3

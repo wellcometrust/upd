@@ -13,6 +13,9 @@ module:
   contextual: 0
   devel: 0
   field_ui: 0
+  jquery_ui: 0
+  jquery_ui_autocomplete: 0
+  jquery_ui_menu: 0
   module_filter: 0
   page_manager_ui: 0
   stage_file_proxy: 0
