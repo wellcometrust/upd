@@ -27,6 +27,9 @@
             config_sync_directory: "config/sync"
             sanitize_command: "sql-sanitize"
             base_url: "https://{{ _domain_name }}"
+    # Skip drush installer and use the one in project's vendor folder.
+    - drush:
+        use_vendor: true
     # Composer command to run.
     - composer:
         command: install
