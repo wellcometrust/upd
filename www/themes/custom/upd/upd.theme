@@ -48,7 +48,7 @@ function upd_theme($existing, $type, $theme, $path) {
 function upd_preprocess_html(&$variables) {
   _override_page_title($variables);
 
-  $image_path = drupal_get_path('theme', 'upd') . '/assets/images';
+  $image_path = \Drupal::service('extension.list.theme')->getPath('upd') . '/assets/images';
   $basic_favicons = [
     'shortcut-favicon' => [
       'rel' => 'shortcut icon',
@@ -299,7 +299,7 @@ function _upd_create_media_link($id, $attributes, $title = '') {
 
     $link['#attributes'] = $attributes;
 
-    return render($link);
+    return $link;
 
   }
 
@@ -342,7 +342,7 @@ function _upd_create_media_cta_link($id, $classes, $title) {
     );
 
 // Populate render array with class / data attribute.
-    return render($link);
+    return $link;
 
   }
 
@@ -448,7 +448,7 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
           'class' => array('news-cat-changer', $state_class),
           'data-term-id' => array($k));
 
-        $output = render($link);
+        $output = \Drupal::service('renderer')->render($link);
 
         $html .= $output;
       }
@@ -508,7 +508,7 @@ function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $for
           'class' => array('faq-cat-changer', $state_class),
           'data-term-id' => array($k));
 
-        $output = render($link);
+        $output = \Drupal::service('renderer')->render($link);
 
         $html .= $output;
       }

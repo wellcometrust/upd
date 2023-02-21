@@ -98,6 +98,7 @@ class NextPreviousBlock extends BlockBase {
       ->condition('type', 'case_study')
       ->sort('created', $sort)
       ->range(0, 1)
+      ->accessCheck(FALSE)
       ->execute();
     // If this is not the youngest (or oldest) node.
     if (!empty($next) && is_array($next)) {

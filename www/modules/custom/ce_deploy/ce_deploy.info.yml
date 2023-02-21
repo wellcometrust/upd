@@ -2,4 +2,4 @@ name: Ce Deploy
 type: module
 description: Manages deployment tasks.
 package: Code Enigma
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10

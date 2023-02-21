@@ -2,4 +2,4 @@ name: UPD Featured case studies
 type: module
 description: 'Provide form to choose featured case studies'
 package: UPD
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10

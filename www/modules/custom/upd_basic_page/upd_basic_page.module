@@ -47,9 +47,9 @@ function upd_basic_page_preprocess_paragraph(&$variables) {
     $paragraph = $variables['paragraph'];
     foreach ($paragraph->field_download_files as $key => $item) {
       $file_uri = $item->entity->getFileUri();
-      $variables['content']['file_info'][$key]['url'] = file_create_url($file_uri);
+      $variables['content']['file_info'][$key]['url'] = \Drupal::service('file_url_generator')->generateAbsoluteString($file_uri);
       $variables['content']['file_info'][$key]['extension'] = pathinfo($file_uri, PATHINFO_EXTENSION);
-      $variables['content']['file_info'][$key]['image'] = render($variables['content']['field_download_files'][$key]);
+      $variables['content']['file_info'][$key]['image'] = $variables['content']['field_download_files'][$key];
     }
   }
 }

@@ -2,4 +2,4 @@ name: UPD Highlight page
 type: module
 description: 'Helper module for highlight page nodes.'
 package: UPD
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10

@@ -40,5 +40,5 @@
 #}
 
 <li>
-  <a class="external-link" href="{% spaceless %}{{ render_var(content.field_link[0]['#url']) }}{% endspaceless %}">{% spaceless %}{{ render_var(content.field_link[0]['#title']) }}{% endspaceless %}</a> {{ content.field_reference }}
+  <a class="external-link" href="{% apply spaceless %}{{ render_var(content.field_link[0]['#url']) }}{% endapply %}">{% apply spaceless %}{{ render_var(content.field_link[0]['#title']) }}{% endapply %}</a> {{ content.field_reference }}
 </li>

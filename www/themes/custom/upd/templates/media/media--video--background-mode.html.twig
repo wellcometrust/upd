@@ -33,7 +33,7 @@
 #}
 
 
-<div class="watch-video__media {{ video_class }}" style="background-image: url('{% spaceless %}{{ content.field_video_poster }}{% endspaceless %}')">
+<div class="watch-video__media {{ video_class }}" style="background-image: url('{% apply spaceless %}{{ content.field_video_poster }}{% endapply %}')">
 
     <div class="watch-video__overlay"></div>
 

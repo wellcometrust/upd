@@ -2,4 +2,4 @@ name: UPD Basic page
 type: module
 description: 'Provide functionalities around the basic page content type.'
 package: UPD
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10

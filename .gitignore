@@ -64,7 +64,6 @@ www/libraries/*
 
 # Ignore dynamic composer directories.
 vendor/*
-www/modules/
 www/core
 www/modules/contrib
 www/themes/contrib

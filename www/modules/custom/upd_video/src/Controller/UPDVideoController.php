@@ -17,19 +17,13 @@ class UPDVideoController extends ControllerBase {
   public function content(MediaInterface $media, Request $request) {
 
     // We want to render the media entity using the 'lightbox_mode' view mode.
-
-
     $entity_type = 'media';
     $view_mode = 'lightbox_mode';
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder($entity_type);
 
-
-    $build = $view_builder->view($media, $view_mode);
-    $output = render($build);
-
     $build = [
       '#theme' => 'upd_video_lightbox',
-      '#embed' => $output,
+      '#embed' => $view_builder->view($media, $view_mode),
       '#attributes' => [],
     ];
 
