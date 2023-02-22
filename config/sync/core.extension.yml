@@ -100,7 +100,6 @@ module:
   minimal: 1000
   eu_cookie_compliance: 1001
 theme:
-  seven: 0
   upd: 0
-  upd_admin: 0
+  claro: 0
 profile: minimal

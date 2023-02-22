@@ -1,17 +1,17 @@
-uuid: edacee58-cb1d-402e-8e4f-f651d24c1c79
+uuid: 1f4867d1-ef6e-4ff6-87cc-dde7550dc8bd
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - upd_admin
+    - claro
 _core:
-  default_config_hash: 5MNdk3fpMKx_xxBTcz2T11DL4XEU1H5SgHl8BsYdFsA
-id: upd_admin_messages
-theme: upd_admin
+  default_config_hash: '-Ac3ISpIT0PQ-whzD7_dw0SdKi6dAbRFNWdSjOiVDqg'
+id: claro_messages
+theme: claro
 region: highlighted
-weight: -2
+weight: 0
 provider: null
 plugin: system_messages_block
 settings:

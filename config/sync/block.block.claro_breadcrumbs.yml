@@ -1,15 +1,17 @@
-uuid: c3b15173-4065-4d32-b6f8-5d85f5788a68
+uuid: e73c64b8-02bd-43c7-a1e4-864566dd5f24
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - upd_admin
-id: breadcrumbs
-theme: upd_admin
+    - claro
+_core:
+  default_config_hash: NjcxOBrPOiK5-38t56DwFBDVY4yer7YSlbRWXFuHe7A
+id: claro_breadcrumbs
+theme: claro
 region: breadcrumb
-weight: -2
+weight: 0
 provider: null
 plugin: system_breadcrumb_block
 settings:

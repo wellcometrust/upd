@@ -1,15 +1,17 @@
-uuid: af93ed93-c29e-4492-b3e7-c42edace36b5
+uuid: d66e00be-5ba9-449e-beb5-6d3780f9ac24
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - upd_admin
-id: mainpagecontent
-theme: upd_admin
+    - claro
+_core:
+  default_config_hash: a0Yyx1GeyKarZ4T_yXQBR_ZFKnXiFLtxAb6gWLd8nr0
+id: claro_content
+theme: claro
 region: content
-weight: -1
+weight: 0
 provider: null
 plugin: system_main_block
 settings:

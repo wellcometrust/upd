@@ -1,11 +1,13 @@
-uuid: 0ce55948-5250-4fda-9043-efb924836f57
+uuid: 1811b5f3-4cd1-4a38-8da4-e8ae4f1a5500
 langcode: en
 status: true
 dependencies:
   theme:
-    - upd_admin
-id: tabs
-theme: upd_admin
+    - claro
+_core:
+  default_config_hash: 2L0geP-ixCbCkEpW6BVF6H7vDUZN4ea07_Y9CociQm4
+id: claro_secondary_local_tasks
+theme: claro
 region: pre_content
 weight: 0
 provider: null
