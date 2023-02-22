@@ -13,7 +13,8 @@
   "repositories": {
     "drupal-org": {
       "type": "composer",
-      "url": "https://packages.drupal.org/8"
+      "url": "https://packages.drupal.org/8",
+      "canonical": false
     },
     "dropzone": {
       "type": "package",
@@ -99,6 +100,45 @@
           "type": "zip"
         }
       }
+    },
+    "drupal/ckeditor_tabletoolstoolbar": {
+      "type": "package",
+      "package": {
+        "name": "drupal/ckeditor_tabletoolstoolbar",
+        "type": "drupal-module",
+        "version": "2.0-dev",
+        "source": {
+          "type": "git",
+          "url": "https://git.drupalcode.org/issue/ckeditor_tabletoolstoolbar-3286517.git",
+          "reference": "67c9a88d5c18a099d4861101e264ffc1f27f3390"
+        }
+      }
+    },
+    "media_entity_video": {
+      "type": "package",
+      "package": {
+        "name": "drupal/media_entity_video",
+        "type": "drupal-module",
+        "version": "2.0-dev",
+        "source": {
+          "type": "git",
+          "url": "https://git.drupalcode.org/issue/media_entity_video-3297609.git",
+          "reference": "9ee9240a09703c228d1e22fc93b27f16c3dc6575"
+        }
+      }
+    },
+    "scheduled_publish": {
+      "type": "package",
+      "package": {
+        "name": "drupal/scheduled_publish",
+        "type": "drupal-module",
+        "version": "3.0-dev",
+        "source": {
+          "type": "git",
+          "url": "https://git.drupalcode.org/issue/scheduled_publish-3289472.git",
+          "reference": "dc2ba1820392b64c9df0f6537295db65e9e2eccd"
+        }
+      }
     }
   },
   "require": {
@@ -108,7 +148,8 @@
     "cweagans/composer-patches": "^1.6",
     "dropzone/dropzone.js": "4.3.0",
     "drupal/admin_toolbar": "^3.0",
-    "drupal/ckeditor_tabletoolstoolbar": "^2.0",
+    "drupal/ckeditor": "^1.0",
+    "drupal/ckeditor_tabletoolstoolbar": "2.0-dev",
     "drupal/color_field": "^3.0",
     "drupal/colorbox": "^2.0",
     "drupal/colorbox_load": "^1.0",
@@ -128,9 +169,9 @@
     "drupal/google_analytics": "^4.0",
     "drupal/image_widget_crop": "^2.1",
     "drupal/inline_entity_form": "^1.0@RC",
-    "drupal/mailchimp": "^2.0",
+    "drupal/mailchimp": "2.x-dev@dev",
     "drupal/media_entity_browser": "^2.0",
-    "drupal/media_entity_video": "^2.0",
+    "drupal/media_entity_video": "2.0-dev",
     "drupal/menu_link_attributes": "^1.0",
     "drupal/metatag": "^1.2",
     "drupal/module_filter": "^4.0",
@@ -138,10 +179,10 @@
     "drupal/panels": "^4.0",
     "drupal/paragraphs": "^1.0",
     "drupal/pathauto": "^1.0",
-    "drupal/pdfpreview": "^1.0@RC",
+    "drupal/pdfpreview": "1.x-dev@dev",
     "drupal/rabbit_hole": "^1.0@beta",
     "drupal/redirect": "^1.5",
-    "drupal/scheduled_publish": "^3.1",
+    "drupal/scheduled_publish": "3.0-dev",
     "drupal/search_api": "^1.16",
     "drupal/search_api_solr": "^4.1",
     "drupal/simple_sitemap": "^4.0",

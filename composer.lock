@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6441fcecfaf63cc0b44a73bc3da363fc",
+    "content-hash": "cde0f2a20a2f021da953d44808b3c92c",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2286,65 +2286,13 @@
         },
         {
             "name": "drupal/ckeditor_tabletoolstoolbar",
-            "version": "2.0.0-rc1",
+            "version": "2.0-dev",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/ckeditor_tabletoolstoolbar.git",
-                "reference": "2.0.0-rc1"
+                "url": "https://git.drupalcode.org/issue/ckeditor_tabletoolstoolbar-3286517.git",
+                "reference": "67c9a88d5c18a099d4861101e264ffc1f27f3390"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/ckeditor_tabletoolstoolbar-2.0.0-rc1.zip",
-                "reference": "2.0.0-rc1",
-                "shasum": "df4cc0b5571c1d21694086708414f38b4054164d"
-            },
-            "require": {
-                "drupal/ckeditor": "*",
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "2.0.0-rc1",
-                    "datestamp": "1622112304",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Oleksandr Milkovskyi (a.milkovsky)",
-                    "homepage": "https://www.drupal.org/u/amilkovsky",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "aludescher",
-                    "homepage": "https://www.drupal.org/user/93768"
-                },
-                {
-                    "name": "pcambra",
-                    "homepage": "https://www.drupal.org/user/122101"
-                },
-                {
-                    "name": "vasike",
-                    "homepage": "https://www.drupal.org/user/156237"
-                }
-            ],
-            "description": "Integrates the CKEditor \"Table Tools Toolbar\" plugin.",
-            "homepage": "http://drupal.org/project/ckeditor_tabletoolstoolbar",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "http://cgit.drupalcode.org/ckeditor_tabletoolstoolbar",
-                "issues": "http://drupal.org/project/issues/ckeditor_tabletoolstoolbar"
-            }
+            "type": "drupal-module"
         },
         {
             "name": "drupal/color_field",
@@ -4752,33 +4700,31 @@
         },
         {
             "name": "drupal/mailchimp",
-            "version": "2.0.2",
+            "version": "dev-2.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/mailchimp.git",
-                "reference": "2.0.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/mailchimp-2.0.2.zip",
-                "reference": "2.0.2",
-                "shasum": "21117bb5181e0421ce7f40c98f3a39a886893cc4"
+                "reference": "2521208e6fb28441a6dcfc44c27a200747ff3512"
             },
             "require": {
-                "drupal/core": "^8.7.7 || ^9",
-                "thinkshout/mailchimp-api-php": "^2.0"
+                "drupal/core": "^8.7.7 || ^9 || ^10",
+                "thinkshout/mailchimp-api-php": "3.0.0-rc1"
             },
             "require-dev": {
+                "drupal/mailchimp_events": "*",
                 "drupal/mailchimp_lists": "*"
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
                 "drupal": {
-                    "version": "2.0.2",
-                    "datestamp": "1615931525",
+                    "version": "2.2.0-rc1+6-dev",
+                    "datestamp": "1677002888",
                     "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -4788,16 +4734,12 @@
             ],
             "authors": [
                 {
-                    "name": "5adiyah",
-                    "homepage": "https://www.drupal.org/user/3622346"
-                },
-                {
-                    "name": "Pastenes",
-                    "homepage": "https://www.drupal.org/user/3640659"
-                },
-                {
                     "name": "aprice42",
                     "homepage": "https://www.drupal.org/user/369147"
+                },
+                {
+                    "name": "bdimaggio",
+                    "homepage": "https://www.drupal.org/user/70688"
                 },
                 {
                     "name": "bobpotter",
@@ -4810,10 +4752,6 @@
                 {
                     "name": "gcb",
                     "homepage": "https://www.drupal.org/user/1682976"
-                },
-                {
-                    "name": "itrebecca",
-                    "homepage": "https://www.drupal.org/user/1604434"
                 },
                 {
                     "name": "kescoto-thinkshout",
@@ -4830,10 +4768,6 @@
                 {
                     "name": "mshaver",
                     "homepage": "https://www.drupal.org/user/39079"
-                },
-                {
-                    "name": "spncr",
-                    "homepage": "https://www.drupal.org/user/3664814"
                 },
                 {
                     "name": "tauno",
@@ -4930,62 +4864,13 @@
         },
         {
             "name": "drupal/media_entity_video",
-            "version": "2.0.0-rc2",
+            "version": "2.0-dev",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/media_entity_video.git",
-                "reference": "8.x-2.0-rc2"
+                "url": "https://git.drupalcode.org/issue/media_entity_video-3297609.git",
+                "reference": "9ee9240a09703c228d1e22fc93b27f16c3dc6575"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/media_entity_video-8.x-2.0-rc2.zip",
-                "reference": "8.x-2.0-rc2",
-                "shasum": "c6e73c0e1de5bef82c04b340a14b093a913bdb5a"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-2.0-rc2",
-                    "datestamp": "1612839175",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Daniel Korte",
-                    "homepage": "https://www.drupal.org/u/daniel-korte",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Drupal Media Team",
-                    "homepage": "https://www.drupal.org/user/3260690"
-                },
-                {
-                    "name": "podarok",
-                    "homepage": "https://www.drupal.org/user/116002"
-                }
-            ],
-            "description": "Local video files integration for Drupal core Media module.",
-            "homepage": "https://www.drupal.org/project/media_entity_video",
-            "keywords": [
-                "Drupal",
-                "media",
-                "video"
-            ],
-            "support": {
-                "source": "https://www.drupal.org/project/media_entity_video",
-                "issues": "https://www.drupal.org/project/issues/media_entity_video"
-            }
+            "type": "drupal-module"
         },
         {
             "name": "drupal/menu_link_attributes",
@@ -5524,30 +5409,27 @@
         },
         {
             "name": "drupal/pdfpreview",
-            "version": "1.0.0",
+            "version": "dev-1.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pdfpreview.git",
-                "reference": "8.x-1.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pdfpreview-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "88fac5a60143791f0f9489734ac2e892a47ef455"
+                "reference": "5ff224836b846e2f82200ba3b642a207659e7aa6"
             },
             "require": {
-                "drupal/core": "^8 || ^9",
+                "drupal/core": "^9.3 || ^10",
                 "drupal/imagemagick": "^2.3 || ^3.0"
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
                 "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1589434268",
+                    "version": "8.x-1.0+1-dev",
+                    "datestamp": "1658901552",
                     "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -5706,60 +5588,13 @@
         },
         {
             "name": "drupal/scheduled_publish",
-            "version": "3.9.0",
+            "version": "3.0-dev",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/scheduled_publish.git",
-                "reference": "8.x-3.9"
+                "url": "https://git.drupalcode.org/issue/scheduled_publish-3289472.git",
+                "reference": "dc2ba1820392b64c9df0f6537295db65e9e2eccd"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/scheduled_publish-8.x-3.9.zip",
-                "reference": "8.x-3.9",
-                "shasum": "819ccee4f0e3d764826c423024229f79be8c69a5"
-            },
-            "require": {
-                "drupal/core": "^8.8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-3.9",
-                    "datestamp": "1600847066",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": "^9"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Peter Majmesku",
-                    "homepage": "https://www.drupal.org/user/786132"
-                },
-                {
-                    "name": "SaschaHannes",
-                    "homepage": "https://www.drupal.org/user/3536189"
-                },
-                {
-                    "name": "marcoliver",
-                    "homepage": "https://www.drupal.org/user/1529744"
-                }
-            ],
-            "description": "A simple module for scheduled content moderation",
-            "homepage": "https://www.drupal.org/project/scheduled_publish",
-            "support": {
-                "source": "https://git.drupalcode.org/project/scheduled_publish"
-            }
+            "type": "drupal-module"
         },
         {
             "name": "drupal/search_api",
@@ -6536,16 +6371,16 @@
         },
         {
             "name": "fileeye/mimemap",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FileEye/MimeMap.git",
-                "reference": "24144b7dc84168e14e4fc893d654c4fb40628346"
+                "reference": "58fbd11312a8f69e0824a640b86b33a9d096fe7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FileEye/MimeMap/zipball/24144b7dc84168e14e4fc893d654c4fb40628346",
-                "reference": "24144b7dc84168e14e4fc893d654c4fb40628346",
+                "url": "https://api.github.com/repos/FileEye/MimeMap/zipball/58fbd11312a8f69e0824a640b86b33a9d096fe7f",
+                "reference": "58fbd11312a8f69e0824a640b86b33a9d096fe7f",
                 "shasum": ""
             },
             "require": {
@@ -6592,9 +6427,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FileEye/MimeMap/issues",
-                "source": "https://github.com/FileEye/MimeMap/tree/2.0.0"
+                "source": "https://github.com/FileEye/MimeMap/tree/2.0.1"
             },
-            "time": "2022-07-17T13:00:20+00:00"
+            "time": "2023-02-11T19:58:58+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -9423,25 +9258,25 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.5.2",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66"
+                "reference": "1ee04c65529dea5d8744774d474e7cbd2f1206d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
-                "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/1ee04c65529dea5d8744774d474e7cbd2f1206d3",
+                "reference": "1ee04c65529dea5d8744774d474e7cbd2f1206d3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=8.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.5-dev"
+                    "dev-main": "3.3-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -9470,7 +9305,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.2"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.2.0"
             },
             "funding": [
                 {
@@ -9486,7 +9321,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:53:40+00:00"
+            "time": "2022-11-25T10:21:52+00:00"
         },
         {
             "name": "symfony/dom-crawler",
@@ -11974,16 +11809,16 @@
         },
         {
             "name": "thinkshout/mailchimp-api-php",
-            "version": "v2.1.3",
+            "version": "v3.0.0-rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkshout/mailchimp-api-php.git",
-                "reference": "b402bd67308974cae6186b386957d910cd808f0d"
+                "reference": "31ba958de8cef7f2e6cfcee5e25d17595f52f010"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkshout/mailchimp-api-php/zipball/b402bd67308974cae6186b386957d910cd808f0d",
-                "reference": "b402bd67308974cae6186b386957d910cd808f0d",
+                "url": "https://api.github.com/repos/thinkshout/mailchimp-api-php/zipball/31ba958de8cef7f2e6cfcee5e25d17595f52f010",
+                "reference": "31ba958de8cef7f2e6cfcee5e25d17595f52f010",
                 "shasum": ""
             },
             "require": {
@@ -12012,9 +11847,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thinkshout/mailchimp-api-php/issues",
-                "source": "https://github.com/thinkshout/mailchimp-api-php/tree/v2.1.3"
+                "source": "https://github.com/thinkshout/mailchimp-api-php/tree/v3.0.0-rc1"
             },
-            "time": "2021-12-29T19:57:45+00:00"
+            "time": "2023-02-10T19:17:52+00:00"
         },
         {
             "name": "twig/twig",
@@ -12401,10 +12236,14 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/ckeditor_tabletoolstoolbar": 20,
         "drupal/inline_entity_form": 5,
+        "drupal/mailchimp": 20,
+        "drupal/media_entity_video": 20,
         "drupal/page_manager": 10,
-        "drupal/pdfpreview": 5,
-        "drupal/rabbit_hole": 10
+        "drupal/pdfpreview": 20,
+        "drupal/rabbit_hole": 10,
+        "drupal/scheduled_publish": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
