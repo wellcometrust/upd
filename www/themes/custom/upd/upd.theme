@@ -1,9 +1,15 @@
 <?php
 
+/**
+ * @file
+ * UPD theme.
+ */
+
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
 use Drupal\media\Entity\Media;
+use Drupal\views\Views;
 
 /**
  * Implements hook_theme().
@@ -42,8 +48,6 @@ function upd_theme($existing, $type, $theme, $path) {
 
 /**
  * Implements hook_preprocess_html().
- *
- * @param $variables
  */
 function upd_preprocess_html(&$variables) {
   _override_page_title($variables);
@@ -139,10 +143,10 @@ function upd_theme_suggestions_user_alter(array &$suggestions, array $variables)
 }
 
 /**
- * Implements hook_preprocess_image()
+ * Implements hook_preprocess_image().
  */
 function upd_preprocess_image(&$variables) {
-// Remove width/height, this should be CSS driven.
+  // Remove width/height, this should be CSS driven.
   if (isset($variables['attributes']['width'])) {
     unset($variables['attributes']['width']);
   }
@@ -152,21 +156,20 @@ function upd_preprocess_image(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_node()
+ * Implements hook_preprocess_node().
  */
 function upd_preprocess_node(&$variables) {
   _generate_related_news_block($variables);
 }
 
 /**
- * Implements hook_preprocess_node()
+ * Implements hook_preprocess_node().
  */
 function upd_preprocess_media__video(&$variables) {
 
   $media = $variables['media'];
 
-// Each view mode requires different preprocessed variables.
-
+  // Each view mode requires different preprocessed variables.
   switch ($variables['elements']['#view_mode']) {
 
     case 'background_mode':
@@ -192,9 +195,8 @@ function upd_preprocess_media__video(&$variables) {
 
 }
 
-
 /**
- * Implements hook_preprocess_paragraph__TYPE()
+ * Implements hook_preprocess_paragraph__TYPE().
  */
 function upd_preprocess_paragraph__tile_paragraph(&$variables) {
 
@@ -202,17 +204,20 @@ function upd_preprocess_paragraph__tile_paragraph(&$variables) {
 
   $parent_field_name = $paragraph->get('parent_field_name')->getValue();
 
-// Rather than create a new tile component, augmenting display here to match phase 2
-// designs.
-
-// Add a class to template to provide a max width tile.
-// Class should be: resource-tile--max-width if it's associated with our new content.
-
-  if (in_array($parent_field_name[0]['value'], array('field_content_area'))) {
+  // Rather than create a new tile component, augmenting display here to match
+  // phase 2 designs.
+  // Add a class to template to provide a max width tile.
+  // Class should be: resource-tile--max-width if it's associated with our new
+  // content.
+  if (in_array($parent_field_name[0]['value'], ['field_content_area'])) {
     $variables['attributes']['class'] = ['resource-tile', 'resource-tile--max-width'];
   }
-  else if (in_array($parent_field_name[0]['value'], array('field_tiled_content'))) {
-    $variables['attributes']['class'] = ['resource-tile', 'resource-tile--max-width', 'resource-tile--height'];
+  elseif (in_array($parent_field_name[0]['value'], ['field_tiled_content'])) {
+    $variables['attributes']['class'] = [
+      'resource-tile',
+      'resource-tile--max-width',
+      'resource-tile--height',
+    ];
   }
   else {
     $variables['attributes']['class'] = ['resource-tile'];
@@ -221,7 +226,7 @@ function upd_preprocess_paragraph__tile_paragraph(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_paragraph__TYPE()
+ * Implements hook_preprocess_paragraph__TYPE().
  */
 function upd_preprocess_paragraph__video_slice(&$variables) {
 
@@ -242,9 +247,9 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
 
   $media_id = $paragraph->get('field_video')->getValue();
 
-// Add a class to template to provide a max width video, if selected.
-// Class should be: watch-video--full-width if it's associated with our new content.
-
+  // Add a class to template to provide a max width video, if selected.
+  // Class should be: watch-video--full-width if it's associated with our new
+  // content.
   if ($full_width[0]['value'] == '1') {
     $variables['video_wrapper_class'] = 'watch-video--full-width';
     $variables['video_context_class'] = 'watch-video__context--full-width';
@@ -264,24 +269,27 @@ function upd_preprocess_paragraph__video_slice(&$variables) {
   ],
   t('Watch video'));
 
-  $variables['media_cta_link'] = _upd_create_media_cta_link($media_id[0]['target_id'], array('button', 'watch-video__cta', 'svg-icon--chevron-right'), 'Find out more here');
+  $variables['media_cta_link'] = _upd_create_media_cta_link($media_id[0]['target_id'], ['button', 'watch-video__cta', 'svg-icon--chevron-right'], 'Find out more here');
 
 }
 
 /**
- * Helper function to create a link to a media item using the lightbox view
- * mode. This is important to make use of the ng-lightbox module, which
- * requires links pass through a theme function.
+ * Helper function to create a link to media item using the lightbox view mode.
  *
- * @param $id
+ * This is important to make use of the ng-lightbox module, which requires links
+ * pass through a theme function.
  *
- * @param $classes
- *
- * @param $title
+ * @param int $id
+ *   The ID of the Media item.
+ * @param array $attributes
+ *   An array of attributes to apply to the link.
+ * @param string $title
+ *   The text to display for the link.
  *
  * @return mixed|null
+ *   A render array of the link to display.
  */
-function _upd_create_media_link($id, $attributes, $title = '') {
+function _upd_create_media_link($id, array $attributes, $title = '') {
 
   $media = Media::load($id);
 
@@ -289,37 +297,35 @@ function _upd_create_media_link($id, $attributes, $title = '') {
 
   if (!empty($field_video_embed[0]['value'])) {
 
-// Create Url object from route created using custom module upd_video, and provide media ID as parameter.
-
+    // Create Url object from route created using custom module upd_video, and
+    // provide media ID as parameter.
     $url = Url::fromRoute('upd_video.content', ['media' => $id]);
-    $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
+    $link = Link::fromTextAndUrl(t('@title', ['@title' => $title]), $url);
     $link = $link->toRenderable();
 
-// Populate render array with class / data attribute.
-
+    // Populate render array with class / data attribute.
     $link['#attributes'] = $attributes;
 
     return $link;
-
   }
-
 }
 
 /**
  * Helper function to create a link to a media item cta.
  *
- * @param $id
- *
- * @param $classes
- *
- * @param $title
+ * @param int $id
+ *   The ID of the Media item.
+ * @param array $classes
+ *   An array of attributes to apply to the link.
+ * @param string $title
+ *   The text to display for the link.
  *
  * @return mixed|null
+ *   A render array of the link to display.
  */
-function _upd_create_media_cta_link($id, $classes, $title) {
+function _upd_create_media_cta_link($id, array $classes, $title) {
 
-// Load media entity.
-
+  // Load media entity.
   $media = Media::load($id);
 
   $cta_link = $media->get('field_call_to_action')->getValue();
@@ -334,41 +340,40 @@ function _upd_create_media_cta_link($id, $classes, $title) {
       $title = $cta_link[0]['title'];
     }
 
-    $link = Link::fromTextAndUrl(t('@title', array('@title' => $title)), $url);
+    $link = Link::fromTextAndUrl(t('@title', ['@title' => $title]), $url);
     $link = $link->toRenderable();
 
-    $link['#attributes'] = array(
+    $link['#attributes'] = [
       'class' => $classes,
-    );
+    ];
 
-// Populate render array with class / data attribute.
+    // Populate render array with class / data attribute.
     return $link;
-
   }
-
 }
 
 /**
  * Helper function to generate block of related content for news.
  *
- * @param $variables
+ * @param array $variables
+ *   The variables array.
  *
  * @see hook_preprocess_node()
  */
-function _generate_related_news_block(&$variables) {
+function _generate_related_news_block(array &$variables) {
   $node = $variables['node'];
-// If we are looking at the full view of asf news article node.
+  // If we are looking at the full view of asf news article node.
   if ($node->getType() == 'art' && $variables['view_mode'] == 'full') {
-// If the related news article taxonomy term is populated.
+    // If the related news article taxonomy term is populated.
     if (isset($node->field_news_category) && !empty($node->field_news_category->getValue())) {
-// Then build and render the related_news_articles views block.
+      // Then build and render the related_news_articles views block.
       $term = $node->field_news_category->getValue();
-// Supply taxonomy term to search for and NID of current node to exclude.
+      // Supply taxonomy term to search for and NID of current node to exclude.
       $args = [$term[0]['target_id'], $node->id()];
-      $view = \Drupal\views\Views::getView('related_news_articles');
+      $view = Views::getView('related_news_articles');
       if (is_object($view)) {
         $view->setArguments($args);
-        $view->setDisplay('Block');
+        $view->setDisplay('block_1');
         $variables['related_news_articles'] = $view->buildRenderable();
       }
     }
@@ -377,17 +382,20 @@ function _generate_related_news_block(&$variables) {
 
 /**
  * For some reason panel pages page titles do not take the configured value.
+ *
  * We override them here.
  *
- * @param $variables
+ * @param array $variables
+ *   An array of template variables.
  *
  * @see upd_preprocess_html()
  */
-function _override_page_title(&$variables) {
+function _override_page_title(array &$variables) {
   switch ($variables['root_path']) {
     case 'case-studies':
       $variables['head_title']['title'] = 'Case studies | Understand Patient Data';
       break;
+
     case 'search':
       $variables['head_title']['title'] = 'Search | Understand Patient Data';
       break;
@@ -395,7 +403,7 @@ function _override_page_title(&$variables) {
 }
 
 /**
- * Implements hook_form_alter.
+ * Implements hook_form_alter().
  */
 function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   upd_news_dropdown_to_links($form, $form_state, $form_id);
@@ -406,14 +414,17 @@ function upd_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 /**
  * Convert a dropdown to clickable links.
  *
- * @param $form
+ * @param array $form
+ *   The form to be modified.
  * @param \Drupal\Core\Form\FormStateInterface $form_state
- * @param $form_id
+ *   The form state.
+ * @param int $form_id
+ *   The form ID.
  */
-function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
+function upd_news_dropdown_to_links(array &$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'views-exposed-form-news-news') {
 
-// Obtain parameter from URL so we can work out which is active.
+    // Obtain parameter from URL so we can work out which is active.
     $field_news_category_target_id = \Drupal::request()->get('field_news_category_target_id');
 
     $html = '<div class="wrapper  wrapper--gutter news-filter-container" aria-label="News filters" role="navigation"><h4>Filter by</h4>';
@@ -432,21 +443,22 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
 
         // Create Url object from an internal path, and append parameter.
         $path = '/news';
-        $options = array('query' => array('field_news_category_target_id' => $k));
+        $options = ['query' => ['field_news_category_target_id' => $k]];
 
-        $url = Url::fromUri('internal:'.$path, $options);
+        $url = Url::fromUri('internal:' . $path, $options);
 
         // We want to add a count after the title, if it's available.
         $count = ($article_count > 0) ? '(' . $article_count . ')' : '';
 
-        $link = Link::fromTextAndUrl(t('@title @count', array('@title' => $title, '@count' => $count)), $url);
+        $link = Link::fromTextAndUrl(t('@title @count', ['@title' => $title, '@count' => $count]), $url);
 
         $link = $link->toRenderable();
 
         // Populate render array with class / data attribute.
-        $link['#attributes'] = array(
-          'class' => array('news-cat-changer', $state_class),
-          'data-term-id' => array($k));
+        $link['#attributes'] = [
+          'class' => ['news-cat-changer', $state_class],
+          'data-term-id' => [$k],
+        ];
 
         $output = \Drupal::service('renderer')->render($link);
 
@@ -461,19 +473,20 @@ function upd_news_dropdown_to_links(&$form, FormStateInterface $form_state, $for
   }
 }
 
-
-
 /**
  * Convert a dropdown to clickable links.
  *
- * @param $form
+ * @param array $form
+ *   The form to be modified.
  * @param \Drupal\Core\Form\FormStateInterface $form_state
- * @param $form_id
+ *   The form state.
+ * @param int $form_id
+ *   The form ID.
  */
-function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $form_id) {
+function upd_faqs_dropdown_to_links(array &$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'views-exposed-form-faqs-faqs') {
 
-// Obtain parameter from URL so we can work out which is active.
+    // Obtain parameter from URL so we can work out which is active.
     $field_faq_category_target_id = \Drupal::request()->get('field_faq_category_target_id');
 
     $html = '<div class="wrapper  wrapper--gutter faq-filter-container" aria-label="FAQs filters" role="navigation"><h4>Filter by</h4>';
@@ -492,21 +505,22 @@ function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $for
 
         // Create Url object from an internal path, and append parameter.
         $path = '/news';
-        $options = array('query' => array('field_faq_category_target_id' => $k));
+        $options = ['query' => ['field_faq_category_target_id' => $k]];
 
-        $url = Url::fromUri('internal:'.$path, $options);
+        $url = Url::fromUri('internal:' . $path, $options);
 
         // We want to add a count after the title, if it's available.
         $count = ($article_count > 0) ? '(' . $article_count . ')' : '';
 
-        $link = Link::fromTextAndUrl(t('@title @count', array('@title' => $title, '@count' => $count)), $url);
+        $link = Link::fromTextAndUrl(t('@title @count', ['@title' => $title, '@count' => $count]), $url);
 
         $link = $link->toRenderable();
 
         // Populate render array with class / data attribute.
-        $link['#attributes'] = array(
-          'class' => array('faq-cat-changer', $state_class),
-          'data-term-id' => array($k));
+        $link['#attributes'] = [
+          'class' => ['faq-cat-changer', $state_class],
+          'data-term-id' => [$k],
+        ];
 
         $output = \Drupal::service('renderer')->render($link);
 
@@ -520,8 +534,6 @@ function upd_faqs_dropdown_to_links(&$form, FormStateInterface $form_state, $for
     $form['#attached']['library'][] = 'upd/faq-cat';
   }
 }
-
-
 
 /**
  * Implements hook_theme_suggestions_form_element_alter().
@@ -538,7 +550,6 @@ function upd_theme_suggestions_form_element_alter(array &$suggestions, array $va
   }
 }
 
-
 /**
  * Implements hook_preprocess_form_element__CUSTOM().
  */
@@ -548,15 +559,19 @@ function upd_preprocess_form_element__mailchimp(&$variables) {
   switch (TRUE) {
     case stristr($element_name, 'mergevars[EMAIL]'):
       break;
+
     case stristr($element_name, 'mergevars[FNAME]'):
       $variables['attributes']['class'][] = "half-left";
       break;
+
     case stristr($element_name, 'mergevars[LNAME]'):
       $variables['attributes']['class'][] = "half-right";
       break;
+
     case stristr($element_name, 'mergevars[MMERGE3]'):
       $variables['attributes']['class'][] = "half-left";
       break;
+
     case stristr($element_name, 'mergevars[MMERGE4]'):
       $variables['attributes']['class'][] = "half-right";
       break;
@@ -566,11 +581,14 @@ function upd_preprocess_form_element__mailchimp(&$variables) {
 /**
  * Theme mailchimp signup form.
  *
- * @param $form
+ * @param array $form
+ *   The form to be modified.
  * @param \Drupal\Core\Form\FormStateInterface $form_state
- * @param $form_id
+ *   The form state.
+ * @param int $form_id
+ *   The form ID.
  */
-function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $form_id) {
+function upd_mailchimp_form_theming(array &$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'mailchimp-signup-subscribe-block-subscribe-to-the-newsletter-form') {
     // Add placeholders, hide titles and add specific classes to form items.
     $form['actions']['submit']['#attributes']['class'][] = 'site-footer__submit';
@@ -609,7 +627,7 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
       // Alter order of form elements to form styling.
       $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#title_display'] = 'invisible';
       $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['#attributes']['class'][] = 'site-footer__fieldset';
-      $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['f37abcec0e']['#required'] = true;
+      $form['mailchimp_lists']['interest_groups']['68ec1e4edb']['f37abcec0e']['#required'] = TRUE;
 
       $form['mergevars']['EMAIL']['#weight'] = 15;
     }
@@ -618,19 +636,25 @@ function upd_mailchimp_form_theming(&$form, FormStateInterface $form_state, $for
     $form['statement'] = [
       '#prefix' => '<div class="privacy-statement">',
       '#suffix' => '</div>',
-      '#markup' => '<p>' . t('By signing up you accept Wellcome’s ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new">' . t('Terms of Use') . '</a>. ' . t('Click here for our ') . '<a href="https://wellcome.ac.uk/about-us/privacy-and-terms" target="_new"> ' . t('privacy statement') . '</a>. ' . t('You can unsubscribe from UPD newsletters at any time using the links in the emails you receive. We use a third party provider, MailChimp, to deliver our newsletter.') . '</p>',
+      '#markup' => t('<p>By signing up you accept Wellcome’s <a href="@privacy_link" target="_new">Terms of Use</a>. Click here for our <a href="@privacy_link" target="_new">privacy statement</a>. You can unsubscribe from UPD newsletters at any time using the links in the emails you receive. We use a third party provider, MailChimp, to deliver our newsletter.</p>', [
+        '@privacy_link' => 'https://wellcome.ac.uk/about-us/privacy-and-terms',
+      ]),
       '#weight' => 20,
     ];
   }
 }
 
 /**
- * Returns count of nodes tagged with term. Only news articles are tagged with
- * "news category" tag so we don't need to join.
+ * Returns count of nodes tagged with term.
  *
- * @param $tid
+ * Only news articles are tagged with "news category" tag so we don't need to
+ * join.
+ *
+ * @param int $tid
+ *   The taxonomy term ID with which tagged nodes should be counted.
  *
  * @return int
+ *   The count of nodes tagged with the term.
  */
 function _upd_get_article_count($tid) {
   $query = \Drupal::database()->select('taxonomy_index', 'ti');
