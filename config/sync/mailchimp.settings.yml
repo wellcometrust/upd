@@ -1,6 +1,7 @@
 _core:
   default_config_hash: x8k6uOqmSHPqpp71jYGxHF3_SAs3U-Pha3YCntQIhPU
 api_key: DUMMY-KEY
+oauth_middleware_url: 'https://drupal-mailchimp-oauth.uw.r.appspot.com'
 api_timeout: 10
 cron: false
 batch_limit: 100
@@ -9,3 +10,4 @@ test_mode: false
 enable_connected: true
 connected_id: 10a4684f2cbb4ad
 connected_paths: ''
+optin_check_email_msg: 'Please check your email to confirm your subscription.'
