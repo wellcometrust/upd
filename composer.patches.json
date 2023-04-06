@@ -1,4 +1,7 @@
 {
-  "patches": {
-  }
+    "patches": {
+        "drupal/video_embed_field": {
+            "Add 'title' attribute to YouTube, Vimeo, and Playlist embeds https://www.drupal.org/project/video_embed_field/issues/3200253#comment-14944094": "https://www.drupal.org/files/issues/2023-02-28/3200253-17.patch"
+        }
+    }
 }
