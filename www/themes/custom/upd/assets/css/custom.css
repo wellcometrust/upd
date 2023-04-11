@@ -100,6 +100,10 @@
   color: #CE3C22;
 }
 
+ .content p a.is-styled, .content p a:not([class]) {
+  text-decoration: underline;
+}
+
 .button:focus, .button:hover, a:focus .button, a:hover .button {
   background-color: #B93017;
 }
