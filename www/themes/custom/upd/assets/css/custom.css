@@ -164,7 +164,7 @@
   border-top-color: #FFFFFF;
 }
 
-.site-footer__input
+.site-footer__input,
 .email.site-footer__input {
   color: #384B54;
 }
