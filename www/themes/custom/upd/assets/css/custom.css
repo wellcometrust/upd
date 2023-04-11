@@ -88,3 +88,103 @@
   border-width: 2px 2px 0;
   border-radius: 5px 5px 0 0;
 }
+
+/* #64697: Fix color contrast accessibility issues. */
+.button, .site-footer__submit,
+.faq-filter-container a.faq-cat-changer, .faq-filter-container a.news-cat-changer,
+.news-filter-container a.faq-cat-changer, .news-filter-container a.news-cat-changer {
+  background-color: #CE3C22;
+}
+
+.cta, .external-link, .content a.is-styled, .content a:not([class]) {
+  color: #CE3C22;
+}
+
+.button:focus, .button:hover, a:focus .button, a:hover .button {
+  background-color: #B93017;
+}
+
+.invert-colors {
+  background-color: #FFFFFF;
+  color: #CE3C22;
+}
+
+.button--big {
+  font-size: 1.125em;
+  padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+  height: unset;
+  border-radius: 1.5em;
+}
+
+.button--big:hover {
+  color: #FFFFFF;
+}
+
+.button--big:after {
+  content: url(../images/chevron-right.svg);
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  vertical-align: baseline;
+  margin-left: 0.375em;
+}
+
+.button--big:hover:after {
+  transform: translateX(0.3em);
+  filter: brightness(0) invert(1);
+}
+
+.button--tertiary {
+  background-color: transparent;
+  color: #65747C;
+  box-shadow: inset 0 0 0 1px #65747C;
+}
+
+.button--tertiary:hover {
+  background-color: #658c9f;
+}
+
+.site-footer {
+  font-size: 1em;
+  background: #2B536E;
+  font-weight: 500;
+}
+
+.site-footer__social-icon {
+  background: #FFF;
+}
+
+.site-footer__text--phone {
+  color: inherit;
+}
+
+.site-footer__details {
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  border-top-color: #FFFFFF;
+}
+
+.site-footer__input
+.email.site-footer__input {
+  color: #384B54;
+}
+
+body {
+  color: #556685;
+}
+
+.content-pagination__description, .h5, .news-tile__date, .page-header__category,
+.refine__title, .search-result__category, .site-header__popup-bar, h5, .toc {
+  color: #65747C;
+}
+
+.faq-filter-container a.faq-cat-changer.active, .faq-filter-container a.news-cat-changer.active,
+.news-filter-container a.faq-cat-changer.active, .news-filter-container a.news-cat-changer.active {
+  color: #CE3C22;
+  border-color: #CE3C22;
+}
+
+.contact-message-contact-us-form .form-actions {
+  text-align: center;
+  margin-top: 0.5em;
+}
